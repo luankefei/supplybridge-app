@@ -1,9 +1,11 @@
 import styled from 'styled-components';
 
+type IconNames = "logo" | "show-eye" | "hide-eye"
+
 interface Props {
   width?: number;
   height?: number;
-  src: string;
+  src: IconNames;
   onClick?: () => void;
   m?: any;
   p?: any;
@@ -12,7 +14,7 @@ interface Props {
 
 export const Icon = ({ width = 30, height = 30, src, onClick, m = '', p = '', hover = false }: Props) => {
   return (
-    <StyledIcon src={`/icon/${src}.svg`} width={width} height={height} onClick={onClick} m={m} p={p} hover={hover} />
+    <StyledIcon src={`/icons/${src}.svg`} width={width} height={height} onClick={onClick} m={m} p={p} hover={hover} />
   );
 };
 
@@ -22,4 +24,5 @@ const StyledIcon = styled.img<{ m: any; p: any; width: number; height: number; h
   height: ${(props) => `${props.height}px`};
   margin: ${(props) => props.m};
   padding: ${(props) => props.p};
+  object-fit: contain;
 `;

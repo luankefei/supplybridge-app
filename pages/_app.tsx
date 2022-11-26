@@ -8,7 +8,7 @@ import { theme } from "config/theme";
 export default function App({ Component, pageProps }: AppProps) {
   return (
     <ThemeProvider theme={theme}>
-      <NextNProgress color={"rgb(255,155,0)"} />
+      <NextNProgress color={"#08979C"} />
       <Component {...pageProps} />
     </ThemeProvider>
   );
