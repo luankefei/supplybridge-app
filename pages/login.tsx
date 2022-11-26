@@ -1,6 +1,7 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Head from "next/head";
+import cookie from 'js-cookie';
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
@@ -38,6 +39,7 @@ export default function Login() {
     //   navigate('/');
     // } else {
     //   alert.info(res.data.login.message);
+    cookie.set("token", "ABCD", { expires: 1 / 24})
     push('/dashboard')
     // }
   };
