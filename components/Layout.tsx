@@ -17,4 +17,5 @@ export const Layout = ({children}: {children: React.ReactElement}) => {
 const Container = styled.div``
 const InnerContainer = styled.div`
   padding: 32px 50px;
+  background-color:#ecf0f1;
 `
