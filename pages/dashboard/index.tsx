@@ -9,7 +9,7 @@ const upperMenu = [
     title: "AUTOMOTIVE",
     icon: "automotive",
     subtitle: "",
-    path: "dashboard/automotive",
+    path: "/dashboard/automotive",
     active: true,
   },
 ];
@@ -18,21 +18,21 @@ const lowerMenu = [
     title: "AEROSPACE",
     icon: "aerospace",
     subtitle: "Coming Soon",
-    path: "dashboard/aerospace",
+    path: "/dashboard/aerospace",
     active: false,
   },
   {
     title: "RAILWAY",
     icon: "railway",
     subtitle: "Coming Soon",
-    path: "dashboard/railway",
+    path: "/dashboard/railway",
     active: false,
   },
   {
     title: "OTHER",
     icon: "other",
     subtitle: "Coming Soon",
-    path: "dashboard/other",
+    path: "/dashboard/other",
     active: false,
   },
 ];

@@ -1,6 +1,6 @@
 import styled from 'styled-components';
 
-type IconNames = "logo" | "show-eye" | "hide-eye" | "automotive" | "aerospace" | "railway" | "other";
+type IconNames = "logo" | "show-eye" | "hide-eye" | "automotive" | "aerospace" | "railway" | "other" | "chevron_down";
 
 interface Props {
   width?: number;
