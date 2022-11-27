@@ -1,11 +1,11 @@
 import styled from 'styled-components';
 
-type IconNames = "logo" | "show-eye" | "hide-eye"
+type IconNames = "logo" | "show-eye" | "hide-eye" | "automotive" | "aerospace" | "railway" | "other";
 
 interface Props {
   width?: number;
   height?: number;
-  src: IconNames;
+  src: IconNames | string;
   onClick?: () => void;
   m?: any;
   p?: any;
