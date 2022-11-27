@@ -1,10 +1,30 @@
+import React, { useState } from "react";
 import styled from "styled-components";
+import Link from "next/link";
 import { useRouter } from "next/router";
+import Menu from "@mui/material/Menu";
+import MenuItem from "@mui/material/MenuItem";
+import cookie from "js-cookie";
 
 import { Icon } from "./Icon";
 
 export const Header = () => {
-  const { pathname } = useRouter();
+  const { pathname, push } = useRouter();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = () => {
+    setAnchorEl(null);
+  };
+
+  const logout = () => {
+    handleClose();
+    cookie.remove("token");
+    push("/");
+  };
 
   const mainHeaderItems = [
     { title: "AUTOMOTIVE", path: "automotive" },
@@ -32,18 +52,38 @@ export const Header = () => {
 
   return (
     <Container>
-      <Icon src="logo" width={243} height={30} />
+      <Link href={"/dashboard"} passHref>
+        <Icon src="logo" width={243} height={30} hover />
+      </Link>
       <Menus>
         {chooseMenuItems().map((item, index) => (
-          <MenuItem key={index} active={findActiveItem(item.path)}>
+          <MenuUnit key={index} active={findActiveItem(item.path)}>
             {item.title}
-          </MenuItem>
+          </MenuUnit>
         ))}
       </Menus>
       <ProfileContainer>
         <Label>Company Name</Label>
-        <DropdownItem>USER NAME</DropdownItem>
+        <DropdownItem
+          onClick={handleClick}
+          aria-controls={open ? "basic-menu" : undefined}
+          aria-haspopup="true"
+          aria-expanded={open ? "true" : undefined}
+        >
+          USER NAME <Icon src={"chevron-down"} hover />
+        </DropdownItem>
       </ProfileContainer>
+      <Menu
+        id="basic-menu"
+        anchorEl={anchorEl}
+        open={open}
+        onClose={handleClose}
+        MenuListProps={{
+          "aria-labelledby": "basic-button",
+        }}
+      >
+        <MenuItem onClick={logout}>Logout</MenuItem>
+      </Menu>
     </Container>
   );
 };
@@ -65,7 +105,7 @@ const Menus = styled.div`
   align-items: center;
 `;
 
-const MenuItem = styled.span<{ active?: boolean }>`
+const MenuUnit = styled.span<{ active?: boolean }>`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -99,5 +139,9 @@ const DropdownItem = styled.span`
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  display: flex;
   color: ${(props) => props.theme.colors.primary};
 `;

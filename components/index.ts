@@ -3,5 +3,9 @@ export * from './TextField';
 export * from './Box';
 export * from './Button';
 export * from './Layout';
-export * from './SearchBar';
-export * from './TechnologyBox'
+export * from './scout/SearchBar'
+export * from './scout/TechnologyBox'
+export * from './scout/ScoutFilter'
+export * from './scout/GeoCharts'
+export * from './scout/Filters'
+export * from './Badge'

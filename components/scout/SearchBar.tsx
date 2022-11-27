@@ -1,10 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-import { Button } from "./Button";
 
-import { Header } from "./Header";
-import { Icon } from "./Icon";
-import { TextField } from "./TextField";
+import { Icon, TextField } from "components";
 
 export const SearchBar = () => {
   const [searchItem, setSearchItem] = useState("");
@@ -40,21 +37,48 @@ const SearchField = styled(TextField)`
     overflow: hidden;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
     border-radius: 32px;
+    &:hover {
+      background-color: white;
+    }
   }
+
+
+  .MuiFilledInput-root{
+    height: 60;
+    border: '1px #56636D solid';
+    overflow: 'hidden';
+    borderRadius: 4;
+    background-color: 'white';
+    &:hover: {
+      background-color: white;
+    }
+    &.Mui-focused {
+      background-color: white;
+      boxShadow: '0.25 0 0 0 2px';
+      border-color: ${(props) => props.theme.colors.primary};
+    },
+  }
+
   label {
     margin-left: 32px;
     font-weight: 400;
     font-size: 14px;
     line-height: 22px;
     color: #8c8c8c;
+    font-family: inherit !important;
   }
   input {
     margin-left: 32px;
   }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 100%;
+    max-width: 100%;
+    min-width: 250px;
+  }
 `;
 
 const CircleButton = styled.div`
-  background: #08979c;
+  background-color: ${(props) => `${props.theme.colors.primary}`};
   display: flex;
   justify-content: center;
   align-items: center;

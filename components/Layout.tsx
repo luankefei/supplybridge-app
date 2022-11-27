@@ -1,21 +1,21 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
-import {Header} from './Header';
+import { Header } from "./Header";
 
-export const Layout = ({children}: {children: React.ReactElement}) => {
+export const Layout = ({ children }: { children: React.ReactElement }) => {
   return (
     <Container>
       <Header />
-      <InnerContainer>
-        {children}
-      </InnerContainer>
+      <InnerContainer>{children}</InnerContainer>
     </Container>
   );
-}
+};
 
-const Container = styled.div``
+const Container = styled.div`
+  font-family: "Ubuntu";
+`;
 const InnerContainer = styled.div`
   padding: 32px 50px;
-  background-color:#ecf0f1;
-`
+  background-color: #ecf0f1;
+`;

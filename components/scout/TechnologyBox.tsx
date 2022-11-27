@@ -1,10 +1,7 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { Button } from "./Button";
 
-import { Header } from "./Header";
-import { Icon, IconNames } from "./Icon";
-import { TextField } from "./TextField";
+import { Icon, IconNames } from "components";
 
 interface Props {
   isSelected?: boolean;
@@ -33,7 +30,7 @@ export const TechnologyBox = ({
 
   return (
     <Container selected={selected} onClick={onSelect}>
-      <Icon src={icon} width={40} height={40} m={"0px 16px 0px "} />
+      <Icon src={icon} width={40} height={40} m={"0px 16px 0px "} hover />
       <Label>{label}</Label>
     </Container>
   );
@@ -50,8 +47,15 @@ const Container = styled.div<{ selected: boolean }>`
   align-items: center;
   margin-right: 32px;
   min-width: 242px;
+  cursor: pointer;
   height: 74px;
-  border: ${(props) => (props.selected ? "1px solid #08979c" : 0)};
+  border: ${(props) =>
+    props.selected ? `1px solid ${props.theme.colors.primary}` : 0};
+
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 100%;
+    margin-bottom: 8px;
+  }
 `;
 
 const Label = styled.span`
