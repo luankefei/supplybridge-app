@@ -422,7 +422,7 @@ const PlatformCard = styled.div`
   width: 280px;
 `;
 
-const PlatformCardIconBox = styled.div<{backgroundColor: "string"}>`
+const PlatformCardIconBox = styled.div<{backgroundColor?: string}>`
   width: 65px;
   height: 65px;
   background-color: ${(props) => `${props.backgroundColor} !important`};
