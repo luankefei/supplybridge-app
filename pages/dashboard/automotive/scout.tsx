@@ -10,7 +10,7 @@ import {
   GeoCharts,
   Filters,
 } from "components";
-import { ResultCard } from "components/scout/ResultCard";
+import { ResultCard, Feedback } from "components/scout";
 
 export default function Industry() {
   return (
@@ -54,6 +54,7 @@ export default function Industry() {
             </ScoutContainer>
           </MainContainer>
         </main>
+        <Feedback />
       </>
     </Layout>
   );

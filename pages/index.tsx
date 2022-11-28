@@ -282,11 +282,14 @@ const Header = styled.div`
   padding: 0 60px 0 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between; ;
+  justify-content: space-between;
 `;
 
 const NavContainer = styled.div`
   display: flex;
+  @media (max-width: ${(props) => props.theme.size.laptop}) { // FIXME
+    display: none;
+  }
 `;
 
 const NavTitle = styled.div`
