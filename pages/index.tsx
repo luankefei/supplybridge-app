@@ -1,15 +1,14 @@
-import { Button, Icon } from 'components';
-import Head from 'next/head'
-import Link from 'next/link';
+import { Button, Icon } from "components";
+import Head from "next/head";
+import Link from "next/link";
 import styled from "styled-components";
 
 export default function Home() {
-
   return (
     <Container>
       <Head>
-        <title>Main | Supply Bridge</title>
-        <meta name="description" content="Main page of the Supply Bridge" />
+        <title>Home Page | Supply Bridge</title>
+        <meta name="description" content="Home page of the Supply Bridge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header>
@@ -32,14 +31,12 @@ export default function Home() {
           </Link>
         </NavContainer>
         <Buttons>
-          <Button
-            secondary={true}>
-            Login
-          </Button>
-          <Button
-          >
-            Register
-          </Button>
+          <Link href="/login">
+            <Button secondary={true} >Login</Button>
+          </Link>
+          <Link href="/register">
+            <Button>Register</Button>
+          </Link>
         </Buttons>
       </Header>
 
@@ -52,18 +49,26 @@ export default function Home() {
           </SlideText>
         </SlideTextContainer>
         <SlideImageContainer>
-          <SlideImage src="/images/slide-img.svg" alt="slide_img" width="auto" height="100%"></SlideImage>
+          <SlideImage
+            src="/images/slide-img.svg"
+            alt="slide_img"
+            width="auto"
+            height="100%"
+          ></SlideImage>
         </SlideImageContainer>
       </SlideContainer>
 
       <SupplierContainer>
         <SupplierTextContainer>
-          <SupplierTextTitle>
-            Our Business
-          </SupplierTextTitle>
+          <SupplierTextTitle>Our Business</SupplierTextTitle>
           <SupplierText>
-            With our innovative and insightful technology, we strive to enhance our users’ every day experiences.<br /><br />
-            Founded in 2022, our incredible team of engineers, programmers, designers and Industry experts have worked tirelessly to bring Supply Bridge to the forefront of the industry.
+            With our innovative and insightful technology, we strive to enhance
+            our users’ every day experiences.
+            <br />
+            <br />
+            Founded in 2022, our incredible team of engineers, programmers,
+            designers and Industry experts have worked tirelessly to bring
+            Supply Bridge to the forefront of the industry.
           </SupplierText>
           <SupplierButtonContainer>
             <Button> Become a Supplier</Button>
@@ -71,7 +76,12 @@ export default function Home() {
         </SupplierTextContainer>
 
         <SupplierImageContainer>
-          <SupplierImage src="/images/become-a-supplier.png" alt="become_a_supplier" width="auto" height="100%"/>
+          <SupplierImage
+            src="/images/become-a-supplier.png"
+            alt="become_a_supplier"
+            width="auto"
+            height="100%"
+          />
         </SupplierImageContainer>
       </SupplierContainer>
 
@@ -83,11 +93,18 @@ export default function Home() {
             ambitions
           </VideoTitle>
           <VideoText>
-            At Supply Bridge, we believe that our solutions will soon become one of the biggest turn-key solution in the industry. We’ve only just started, but we already know that every product we build requires hard-earned skills, dedication and a daring atitude.
+            At Supply Bridge, we believe that our solutions will soon become one
+            of the biggest turn-key solution in the industry. We’ve only just
+            started, but we already know that every product we build requires
+            hard-earned skills, dedication and a daring atitude.
           </VideoText>
         </VideoTextContainer>
-        <VideoPlayIcon src="/icons/play.svg" alt="play" width="100px" height="100px">
-        </VideoPlayIcon>
+        <VideoPlayIcon
+          src="/icons/play.svg"
+          alt="play"
+          width="100px"
+          height="100px"
+        ></VideoPlayIcon>
       </VideoContainer>
 
       <PlatformContainer>
@@ -97,89 +114,114 @@ export default function Home() {
             Platform with AI + Blockchain
           </PlatformHeadTitle>
           <PlatformHeadButton>
-            <Button>
-              Get Started Today
-            </Button>
+            <Button>Get Started Today</Button>
           </PlatformHeadButton>
         </PlatformHead>
         <PlatformContent>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(64, 162, 225, 0.2)">
-              <PlatformCardIcon src="/icons/scout-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/scout-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Scout
-            </PlatformCardTitle>
+            <PlatformCardTitle>Scout</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
 
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(214, 142, 46, 0.2)">
-              <PlatformCardIcon src="/icons/trace-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/trace-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Trace
-            </PlatformCardTitle>
+            <PlatformCardTitle>Trace</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
-
             <PlatformCardIconBox backgroundColor="rgb(106, 218, 194, 0.2)">
-              <PlatformCardIcon src="/icons/finance-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/finance-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Finance
-            </PlatformCardTitle>
+            <PlatformCardTitle>Finance</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(200, 81, 200, 0.25)">
-              <PlatformCardIcon src="/icons/evaluate-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/evaluate-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Evaluate
-            </PlatformCardTitle>
+            <PlatformCardTitle>Evaluate</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(133, 130, 224, 0.2)">
-              <PlatformCardIcon src="/icons/source-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/source-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Source
-            </PlatformCardTitle>
+            <PlatformCardTitle>Source</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(197, 35, 0, 0.2)">
-              <PlatformCardIcon src="/icons/transport-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/transport-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Transport
-            </PlatformCardTitle>
+            <PlatformCardTitle>Transport</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(204, 228, 236, 0.5)">
-              <PlatformCardIcon src="/icons/solution-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/solution-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Build Total Solution
-            </PlatformCardTitle>
+            <PlatformCardTitle>Build Total Solution</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
         </PlatformContent>
@@ -187,11 +229,10 @@ export default function Home() {
 
       <ContactContainer>
         <ContactContainerLeft>
-          <ContactContainerTitle>
-            Want to learn more?
-          </ContactContainerTitle>
+          <ContactContainerTitle>Want to learn more?</ContactContainerTitle>
           <ContactContainerText>
-            If you have questions about how the B2B/SaaS<br />
+            If you have questions about how the B2B/SaaS
+            <br />
             can enhance your business, please reach out.
           </ContactContainerText>
           <span>
@@ -203,17 +244,24 @@ export default function Home() {
             <ContactContainerMessageInput />
             <Button>Submit</Button>
           </span>
-
         </ContactContainerLeft>
         <ContactContainerRight>
-          <ContactContainerBackground src="/images/contact-bg.png" alt="contact_bg" width="auto" height="330px" />
-          <ContactContainerImage src="/images/contact-img.png" alt="contact_img" width="100%" height="100%" />
+          <ContactContainerBackground
+            src="/images/contact-bg.png"
+            alt="contact_bg"
+            width="auto"
+            height="330px"
+          />
+          <ContactContainerImage
+            src="/images/contact-img.png"
+            alt="contact_img"
+            width="100%"
+            height="100%"
+          />
         </ContactContainerRight>
       </ContactContainer>
-
-
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -223,8 +271,8 @@ const Container = styled.div`
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
-  color: #1A1A1A;
-
+  color: #1a1a1a;
+  background-color: ${(props) => props.theme.colors.white}
 `;
 
 // HEADER
@@ -234,8 +282,7 @@ const Header = styled.div`
   padding: 0 60px 0 60px;
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  ;
+  justify-content: space-between; ;
 `;
 
 const NavContainer = styled.div`
@@ -247,7 +294,9 @@ const NavTitle = styled.div`
 `;
 
 const Buttons = styled.div`
-  display: flex;
+  display: inline-flex;
+  gap: 12px;
+
 `;
 
 const SlideContainer = styled.div`
@@ -260,6 +309,10 @@ const SlideContainer = styled.div`
   display: flex;
   height: 50%;
 `;
+
+const Gap = styled.div<{gap: number}>`
+  width: ${(props)=> `${props.gap}px`}
+`
 
 // Slide Container
 const SlideTextContainer = styled.div`
@@ -277,7 +330,7 @@ const SlideText = styled.h1`
   display: inline-block;
   margin-left: 83px;
   margin-bottom: 70px;
-  `;
+`;
 
 const SlideImageContainer = styled.div`
   width: 50%;
@@ -287,11 +340,10 @@ const SlideImageContainer = styled.div`
 `;
 
 const SlideImage = styled.img`
- object-fit: contain;
- height: 95%;
- padding: 40px 0 40px 0;
-`
-
+  object-fit: contain;
+  height: 95%;
+  padding: 40px 0 40px 0;
+`;
 
 // Supplier Container
 const SupplierContainer = styled.div`
@@ -311,16 +363,16 @@ const SupplierTextTitle = styled.h1`
   font-weight: 500;
   font-size: 43.5px;
   line-height: 50px;
-  color: #1A1A1A;
-`
+  color: #1a1a1a;
+`;
 
 const SupplierText = styled.h4`
   font-style: normal;
   font-weight: 400;
   font-size: 19.5px;
   line-height: 22px;
-  color: #1A1A1A;
-`
+  color: #1a1a1a;
+`;
 
 const SupplierButtonContainer = styled.div`
   width: 189px;
@@ -335,7 +387,6 @@ const SupplierImage = styled.img`
   height: 500px;
   filter: grayscale(100%);
 `;
-
 
 //Video Container
 const VideoContainer = styled.div`
@@ -359,32 +410,30 @@ const VideoTextContainer = styled.div`
 `;
 
 const VideoTitle = styled.h1`
-font-style: normal;
-font-weight: 500;
-font-size: 66px;
-line-height: 76px;
-color: #FFFFFF;
-margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 66px;
+  line-height: 76px;
+  color: #ffffff;
+  margin: 0;
 `;
 
 const VideoText = styled.h4`
-font-style: normal;
-font-weight: 300;
-font-size: 19.5px;
-line-height: 22px;
-color: #FFFFFF;
-margin-top: 30px;
-`
+  font-style: normal;
+  font-weight: 300;
+  font-size: 19.5px;
+  line-height: 22px;
+  color: #ffffff;
+  margin-top: 30px;
+`;
 
 const VideoPlayIcon = styled.img`
   position: absolute;
   top: 50%;
   left: 50%;
   &:hover {
-    
   }
 `;
-
 
 // Platform Container
 const PlatformContainer = styled.div`
@@ -398,17 +447,16 @@ const PlatformHead = styled.div`
   justify-content: space-between;
 `;
 const PlatformHeadTitle = styled.div`
-font-style: normal;
-font-weight: 500;
-font-size: 43.5px;
-line-height: 50px;
-color: #000000;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 43.5px;
+  line-height: 50px;
+  color: #000000;
 `;
 
 const PlatformHeadButton = styled.div`
   width: 180px;
 `;
-
 
 const PlatformContent = styled.div`
   margin-top: 50px;
@@ -422,7 +470,7 @@ const PlatformCard = styled.div`
   width: 280px;
 `;
 
-const PlatformCardIconBox = styled.div<{backgroundColor?: string}>`
+const PlatformCardIconBox = styled.div<{ backgroundColor?: string }>`
   width: 65px;
   height: 65px;
   background-color: ${(props) => `${props.backgroundColor} !important`};
@@ -432,9 +480,7 @@ const PlatformCardIconBox = styled.div<{backgroundColor?: string}>`
   align-items: center;
 `;
 
-const PlatformCardIcon = styled.img`
- 
-`
+const PlatformCardIcon = styled.img``;
 
 const PlatformCardTitle = styled.h2`
   font-style: normal;
@@ -458,7 +504,7 @@ const PlatformCardText = styled.h4`
 // Contact Container
 
 const ContactContainer = styled.div`
-  background-color: #CCE4EC;
+  background-color: #cce4ec;
   height: 432px;
   margin: 0 105px 0 105px;
   border-radius: 20px;
@@ -469,7 +515,6 @@ const ContactContainerLeft = styled.div`
   width: 532px;
   display: flex;
   flex-direction: column;
-
 `;
 
 const ContactContainerTitle = styled.h1`
@@ -498,14 +543,10 @@ const ContactContainerMessageInput = styled.input`
   width: 255px;
 `;
 
-const ContactContainerRight = styled.div`
-
-`;
+const ContactContainerRight = styled.div``;
 
 const ContactContainerBackground = styled.img`
   opacity: 0.04;
-`
+`;
 
-const ContactContainerImage = styled.img`
-
-`
+const ContactContainerImage = styled.img``;

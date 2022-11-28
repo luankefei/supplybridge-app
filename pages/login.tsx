@@ -54,6 +54,7 @@ export default function Login() {
 
   return (
     <Container>
+      <InnerContainer>
       <Head>
         <title>Login | Supply Bridge</title>
         <meta name="description" content="Login page of the Supply Bridge" />
@@ -139,11 +140,22 @@ export default function Login() {
       >
         Sign In
       </Button>
+      <Label>Supply Bridge © Copyright {new Date().getFullYear()}</Label>
+      </InnerContainer>
     </Container>
   );
 }
 
 const Container = styled.div`
+  background-color: ${(props) => props.theme.colors.white};
+  height: 100vh;
+  @media (max-width: ${(props) => props.theme.size.mobileXl}) {
+    padding: 0px 20px;
+  }
+`;
+
+const InnerContainer = styled.div`
+  background-color: ${(props) => props.theme.colors.white};
   max-width: 400px;
   height: 100vh;
   margin: auto;
@@ -151,4 +163,10 @@ const Container = styled.div`
   flex-direction: column;
   align-items: center;
   justify-content: center;
-`;
+`
+
+const Label = styled.span `
+  color: #6c757d;
+  margin-top: 48px;
+  font-size: 16px;
+`

@@ -23,7 +23,7 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
   display: flex;
   justify-content: center;
   position: relative;
-  background-color: ${(props) => (props.secondary ? theme.colors.secondary : theme.colors.primary)};
+  background-color: ${(props) => (props.secondary ? theme.colors.white : theme.colors.primary)};
   width: ${(props) => (props?.block ? '100%' : '250px')};
   padding: 15px;
   border-radius: 4px;
@@ -34,8 +34,9 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
   font-size: 18px;
   transition: all 200ms ease;
   cursor: pointer;
-  border: ${(props) => (props.secondary ? '1px solid #56636D !important' : `1px solid ${theme.colors.primary} !important`)};
+  border: ${(props) => (props.secondary ? `1px solid #CCE4EC !important` : `1px solid ${theme.colors.primary} !important`)};
   margin-bottom: 10px;
+  margin: ${(props) => props.margin ? props.margin : 0};
 
   &:hover {
     // background-color: #0059b2;
@@ -64,7 +65,7 @@ export const Button = React.forwardRef(function CustomButton(
   props: ButtonUnstyledProps | any,
   ref: React.ForwardedRef<any>,
 ) {
-  const { children, loading, color = theme.colors.primary, block = true, secondary = false, icon = false } = props;
+  const { children, loading, color = theme.colors.primary, block = true, secondary = false, icon = false, margin = 0 } = props;
   const { active, disabled, focusVisible, getRootProps } = useButton({
     ...props,
     ref,
@@ -85,6 +86,7 @@ export const Button = React.forwardRef(function CustomButton(
       data-testid="submit"
       color={color}
       block={block}
+      margin={margin}
       secondary={secondary}
     >
       {icon && (
