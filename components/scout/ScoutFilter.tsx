@@ -95,8 +95,8 @@ export const ScoutFilter = () => {
   ];
   return (
     <FilterContainer>
-      {dummyData.map((item) => (
-        <CustomizeAccordion>
+      {dummyData.map((item, index) => (
+        <CustomizeAccordion key={index}>
           <AccordionBerat
             expandIcon={<Icon src="chevron-down" width={40} height={40} />}
             aria-controls={item.category}
@@ -105,8 +105,9 @@ export const ScoutFilter = () => {
             {item.category}
           </AccordionBerat>
           <CustomizeAccordionDetails>
-            {item.items.map((checkbox) => (
+            {item.items.map((checkbox, index) => (
               <FormControlLabel
+                key={index}
                 control={<Checkbox />}
                 label={
                   <CheckboxLabel>

@@ -1,7 +1,7 @@
 import { useEffect, useCallback } from 'react';
 
 export const useClickOutside = (ref: any, callback: any) => {
-  const handleWindowSizeChangeCallback = useCallback((e) => handleClick(e), []);
+  const handleWindowSizeChangeCallback = useCallback((e: any) => handleClick(e), []);
 
   useEffect(() => {
     document.addEventListener('click', handleWindowSizeChangeCallback);
