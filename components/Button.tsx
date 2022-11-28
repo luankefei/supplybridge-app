@@ -29,8 +29,8 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
   border-radius: 4px;
   color: ${(props) => (props.secondary ? theme.colors.black : theme.colors.white)};
   border-color: transparent;
-  font-weight: 600;
-  font-family: 'Open Sans', sans-serif !important;
+  font-weight: 400;
+  font-family: 'Ubuntu', sans-serif !important;
   font-size: 18px;
   transition: all 200ms ease;
   cursor: pointer;

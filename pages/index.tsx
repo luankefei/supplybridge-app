@@ -105,7 +105,7 @@ export default function Home() {
         <PlatformContent>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(64, 162, 225, 0.2)">
-              <PlatformCardIcon src="/icons/scout.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon src="/icons/scout-index.svg" alt="scout" width="35px" height="auto" />
             </PlatformCardIconBox>
             <PlatformCardTitle>
               Scout
@@ -117,7 +117,7 @@ export default function Home() {
 
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(214, 142, 46, 0.2)">
-              <PlatformCardIcon src="/icons/trace.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon src="/icons/trace-index.svg" alt="scout" width="35px" height="auto" />
             </PlatformCardIconBox>
             <PlatformCardTitle>
               Trace
@@ -129,7 +129,7 @@ export default function Home() {
           <PlatformCard>
 
             <PlatformCardIconBox backgroundColor="rgb(106, 218, 194, 0.2)">
-              <PlatformCardIcon src="/icons/finance.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon src="/icons/finance-index.svg" alt="scout" width="35px" height="auto" />
             </PlatformCardIconBox>
             <PlatformCardTitle>
               Finance
@@ -140,7 +140,7 @@ export default function Home() {
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(200, 81, 200, 0.25)">
-              <PlatformCardIcon src="/icons/evaluate.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon src="/icons/evaluate-index.svg" alt="scout" width="35px" height="auto" />
             </PlatformCardIconBox>
             <PlatformCardTitle>
               Evaluate
@@ -151,7 +151,7 @@ export default function Home() {
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(133, 130, 224, 0.2)">
-              <PlatformCardIcon src="/icons/source.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon src="/icons/source-index.svg" alt="scout" width="35px" height="auto" />
             </PlatformCardIconBox>
             <PlatformCardTitle>
               Source
@@ -162,7 +162,7 @@ export default function Home() {
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(197, 35, 0, 0.2)">
-              <PlatformCardIcon src="/icons/transport.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon src="/icons/transport-index.svg" alt="scout" width="35px" height="auto" />
             </PlatformCardIconBox>
             <PlatformCardTitle>
               Transport
@@ -173,7 +173,7 @@ export default function Home() {
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(204, 228, 236, 0.5)">
-              <PlatformCardIcon src="/icons/solution.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon src="/icons/solution-index.svg" alt="scout" width="35px" height="auto" />
             </PlatformCardIconBox>
             <PlatformCardTitle>
               Build Total Solution
