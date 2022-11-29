@@ -15,7 +15,7 @@ import axios, { Method } from 'axios';
 export const request = (url: string, method: Method, data?: any, isSearch = false) => {
 	
 
-	const apiUrl = `http://207.154.196.158:5858/${url}`;
+	const apiUrl = `https://supplyapi.kampp.in/${url}`;
 
 	return axios(apiUrl, {
 		method,
