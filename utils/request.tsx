@@ -1,7 +1,5 @@
 import axios, { Method } from 'axios';
 
-import StorageService from "utils/storage";
-
 // axios.interceptors.response.use(
 // 	(response: any) => {
 // 		return response.data;
@@ -15,29 +13,14 @@ import StorageService from "utils/storage";
 // );
 
 export const request = (url: string, method: Method, data?: any, isSearch = false) => {
-	const language = 'tr'
-	let authToken = ''
-	let formattedApiUrl = '';
+	
 
-	if (typeof window !== "undefined") {
-		const { token }: any = StorageService.getAuthData();
-		authToken = token;
-	}
-
-	if (url.includes('&')) {
-		formattedApiUrl = `https://kampi.kampp.in/v1/${url}&lang=${language}`;
-	} else {
-		formattedApiUrl = `https://kampi.kampp.in/v1/${url}?lang=${language}`;
-	}
-
-	const apiUrl = isSearch ? `https://kampi.kampp.in/v1/${url}` : formattedApiUrl;
+	const apiUrl = `http://207.154.196.158:5858/${url}`;
 
 	return axios(apiUrl, {
 		method,
-		// credentials: 'same-origin',
 		headers: {
 			'Content-Type': 'application/json',
-			Authorization: authToken
 		},
 		data,
 	});

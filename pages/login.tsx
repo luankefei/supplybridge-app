@@ -1,19 +1,21 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Head from "next/head";
-import cookie from 'js-cookie';
+import cookie from "js-cookie";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
+import { toast } from "react-toastify";
 
+import { request } from "utils/request";
 import { Icon, Box, TextField, Button } from "components";
 import { emailPattern } from "utils/validator";
 
-// interface State {
-//   email: string;
-//   password: string;
-// }
+interface State {
+  email: string;
+  password: string;
+}
 
 export default function Login() {
   const { push } = useRouter();
@@ -29,19 +31,24 @@ export default function Login() {
     setShowPassword(!showPassword);
   };
 
-  const onSubmit = async (data: any) => {
-    const { email, password } = data;
-
-    // if (res.data.login.success) {
-    //   const userData = res.data.login;
-    //   StorageService.setUserData(userData);
-    //   StorageService.setAuthData({ authToken: userData.token, refreshToken: userData.refreshToken });
-    //   navigate('/');
-    // } else {
-    //   alert.info(res.data.login.message);
-    cookie.set("token", "ABCD", { expires: 1 / 24})
-    push('/dashboard')
-    // }
+  const onSubmit = async (postData: State | any) => {
+    try {
+      setLoading(true);
+      const { data } = await request("login", "POST", postData);
+      setLoading(false);
+      if (data.id) {
+        cookie.set("token", data.token, { expires: 1 / 24})
+        toast.success('Success', {
+          position: toast.POSITION.TOP_RIGHT,
+        });
+        push('/dashboard')
+      }
+    } catch (err: any) {
+      setLoading(false);
+      toast.error(err.response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {

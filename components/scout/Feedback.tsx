@@ -6,7 +6,9 @@ export const Feedback = () => {
   const [loadSurvey, setLoadSurvey] = useState(false);
 
   useEffect(() => {
-    setLoadSurvey(true);
+    setTimeout(() => {
+      setLoadSurvey(true);
+    }, 300)
   }, [])
 
   const openSurvey = () => {
