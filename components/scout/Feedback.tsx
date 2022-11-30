@@ -53,6 +53,9 @@ const Container = styled.div`
   width: 37px;
   height: 93px;
   background: #c41d7f;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: none;
+  }
 `;
 
 const Title = styled.span`

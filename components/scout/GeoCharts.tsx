@@ -16,7 +16,7 @@ export const GeoCharts = () => {
     <MapContainer>
       <Chart
         chartType="GeoChart"
-        width="100%"
+        width="99%"
         height="411px"
         data={data}
         options={{
@@ -30,4 +30,8 @@ export const GeoCharts = () => {
 
 const MapContainer = styled.div`
   width: 100%;
+  background-color: white;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: none;
+  }
 `;

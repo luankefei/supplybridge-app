@@ -97,13 +97,13 @@ export const ScoutFilter = () => {
     <FilterContainer>
       {dummyData.map((item, index) => (
         <CustomizeAccordion key={index}>
-          <AccordionBerat
+          <CustomizeAccordionSummary
             expandIcon={<Icon src="chevron-down" width={40} height={40} />}
             aria-controls={item.category}
             id={item.category}
           >
             {item.category}
-          </AccordionBerat>
+          </CustomizeAccordionSummary>
           <CustomizeAccordionDetails>
             {item.items.map((checkbox, index) => (
               <FormControlLabel
@@ -131,13 +131,16 @@ const FilterContainer = styled.div`
   background: #fafafa;
   border-radius: 2px;
   height: fit-content;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: none;
+  }
 `;
 
 const CustomizeAccordion = styled(Accordion)`
   margin: 0 !important;
 `;
 
-const AccordionBerat = styled(AccordionSummary)`
+const CustomizeAccordionSummary = styled(AccordionSummary)`
   background: #f5f5f5;
   color: #006d75;
 `;
