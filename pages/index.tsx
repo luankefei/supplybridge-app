@@ -325,6 +325,10 @@ const Container = styled.div`
   line-height: 21px;
   color: #1A1A1A;
   position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 `;
 
 // HEADER
@@ -415,6 +419,7 @@ const HeaderRegisterButton = styled.div`
 // Slide Container
 
 const SlideContainer = styled.div`
+  width: 100%;
   background-image: url(/images/slide.jpg);
   background-position: center;
   background-repeat: no-repeat;
@@ -429,6 +434,11 @@ const SlideContainer = styled.div`
   }
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     flex-direction: column;
+  }
+  @media (max-width: ${(props) => props.theme.size.mobileL}) {
+    height: 500px;
+    justify-content: end;
+    align-items: center;
   }
 `;
 
@@ -457,8 +467,10 @@ const SlideText = styled.h1`
     line-height: 64px;
     font-size: 56px;
   }
-  @media (max-width: ${(props) => props.theme.size.laptopL}) {
-    
+  @media (max-width: ${(props) => props.theme.size.mobileL}) {
+    font-size: 36px;
+    line-height: 48px;
+    margin-bottom: 64px;
   }
   `;
 
@@ -498,14 +510,31 @@ const SlideImage = styled.img`
 // Supplier Container
 const SupplierContainer = styled.div`
   height: 820px;
+  max-width: 1440px;
   display: flex;
-  padding: 0 160px 0 160px;
+  /* margin: 0 auto; */
   align-items: center;
-  justify-content: center;
+  justify-content: space-between;
+  padding: 0 60px 0 60px;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+  /* padding: 0 160px 0 160px; */
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+  flex-direction: column-reverse;
+  justify-content: space-evenly;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+  width: 100%;
+  padding: 0 20px 0 20px;
+  margin: 40px 0;
+  }
 `;
 
 const SupplierTextContainer = styled.div`
   width: 35%;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+  width: 90%;
+  }
 `;
 
 const SupplierTextTitle = styled.h1`
@@ -529,13 +558,29 @@ const SupplierButtonContainer = styled.div`
 `;
 
 const SupplierImageContainer = styled.div`
-  /* width: 60%; */
-  margin-left: 100px;
+  display: flex;
+  justify-content: center;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+  width: 100%;
+  }
 `;
 
 const SupplierImage = styled.img`
-  height: 500px;
+  height: auto;
+  width: 90%;
   filter: grayscale(100%);
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+  width: 80%;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+  width: 70%;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+  width: 90%;
+  }
+  @media (max-width: ${(props) => props.theme.size.mobileL}) {
+  width: 100%
+  }
 `;
 
 //Video Container
@@ -550,7 +595,9 @@ const VideoContainer = styled.div`
   display: flex;
   height: 700px;
   position: relative;
-  margin: 0 auto;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 100%
+  }
 `;
 
 const VideoTextContainer = styled.div`
@@ -559,6 +606,13 @@ const VideoTextContainer = styled.div`
   flex-direction: column;
   justify-content: end;
   margin: 0 0 70px 83px;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    margin: 0;
+    padding: 20px;
+  }
 `;
 
 const VideoTitle = styled.h1`
@@ -568,6 +622,14 @@ const VideoTitle = styled.h1`
   line-height: 76px;
   color: #ffffff;
   margin: 0;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    font-size: 48px;
+    line-height: 48px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    margin-top: 30px;
+    opacity: 0.8;
+  }
 `;
 
 const VideoText = styled.h4`
@@ -589,26 +651,40 @@ const VideoPlayIcon = styled.img`
 
 // Platform Container
 const PlatformContainer = styled.div`
-  max-width: ${(props) => props.theme.size.laptopL};
-  padding: 150px 0 150px 0;
-  margin: 0 auto;
+  max-width: 1440px;
+  width: 100%;
+  padding: 150px 60px;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    padding: 120px 30px;
+  }
 `;
 
 const PlatformHead = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    flex-direction: column;
+  }
 `;
+
 const PlatformHeadTitle = styled.div`
   font-style: normal;
   font-weight: 500;
   font-size: 43.5px;
   line-height: 50px;
   color: #000000;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    font-size: 32px;
+    text-align: center;
+  }
 `;
 
 const PlatformHeadButton = styled.div`
   width: 180px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin: 20px 0;
+  }
 `;
 
 const PlatformContent = styled.div`
@@ -617,10 +693,25 @@ const PlatformContent = styled.div`
   justify-content: space-between;
   grid-template-columns: auto auto auto;
   row-gap: 70px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    grid-template-columns: auto auto;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    grid-template-columns: auto;
+  }
 `;
 
 const PlatformCard = styled.div`
   width: 280px;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    width: 100%;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
 `;
 
 const PlatformCardIconBox = styled.div<{ backgroundColor?: string }>`
@@ -657,19 +748,30 @@ const PlatformCardText = styled.h4`
 // Contact Container
 
 const ContactContainer = styled.div`
+
   background-color: #CCE4EC;
+  width: 100%;
   max-width: 1440px;
   height: 432px;
-  margin: 0 auto;
+  /* margin: 0 auto; */
   border-radius: 20px;
   display: flex;
   position: relative;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    height: 100%;
+  }
 `;
 
 const ContactContainerLeft = styled.div`
   width: 532px;
   margin-left: 84px;
   margin-bottom: 63px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin: 0 auto;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    margin: 0 auto;
+  }
 
 `;
 
@@ -691,18 +793,33 @@ const ContactContainerForm = styled.div`
   display: flex;
   justify-content: space-between;
   height: 45%;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    flex-direction: column;
+    align-items: center;
+    height: 100%;
+    justify-content: flex-start;
+  }
 `;
 
 const ContactContainerFormLeft = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    width: 100%;
+    align-items: center;
+  }
+  
 `;
 
 const ContactContainerFormRight = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    width: 100%;
+    align-items: center;
+  }
 `;
 
 const ContactContainerInput = styled.input`
@@ -733,6 +850,10 @@ const ContactContainerInput = styled.input`
     font-size: 18px;
     line-height: 21px;
     color: #000000;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    width: 90%;
+    margin-bottom: 20px;
   }
 `;
 
@@ -768,6 +889,10 @@ const ContactContainerMessageInput = styled.textarea`
     line-height: 21px;
     color: #000000;
   }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    width: 90%;
+    margin-bottom: 20px;
+  }
 `;
 
 const ContactContainerFormButton = styled.div`
@@ -782,6 +907,9 @@ const ContactContainerFormButton = styled.div`
   &:hover {
     cursor: pointer;
     opacity: 0.8;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    margin-bottom: 20px;
   }
 `;
 
@@ -799,12 +927,16 @@ const ContactContainerImage = styled.img`
   overflow-x: visible;
   bottom: 0;
   right: 75px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: none;
+  }
 `;
 
 // Footer
 
 const Footer = styled.div`
-background-color: #000000;
+  width: 100%;
+  background-color: #000000;  
   border-radius: 20px;
   /* box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4); */
   display: flex;
