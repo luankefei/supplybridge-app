@@ -1,9 +1,13 @@
-import { Button, Icon } from "components";
-import Head from "next/head";
-import Link from "next/link";
+import { useState } from 'react';
+import { Button } from 'components';
+import Head from 'next/head'
+import Link from 'next/link';
 import styled from "styled-components";
 
 export default function Home() {
+
+  const [openMobileMenu, setOpenMobileMenu] = useState(false);
+
   return (
     <Container>
       <Head>
@@ -12,7 +16,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header>
-        <Icon src="logo" width={350} height={40} />
+        <HeaderLogo src="/icons/logo.svg" />
         <NavContainer>
           <Link href="/">
             <NavTitle>Home</NavTitle>
@@ -31,13 +35,17 @@ export default function Home() {
           </Link>
         </NavContainer>
         <Buttons>
-          <Link href="/login">
-            <Button secondary={true} >Login</Button>
-          </Link>
-          <Link href="/register">
-            <Button>Register</Button>
-          </Link>
+          <HeaderLoginButton>
+            <Link href="/login">
+              Login
+            </Link>
+          </HeaderLoginButton>
+          <HeaderRegisterButton
+          >
+            Register
+          </HeaderRegisterButton>
         </Buttons>
+        <MenuIcon onClick={() => setOpenMobileMenu(true)} src="/icons/menu.png" />
       </Header>
 
       <SlideContainer>
@@ -49,12 +57,7 @@ export default function Home() {
           </SlideText>
         </SlideTextContainer>
         <SlideImageContainer>
-          <SlideImage
-            src="/images/slide-img.svg"
-            alt="slide_img"
-            width="auto"
-            height="100%"
-          ></SlideImage>
+          <SlideImage src="/images/slide-img.svg" alt="slide_img"></SlideImage>
         </SlideImageContainer>
       </SlideContainer>
 
@@ -76,12 +79,7 @@ export default function Home() {
         </SupplierTextContainer>
 
         <SupplierImageContainer>
-          <SupplierImage
-            src="/images/become-a-supplier.png"
-            alt="become_a_supplier"
-            width="auto"
-            height="100%"
-          />
+          <SupplierImage src="/images/become-a-supplier.png" alt="become_a_supplier" />
         </SupplierImageContainer>
       </SupplierContainer>
 
@@ -235,44 +233,100 @@ export default function Home() {
             <br />
             can enhance your business, please reach out.
           </ContactContainerText>
-          <span>
-            <ContactContainerInput />
-            <ContactContainerInput />
-            <ContactContainerInput />
-          </span>
-          <span>
-            <ContactContainerMessageInput />
-            <Button>Submit</Button>
-          </span>
+          <ContactContainerForm>
+            <ContactContainerFormLeft>
+              <ContactContainerInput placeholder='Name' />
+              <ContactContainerInput placeholder='Email' />
+              <ContactContainerInput placeholder='Subject' />
+            </ContactContainerFormLeft>
+            <ContactContainerFormRight>
+              <ContactContainerMessageInput placeholder='Message' />
+              <ContactContainerFormButton>Submit</ContactContainerFormButton>
+            </ContactContainerFormRight>
+
+          </ContactContainerForm>
+
         </ContactContainerLeft>
         <ContactContainerRight>
-          <ContactContainerBackground
-            src="/images/contact-bg.png"
-            alt="contact_bg"
-            width="auto"
-            height="330px"
-          />
-          <ContactContainerImage
-            src="/images/contact-img.png"
-            alt="contact_img"
-            width="100%"
-            height="100%"
-          />
+          <ContactContainerBackground src="/images/contact-bg.png" alt="contact_bg" width="auto" height="330px" />
+          <ContactContainerImage src="/images/contact-img.png" alt="contact_img" width="443px" height="507px" />
         </ContactContainerRight>
       </ContactContainer>
+
+      <Footer>
+        <FooterTop>
+
+          <FooterContactContainer>
+            <FooterTitle>Contact Us</FooterTitle>
+            <FooterLink><FooterIcon src='/icons/mail.svg' /><span>investors@supplybridge.com</span> </FooterLink>
+            <FooterLink><FooterIcon src='/icons/phone.svg' /> <span>123.456.7890</span></FooterLink>
+          </FooterContactContainer>
+
+          <FooterLinks>
+            <FooterTitle><span>Supply Bridge</span></FooterTitle>
+            <FooterLink><span>Solutions</span></FooterLink>
+            <FooterLink><span>About Us</span></FooterLink>
+            <FooterLink><span>Careers</span></FooterLink>
+            <FooterLink><span>Become Supplier</span></FooterLink>
+          </FooterLinks>
+
+          <FooterSocialMedia>
+            <FooterTitle>Follow Us</FooterTitle>
+            <FooterLink><FooterIcon src='/icons/linkedin.svg' /><span>Linkedin</span></FooterLink>
+            <FooterLink><FooterIcon src='/icons/facebook.svg' /><span>Facebook</span></FooterLink>
+            <FooterLink><FooterIcon src='/icons/twitter.svg' /><span>Twitter</span></FooterLink>
+          </FooterSocialMedia>
+          <FooterNewsletter>
+            <FooterTitle>Join Newsletter </FooterTitle>
+            <span>
+              <FooterNewsletterInput placeholder='your@email.com' />
+              <FooterIcon src='/icons/send.svg' />
+            </span>
+          </FooterNewsletter>
+        </FooterTop>
+        <FooterBottom>
+          <FooterCopyright>
+            Supply Bridge © Copyright 2022
+          </FooterCopyright>
+          <FooterLogo src='/icons/footer-icon.svg' />
+          <FooterTerms>
+            <Link href="/">Privacy Policy</Link> <span />|<span /> <Link href="/">Terms of Service</Link>
+          </FooterTerms>
+        </FooterBottom>
+      </Footer>
+      <FooterSpace />
+
+      <MobileMenu openMobileMenu={openMobileMenu}>
+        <MobileMenuHeader>
+          <FooterLogo src="/icons/footer-icon.svg" />
+          <CloseIcon src="/icons/close.png" onClick={() => setOpenMobileMenu(false)} />
+        </MobileMenuHeader>
+        <MobileMenuList>
+          {/* <MobileMenuListItem>Home</MobileMenuListItem> */}
+          <MobileMenuListItem>Solution</MobileMenuListItem>
+          <MobileMenuListItem>Become Supplier</MobileMenuListItem>
+          <MobileMenuListItem>Careers</MobileMenuListItem>
+          <MobileMenuListItem>About Us</MobileMenuListItem>
+
+        </MobileMenuList>
+        <MobileMenuButtons>
+          <MobileButton>Login</MobileButton>
+          <MobileButton>Register</MobileButton>
+
+        </MobileMenuButtons>
+      </MobileMenu>
     </Container>
   );
 }
 
 const Container = styled.div`
-  height: 100vh;
   margin: 0 20px 0 20px;
   font-style: normal;
   font-weight: 400;
   font-size: 18px;
   line-height: 21px;
-  color: #1a1a1a;
-  background-color: ${(props) => props.theme.colors.white}
+  color: #1A1A1A;
+  position: relative;
 `;
 
 // HEADER
@@ -283,24 +337,84 @@ const Header = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+  ;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    padding: 0 10px 0 10px;
+  }
 `;
+
+const HeaderLogo = styled.img`
+  width: 350px;
+  height: auto;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    width: 25%;
+    height: auto;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 40%;
+    min-width: 250px;
+  }
+`
 
 const NavContainer = styled.div`
   display: flex;
-  @media (max-width: ${(props) => props.theme.size.laptop}) { // FIXME
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
 `;
 
 const NavTitle = styled.div`
   margin-right: 48px;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    margin-right: 24px;
+  }
+
 `;
 
 const Buttons = styled.div`
-  display: inline-flex;
-  gap: 12px;
-
+  display: flex;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: none;
+  }
 `;
+
+const MenuIcon = styled.img`
+  display: none;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: inline-block;
+    margin-left: 10px;
+    cursor: pointer;
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+`;
+
+const HeaderLoginButton = styled.div`
+  padding: 9px 17px;
+  background-color: #fff;
+  color: #000000;
+  border: 0.3px solid rgb(8, 151, 156, 0.4);
+  border-radius: 4px;
+  &:hover {
+    border: 1px solid rgb(8, 151, 156);
+    cursor: pointer;
+  }
+`;
+
+const HeaderRegisterButton = styled.div`
+  padding: 9px 17px;;
+  background-color: ${(props) => props.theme.colors.primary};
+  color: #fff;
+  border-radius: 4px;
+  margin-left: 14px;
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+`;
+
+// Slide Container
 
 const SlideContainer = styled.div`
   background-image: url(/images/slide.jpg);
@@ -310,43 +424,78 @@ const SlideContainer = styled.div`
   background-size: cover;
   box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.6);
   display: flex;
+  justify-content: space-between;
   height: 50%;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    height: 45%;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    flex-direction: column;
+  }
 `;
 
-const Gap = styled.div<{gap: number}>`
-  width: ${(props)=> `${props.gap}px`}
-`
-
-// Slide Container
 const SlideTextContainer = styled.div`
   width: 50%;
   display: flex;
   align-items: flex-end;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    /* width: 45%; */
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 100%;
+  }
 `;
 
 const SlideText = styled.h1`
   color: #fff;
   font-style: normal;
   font-weight: 500;
-  font-size: 63px;
+  font-size: 64px;
   line-height: 72px;
   display: inline-block;
-  margin-left: 83px;
+  margin-left: 5vw;
   margin-bottom: 70px;
-`;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    line-height: 64px;
+    font-size: 56px;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    
+  }
+  `;
 
 const SlideImageContainer = styled.div`
   width: 50%;
   display: flex;
   justify-content: end;
   align-items: center;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    width: 100%;
+  }
 `;
 
 const SlideImage = styled.img`
-  object-fit: contain;
+ object-fit: contain;
+ height: 100%;
+ padding: 40px 0 40px 0;
+ @media (max-width: ${(props) => props.theme.size.laptopL}) {
   height: 95%;
-  padding: 40px 0 40px 0;
-`;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+  height: 650px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+  height: 500px;
+  }
+  @media (max-width: ${(props) => props.theme.size.mobileXl}) {
+  height: 400px;
+  }
+  @media (max-width: ${(props) => props.theme.size.mobileL}) {
+  display: none;
+  }
+  
+`
+
 
 // Supplier Container
 const SupplierContainer = styled.div`
@@ -393,6 +542,7 @@ const SupplierImage = styled.img`
 
 //Video Container
 const VideoContainer = styled.div`
+  max-width: 1440px;
   background-image: url(/images/video-img.jpg);
   background-position: center;
   background-repeat: no-repeat;
@@ -402,6 +552,7 @@ const VideoContainer = styled.div`
   display: flex;
   height: 700px;
   position: relative;
+  margin: 0 auto;
 `;
 
 const VideoTextContainer = styled.div`
@@ -440,8 +591,9 @@ const VideoPlayIcon = styled.img`
 
 // Platform Container
 const PlatformContainer = styled.div`
-  padding: 0 160px 0 160px;
-  margin: 150px 0 150px 0;
+  max-width: ${(props) => props.theme.size.laptopL};
+  padding: 150px 0 150px 0;
+  margin: 0 auto;
 `;
 
 const PlatformHead = styled.div`
@@ -507,17 +659,20 @@ const PlatformCardText = styled.h4`
 // Contact Container
 
 const ContactContainer = styled.div`
-  background-color: #cce4ec;
+  background-color: #CCE4EC;
+  max-width: 1440px;
   height: 432px;
-  margin: 0 105px 0 105px;
+  margin: 0 auto;
   border-radius: 20px;
   display: flex;
+  position: relative;
 `;
 
 const ContactContainerLeft = styled.div`
   width: 532px;
-  display: flex;
-  flex-direction: column;
+  margin-left: 84px;
+  margin-bottom: 63px;
+
 `;
 
 const ContactContainerTitle = styled.h1`
@@ -534,22 +689,335 @@ const ContactContainerText = styled.h4`
   color: #000000;
 `;
 
-const ContactContainerInput = styled.input`
-  border: 0.75px solid #000000;
-  width: 255px;
-  height: 43;
-  padding: 10px;
+const ContactContainerForm = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 45%;
 `;
 
-const ContactContainerMessageInput = styled.input`
+const ContactContainerFormLeft = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const ContactContainerFormRight = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+`;
+
+const ContactContainerInput = styled.input`
   border: 0.75px solid #000000;
+  border-radius: 4px;
   width: 255px;
+  height: 43px;
+  padding: 9px 18px;
+  background-color: transparent;
+  font-size: 18px;
+  &:focus {
+    outline: none !important;
+    border: 3px solid ${(props) => props.theme.colors.primary};
+  }
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    font-family: 'Ubuntu';
+    font-style: normal; 
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+  }
+  :-ms-input-placeholder {
+    font-family: 'Ubuntu';
+    font-style: normal; 
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+  }
+`;
+
+const ContactContainerMessageInput = styled.textarea`
+  border: 0.75px solid #000000;
+  border-radius: 4px;
+  font-family: 'Ubuntu';
+  width: 255px;
+  height: 106px;
+  padding: 9px 18px;
+  background-color: transparent;
+  font-size: 18px;
+  resize: none;
+  &:focus {
+    outline: none !important;
+    border: 3px solid ${(props) => props.theme.colors.primary};
+  }
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    font-family: 'Ubuntu';
+    font-style: normal; 
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+    vertical-align: text-top;
+  }
+  :-ms-input-placeholder {
+    font-family: 'Ubuntu';
+    font-style: normal; 
+    font-weight: 400;
+    font-size: 18px;
+    line-height: 21px;
+    color: #000000;
+  }
+`;
+
+const ContactContainerFormButton = styled.div`
+  width: 255px;
+  height: 43px;
+  background-color: ${(props) => props.theme.colors.primary};
+  border-radius: 4px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  &:hover {
+    cursor: pointer;
+    opacity: 0.8;
+  }
 `;
 
 const ContactContainerRight = styled.div``;
 
 const ContactContainerBackground = styled.img`
-  opacity: 0.04;
+  opacity: 0.4;
+  position: absolute;
+  right: 0;
 `;
 
-const ContactContainerImage = styled.img``;
+const ContactContainerImage = styled.img`
+  position: absolute;
+  object-fit: cover;
+  overflow-x: visible;
+  bottom: 0;
+  right: 75px;
+`;
+
+// Footer
+
+const Footer = styled.div`
+background-color: #000000;
+  border-radius: 20px;
+  /* box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4); */
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 576px;
+  margin-top: 160px;
+  color: #fff;
+  padding: 118px 110px 35px 110px;
+`;
+
+const FooterTop = styled.div`
+  display: flex;
+  justify-content: space-between;
+`;
+
+const FooterIcon = styled.img`
+  /* width: 32px;
+  height: 32px; */
+  margin-right: 9px;
+`;
+
+const FooterContactContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+`;
+
+const FooterTitle = styled.div`
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 28px;
+`;
+
+const FooterLink = styled.span`
+  font-weight: 300;
+  font-size: 19.5px;
+  line-height: 22px;
+  /* opacity: 0.7; */
+  display: flex;
+  align-items: center;
+  span {
+    opacity: 0.7;
+  }
+  span:hover {
+    cursor: pointer;
+    opacity: 0.9;
+  }
+`;
+
+const FooterLinks = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+`;
+
+const FooterSocialMedia = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+`;
+
+const FooterNewsletter = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  span {
+    display: flex;
+    align-items: center;
+  }
+`;
+
+const FooterNewsletterInput = styled.input`
+  height: 42px;
+  width: 198px;
+  margin-right: 5px;
+  border-radius: 20px;
+  border: 0.75px solid #fff;
+  background-color: transparent;
+  padding-left: 17px;
+  font-family: 'Ubuntu';
+  font-weight: 400;
+  font-size: 16.5px;
+  line-height: 19px;
+  color: #FFFFFF;
+  opacity: 0.7;
+  &:focus {
+    outline: none !important;
+    border: 1px solid ${(props) => props.theme.colors.primary};
+  }
+  ::placeholder,
+  ::-webkit-input-placeholder {
+    font-family: 'Ubuntu';
+    font-weight: 400;
+    font-size: 16.5px;
+    line-height: 19px;
+    color: #FFFFFF;
+    opacity: 0.7;
+  }
+  :-ms-input-placeholder {
+    font-family: 'Ubuntu';
+    font-weight: 400;
+    font-size: 16.5px;
+    line-height: 19px;
+    color: #FFFFFF;
+    opacity: 0.7;
+  }
+`;
+
+const FooterBottom = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-weight: 300;
+  font-size: 16.5px;
+  line-height: 19px;
+`;
+
+const FooterCopyright = styled.div`
+  opacity: 0.67;
+`;
+
+const FooterLogo = styled.img`
+
+`;
+
+const FooterTerms = styled.div`
+  opacity: 0.67;
+  span {
+    margin: 0 20px;
+  }
+  a:hover {
+    cursor: pointer;
+    opacity: 0.9;
+  }
+`;
+
+const FooterSpace = styled.div`
+  height: 26px;
+`;
+
+
+
+const MobileMenu = styled.div<{ openMobileMenu: boolean }>`
+    display: ${(props) => props.openMobileMenu ? "block" : "none"};
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    height: auto;
+    width: 50%;
+    position: absolute;
+    border-radius: 15px;
+    top: 10px;
+    right: 0;
+    background-color: ${(props) => props.theme.colors.primary};
+    z-index: 100;
+    box-shadow: rgba(0, 0, 0.5, 0.5) 0px 10px 50px;
+  }
+
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    width: 100%;
+  }
+
+`;
+
+const MobileMenuHeader = styled.div`
+  display: flex;
+  justify-content: space-between;
+  padding: 10px;
+`;
+
+const CloseIcon = styled.img`
+  width: 50px;
+  height: 50px;
+  &:hover {
+    cursor: pointer;
+  }
+`;
+
+const MobileMenuList = styled.div`
+  display: flex;
+  margin-top: 15px;
+  flex-direction: column;
+  padding: 20px;
+`;
+
+const MobileMenuListItem = styled.div`
+  height: 50px;
+  background-color: #fff;
+  margin-bottom: 10px;
+  border-radius: 10px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  
+`;
+
+const MobileMenuButtons = styled.div`
+  display: flex;
+  justify-content: center;
+  margin-bottom: 20px;
+`;
+
+const MobileButton = styled.div`
+  padding: 9px 17px;;
+  background-color: ${(props) => props.theme.colors.primary};
+  color: #fff;
+  border-radius: 4px;
+  margin-left: 14px;
+  &:hover {
+    opacity: 0.7;
+    cursor: pointer;
+  }
+  border: 3px solid #fff;
+`;
+
