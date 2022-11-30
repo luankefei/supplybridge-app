@@ -24,7 +24,6 @@ const BadgeContainer = styled.div`
   align-items: center;
   padding: 4px 16px;
   gap: 4px;
-  width: 188px;
   height: 32px;
   background-color: ${(props) =>
     props.color ? props.color : props.theme.colors.primary};
@@ -37,4 +36,7 @@ const BadgeSpan = styled.span`
   line-height: 22px;
   font-family: inherit;
   color: ${(props) => props.theme.colors.neutaral};
+  @media (max-width: 1200px) {
+    font-size: 12px;
+  }
 `;
