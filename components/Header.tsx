@@ -33,11 +33,24 @@ export const Header = () => {
     { title: "OTHER", path: "other" },
   ];
 
+  const automotiveHeaderItems = [
+    { title: "SCOUT", path: "scout" },
+    { title: "SOURCE", path: "source" },
+    { title: "EVALUATE", path: "evaluate" },
+    { title: "TRACE", path: "trace" },
+    { title: "FINANCE", path: "finance" },
+    { title: "TRANSPORT", path: "transport" },
+  ];
+
   const chooseMenuItems = () => {
     // STILL WIP
     const splitPathname = pathname.split("/");
-    if (splitPathname.length > 2) {
+    if (splitPathname.length === 3) {
       return mainHeaderItems;
+    } else if (splitPathname.length === 4) {
+      if (splitPathname.includes('automotive')) {
+        return automotiveHeaderItems;
+      }
     } else {
       return [];
     }
@@ -56,7 +69,7 @@ export const Header = () => {
         <Icon src="logo" width={243} height={30} hover />
       </Link>
       <Menus>
-        {chooseMenuItems().map((item, index) => (
+        {chooseMenuItems()?.map((item, index) => (
           <MenuUnit key={index} active={findActiveItem(item.path)}>
             {item.title}
           </MenuUnit>

@@ -40,15 +40,6 @@ const SearchField = styled(TextField)`
     &:hover {
       background-color: white;
     }
-  }
-
-
-  .MuiFilledInput-root{
-    height: 60;
-    border: '1px #56636D solid';
-    overflow: 'hidden';
-    borderRadius: 4;
-    background-color: 'white';
     &:hover: {
       background-color: white;
     }
@@ -58,7 +49,6 @@ const SearchField = styled(TextField)`
       border-color: ${(props) => props.theme.colors.primary};
     },
   }
-
   label {
     margin-left: 32px;
     font-weight: 400;
@@ -71,7 +61,7 @@ const SearchField = styled(TextField)`
     margin-left: 32px;
   }
   @media (max-width: ${(props) => props.theme.size.laptop}) {
-    width: 100%;
+    width: 92%;
     max-width: 100%;
     min-width: 250px;
   }

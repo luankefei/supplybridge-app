@@ -11,8 +11,8 @@ export default function Home() {
   return (
     <Container>
       <Head>
-        <title>Main | Supply Bridge</title>
-        <meta name="description" content="Main page of the Supply Bridge" />
+        <title>Home Page | Supply Bridge</title>
+        <meta name="description" content="Home page of the Supply Bridge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header>
@@ -61,12 +61,15 @@ export default function Home() {
 
       <SupplierContainer>
         <SupplierTextContainer>
-          <SupplierTextTitle>
-            Our Business
-          </SupplierTextTitle>
+          <SupplierTextTitle>Our Business</SupplierTextTitle>
           <SupplierText>
-            With our innovative and insightful technology, we strive to enhance our users’ every day experiences.<br /><br />
-            Founded in 2022, our incredible team of engineers, programmers, designers and Industry experts have worked tirelessly to bring Supply Bridge to the forefront of the industry.
+            With our innovative and insightful technology, we strive to enhance
+            our users’ every day experiences.
+            <br />
+            <br />
+            Founded in 2022, our incredible team of engineers, programmers,
+            designers and Industry experts have worked tirelessly to bring
+            Supply Bridge to the forefront of the industry.
           </SupplierText>
           <SupplierButtonContainer>
             <Button> Become a Supplier</Button>
@@ -86,11 +89,18 @@ export default function Home() {
             ambitions
           </VideoTitle>
           <VideoText>
-            At Supply Bridge, we believe that our solutions will soon become one of the biggest turn-key solution in the industry. We’ve only just started, but we already know that every product we build requires hard-earned skills, dedication and a daring atitude.
+            At Supply Bridge, we believe that our solutions will soon become one
+            of the biggest turn-key solution in the industry. We’ve only just
+            started, but we already know that every product we build requires
+            hard-earned skills, dedication and a daring atitude.
           </VideoText>
         </VideoTextContainer>
-        <VideoPlayIcon src="/icons/play.svg" alt="play" width="100px" height="100px">
-        </VideoPlayIcon>
+        <VideoPlayIcon
+          src="/icons/play.svg"
+          alt="play"
+          width="100px"
+          height="100px"
+        ></VideoPlayIcon>
       </VideoContainer>
 
       <PlatformContainer>
@@ -100,89 +110,114 @@ export default function Home() {
             Platform with AI + Blockchain
           </PlatformHeadTitle>
           <PlatformHeadButton>
-            <Button>
-              Get Started Today
-            </Button>
+            <Button>Get Started Today</Button>
           </PlatformHeadButton>
         </PlatformHead>
         <PlatformContent>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(64, 162, 225, 0.2)">
-              <PlatformCardIcon src="/icons/scout-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/scout-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Scout
-            </PlatformCardTitle>
+            <PlatformCardTitle>Scout</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
 
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(214, 142, 46, 0.2)">
-              <PlatformCardIcon src="/icons/trace-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/trace-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Trace
-            </PlatformCardTitle>
+            <PlatformCardTitle>Trace</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
-
             <PlatformCardIconBox backgroundColor="rgb(106, 218, 194, 0.2)">
-              <PlatformCardIcon src="/icons/finance-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/finance-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Finance
-            </PlatformCardTitle>
+            <PlatformCardTitle>Finance</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(200, 81, 200, 0.25)">
-              <PlatformCardIcon src="/icons/evaluate-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/evaluate-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Evaluate
-            </PlatformCardTitle>
+            <PlatformCardTitle>Evaluate</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(133, 130, 224, 0.2)">
-              <PlatformCardIcon src="/icons/source-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/source-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Source
-            </PlatformCardTitle>
+            <PlatformCardTitle>Source</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(197, 35, 0, 0.2)">
-              <PlatformCardIcon src="/icons/transport-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/transport-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Transport
-            </PlatformCardTitle>
+            <PlatformCardTitle>Transport</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
           <PlatformCard>
             <PlatformCardIconBox backgroundColor="rgb(204, 228, 236, 0.5)">
-              <PlatformCardIcon src="/icons/solution-index.svg" alt="scout" width="35px" height="auto" />
+              <PlatformCardIcon
+                src="/icons/solution-index.svg"
+                alt="scout"
+                width="35px"
+                height="auto"
+              />
             </PlatformCardIconBox>
-            <PlatformCardTitle>
-              Build Total Solution
-            </PlatformCardTitle>
+            <PlatformCardTitle>Build Total Solution</PlatformCardTitle>
             <PlatformCardText>
-              Lorem Ipsum is simply dummy text of the printing and type setting industry. Lorem Ipsum
+              Lorem Ipsum is simply dummy text of the printing and type setting
+              industry. Lorem Ipsum
             </PlatformCardText>
           </PlatformCard>
         </PlatformContent>
@@ -190,11 +225,10 @@ export default function Home() {
 
       <ContactContainer>
         <ContactContainerLeft>
-          <ContactContainerTitle>
-            Want to learn more?
-          </ContactContainerTitle>
+          <ContactContainerTitle>Want to learn more?</ContactContainerTitle>
           <ContactContainerText>
-            If you have questions about how the B2B/SaaS<br />
+            If you have questions about how the B2B/SaaS
+            <br />
             can enhance your business, please reach out.
           </ContactContainerText>
           <ContactContainerForm>
@@ -280,7 +314,7 @@ export default function Home() {
         </MobileMenuButtons>
       </MobileMenu>
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -479,16 +513,16 @@ const SupplierTextTitle = styled.h1`
   font-weight: 500;
   font-size: 43.5px;
   line-height: 50px;
-  color: #1A1A1A;
-`
+  color: #1a1a1a;
+`;
 
 const SupplierText = styled.h4`
   font-style: normal;
   font-weight: 400;
   font-size: 19.5px;
   line-height: 22px;
-  color: #1A1A1A;
-`
+  color: #1a1a1a;
+`;
 
 const SupplierButtonContainer = styled.div`
   width: 189px;
@@ -503,7 +537,6 @@ const SupplierImage = styled.img`
   height: 500px;
   filter: grayscale(100%);
 `;
-
 
 //Video Container
 const VideoContainer = styled.div`
@@ -529,32 +562,30 @@ const VideoTextContainer = styled.div`
 `;
 
 const VideoTitle = styled.h1`
-font-style: normal;
-font-weight: 500;
-font-size: 66px;
-line-height: 76px;
-color: #FFFFFF;
-margin: 0;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 66px;
+  line-height: 76px;
+  color: #ffffff;
+  margin: 0;
 `;
 
 const VideoText = styled.h4`
-font-style: normal;
-font-weight: 300;
-font-size: 19.5px;
-line-height: 22px;
-color: #FFFFFF;
-margin-top: 30px;
-`
+  font-style: normal;
+  font-weight: 300;
+  font-size: 19.5px;
+  line-height: 22px;
+  color: #ffffff;
+  margin-top: 30px;
+`;
 
 const VideoPlayIcon = styled.img`
   position: absolute;
   top: 50%;
   left: 50%;
   &:hover {
-    
   }
 `;
-
 
 // Platform Container
 const PlatformContainer = styled.div`
@@ -569,17 +600,16 @@ const PlatformHead = styled.div`
   justify-content: space-between;
 `;
 const PlatformHeadTitle = styled.div`
-font-style: normal;
-font-weight: 500;
-font-size: 43.5px;
-line-height: 50px;
-color: #000000;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 43.5px;
+  line-height: 50px;
+  color: #000000;
 `;
 
 const PlatformHeadButton = styled.div`
   width: 180px;
 `;
-
 
 const PlatformContent = styled.div`
   margin-top: 50px;
@@ -603,9 +633,7 @@ const PlatformCardIconBox = styled.div<{ backgroundColor?: string }>`
   align-items: center;
 `;
 
-const PlatformCardIcon = styled.img`
- 
-`
+const PlatformCardIcon = styled.img``;
 
 const PlatformCardTitle = styled.h2`
   font-style: normal;
@@ -757,9 +785,7 @@ const ContactContainerFormButton = styled.div`
   }
 `;
 
-const ContactContainerRight = styled.div`
-
-`;
+const ContactContainerRight = styled.div``;
 
 const ContactContainerBackground = styled.img`
   opacity: 0.4;

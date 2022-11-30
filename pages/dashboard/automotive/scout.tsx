@@ -9,10 +9,13 @@ import {
   ScoutFilter,
   GeoCharts,
   Filters,
+  Modal,
 } from "components";
-import { ResultCard } from "components/scout/ResultCard";
+import { ResultCard, Feedback } from "components/scout";
+import { useState } from "react";
 
 export default function Industry() {
+  const [filterModalVisible, setFilterModalVisible] = useState(false);
   return (
     <Layout>
       <>
@@ -22,38 +25,48 @@ export default function Industry() {
           <link rel="icon" href="/favicon.ico" />
         </Head>
 
-        <main>
-          <SearchContainer>
-            <IconContainer>
-              <Icon src="smart-bridge-ai" width={40} height={40} />
-              <IconLabel>
-                <Label>powered by</Label>
-                <Label>SmartBridge Artificial Intelligence</Label>
-              </IconLabel>
-            </IconContainer>
-            <SearchBar />
-          </SearchContainer>
-          <TechnologyHeader>Technology:</TechnologyHeader>
-          <TechnologyContainer>
-            <TechnologyBox
-              icon={"fuel-oil"}
-              label={"Internal Combustion Engine (ICE)"}
-            />
-            <TechnologyBox
-              icon={"electric-vehicle"}
-              label={"Electric Vehicle (EV)"}
-            />
-            <TechnologyBox icon={"fuel-cell"} label={"Fuel Cell"} />
-          </TechnologyContainer>
-          <MainContainer>
-            <ScoutFilter />
-            <ScoutContainer>
-              <GeoCharts />
-              <Filters />
-              <ResultCard />
-            </ScoutContainer>
-          </MainContainer>
-        </main>
+        <SearchContainer>
+          <IconContainer>
+            <Icon src="smart-bridge-ai" width={40} height={40} />
+            <IconLabel>
+              <Label>powered by</Label>
+              <Label>SmartBridge Artificial Intelligence</Label>
+            </IconLabel>
+          </IconContainer>
+          <SearchBar />
+          <CircleButton onClick={() => setFilterModalVisible(true)}>
+            <Icon src="filter" p={"3px"} m={"12px"} hover />
+          </CircleButton>
+        </SearchContainer>
+        <TechnologyHeader>Technology:</TechnologyHeader>
+        <TechnologyContainer>
+          <TechnologyBox
+            icon={"fuel-oil"}
+            label={"Internal Combustion Engine (ICE)"}
+          />
+          <TechnologyBox
+            icon={"electric-vehicle"}
+            label={"Electric Vehicle (EV)"}
+          />
+          <TechnologyBox icon={"fuel-cell"} label={"Fuel Cell"} />
+        </TechnologyContainer>
+        <MainContainer>
+          <ScoutFilter />
+          <ScoutContainer>
+            <GeoCharts />
+            <Filters />
+            <ResultCard />
+            <ResultCard />
+          </ScoutContainer>
+        </MainContainer>
+        <Feedback />
+        <Modal
+          open={filterModalVisible}
+          title={"Filter"}
+          onClose={() => setFilterModalVisible(false)}
+        >
+          <ScoutFilter />
+        </Modal>
       </>
     </Layout>
   );
@@ -62,6 +75,9 @@ export default function Industry() {
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    justify-content: space-between;
+  }
 `;
 
 const IconContainer = styled.div`
@@ -113,4 +129,17 @@ const MainContainer = styled.div`
 
 const ScoutContainer = styled.div`
   width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
+
+const CircleButton = styled.div`
+  background-color: ${(props) => `${props.theme.colors.primary}`};
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  cursor: pointer;
+  user-select: none;
+  margin-left: 15px;
 `;

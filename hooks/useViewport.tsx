@@ -12,8 +12,8 @@ export const useViewport = () => {
     setScrollOffset(window.pageYOffset)
   };
 
-  const handleWindowSizeChangeCallback = useCallback((e) => handleWindowSizeChange(), []);
-  const handleScrollChangeCallback = useCallback((e) => handleScrollChange(), []);
+  const handleWindowSizeChangeCallback = useCallback(() => handleWindowSizeChange(), []);
+  const handleScrollChangeCallback = useCallback(() => handleScrollChange(), []);
 
   useEffect(() => {
     window.addEventListener('resize', handleWindowSizeChangeCallback);

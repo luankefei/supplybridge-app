@@ -10,7 +10,7 @@ export const Filters = () => {
         </ListingCount>
         <SubText>Use Filters to Narrow Down Results</SubText>
       </StaticInformation>
-      <div>Filter Gelecek</div>
+      <div>Filter will coming soon</div>
     </FilterContainer>
   );
 };
@@ -23,6 +23,9 @@ const FilterContainer = styled.div`
   padding: 8px 24px;
   margin-top: 24px;
   background-color: ${(props) => props.theme.colors.white};
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin-top: 0px;
+  }
 `;
 
 const StaticInformation = styled.div`
