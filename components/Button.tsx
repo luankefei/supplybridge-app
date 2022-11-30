@@ -39,6 +39,7 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
 
   &:hover {
     // background-color: #0059b2;
+    opacity: 0.8;
   }
 
   &.active {
