@@ -1,15 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Script from "next/script";
 
 export const Feedback = () => {
   const [loadSurvey, setLoadSurvey] = useState(false);
-
-  useEffect(() => {
-    setTimeout(() => {
-      setLoadSurvey(true);
-    }, 300)
-  }, [])
 
   const openSurvey = () => {
     if (loadSurvey) {
