@@ -36,7 +36,9 @@ export default function Home() {
         </NavContainer>
         <Buttons>
           <HeaderLoginButton>
-            Login
+            <Link href="/login">
+              Login
+            </Link>
           </HeaderLoginButton>
           <HeaderRegisterButton
           >

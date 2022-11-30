@@ -7,6 +7,7 @@ import InputAdornment from "@mui/material/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 import { toast } from "react-toastify";
+import Link from 'next/link';
 
 import { request } from "utils/request";
 import { Icon, Box, TextField, Button } from "components";
@@ -68,7 +69,9 @@ export default function Login() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      <Icon src="logo" width={350} height={40} m={'0px 0px 24px'} />
+      <Link href="/">
+        <Icon src="logo" width={350} height={40} m={'0px 0px 24px'} hover />
+      </Link>
       <Box>
         <Controller
           name="email"

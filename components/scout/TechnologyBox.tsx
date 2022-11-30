@@ -17,11 +17,12 @@ export const TechnologyBox = ({
   onClick,
 }: Props) => {
   const [selected, setSelected] = useState<boolean>(false);
+
   useEffect(() => {
     if (isSelected) {
       setSelected(true);
     }
-  }, []);
+  }, [isSelected]);
 
   const onSelect = () => {
     setSelected(!selected);
