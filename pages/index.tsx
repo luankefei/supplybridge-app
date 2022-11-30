@@ -345,6 +345,10 @@ const Header = styled.div`
   @media (max-width: ${(props) => props.theme.size.laptopL}) {
     padding: 0 10px 0 10px;
   }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    border-bottom: 1px solid rgb(0, 0, 0, 0.2);
+    margin-bottom: 20px;
+  }
 `;
 
 const HeaderLogo = styled.img`
@@ -629,7 +633,7 @@ const VideoTitle = styled.h1`
     line-height: 48px;
   }
   @media (max-width: ${(props) => props.theme.size.tablet}) {
-    margin-top: 30px;
+    margin-top: 100px;
     opacity: 0.8;
   }
 `;
@@ -641,6 +645,9 @@ const VideoText = styled.h4`
   line-height: 22px;
   color: #ffffff;
   margin-top: 30px;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    text-align: center;
+  }
 `;
 
 const VideoPlayIcon = styled.img`
@@ -648,6 +655,9 @@ const VideoPlayIcon = styled.img`
   top: 50%;
   left: 50%;
   &:hover {
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    left: 35%;
   }
 `;
 
@@ -706,7 +716,7 @@ const PlatformContent = styled.div`
 const PlatformCard = styled.div`
   width: 280px;
   @media (max-width: ${(props) => props.theme.size.tablet}) {
-    box-shadow: rgba(0, 0, 0, 0.15) 2.4px 2.4px 3.2px;
+    box-shadow: rgba(17, 17, 26, 0.1) 0px 0px 16px;
     width: 100%;
     border-radius: 20px;
     padding: 20px;
@@ -766,6 +776,7 @@ const ContactContainer = styled.div`
 
 const ContactContainerLeft = styled.div`
   width: 532px;
+  z-index: 1;
   margin-left: 84px;
   margin-bottom: 63px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
@@ -782,6 +793,14 @@ const ContactContainerTitle = styled.h1`
   font-size: 43.5px;
   line-height: 50px;
   color: #000000;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: flex;
+    justify-content: center;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    text-align: center;
+  }
+  
 `;
 
 const ContactContainerText = styled.h4`
@@ -789,6 +808,13 @@ const ContactContainerText = styled.h4`
   font-size: 19.5px;
   line-height: 22px;
   color: #000000;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: flex;
+    justify-content: center;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    text-align: center;
+  }
 `;
 
 const ContactContainerForm = styled.div`
@@ -940,7 +966,6 @@ const Footer = styled.div`
   width: 100%;
   background-color: #000000;  
   border-radius: 20px;
-  /* box-shadow: inset 0 0 0 2000px rgba(0, 0, 0, 0.4); */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -948,16 +973,35 @@ const Footer = styled.div`
   margin-top: 160px;
   color: #fff;
   padding: 118px 110px 35px 110px;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    padding: 118px 60px 35px 60px;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    height: 100%;
+    padding: 60px 60px 35px 60px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    height: 100%;
+    padding: 60px 30px 35px 30px;
+  }
 `;
 
 const FooterTop = styled.div`
   display: flex;
   justify-content: space-between;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: grid;
+    grid-template-columns: auto auto;
+    justify-content: space-between;
+    margin-bottom: 50px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    display: flex;
+    flex-direction: column;
+  }
 `;
 
 const FooterIcon = styled.img`
-  /* width: 32px;
-  height: 32px; */
   margin-right: 9px;
 `;
 
@@ -965,12 +1009,23 @@ const FooterContactContainer = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    gap: 15px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    display: flex;
+    flex-direction: column;
+    /* align-items: center; */
+  }
 `;
 
 const FooterTitle = styled.div`
   font-weight: 500;
   font-size: 24px;
   line-height: 28px;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    text-align: center;
+  }
 `;
 
 const FooterLink = styled.span`
@@ -993,12 +1048,29 @@ const FooterLinks = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    gap: 15px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    text-align: center;
+    margin-top: 45px;
+  }
 `;
 
 const FooterSocialMedia = styled.div`
   display: flex;
   flex-direction: column;
   gap: 40px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    gap: 15px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    /* display: flex;
+    flex-direction: column;
+    align-items: center; */
+    text-align: center;
+    margin-top: 45px;
+  }
 `;
 
 const FooterNewsletter = styled.div`
@@ -1007,6 +1079,15 @@ const FooterNewsletter = styled.div`
   gap: 40px;
   span {
     display: flex;
+    align-items: center;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    gap: 15px;
+    margin-top: 45px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    display: flex;
+    flex-direction: column;
     align-items: center;
   }
 `;
@@ -1055,6 +1136,12 @@ const FooterBottom = styled.div`
   font-weight: 300;
   font-size: 16.5px;
   line-height: 19px;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    display: flex;
+    flex-direction: column;
+    /* align-items: flex-start; */
+    margin-top: 35px;
+  }
 `;
 
 const FooterCopyright = styled.div`
@@ -1062,7 +1149,9 @@ const FooterCopyright = styled.div`
 `;
 
 const FooterLogo = styled.img`
-
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    margin-top: 20px;
+  }
 `;
 
 const FooterTerms = styled.div`
@@ -1073,6 +1162,14 @@ const FooterTerms = styled.div`
   a:hover {
     cursor: pointer;
     opacity: 0.9;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    span {
+      margin: 0 5px;
+    }
+    @media (max-width: ${(props) => props.theme.size.tablet}) {
+    margin-top: 20px;
+  }
   }
 `;
 
