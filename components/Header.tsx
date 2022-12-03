@@ -70,8 +70,9 @@ export const Header = () => {
       </Link>
       <Menus>
         {chooseMenuItems()?.map((item, index) => (
-          <MenuUnit key={index} active={findActiveItem(item.path)}>
+          <MenuUnit key={index} active={findActiveItem(item.path)} order={index}>
             {item.title}
+            {index > 1 && <LockIcon src="/icons/lock.svg" />}
           </MenuUnit>
         ))}
       </Menus>
@@ -118,7 +119,7 @@ const Menus = styled.div`
   align-items: center;
 `;
 
-const MenuUnit = styled.span<{ active?: boolean }>`
+const MenuUnit = styled.span<{ active?: boolean, order: any }>`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -129,10 +130,19 @@ const MenuUnit = styled.span<{ active?: boolean }>`
   align-items: center;
   justify-content: center;
   display: flex;
+  position: relative;
   border-bottom: ${(props) =>
     props.active ? `2px solid ${props.theme.colors.primary}` : 0};
   color: ${(props) =>
     props.active ? props.theme.colors.primary : props.theme.colors.text};
+`;
+
+const LockIcon = styled.img`
+width: 25px;
+height: 25px;
+position: absolute;
+bottom: 10px;
+filter: opacity(0.5) drop-shadow(0 0 0 blue);
 `;
 
 const ProfileContainer = styled.div`
