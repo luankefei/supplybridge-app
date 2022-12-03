@@ -16,7 +16,7 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header>
-        <HeaderLogo src="/icons/logo.svg" />
+        <HeaderLogo src="/icons/main-logo.svg" />
         <NavContainer>
           <Link href="/">
             <NavTitle>Home</NavTitle>
