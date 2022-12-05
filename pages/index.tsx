@@ -336,6 +336,7 @@ const Container = styled.div`
 // HEADER
 const Header = styled.div`
   width: 100%;
+  max-width: ${(props) => props.theme.size.laptopXl};
   height: 93px;
   padding: 0 60px 0 60px;
   display: flex;
@@ -426,6 +427,7 @@ const HeaderRegisterButton = styled.div`
 
 const SlideContainer = styled.div`
   width: 100%;
+  max-width: ${(props) => props.theme.size.laptopXl};
   background-image: url(/images/slide.jpg);
   background-position: center;
   background-repeat: no-repeat;

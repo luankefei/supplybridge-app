@@ -9,7 +9,7 @@ const Menus = [
     title: "RAW MATERIAL",
     icon: "raw-material",
     subtitle: "",
-    path: "/dashboard/automotive/source/raw-material",
+    path: "/dashboard/automotive/source/rawMaterial",
     active: true,
   },
   {
@@ -49,7 +49,7 @@ const Menus = [
   },
 ];
 
-export default function Scouting() {
+export default function Sourcing() {
   return (
     <>
       <Head>
