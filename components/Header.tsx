@@ -27,19 +27,19 @@ export const Header = () => {
   };
 
   const mainHeaderItems = [
-    { title: "AUTOMOTIVE", path: "automotive" },
-    { title: "AEROSPACE", path: "aerospace" },
-    { title: "RAILWAY", path: "railway" },
-    { title: "OTHER", path: "other" },
+    { title: "AUTOMOTIVE", path: "automotive", lock: false },
+    { title: "AEROSPACE", path: "aerospace", lock: false },
+    { title: "RAILWAY", path: "railway", lock: false },
+    { title: "OTHER", path: "other", lock: false },
   ];
 
   const automotiveHeaderItems = [
-    { title: "SCOUT", path: "scout" },
-    { title: "SOURCE", path: "source" },
-    { title: "EVALUATE", path: "evaluate" },
-    { title: "TRACE", path: "trace" },
-    { title: "FINANCE", path: "finance" },
-    { title: "TRANSPORT", path: "transport" },
+    { title: "SCOUT", path: "scout", lock: false },
+    { title: "SOURCE", path: "source", lock: false },
+    { title: "EVALUATE", path: "evaluate", lock: true },
+    { title: "TRACE", path: "trace", lock: true },
+    { title: "FINANCE", path: "finance", lock: true },
+    { title: "TRANSPORT", path: "transport", lock: true },
   ];
 
   const chooseMenuItems = () => {
@@ -72,7 +72,7 @@ export const Header = () => {
         {chooseMenuItems()?.map((item, index) => (
           <MenuUnit key={index} active={findActiveItem(item.path)} order={index}>
             {item.title}
-            {index > 1 && <LockIcon src="/icons/lock.svg" />}
+            {item.lock && <LockIcon src="/icons/lock.svg" />}
           </MenuUnit>
         ))}
       </Menus>
