@@ -9,7 +9,8 @@ import { useRouter } from "next/router";
 import { toast } from "react-toastify";
 import Link from 'next/link';
 
-import { request } from "utils/request";
+import { request } from 'config/axios';
+import StorageService from 'services/storage';
 import { Icon, Box, TextField, Button } from "components";
 import { emailPattern } from "utils/validator";
 
@@ -35,9 +36,10 @@ export default function Login() {
   const onSubmit = async (postData: State | any) => {
     try {
       setLoading(true);
-      const { data } = await request("login", "POST", postData);
+      const { data } = await request.post("login", postData);
       setLoading(false);
       if (data.id) {
+        StorageService.setAuthData(data.token, data.refreshToken);
         cookie.set("token", data.token, { expires: 1 / 24})
         toast.success('Success', {
           position: toast.POSITION.TOP_RIGHT,

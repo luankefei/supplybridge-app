@@ -1,7 +1,7 @@
 import create from "zustand";
 import { persist } from "zustand/middleware";
 
-import StorageService from "utils/storage";
+import StorageService from "services/storage";
 
 interface Store {
   user: any;

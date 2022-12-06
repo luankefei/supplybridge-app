@@ -1,16 +1,19 @@
 const clearUserData = () => {
   localStorage.removeItem('@authToken');
+  localStorage.removeItem('@refreshToken');
   localStorage.removeItem('@userData');
 };
 
-const setAuthData = (token: string) => {
+const setAuthData = (token: string, refreshToken: string) => {
   localStorage.setItem('@authToken', token);
+  localStorage.setItem('@refreshToken', refreshToken);
 };
 
 const getAuthData = () => {
   const token = localStorage.getItem('@authToken');
+  const refreshToken = localStorage.getItem('@refreshToken');
 
-  return { token };
+  return { token, refreshToken };
 };
 
 const setUserData = (data: any) => {

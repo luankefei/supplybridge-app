@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 
-import StorageService from "utils/storage";
+import StorageService from "services/storage";
 
 const withAuth = (WrappedComponent: any) => {
   return (props: any) => {
