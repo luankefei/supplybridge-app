@@ -1,125 +1,100 @@
+import React from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import { Icon } from "components";
-import React, { useState } from "react";
+import useStore from "hooks/useStore";
 import styled from "styled-components";
+import { useFilter } from "requests/useFilter";
 
 export const ScoutFilter = () => {
-  let dummyData = [
+  const { commodities, parts, regions, subRegions, setFilterData, filterData } = useStore();
+  const { getParts, getSubRegions } = useFilter();
+
+  const data = [
     {
-      category: "Commodity",
-      items: [
-        {
-          label: "Powertrain",
-          number: "29,999",
-        },
-        {
-          label: "Chassis",
-          number: "49,999",
-        },
-        {
-          label: "Interior",
-          number: "9,999",
-        },
-        {
-          label: "Exterior",
-          number: "9,999",
-        },
-        {
-          label: "Electronics",
-          number: "29,999",
-        },
-        {
-          label: "Digital",
-          number: "9,999",
-        },
-        {
-          label: "General Parts",
-          number: "29,999",
-        },
-      ],
+      label: "Commodities",
+      key: "commodities",
+      items: commodities,
     },
     {
-      category: "Parts",
-      items: [
-        {
-          label: "Powertrain",
-          number: "29,999",
-        },
-        {
-          label: "Chassis",
-          number: "49,999",
-        },
-        {
-          label: "Interior",
-          number: "9,999",
-        },
-        {
-          label: "Exterior",
-          number: "9,999",
-        },
-        {
-          label: "Electronics",
-          number: "29,999",
-        },
-        {
-          label: "Digital",
-          number: "9,999",
-        },
-        {
-          label: "General Parts",
-          number: "29,999",
-        },
-      ],
+      label: "Parts",
+      key: "parts",
+      items: parts,
     },
     {
-      category: "Region",
-      items: [
-        {
-          label: "Americas",
-          number: "29,999",
-        },
-        {
-          label: "APAC",
-          number: "49,999",
-        },
-        {
-          label: "EMEA",
-          number: "9,999",
-        },
-      ],
+      label: "Core Technologies",
+      key: "coreTechnologies",
+      items: [],
+    },
+    {
+      label: "Regions",
+      key: "regions",
+      items: regions,
+    },
+
+    {
+      label: "Sub Regions",
+      key: "subRegions",
+      items: subRegions,
     },
   ];
+
+  const getFilterListById = (data: any, type: string) => {
+    if (type === 'commodities') {
+      getParts(data.commodities)
+    } else if (type === 'regions') {
+      getSubRegions(data.regions)
+    }
+  }
+
+  const onChangeHandler = (event: any, type: string, id: any) => {
+    const rawFilterData = filterData;
+    const value = event.target.checked;
+    if (!rawFilterData[type].includes(id) && value) {
+      rawFilterData[type].push(id);
+    } else {
+      const index = rawFilterData[type].indexOf(id);
+      if (index > -1) {
+        rawFilterData[type].splice(index, 1);
+      }
+    }
+    setFilterData(rawFilterData);
+    getFilterListById(rawFilterData, type)
+  }
+
   return (
     <FilterContainer>
-      {dummyData.map((item, index) => (
-        <CustomizeAccordion key={index}>
-          <CustomizeAccordionSummary
-            expandIcon={<Icon src="chevron-down" width={40} height={40} />}
-            aria-controls={item.category}
-            id={item.category}
-          >
-            {item.category}
-          </CustomizeAccordionSummary>
-          <CustomizeAccordionDetails>
-            {item.items.map((checkbox, index) => (
-              <FormControlLabel
-                key={index}
-                control={<Checkbox />}
-                label={
-                  <CheckboxLabel>
-                    <p>{checkbox.label}</p>
-                    <span> ({checkbox.number})</span>
-                  </CheckboxLabel>
-                }
-              />
-            ))}
-          </CustomizeAccordionDetails>
-        </CustomizeAccordion>
-      ))}
+      {data.map((item, index) => {
+        if (item.items.length) {
+          return (
+            <CustomizeAccordion key={index}>
+              <CustomizeAccordionSummary
+                expandIcon={<Icon src="chevron-down" width={40} height={40} />}
+                aria-controls={item.key}
+                id={item.key}
+              >
+                {item.label}
+              </CustomizeAccordionSummary>
+              <CustomizeAccordionDetails>
+                {item.items?.map((checkbox: any, index: number) => (
+                  <FormControlLabel
+                    key={index}
+                    control={<Checkbox onChange={(event) => onChangeHandler(event, item.key, checkbox.id)} />}
+                    label={
+                      <CheckboxLabel>
+                        <p>{checkbox.description}</p>
+                      </CheckboxLabel>
+                    }
+                  />
+                ))}
+              </CustomizeAccordionDetails>
+            </CustomizeAccordion>
+          );
+        }
+      })}
     </FilterContainer>
   );
 };
