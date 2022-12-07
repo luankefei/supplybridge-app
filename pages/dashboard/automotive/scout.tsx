@@ -12,10 +12,18 @@ import {
   Modal,
 } from "components";
 import { ResultCard, Feedback } from "components/scout";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFilter } from "requests/useFilter";
 
 export default function Industry() {
   const [filterModalVisible, setFilterModalVisible] = useState(false);
+  const { getCommodities, getRegions } = useFilter();
+
+  useEffect(() => {
+    getCommodities()
+    getRegions()
+  }, [])
+
   return (
     <Layout>
       <>
@@ -34,9 +42,9 @@ export default function Industry() {
             </IconLabel>
           </IconContainer>
           <SearchBar />
-          <CircleButton onClick={() => setFilterModalVisible(true)}>
+          {/* <CircleButton onClick={() => setFilterModalVisible(true)}>
             <Icon src="filter" p={"3px"} m={"12px"} hover />
-          </CircleButton>
+          </CircleButton> */}
         </SearchContainer>
         <TechnologyHeader>Technology:</TechnologyHeader>
         <TechnologyContainer>
