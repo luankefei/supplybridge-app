@@ -1,18 +1,14 @@
 import { useState } from "react";
 import styled from "styled-components";
 import Head from "next/head";
-import cookie from "js-cookie";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
-import { useRouter } from "next/router";
-import { toast } from "react-toastify";
 import Link from 'next/link';
 
-import { request } from 'config/axios';
-import StorageService from 'services/storage';
 import { Icon, Box, TextField, Button } from "components";
 import { emailPattern } from "utils/validator";
+import { useAuth } from "requests/useAuth";
 
 interface State {
   email: string;
@@ -20,38 +16,20 @@ interface State {
 }
 
 export default function Login() {
-  const { push } = useRouter();
+  const { login, loading } = useAuth();
   const { handleSubmit, control, formState } = useForm({
     mode: "onChange",
   });
   const { isValid } = formState;
 
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading] = useState(false);
 
   const showPasswordHandler = () => {
     setShowPassword(!showPassword);
   };
 
   const onSubmit = async (postData: State | any) => {
-    try {
-      setLoading(true);
-      const { data } = await request.post("login", postData);
-      setLoading(false);
-      if (data.id) {
-        StorageService.setAuthData(data.token, data.refreshToken);
-        cookie.set("token", data.token, { expires: 1 / 24})
-        toast.success('Success', {
-          position: toast.POSITION.TOP_RIGHT,
-        });
-        push('/dashboard')
-      }
-    } catch (err: any) {
-      setLoading(false);
-      toast.error(err.response.data.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
+    await login(postData);
   };
 
   const onKeyDown = (event: React.KeyboardEvent<HTMLDivElement>): void => {
