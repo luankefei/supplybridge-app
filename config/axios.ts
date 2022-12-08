@@ -10,6 +10,10 @@ const request = axios.create({
   timeout: 60000,
 });
 
+const refreshRequest = axios.create({
+  baseURL: API_URL,
+});
+
 request.interceptors.request.use(
   (requestConfig: any) => {
     const { token } = StorageService.getAuthData();
@@ -51,7 +55,6 @@ const resetTokenAndReattemptRequest = async (
 ): Promise<AxiosRequestConfig> => {
   console.log('--- WARNING: JWT Timeout - Refreshing! ---');
   const { refreshToken: resetToken = '' } = StorageService.getAuthData();
-  console.log('resetToken', resetToken)
   try {
     if (!resetToken) {
       const reason = `Couldn't find refresh token!`;
@@ -65,7 +68,7 @@ const resetTokenAndReattemptRequest = async (
       make the request. Update the value to the check so that no
       other call can be made concurrently.*/
       isAlreadyFetchingAccessToken = true;
-      const response = await request.post(`/refreshToken`, {
+      const response = await refreshRequest.post(`/refreshToken`, {
         token: resetToken,
       });
 
