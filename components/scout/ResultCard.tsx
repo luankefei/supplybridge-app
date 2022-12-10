@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Badge } from "components";
 
-export const ResultCard = () => {
+export const ResultCard = ({ data }: { data: any }) => {
   return (
     <ResultCardContainer>
       <BrandContainer>

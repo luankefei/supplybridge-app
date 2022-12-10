@@ -10,6 +10,14 @@ interface Store {
   setCommodities: (value: any) => void;
   regions: any;
   setRegions: (value: any) => void;
+  page: number;
+  setPage: (value: number) => void;
+  pageSize: number;
+  setPageSize: (value: number) => void;
+  count: number;
+  setCount: (value: number) => void;
+  suppliers: any;
+  setSuppliers: (value: any) => void;
 }
 
 const useStore = create<Store | any>(
@@ -33,6 +41,15 @@ const useStore = create<Store | any>(
       subRegions: [],
       setSubRegions: (subRegions: any) => set(() => ({ subRegions })),
 
+      page: 1,
+      setPage: (page: any) => set(() => ({ page })),
+
+      pageSize: 10,
+      setPageSize: (pageSize: any) => set(() => ({ pageSize })),
+
+      count: 0,
+      setCount: (count: number) => set(() => ({ count })),
+
       filterData: {
         commodities: [],
         parts: [],
@@ -40,13 +57,34 @@ const useStore = create<Store | any>(
         regions: [],
         subRegions: [],
         vehicleFuelType: null,
-        searchTerm: ""
+        searchTerm: "",
       },
-      setFilterData: (data: any) => set(() => ({ filterData: {...get().filterData, ...data} })),
-      
+      setFilterData: (data: any) =>
+        set(() => ({ filterData: { ...get().filterData, ...data } })),
+
+      suppliers: [],
+      setSuppliers: (suppliers: any) =>
+        set(() => ({ suppliers: [...get().suppliers, ...suppliers] })),
+
       signOut: () => {
         StorageService.clearUserData();
-        return set(() => ({ user: {}, token: "" }));
+        return set(() => ({
+          user: {},
+          token: "",
+          page: 1,
+          pageSize: 10,
+          count: 0,
+          filterData: {
+            commodities: [],
+            parts: [],
+            coreTechnologies: [],
+            regions: [],
+            subRegions: [],
+            vehicleFuelType: null,
+            searchTerm: "",
+          },
+          suppliers: [],
+        }));
       },
     }),
     {
