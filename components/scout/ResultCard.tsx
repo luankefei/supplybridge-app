@@ -1,75 +1,81 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 
 import { Badge } from "components";
+import { SupplierModal } from "./supplierModal";
 
 export const ResultCard = ({ data }: { data: any }) => {
+  const [supplierModalVisible, setSupplierModalVisible] = useState(false);
+
   return (
-    <ResultCardContainer>
-      <BrandContainer>
-        <BrandImage
-          src="/images/bosch.png"
-          alt="become_a_supplier"
-          width="25%"
-        />
-        <Description>
-          <TitleBadge>
-            <Title>Robert Bosch GmbH</Title>
-            <Badge label={"VERIFIED SUPPLIER"} icon={"verified"} />
-            <Badge label={"INNOVATION"} color={"#EB2F96"} icon={"innovation"} />
-          </TitleBadge>
-          <Subtext>
-            Aliquam a proin mauris, commodo. Vel gravida ac dictum dapibus
-            praesent iaculis posuere. Elementum vulputate amet, scelerisque dis.
-            Elementum in vitae, ornare arcu quis. Ultricies enim quam nisl et
-            neque cursus sit. Adipiscing consectetur curabitur urna etiam
-            tincidunt hac vel. Lacus urna adipiscing potenti urna sit elit.
-          </Subtext>
-        </Description>
-      </BrandContainer>
-      <PropertyContainer>
-        <PropertySide>
-          <Property>
-            <PropertyTitle>Commodity</PropertyTitle>
-            <PropertyDescription>Battery, LiDar</PropertyDescription>
-          </Property>
-          <Property>
-            <PropertyTitle>Core Competence</PropertyTitle>
-            <PropertyDescription>
-              NMC Battery, Solid Sate LiDar
-            </PropertyDescription>
-          </Property>
-          <Property>
-            <PropertyTitle>Customers Served</PropertyTitle>
-            <PropertyDescription>
-              Nissan, BMW, Volvo and more
-            </PropertyDescription>
-          </Property>
-          <Property>
-            <PropertyTitle>Supplier Type</PropertyTitle>
-            <PropertyDescription>Tier 1</PropertyDescription>
-          </Property>
-        </PropertySide>
-        <PropertySide>
-          <Property>
-            <PropertyTitle>Founded</PropertyTitle>
-            <PropertyDescription>2020</PropertyDescription>
-          </Property>
-          <Property>
-            <PropertyTitle>Revenue</PropertyTitle>
-            <PropertyDescription>$12,000,000</PropertyDescription>
-          </Property>
-          <Property>
-            <PropertyTitle>Capacity Availability</PropertyTitle>
-            <PropertyDescription>High Open / Med Open</PropertyDescription>
-          </Property>
-          <Property>
-            <PropertyTitle>Financial Rating</PropertyTitle>
-            <PropertyDescription>A</PropertyDescription>
-          </Property>
-        </PropertySide>
-      </PropertyContainer>
-    </ResultCardContainer>
+    <>
+      <ResultCardContainer onClick={() => setSupplierModalVisible(true)}>
+        <BrandContainer>
+          <BrandImage
+            src="/images/bosch.png"
+            alt="become_a_supplier"
+            width="25%"
+          />
+          <Description>
+            <TitleBadge>
+              <Title>{data.firmName}</Title>
+              <Badge label={"VERIFIED SUPPLIER"} icon={"verified"} />
+              <Badge label={"INNOVATION"} color={"#EB2F96"} icon={"innovation"} />
+            </TitleBadge>
+            <Subtext>
+              Aliquam a proin mauris, commodo. Vel gravida ac dictum dapibus
+              praesent iaculis posuere. Elementum vulputate amet, scelerisque dis.
+              Elementum in vitae, ornare arcu quis. Ultricies enim quam nisl et
+              neque cursus sit. Adipiscing consectetur curabitur urna etiam
+              tincidunt hac vel. Lacus urna adipiscing potenti urna sit elit.
+            </Subtext>
+          </Description>
+        </BrandContainer>
+        <PropertyContainer>
+          <PropertySide>
+            <Property>
+              <PropertyTitle>Commodity</PropertyTitle>
+              <PropertyDescription>Battery, LiDar</PropertyDescription>
+            </Property>
+            <Property>
+              <PropertyTitle>Core Competence</PropertyTitle>
+              <PropertyDescription>
+                NMC Battery, Solid Sate LiDar
+              </PropertyDescription>
+            </Property>
+            <Property>
+              <PropertyTitle>Customers Served</PropertyTitle>
+              <PropertyDescription>
+                Nissan, BMW, Volvo and more
+              </PropertyDescription>
+            </Property>
+            <Property>
+              <PropertyTitle>Supplier Type</PropertyTitle>
+              <PropertyDescription>Tier 1</PropertyDescription>
+            </Property>
+          </PropertySide>
+          <PropertySide>
+            <Property>
+              <PropertyTitle>Founded</PropertyTitle>
+              <PropertyDescription>2020</PropertyDescription>
+            </Property>
+            <Property>
+              <PropertyTitle>Revenue</PropertyTitle>
+              <PropertyDescription>$12,000,000</PropertyDescription>
+            </Property>
+            <Property>
+              <PropertyTitle>Capacity Availability</PropertyTitle>
+              <PropertyDescription>High Open / Med Open</PropertyDescription>
+            </Property>
+            <Property>
+              <PropertyTitle>Financial Rating</PropertyTitle>
+              <PropertyDescription>A</PropertyDescription>
+            </Property>
+          </PropertySide>
+        </PropertyContainer>
+      </ResultCardContainer>
+      <SupplierModal open={supplierModalVisible} onClose={() => setSupplierModalVisible(false)} data={data} />
+    </>
   );
 };
 
@@ -81,6 +87,7 @@ const ResultCardContainer = styled.div`
   padding: 32px 32px;
   margin-top: 16px;
   background-color: ${(props) => props.theme.colors.white};
+  cursor: pointer;
 `;
 
 const BrandImage = styled.img`
