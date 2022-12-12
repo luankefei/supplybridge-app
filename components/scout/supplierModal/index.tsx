@@ -55,6 +55,7 @@ const style = {
 
 export const SupplierModal = ({ ...props }: any) => {
   const { data } = props;
+  console.log(data, "data");
 
 
   const [value, setValue] = useState(0);
@@ -69,7 +70,7 @@ export const SupplierModal = ({ ...props }: any) => {
       <Modal {...props}>
         <Box sx={style}>
           <Head>
-            <Icon src="/images/bosch.png" />
+            <Icon src={data?.picture} />
             <HeadInfo>
               <Title>{data?.firmName}</Title>
               <HeadInfoBottom>
@@ -90,6 +91,11 @@ export const SupplierModal = ({ ...props }: any) => {
                   onChange={handleChange}
                   aria-label="basic tabs example"
                   variant="fullWidth"
+                  TabIndicatorProps={{ sx: { backgroundColor: "#08979c" } }}
+                  sx={{
+                    "& button": { color: "#08979c" },
+                    "& button.Mui-selected": { color: "#08979c" }
+                  }}
                 >
                   <Tab
                     style={{ textTransform: "none" }}
@@ -113,7 +119,7 @@ export const SupplierModal = ({ ...props }: any) => {
                   />
                 </Tabs>
               </Box>
-              <Box sx={{ height: "450px", overflowY: "overlay" }}>
+              <TabPanelContainer>
                 <TabPanel value={value} index={0}>
                   <GeneralTabPanel />
                 </TabPanel>
@@ -126,7 +132,7 @@ export const SupplierModal = ({ ...props }: any) => {
                 <TabPanel value={value} index={3}>
                   <Ratings />
                 </TabPanel>
-              </Box>
+              </TabPanelContainer>
             </Box>
           </TabContainer>
           <Bottom isMemberUnlock={isMemberUnlock}>
@@ -146,12 +152,14 @@ const Head = styled.div`
   display: flex;
   /* width: 70%; */
   margin-bottom: 25px;
+  height: 80px;
 `;
 
 const Icon = styled.img`
   height: 64px;
   width: auto;
   border-radius: 8px;
+  padding: 5px;
 `;
 
 const HeadInfo = styled.div`
@@ -194,6 +202,17 @@ const Flag = styled.img`
 
 const TabContainer = styled.div`
   height: 600px;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    height: 500px;
+  }
+`;
+
+const TabPanelContainer = styled.div`
+  height: 450px;
+  overflow-y: overlay;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    height: 350px;
+  }
 `;
 
 const Bottom = styled.div<any>`
