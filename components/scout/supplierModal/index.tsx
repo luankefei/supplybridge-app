@@ -55,8 +55,6 @@ const style = {
 
 export const SupplierModal = ({ ...props }: any) => {
   const { data } = props;
-  console.log(data, "data");
-
 
   const [value, setValue] = useState(0);
   const [isMemberUnlock, setIsMemberUnlock] = useState(false);
