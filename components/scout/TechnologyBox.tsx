@@ -19,9 +19,7 @@ export const TechnologyBox = ({
   const [selected, setSelected] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isSelected) {
-      setSelected(true);
-    }
+    setSelected(isSelected);
   }, [isSelected]);
 
   const onSelect = () => {

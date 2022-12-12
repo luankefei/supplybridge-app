@@ -1,14 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { Icon, TextField } from "components";
+import useStore from "hooks/useStore";
 
 export const SearchBar = () => {
   const [searchItem, setSearchItem] = useState("");
+  const { setFilterData } = useStore();
+  const onSearch = () => {};
 
-  const onSearch = () => {
-    console.log("searchItem", searchItem);
-  };
+  useEffect(() => {
+    setFilterData({ searchTerm: searchItem });
+  }, [searchItem]);
 
   return (
     <SearchField

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Chart from "react-google-charts";
 import { allCountry } from "utils/countries";
+import useStore from "hooks/useStore";
 
 const initialOptions: any = {
   resolution: "countries",
@@ -13,11 +14,15 @@ const initialOptions: any = {
 const dataHeader = ["Country", "Selection"];
 export const GeoCharts = () => {
   const [options, setOptions] = useState<any>(initialOptions);
-  const [selectedCountries, setSelectedCountries] =
-    useState<any>(initialOptions);
-  const [selectedRegions, setSelectedRegions] = useState<any>(initialOptions);
-  const [data, setData] = useState<any>([dataHeader]);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
+  const {
+    allCountries,
+    setAllCountries,
+    setSelectedRegions,
+    setSelectedCountries,
+    selectedCountries,
+    setFilterData,
+  } = useStore();
 
   const firstData = () => {
     let initialData: any = [];
@@ -26,21 +31,24 @@ export const GeoCharts = () => {
         initialData.push([item.name, item.code]);
       });
     }
-    setData([dataHeader, ...initialData]);
+    setAllCountries([dataHeader, ...initialData]);
   };
+
   useEffect(() => {
     setTimeout(() => {
       firstData();
-    }, 300);
+    }, 500);
   }, []);
 
   const goToWorld = () => {
     setBackVisibility(false);
     setOptions(initialOptions);
   };
+
   const clearFilter = () => {
     setTimeout(() => {
       firstData();
+      setFilterData({ subRegions: [], regions: [] });
     }, 500);
   };
 
@@ -59,20 +67,21 @@ export const GeoCharts = () => {
       });
     }
     // Boyama tarafi
-    const allList = [...data];
-    const index = data.findIndex((item: any) => item[0] === region[0]);
+    const allList = [...allCountries];
+    const index = allCountries.findIndex((item: any) => item[0] === region[0]);
     allList.splice(index, 1);
     if (region[1] > 0) {
-      setData([...allList, [region[0], 0]]);
+      setAllCountries([...allList, [region[0], 0]]);
     } else {
-      setData([...allList, [region[0], 1]]);
+      setAllCountries([...allList, [region[0], 1]]);
     }
   };
 
   useEffect(() => {
     let selectedCountry: any[] = [];
     let selectedRegions: any[] = [];
-    const selected = data.filter((item: any) => item[1] > 0);
+    const selected = allCountries.filter((item: any) => item[1] > 0);
+    console.log("selected", selected);
     selected.map((selected: any) => {
       selectedCountry.push(selected[0]);
       for (const key in allCountry) {
@@ -90,7 +99,8 @@ export const GeoCharts = () => {
     });
     setSelectedCountries(selectedCountry);
     setSelectedRegions(selectedRegions);
-  }, [data]);
+  }, [allCountries]);
+
   return (
     <MapContainer>
       <ButtonContainer>
@@ -99,7 +109,7 @@ export const GeoCharts = () => {
           <GoWorld onClick={clearFilter}>Clear Filter</GoWorld>
         )}
       </ButtonContainer>
-      {options && data && (
+      {options && (
         <Chart
           chartEvents={[
             {
@@ -108,7 +118,7 @@ export const GeoCharts = () => {
                 const chart = chartWrapper.getChart();
                 const selection = chart.getSelection();
                 if (selection.length === 0) return;
-                const region = data[selection[0].row + 1];
+                const region = allCountries[selection[0].row + 1];
                 selectedCountry(region);
               },
             },
@@ -116,7 +126,7 @@ export const GeoCharts = () => {
           chartType="GeoChart"
           width="99%"
           height="411px"
-          data={data}
+          data={allCountries}
           options={{
             ...options,
             colorAxis: {

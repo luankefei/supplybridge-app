@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -10,7 +10,18 @@ import styled from "styled-components";
 import { useFilter } from "requests/useFilter";
 
 export const ScoutFilter = () => {
-  const { commodities, parts, regions, subRegions, setFilterData, filterData } = useStore();
+  const {
+    commodities,
+    parts,
+    regions,
+    subRegions,
+    setFilterData,
+    filterData,
+    selectedRegions,
+    selectedCountries,
+    allCountries,
+    setAllCountries,
+  } = useStore();
   const { getParts, getSubRegions } = useFilter();
 
   const data = [
@@ -42,13 +53,50 @@ export const ScoutFilter = () => {
     },
   ];
 
-  const getFilterListById = (data: any, type: string) => {
-    if (type === 'commodities') {
-      getParts(data.commodities)
-    } else if (type === 'regions') {
-      getSubRegions(data.regions)
+  useEffect(() => {
+    let regionArray: number[] = [];
+    selectedRegions.map((item: string) => {
+      switch (item) {
+        case "APAC":
+          regionArray.push(1);
+          break;
+        case "Americas":
+          regionArray.push(2);
+          break;
+        case "EMEA":
+          regionArray.push(3);
+          break;
+      }
+    });
+    setFilterData({ regions: regionArray });
+    getFilterListById({ regions: regionArray }, "regions");
+  }, [selectedRegions]);
+
+  useEffect(() => {
+    //TODO BERAT: REGION AYNI KALSA BILE REQ ATIYOR
+    if (selectedCountries?.length > 0 && subRegions?.length > 0) {
+      let subregionArray: number[] = [];
+      selectedCountries.map((selectedSubregion: any) => {
+        const selectedCountry = subRegions.find(
+          (item: any) => item.code === selectedSubregion
+        );
+        subregionArray.push(selectedCountry?.id);
+      });
+      setFilterData({ subRegions: subregionArray });
     }
-  }
+  }, [selectedCountries, subRegions]);
+
+  useEffect(() => {
+    // console.log("filterData", filterData);
+  }, [filterData]);
+
+  const getFilterListById = (data: any, type: string) => {
+    if (type === "commodities") {
+      getParts(data.commodities);
+    } else if (type === "regions") {
+      getSubRegions(data.regions);
+    }
+  };
 
   const onChangeHandler = (event: any, type: string, id: any) => {
     const rawFilterData = filterData;
@@ -61,9 +109,34 @@ export const ScoutFilter = () => {
         rawFilterData[type].splice(index, 1);
       }
     }
+    deleteCountryFromMap(rawFilterData.subRegions);
     setFilterData(rawFilterData);
-    getFilterListById(rawFilterData, type)
-  }
+    getFilterListById(rawFilterData, type);
+  };
+
+  const deleteCountryFromMap = (selectedSubRegions: any[]) => {
+    const newSelectedCountries = [...allCountries];
+    let subregionArray: number[] = [];
+    selectedSubRegions.map((selectedSubregion: any) => {
+      const selectedCountry = subRegions.find(
+        (item: any) => item.id === selectedSubregion
+      );
+      subregionArray.push(selectedCountry?.code);
+    });
+    newSelectedCountries.map((item: any) => {
+      if (subregionArray.includes(item[0])) {
+        console.log("item", item);
+        item[1] = 1;
+      } else {
+        item[1] = 0;
+      }
+      setAllCountries(newSelectedCountries);
+    });
+  };
+
+  const decisionCheckStatus = (type: string, id: any) => {
+    return filterData[type].includes(id) ? true : false;
+  };
 
   return (
     <FilterContainer>
@@ -82,7 +155,14 @@ export const ScoutFilter = () => {
                 {item.items?.map((checkbox: any, index: number) => (
                   <FormControlLabel
                     key={index}
-                    control={<Checkbox onChange={(event) => onChangeHandler(event, item.key, checkbox.id)} />}
+                    control={
+                      <Checkbox
+                        onChange={(event) =>
+                          onChangeHandler(event, item.key, checkbox.id)
+                        }
+                        checked={decisionCheckStatus(item.key, checkbox.id)}
+                      />
+                    }
                     label={
                       <CheckboxLabel>
                         <p>{checkbox.description}</p>
@@ -123,6 +203,8 @@ const CustomizeAccordionSummary = styled(AccordionSummary)`
 const CustomizeAccordionDetails = styled(AccordionDetails)`
   display: flex;
   flex-direction: column;
+  max-height: 400px;
+  overflow: auto;
 `;
 
 const CheckboxLabel = styled.div`

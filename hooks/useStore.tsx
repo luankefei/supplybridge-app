@@ -18,6 +18,12 @@ interface Store {
   setCount: (value: number) => void;
   suppliers: any;
   setSuppliers: (value: any) => void;
+  allCountries: any;
+  setAllCountries: (value: any) => void;
+  selectedRegions: any;
+  setSelectedRegions: (value: any) => void;
+  selectedCountries: any;
+  setSelectedCountries: (value: any) => void;
 }
 
 const useStore = create<Store | any>(
@@ -62,9 +68,21 @@ const useStore = create<Store | any>(
       setFilterData: (data: any) =>
         set(() => ({ filterData: { ...get().filterData, ...data } })),
 
+      allCountries: [["Country", "Selection"]],
+      setAllCountries: (allCountries: any) =>
+        set(() => ({ allCountries: [...allCountries] })),
+
       suppliers: [],
       setSuppliers: (suppliers: any) =>
         set(() => ({ suppliers: [...get().suppliers, ...suppliers] })),
+
+      selectedRegions: [],
+      setSelectedRegions: (selectedRegions: any) =>
+        set(() => ({ selectedRegions: [...selectedRegions] })),
+
+      selectedCountries: [],
+      setSelectedCountries: (selectedCountries: any) =>
+        set(() => ({ selectedCountries: [...selectedCountries] })),
 
       signOut: () => {
         StorageService.clearUserData();
