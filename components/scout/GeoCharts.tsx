@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import styled from "styled-components";
 import Chart from "react-google-charts";
 import { allCountry } from "utils/countries";
@@ -12,50 +12,112 @@ const initialOptions: any = {
 };
 
 const dataHeader = ["Country", "Selection"];
-export const GeoCharts = () => {
-  const [options, setOptions] = useState<any>(initialOptions);
+
+const GeoCharts = () => {
+  const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
+  const [mapLoaded, setMapLoaded] = useState<boolean>(false);
+
   const {
     allCountries,
     setAllCountries,
     setSelectedRegions,
     setSelectedCountries,
     selectedCountries,
-    setFilterData,
+    filterData
   } = useStore();
 
-  const firstData = () => {
+  const setInitialData = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-        initialData.push([item.name, item.code]);
+        initialData.push([item.name, 0]);
       });
     }
     setAllCountries([dataHeader, ...initialData]);
   };
 
   useEffect(() => {
-    setTimeout(() => {
-      firstData();
-    }, 500);
+    setInitialData();
+    setOptions(initialOptions)
   }, []);
 
-  const goToWorld = () => {
+  const mapFilterHandler = (data: any) => {
+    let selectedCountry: string[] = [];
+    let selectedRegions: number[] = [];
+
+    // Filter out active countries on map
+    const activeCountries = data.filter((item: any) => item[1] > 0);
+    
+    activeCountries.map((selected: any) => {
+      // push the country code
+      selectedCountry.push(selected[0]);
+
+      // Find country region
+      for (const key in allCountry) {
+        allCountry[key].children.map((item) => {
+          // Find Selected country
+          if (item.name === selected[0]) {
+            const regionIndex = selectedRegions?.findIndex(
+              (item) => item === allCountry[key].categoryId
+            );
+            // Check wheater region is in the active data
+            if (regionIndex === -1) {
+              selectedRegions.push(allCountry[key].categoryId);
+            }
+          }
+        });
+      }
+    });
+
+    setSelectedCountries(selectedCountry);
+    setSelectedRegions(selectedRegions);
+  }
+
+
+  useEffect(() => {
+    if (filterData.subRegions.length) {
+      outsideFilterHandler();
+    } else {
+      setInitialData();
+    }
+    
+  }, [filterData])
+
+  const clearZoom = () => {
     setBackVisibility(false);
     setOptions(initialOptions);
   };
 
   const clearFilter = () => {
     setTimeout(() => {
-      firstData();
-      setFilterData({ subRegions: [], regions: [] });
+      setInitialData();
+      setSelectedCountries([]);
+      setSelectedRegions([]);
     }, 500);
   };
 
-  const selectedCountry = (region: any) => {
-    // Zoom tarafi
+  const outsideFilterHandler = () => {
+    const allList = [...allCountries];
+    const subRegions = filterData.subRegions;
+
+    allCountries.forEach((c: any, index: number) => {
+      if (subRegions.includes(c[0])) {
+        allList[index][1] = 1;
+      } else {
+        if (allList[index] && c[0] !== 'Country') {
+          allList[index][1] = 0; 
+        }
+        
+      }
+    })
+    setAllCountries(allList);
+  }
+
+  const selectCountryHandler = (region: any) => {
+    // Zooming
     for (const key in allCountry) {
-      allCountry[key].children.map((item) => {
+      allCountry[key].children.map((item: any) => {
         if (item.name === region[0]) {
           setOptions({
             ...options,
@@ -66,79 +128,66 @@ export const GeoCharts = () => {
         }
       });
     }
-    // Boyama tarafi
+
+    // Colorizing
     const allList = [...allCountries];
     const index = allCountries.findIndex((item: any) => item[0] === region[0]);
     allList.splice(index, 1);
-    if (region[1] > 0) {
-      setAllCountries([...allList, [region[0], 0]]);
-    } else {
-      setAllCountries([...allList, [region[0], 1]]);
-    }
+    const selectedValue = region[1] > 0 ? 0 : 1;
+    setAllCountries([...allList, [region[0], selectedValue]]);
+    mapFilterHandler([...allList, [region[0], selectedValue]])
   };
 
-  useEffect(() => {
-    let selectedCountry: any[] = [];
-    let selectedRegions: any[] = [];
-    const selected = allCountries.filter((item: any) => item[1] > 0);
-    console.log("selected", selected);
-    selected.map((selected: any) => {
-      selectedCountry.push(selected[0]);
-      for (const key in allCountry) {
-        allCountry[key].children.map((item) => {
-          if (item.name === selected[0]) {
-            const regionIndex = selectedRegions.findIndex(
-              (item) => item === allCountry[key].category
-            );
-            if (regionIndex === -1) {
-              selectedRegions.push(allCountry[key].category);
-            }
-          }
-        });
-      }
-    });
-    setSelectedCountries(selectedCountry);
-    setSelectedRegions(selectedRegions);
-  }, [allCountries]);
+
+  const onMapLoadHandler = () => {
+    setTimeout(() => {
+      setMapLoaded(true);
+    }, 200)
+  }
+
+  const renderMapComponent = useCallback(() => {
+   return (
+      <Chart
+        chartEvents={[
+          {
+            eventName: "select",
+            callback: ({ chartWrapper }) => {
+              const chart = chartWrapper.getChart();
+              const selection = chart.getSelection();
+              if (selection.length === 0) return;
+              const region = allCountries[selection[0].row + 1];
+              selectCountryHandler(region);
+            },
+          },
+        ]}
+        onLoad={onMapLoadHandler}
+        chartType="GeoChart"
+        width="99%"
+        height="411px"
+        data={allCountries}
+        options={{
+          ...options,
+          colorAxis: {
+            minValue: 0,
+            maxValue: 1,
+            colors: ["#FF9C6E", "#85A5FF"],
+          },
+        }}
+      />
+   )
+  }, [allCountries, options, mapLoaded]);
 
   return (
     <MapContainer>
-      <ButtonContainer>
-        {backVisibility && <GoWorld onClick={goToWorld}>Go Back</GoWorld>}
-        {selectedCountries.length > 0 && (
-          <GoWorld onClick={clearFilter}>Clear Filter</GoWorld>
-        )}
-      </ButtonContainer>
-      {options && (
-        <Chart
-          chartEvents={[
-            {
-              eventName: "select",
-              callback: ({ chartWrapper }) => {
-                const chart = chartWrapper.getChart();
-                const selection = chart.getSelection();
-                if (selection.length === 0) return;
-                const region = allCountries[selection[0].row + 1];
-                selectedCountry(region);
-              },
-            },
-          ]}
-          chartType="GeoChart"
-          width="99%"
-          height="411px"
-          data={allCountries}
-          options={{
-            ...options,
-            colorAxis: {
-              minValue: 0,
-              maxValue: 1,
-              colors: ["#FF9C6E", "#85A5FF"],
-            },
-          }}
-        />
-      )}
+        <ButtonContainer>
+          {backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
+          {selectedCountries.length > 0 && (
+            <GoWorld onClick={clearFilter}>Clear Filter</GoWorld>
+          )}
+        </ButtonContainer>
+        {renderMapComponent()}
     </MapContainer>
-  );
+  )
 };
 
 const MapContainer = styled.div`
@@ -171,3 +220,5 @@ const GoWorld = styled.div`
   padding: 12px 6px;
   border-radius: 4px;
 `;
+
+export default GeoCharts;

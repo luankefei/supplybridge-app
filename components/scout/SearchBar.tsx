@@ -4,10 +4,13 @@ import styled from "styled-components";
 import { Icon, TextField } from "components";
 import useStore from "hooks/useStore";
 
-export const SearchBar = () => {
+interface Props {
+  onSearch: () => void;
+}
+
+export const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData } = useStore();
-  const onSearch = () => {};
 
   useEffect(() => {
     setFilterData({ searchTerm: searchItem });
@@ -32,14 +35,14 @@ export const SearchBar = () => {
 
 const SearchField = styled(TextField)`
   width: 65%;
-  max-width: 700px;
-  min-width: 500px;
+  // max-width: 700px;
+  // min-width: 500px;
   .MuiFilledInput-root {
     height: 54px;
-    border: 1px transparent solid;
-    overflow: hidden;
+    border: 1px transparent solid !important;
+    overflow: hidden !important;
     box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
-    border-radius: 32px;
+    border-radius: 32px !important;
     &:hover {
       background-color: white;
     }

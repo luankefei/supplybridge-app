@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 import { Header } from "./Header";
 
-export const Layout = ({ children }: { children: React.ReactElement }) => {
+const Layout = ({ children }: { children: React.ReactElement }) => {
   return (
     <Container>
       <Header />
@@ -21,3 +21,5 @@ const InnerContainer = styled.div`
   display: flex;
   justify-content: center;
 `;
+
+export default Layout;

@@ -1,21 +1,22 @@
 import Head from "next/head";
 import styled from "styled-components";
 import axios from "axios";
+import dynamic from "next/dynamic";
 import { useEffect, useState, useCallback, useRef } from "react";
 
 import {
   Icon,
-  Layout,
   TechnologyBox,
   SearchBar,
   ScoutFilter,
-  GeoCharts,
   Filters,
-  Modal,
 } from "components";
 import { ResultCard, Feedback } from "components/scout";
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
+import Layout from 'components/Layout'
+
+const GeoCharts = dynamic(() => import('components/scout/GeoCharts'));
 
 interface Props {
   commodities: any;
@@ -42,14 +43,15 @@ export default function Industry({
     setCount,
     setFilterData,
     filterData,
+    clearFilterData,
   } = useStore();
 
   const handleScrollCallback = useCallback(() => handleScroll(), []);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
-  const [vehicleFuelType, setVehicleFuelType] = useState<number | null>(null);
 
   const countRef = useRef(supplierCount);
   const pageRef = useRef(1);
+  const clearRef = useRef(false);
 
   useEffect(() => {
     setSuppliers(suppliersData);
@@ -63,11 +65,18 @@ export default function Industry({
     };
   }, []);
 
+  useEffect(() => {
+    if (clearRef.current) {
+      searchHandler()
+      clearRef.current = false
+    }
+  }, [filterData])
+
   const searchSupplierHandler = async () => {
     // TODO
     const currentPage = pageRef.current;
     if (currentPage * 10 < countRef.current) {
-      await searchSuppliers(currentPage + 1);
+      await searchSuppliers(currentPage + 1, false);
       pageRef.current = currentPage + 1;
     }
   };
@@ -78,24 +87,29 @@ export default function Industry({
         document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
-    if (isAtBottom && !loading) {
+    if (isAtBottom && !loading && suppliers.length > 9) {
       setPage(page + 1);
       await searchSupplierHandler();
     }
   };
 
   const setFuelType = (value: number) => {
-    if (vehicleFuelType !== value) {
-      setVehicleFuelType(value);
+    if (filterData.vehicleFuelType !== value) {
+      setFilterData({ vehicleFuelType: value });
     } else {
-      setVehicleFuelType(null);
+      setFilterData({ vehicleFuelType: null });
     }
-    setFilterData({ vehicleFuelType: value });
   };
 
-  const onSearch = () => {
-    console.log("filter", filterData);
+  const searchHandler = () => {
+    pageRef.current = 1;
+    searchSuppliers(1);
   };
+
+  const clearHandler = () => {
+    clearFilterData();
+    clearRef.current = true;
+  }
 
   return (
     <Layout>
@@ -106,6 +120,7 @@ export default function Industry({
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <ScoutContainer>
+          
           <SearchContainer>
             <IconContainer>
               <Icon src="smart-bridge-ai" width={40} height={40} />
@@ -114,39 +129,41 @@ export default function Industry({
                 <Label>SmartBridge Artificial Intelligence</Label>
               </IconLabel>
             </IconContainer>
-            <SearchBar />
+            <SearchBar onSearch={searchHandler} />
             <CircleButton onClick={() => setFilterModalVisible(true)}>
               <Icon src="filter" p={"3px"} m={"12px"} hover />
             </CircleButton>
           </SearchContainer>
+
           <Technology>
             <TechnologyHeader>Technology:</TechnologyHeader>
             <TechnologyContainer>
               <TechnologyBox
                 icon={"fuel-oil"}
                 label={"Internal Combustion Engine (ICE)"}
-                isSelected={vehicleFuelType === 1}
+                isSelected={filterData.vehicleFuelType === 1}
                 onClick={() => setFuelType(1)}
               />
               <TechnologyBox
                 icon={"electric-vehicle"}
                 label={"Electric Vehicle (EV)"}
-                isSelected={vehicleFuelType === 2}
+                isSelected={filterData.vehicleFuelType === 2}
                 onClick={() => setFuelType(2)}
               />
               <TechnologyBox
                 icon={"fuel-cell"}
                 label={"Fuel Cell"}
-                isSelected={vehicleFuelType === 3}
+                isSelected={filterData.vehicleFuelType === 3}
                 onClick={() => setFuelType(3)}
               />
             </TechnologyContainer>
           </Technology>
+
           <MainContainer>
             <div>
-              <ScoutFilter />
-              <div>Clear Filter</div>
-              <div onClick={onSearch}>Search</div>
+              <ScoutFilter onSearch={searchHandler} />
+              <Button secondary onClick={clearHandler}>Clear Filter</Button>
+              <Button onClick={searchHandler}>Search</Button>
             </div>
             <MapResultContainer>
               <GeoCharts />
@@ -173,22 +190,27 @@ export default function Industry({
 }
 
 const ScoutContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
-  flex-direction: column;
-  width: 100%;
+  width: 1440px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: block;
     width: 100%;
   }
-  @media (min-width: ${(props) => props.theme.size.laptopL}) {
-    display: flex;
-    justify-content: center;
-    align-items: flex-start;
-    flex-direction: column;
-    width: 75%;
-  }
+  // display: flex;
+  // justify-content: center;
+  // align-items: center;
+  // flex-direction: column;
+  // width: 100%;
+  // @media (max-width: ${(props) => props.theme.size.laptop}) {
+  //   display: block;
+  //   width: 100%;
+  // }
+  // @media (min-width: ${(props) => props.theme.size.laptopL}) {
+  //   display: flex;
+  //   justify-content: center;
+  //   align-items: flex-start;
+  //   flex-direction: column;
+  //   width: 75%;
+  // }
 `;
 
 const SearchContainer = styled.div`
@@ -257,6 +279,7 @@ const MapResultContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
+  margin-left: 32px;
 `;
 
 const ResultContainer = styled.div``;
@@ -274,6 +297,22 @@ const CircleButton = styled.div`
     display: flex;
   }
 `;
+
+const Button = styled.div<{secondary?: boolean}>`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 60px !important;
+  background-color: ${(props) => props.secondary ? '#F5F5F5' : '#08979C'};
+  color: ${(props) => props.secondary ? '#08979C;' : '#F5F5F5'};
+  margin-bottom: 8px;
+  border: 1px solid #08979C;
+  padding: 12px;
+  cursor: pointer;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: none;
+  }
+`
 
 export async function getServerSideProps({ req }: any) {
   const token = req.cookies.token;

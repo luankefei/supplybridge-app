@@ -9,7 +9,11 @@ import useStore from "hooks/useStore";
 import styled from "styled-components";
 import { useFilter } from "requests/useFilter";
 
-export const ScoutFilter = () => {
+interface Props {
+  onSearch: () => void;
+}
+
+export const ScoutFilter = ({onSearch}: Props) => {
   const {
     commodities,
     parts,
@@ -18,9 +22,7 @@ export const ScoutFilter = () => {
     setFilterData,
     filterData,
     selectedRegions,
-    selectedCountries,
-    allCountries,
-    setAllCountries,
+    selectedCountries
   } = useStore();
   const { getParts, getSubRegions } = useFilter();
 
@@ -54,41 +56,17 @@ export const ScoutFilter = () => {
   ];
 
   useEffect(() => {
-    let regionArray: number[] = [];
-    selectedRegions.map((item: string) => {
-      switch (item) {
-        case "APAC":
-          regionArray.push(1);
-          break;
-        case "Americas":
-          regionArray.push(2);
-          break;
-        case "EMEA":
-          regionArray.push(3);
-          break;
-      }
-    });
-    setFilterData({ regions: regionArray });
-    getFilterListById({ regions: regionArray }, "regions");
+    setFilterData({ regions: selectedRegions });
+    getFilterListById({ regions: selectedRegions }, "regions");
   }, [selectedRegions]);
 
   useEffect(() => {
-    //TODO BERAT: REGION AYNI KALSA BILE REQ ATIYOR
-    if (selectedCountries?.length > 0 && subRegions?.length > 0) {
-      let subregionArray: number[] = [];
-      selectedCountries.map((selectedSubregion: any) => {
-        const selectedCountry = subRegions.find(
-          (item: any) => item.code === selectedSubregion
-        );
-        subregionArray.push(selectedCountry?.id);
-      });
-      setFilterData({ subRegions: subregionArray });
-    }
-  }, [selectedCountries, subRegions]);
+    setFilterData({ subRegions: selectedCountries });
+  }, [selectedCountries]);
 
   useEffect(() => {
-    // console.log("filterData", filterData);
-  }, [filterData]);
+    onSearch();
+  }, [subRegions]);
 
   const getFilterListById = (data: any, type: string) => {
     if (type === "commodities") {
@@ -98,7 +76,8 @@ export const ScoutFilter = () => {
     }
   };
 
-  const onChangeHandler = (event: any, type: string, id: any) => {
+  const onChangeHandler = (event: any, type: string, obj: any) => {
+    const id = obj.hasOwnProperty('code') ? obj.code : obj.id;
     const rawFilterData = filterData;
     const value = event.target.checked;
     if (!rawFilterData[type].includes(id) && value) {
@@ -109,32 +88,13 @@ export const ScoutFilter = () => {
         rawFilterData[type].splice(index, 1);
       }
     }
-    deleteCountryFromMap(rawFilterData.subRegions);
+
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
   };
 
-  const deleteCountryFromMap = (selectedSubRegions: any[]) => {
-    const newSelectedCountries = [...allCountries];
-    let subregionArray: number[] = [];
-    selectedSubRegions.map((selectedSubregion: any) => {
-      const selectedCountry = subRegions.find(
-        (item: any) => item.id === selectedSubregion
-      );
-      subregionArray.push(selectedCountry?.code);
-    });
-    newSelectedCountries.map((item: any) => {
-      if (subregionArray.includes(item[0])) {
-        console.log("item", item);
-        item[1] = 1;
-      } else {
-        item[1] = 0;
-      }
-      setAllCountries(newSelectedCountries);
-    });
-  };
-
-  const decisionCheckStatus = (type: string, id: any) => {
+  const decisionCheckStatus = (type: string, obj: any) => {
+    const id = obj.hasOwnProperty('code') ? obj.code : obj.id;
     return filterData[type].includes(id) ? true : false;
   };
 
@@ -158,9 +118,9 @@ export const ScoutFilter = () => {
                     control={
                       <Checkbox
                         onChange={(event) =>
-                          onChangeHandler(event, item.key, checkbox.id)
+                          onChangeHandler(event, item.key, checkbox)
                         }
-                        checked={decisionCheckStatus(item.key, checkbox.id)}
+                        checked={decisionCheckStatus(item.key, checkbox)}
                       />
                     }
                     label={
@@ -180,9 +140,8 @@ export const ScoutFilter = () => {
 };
 
 const FilterContainer = styled.div`
-  width: 16%;
-  margin-right: 32px;
-  min-width: 242px;
+  margin-bottom: 24px;
+  width: 242px;
   background: #fafafa;
   border-radius: 2px;
   height: fit-content;

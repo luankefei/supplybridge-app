@@ -68,13 +68,37 @@ const useStore = create<Store | any>(
       setFilterData: (data: any) =>
         set(() => ({ filterData: { ...get().filterData, ...data } })),
 
+      clearFilterData: () =>
+        set(() => ({
+          page: 1,
+          pageSize: 10,
+          parts: [],
+          subRegions: [],
+          selectedRegions: [],
+          selectedCountries: [],
+          filterData: {
+            commodities: [],
+            parts: [],
+            coreTechnologies: [],
+            regions: [],
+            subRegions: [],
+            vehicleFuelType: null,
+            searchTerm: "",
+          },
+        })),
+
       allCountries: [["Country", "Selection"]],
       setAllCountries: (allCountries: any) =>
         set(() => ({ allCountries: [...allCountries] })),
 
       suppliers: [],
-      setSuppliers: (suppliers: any) =>
-        set(() => ({ suppliers: [...get().suppliers, ...suppliers] })),
+      setSuppliers: (suppliers: any, reset: boolean) =>
+        set(() => {
+          if (reset) {
+            return ({ suppliers })  
+          }
+          return ({ suppliers: [...get().suppliers, ...suppliers] })
+        }),
 
       selectedRegions: [],
       setSelectedRegions: (selectedRegions: any) =>

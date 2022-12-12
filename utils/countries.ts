@@ -3,6 +3,7 @@ export const allCountry = [
     name: "Africa",
     code: "002",
     category: "EMEA",
+    categoryId: 3,
     children: [
       { name: "DZ", code: 0 },
       { name: "EG", code: 0 },
@@ -69,6 +70,7 @@ export const allCountry = [
     name: "Europe",
     code: "150",
     category: "EMEA",
+    categoryId: 3,
     children: [
       { name: "GG", code: 0 },
       { name: "JE", code: 0 },
@@ -130,6 +132,7 @@ export const allCountry = [
   {
     name: "Americas",
     category: "Americas",
+    categoryId: 2,
     code: "019",
     children: [
       { name: "BM", code: 0 },
@@ -191,6 +194,7 @@ export const allCountry = [
     name: "Asia",
     code: "142",
     category: "APAC",
+    categoryId: 1,
     children: [
       { name: "TM", code: 0 },
       { name: "TJ", code: 0 },
@@ -253,6 +257,7 @@ export const allCountry = [
     name: "Oceania",
     code: "009",
     category: "APAC",
+    categoryId: 1,
     children: [
       { name: "AU", code: 0 },
       { name: "NF", code: 0 },
