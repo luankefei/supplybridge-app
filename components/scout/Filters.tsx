@@ -1,12 +1,16 @@
 import React from "react";
 import styled from "styled-components";
 
-export const Filters = () => {
+type Props = {
+  totalCount: any;
+};
+
+export const Filters = ({ totalCount }: Props) => {
   return (
     <FilterContainer>
       <StaticInformation>
         <ListingCount>
-          Listing 999,999 Suppliers Matching Your Criteria
+          Listing {totalCount} Suppliers Matching Your Criteria
         </ListingCount>
         <SubText>Use Filters to Narrow Down Results</SubText>
       </StaticInformation>

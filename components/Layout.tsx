@@ -18,4 +18,6 @@ const Container = styled.div`
 const InnerContainer = styled.div`
   padding: 32px 50px;
   background-color: #ecf0f1;
+  display: flex;
+  justify-content: center;
 `;

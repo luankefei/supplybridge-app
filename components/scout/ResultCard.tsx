@@ -11,36 +11,36 @@ export const ResultCard = ({ data }: { data: any }) => {
     <>
       <ResultCardContainer onClick={() => setSupplierModalVisible(true)}>
         <BrandContainer>
-          <BrandImage
-            src="/images/bosch.png"
-            alt="become_a_supplier"
-            width="25%"
-          />
+          <BrandImage src={data.picture} alt="become_a_supplier" width="25%" />
           <Description>
             <TitleBadge>
-              <Title>{data.firmName}</Title>
-              <Badge label={"VERIFIED SUPPLIER"} icon={"verified"} />
-              <Badge label={"INNOVATION"} color={"#EB2F96"} icon={"innovation"} />
+              <Title>{data?.firmName}</Title>
+              {data?.isVerified && (
+                <Badge label={"VERIFIED SUPPLIER"} icon={"verified"} />
+              )}
+              {data?.isInnovation && (
+                <Badge
+                  label={"INNOVATION"}
+                  color={"#EB2F96"}
+                  icon={"innovation"}
+                />
+              )}
             </TitleBadge>
-            <Subtext>
-              Aliquam a proin mauris, commodo. Vel gravida ac dictum dapibus
-              praesent iaculis posuere. Elementum vulputate amet, scelerisque dis.
-              Elementum in vitae, ornare arcu quis. Ultricies enim quam nisl et
-              neque cursus sit. Adipiscing consectetur curabitur urna etiam
-              tincidunt hac vel. Lacus urna adipiscing potenti urna sit elit.
-            </Subtext>
+            <Subtext>{data?.description}</Subtext>
           </Description>
         </BrandContainer>
         <PropertyContainer>
           <PropertySide>
             <Property>
               <PropertyTitle>Commodity</PropertyTitle>
-              <PropertyDescription>Battery, LiDar</PropertyDescription>
+              <PropertyDescription>
+                <span>{data?.commodityNames?.toString()}</span>
+              </PropertyDescription>
             </Property>
             <Property>
               <PropertyTitle>Core Competence</PropertyTitle>
               <PropertyDescription>
-                NMC Battery, Solid Sate LiDar
+                <span>{data?.coreTechnologyNames?.toString()}</span>
               </PropertyDescription>
             </Property>
             <Property>
@@ -51,7 +51,7 @@ export const ResultCard = ({ data }: { data: any }) => {
             </Property>
             <Property>
               <PropertyTitle>Supplier Type</PropertyTitle>
-              <PropertyDescription>Tier 1</PropertyDescription>
+              <PropertyDescription>{data?.supplierType}</PropertyDescription>
             </Property>
           </PropertySide>
           <PropertySide>
@@ -61,7 +61,7 @@ export const ResultCard = ({ data }: { data: any }) => {
             </Property>
             <Property>
               <PropertyTitle>Revenue</PropertyTitle>
-              <PropertyDescription>$12,000,000</PropertyDescription>
+              <PropertyDescription>{data?.revenue}</PropertyDescription>
             </Property>
             <Property>
               <PropertyTitle>Capacity Availability</PropertyTitle>
@@ -74,7 +74,11 @@ export const ResultCard = ({ data }: { data: any }) => {
           </PropertySide>
         </PropertyContainer>
       </ResultCardContainer>
-      <SupplierModal open={supplierModalVisible} onClose={() => setSupplierModalVisible(false)} data={data} />
+      <SupplierModal
+        open={supplierModalVisible}
+        onClose={() => setSupplierModalVisible(false)}
+        data={data}
+      />
     </>
   );
 };

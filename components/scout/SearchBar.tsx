@@ -28,9 +28,9 @@ export const SearchBar = () => {
 };
 
 const SearchField = styled(TextField)`
-  width: 50%;
+  width: 65%;
   max-width: 700px;
-  min-width: 250px;
+  min-width: 500px;
   .MuiFilledInput-root {
     height: 54px;
     border: 1px transparent solid;
@@ -40,14 +40,14 @@ const SearchField = styled(TextField)`
     &:hover {
       background-color: white;
     }
-    &:hover: {
+    &:hover {
       background-color: white;
     }
     &.Mui-focused {
       background-color: white;
-      boxShadow: '0.25 0 0 0 2px';
+      box-shadow: 0.25 0 0 0 2px;
       border-color: ${(props) => props.theme.colors.primary};
-    },
+    }
   }
   label {
     margin-left: 32px;
@@ -63,7 +63,7 @@ const SearchField = styled(TextField)`
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     width: 92%;
     max-width: 100%;
-    min-width: 250px;
+    min-width: 200px;
   }
 `;
 
