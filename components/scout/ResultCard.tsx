@@ -95,7 +95,7 @@ export const ResultCard = ({ data }: { data?: any }) => {
                 <PropertyTitle>Headquarter</PropertyTitle>
                 <PropertyDescription>
                   {data?.headquartersName}
-                  <CountryFlag src={`/flags/${data?.subRegionCode}.png`} />
+                  <CountryFlag src={`/flags/${data?.subRegionCode?.toLowerCase()}.png`} />
                 </PropertyDescription>
               </Property>
             ) : (
@@ -263,6 +263,9 @@ const PropertyTitle = styled.span`
   color: #8c8c8c;
 `;
 const PropertyDescription = styled.span`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;

@@ -49,6 +49,7 @@ export default function Industry({
   const handleScrollCallback = useCallback(() => handleScroll(), []);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
 
+  const infiniteScrollControl = useRef(true);
   const countRef = useRef(supplierCount);
   const pageRef = useRef(1);
   const clearRef = useRef(false);
@@ -78,6 +79,7 @@ export default function Industry({
     if (currentPage * 10 < countRef.current) {
       await searchSuppliers(currentPage + 1, false);
       pageRef.current = currentPage + 1;
+      infiniteScrollControl.current = true;
     }
   };
 
@@ -87,7 +89,8 @@ export default function Industry({
         document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
-    if (isAtBottom && !loading && suppliers.length > 9) {
+    if (isAtBottom && infiniteScrollControl.current) {
+      infiniteScrollControl.current = false;
       setPage(page + 1);
       await searchSupplierHandler();
     }
