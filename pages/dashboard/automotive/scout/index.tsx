@@ -14,9 +14,9 @@ import {
 import { ResultCard, Feedback } from "components/scout";
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
-import Layout from 'components/Layout'
+import Layout from "components/Layout";
 
-const GeoCharts = dynamic(() => import('components/scout/GeoCharts'));
+const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 
 interface Props {
   commodities: any;
@@ -67,10 +67,10 @@ export default function Industry({
 
   useEffect(() => {
     if (clearRef.current) {
-      searchHandler()
-      clearRef.current = false
+      searchHandler();
+      clearRef.current = false;
     }
-  }, [filterData])
+  }, [filterData]);
 
   const searchSupplierHandler = async () => {
     // TODO
@@ -109,7 +109,7 @@ export default function Industry({
   const clearHandler = () => {
     clearFilterData();
     clearRef.current = true;
-  }
+  };
 
   return (
     <Layout>
@@ -120,7 +120,6 @@ export default function Industry({
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <ScoutContainer>
-          
           <SearchContainer>
             <IconContainer>
               <Icon src="smart-bridge-ai" width={40} height={40} />
@@ -162,28 +161,27 @@ export default function Industry({
           <MainContainer>
             <div>
               <ScoutFilter onSearch={searchHandler} />
-              <Button secondary onClick={clearHandler}>Clear Filter</Button>
+              <Button secondary onClick={clearHandler}>
+                Clear Filter
+              </Button>
               <Button onClick={searchHandler}>Search</Button>
             </div>
             <MapResultContainer>
               <GeoCharts />
               <Filters totalCount={count} />
               <ResultContainer>
+                {loading && <ResultCard key={`loader`} />}
                 {suppliers.map((supplier: any, index: number) => (
                   <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
                 ))}
               </ResultContainer>
+              {suppliers.length === 0 && !loading && (
+                <NoRecord>No record founds</NoRecord>
+              )}
             </MapResultContainer>
           </MainContainer>
           <Feedback />
         </ScoutContainer>
-        {/* <Modal
-          open={filterModalVisible}
-          title={"Filter"}
-          onClose={() => setFilterModalVisible(false)}
-        >
-          <ScoutFilter />
-        </Modal> */}
       </>
     </Layout>
   );
@@ -195,22 +193,6 @@ const ScoutContainer = styled.div`
     display: block;
     width: 100%;
   }
-  // display: flex;
-  // justify-content: center;
-  // align-items: center;
-  // flex-direction: column;
-  // width: 100%;
-  // @media (max-width: ${(props) => props.theme.size.laptop}) {
-  //   display: block;
-  //   width: 100%;
-  // }
-  // @media (min-width: ${(props) => props.theme.size.laptopL}) {
-  //   display: flex;
-  //   justify-content: center;
-  //   align-items: flex-start;
-  //   flex-direction: column;
-  //   width: 75%;
-  // }
 `;
 
 const SearchContainer = styled.div`
@@ -275,11 +257,23 @@ const MainContainer = styled.div`
   flex-direction: row;
 `;
 
+const NoRecord = styled.div`
+  margin-top: 16px;
+  height: 120px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: white;
+`;
+
 const MapResultContainer = styled.div`
   width: 100%;
   display: flex;
   flex-direction: column;
   margin-left: 32px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin-left: 0;
+  }
 `;
 
 const ResultContainer = styled.div``;
@@ -298,21 +292,21 @@ const CircleButton = styled.div`
   }
 `;
 
-const Button = styled.div<{secondary?: boolean}>`
+const Button = styled.div<{ secondary?: boolean }>`
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 60px !important;
-  background-color: ${(props) => props.secondary ? '#F5F5F5' : '#08979C'};
-  color: ${(props) => props.secondary ? '#08979C;' : '#F5F5F5'};
+  background-color: ${(props) => (props.secondary ? "#F5F5F5" : "#08979C")};
+  color: ${(props) => (props.secondary ? "#08979C;" : "#F5F5F5")};
   margin-bottom: 8px;
-  border: 1px solid #08979C;
+  border: 1px solid #08979c;
   padding: 12px;
   cursor: pointer;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
-`
+`;
 
 export async function getServerSideProps({ req }: any) {
   const token = req.cookies.token;

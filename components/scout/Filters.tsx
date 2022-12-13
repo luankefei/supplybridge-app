@@ -1,3 +1,4 @@
+import { Icon } from "components";
 import React from "react";
 import styled from "styled-components";
 
@@ -14,7 +15,28 @@ export const Filters = ({ totalCount }: Props) => {
         </ListingCount>
         <SubText>Use Filters to Narrow Down Results</SubText>
       </StaticInformation>
-      <div>Filter will coming soon</div>
+      <OrderContainer>
+        <OrderElement>
+          <Title>SUPPLIER TYPE</Title>
+          <Description>
+            ALL
+            <Icon src={"chevron-down"} hover />
+          </Description>
+        </OrderElement>
+        <OrderElement>
+          <Title>CAPABILITY</Title>
+          <Description>
+            ALL
+            <Icon src={"chevron-down"} hover />
+          </Description>
+        </OrderElement>
+        <OrderElement>
+          <Title>CERTIFICATION</Title>
+          <Description>
+            ALL <Icon src={"chevron-down"} hover />
+          </Description>
+        </OrderElement>
+      </OrderContainer>
     </FilterContainer>
   );
 };
@@ -49,4 +71,37 @@ const SubText = styled.span`
   font-size: 12px;
   line-height: 20px;
   color: ${(props) => props.theme.colors.text};
+`;
+
+const OrderContainer = styled.span`
+  display: flex;
+  flex-direction: row;
+  gap: 48px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    display: none;
+  }
+`;
+
+const OrderElement = styled.span`
+  display: flex;
+  flex-direction: column;
+`;
+
+const Title = styled.span`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 20px;
+  color: #8c8c8c;
+`;
+
+const Description = styled.span`
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 24px;
+  color: #08979c;
+  gap: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
