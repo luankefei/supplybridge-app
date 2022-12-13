@@ -95,7 +95,9 @@ export const ResultCard = ({ data }: { data?: any }) => {
                 <PropertyTitle>Headquarter</PropertyTitle>
                 <PropertyDescription>
                   {data?.headquartersName}
-                  <CountryFlag src={`/flags/${data?.subRegionCode}.png`} />
+                  <CountryFlag
+                    src={`/flags/${data?.subRegionCode.toLowerCase()}.png`}
+                  />
                 </PropertyDescription>
               </Property>
             ) : (
