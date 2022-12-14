@@ -70,7 +70,7 @@ const ProgressBar = styled.div<any>`
   --percentage: ${(props) => props.value};
   --primary: #24A3A7;
   --secondary: #F3F4F6;
-  animation: ${breatheAnimation} 2s 0.5s forwards;
+  /* animation: ${breatheAnimation} 2s 0.5s forwards; */
   width: 200px;
   aspect-ratio: 2 / 1;
   border-radius: 50% / 100% 100% 0 0;

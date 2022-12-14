@@ -24,16 +24,16 @@ export const Header = () => {
 
   const logout = () => {
     handleClose();
-    signOut()
+    signOut();
     cookie.remove("token");
     push("/");
   };
 
   const mainHeaderItems = [
     { title: "AUTOMOTIVE", path: "automotive", lock: false },
-    { title: "AEROSPACE", path: "aerospace", lock: false },
-    { title: "RAILWAY", path: "railway", lock: false },
-    { title: "OTHER", path: "other", lock: false },
+    { title: "AEROSPACE", path: "aerospace", lock: true },
+    { title: "RAILWAY", path: "railway", lock: true },
+    { title: "OTHER", path: "other", lock: true },
   ];
 
   const automotiveHeaderItems = [
@@ -51,7 +51,7 @@ export const Header = () => {
     if (splitPathname.length === 3) {
       return mainHeaderItems;
     } else if (splitPathname.length === 4) {
-      if (splitPathname.includes('automotive')) {
+      if (splitPathname.includes("automotive")) {
         return automotiveHeaderItems;
       }
     } else {
@@ -73,7 +73,16 @@ export const Header = () => {
       </Link>
       <Menus>
         {chooseMenuItems()?.map((item, index) => (
-          <MenuUnit key={index} active={findActiveItem(item.path)} order={index}>
+          <MenuUnit
+            key={index}
+            active={findActiveItem(item.path)}
+            order={index}
+            onClick={() => {
+              !item.lock
+                ? push(`/dashboard/automotive/${item.path}`)
+                : push("");
+            }}
+          >
             {item.title}
             {item.lock && <LockIcon src="/icons/lock.svg" />}
           </MenuUnit>
@@ -122,7 +131,7 @@ const Menus = styled.div`
   align-items: center;
 `;
 
-const MenuUnit = styled.span<{ active?: boolean, order: any }>`
+const MenuUnit = styled.span<{ active?: boolean; order: any }>`
   font-style: normal;
   font-weight: 700;
   font-size: 16px;
@@ -141,11 +150,11 @@ const MenuUnit = styled.span<{ active?: boolean, order: any }>`
 `;
 
 const LockIcon = styled.img`
-width: 25px;
-height: 25px;
-position: absolute;
-bottom: 10px;
-filter: opacity(0.5) drop-shadow(0 0 0 blue);
+  width: 25px;
+  height: 25px;
+  position: absolute;
+  bottom: 10px;
+  filter: opacity(0.5) drop-shadow(0 0 0 blue);
 `;
 
 const ProfileContainer = styled.div`
