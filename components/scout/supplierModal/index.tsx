@@ -75,7 +75,9 @@ export const SupplierModal = ({ ...props }: any) => {
       <Modal {...props}>
         <Box sx={style}>
           <Head>
-            <Icon src={data?.picture} />
+            <ImageContainer>
+              <BrandImage src={data?.picture} />
+            </ImageContainer>
             <HeadInfo>
               <Title>{data?.firmName}</Title>
               <HeadInfoBottom>
@@ -160,7 +162,25 @@ const Head = styled.div`
   height: 80px;
 `;
 
-const Icon = styled.img`
+const ImageContainer = styled.div`
+    background: #f5f5f5;
+  box-shadow: inset 1px 1px 8px rgb(0 0 0 / 8%);
+  border-radius: 2px;
+  max-width: 110px;
+  width: 100%;
+  height: 110px; 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  img {
+    max-width: 100%;
+    height: auto;
+    vertical-align: middle;
+  }
+`;
+
+const BrandImage = styled.img`
   height: 64px;
   width: auto;
   border-radius: 8px;
