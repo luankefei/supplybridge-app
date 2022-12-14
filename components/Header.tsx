@@ -31,9 +31,9 @@ export const Header = () => {
 
   const mainHeaderItems = [
     { title: "AUTOMOTIVE", path: "automotive", lock: false },
-    { title: "AEROSPACE", path: "aerospace", lock: false },
-    { title: "RAILWAY", path: "railway", lock: false },
-    { title: "OTHER", path: "other", lock: false },
+    { title: "AEROSPACE", path: "aerospace", lock: true },
+    { title: "RAILWAY", path: "railway", lock: true },
+    { title: "OTHER", path: "other", lock: true },
   ];
 
   const automotiveHeaderItems = [
