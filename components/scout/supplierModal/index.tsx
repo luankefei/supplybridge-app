@@ -60,6 +60,13 @@ export const SupplierModal = ({ ...props }: any) => {
   const [isMemberUnlock, setIsMemberUnlock] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
+    if (newValue === 3) {
+      setTimeout(() => {
+        setIsMemberUnlock(true);
+      }, 1000);
+    } else {
+      setIsMemberUnlock(false);
+    }
     setValue(newValue);
   };
 
@@ -92,7 +99,7 @@ export const SupplierModal = ({ ...props }: any) => {
                   TabIndicatorProps={{ sx: { backgroundColor: "#08979c" } }}
                   sx={{
                     "& button": { color: "#08979c" },
-                    "& button.Mui-selected": { color: "#08979c" }
+                    "& button.Mui-selected": { color: "#08979c" },
                   }}
                 >
                   <Tab
@@ -244,7 +251,7 @@ const UnlockMemberContainer = styled.div<any>`
   left: 50px;
   width: 400px;
   height: 220px;
-  border: 1px solid #D9B535;
+  border: 1px solid #d9b535;
   border-radius: 8px;
   padding: 30px;
   display: flex;
@@ -253,12 +260,11 @@ const UnlockMemberContainer = styled.div<any>`
   align-items: center;
 `;
 
-
 const UnlockIcon = styled.img`
-width: 100px;
+  width: 100px;
 `;
 const UnlockText = styled.div`
   font-size: 24px;
   line-height: 29px;
-  color: #DBCF62;
+  color: #dbcf62;
 `;

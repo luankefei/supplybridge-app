@@ -15,6 +15,7 @@ import { ResultCard, Feedback } from "components/scout";
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
 import Layout from "components/Layout";
+import { useViewport } from "hooks/useViewport";
 
 const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 
@@ -23,6 +24,10 @@ interface Props {
   regions: any;
   suppliersData: any;
   supplierCount: number;
+}
+
+interface SearchProps {
+  scrollPosition: number;
 }
 
 export default function Industry({
@@ -45,6 +50,7 @@ export default function Industry({
     filterData,
     clearFilterData,
   } = useStore();
+  const { scrollOffset } = useViewport();
 
   const handleScrollCallback = useCallback(() => handleScroll(), []);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -86,7 +92,7 @@ export default function Industry({
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
+      document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -123,20 +129,21 @@ export default function Industry({
           <link rel="icon" href="/favicon.ico" />
         </Head>
         <ScoutContainer>
-          <SearchContainer>
-            <IconContainer>
-              <Icon src="smart-bridge-ai" width={40} height={40} />
-              <IconLabel>
-                <Label>powered by</Label>
-                <Label>SmartBridge Artificial Intelligence</Label>
-              </IconLabel>
-            </IconContainer>
-            <SearchBar onSearch={searchHandler} />
-            <CircleButton onClick={() => setFilterModalVisible(true)}>
-              <Icon src="filter" p={"3px"} m={"12px"} hover />
-            </CircleButton>
-          </SearchContainer>
-
+          <DuplicateHeaderForPosition scrollPosition={scrollOffset}>
+            <SearchContainer>
+              <IconContainer>
+                <Icon src="smart-bridge-ai" width={40} height={40} />
+                <IconLabel>
+                  <Label>powered by</Label>
+                  <Label>SmartBridge Artificial Intelligence</Label>
+                </IconLabel>
+              </IconContainer>
+              <SearchBar onSearch={searchHandler} />
+              <CircleButton onClick={() => setFilterModalVisible(true)}>
+                <Icon src="filter" p={"3px"} m={"12px"} hover />
+              </CircleButton>
+            </SearchContainer>
+          </DuplicateHeaderForPosition>
           <Technology>
             <TechnologyHeader>Technology:</TechnologyHeader>
             <TechnologyContainer>
@@ -202,9 +209,26 @@ const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
+  max-width: 1440px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
   }
+`;
+
+const DuplicateHeaderForPosition = styled.div<SearchProps>`
+  position: ${(props) => props.scrollPosition > 126 ? "fixed" : "relative"};
+  background-color: ${(props) => props.scrollPosition > 126 ? "white" : ""};
+  box-shadow: ${(props) => props.scrollPosition > 126 ? "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px" : ""};
+  width: 100%;
+  left: 0;
+  top: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  transition: background-color 100ms linear;
+  transition: position 50ms linear;
+  justify-content: center;
+  height: 90px;
 `;
 
 const IconContainer = styled.div`
