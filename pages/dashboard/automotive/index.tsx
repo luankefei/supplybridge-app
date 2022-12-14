@@ -3,7 +3,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 
-import { Icon } from "components";
+
+import Icon from 'components/Icon'
 const Layout = dynamic(() => import('components/Layout'));
 
 const upperMenu = [

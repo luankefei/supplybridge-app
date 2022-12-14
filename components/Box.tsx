@@ -7,7 +7,7 @@ interface Props {
   onSubmit?: () => any;
 }
 
-export const Box = ({ children, onSubmit }: Props) => {
+const Box = ({ children, onSubmit }: Props) => {
   return (
     <Container
       component="form"
@@ -24,3 +24,5 @@ export const Box = ({ children, onSubmit }: Props) => {
 const Container = styled(MuiBox)`
   width: 100% !important;
 `;
+
+export default Box;

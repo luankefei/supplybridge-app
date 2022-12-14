@@ -1,16 +1,18 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { Icon, TextField } from "components";
 import useStore from "hooks/useStore";
+
+import Icon from 'components/Icon'
+import TextField from 'components/TextField'
 
 interface Props {
   onSearch: () => void;
 }
 
-export const SearchBar = ({ onSearch }: Props) => {
+const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
-  const { setFilterData } = useStore();
+  const { setFilterData, filterData } = useStore();
 
   useEffect(() => {
     setFilterData({ searchTerm: searchItem });
@@ -22,7 +24,7 @@ export const SearchBar = ({ onSearch }: Props) => {
       variant="filled"
       data-testid="search-parts"
       label="Search parts"
-      value={searchItem}
+      value={filterData.searchTerm}
       onChange={(e: any) => setSearchItem(e.target.value)}
       endAdornment={
         <CircleButton onClick={onSearch}>
@@ -82,3 +84,5 @@ const CircleButton = styled.div`
   cursor: pointer;
   user-select: none;
 `;
+
+export default SearchBar;

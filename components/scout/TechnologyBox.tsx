@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
-import { Icon, IconNames } from "components";
+import { IconNames } from "components";
+import Icon from 'components/Icon'
 
 interface Props {
   isSelected?: boolean;
@@ -10,7 +11,7 @@ interface Props {
   onClick?: (label: string) => void;
 }
 
-export const TechnologyBox = ({
+const TechnologyBox = ({
   isSelected = false,
   icon,
   label,
@@ -63,3 +64,5 @@ const Label = styled.span`
   line-height: 22px;
   color: #000000;
 `;
+
+export default TechnologyBox;

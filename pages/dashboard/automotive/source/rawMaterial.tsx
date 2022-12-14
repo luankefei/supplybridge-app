@@ -1,12 +1,14 @@
-import { Icon } from "components";
-import { Header } from "components/Header";
+import { useState } from "react";
 import Head from "next/head";
 import styled from "styled-components";
+import dynamic from "next/dynamic";
 import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
-import { FormControl, InputLabel } from "@mui/material";
-import { useState } from "react";
+import { FormControl } from "@mui/material";
 import Link from "next/link";
+
+const Icon = dynamic(() => import("components/Icon"));
+const Header = dynamic(() => import("components/Header"));
 
 export default function RawMaterial() {
   const [option, setOption] = useState('option1')

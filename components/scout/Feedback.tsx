@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import Script from "next/script";
 
-export const Feedback = () => {
+const Feedback = () => {
   const [loadSurvey, setLoadSurvey] = useState(false);
 
   const openSurvey = () => {
@@ -63,3 +63,5 @@ const Title = styled.span`
   transform-origin: 46px 37px;
   transform: rotate(270deg);
 `;
+
+export default Feedback;

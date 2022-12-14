@@ -5,7 +5,8 @@ import CircularProgress from '@mui/material/CircularProgress';
 import { styled as muiStyled } from '@mui/system';
 import clsx from 'clsx';
 import { theme } from 'config/theme';
-import { Icon } from 'components';
+
+import Icon from 'components/Icon'
 
 const CustomCircularProgress = muiStyled(CircularProgress)`
   margin-left: 10px;
@@ -62,7 +63,7 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
   }
 `;
 
-export const Button = React.forwardRef(function CustomButton(
+const Button = React.forwardRef(function CustomButton(
   props: ButtonUnstyledProps | any,
   ref: React.ForwardedRef<any>,
 ) {
@@ -100,3 +101,5 @@ export const Button = React.forwardRef(function CustomButton(
     </CustomButtonRoot>
   );
 });
+
+export default Button;

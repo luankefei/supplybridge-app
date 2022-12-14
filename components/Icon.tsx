@@ -27,7 +27,7 @@ interface Props {
   hover?: boolean;
 }
 
-export const Icon = ({
+const Icon = ({
   width = 30,
   height = 30,
   src,
@@ -63,3 +63,5 @@ const StyledIcon = styled.img<{
   padding: ${(props) => props.p};
   object-fit: contain;
 `;
+
+export default Icon;

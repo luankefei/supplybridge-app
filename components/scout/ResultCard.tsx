@@ -1,11 +1,11 @@
 import React, { useState } from "react";
 import styled from "styled-components";
-
-import { Badge } from "components";
-import { SupplierModal } from "./supplierModal";
 import { Skeleton } from "@mui/material";
 
-export const ResultCard = ({ data }: { data?: any }) => {
+import { SupplierModal } from "./supplierModal";
+import Badge from 'components/Badge';
+
+const ResultCard = ({ data }: { data?: any }) => {
   const [supplierModalVisible, setSupplierModalVisible] = useState(false);
 
   return (
@@ -271,3 +271,5 @@ const PropertyDescription = styled.span`
   line-height: 24px;
   color: #1f1f1f;
 `;
+
+export default ResultCard;

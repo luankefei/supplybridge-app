@@ -3,19 +3,9 @@ import Link from "next/link";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 
-import { Icon } from "components";
+import Icon from "components/Icon";
+const Layout = dynamic(() => import("components/Layout"));
 
-const Layout = dynamic(() => import('components/Layout'));
-
-const upperMenu = [
-  {
-    title: "AUTOMOTIVE",
-    icon: "automotive",
-    subtitle: "",
-    path: "/dashboard/automotive",
-    active: true,
-  },
-];
 const lowerMenu = [
   {
     title: "AEROSPACE",
@@ -53,24 +43,26 @@ export default function Industry() {
         <Container>
           <Title>Choose an Industry</Title>
           <CardContainer>
-            {upperMenu.map((menu, index) => (
-              <Link href={menu.path} passHref key={`upper_${index}`}>
-                <Card active={menu.active}>
-                  <HeaderContainer>
-                    <IconContainer>
-                      <Icon src={menu.icon} width={65} height={44} />
-                    </IconContainer>
-                  </HeaderContainer>
-                  <ContentContainer>
-                    <SubTitle>{menu.title}</SubTitle>
-                  </ContentContainer>
-                </Card>
-              </Link>
-            ))}
+            <Link href={"/dashboard/automotive"} passHref>
+              <Card active={true}>
+                <HeaderContainer>
+                  <IconContainer>
+                    <Icon src={"automotive"} width={65} height={44} />
+                  </IconContainer>
+                </HeaderContainer>
+                <ContentContainer>
+                  <SubTitle>{"AUTOMOTIVE"}</SubTitle>
+                </ContentContainer>
+              </Card>
+            </Link>
           </CardContainer>
           <CardContainer>
             {lowerMenu.map((lwrMenu, index) => (
-              <Link href={lwrMenu.active ? lwrMenu.path : '#'} passHref key={`upper_${index}`}>
+              <Link
+                href={lwrMenu.active ? lwrMenu.path : "#"}
+                passHref
+                key={`upper_${index}`}
+              >
                 <Card active={lwrMenu.active}>
                   <HeaderContainer>
                     <IconContainer>
@@ -127,14 +119,14 @@ const CardContainer = styled.div`
   gap: 24px;
 `;
 
-const Card = styled.div<{active: boolean}>`
+const Card = styled.div<{ active: boolean }>`
   display: flex;
   flex-direction: column;
   width: 212px;
   height: 212px;
   border-radius: 8px;
   background-color: ${(props) => props.theme.colors.primary};
-  opacity: ${(props) => props.active ? 1 : 0.5};
+  opacity: ${(props) => (props.active ? 1 : 0.5)};
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
 `;
 

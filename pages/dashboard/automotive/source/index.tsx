@@ -1,8 +1,8 @@
 import Head from "next/head";
 import styled from "styled-components";
 import Link from "next/link";
-import { Icon } from "components";
 
+import Icon from 'components/Icon'
 
 const Menus = [
   {

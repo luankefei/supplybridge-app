@@ -1,12 +1,13 @@
-import { Icon } from "components";
 import React from "react";
 import styled from "styled-components";
+
+import Icon from 'components/Icon'
 
 type Props = {
   totalCount: any;
 };
 
-export const Filters = ({ totalCount }: Props) => {
+const Filters = ({ totalCount }: Props) => {
   return (
     <FilterContainer>
       <StaticInformation>
@@ -105,3 +106,5 @@ const Description = styled.span`
   justify-content: center;
   align-items: center;
 `;
+
+export default Filters;

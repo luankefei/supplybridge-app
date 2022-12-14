@@ -12,7 +12,7 @@ interface Props extends PopupProps {
   fullCustomModal?: boolean;
 }
 
-export const Modal = ({
+const Modal = ({
   children,
   open,
   title,
@@ -76,3 +76,5 @@ const Content = styled.div<{ fullCustomModal?: boolean }>`
   width: 100%;
   padding: ${(props) => (props.fullCustomModal ? "0px" : "10px 5px")};
 `;
+
+export default Modal;

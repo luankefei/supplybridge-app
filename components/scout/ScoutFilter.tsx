@@ -4,16 +4,17 @@ import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
 import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
-import { Icon } from "components";
-import useStore from "hooks/useStore";
 import styled from "styled-components";
+
+import useStore from "hooks/useStore";
 import { useFilter } from "requests/useFilter";
+import Icon from 'components/Icon'
 
 interface Props {
   onSearch: () => void;
 }
 
-export const ScoutFilter = ({onSearch}: Props) => {
+const ScoutFilter = ({onSearch}: Props) => {
   const {
     commodities,
     parts,
@@ -186,3 +187,5 @@ const CheckboxLabel = styled.div`
     margin-left: 8px;
   }
 `;
+
+export default ScoutFilter;

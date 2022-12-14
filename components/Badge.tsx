@@ -1,14 +1,15 @@
 import React from "react";
 import styled from "styled-components";
 
-import { Icon, IconNames } from "components";
+import { IconNames } from "components";
+import Icon from 'components/Icon'
 
 type Props = {
   icon?: IconNames;
   label: string;
   color?: string;
 };
-export const Badge = ({ icon, label, color }: Props) => {
+const Badge = ({ icon, label, color }: Props) => {
   return (
     <BadgeContainer color={color}>
       {icon && <Icon src={icon} width={20} height={20} hover />}
@@ -40,3 +41,5 @@ const BadgeSpan = styled.span`
     font-size: 12px;
   }
 `;
+
+export default Badge;

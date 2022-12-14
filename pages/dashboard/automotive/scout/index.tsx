@@ -1,23 +1,24 @@
 import Head from "next/head";
 import styled from "styled-components";
-import axios from "axios";
 import dynamic from "next/dynamic";
 import { useEffect, useState, useCallback, useRef } from "react";
 
-import {
-  Icon,
-  TechnologyBox,
-  SearchBar,
-  ScoutFilter,
-  Filters,
-} from "components";
-import { ResultCard, Feedback } from "components/scout";
+
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
-import Layout from "components/Layout";
 import { useViewport } from "hooks/useViewport";
+import { useFilter } from "requests/useFilter";
+
+const Icon = dynamic(() => import("components/Icon"));
+const Layout = dynamic(() => import("components/Layout"));
 
 const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
+const ResultCard = dynamic(() => import("components/scout/ResultCard"));
+const Feedback = dynamic(() => import("components/scout/Feedback"));
+const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
+const SearchBar = dynamic(() => import("components/scout/SearchBar"));
+const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
+const Filters = dynamic(() => import("components/scout/Filters"));
 
 interface Props {
   commodities: any;
@@ -31,41 +32,30 @@ interface SearchProps {
 }
 
 export default function Industry({
-  commodities,
-  regions,
-  suppliersData,
-  supplierCount,
 }: Props) {
-  const { searchSuppliers, loading } = useSupplier();
   const {
     suppliers,
-    setSuppliers,
-    setCommodities,
-    setRegions,
     page,
     setPage,
     count,
-    setCount,
     setFilterData,
     filterData,
     clearFilterData,
   } = useStore();
   const { scrollOffset } = useViewport();
+  const { getCommodities, getRegions } = useFilter()
+  const { searchSuppliers, loading } = useSupplier();
 
   const handleScrollCallback = useCallback(() => handleScroll(), []);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
 
   const infiniteScrollControl = useRef(true);
-  const countRef = useRef(supplierCount);
+  const countRef = useRef(count);
   const pageRef = useRef(1);
   const clearRef = useRef(false);
 
   useEffect(() => {
-    setSuppliers(suppliersData);
-    setCount(supplierCount);
-    setCommodities(commodities);
-    setRegions(regions);
-
+    getInitialRequests();
     window.addEventListener("scroll", handleScrollCallback);
     return () => {
       window.removeEventListener("scroll", handleScrollCallback);
@@ -79,8 +69,17 @@ export default function Industry({
     }
   }, [filterData]);
 
+  useEffect(() => {
+    countRef.current = count;
+  }, [count])
+
+  const getInitialRequests = () => {
+    getCommodities();
+    getRegions();
+    searchSuppliers();
+  }
+
   const searchSupplierHandler = async () => {
-    // TODO
     const currentPage = pageRef.current;
     if (currentPage * 10 < countRef.current) {
       await searchSuppliers(currentPage + 1, false);
@@ -335,39 +334,39 @@ const Button = styled.div<{ secondary?: boolean }>`
   }
 `;
 
-export async function getServerSideProps({ req }: any) {
-  const token = req.cookies.token;
-  // const refreshToken = req.cookies.refreshToken;
-  // TODO: Implement refreshToken logic
+// export async function getServerSideProps({ req }: any) {
+//   const token = req.cookies.token;
+//   // const refreshToken = req.cookies.refreshToken;
+//   // TODO: Implement refreshToken logic
 
-  const [respCommodities, respRegion, respSuppliers]: any = await Promise.all([
-    axios.get("https://supplyapi.kampp.in/scout/commodities", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-    axios.get("https://supplyapi.kampp.in/scout/regions", {
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }),
-    fetch("https://supplyapi.kampp.in/supplier/search?page=1&pageSize=10", {
-      method: "POST",
-      headers: {
-        "Content-Type": "text/json",
-        Authorization: `Bearer ${token}`,
-      },
-    }).then((res) => res.json()),
-  ]);
+//   const [respCommodities, respRegion, respSuppliers]: any = await Promise.all([
+//     axios.get("https://supplyapi.kampp.in/scout/commodities", {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }),
+//     axios.get("https://supplyapi.kampp.in/scout/regions", {
+//       headers: {
+//         "Content-Type": "application/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }),
+//     fetch("https://supplyapi.kampp.in/supplier/search?page=1&pageSize=10", {
+//       method: "POST",
+//       headers: {
+//         "Content-Type": "text/json",
+//         Authorization: `Bearer ${token}`,
+//       },
+//     }).then((res) => res.json()),
+//   ]);
 
-  return {
-    props: {
-      commodities: respCommodities.data.commodities,
-      regions: respRegion.data.regions,
-      suppliersData: respSuppliers.suppliers,
-      supplierCount: respSuppliers.count,
-    },
-  };
-}
+//   return {
+//     props: {
+//       commodities: respCommodities.data.commodities,
+//       regions: respRegion.data.regions,
+//       suppliersData: respSuppliers.suppliers,
+//       supplierCount: respSuppliers.count,
+//     },
+//   };
+// }

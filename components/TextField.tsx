@@ -1,7 +1,7 @@
 import { styled } from '@mui/material/styles';
 import MuiTextField from '@mui/material/TextField';
 
-export const TextField = styled((props: any) => (
+const TextField = styled((props: any) => (
   <MuiTextField
     inputRef={props.ref}
     InputProps={{ disableUnderline: true, endAdornment: props.endAdornment } as Partial<any>}
@@ -75,3 +75,5 @@ export const TextField = styled((props: any) => (
     borderWidth: 2,
   },
 }));
+
+export default TextField;

@@ -7,9 +7,10 @@ import MenuItem from "@mui/material/MenuItem";
 import cookie from "js-cookie";
 
 import useStore from "hooks/useStore";
-import { Icon } from "./Icon";
 
-export const Header = () => {
+import Icon from 'components/Icon'
+
+const Header = () => {
   const { pathname, push } = useRouter();
   const { signOut } = useStore();
 
@@ -180,3 +181,5 @@ const DropdownItem = styled.span`
   display: flex;
   color: ${(props) => props.theme.colors.primary};
 `;
+
+export default Header;
