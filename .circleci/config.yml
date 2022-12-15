@@ -12,9 +12,6 @@ jobs:
       - restore_cache:
           key: dependency-cache-{{ checksum "yarn.lock" }}
       - run:
-          name: install-yarn
-          command: sudo npm install --global yarn
-      - run:
           name: install-packages
           command: yarn install
       - run:
