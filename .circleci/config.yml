@@ -10,15 +10,18 @@ jobs:
     steps:
       - checkout
       - restore_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
+      - run:
+          name: install-yarn
+          command: npm install --global yarn
       - run:
           name: install-packages
-          command: npm install
+          command: yarn install
       - run:
           name: build-app
-          command: npm run build
+          command: yarn build
       - save_cache:
-          key: dependency-cache-{{ checksum "package-lock.json" }}
+          key: dependency-cache-{{ checksum "yarn.lock" }}
           paths:
             - ./node_modules
       - run:
@@ -31,7 +34,7 @@ jobs:
             - $GITHUB_FINGERPRINT
       - run:
           name: Deploy to Azure Web App
-          command: npm run deploy-<< parameters.build_environment >>
+          command: yarn deploy-<< parameters.build_environment >>
 
 workflows:
   deploy:
