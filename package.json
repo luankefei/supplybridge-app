@@ -6,9 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
-    "deploy-prod" : "npx gh-pages -b deploy-prod --message '[skip ci] Updates' -d ./",
-    "deploy-stage" : "npx gh-pages -b deploy-stage --message '[skip ci] Updates' -d ./"
+    "lint": "next lint"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
