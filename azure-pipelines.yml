@@ -11,7 +11,7 @@ resources:
 
 variables:
   # Container registry service connection established during pipeline creation
-  dockerRegistryServiceConnection: 'c8e1dd5f-12bf-4f59-98a7-572ee87277f9'
+  dockerRegistryServiceConnection: '8d1ae983-2534-471b-8807-08de4c180f2d'
   imageRepository: 'supplybridgeapp'
   containerRegistry: 'supplybridge.azurecr.io'
   dockerfilePath: '$(Build.SourcesDirectory)/Dockerfile'
