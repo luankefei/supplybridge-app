@@ -15,7 +15,7 @@ variables:
   webAppName: 'app-supplybridge-test'
 
   # Environment name
-  environmentName: 'app-supplybridge-test'
+  environmentName: 'supplybridge-app'
 
   # Agent VM image name
   vmImageName: 'ubuntu-latest'
@@ -68,7 +68,7 @@ stages:
         deploy:
           steps:
           - task: AzureWebApp@1
-            displayName: 'Azure Web App Deploy: app-supplybridge-test'
+            displayName: 'Azure Web App Deploy: supplybridge-app'
             inputs:
               azureSubscription: $(azureSubscription)
               appType: webAppLinux
