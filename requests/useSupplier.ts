@@ -12,9 +12,19 @@ export const useSupplier = () => {
   const searchSuppliers = async (pageNumber: number = page, reset = true) => {
     try {
       setLoading(true);
+      const searchObj = {
+        q: filterData.q,
+        offset: pageNumber,
+        limit: pageSize,
+        filter: {
+          ...filterData,
+        },
+      };
+      delete searchObj.filter.q;
+      
       const { data } = await request.post(
-        `supplier/search?page=${pageNumber}&pageSize=${pageSize}`,
-        filterData
+        `supplier/full-text-search`,
+        searchObj
       );
       setLoading(false);
       if (data?.success) {

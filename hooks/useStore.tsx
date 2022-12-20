@@ -63,7 +63,7 @@ const useStore = create<Store | any>(
         regions: [],
         subRegions: [],
         vehicleFuelType: null,
-        searchTerm: "",
+        q: "",
       },
       setFilterData: (data: any) =>
         set(() => ({ filterData: { ...get().filterData, ...data } })),
@@ -83,7 +83,7 @@ const useStore = create<Store | any>(
             regions: [],
             subRegions: [],
             vehicleFuelType: null,
-            searchTerm: "",
+            q: "",
           },
         })),
 
@@ -123,7 +123,7 @@ const useStore = create<Store | any>(
             regions: [],
             subRegions: [],
             vehicleFuelType: null,
-            searchTerm: "",
+            q: "",
           },
           suppliers: [],
         }));

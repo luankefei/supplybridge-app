@@ -15,16 +15,15 @@ const SearchBar = ({ onSearch }: Props) => {
   const { setFilterData, filterData } = useStore();
 
   useEffect(() => {
-    setFilterData({ searchTerm: searchItem });
+    setFilterData({ q: searchItem });
   }, [searchItem]);
-
   return (
     <SearchField
       id="search-parts"
       variant="filled"
       data-testid="search-parts"
       label="Search parts"
-      value={filterData.searchTerm}
+      value={filterData.q}
       onChange={(e: any) => setSearchItem(e.target.value)}
       endAdornment={
         <CircleButton onClick={onSearch}>
