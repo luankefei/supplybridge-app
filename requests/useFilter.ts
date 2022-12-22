@@ -8,7 +8,7 @@ export const useFilter = () => {
 
   const getCommodities = async () => {
     try {
-      const { data } = await request.get("scout/commodities");
+      const { data } = await request.get("commodities");
       setCommodities(data?.commodities);
     } catch (err: any) {
       toast.error(err.response.data.message, {
@@ -20,7 +20,7 @@ export const useFilter = () => {
   const getParts = async (commodityIds: number[]) => {
     try {
       if (commodityIds.length) {
-        const { data } = await request.post("scout/parts", {commodities: commodityIds});
+        const { data } = await request.post("parts", {commodities: commodityIds});
         setParts(data?.parts);
       } else {
         setParts([])
@@ -34,7 +34,7 @@ export const useFilter = () => {
 
   const getRegions = async () => {
     try {
-      const { data } = await request.get("scout/regions");
+      const { data } = await request.get("regions");
       setRegions(data.regions);
     } catch (err: any) {
       toast.error(err.response.data.message, {
@@ -46,7 +46,7 @@ export const useFilter = () => {
   const getSubRegions = async (regionIds: number[]) => {
     try {
       if (regionIds.length) {
-        const { data } = await request.post("scout/subregions", {regions: regionIds});
+        const { data } = await request.post("subregions", {regions: regionIds});
         setSubRegions(data.subRegions);
       } else {
         setSubRegions([]);
