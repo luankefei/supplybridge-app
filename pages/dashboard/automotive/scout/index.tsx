@@ -102,10 +102,10 @@ export default function Industry({
   };
 
   const setFuelType = (value: number) => {
-    if (filterData.vehicleFuelType !== value) {
-      setFilterData({ vehicleFuelType: value });
+    if (filterData.vehicleFuelTypes.includes(value)) {
+      setFilterData({ vehicleFuelTypes: [] });
     } else {
-      setFilterData({ vehicleFuelType: null });
+      setFilterData({ vehicleFuelTypes: [value] });
     }
   };
 
@@ -149,19 +149,19 @@ export default function Industry({
               <TechnologyBox
                 icon={"fuel-oil"}
                 label={"Internal Combustion Engine (ICE)"}
-                isSelected={filterData.vehicleFuelType === 1}
+                isSelected={filterData.vehicleFuelTypes.includes(1)}
                 onClick={() => setFuelType(1)}
               />
               <TechnologyBox
                 icon={"electric-vehicle"}
                 label={"Electric Vehicle (EV)"}
-                isSelected={filterData.vehicleFuelType === 2}
+                isSelected={filterData.vehicleFuelTypes.includes(2)}
                 onClick={() => setFuelType(2)}
               />
               <TechnologyBox
                 icon={"fuel-cell"}
                 label={"Fuel Cell"}
-                isSelected={filterData.vehicleFuelType === 3}
+                isSelected={filterData.vehicleFuelTypes.includes(3)}
                 onClick={() => setFuelType(3)}
               />
             </TechnologyContainer>
