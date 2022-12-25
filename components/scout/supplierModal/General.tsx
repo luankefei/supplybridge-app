@@ -20,7 +20,7 @@ export const GeneralTabPanel = () => {
         <InfoItem>
           <InfoIcon src="/icons/web.svg" />
           <InfoTitle>Website:</InfoTitle>
-          <InfoDescription>www.catl.com</InfoDescription>
+          <InfoDescription>www.test.com</InfoDescription>
         </InfoItem>
         <InfoItem>
           <InfoIcon src="/icons/dollar.svg" />
@@ -48,25 +48,10 @@ export const GeneralTabPanel = () => {
         <Title>Highlights</Title>
         <HighlightList>
           <HighlightListItem>
-            Qilin Battery (2023) - RANGE 1,000km
+            X123 Battery - RANGE 1,500km
           </HighlightListItem>
           <HighlightListItem>
-            Qilin Battery Volume Utilization Efficiency 72%
-          </HighlightListItem>
-          <HighlightListItem>
-            Qilin Battery Volume Utilization Efficiency 72%
-          </HighlightListItem>
-          <HighlightListItem>
-            Qilin Battery Volume Utilization Efficiency 72%
-          </HighlightListItem>
-          <HighlightListItem>
-            Qilin Battery Volume Utilization Efficiency 72%
-          </HighlightListItem>
-          <HighlightListItem>
-            Qilin Battery Volume Utilization Efficiency 72%
-          </HighlightListItem>
-          <HighlightListItem>
-            Qilin Battery Volume Utilization Efficiency 72%
+            2020 Most Innovative Battery Award
           </HighlightListItem>
         </HighlightList>
       </HighlightsContainer>

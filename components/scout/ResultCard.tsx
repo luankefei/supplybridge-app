@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Skeleton } from "@mui/material";
 
 import { SupplierModal } from "./supplierModal";
-import Badge from 'components/Badge';
+import Badge from "components/Badge";
 
 const ResultCard = ({ data }: { data?: any }) => {
   const [supplierModalVisible, setSupplierModalVisible] = useState(false);
@@ -95,7 +95,9 @@ const ResultCard = ({ data }: { data?: any }) => {
                 <PropertyTitle>Headquarter</PropertyTitle>
                 <PropertyDescription>
                   {data?.headquartersName}
-                  <CountryFlag src={`/flags/${data?.headquartersCode?.toLowerCase()}.png`} />
+                  <CountryFlag
+                    src={`/flags/${data?.headquartersCode?.toLowerCase()}.png`}
+                  />
                 </PropertyDescription>
               </Property>
             ) : (

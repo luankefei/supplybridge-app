@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Modal,
-  Tab,
-  Tabs,
-  Typography,
-
-} from "@mui/material";
+import { Box, Button, Modal, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { CapabilitiesTabPanel } from "./Capabilities";
@@ -78,7 +70,7 @@ export const SupplierModal = ({ ...props }: any) => {
               <BrandImage src={data?.picture} />
             </ImageContainer>
             <HeadInfo>
-              <Title>{data?.firmName}</Title>
+              <Title>XYZ Tech (DEMO)</Title>
               <HeadInfoBottom>
                 <BadgeContainer>
                   <BadgeIcon src="/icons/verified-green.svg" />
@@ -87,7 +79,7 @@ export const SupplierModal = ({ ...props }: any) => {
                 <Flag src="/icons/flag.svg" />
               </HeadInfoBottom>
             </HeadInfo>
-
+            <CloseIcon src="/icons/close.svg" onClick={() => props.onClose()} />
           </Head>
           <TabContainer>
             <Box>
@@ -162,12 +154,12 @@ const Head = styled.div`
 `;
 
 const ImageContainer = styled.div`
-    background: #f5f5f5;
+  background: #f5f5f5;
   box-shadow: inset 1px 1px 8px rgb(0 0 0 / 8%);
   border-radius: 2px;
   max-width: 110px;
   width: 100%;
-  height: 110px; 
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -191,6 +183,14 @@ const HeadInfo = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-left: 20px;
+`;
+
+const CloseIcon = styled.img`
+  width: 16px;
+  position: absolute;
+  right: 16px;
+  top: 16px;
+  cursor: pointer;
 `;
 
 const Title = styled.div``;

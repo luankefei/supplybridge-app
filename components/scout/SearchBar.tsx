@@ -3,8 +3,8 @@ import styled from "styled-components";
 
 import useStore from "hooks/useStore";
 
-import Icon from 'components/Icon'
-import TextField from 'components/TextField'
+import Icon from "components/Icon";
+import TextField from "components/TextField";
 
 interface Props {
   onSearch: () => void;
@@ -22,7 +22,7 @@ const SearchBar = ({ onSearch }: Props) => {
       id="search-parts"
       variant="filled"
       data-testid="search-parts"
-      label="Search parts"
+      label="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
       value={filterData.q}
       onChange={(e: any) => setSearchItem(e.target.value)}
       endAdornment={

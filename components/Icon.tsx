@@ -5,6 +5,7 @@ export type IconNames =
   | "show-eye"
   | "hide-eye"
   | "automotive"
+  | "automotive-bordered"
   | "aerospace"
   | "railway"
   | "other"

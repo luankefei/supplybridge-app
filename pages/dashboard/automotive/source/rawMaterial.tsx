@@ -11,10 +11,14 @@ const Icon = dynamic(() => import("components/Icon"));
 const Header = dynamic(() => import("components/Header"));
 
 export default function RawMaterial() {
-  const [option, setOption] = useState('option1')
+  const [optionPrimary, setOptionPrimary] = useState('option1')
+  const [optionSecondary, setOptionSecondary] = useState('option1')
 
-  const handleChange = (event: SelectChangeEvent) => {
-    setOption(event.target.value)
+  const handleChangePrimary = (event: SelectChangeEvent) => {
+    setOptionPrimary(event.target.value)
+  };
+  const handleChangeSecondary = (event: SelectChangeEvent) => {
+    setOptionSecondary(event.target.value)
   };
 
   return (
@@ -38,8 +42,8 @@ export default function RawMaterial() {
         <FormControl sx={{ m: 2, width: 560 }}>
           <Select
             id="demo-simple-select-helper"
-            value={option}
-            onChange={handleChange}
+            value={optionPrimary}
+            onChange={handleChangePrimary}
             sx={{
               width: 560,
               height: 88,
@@ -51,17 +55,17 @@ export default function RawMaterial() {
               paddingLeft: 4
             }}
           >
-            <MenuItem value={"option1"}>Option 1</MenuItem>
-            <MenuItem value={"option2"}>Option 2</MenuItem>
-            <MenuItem value={"option3"}>Option 3</MenuItem>
+            <MenuItem value={"option1"}>Primary Material</MenuItem>
+            {/* <MenuItem value={"option2"}>Option 2</MenuItem>
+            <MenuItem value={"option3"}>Option 3</MenuItem> */}
           </Select>
         </FormControl>
         <SubTitle>or</SubTitle>
         <FormControl sx={{ m: 2, width: 560 }}>
           <Select
             id="demo-simple-select-helper"
-            value={option}
-            onChange={handleChange}
+            value={optionSecondary}
+            onChange={handleChangeSecondary}
             sx={{
               width: 560,
               height: 88,
@@ -73,9 +77,9 @@ export default function RawMaterial() {
               paddingLeft: 4
             }}
           >
-            <MenuItem value={"option1"}>Option 1</MenuItem>
-            <MenuItem value={"option2"}>Option 2</MenuItem>
-            <MenuItem value={"option3"}>Option 3</MenuItem>
+            <MenuItem value={"option1"}>Secondary Material</MenuItem>
+            {/* <MenuItem value={"option2"}>Option 2</MenuItem>
+            <MenuItem value={"option3"}>Option 3</MenuItem> */}
           </Select>
         </FormControl>
 
