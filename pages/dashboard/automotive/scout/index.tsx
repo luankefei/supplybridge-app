@@ -147,8 +147,8 @@ export default function Industry({
             <TechnologyHeader>Technology:</TechnologyHeader>
             <TechnologyContainer>
               <TechnologyBox
-                icon={"fuel-oil"}
-                label={"Internal Combustion Engine (ICE)"}
+                icon={"automotive-bordered"}
+                label={"Connected / Autonomous Vehicle"}
                 isSelected={filterData.vehicleFuelTypes.includes(1)}
                 onClick={() => setFuelType(1)}
               />
