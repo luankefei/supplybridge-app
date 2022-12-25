@@ -31,19 +31,19 @@ const Header = () => {
   };
 
   const mainHeaderItems = [
-    { title: "AUTOMOTIVE", path: "automotive", lock: false },
-    { title: "AEROSPACE", path: "aerospace", lock: true },
-    { title: "RAILWAY", path: "railway", lock: true },
-    { title: "OTHER", path: "other", lock: true },
+    { title: "AUTOMOTIVE", path: "automotive", parentPath:'', lock: false },
+    { title: "AEROSPACE", path: "aerospace", parentPath:'', lock: true },
+    { title: "RAILWAY", path: "railway", parentPath:'', lock: true },
+    { title: "OTHER", path: "other", parentPath:'', lock: true },
   ];
 
   const automotiveHeaderItems = [
-    { title: "SCOUT", path: "scout", lock: false },
-    { title: "SOURCE", path: "source", lock: false },
-    { title: "EVALUATE", path: "evaluate", lock: true },
-    { title: "TRACE", path: "trace", lock: true },
-    { title: "FINANCE", path: "finance", lock: true },
-    { title: "TRANSPORT", path: "transport", lock: true },
+    { title: "SCOUT", path: "scout", parentPath: 'automotive/', lock: false },
+    { title: "SOURCE", path: "source", parentPath: 'automotive/', lock: false },
+    { title: "EVALUATE", path: "evaluate", parentPath: 'automotive/', lock: true },
+    { title: "TRACE", path: "trace", parentPath: 'automotive/', lock: true },
+    { title: "FINANCE", path: "finance", parentPath: 'automotive/', lock: true },
+    { title: "TRANSPORT", path: "transport", parentPath: 'automotive/', lock: true },
   ];
 
   const chooseMenuItems = () => {
@@ -80,7 +80,7 @@ const Header = () => {
             order={index}
             onClick={() => {
               !item.lock
-                ? push(`/dashboard/automotive/${item.path}`)
+                ? push(`/dashboard/${item.parentPath}${item.path}`)
                 : push("");
             }}
           >
