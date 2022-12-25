@@ -15,12 +15,20 @@ const SearchBar = ({ onSearch }: Props) => {
   const { setFilterData, filterData } = useStore();
 
   const onClickSearch = () => {
-    searchItem && onSearch();
+    onSearch();
   };
 
   useEffect(() => {
-    searchItem && setFilterData({ q: searchItem });
+    setFilterData({ q: searchItem });
   }, [searchItem]);
+
+
+  const onKeyPressHandler = (event: any) => {
+    if(event.key === 'Enter') {
+      onSearch();
+    };
+  }
+
   return (
     <SearchField
       id="search-parts"
@@ -29,6 +37,7 @@ const SearchBar = ({ onSearch }: Props) => {
       label="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
       value={filterData.q}
       onChange={(e: any) => setSearchItem(e.target.value)}
+      onKeyPress={onKeyPressHandler}
       endAdornment={
         <CircleButton onClick={onClickSearch}>
           <Icon src="search" width={20} height={20} m={"12px"} hover />
