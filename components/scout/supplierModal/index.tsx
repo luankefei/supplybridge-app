@@ -95,26 +95,10 @@ export const SupplierModal = ({ ...props }: any) => {
                     "& button.Mui-selected": { color: "#08979c" },
                   }}
                 >
-                  <Tab
-                    style={{ textTransform: "none" }}
-                    label="General"
-                    value={0}
-                  />
-                  <Tab
-                    style={{ textTransform: "none" }}
-                    label="Portfolio"
-                    value={1}
-                  />
-                  <Tab
-                    style={{ textTransform: "none" }}
-                    label="Capabilities"
-                    value={2}
-                  />
-                  <Tab
-                    style={{ textTransform: "none" }}
-                    label="Ratings"
-                    value={3}
-                  />
+                  <CustomTab label="General" value={0} />
+                  <CustomTab label="Portfolio" value={1} />
+                  <CustomTab label="Capabilities" value={2} />
+                  <CustomTab label="Ratings" value={3} />
                 </Tabs>
               </Box>
               <TabPanelContainer>
@@ -185,6 +169,10 @@ const HeadInfo = styled.div`
   margin-left: 20px;
 `;
 
+const CustomTab = styled(Tab)`
+  text-transform: none;
+  font-family: "Ubuntu", sans-serif !important;
+`;
 const CloseIcon = styled.img`
   width: 16px;
   position: absolute;
@@ -226,6 +214,7 @@ const Flag = styled.img`
 
 const TabContainer = styled.div`
   height: 600px;
+  font-family: "Ubuntu", sans-serif !important;
   @media (max-width: ${(props) => props.theme.size.laptopL}) {
     height: 500px;
   }

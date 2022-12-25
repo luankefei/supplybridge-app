@@ -14,7 +14,7 @@ interface Props {
   onSearch: () => void;
 }
 
-const ScoutFilter = ({onSearch}: Props) => {
+const ScoutFilter = () => {
   const {
     commodities,
     parts,
@@ -64,10 +64,6 @@ const ScoutFilter = ({onSearch}: Props) => {
   useEffect(() => {
     setFilterData({ subRegions: selectedCountries });
   }, [selectedCountries]);
-
-  useEffect(() => {
-    onSearch();
-  }, [subRegions]);
 
   const getFilterListById = (data: any, type: string) => {
     if (type === "commodities") {

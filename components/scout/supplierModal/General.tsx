@@ -1,10 +1,9 @@
 import { Divider } from "@mui/material";
 import styled from "styled-components";
 
-
 export const GeneralTabPanel = () => {
   return (
-    <>
+    <GeneralContainer>
       <Title>Basic Info</Title>
       <BasicInfoContainer>
         <InfoItem>
@@ -55,10 +54,13 @@ export const GeneralTabPanel = () => {
           </HighlightListItem>
         </HighlightList>
       </HighlightsContainer>
-    </>
-  )
-}
+    </GeneralContainer>
+  );
+};
 
+const GeneralContainer = styled.div`
+  font-family: "Ubuntu", sans-serif !important;
+`;
 const Title = styled.div``;
 
 const BasicInfoContainer = styled.div`
