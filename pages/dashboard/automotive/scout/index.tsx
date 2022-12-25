@@ -3,7 +3,6 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useState, useCallback, useRef } from "react";
 
-
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
 import { useViewport } from "hooks/useViewport";
@@ -31,8 +30,7 @@ interface SearchProps {
   scrollPosition: number;
 }
 
-export default function Industry({
-}: Props) {
+export default function Industry({}: Props) {
   const {
     suppliers,
     page,
@@ -43,7 +41,7 @@ export default function Industry({
     clearFilterData,
   } = useStore();
   const { scrollOffset } = useViewport();
-  const { getCommodities, getRegions } = useFilter()
+  const { getCommodities, getRegions } = useFilter();
   const { searchSuppliers, loading } = useSupplier();
 
   const handleScrollCallback = useCallback(() => handleScroll(), []);
@@ -53,6 +51,7 @@ export default function Industry({
   const countRef = useRef(count);
   const pageRef = useRef(1);
   const clearRef = useRef(false);
+  const pageLoaded = useRef(false);
 
   useEffect(() => {
     getInitialRequests();
@@ -71,13 +70,16 @@ export default function Industry({
 
   useEffect(() => {
     countRef.current = count;
-  }, [count])
+  }, [count]);
 
   const getInitialRequests = () => {
-    getCommodities();
-    getRegions();
-    searchSuppliers();
-  }
+    if (!pageLoaded.current) {
+      pageLoaded.current = true;
+      getCommodities();
+      getRegions();
+      searchSuppliers();
+    }
+  };
 
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
@@ -91,7 +93,7 @@ export default function Industry({
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-      document.documentElement.scrollTop <=
+        document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -169,11 +171,11 @@ export default function Industry({
 
           <MainContainer>
             <div>
-              <ScoutFilter onSearch={searchHandler} />
+              <ScoutFilter />
               <Button secondary onClick={clearHandler}>
                 Clear Filter
               </Button>
-              <Button onClick={searchHandler}>Search</Button>
+              <Button onClick={() => searchHandler()}>Search</Button>
             </div>
             <MapResultContainer>
               <GeoCharts />
@@ -215,9 +217,12 @@ const SearchContainer = styled.div`
 `;
 
 const DuplicateHeaderForPosition = styled.div<SearchProps>`
-  position: ${(props) => props.scrollPosition > 126 ? "fixed" : "relative"};
-  background-color: ${(props) => props.scrollPosition > 126 ? "white" : ""};
-  box-shadow: ${(props) => props.scrollPosition > 126 ? "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px" : ""};
+  position: ${(props) => (props.scrollPosition > 126 ? "fixed" : "relative")};
+  background-color: ${(props) => (props.scrollPosition > 126 ? "white" : "")};
+  box-shadow: ${(props) =>
+    props.scrollPosition > 126
+      ? "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px"
+      : ""};
   width: 100%;
   left: 0;
   top: 0;

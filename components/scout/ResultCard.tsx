@@ -3,7 +3,8 @@ import styled from "styled-components";
 import { Skeleton } from "@mui/material";
 
 import { SupplierModal } from "./supplierModal";
-import Badge from 'components/Badge';
+import Badge from "components/Badge";
+import Icon from "components/Icon";
 
 const ResultCard = ({ data }: { data?: any }) => {
   const [supplierModalVisible, setSupplierModalVisible] = useState(false);
@@ -73,8 +74,8 @@ const ResultCard = ({ data }: { data?: any }) => {
             {data ? (
               <Property>
                 <PropertyTitle>Customers Served</PropertyTitle>
-                <PropertyDescription>
-                  Nissan, BMW, Volvo and more
+                <PropertyDescription color={"#08979c"}>
+                  Unlock with Membership
                 </PropertyDescription>
               </Property>
             ) : (
@@ -95,7 +96,9 @@ const ResultCard = ({ data }: { data?: any }) => {
                 <PropertyTitle>Headquarter</PropertyTitle>
                 <PropertyDescription>
                   {data?.headquartersName}
-                  <CountryFlag src={`/flags/${data?.headquartersCode?.toLowerCase()}.png`} />
+                  <CountryFlag
+                    src={`/flags/${data?.headquartersCode?.toLowerCase()}.png`}
+                  />
                 </PropertyDescription>
               </Property>
             ) : (
@@ -115,7 +118,7 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Revenue</PropertyTitle>
                 <PropertyDescription>
-                  {data?.revenue || "$12,000,000"}
+                  {data?.revenue || "- (-)"}
                 </PropertyDescription>
               </Property>
             ) : (
@@ -131,16 +134,13 @@ const ResultCard = ({ data }: { data?: any }) => {
             )}
             {data ? (
               <Property>
-                <PropertyTitle>Capacity Availability</PropertyTitle>
-                <PropertyDescription>High Open / Med Open</PropertyDescription>
-              </Property>
-            ) : (
-              <Skeleton animation="wave" height={20} width="100%" />
-            )}
-            {data ? (
-              <Property>
-                <PropertyTitle>Financial Rating</PropertyTitle>
-                <PropertyDescription>A</PropertyDescription>
+                <PropertyTitle>
+                  Insights (Financial, ESG, Ratings)
+                </PropertyTitle>
+                <PropertyDescription color={"#08979c"}>
+                  VIEW INSIGHT{" "}
+                  <Icon src="right-arrow" width={20} height={20} hover />
+                </PropertyDescription>
               </Property>
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
@@ -262,14 +262,14 @@ const PropertyTitle = styled.span`
   line-height: 24px;
   color: #8c8c8c;
 `;
-const PropertyDescription = styled.span`
+const PropertyDescription = styled.span<{ color?: string }>`
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: #1f1f1f;
+  color: ${(props) => (props.color ? props.color : "#1f1f1f")};
 `;
 
 export default ResultCard;

@@ -14,8 +14,12 @@ const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData, filterData } = useStore();
 
+  const onClickSearch = () => {
+    searchItem && onSearch();
+  };
+
   useEffect(() => {
-    setFilterData({ q: searchItem });
+    searchItem && setFilterData({ q: searchItem });
   }, [searchItem]);
   return (
     <SearchField
@@ -26,7 +30,7 @@ const SearchBar = ({ onSearch }: Props) => {
       value={filterData.q}
       onChange={(e: any) => setSearchItem(e.target.value)}
       endAdornment={
-        <CircleButton onClick={onSearch}>
+        <CircleButton onClick={onClickSearch}>
           <Icon src="search" width={20} height={20} m={"12px"} hover />
         </CircleButton>
       }

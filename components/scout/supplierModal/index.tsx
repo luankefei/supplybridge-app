@@ -1,12 +1,4 @@
-import {
-  Box,
-  Button,
-  Modal,
-  Tab,
-  Tabs,
-  Typography,
-
-} from "@mui/material";
+import { Box, Button, Modal, Tab, Tabs, Typography } from "@mui/material";
 import React, { useState } from "react";
 import styled from "styled-components";
 import { CapabilitiesTabPanel } from "./Capabilities";
@@ -87,7 +79,6 @@ export const SupplierModal = ({ ...props }: any) => {
                 <Flag src="/icons/flag.svg" />
               </HeadInfoBottom>
             </HeadInfo>
-
           </Head>
           <TabContainer>
             <Box>
@@ -103,23 +94,19 @@ export const SupplierModal = ({ ...props }: any) => {
                     "& button.Mui-selected": { color: "#08979c" },
                   }}
                 >
-                  <Tab
-                    style={{ textTransform: "none" }}
+                  <CustomTab
                     label="General"
                     value={0}
                   />
-                  <Tab
-                    style={{ textTransform: "none" }}
+                  <CustomTab
                     label="Portfolio"
                     value={1}
                   />
-                  <Tab
-                    style={{ textTransform: "none" }}
+                  <CustomTab
                     label="Capabilities"
                     value={2}
                   />
-                  <Tab
-                    style={{ textTransform: "none" }}
+                  <CustomTab
                     label="Ratings"
                     value={3}
                   />
@@ -162,12 +149,12 @@ const Head = styled.div`
 `;
 
 const ImageContainer = styled.div`
-    background: #f5f5f5;
+  background: #f5f5f5;
   box-shadow: inset 1px 1px 8px rgb(0 0 0 / 8%);
   border-radius: 2px;
   max-width: 110px;
   width: 100%;
-  height: 110px; 
+  height: 110px;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -191,6 +178,11 @@ const HeadInfo = styled.div`
   flex-direction: column;
   justify-content: space-between;
   margin-left: 20px;
+`;
+
+const CustomTab = styled(Tab)`
+  text-transform: none;
+  font-family: "Ubuntu", sans-serif !important;
 `;
 
 const Title = styled.div``;
@@ -226,6 +218,7 @@ const Flag = styled.img`
 
 const TabContainer = styled.div`
   height: 600px;
+  font-family: "Ubuntu", sans-serif !important;
   @media (max-width: ${(props) => props.theme.size.laptopL}) {
     height: 500px;
   }
