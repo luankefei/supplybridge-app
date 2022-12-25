@@ -170,7 +170,7 @@ const GeoCharts = () => {
           colorAxis: {
             minValue: 0,
             maxValue: 1,
-            colors: ["#FF9C6E", "#85A5FF"],
+            colors: ["#08979c", "#10712B"],
           },
         }}
       />

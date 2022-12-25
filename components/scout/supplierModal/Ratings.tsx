@@ -11,7 +11,7 @@ export const Ratings = () => {
   }
 
   return (
-    <>
+    <RatingsContainer>
       <Title>Score</Title>
       <ProgressBarContainer>
         <ProgressBar value={value}></ProgressBar>
@@ -47,12 +47,18 @@ export const Ratings = () => {
           <ScoreDescription>3.6</ScoreDescription>
         </ScoreInfo>
       </ScoreList>
-    </>
+    </RatingsContainer>
   )
 }
 
+const RatingsContainer = styled.div`
+  font-family: "Ubuntu", sans-serif !important;
+`
+
 const Title = styled.div`
-margin-bottom: 15px;`;
+margin-bottom: 15px;
+font-weight: 600;
+`
 
 const breatheAnimation = keyframes`
   0% { --percentage: 0; };

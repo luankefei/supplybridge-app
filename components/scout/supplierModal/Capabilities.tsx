@@ -3,7 +3,7 @@ import styled from "styled-components";
 
 export const CapabilitiesTabPanel = () => {
   return (
-    <>
+    <CapabilitiesContainer>
       <Title>R&D</Title>
       <RDContainer>
         <RDInfo>
@@ -51,12 +51,18 @@ export const CapabilitiesTabPanel = () => {
           </CertificateDescription>
         </CertificateItem>
       </CertificateContainer>
-    </>
+    </CapabilitiesContainer>
   )
 }
 
+const CapabilitiesContainer = styled.div`
+  font-family: "Ubuntu", sans-serif !important;
+`
+
 const Title = styled.div`
   margin-bottom: 10px;
+  font-weight: 600;
+
 `;
 const RDContainer = styled.div`
 margin: 15px 0;

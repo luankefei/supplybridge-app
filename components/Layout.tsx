@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Header from 'components/Header';
+import Header from "components/Header";
 
 const Layout = ({ children }: { children: React.ReactElement }) => {
   return (
@@ -13,7 +13,7 @@ const Layout = ({ children }: { children: React.ReactElement }) => {
 };
 
 const Container = styled.div`
-  font-family: "Ubuntu";
+  font-family: "Ubuntu", sans-serif !important;
 `;
 const InnerContainer = styled.div`
   padding: 32px 50px;
