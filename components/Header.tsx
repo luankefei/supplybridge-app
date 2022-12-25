@@ -80,7 +80,7 @@ const Header = () => {
             order={index}
             onClick={() => {
               !item.lock
-                ? push(`/dashboard/automotive/${item.path}`)
+                ? push(`/dashboard/${item.path}`)
                 : push("");
             }}
           >
