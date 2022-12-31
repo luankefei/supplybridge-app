@@ -17,7 +17,7 @@ interface Props {
 const ScoutFilter = () => {
   const {
     commodities,
-    parts,
+    components,
     regions,
     subRegions,
     setFilterData,
@@ -25,7 +25,7 @@ const ScoutFilter = () => {
     selectedRegions,
     selectedCountries
   } = useStore();
-  const { getParts, getSubRegions } = useFilter();
+  const { getComponents, getSubRegions } = useFilter();
 
   const data = [
     {
@@ -34,13 +34,13 @@ const ScoutFilter = () => {
       items: commodities,
     },
     {
-      label: "Parts",
-      key: "parts",
-      items: parts,
+      label: "Components",
+      key: "components",
+      items: components,
     },
     {
-      label: "Core Technologies",
-      key: "coreTechnologies",
+      label: "CoreCompetencies",
+      key: "coreCompetencies",
       items: [],
     },
     {
@@ -67,7 +67,7 @@ const ScoutFilter = () => {
 
   const getFilterListById = (data: any, type: string) => {
     if (type === "commodities") {
-      getParts(data.commodities);
+      getComponents(data.commodities);
     } else if (type === "regions") {
       getSubRegions(data.regions);
     }
@@ -122,7 +122,7 @@ const ScoutFilter = () => {
                     }
                     label={
                       <CheckboxLabel>
-                        <p>{checkbox.description}</p>
+                        <p>{checkbox.name}</p>
                       </CheckboxLabel>
                     }
                   />

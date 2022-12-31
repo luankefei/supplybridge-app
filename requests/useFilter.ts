@@ -4,7 +4,7 @@ import { request } from 'config/axios';
 import useStore from 'hooks/useStore';
 
 export const useFilter = () => {
-  const { setCommodities, setRegions, setParts, setSubRegions } = useStore();
+  const { setCommodities, setRegions, setComponents, setSubRegions } = useStore();
 
   const getCommodities = async () => {
     try {
@@ -17,13 +17,13 @@ export const useFilter = () => {
     }
   };
 
-  const getParts = async (commodityIds: number[]) => {
+  const getComponents = async (commodityIds: number[]) => {
     try {
       if (commodityIds.length) {
-        const { data } = await request.post("parts", {commodities: commodityIds});
-        setParts(data?.parts);
+        const { data } = await request.post("components", {commodities: commodityIds});
+        setComponents(data?.components);
       } else {
-        setParts([])
+        setComponents([])
       }
     } catch (err: any) {
       toast.error(err.response.data.message, {
@@ -46,7 +46,7 @@ export const useFilter = () => {
   const getSubRegions = async (regionIds: number[]) => {
     try {
       if (regionIds.length) {
-        const { data } = await request.post("subregions", {regions: regionIds});
+        const { data } = await request.post("sub_regions", {regions: regionIds});
         setSubRegions(data.subRegions);
       } else {
         setSubRegions([]);
@@ -59,5 +59,5 @@ export const useFilter = () => {
     }
   };
 
-  return { getCommodities, getParts, getRegions, getSubRegions };
+  return { getCommodities, getComponents, getRegions, getSubRegions };
 };
