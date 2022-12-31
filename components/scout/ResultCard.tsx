@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { Skeleton } from "@mui/material";
-
+import _ from "lodash";
 import { SupplierModal } from "./supplierModal";
 import Badge from "components/Badge";
 import Icon from "components/Icon";
@@ -15,7 +15,7 @@ const ResultCard = ({ data }: { data?: any }) => {
         <BrandContainer>
           {data ? (
             <ImageContainer>
-              <BrandImage src={data.picture} alt="become_a_supplier" />
+              <BrandImage src={data.logo} alt="become_a_supplier" />
             </ImageContainer>
           ) : (
             <Skeleton
@@ -28,9 +28,9 @@ const ResultCard = ({ data }: { data?: any }) => {
           {data ? (
             <Description>
               <TitleBadge>
-                <Title>{data?.firmName}</Title>
+                <Title>{data.longName}</Title>
                 <Badge label={"VERIFIED SUPPLIER"} icon={"verified"} />
-                {data?.isInnovation && (
+                {data.isInnovation && (
                   <Badge
                     label={"INNOVATION"}
                     color={"#EB2F96"}
@@ -38,7 +38,7 @@ const ResultCard = ({ data }: { data?: any }) => {
                   />
                 )}
               </TitleBadge>
-              <Subtext>{data?.description}</Subtext>
+              <Subtext>{data.description}</Subtext>
             </Description>
           ) : (
             <Skeleton
@@ -55,7 +55,7 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Commodity</PropertyTitle>
                 <PropertyDescription>
-                  <span>{data?.commodityNames?.toString()}</span>
+                  <span>{_.join(_.uniq(_.map(data.products, 'coreCompetency.component.commoditiy.name')))}</span>
                 </PropertyDescription>
               </Property>
             ) : (
@@ -65,7 +65,7 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Core Competence</PropertyTitle>
                 <PropertyDescription>
-                  <span>{data?.coreTechnologyNames?.toString()}</span>
+                  <span>{_.join(_.map(data.products, 'coreCompetency.name'))}</span>
                 </PropertyDescription>
               </Property>
             ) : (
@@ -85,7 +85,7 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Supplier Type</PropertyTitle>
                 <PropertyDescription>
-                  {data?.supplierType || "Tier1"}
+                  {data.tier?.name || "Tier1"}
                 </PropertyDescription>
               </Property>
             ) : (
@@ -95,9 +95,9 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Headquarter</PropertyTitle>
                 <PropertyDescription>
-                  {data?.headquartersName}
+                  {data.headquarter?.name}
                   <CountryFlag
-                    src={`/flags/${data?.headquartersCode?.toLowerCase()}.png`}
+                    src={data.headquarter ? `/flags/${data.headquarter.code.toLowerCase()}.png` : ''}
                   />
                 </PropertyDescription>
               </Property>
@@ -109,7 +109,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             {data ? (
               <Property>
                 <PropertyTitle>Founded</PropertyTitle>
-                <PropertyDescription>2020</PropertyDescription>
+                <PropertyDescription> {data.established || "-"}</PropertyDescription>
               </Property>
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
@@ -118,7 +118,7 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Revenue</PropertyTitle>
                 <PropertyDescription>
-                  {data?.revenue || "- (-)"}
+                  {data?.revenue || "-"}
                 </PropertyDescription>
               </Property>
             ) : (

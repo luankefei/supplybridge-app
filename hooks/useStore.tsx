@@ -38,8 +38,8 @@ const useStore = create<Store | any>(
       commodities: [],
       setCommodities: (commodities: any) => set(() => ({ commodities })),
 
-      parts: [],
-      setParts: (parts: any) => set(() => ({ parts })),
+      components: [],
+      setComponents: (components: any) => set(() => ({ components })),
 
       regions: [],
       setRegions: (regions: any) => set(() => ({ regions })),
@@ -58,8 +58,8 @@ const useStore = create<Store | any>(
 
       filterData: {
         commodities: [],
-        parts: [],
-        coreTechnologies: [],
+        components: [],
+        coreCompetencies: [],
         regions: [],
         subRegions: [],
         vehicleFuelTypes: [],
@@ -72,14 +72,14 @@ const useStore = create<Store | any>(
         set(() => ({
           page: 1,
           pageSize: 10,
-          parts: [],
+          components: [],
           subRegions: [],
           selectedRegions: [],
           selectedCountries: [],
           filterData: {
             commodities: [],
-            parts: [],
-            coreTechnologies: [],
+            components: [],
+            coreCompetencies: [],
             regions: [],
             subRegions: [],
             vehicleFuelTypes: [],
@@ -118,8 +118,8 @@ const useStore = create<Store | any>(
           count: 0,
           filterData: {
             commodities: [],
-            parts: [],
-            coreTechnologies: [],
+            components: [],
+            coreCompetencies: [],
             regions: [],
             subRegions: [],
             vehicleFuelTypes: [],
