@@ -27,12 +27,10 @@ export const useSupplier = () => {
         searchObj
       );
       setLoading(false);
-      if (data?.success) {
-        setSuppliers(data?.suppliers, reset);
-        setCount(data.count);
-        const newPage = pageNumber + 1;
-        setPage(newPage);
-      }
+      setSuppliers(data?.suppliers, reset);
+      setCount(data.count);
+      const newPage = pageNumber + 1;
+      setPage(newPage);
     } catch (err: any) {
       setLoading(false);
       toast.error(err.response.data.message, {
