@@ -23,7 +23,7 @@ export const useSupplier = () => {
       delete searchObj.filter.q;
       
       const { data } = await request.post(
-        `suppliers/full-text-search`,
+        `suppliers/search_full_text`,
         searchObj
       );
       setLoading(false);
