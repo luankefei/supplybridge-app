@@ -12,7 +12,7 @@ interface Props {
 
 const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
-  const { setFilterData, filterData } = useStore();
+  const { setFilterData } = useStore();
 
   const onClickSearch = () => {
     onSearch();
@@ -22,20 +22,20 @@ const SearchBar = ({ onSearch }: Props) => {
     setFilterData({ q: searchItem });
   }, [searchItem]);
 
-
   const onKeyPressHandler = (event: any) => {
-    if(event.key === 'Enter') {
+    if (event.key === "Enter") {
       onSearch();
-    };
-  }
+    }
+  };
 
   return (
     <SearchField
       id="search-parts"
+      key="search-parts-input"
       variant="filled"
       data-testid="search-parts"
       label="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
-      value={filterData.q}
+      value={searchItem}
       onChange={(e: any) => setSearchItem(e.target.value)}
       onKeyPress={onKeyPressHandler}
       endAdornment={
