@@ -9,19 +9,22 @@ export const useSupplier = () => {
     useStore();
   const [loading, setLoading] = useState(false);
 
-  const searchSuppliers = async (pageNumber: number = page, reset = true) => {
+  const searchSuppliers = async (
+    pageNumber: number = page,
+    reset = true,
+    searchString?: string
+  ) => {
     try {
       setLoading(true);
       const searchObj = {
-        q: filterData.q,
+        q: filterData.q || searchString,
         offset: pageNumber,
         limit: pageSize,
         filter: {
           ...filterData,
         },
       };
-      delete searchObj.filter.q;
-      
+
       const { data } = await request.post(
         `suppliers/search_full_text`,
         searchObj

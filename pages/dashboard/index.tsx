@@ -4,6 +4,10 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 
 import Icon from "components/Icon";
+import { useIndustries } from "requests/useIndustries";
+import { useEffect } from "react";
+import useStore from "hooks/useStore";
+
 const Layout = dynamic(() => import("components/Layout"));
 
 const lowerMenu = [
@@ -31,6 +35,12 @@ const lowerMenu = [
 ];
 
 export default function Industry() {
+  const { searchIndustries } = useIndustries();
+  const { industries } = useStore();
+  useEffect(() => {
+    searchIndustries();
+  }, []);
+
   return (
     <Layout>
       <>
@@ -43,41 +53,45 @@ export default function Industry() {
         <Container>
           <Title>Choose an Industry</Title>
           <CardContainer>
-            <Link href={"/dashboard/automotive"} passHref>
-              <Card active={true}>
-                <HeaderContainer>
-                  <IconContainer>
-                    <Icon src={"automotive"} width={65} height={44} />
-                  </IconContainer>
-                </HeaderContainer>
-                <ContentContainer>
-                  <SubTitle>{"AUTOMOTIVE"}</SubTitle>
-                </ContentContainer>
-              </Card>
-            </Link>
+            {industries
+              .filter((x: any) => x?.isActive)
+              .map((item: any) => {
+                return (
+                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref>
+                    <Card active={item.isActive}>
+                      <HeaderContainer>
+
+                        <IconContainer>
+                          <img src={item.icon} width={65} height={44} />
+                        </IconContainer>
+                      </HeaderContainer>
+                      <ContentContainer>
+                        <SubTitle>{item?.name}</SubTitle>
+                      </ContentContainer>
+                    </Card>
+                  </Link>
+                );
+              })}
           </CardContainer>
           <CardContainer>
-            {lowerMenu.map((lwrMenu, index) => (
-              <Link
-                href={lwrMenu.active ? lwrMenu.path : "#"}
-                passHref
-                key={`upper_${index}`}
-              >
-                <Card active={lwrMenu.active}>
-                  <HeaderContainer>
-                    <IconContainer>
-                      <Icon src={lwrMenu.icon} width={65} height={44} />
-                    </IconContainer>
-                  </HeaderContainer>
-                  <ContentContainer>
-                    <SubTitle>{lwrMenu.title}</SubTitle>
-                    {lwrMenu.subtitle ? (
-                      <Label>{lwrMenu.subtitle}</Label>
-                    ) : null}
-                  </ContentContainer>
-                </Card>
-              </Link>
-            ))}
+            {industries
+              .filter((x: any) => !x?.isActive)
+              .map((item: any) => {
+                return (
+                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref>
+                    <Card active={item.isActive}>
+                      <HeaderContainer>
+                        <IconContainer>
+                          <img src={item.icon} width={65} height={44} />
+                        </IconContainer>
+                      </HeaderContainer>
+                      <ContentContainer>
+                        <SubTitle>{item?.name}</SubTitle>
+                      </ContentContainer>
+                    </Card>
+                  </Link>
+                );
+              })}
           </CardContainer>
         </Container>
       </>
