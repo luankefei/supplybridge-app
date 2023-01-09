@@ -18,6 +18,10 @@ interface Store {
   setCount: (value: number) => void;
   suppliers: any;
   setSuppliers: (value: any) => void;
+  industries: any;
+  setIndustries: (value: any) => void;
+  vehicleFuelTypes: any;
+  setVehicleFuelTypes: (value: any) => void;
   allCountries: any;
   setAllCountries: (value: any) => void;
   selectedRegions: any;
@@ -95,10 +99,18 @@ const useStore = create<Store | any>(
       setSuppliers: (suppliers: any, reset: boolean) =>
         set(() => {
           if (reset) {
-            return ({ suppliers })  
+            return { suppliers };
           }
-          return ({ suppliers: [...get().suppliers, ...suppliers] })
+          return { suppliers: [...get().suppliers, ...suppliers] };
         }),
+
+      industries: [],
+      setIndustries: (industries: any) =>
+        set(() => ({ industries: [...industries] })),
+        
+      vehicleFuelTypes: [],
+      setVehicleFuelTypes: (vehicleFuelTypes: any) =>
+        set(() => ({ vehicleFuelTypes: [...vehicleFuelTypes] })),
 
       selectedRegions: [],
       setSelectedRegions: (selectedRegions: any) =>

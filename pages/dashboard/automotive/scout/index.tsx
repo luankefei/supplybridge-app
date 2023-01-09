@@ -7,6 +7,7 @@ import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
 import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
+import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 
 const Icon = dynamic(() => import("components/Icon"));
 const Layout = dynamic(() => import("components/Layout"));
@@ -39,10 +40,12 @@ export default function Industry({}: Props) {
     setFilterData,
     filterData,
     clearFilterData,
+    vehicleFuelTypes,
   } = useStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
   const { searchSuppliers, loading } = useSupplier();
+  const { searchFuelTypes } = useVehicleFuelTypes();
 
   const handleScrollCallback = useCallback(() => handleScroll(), []);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -52,6 +55,7 @@ export default function Industry({}: Props) {
   const pageRef = useRef(1);
   const clearRef = useRef(false);
   const pageLoaded = useRef(false);
+  const searchString = useRef(filterData.q);
 
   useEffect(() => {
     getInitialRequests();
@@ -62,6 +66,7 @@ export default function Industry({}: Props) {
   }, []);
 
   useEffect(() => {
+    searchString.current = filterData.q;
     if (clearRef.current) {
       searchHandler();
       clearRef.current = false;
@@ -78,13 +83,14 @@ export default function Industry({}: Props) {
       getCommodities();
       getRegions();
       searchSuppliers();
+      searchFuelTypes();
     }
   };
 
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
     if (currentPage * 10 < countRef.current) {
-      await searchSuppliers(currentPage + 1, false);
+      await searchSuppliers(currentPage + 1, false, searchString.current);
       pageRef.current = currentPage + 1;
       infiniteScrollControl.current = true;
     }
@@ -148,24 +154,16 @@ export default function Industry({}: Props) {
           <Technology>
             <TechnologyHeader>Technology:</TechnologyHeader>
             <TechnologyContainer>
-              <TechnologyBox
-                icon={"automotive-bordered"}
-                label={"Connected / Autonomous Vehicle"}
-                isSelected={filterData.vehicleFuelTypes.includes(1)}
-                onClick={() => setFuelType(1)}
-              />
-              <TechnologyBox
-                icon={"electric-vehicle"}
-                label={"Electric Vehicle (EV)"}
-                isSelected={filterData.vehicleFuelTypes.includes(2)}
-                onClick={() => setFuelType(2)}
-              />
-              <TechnologyBox
-                icon={"fuel-cell"}
-                label={"Fuel Cell"}
-                isSelected={filterData.vehicleFuelTypes.includes(3)}
-                onClick={() => setFuelType(3)}
-              />
+              {vehicleFuelTypes.map((item: any) => {
+                return (
+                  <TechnologyBox
+                    icon={item?.icon}
+                    label={item?.name}
+                    isSelected={filterData.vehicleFuelTypes.includes(item?.id)}
+                    onClick={() => setFuelType(item?.id)}
+                  />
+                );
+              })}
             </TechnologyContainer>
           </Technology>
 

@@ -8,11 +8,7 @@ import styled from "styled-components";
 
 import useStore from "hooks/useStore";
 import { useFilter } from "requests/useFilter";
-import Icon from 'components/Icon'
-
-interface Props {
-  onSearch: () => void;
-}
+import Icon from "components/Icon";
 
 const ScoutFilter = () => {
   const {
@@ -23,7 +19,7 @@ const ScoutFilter = () => {
     setFilterData,
     filterData,
     selectedRegions,
-    selectedCountries
+    selectedCountries,
   } = useStore();
   const { getComponents, getSubRegions } = useFilter();
 
@@ -74,7 +70,7 @@ const ScoutFilter = () => {
   };
 
   const onChangeHandler = (event: any, type: string, obj: any) => {
-    const id = obj.hasOwnProperty('code') ? obj.code : obj.id;
+    const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
     const rawFilterData = filterData;
     const value = event.target.checked;
     if (!rawFilterData[type].includes(id) && value) {
@@ -85,13 +81,18 @@ const ScoutFilter = () => {
         rawFilterData[type].splice(index, 1);
       }
     }
-
+    if (rawFilterData.commodities.length === 0) {
+      rawFilterData.components = [];
+    }
+    if (rawFilterData.regions.length === 0) {
+      rawFilterData.subRegions = [];
+    }
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
   };
 
   const decisionCheckStatus = (type: string, obj: any) => {
-    const id = obj.hasOwnProperty('code') ? obj.code : obj.id;
+    const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
     return filterData[type].includes(id) ? true : false;
   };
 

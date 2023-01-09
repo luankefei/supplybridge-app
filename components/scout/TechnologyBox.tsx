@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import { IconNames } from "components";
-import Icon from 'components/Icon'
 
 interface Props {
   isSelected?: boolean;
@@ -11,12 +10,7 @@ interface Props {
   onClick?: (label: string) => void;
 }
 
-const TechnologyBox = ({
-  isSelected = false,
-  icon,
-  label,
-  onClick,
-}: Props) => {
+const TechnologyBox = ({ isSelected = false, icon, label, onClick }: Props) => {
   const [selected, setSelected] = useState<boolean>(false);
 
   useEffect(() => {
@@ -30,7 +24,7 @@ const TechnologyBox = ({
 
   return (
     <Container selected={selected} onClick={onSelect}>
-      <Icon src={icon} width={40} height={40} m={"0px 16px 0px "} hover />
+      <Icon src={icon} width={40} height={40} />
       <Label>{label}</Label>
     </Container>
   );
@@ -56,6 +50,11 @@ const Container = styled.div<{ selected: boolean }>`
     width: 100%;
     margin-bottom: 8px;
   }
+`;
+
+const Icon = styled.img`
+  margin: 0px 16px 0px;
+  cursor: pointer;
 `;
 
 const Label = styled.span`
