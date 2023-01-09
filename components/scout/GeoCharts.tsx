@@ -1,6 +1,8 @@
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 import Chart from "react-google-charts";
+import { Skeleton } from "@mui/material";
+
 import { allCountry } from "utils/countries";
 import useStore from "hooks/useStore";
 
@@ -140,9 +142,9 @@ const GeoCharts = () => {
 
 
   const onMapLoadHandler = () => {
-    setTimeout(() => {
+    // setTimeout(() => {
       setMapLoaded(true);
-    }, 200)
+    // }, 200)
   }
 
   const renderMapComponent = useCallback(() => {
@@ -186,6 +188,7 @@ const GeoCharts = () => {
           )}
         </ButtonContainer>
         {renderMapComponent()}
+        {!mapLoaded ? <Skeleton animation="wave" height={410} width="100%" /> : null}
     </MapContainer>
   )
 };

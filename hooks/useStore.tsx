@@ -95,7 +95,7 @@ const useStore = create<Store | any>(
       setAllCountries: (allCountries: any) =>
         set(() => ({ allCountries: [...allCountries] })),
 
-      suppliers: [],
+      suppliers: [{},{},{}],
       setSuppliers: (suppliers: any, reset: boolean) =>
         set(() => {
           if (reset) {
