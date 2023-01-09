@@ -19,7 +19,7 @@ export const useSupplier = () => {
       setLoading(true);
       const searchObj = {
         q: filterData.q || searchString,
-        offset: ((pageNumber - 1) * 10),
+        offset: ((pageNumber - 1) * pageSize),
         limit: pageSize,
         filter: {
           ...filterData,

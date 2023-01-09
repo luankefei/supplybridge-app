@@ -77,18 +77,16 @@ export default function Industry() {
               .filter((x: any) => !x?.isActive)
               .map((item: any, index: number) => {
                 return (
-                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref key={index}>
-                    <Card active={item.isActive}>
-                      <HeaderContainer>
-                        <IconContainer>
-                          <img src={item.icon} width={65} height={44} />
-                        </IconContainer>
-                      </HeaderContainer>
-                      <ContentContainer>
-                        <SubTitle>{item?.name}</SubTitle>
-                      </ContentContainer>
-                    </Card>
-                  </Link>
+                  <Card active={item.isActive} key={index}>
+                    <HeaderContainer>
+                      <IconContainer>
+                        <img src={item.icon} width={65} height={44} />
+                      </IconContainer>
+                    </HeaderContainer>
+                    <ContentContainer>
+                      <SubTitle>{item?.name}</SubTitle>
+                    </ContentContainer>
+                  </Card>
                 );
               })}
           </CardContainer>
