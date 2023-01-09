@@ -154,16 +154,16 @@ export default function Industry({}: Props) {
           <Technology>
             <TechnologyHeader>Technology:</TechnologyHeader>
             <TechnologyContainer>
-              {vehicleFuelTypes.map((item: any) => {
-                return (
+              {vehicleFuelTypes.map((item: any, index: number) => (
+                <TechnologyBoxContainer key={`${item.name}_${index}`}>
                   <TechnologyBox
                     icon={item?.icon}
                     label={item?.name}
                     isSelected={filterData.vehicleFuelTypes.includes(item?.id)}
                     onClick={() => setFuelType(item?.id)}
                   />
-                );
-              })}
+                </TechnologyBoxContainer>
+              ))}
             </TechnologyContainer>
           </Technology>
 
@@ -279,6 +279,10 @@ const TechnologyContainer = styled.div`
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     flex-direction: column;
   }
+`;
+
+const TechnologyBoxContainer = styled.div`
+  display: contents;
 `;
 
 const MainContainer = styled.div`

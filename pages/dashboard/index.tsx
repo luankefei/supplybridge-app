@@ -55,12 +55,11 @@ export default function Industry() {
           <CardContainer>
             {industries
               .filter((x: any) => x?.isActive)
-              .map((item: any) => {
+              .map((item: any, index: number) => {
                 return (
-                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref>
+                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref key={index}>
                     <Card active={item.isActive}>
                       <HeaderContainer>
-
                         <IconContainer>
                           <img src={item.icon} width={65} height={44} />
                         </IconContainer>
@@ -76,9 +75,9 @@ export default function Industry() {
           <CardContainer>
             {industries
               .filter((x: any) => !x?.isActive)
-              .map((item: any) => {
+              .map((item: any, index: number) => {
                 return (
-                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref>
+                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref key={index}>
                     <Card active={item.isActive}>
                       <HeaderContainer>
                         <IconContainer>

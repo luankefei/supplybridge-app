@@ -73,6 +73,7 @@ const ScoutFilter = () => {
     const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
     const rawFilterData = filterData;
     const value = event.target.checked;
+
     if (!rawFilterData[type].includes(id) && value) {
       rawFilterData[type].push(id);
     } else {
@@ -81,6 +82,14 @@ const ScoutFilter = () => {
         rawFilterData[type].splice(index, 1);
       }
     }
+
+    if (type === 'commodities' && !value) {
+      const commodityComponents = components?.filter((c: any) => c.commodityId === id);
+      const commodityComponentsIDs = commodityComponents?.map((cc: any) => cc.id);
+      rawFilterData.components = rawFilterData?.components?.filter((com: any) => !commodityComponentsIDs?.includes(com))
+    } 
+
+
     if (rawFilterData.commodities.length === 0) {
       rawFilterData.components = [];
     }
@@ -88,7 +97,7 @@ const ScoutFilter = () => {
       rawFilterData.subRegions = [];
     }
     setFilterData(rawFilterData);
-    getFilterListById(rawFilterData, type);
+    getFilterListById(rawFilterData, type); 
   };
 
   const decisionCheckStatus = (type: string, obj: any) => {
