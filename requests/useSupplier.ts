@@ -5,7 +5,7 @@ import { request } from "config/axios";
 import useStore from "hooks/useStore";
 
 export const useSupplier = () => {
-  const { setSuppliers, filterData, page, pageSize, setPage, setCount } =
+  const { setSuppliers, page, pageSize, setPage, setCount } =
     useStore();
   const [loading, setLoading] = useState(false);
 
@@ -15,6 +15,7 @@ export const useSupplier = () => {
     searchString?: string
   ) => {
     try {
+      const { filterData } = useStore.getState();
       setLoading(true);
       const searchObj = {
         q: filterData.q || searchString,
@@ -32,8 +33,6 @@ export const useSupplier = () => {
       setLoading(false);
       setSuppliers(data?.suppliers, reset);
       setCount(data.count);
-      const newPage = pageNumber + 1;
-      setPage(newPage);
     } catch (err: any) {
       setLoading(false);
       toast.error(err.response.data.message, {

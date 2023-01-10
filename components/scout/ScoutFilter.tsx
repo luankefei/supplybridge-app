@@ -89,7 +89,6 @@ const ScoutFilter = () => {
       rawFilterData.components = rawFilterData?.components?.filter((com: any) => !commodityComponentsIDs?.includes(com))
     } 
 
-
     if (rawFilterData.commodities.length === 0) {
       rawFilterData.components = [];
     }

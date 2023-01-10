@@ -1,7 +1,10 @@
 import Head from "next/head";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
-import { useEffect, useState, useCallback, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
+import { Skeleton } from "@mui/material";
+import CircularProgress from "@mui/material/CircularProgress";
+import Box from "@mui/material/Box";
 
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
@@ -47,7 +50,6 @@ export default function Industry({}: Props) {
   const { searchSuppliers, loading } = useSupplier();
   const { searchFuelTypes } = useVehicleFuelTypes();
 
-  const handleScrollCallback = useCallback(() => handleScroll(), []);
   const [filterModalVisible, setFilterModalVisible] = useState(false);
 
   const infiniteScrollControl = useRef(true);
@@ -59,9 +61,9 @@ export default function Industry({}: Props) {
 
   useEffect(() => {
     getInitialRequests();
-    window.addEventListener("scroll", handleScrollCallback);
+    window.addEventListener("scroll", handleScroll);
     return () => {
-      window.removeEventListener("scroll", handleScrollCallback);
+      window.removeEventListener("scroll", handleScroll);
     };
   }, []);
 
@@ -82,7 +84,7 @@ export default function Industry({}: Props) {
       pageLoaded.current = true;
       getCommodities();
       getRegions();
-      searchSuppliers();
+      searchSuppliers(1, true);
       searchFuelTypes();
     }
   };
@@ -119,7 +121,8 @@ export default function Industry({}: Props) {
 
   const searchHandler = () => {
     pageRef.current = 1;
-    searchSuppliers(1);
+    searchSuppliers(1, true);
+    infiniteScrollControl.current = true;
   };
 
   const clearHandler = () => {
@@ -154,16 +157,26 @@ export default function Industry({}: Props) {
           <Technology>
             <TechnologyHeader>Technology:</TechnologyHeader>
             <TechnologyContainer>
-              {vehicleFuelTypes.map((item: any, index: number) => (
-                <TechnologyBoxContainer key={`${item.name}_${index}`}>
-                  <TechnologyBox
-                    icon={item?.icon}
-                    label={item?.name}
-                    isSelected={filterData.vehicleFuelTypes.includes(item?.id)}
-                    onClick={() => setFuelType(item?.id)}
-                  />
-                </TechnologyBoxContainer>
-              ))}
+              {vehicleFuelTypes.length > 1 ? (
+                vehicleFuelTypes.map((item: any, index: number) => (
+                  <TechnologyBoxContainer key={`${item.name}_${index}`}>
+                    <TechnologyBox
+                      icon={item?.icon}
+                      label={item?.name}
+                      isSelected={filterData.vehicleFuelTypes.includes(
+                        item?.id
+                      )}
+                      onClick={() => setFuelType(item?.id)}
+                    />
+                  </TechnologyBoxContainer>
+                ))
+              ) : (
+                <TechnologySkeletonContainer>
+                  <Skeleton animation="wave" width={242} height={125} />
+                  <Skeleton animation="wave" width={242} height={125} />
+                  <Skeleton animation="wave" width={242} height={125} />
+                </TechnologySkeletonContainer>
+              )}
             </TechnologyContainer>
           </Technology>
 
@@ -179,10 +192,16 @@ export default function Industry({}: Props) {
               <GeoCharts />
               <Filters totalCount={count} />
               <ResultContainer>
-                {loading && <ResultCard key={`loader`} />}
-                {suppliers.map((supplier: any, index: number) => (
-                  <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
-                ))}
+                {suppliers?.length > 0 ? (
+                  <>
+                    {suppliers.map((supplier: any, index: number) => (
+                      <ResultCard
+                        data={supplier}
+                        key={`${supplier.id}_${index}`}
+                      />
+                    ))}
+                  </>
+                ) : null}
               </ResultContainer>
               {suppliers.length === 0 && !loading && (
                 <NoRecord>No record founds</NoRecord>
@@ -276,6 +295,18 @@ const TechnologyContainer = styled.div`
   flex-direction: row;
   padding-top: 12px;
   padding-bottom: 32px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    flex-direction: column;
+  }
+`;
+
+const TechnologySkeletonContainer = styled.div`
+  display: flex;
+  width: 100%;
+  span {
+    margin-right: 12px;
+    margin-bottom: -21px;
+  }
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     flex-direction: column;
   }
