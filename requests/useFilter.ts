@@ -20,7 +20,7 @@ export const useFilter = () => {
   const getComponents = async (commodityIds: number[]) => {
     try {
       if (commodityIds.length) {
-        const { data } = await request.post("components", {commodities: commodityIds});
+        const { data } = await request.get(`components?commodities=${commodityIds.toString()}`);
         setComponents(data?.components);
       } else {
         setComponents([])
@@ -46,7 +46,7 @@ export const useFilter = () => {
   const getSubRegions = async (regionIds: number[]) => {
     try {
       if (regionIds.length) {
-        const { data } = await request.post("sub_regions", {regions: regionIds});
+        const { data } = await request.get(`sub_regions?regions=${regionIds.toString()}`);
         setSubRegions(data.subRegions);
       } else {
         setSubRegions([]);
