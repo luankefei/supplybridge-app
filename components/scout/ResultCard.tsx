@@ -15,7 +15,10 @@ const ResultCard = ({ data }: { data?: any }) => {
         <BrandContainer>
           {data.id ? (
             <ImageContainer>
-              <BrandImage src={data.logo} alt="become_a_supplier" />
+              {
+                data.logo &&
+                <BrandImage src={data.logo} alt="Logo" />
+              }
             </ImageContainer>
           ) : (
             <Skeleton
