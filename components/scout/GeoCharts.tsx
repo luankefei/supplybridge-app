@@ -11,38 +11,48 @@ const initialOptions: any = {
   legend: "none",
   enableRegionInteractivity: true,
   defaultColor: "#FF9C6E",
+  focusTarget: 'category',
+  tooltip: { isHtml: true },
 };
 
-const dataHeader = ["Country", "Selection"];
+
+const dataHeader = ["Country", "Selection", { role: "tooltip", type: "string", p: { html: true } }];
 
 const GeoCharts = () => {
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
-
   const {
     allCountries,
     setAllCountries,
     setSelectedRegions,
     setSelectedCountries,
     selectedCountries,
-    filterData
+    filterData,
+    suppliers
   } = useStore();
 
+  
+  const generateTooltipContent=(name:string, shortName:string)=>{
+    return `<div><b>${name} </b><p> Suppliers: ${getNumberOfSuppliers(shortName)}</p></div>`
+
+}
   const setInitialData = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-        initialData.push([item.name, 0]);
+        initialData.push([item.name, 0,  generateTooltipContent(item.fullName, item.name)]);
       });
     }
     setAllCountries([dataHeader, ...initialData]);
   };
 
+
+
   useEffect(() => {
     setInitialData();
     setOptions(initialOptions)
-  }, []);
+  }, [suppliers]);
 
   const mapFilterHandler = (data: any) => {
     let selectedCountry: string[] = [];
@@ -136,8 +146,8 @@ const GeoCharts = () => {
     const index = allCountries.findIndex((item: any) => item[0] === region[0]);
     allList.splice(index, 1);
     const selectedValue = region[1] > 0 ? 0 : 1;
-    setAllCountries([...allList, [region[0], selectedValue]]);
-    mapFilterHandler([...allList, [region[0], selectedValue]])
+    setAllCountries([...allList, [region[0], selectedValue, region[2]]]);
+    mapFilterHandler([...allList, [region[0], selectedValue, region[2]]])
   };
 
 
@@ -147,8 +157,15 @@ const GeoCharts = () => {
     // }, 200)
   }
 
+   //Get Number of suppliers for country
+   const getNumberOfSuppliers=(countryCode:string)=>{   
+    const nosuppliers= suppliers.filter((s:any)=>s.location?.code===countryCode).length
+    return nosuppliers;
+   }
+
   const renderMapComponent = useCallback(() => {
    return (
+    <Container>
       <Chart
         chartEvents={[
           {
@@ -159,6 +176,7 @@ const GeoCharts = () => {
               if (selection.length === 0) return;
               const region = allCountries[selection[0].row + 1];
               selectCountryHandler(region);
+             
             },
           },
         ]}
@@ -175,7 +193,7 @@ const GeoCharts = () => {
             colors: ["#08979c", "#10712B"],
           },
         }}
-      />
+      /></Container>
    )
   }, [allCountries, options, mapLoaded]);
 
@@ -224,4 +242,35 @@ const GoWorld = styled.div`
   border-radius: 4px;
 `;
 
+const Container=styled.div`
+.google-visualization-tooltip {
+  width: 180px;
+  padding: 0px !important;
+  border: solid 1px #bdbdbd;
+  border-radius: 2px;
+  background-color: white;
+  position: absolute;
+  box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+  -moz-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+  -webkit-box-shadow: 0px 2px 2px 0px rgba(0, 0, 0, 0.6);
+  font-family: arial;
+}
+
+.google-visualization-tooltip:first-child span > div {
+  margin-top: -22px !important;
+  padding: 0px;
+  color: black !important;
+  font-size: 12px !important;
+
+ 
+}
+
+//make the default tooltip very small and hide it using the font color similar to background
+.google-visualization-tooltip:first-child span {
+  padding: 0px !important;
+  margin: 0px;
+  color: white !important;
+  font-size: 1px !important;
+}
+`
 export default GeoCharts;
