@@ -1,10 +1,11 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import Chart from "react-google-charts";
 import { Skeleton } from "@mui/material";
 
 import { allCountry } from "utils/countries";
 import useStore from "hooks/useStore";
+import { useSupplier } from "requests/useSupplier";
 
 const initialOptions: any = {
   resolution: "countries",
@@ -19,9 +20,11 @@ const initialOptions: any = {
 const dataHeader = ["Country", "Selection", { role: "tooltip", type: "string", p: { html: true } }];
 
 const GeoCharts = () => {
+
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
+  const { searchSuppliers, loading } = useSupplier();
   const {
     allCountries,
     setAllCountries,
@@ -47,7 +50,9 @@ const GeoCharts = () => {
     setAllCountries([dataHeader, ...initialData]);
   };
 
-
+  const searchHandler = () => {
+    searchSuppliers(1, true);
+  };
 
   useEffect(() => {
     setInitialData();
@@ -124,6 +129,9 @@ const GeoCharts = () => {
       }
     })
     setAllCountries(allList);
+
+      //Filter based on the selected countries
+    searchHandler()
   }
 
   const selectCountryHandler = (region: any) => {
