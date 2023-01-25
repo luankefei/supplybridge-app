@@ -46,24 +46,25 @@ export default function SupplierNews() {
         infiniteScrollControl.current = true;
     }
 
-    const handleScroll = async () => {
-        var isAtBottom = document.documentElement.scrollHeight -
-            document.documentElement.scrollTop - parseFloat(theme.size.header) - 60 <=
-            document.documentElement.clientHeight;
-        if (isAtBottom && infiniteScrollControl.current) {
-            infiniteScrollControl.current = false;
-            setPage(pageRef.current + 1);
-        }
-    };
-
     useEffect(() => {
         if (pageLoaded) return;
         setPageLoaded(true);
+
+        const handleScroll = async () => {
+            var isAtBottom = document.documentElement.scrollHeight -
+                document.documentElement.scrollTop - parseFloat(theme.size.header) - 60 <=
+                document.documentElement.clientHeight;
+            if (isAtBottom && infiniteScrollControl.current) {
+                infiniteScrollControl.current = false;
+                setPage(pageRef.current + 1);
+            }
+        };
+
         window.addEventListener("scroll", handleScroll);
         return () => {
             window.removeEventListener("scroll", handleScroll);
         }
-    }, []);
+    }, [setPage]);
 
     useEffect(() => {
         let didCancel = false;
