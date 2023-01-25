@@ -5,8 +5,8 @@ import Skeleton from '@mui/material/Skeleton';
 
 
 const Container = muiStyled(Box)(`
+    width: calc(100%);
     display: flex;
-    width: 100%;
     @media (max-width: ${theme.size.mobileXl}) {
         flex-direction: column;
         gap: 1rem;
@@ -16,12 +16,15 @@ const Container = muiStyled(Box)(`
         gap: 1.5rem;
     };
     align-items: center;
-    gap: 20px;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    border-radius: 1rem;
     padding: 2rem 1.375rem;
     cursor: pointer;
+    background-color: #FFFFFF;
 `);
 
 const StyledImage = muiStyled(Skeleton)(`
+    flex-shrink: 0;
     overflow: hidden;
     @media (max-width: ${theme.size.mobileXl}) {
         width: 100%;
@@ -61,6 +64,13 @@ const TitleLabel = muiStyled(Skeleton)(`
     font-size: 1.25rem;
     line-height: 1.5rem
     color: #1F1F1F;
+    @media (min-width: ${theme.size.mobileXl}) {
+        width: calc(100%);
+        overflow:hidden;
+        white-space:nowrap;
+        display:inline-block;
+        text-overflow:ellipsis;
+    };
 `);
 
 const TagLabel = muiStyled(Skeleton)(`
@@ -69,7 +79,6 @@ const TagLabel = muiStyled(Skeleton)(`
     font-weight: 400;
     font-size: 0.75rem;
     line-height: 1rem;
-    text-overflow: ellipsis;
 `);
 
 const SummaryLabel = muiStyled(Skeleton)(`
@@ -78,7 +87,13 @@ const SummaryLabel = muiStyled(Skeleton)(`
     font-weight: 400;
     font-size: 0.875rem;
     line-height: 1.375rem;
-    text-overflow: ellipsis;
+    @media (min-width: ${theme.size.mobileXl}) {
+        width: calc(100%);
+        overflow:hidden;
+        white-space:nowrap;
+        display:inline-block;
+        text-overflow:ellipsis;
+    };
 `);
 
 
