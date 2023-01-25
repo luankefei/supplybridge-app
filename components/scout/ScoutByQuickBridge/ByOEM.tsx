@@ -3,16 +3,15 @@ import styled from "styled-components";
 import BrandCard from "./BrandCard";
 
 export default function ByOEM() {
-
-  const [selected, setSelected] = useState("")
+  const [selected, setSelected] = useState("");
 
   const onClick = (select: any) => {
     if (selected !== select) {
-      setSelected(select)
+      setSelected(select);
     } else {
-      setSelected("")
+      setSelected("");
     }
-  }
+  };
 
   const OEMData = {
     america: [
@@ -40,57 +39,72 @@ export default function ByOEM() {
       { logo: "volkswagen-logo", title: "VW" },
       { logo: "audi-logo", title: "Audi" },
       { logo: "koenigsegg-logo", title: "Koenigsegg" },
-    ]
-  }
+    ],
+  };
 
   return (
     <>
       <Container>
         <Section>
           <Title>America</Title>
-          <Brands item={false}>
+          <Brands>
             {OEMData.america.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard key={index} logo={item.logo} title={item.title} selected={selected === item.title} />
+                    <BrandCard
+                      key={index}
+                      logo={item.logo}
+                      title={item.title}
+                      selected={selected === item.title}
+                    />
                   </CardWrapper>
                 </>
-              )
+              );
             })}
           </Brands>
         </Section>
         <Section>
           <Title>Asia</Title>
-          <Brands item={true}>
+          <Brands>
             {OEMData.asia.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard key={index} logo={item.logo} title={item.title} selected={selected === item.title} />
+                    <BrandCard
+                      key={index}
+                      logo={item.logo}
+                      title={item.title}
+                      selected={selected === item.title}
+                    />
                   </CardWrapper>
                 </>
-              )
+              );
             })}
           </Brands>
         </Section>
         <Section>
           <Title>Europe</Title>
-          <Brands item={true}>
+          <Brands>
             {OEMData.europe.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard key={index} logo={item.logo} title={item.title} selected={selected === item.title} />
+                    <BrandCard
+                      key={index}
+                      logo={item.logo}
+                      title={item.title}
+                      selected={selected === item.title}
+                    />
                   </CardWrapper>
                 </>
-              )
+              );
             })}
           </Brands>
         </Section>
       </Container>
     </>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -101,25 +115,25 @@ const Container = styled.div`
 `;
 
 const Section = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 30px;
 `;
 
 const Title = styled.span`
-  margin-bottom: 12px;
+  margin-bottom: 30px;
 `;
 
 const Brands = styled.span<any>`
   display: grid;
-  grid-template-columns: ${(props) => (props.item ? "auto auto auto auto auto" : "auto auto auto")};
+  grid-template-columns: auto auto auto auto auto;
   gap: 24px;
   @media (max-width: 1200px) {
     grid-template-columns: auto auto auto;
   }
-`
+`;
 
 const CardWrapper = styled.span`
-cursor: pointer;
+  cursor: pointer;
 `;

@@ -1,13 +1,12 @@
 import styled from "styled-components";
-import { Fragment, useEffect, useState } from "react";
+import React from "react";
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import Typography from '@mui/material/Typography';
 
 interface ContainerProps {
   selected: boolean;
 }
 
-export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = [] }: any) {
+export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = null }: any) {
   // const [selected, setSelected] = useState(false)
 
   // useEffect(() => {
@@ -28,15 +27,6 @@ export default function BigCard({ src, title, selected, width = 50, height = 50,
     },
   }));
 
-  const titlee: any = `
-  • Minority-owned Business Enterprise (MBE) ${<br />}
-  • Women Business Enterprise (WBE) ${<br />}
-  • LGBTQ+ Business Enterprise (LGBTE) ${<br />}
-  • Veteran-Owned Business Enterprise (VOB) ${<br />}
-  • Disability-owned Business Enterprise （DOBE) ${<br />}
-  • Others…
-  `
-
   return (
     <>
       <CardContainer selected={selected}>
@@ -45,17 +35,11 @@ export default function BigCard({ src, title, selected, width = 50, height = 50,
         </IconBackground>
 
         <Title>{title}</Title>
-        {infoContent.length > 0 &&
+        {infoContent &&
           <HtmlTooltip
             placement="top"
             arrow
-            title={
-              <ul style={{ paddingLeft: "15px" }}>
-                {infoContent?.map((listItem: any, index: any) => {
-                  return (<li key={index}>{listItem}</li>)
-                })}
-              </ul>
-            }
+            title={infoContent}
           >
             <InfoIcon>
               i

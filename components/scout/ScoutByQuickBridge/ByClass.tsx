@@ -3,15 +3,15 @@ import styled from "styled-components";
 import BrandCard from "./BrandCard";
 
 export default function ByClass() {
-  const [selected, setSelected] = useState("")
+  const [selected, setSelected] = useState("");
 
   const onClick = (select: any) => {
     if (selected !== select) {
-      setSelected(select)
+      setSelected(select);
     } else {
-      setSelected("")
+      setSelected("");
     }
-  }
+  };
 
   const ClassData = {
     mass: [
@@ -24,8 +24,6 @@ export default function ByClass() {
       { logo: "honda-logo", title: "Hongda" },
       { logo: "sonomotors-logo", title: "Sono" },
       { logo: "volkswagen-logo", title: "VW" },
-
-
     ],
     premium: [
       { logo: "rivian-logo", title: "Rivian" },
@@ -43,71 +41,91 @@ export default function ByClass() {
     sports: [
       { logo: "astonmartin-logo", title: "Aston Martin" },
       { logo: "koenigsegg-logo", title: "Koenigsegg" },
-    ]
-  }
+    ],
+  };
 
   return (
     <>
       <Container>
         <Section>
-          <Title>Mass</Title>
-          <Brands grid={"auto auto auto auto auto"}>
+          <Title>Volume</Title>
+          <Brands>
             {ClassData.mass.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard key={index} logo={item.logo} title={item.title} selected={selected === item.title} />
+                    <BrandCard
+                      key={index}
+                      logo={item.logo}
+                      title={item.title}
+                      selected={selected === item.title}
+                    />
                   </CardWrapper>
                 </>
-              )
+              );
             })}
           </Brands>
         </Section>
         <Section>
-          <Title>Premium</Title>
-          <Brands grid={"auto auto auto auto auto"}>
+          <Title>EV</Title>
+          <Brands>
             {ClassData.premium.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard key={index} logo={item.logo} title={item.title} selected={selected === item.title} />
+                    <BrandCard
+                      key={index}
+                      logo={item.logo}
+                      title={item.title}
+                      selected={selected === item.title}
+                    />
                   </CardWrapper>
                 </>
-              )
+              );
             })}
           </Brands>
         </Section>
         <Section>
           <Title>Luxury</Title>
-          <Brands grid={"auto auto auto"}>
+          <Brands>
             {ClassData.luxury.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard key={index} logo={item.logo} title={item.title} selected={selected === item.title} />
+                    <BrandCard
+                      key={index}
+                      logo={item.logo}
+                      title={item.title}
+                      selected={selected === item.title}
+                    />
                   </CardWrapper>
                 </>
-              )
+              );
             })}
           </Brands>
         </Section>
         <Section>
           <Title>Sports</Title>
-          <Brands grid={"auto auto"}>
+          <Brands>
             {ClassData.sports.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard key={index} logo={item.logo} title={item.title} selected={selected === item.title} />
+                    <BrandCard
+                      key={index}
+                      logo={item.logo}
+                      title={item.title}
+                      selected={selected === item.title}
+                    />
                   </CardWrapper>
                 </>
-              )
+              );
             })}
           </Brands>
         </Section>
       </Container>
     </>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -118,25 +136,25 @@ const Container = styled.div`
 `;
 
 const Section = styled.div`
-display: flex;
-flex-direction: column;
-align-items: center;
-padding-bottom: 30px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  padding-bottom: 30px;
 `;
 
 const Title = styled.span`
-  margin-bottom: 12px;
+  margin-bottom: 30px;
 `;
 
 const Brands = styled.span<any>`
   display: grid;
-  grid-template-columns: ${(props) => (props.grid)};
+  grid-template-columns: auto auto auto auto auto;
   gap: 24px;
   @media (max-width: 1200px) {
     grid-template-columns: auto auto auto;
   }
-`
+`;
 
 const CardWrapper = styled.span`
-cursor: pointer;
+  cursor: pointer;
 `;
