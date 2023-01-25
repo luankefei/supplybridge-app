@@ -1,17 +1,31 @@
+import dynamic from "next/dynamic";
 import { styled as muiStyled } from "@mui/material/styles";
 import { useCallback, useEffect, useState, useRef } from "react";
 import NewsCard from "components/supplier-news/NewsCard";
 import NewsCardSkeleton from "components/supplier-news/NewsCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useSupplierNews } from "requests/useSupplierNews";
+import { theme } from 'config/theme';
+
+const Layout = dynamic(() => import("components/Layout"));
+const Header = dynamic(() => import("components/NewHeader"));
 
 const Container = muiStyled('div')(`
+    width: calc(100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.25rem;
     background-color: #edf1f3;
-    margin: 60px 60px;
+    @media (max-width: ${theme.size.mobileXl}) {
+        padding-left: 16px;
+        padding-right: 16px;
+    }
+    @media (min-width: ${theme.size.mobileXl}) {
+        padding-left: 70px;
+        padding-right: 70px;
+        padding-bottom: 60px;
+    }
 `);
 
 export default function SupplierNews() {
@@ -34,7 +48,7 @@ export default function SupplierNews() {
 
     const handleScroll = async () => {
         var isAtBottom = document.documentElement.scrollHeight -
-            document.documentElement.scrollTop <=
+            document.documentElement.scrollTop - parseFloat(theme.size.header) - 60 <=
             document.documentElement.clientHeight;
         if (isAtBottom && infiniteScrollControl.current) {
             infiniteScrollControl.current = false;
@@ -58,10 +72,13 @@ export default function SupplierNews() {
     }, [getSupplierNewsHandler])
 
     return (
-        <Container id="supplier-news-container">
-            {news && Array.isArray(news) && news.map((item) => <NewsCard key={item.id} {...item} />)}
-            {loading && [1, 2, 3].map((index) => <NewsCardSkeleton key={index} />)}
-            {!loading && !infiniteScrollControl.current && <span>No more news</span>}
-        </Container>
+        <Layout>
+            <Header title="Supplier News" />
+            <Container id="supplier-news-container">
+                {news && Array.isArray(news) && news.map((item) => <NewsCard key={item.id} {...item} />)}
+                {loading && [1, 2, 3].map((index) => <NewsCardSkeleton key={index} />)}
+                {!loading && !infiniteScrollControl.current && <span>No more news</span>}
+            </Container>
+        </Layout>
     );
 }
