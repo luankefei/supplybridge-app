@@ -17,11 +17,11 @@ export const useAuth = () => {
       setLoading(false);
       if (data.id) {
         StorageService.setAuthData(data.token, data.refreshToken);
-        cookie.set("token", data.token, { expires: 1 / 24})
+        cookie.set("token", data.token, { expires: 1 / 24 })
         toast.success('Success', {
           position: toast.POSITION.TOP_RIGHT,
         });
-        push('/dashboard')
+        push('/scout')
       }
     } catch (err: any) {
       setLoading(false);
