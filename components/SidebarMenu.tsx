@@ -67,13 +67,13 @@ export default function SideBarMenu() {
     {
       icon: "market-insights",
       title: "Market Insights",
-      path: "market-insights",
+      path: "/market-insights",
       active: true
     },
     {
       icon: "exhibition-center",
       title: "Exhibition Center",
-      path: "exhibition-center",
+      path: "/exhibition-center",
       active: false
     },
   ]
