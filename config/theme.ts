@@ -28,6 +28,7 @@ export const theme = {
     laptopL: "1441px",
     laptopXl: "2000px",
     desktop: "2560px",
+    header: "120px",
   },
   fonts: {
     primary: "'Open Sans', sans-serif",

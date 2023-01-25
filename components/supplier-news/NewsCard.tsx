@@ -14,6 +14,7 @@ export type NewsCardProps = {
 
 
 const Container = muiStyled(Box)(`
+    width: calc(100%);
     display: flex;
     @media (max-width: ${theme.size.mobileXl}) {
         flex-direction: column;
@@ -28,12 +29,14 @@ const Container = muiStyled(Box)(`
     border-radius: 1rem;
     padding: 2rem 1.375rem;
     cursor: pointer;
+    background-color: #FFFFFF;
 `);
 
 const StyledImage = muiStyled('img')(`
+    flex-shrink: 0;
     overflow: hidden;
     @media (max-width: ${theme.size.mobileXl}) {
-        width: 100%;
+        width: calc(100%);
         height: 10rem;
     };
     @media (min-width: ${theme.size.mobileXl}) {
@@ -44,6 +47,7 @@ const StyledImage = muiStyled('img')(`
 `);
 
 const Contents = muiStyled('div')(`
+    flex-shrink: 10;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -66,14 +70,22 @@ const TitleLabel = muiStyled('span')(`
     font-style: normal;
     font-weight: 600;
     font-size: 1.25rem;
-    line-height: 1.5rem
+    line-height: 1.5rem;
     color: #1F1F1F;
+    @media (min-width: ${theme.size.mobileXl}) {
+        width: calc(100%);
+        overflow:hidden;
+        white-space:nowrap;
+        display:inline-block;
+        text-overflow:ellipsis;
+    };
 `);
 
 const Tags = muiStyled('div')(`
     display: flex;
     flex-direction: row;
     align-items: center;
+    flex-wrap: wrap;
     gap: 0.75rem;
 `);
 
@@ -84,7 +96,6 @@ const TagLabel = muiStyled('span')(`
     font-size: 0.75rem;
     line-height: 1rem;
     color: #08979C;
-    text-overflow: ellipsis;
 `);
 
 const SummaryLabel = muiStyled('span')(`
@@ -94,7 +105,13 @@ const SummaryLabel = muiStyled('span')(`
     font-size: 0.875rem;
     line-height: 1.375rem;
     color: #8C8C8C;
-    text-overflow: ellipsis;
+    @media (min-width: ${theme.size.mobileXl}) {
+        width: calc(100%);
+        overflow:hidden;
+        white-space:nowrap;
+        display:inline-block;
+        text-overflow:ellipsis;
+    };
 `);
 
 const StyledReadMore = muiStyled(`div`)(`
