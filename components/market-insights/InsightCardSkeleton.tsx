@@ -3,54 +3,48 @@ import { styled as muiStyled } from "@mui/material/styles";
 import Skeleton from '@mui/material/Skeleton';
 
 const Container = muiStyled(Box)(`
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(24.375rem, 1fr));
-    grid-auto-rows: minmax(5.625rem, auto);
-    grid-column-gap: 2.625rem;
-    grid-column-gap: 3.75rem;
+    display: flex;
+    flex-direction: column;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
     border-radius: 1rem;
     cursor: pointer;
-    overlay: hidden;
+    overflow: hidden;
+    background: #FFFFFF;
 `);
 
 const TopContainer = muiStyled(Skeleton)(`
     height: 15.625rem;
-    top: 0;
-    left: 0;
-    right: 0;
+    position: relative;
+    top: 0px;
+    left: 0px;
+    right: 0px;
 `);
 
 const BottomContainer = muiStyled('div')(`
     height: 5.625rem;
-    bottom: 0;
-    left: 0;
-    right: 0;
-
+    position: relative;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
     display: flex;
+    padding-left: 1rem;
+    padding-right: 1rem;
     flex-direction: column;
-`);
-
-const TitleLabel = muiStyled('span')(`
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 600;
-    font-size: 1.25rem;
-    line-height: 1.5rem
-    color: #FFFFFF;
-    padding-left: 1.25rem;
-    padding-right: 1.25rem;
-    padding-top: 2rem;
+    gap: 0.25rem;
 `);
 
 const Subjects = muiStyled(Skeleton)(`
     display: flex;
+    margin-top: 1.375rem;
+    height: 3rem;
+    overlay: hidden;
     flex-direction: row;
     align-items: center;
     gap: 0.75rem;
 `);
 
 const DurationLabel = muiStyled(Skeleton)(`
+    position: relative;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 500;
