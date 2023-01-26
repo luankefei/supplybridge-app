@@ -11,20 +11,19 @@ const Layout = dynamic(() => import("components/Layout"));
 const Header = dynamic(() => import("components/NewHeader"));
 
 const Container = muiStyled('div')(`
-    width: calc(100%);
     display: flex;
     flex-direction: column;
     align-items: center;
     gap: 1.25rem;
     background-color: #edf1f3;
     @media (max-width: ${theme.size.mobileXl}) {
-        padding-left: 16px;
-        padding-right: 16px;
+        margin-left: 16px;
+        margin-right: 16px;
     }
     @media (min-width: ${theme.size.mobileXl}) {
-        padding-left: 70px;
-        padding-right: 70px;
-        padding-bottom: 60px;
+        margin-left: 70px;
+        margin-right: 70px;
+        padding-bottom: 70px;
     }
 `);
 
@@ -52,7 +51,7 @@ export default function SupplierNews() {
 
         const handleScroll = async () => {
             var isAtBottom = document.documentElement.scrollHeight -
-                document.documentElement.scrollTop - parseFloat(theme.size.header) - 60 <=
+                document.documentElement.scrollTop <=
                 document.documentElement.clientHeight;
             if (isAtBottom && infiniteScrollControl.current) {
                 infiniteScrollControl.current = false;

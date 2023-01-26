@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 import SideBarMenu from "./SidebarMenu";
 
-const Layout = ({ children }: { children: React.ReactElement | React.ReactElement[] }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Container>
       <SideBarMenu />
