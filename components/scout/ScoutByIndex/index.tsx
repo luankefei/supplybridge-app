@@ -221,10 +221,14 @@ export default function ScoutByIndex() {
 
 const ScoutContainer = styled.div`
   // width: 1440px;
-  width: 1380px;
+  width: 98%;
+  margin: 0px 5px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: block;
     width: 100%;
+  }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+  margin: 10px 10px;
   }
 `;
 
@@ -232,10 +236,12 @@ const SearchContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  max-width: 1440px;
   margin-bottom: 50px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
+  }
+  @media (max-width: ${(props) => props.theme.size.mobileXl}) {
+    flex-direction: column;
   }
 `;
 
@@ -326,6 +332,7 @@ const TechnologyBoxContainer = styled.div`
 const MainContainer = styled.div`
   display: flex;
   flex-direction: row;
+  width: 100%;
 `;
 
 const NoRecord = styled.div`

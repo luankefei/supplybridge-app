@@ -96,6 +96,13 @@ const Container=styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 100%;
+ 
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    flex-direction: column;
+  }
 `
 const SearchField = styled(TextField)`
   width: 65%;
@@ -157,6 +164,10 @@ label {
     line-height: 22px !important;
     color: #8c8c8c;
     font-family: inherit !important;
+    @media (max-width: ${(props) => props.theme.size.tablet}) {
+   font-size: 11px;
+   line-height: 18px;
+  }
   }
   input {
     margin-left: 32px;
