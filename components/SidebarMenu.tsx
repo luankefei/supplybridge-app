@@ -198,6 +198,7 @@ const Container = styled.div<any>`
   position: relative;
   box-sizing: border-box;
   position: fixed;
+  z-index: 1000;
   /* transition: 1s all 0s; */
 `;
 
