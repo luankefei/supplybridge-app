@@ -1,11 +1,12 @@
 import dynamic from "next/dynamic";
 import { styled as muiStyled } from "@mui/material/styles";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import NewsCard from "components/supplier-news/NewsCard";
 import NewsCardSkeleton from "components/supplier-news/NewsCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useSupplierNews } from "requests/useSupplierNews";
 import { theme } from 'config/theme';
+import console from "utils/console";
 
 const Layout = dynamic(() => import("components/Layout"));
 const Header = dynamic(() => import("components/NewHeader"));

@@ -1,5 +1,5 @@
 import { styled as muiStyled } from "@mui/material/styles";
-import { useCallback, useEffect, useState, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import InsightCard from "components/market-insights/InsightCard";
 import InsightCardSkeleton from "components/market-insights/InsightCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
@@ -7,6 +7,7 @@ import { useMarketInsights } from "requests/useMarketInsights";
 import { theme } from "config/theme";
 import Layout from "components/Layout";
 import Header from "components/NewHeader";
+import console from "utils/console";
 
 const Container = muiStyled('div')(`
     display: grid;
@@ -38,10 +39,6 @@ export default function MarketInsights() {
     const pageRef = useRef(page);
     pageRef.current = page;
 
-    const getMarketInsightsHandler = useCallback(async (didCancel: boolean) => {
-        await getMarketInsights(page, didCancel);
-    }, [page])
-
     console.log(`count:${count} > page: ${page} * pageSize: ${pageSize}`);
     if (pageLoaded && count > page * pageSize && !infiniteScrollControl.current) {
         infiniteScrollControl.current = true;
@@ -69,9 +66,12 @@ export default function MarketInsights() {
 
     useEffect(() => {
         let didCancel = false;
+        const getMarketInsightsHandler = async (didCancel: boolean) => {
+            await getMarketInsights(page, didCancel);
+        };
         getMarketInsightsHandler(didCancel);
         return () => { didCancel = true; };
-    }, [getMarketInsightsHandler])
+    }, [page]);
 
     return (
         <Layout>
