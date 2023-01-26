@@ -169,6 +169,9 @@ const ResultCardContainer = styled.div`
   margin-top: 16px;
   background-color: ${(props) => props.theme.colors.white};
   cursor: pointer;
+
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+border-radius: 16px;
 `;
 
 const BrandImage = styled.img`

@@ -20,5 +20,4 @@ export default function Industry() {
 const Container = styled.div`
   display: flex;
   justify-content: center;
-  margin-left: 280px;
 `;
