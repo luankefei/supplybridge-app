@@ -34,3 +34,10 @@ export function FormatPhoneNumber(number: string) {
   return `${formattedNumber.substr(0, 1)}${formattedNumber.substr(1, 3)} ${formattedNumber.substr(4, 3)} ${formattedNumber.substr(7, 2)} ${formattedNumber.substr(9, 2)}`;
 }
 
+export function pxToRem(px: number): number {
+  return px / parseFloat(getComputedStyle(document.documentElement).fontSize);
+}
+
+export function remToPx(rem: number): number {
+  return rem * parseFloat(getComputedStyle(document.documentElement).fontSize);
+}

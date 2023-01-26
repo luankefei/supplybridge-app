@@ -1,12 +1,11 @@
 import React from "react";
 import styled from "styled-components";
+import SideBarMenu from "./SidebarMenu";
 
-import Header from "components/Header";
-
-const Layout = ({ children }: { children: React.ReactElement }) => {
+const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
     <Container>
-      <Header />
+      <SideBarMenu />
       <InnerContainer>{children}</InnerContainer>
     </Container>
   );
@@ -14,12 +13,18 @@ const Layout = ({ children }: { children: React.ReactElement }) => {
 
 const Container = styled.div`
   font-family: "Ubuntu", sans-serif !important;
+  display: flex;
+  flex-direction: row;
 `;
 const InnerContainer = styled.div`
-  padding: 32px 50px;
+  position: relative;
+  left: 60px;
+  width: calc(100% - 60px);
   background-color: #ecf0f1;
   display: flex;
+  flex-direction: column;
   justify-content: center;
+  z-index: 0;
 `;
 
 export default Layout;
