@@ -5,11 +5,7 @@ import Switch from "components/Switch";
 
 const Layout = dynamic(() => import("components/Layout"));
 
-
 export default function Industry() {
-
-
-
   return (
     <Layout>
       <>
@@ -22,6 +18,7 @@ export default function Industry() {
 }
 
 const Container = styled.div`
-display: flex;
-justify-content: center;
+  display: flex;
+  justify-content: center;
+  margin-left: 280px;
 `;
