@@ -11,22 +11,26 @@ import console from "utils/console";
 
 const Container = muiStyled('div')(`
     display: grid;
-    grid-auto-rows: 15rem;
+    grid-auto-rows: 21.25rem;
     grid-column-gap: 42px;
     grid-row-gap: 60px;
+    justify-content: center;
     background-color: #edf1f3;
 
-    @media (max-width: ${theme.size.mobileXl}) {
+    @media (max-width: ${theme.size.tablet}) {
         grid-template-columns: repeat(auto-fill, 1fr);
         margin-top: 60px;
         margin-left: 20px;
         margin-right: 20px;
+        margin-bottom: 60px;
     };
-    @media (min-width: ${theme.size.mobileXl}) {
-        grid-template-columns: repeat(auto-fill, minmax(24.375rem, 1fr));
+    @media (min-width: ${theme.size.tablet}) {
+        // grid-template-columns: repeat(auto-fill, minmax(24.375rem, 1fr));
+        grid-template-columns: repeat(2, 24.375rem);
         margin-top: 60px;
         margin-left: 60px;
         margin-right: 60px;
+        margin-bottom: 60px;
     }
 `);
 
@@ -39,9 +43,10 @@ export default function MarketInsights() {
     const pageRef = useRef(page);
     pageRef.current = page;
 
-    console.log(`count:${count} > page: ${page} * pageSize: ${pageSize}`);
-    if (pageLoaded && count > page * pageSize && !infiniteScrollControl.current) {
-        infiniteScrollControl.current = true;
+    if (pageLoaded) {
+        console.log(`count:${count} > page: ${page} * pageSize: ${pageSize}`);
+        const needed = count > page * pageSize;
+        infiniteScrollControl.current = needed;
     }
 
     useEffect(() => {
@@ -80,7 +85,7 @@ export default function MarketInsights() {
                 {news && Array.isArray(news) && news.map((item) => <InsightCard key={item.id} {...item} />)}
                 {loading && [1, 2, 3].map((index) => <InsightCardSkeleton key={index} />)}
             </Container>
-            {!loading && !infiniteScrollControl.current &&
+            {/* {!loading && !infiniteScrollControl.current &&
                 <span style={{
                     marginTop: "3.75rem",
                     marginBottom: "3.75rem",
@@ -89,7 +94,7 @@ export default function MarketInsights() {
                     textAlign: "center",
                 }}>
                     No more news
-                </span>}
+                </span>} */}
         </Layout >
     );
 }

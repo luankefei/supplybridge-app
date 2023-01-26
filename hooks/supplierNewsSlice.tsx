@@ -54,13 +54,24 @@ export const createSupplierNewsSlice: StateCreator<SupplierNewsSlice, [], [], Su
             count
           }
         })),
-        setNews: (news: any) => set((state = get()) => ({
-          ...state,
-          supplierNews: {
-            ...state.supplierNews,
-            news: [...get().supplierNews.news, ...news]
+        setNews: (news: any) => set((state = get()) => {
+          if (get().supplierNews.page === 1) {
+            return {
+              ...state,
+              supplierNews: {
+                ...state.supplierNews,
+                news: [...news]
+              }
+            }
           }
-        })),
+          return {
+            ...state,
+            supplierNews: {
+              ...state.supplierNews,
+              news: [...get().supplierNews.news, ...news]
+            }
+          }
+        }),
       }
     }),
     'supplier-news'

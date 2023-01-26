@@ -23,7 +23,7 @@ export type MarketInsightsSlice = State & Actions;
 
 const initialState = {
   page: 1,
-  pageSize: 18,
+  pageSize: 6,
   count: 0,
   news: []
 }
@@ -54,13 +54,24 @@ export const createMarketInsightsSlice: StateCreator<MarketInsightsSlice, [], []
             count
           }
         })),
-        setNews: (news: any) => set((state = get()) => ({
-          ...state,
-          marketInsights: {
-            ...state.marketInsights,
-            news: [...state.marketInsights.news, ...news]
+        setNews: (news: any) => set((state = get()) => {
+          if (get().marketInsights.page === 1) {
+            return {
+              ...state,
+              marketInsights: {
+                ...state.marketInsights,
+                news: [...news]
+              }
+            }
           }
-        })),
+          return {
+            ...state,
+            marketInsights: {
+              ...state.marketInsights,
+              news: [...state.marketInsights.news, ...news]
+            }
+          }
+        }),
       }
     }),
     'market-insights'
