@@ -147,7 +147,7 @@ const NewsCard = function (props: NewsCardProps) {
                 <SummaryLabel>{summary}</SummaryLabel>
                 <StyledReadMore>
                     <span>Read More</span>
-                    <img src="/Icons/right-arrow.svg" alt="->" />
+                    <img src="/icons/right-arrow.svg" alt="->" />
                 </StyledReadMore>
             </Contents>
         </Container>
