@@ -24,6 +24,7 @@ const Container = muiStyled('div')(`
     @media (min-width: ${theme.size.mobileXl}) {
         margin-left: 70px;
         margin-right: 70px;
+        margin-top: 20px;
         padding-bottom: 70px;
     }
 `);
@@ -39,9 +40,10 @@ export default function SupplierNews() {
     const didCancel = useRef(false);
     didCancel.current = false;
 
-    console.log(`count:${count} > page: ${page} * pageSize: ${pageSize}`);
-    if (pageLoaded && count > page * pageSize && !infiniteScrollControl.current) {
-        infiniteScrollControl.current = true;
+    if (pageLoaded) {
+        console.log(`count:${count} > page: ${page} * pageSize: ${pageSize}`);
+        const needed = count > page * pageSize;
+        infiniteScrollControl.current = needed;
     }
 
     useEffect(() => {
@@ -79,7 +81,7 @@ export default function SupplierNews() {
             <Container id="supplier-news-container">
                 {news && Array.isArray(news) && news.map((item) => <NewsCard key={item.id} {...item} />)}
                 {loading && [1, 2, 3].map((value) => <NewsCardSkeleton key={value} />)}
-                {!loading && !infiniteScrollControl.current && <span>No more news</span>}
+                {/* {!loading && !infiniteScrollControl.current && <span>No more news</span>} */}
             </Container>
         </Layout>
     );
