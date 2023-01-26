@@ -221,7 +221,7 @@ export default function ScoutByIndex() {
 
 const ScoutContainer = styled.div`
   // width: 1440px;
-  width: 1160px;
+  width: 1380px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: block;
     width: 100%;
