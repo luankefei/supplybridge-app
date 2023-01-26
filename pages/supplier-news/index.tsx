@@ -36,10 +36,8 @@ export default function SupplierNews() {
     const infiniteScrollControl = useRef(true);
     const pageRef = useRef(page);
     pageRef.current = page;
-
-    const getSupplierNewsHandler = useCallback(async (didCancel: boolean) => {
-        await getSupplierNews(page, didCancel);
-    }, [page])
+    const didCancel = useRef(false);
+    didCancel.current = false;
 
     console.log(`count:${count} > page: ${page} * pageSize: ${pageSize}`);
     if (pageLoaded && count > page * pageSize && !infiniteScrollControl.current) {
@@ -68,16 +66,19 @@ export default function SupplierNews() {
 
     useEffect(() => {
         let didCancel = false;
+        const getSupplierNewsHandler = async (didCancel: boolean) => {
+            await getSupplierNews(page, didCancel);
+        };
         getSupplierNewsHandler(didCancel);
         return () => { didCancel = true; };
-    }, [getSupplierNewsHandler])
+    }, [page])
 
     return (
         <Layout>
             <Header title="Supplier News" />
             <Container id="supplier-news-container">
                 {news && Array.isArray(news) && news.map((item) => <NewsCard key={item.id} {...item} />)}
-                {loading && [1, 2, 3].map((index) => <NewsCardSkeleton key={index} />)}
+                {loading && [1, 2, 3].map((value) => <NewsCardSkeleton key={value} />)}
                 {!loading && !infiniteScrollControl.current && <span>No more news</span>}
             </Container>
         </Layout>
