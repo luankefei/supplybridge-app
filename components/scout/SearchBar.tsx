@@ -5,6 +5,7 @@ import useStore from "hooks/useStore";
 
 import Icon from "components/Icon";
 import TextField from "components/TextField";
+import { InputAdornment } from "@mui/material";
 
 interface Props {
   onSearch: () => void;
@@ -47,6 +48,55 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
+
+export const SearchBar2 = ({ onSearch }: Props) => {
+  const [searchItem, setSearchItem] = useState("");
+  const { setFilterData } = useStore();
+
+  const onClickSearch = () => {
+    onSearch();
+  };
+
+  useEffect(() => {
+    setFilterData({ q: searchItem });
+  }, [searchItem]);
+
+  const onKeyPressHandler = (event: any) => {
+    if (event.key === "Enter") {
+      onSearch();
+    }
+  };
+
+  return (
+    <Container>
+    <SearchField2
+      id="search-parts"
+      key="search-parts-input"
+      variant="filled"
+      data-testid="search-parts"
+      label="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+      value={searchItem}
+      onChange={(e: any) => setSearchItem(e.target.value)}
+      onKeyPress={onKeyPressHandler}
+      //   InputProps={{
+      //   startAdornment: <InputAdornment position="start">
+      //        <Icon src="search" width={13} height={13} m={"12px"} hover />
+      //   </InputAdornment>,
+      // }}
+    />
+
+    <SearchButton onClick={onClickSearch}>Search</SearchButton>
+    </Container>
+  );
+};
+
+const Container=styled.div`
+  display: flex;
+  width: 80%;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+`
 const SearchField = styled(TextField)`
   width: 65%;
   // max-width: 700px;
@@ -96,5 +146,34 @@ const CircleButton = styled.div`
   cursor: pointer;
   user-select: none;
 `;
+
+const SearchField2=styled(SearchField)`
+height: 46px;
+width: 80%;
+
+label {
+    margin-left: 32px;
+    font-size: 14px !important;
+    line-height: 22px !important;
+    color: #8c8c8c;
+    font-family: inherit !important;
+  }
+  input {
+    margin-left: 32px;
+  }
+  
+`
+const SearchButton=styled.button`
+  width: 196px;
+  height: 46px;
+  border: none;
+  border-radius: 32px;
+  background: ${(props) => `${props.theme.colors.primary}`};
+  color: #FFFFFF;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.8;
+  }
+`
 
 export default SearchBar;

@@ -15,7 +15,7 @@ const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const Feedback = dynamic(() => import("components/scout/Feedback"));
 const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
-const SearchBar = dynamic(() => import("components/scout/SearchBar"));
+import { SearchBar2 } from "components/scout/SearchBar";
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 const Filters = dynamic(() => import("components/scout/Filters"));
 
@@ -97,7 +97,7 @@ export default function ScoutByIndex() {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-      document.documentElement.scrollTop <=
+        document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -182,29 +182,29 @@ export default function ScoutByIndex() {
           {/* <DuplicateHeaderForPosition scrollPosition={scrollOffset}> */}
           <SearchContainer>
             <IconContainer>
-              <Icon src="smart-bridge-ai" width={40} height={40} />
+              <Icon src="smart-bridge-ai" width={25} height={25} />
               <IconLabel>
                 <Label>powered by</Label>
                 <Label>SmartBridge Artificial Intelligence</Label>
               </IconLabel>
             </IconContainer>
-            <SearchBar onSearch={searchHandler} />
+            <SearchBar2 onSearch={searchHandler} />
 
             {/* <CircleButton onClick={() => setFilterModalVisible(true)}>
-                <Icon src="filter" p={"3px"} m={"12px"} hover />
-              </CircleButton> */}
+                <Icon src="filter" p={"3px"} m={"12px"} hover />Circle
+              </CircleButton>  */}
           </SearchContainer>
           {/* </DuplicateHeaderForPosition> */}
           <GeoCharts />
           <Filters totalCount={count} />
+
+          <ScoutFilter />
+          
           <ResultContainer>
             {suppliers?.length > 0 ? (
               <>
                 {suppliers.map((supplier: any, index: number) => (
-                  <ResultCard
-                    data={supplier}
-                    key={`${supplier.id}_${index}`}
-                  />
+                  <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
                 ))}
               </>
             ) : null}
@@ -220,7 +220,8 @@ export default function ScoutByIndex() {
 }
 
 const ScoutContainer = styled.div`
-  width: 1440px;
+  // width: 1440px;
+  width: 1160px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: block;
     width: 100%;
@@ -229,6 +230,7 @@ const ScoutContainer = styled.div`
 
 const SearchContainer = styled.div`
   display: flex;
+  align-items: center;
   width: 100%;
   max-width: 1440px;
   margin-bottom: 50px;
@@ -260,7 +262,7 @@ const IconContainer = styled.div`
   display: flex;
   flex-grow: 1;
   flex-direction: row;
-  margin-right: 100px;
+  /* margin-right: 100px; */
   /* min-width: 240px; */
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
@@ -276,8 +278,8 @@ const IconLabel = styled.div`
 const Label = styled.span`
   font-style: normal;
   font-weight: 400;
-  font-size: 12px;
-  line-height: 20px;
+  font-size: 8px;
+  line-height: 12px;
   color: #89a8b3;
 `;
 
@@ -344,7 +346,8 @@ const MapResultContainer = styled.div`
   }
 `;
 
-const ResultContainer = styled.div``;
+const ResultContainer = styled.div`
+`;
 
 const CircleButton = styled.div`
   background-color: ${(props) => `${props.theme.colors.primary}`};
@@ -375,4 +378,3 @@ const Button = styled.div<{ secondary?: boolean }>`
     display: none;
   }
 `;
-
