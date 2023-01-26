@@ -3,84 +3,84 @@ import { useState } from "react";
 import styled, { keyframes } from "styled-components";
 
 export default function SideBarMenu() {
-  const [open, setOpen] = useState(false)
+  const [open, setOpen] = useState(false);
 
   const solutionsData = [
     {
       icon: "scouting",
       title: "Scouting",
       path: "/scout",
-      active: true
+      active: true,
     },
     {
       icon: "sourcing",
       title: "Sourcing",
       path: "/source",
-      active: true
+      active: true,
     },
     {
       icon: "evaluate",
       title: "Evaluate",
       path: "/evaluate",
-      active: true
+      active: true,
     },
     {
       icon: "sustainability",
       title: "Sustainability",
       path: "/sustainability",
       active: true,
-      extra: "leaf"
+      extra: "leaf",
     },
     {
       icon: "finance",
       title: "Finance",
       path: "/finance",
-      active: false
+      active: false,
     },
     {
       icon: "transport",
       title: "Transport",
       path: "/transport",
-      active: false
+      active: false,
     },
     {
       icon: "total-solution",
       title: "Total Solution",
       path: "/total-solution",
-      active: true
+      active: true,
     },
-  ]
+  ];
 
   const marketData = [
     {
       icon: "raw-material",
       title: "Raw Material",
       path: "/raw-material",
-      active: true
+      active: true,
     },
     {
       icon: "supplier-news",
       title: "Supplier News",
       path: "/supplier-news",
-      active: true
+      active: true,
     },
     {
       icon: "market-insights",
       title: "Market Insights",
       path: "/market-insights",
-      active: true
+      active: true,
     },
     {
       icon: "exhibition-center",
       title: "Exhibition Center",
       path: "/exhibition-center",
-      active: false
+      active: false,
     },
-  ]
+  ];
 
   return (
     <Container width={open}>
-      {!open ?
+      {!open ? (
         <IconContainer>
           <TopSection>
             <Section>
@@ -89,23 +89,23 @@ export default function SideBarMenu() {
             <Section>
               {solutionsData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `/${item?.path}` : '#'}>
+                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
                     <IconWrapper active={item.active}>
                       <Icon src={`/menu/${item.icon}.svg`} />
                     </IconWrapper>
                   </Link>
-                )
+                );
               })}
             </Section>
             <Section>
               {marketData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `/${item?.path}` : '#'}>
+                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
                     <IconWrapper active={item.active}>
                       <Icon src={`/menu/${item.icon}.svg`} />
                     </IconWrapper>
                   </Link>
-                )
+                );
               })}
             </Section>
           </TopSection>
@@ -113,7 +113,7 @@ export default function SideBarMenu() {
             <Logo src="/menu/bmw.svg" />
           </Section>
         </IconContainer>
-        :
+      ) : (
         <MenuContainer>
           <TopSection>
             <Section>
@@ -125,38 +125,32 @@ export default function SideBarMenu() {
                 <UserName>Baran!</UserName>
                 <Avatar>BG</Avatar>
               </UserContainer>
-              <MenuTitle>
-                SOLUTIONS
-              </MenuTitle>
+              <MenuTitle>SOLUTIONS</MenuTitle>
               {solutionsData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `/${item?.path}` : '#'}>
+                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
                     <MenuWrapper active={item.active}>
                       <MenuIcon src={`/menu/${item.icon}.svg`} />
-                      <MenuItemTitle>
-                        {item.title}
-                      </MenuItemTitle>
-                      {item.extra && <MenuIcon src={`/menu/${item.extra}.svg`} />}
+                      <MenuItemTitle>{item.title}</MenuItemTitle>
+                      {item.extra && (
+                        <MenuIcon src={`/menu/${item.extra}.svg`} />
+                      )}
                     </MenuWrapper>
                   </Link>
-                )
+                );
               })}
             </Section>
             <Section>
-              <MenuTitle>
-                MARKET DATA
-              </MenuTitle>
+              <MenuTitle>MARKET DATA</MenuTitle>
               {marketData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `/${item?.path}` : '#'}>
+                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
                     <MenuWrapper active={item.active}>
                       <MenuIcon src={`/menu/${item.icon}.svg`} />
-                      <MenuItemTitle>
-                        {item.title}
-                      </MenuItemTitle>
+                      <MenuItemTitle>{item.title}</MenuItemTitle>
                     </MenuWrapper>
                   </Link>
-                )
+                );
               })}
             </Section>
           </TopSection>
@@ -166,23 +160,18 @@ export default function SideBarMenu() {
                 <Logo src="/menu/bmw.svg" />
               </Left>
               <Right>
-                <AccountTitle>
-                  BMW
-                </AccountTitle>
-                <AccountType>
-                  Premium Account
-                </AccountType>
+                <AccountTitle>BMW</AccountTitle>
+                <AccountType>Premium Account</AccountType>
               </Right>
             </AccountContainer>
           </Section>
         </MenuContainer>
-      }
+      )}
       <ArrowWrapper onClick={() => setOpen(!open)}>
         <ArrowIcon src={`/menu/${open ? "left" : "right"}-arrow.svg`} />
       </ArrowWrapper>
-
     </Container>
-  )
+  );
 }
 
 const animation = keyframes`
@@ -194,7 +183,7 @@ const Container = styled.div<any>`
   height: 100vh;
   min-height: 100%;
   width: ${(props) => (props.width ? "280px" : "62px")};
-  transition: ${(props) => (!props.width && ".5s ease")};
+  transition: ${(props) => !props.width && ".5s ease"};
   position: relative;
   box-sizing: border-box;
   position: fixed;
@@ -218,18 +207,18 @@ const MenuContainer = styled.div`
   flex-direction: column;
   justify-content: space-between;
   background-color: #ffffff;
-  transition: .9s ease;
+  transition: 0.9s ease;
   padding: 34px 24px;
   animation-name: ${animation};
-  animation-duration: .9s;
+  animation-duration: 0.9s;
 `;
 
 const TopSection = styled.div`
-min-height: 800px;
-display: flex;
-flex-direction: column;
-justify-content: space-between;
-animation: linear;
+  min-height: 800px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  animation: linear;
 `;
 
 const Section = styled.div`
@@ -250,21 +239,22 @@ const IconWrapper = styled.div<any>`
   cursor: ${(props) => (props.active ? "pointer" : "not-allowed")};
   &:hover {
     background: rgb(8, 151, 156, 0.1);
-    transition: background .3s ease;
+    transition: background 0.3s ease;
   }
 `;
 
 const Icon = styled.img`
   padding: 10px 12px;
   &:hover {
-    filter: invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%);
+    filter: invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg)
+      brightness(99%) contrast(94%);
   }
 `;
 
 const ArrowWrapper = styled.div`
   width: 27px;
   height: 27px;
-  background: #FFFFFF;
+  background: #ffffff;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 100%;
   display: flex;
@@ -274,16 +264,10 @@ const ArrowWrapper = styled.div`
   bottom: 90px;
   right: -13px;
   cursor: pointer;
-  transition: .9s ease;
-  animation-name: ${animation};
-  animation-duration: .9s;
+  transition: 0.9s ease;
 `;
 
-const ArrowIcon = styled.img`
-
-`;
-
-// when the menu is open
+const ArrowIcon = styled.img``;
 
 const UserContainer = styled.div`
   display: flex;
@@ -299,12 +283,12 @@ const Welcome = styled.span`
   color: #808080;
 `;
 const UserName = styled.span`
-  color: #1A1A1A;
+  color: #1a1a1a;
 `;
 const Avatar = styled.span`
   color: #ffffff;
   border-radius: 100%;
-  background: #6ADAC2;
+  background: #6adac2;
   padding: 6px;
 `;
 
@@ -312,7 +296,7 @@ const MenuTitle = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
-  color: #1A1A1A;
+  color: #1a1a1a;
   margin: 15px 0 5px 0;
 `;
 
@@ -324,20 +308,19 @@ const MenuWrapper = styled.div<any>`
   padding: 10px;
   &:hover {
     background: rgb(26, 26, 26, 0.1);
-    transition: background .3s ease;
-    filter: invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%);
+    transition: background 0.3s ease;
+    filter: invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg)
+      brightness(99%) contrast(94%);
   }
 `;
 
-const MenuIcon = styled.img`
-
-`;
+const MenuIcon = styled.img``;
 
 const MenuItemTitle = styled.span`
   font-weight: 300;
   font-size: 16px;
   line-height: 22px;
-  color: #1A1A1A;
+  color: #1a1a1a;
   margin: 0 3px 0 15px;
 `;
 
@@ -348,26 +331,25 @@ const AccountContainer = styled.div`
 `;
 
 const Left = styled.span`
-display: flex;
-align-items: center;
-margin-right: 10px;
+  display: flex;
+  align-items: center;
+  margin-right: 10px;
 `;
 const Right = styled.span`
-display: flex;
-flex-direction: column;
-
+  display: flex;
+  flex-direction: column;
 `;
 
 const AccountTitle = styled.span`
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
-  color: #1A1A1A;
+  color: #1a1a1a;
 `;
 
 const AccountType = styled.span`
   font-weight: 300;
   font-size: 12px;
   line-height: 16px;
-  color: #2C71F0;
+  color: #2c71f0;
 `;
