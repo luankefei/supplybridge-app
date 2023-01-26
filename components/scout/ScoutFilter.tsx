@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -9,6 +9,25 @@ import styled from "styled-components";
 import useStore from "hooks/useStore";
 import { useFilter } from "requests/useFilter";
 import Icon from "components/Icon";
+
+import OutlinedInput from '@mui/material/OutlinedInput';
+import InputLabel from '@mui/material/InputLabel';
+import MenuItem from '@mui/material/MenuItem';
+import FormControl from '@mui/material/FormControl';
+import ListItemText from '@mui/material/ListItemText';
+import Select, { SelectChangeEvent } from '@mui/material/Select';
+import { ClickAwayListener } from "@mui/material";
+const ITEM_HEIGHT = 48;
+const ITEM_PADDING_TOP = 8;
+const MenuProps = {
+  PaperProps: {
+    style: {
+      maxHeight: ITEM_HEIGHT * 4.5 + ITEM_PADDING_TOP,
+      width: 250,
+    },
+  },
+};
+
 
 const ScoutFilter = () => {
   const {
@@ -104,12 +123,18 @@ const ScoutFilter = () => {
     return filterData[type].includes(id) ? true : false;
   };
 
+  const [expanded, setExpanded] = useState<number | false>(false);
+  const handleChange =
+  (index: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+    setExpanded(isExpanded ? index : false);
+  };
   return (
+    <ClickAwayListener onClickAway={()=>setExpanded(false)}>
     <FilterContainer>
       {data.map((item, index) => {
         if (item.items.length) {
           return (
-            <CustomizeAccordion key={index}>
+            <CustomizeAccordion key={index} expanded={expanded === index} onChange={handleChange(index)}>
               <CustomizeAccordionSummary
                 expandIcon={<Icon src="chevron-down" width={40} height={40} />}
                 aria-controls={item.key}
@@ -118,37 +143,48 @@ const ScoutFilter = () => {
                 {item.label}
               </CustomizeAccordionSummary>
               <CustomizeAccordionDetails>
-                {item.items?.map((checkbox: any, index: number) => (
+                {item.items?.map((checkbox: any, index: number) => {
+
+                  const ischecked:boolean= decisionCheckStatus(item.key, checkbox)
+                  return (
                   <FormControlLabel
+                  labelPlacement="start"
                     key={index}
+                    label={
+                      <CheckboxLabel ischecked={ischecked}>
+                        <p>{checkbox.name}</p>
+                      </CheckboxLabel>
+                    }
                     control={
                       <Checkbox
                         onChange={(event) =>
                           onChangeHandler(event, item.key, checkbox)
                         }
+                        icon={<Icon src="tick" width={0} height={0} />}
                         checked={decisionCheckStatus(item.key, checkbox)}
+                        checkedIcon={<Icon src="tick" width={14} height={10} />}
                       />
                     }
-                    label={
-                      <CheckboxLabel>
-                        <p>{checkbox.name}</p>
-                      </CheckboxLabel>
-                    }
+                  
                   />
-                ))}
+                )})}
               </CustomizeAccordionDetails>
             </CustomizeAccordion>
           );
         }
       })}
     </FilterContainer>
+    </ClickAwayListener>
   );
 };
 
 const FilterContainer = styled.div`
+margin-top: 24px;
+display: flex;
+gap: 20px;
   margin-bottom: 24px;
-  width: 242px;
-  background: #fafafa;
+  /* width: 242px; */
+  /* background: #fafafa; */
   border-radius: 2px;
   height: fit-content;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
@@ -158,31 +194,65 @@ const FilterContainer = styled.div`
 
 const CustomizeAccordion = styled(Accordion)`
   margin: 0 !important;
+  border-radius: 16px !important;
+  width: 178px;
+height: 44px;
+position: inherit !important;
+
+.Mui-expanded{
+min-height: 48px !important;
+display: flex;
+align-items: center;
+}
+.MuiCollapse-wrapper{
+  padding-top: 20px !important;
+}
 `;
 
 const CustomizeAccordionSummary = styled(AccordionSummary)`
-  background: #f5f5f5;
   color: #006d75;
+  width: 178px;
+height: 44px;
+background: #FFFFFF;
+box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+border-radius: 16px !important;
 `;
 
 const CustomizeAccordionDetails = styled(AccordionDetails)`
   display: flex;
   flex-direction: column;
-  max-height: 400px;
+  max-height: 478px;
   overflow: auto;
+
+  position: absolute;
+  width: 100%;
+  z-index: 1;
+  background-color: #FFFFFF;
+
+
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+border-radius: 16px;
+width: 178px;
+
+.MuiFormControlLabel-root{
+  justify-content: start;
+}
+.Mui-checked{
+  color:${(props) => props.theme.colors.primary};
+}
 `;
 
-const CheckboxLabel = styled.div`
+const CheckboxLabel = styled.div<any>`
   display: flex;
   flex-direction: row;
   align-items: center;
   p {
     font-weight: 400;
-    font-size: 14px;
+    font-size: 12px;
     line-height: 22px;
     display: flex;
     align-items: center;
-    color: #1f1f1f;
+    color: ${(props) => props.ischecked? props.theme.colors.primary : '#1f1f1f'};
   }
   span {
     font-weight: 400;
