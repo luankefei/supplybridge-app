@@ -23,7 +23,7 @@ export type MarketInsightsSlice = State & Actions;
 
 const initialState = {
   page: 1,
-  pageSize: 6,
+  pageSize: 18,
   count: 0,
   news: []
 }

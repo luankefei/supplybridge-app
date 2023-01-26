@@ -5,29 +5,31 @@ import InsightCardSkeleton from "components/market-insights/InsightCardSkeleton"
 import useBoundStore from "hooks/useBoundStore";
 import { useMarketInsights } from "requests/useMarketInsights";
 import { theme } from "config/theme";
+import Layout from "components/Layout";
+import Header from "components/NewHeader";
 
 const Container = muiStyled('div')(`
     display: grid;
-    grid-auto-rows: 21.25rem;
-    grid-column-gap: 2.625rem;
-    grid-row-gap: 3.75rem;
+    grid-auto-rows: 15rem;
+    grid-column-gap: 42px;
+    grid-row-gap: 60px;
     background-color: #edf1f3;
 
     @media (max-width: ${theme.size.mobileXl}) {
         grid-template-columns: repeat(auto-fill, 1fr);
-        margin-top: 160px;
+        margin-top: 60px;
         margin-left: 20px;
         margin-right: 20px;
     };
     @media (min-width: ${theme.size.mobileXl}) {
         grid-template-columns: repeat(auto-fill, minmax(24.375rem, 1fr));
-        margin-top: 160px;
-        margin-left: 160px;
-        margin-right: 160px;
+        margin-top: 60px;
+        margin-left: 60px;
+        margin-right: 60px;
     }
 `);
 
-export default function marketInsights() {
+export default function MarketInsights() {
     const marketInsightsStore = useBoundStore((state) => state.marketInsights);
     const { news, page, pageSize, count, setPage } = marketInsightsStore;
     const { getMarketInsights, loading } = useMarketInsights();
@@ -45,24 +47,25 @@ export default function marketInsights() {
         infiniteScrollControl.current = true;
     }
 
-    const handleScroll = async () => {
-        var isAtBottom = document.documentElement.scrollHeight -
-            document.documentElement.scrollTop <=
-            document.documentElement.clientHeight;
-        if (isAtBottom && infiniteScrollControl.current) {
-            infiniteScrollControl.current = false;
-            setPage(pageRef.current + 1);
-        }
-    };
-
     useEffect(() => {
         if (pageLoaded) return;
         setPageLoaded(true);
+
+        const handleScroll = async () => {
+            var isAtBottom = document.documentElement.scrollHeight -
+                document.documentElement.scrollTop <=
+                document.documentElement.clientHeight;
+            if (isAtBottom && infiniteScrollControl.current) {
+                infiniteScrollControl.current = false;
+                setPage(pageRef.current + 1);
+            }
+        };
+
         window.addEventListener("scroll", handleScroll);
         return () => {
             window.removeEventListener("scroll", handleScroll);
         }
-    }, []);
+    }, [setPage]);
 
     useEffect(() => {
         let didCancel = false;
@@ -71,7 +74,8 @@ export default function marketInsights() {
     }, [getMarketInsightsHandler])
 
     return (
-        <div>
+        <Layout>
+            <Header title="Market Insights"></Header>
             <Container id="market-insights-container">
                 {news && Array.isArray(news) && news.map((item) => <InsightCard key={item.id} {...item} />)}
                 {loading && [1, 2, 3].map((index) => <InsightCardSkeleton key={index} />)}
@@ -86,6 +90,6 @@ export default function marketInsights() {
                 }}>
                     No more news
                 </span>}
-        </div >
+        </Layout >
     );
 }
