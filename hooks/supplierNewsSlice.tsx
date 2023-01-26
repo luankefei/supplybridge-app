@@ -23,7 +23,7 @@ export type SupplierNewsSlice = State & Actions;
 
 const initialState = {
   page: 1,
-  pageSize: 12,
+  pageSize: 4,
   count: 0,
   news: []
 }
