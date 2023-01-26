@@ -1,4 +1,5 @@
-import create, { StateCreator, StoreMutatorIdentifier } from 'zustand'
+import { StateCreator, StoreMutatorIdentifier } from 'zustand'
+import console from 'utils/console';
 
 type Logger = <
     T extends unknown,

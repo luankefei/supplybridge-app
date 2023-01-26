@@ -96,10 +96,9 @@ const SummaryLabel = muiStyled(Skeleton)(`
     };
 `);
 
-
-const NewsCardSkeleton = function (props: { key: number }) {
+const NewsCardSkeleton = function () {
     return (
-        <Container key={props.key}>
+        <Container>
             <StyledImage variant="rectangular" />
             <Contents>
                 <DateLabel width="10%" />

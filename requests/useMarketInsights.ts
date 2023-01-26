@@ -2,6 +2,7 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 import { request } from "config/axios";
 import useBoundStore from "hooks/useBoundStore";
+import console from "utils/console";
 
 const dummySample = [
     {
