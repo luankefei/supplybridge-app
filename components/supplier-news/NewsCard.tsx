@@ -1,6 +1,7 @@
 import { Box } from "@mui/material";
 import { styled as muiStyled } from "@mui/material/styles";
 import { theme } from "config/theme";
+import Image from "next/image";
 
 export type NewsCardProps = {
     id?: any;
@@ -14,7 +15,7 @@ export type NewsCardProps = {
 
 
 const Container = muiStyled(Box)(`
-    width: calc(100%);
+    width: min(calc(100%), 64.375rem);
     display: flex;
     @media (max-width: ${theme.size.mobileXl}) {
         flex-direction: column;
@@ -32,7 +33,7 @@ const Container = muiStyled(Box)(`
     background-color: #FFFFFF;
 `);
 
-const StyledImage = muiStyled('img')(`
+const StyledImage = muiStyled(Image)(`
     flex-shrink: 0;
     overflow: hidden;
     @media (max-width: ${theme.size.mobileXl}) {
@@ -43,6 +44,7 @@ const StyledImage = muiStyled('img')(`
         width: 9.875rem;
         height: 7.375rem;
     };
+    border-radius: 1rem;
     object-fit: cover;
 `);
 
@@ -133,7 +135,7 @@ const NewsCard = function (props: NewsCardProps) {
 
     return (
         <Container>
-            <StyledImage src={image as string | undefined}></StyledImage>
+            <StyledImage src={image as string} alt={`${title}-image`} width={158} height={118}></StyledImage>
             <Contents>
                 <DateLabel>{date}</DateLabel>
                 <TitleLabel>{title}</TitleLabel>
@@ -147,7 +149,7 @@ const NewsCard = function (props: NewsCardProps) {
                 <SummaryLabel>{summary}</SummaryLabel>
                 <StyledReadMore>
                     <span>Read More</span>
-                    <img src="/icons/right-arrow.svg" alt="->" />
+                    <Image src="/icons/right-arrow.svg" alt="->" width={24} height={24} />
                 </StyledReadMore>
             </Contents>
         </Container>

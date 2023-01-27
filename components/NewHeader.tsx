@@ -9,11 +9,9 @@ const StyledHeader = muiStyled('div')(`
     height: ${theme.size.header};
     @media (max-width: ${theme.size.mobileXl}) {
         padding-left: 16px;
-        padding-right: 16px;
     }
     @media (min-width: ${theme.size.mobileXl}) {
         padding-left: 70px;
-        padding-right: 70px;
     }
 `);
 
@@ -32,25 +30,32 @@ const TitleLabel = muiStyled('div')(`
     color: #1A1A1A;
 `);
 
-const HelpContainer = muiStyled('div')(`
-    cursor: pointer;
-    font-family: 'Nunito';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1rem;
-    line-height: 1.375rem;
-
-    color: #2C71F0;
+const FeedbackContainer = muiStyled('div')(`
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: flex-right;
-    gap: 12px;
+    justify-content: center;
+    padding: 4px 8px;
+    
+    position: absolute;
+    width: 5.5rem;
+    height: 1.875rem;
+    right: -1.8125rem;
+    top: 4.1875rem;
+    background: #C41D7F;
+    border-radius: 1rem 1rem 0px 0px;
+    transform: rotate(-90deg);
+
+    font-family: 'Ubuntu';
+    font-style: normal;
+    font-weight: 500;
+    font-size: 0.875rem;
+    line-height: 1.375rem;
+    color: #FFFFFF;
+    cursor: pointer;
 `);
 
-const Icon = muiStyled('img')(`
-    width: 1.5rem;
-    height: 1.5rem;
+const FeedbackLabel = muiStyled('div')(`
 `);
 
 type Props = {
@@ -63,10 +68,9 @@ const Header = function (props: Props) {
     return (
         <StyledHeader>
             <TitleLabel>{title}</TitleLabel>
-            <HelpContainer onClick={onClick}>
-                <Icon src="/icons/question-circle.svg" alt="question mark" />
-                <span>Help & Feedback</span>
-            </HelpContainer>
+            <FeedbackContainer onClick={onClick}>
+                FEEDBACK
+            </FeedbackContainer>
         </StyledHeader>
     );
 }

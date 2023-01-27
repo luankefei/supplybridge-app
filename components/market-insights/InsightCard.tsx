@@ -60,7 +60,7 @@ const BlurOverlay = muiStyled('div')(`
     left: 0px;
     bottom: 0px;
     right: 0px;
-    background: #022021;
+    background: #1A1A1A;
     opacity: 0.7;
 `);
 
@@ -79,7 +79,7 @@ const TitleLabel = muiStyled('span')(`
 
 const Subjects = muiStyled('div')(`
     display: flex;
-    margin-top: 1.375rem;
+    margin-top: 0.8125rem;
     overlay: hidden;
     flex-direction: row;
     align-items: center;
