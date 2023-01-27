@@ -4,42 +4,56 @@ import Icon from "components/Icon";
 import Layout from "components/Layout";
 import Header from "components/NewHeader";
 interface IconProps {
-    title: string;
-    iconSrc: string;
-    iconWidth?: number;
-    iconHeight?: number;
-    padding?: string;
-    margin?: string;
-  }
-
-export default function Evaluate(){
-    return (
-        <Layout>
-        <Header></Header>
-        <Container>
-        <IconBox iconSrc="analysis" iconWidth={82} iconHeight={82} title="Should Cost Analysis" />
-        <IconBox iconSrc="assessment" iconWidth={82} iconHeight={82} title="Risk Assessment" />
-        <IconBox iconSrc="rating" iconWidth={82} iconHeight={82} title="ESG Rating" />
-        </Container>
-        </Layout>
-    )
+  title: string;
+  iconSrc: string;
+  iconWidth?: number;
+  iconHeight?: number;
+  padding?: string;
+  margin?: string;
 }
 
-const Container=styled.div`
-    width: 100%;
-    height: 75vh;
-    display: flex;
-    gap:20px;
-    justify-content: center;
-    align-items: center;
-    @media (max-width: ${(props) => props.theme.size.laptop}) {
+export default function Evaluate() {
+  return (
+    <Layout>
+      <Header></Header>
+      <Container>
+        <IconBox
+          iconSrc="analysis"
+          iconWidth={82}
+          iconHeight={82}
+          title="Should Cost Analysis"
+        />
+        <IconBox
+          iconSrc="assessment"
+          iconWidth={82}
+          iconHeight={82}
+          title="Risk Assessment"
+        />
+        <IconBox
+          iconSrc="rating"
+          iconWidth={82}
+          iconHeight={82}
+          title="ESG Rating"
+        />
+      </Container>
+    </Layout>
+  );
+}
+
+const Container = styled.div`
+  width: 100%;
+  height: 75vh;
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  align-items: center;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
     margin: 10px 10px;
   }
   @media (max-width: ${(props) => props.theme.size.mobileXl}) {
-   flex-direction: column;
+    flex-direction: column;
   }
-`
-
+`;
 
 const IconBox = ({
   title,
@@ -47,7 +61,7 @@ const IconBox = ({
   iconHeight = 120,
   iconWidth = 120,
   padding = "25px",
-  margin="0px"
+  margin = "0px",
 }: IconProps) => {
   const [isChecked, setChecked] = useState(false);
 
@@ -66,14 +80,18 @@ const IconBox = ({
   );
 };
 
-const StyledBox = styled.div<{ ischecked: boolean; padding: string , margin: string}>`
+const StyledBox = styled.div<{
+  ischecked: boolean;
+  padding: string;
+  margin: string;
+}>`
   width: 290px;
   height: 196px;
   display: flex;
   justify-content: start;
-  align-items: flex-start;
+  align-items: center;
   padding: ${(props) => `${props.padding}`};
-  margin:${(props) => `${props.margin}`};
+  margin: ${(props) => `${props.margin}`};
   background-color: #ffffff;
   border-radius: 8px;
   cursor: pointer;
@@ -93,18 +111,18 @@ const BoxInfo = styled.div`
 
 const Title = styled.h4`
   text-transform: capitalize;
-  margin-bottom: -5px;
+  font-family: Inter;
   font-weight: 600;
-font-size: 18px;
-line-height: 22px;
+  font-size: 18px;
+  line-height: 22px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     font-weight: 500;
-font-size: 16px;
-line-height: 20px;
+    font-size: 16px;
+    line-height: 20px;
   }
   @media (max-width: ${(props) => props.theme.size.tablet}) {
     font-weight: 400;
-font-size: 14px;
-line-height: 18px;
+    font-size: 14px;
+    line-height: 18px;
   }
 `;
