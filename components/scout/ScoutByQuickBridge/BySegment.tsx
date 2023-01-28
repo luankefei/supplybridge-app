@@ -67,7 +67,7 @@ export default function BySegment() {
           },
         ]
       }
-    }
+    },
   ]
 
 
@@ -118,11 +118,9 @@ export default function BySegment() {
 const Container = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 50px;
+  gap: 40px;
   justify-content: flex-start;
-  padding-top: 46px;
-  width: 95%;
-  height: 100%;
+  width: 100%;
 `;
 
 const Segments = styled.div`
@@ -132,24 +130,25 @@ const Segments = styled.div`
 `;
 
 const SegmentButton = styled.div`
-display: flex;
-justify-content: center;
-align-items: center;
-width: 124px;
-height: 54px;
-background: #F3F4F6;
-border: 1px solid #D1D5DB;
-border-radius: 16px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 124px;
+  height: 54px;
+  background: #F3F4F6;
+  border: 1px solid #D1D5DB;
+  border-radius: 16px;
 `;
 
 const Models = styled.div`
-display: flex;
-flex-direction: column;
-gap: 20px;
-
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 30px;
 `;
+
 const ModelCardWrapper = styled.span`
-cursor: pointer;
+  cursor: pointer;  
 `;
 
 const Section = styled.div`
@@ -160,6 +159,7 @@ const Section = styled.div`
 const Brand = styled.div`
 
 `;
+
 const ModelsWrapper = styled.div`
   display: flex;
   gap: 8px;

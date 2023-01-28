@@ -14,10 +14,6 @@ export default function Switch() {
           <ByIndex selected={selected} onClick={() => setSelected("byIndex")}>Scout by Index</ByIndex>
           <ByQuickBridge selected={selected} onClick={() => setSelected("byQuickBridge")}>Scout by QuickBridge</ByQuickBridge>
         </Switches>
-        <LinkContainer>
-          <Icon>?</Icon>
-          <Text>Help & Feedback</Text>
-        </LinkContainer>
       </SwitchContainer>
       {selected === "byIndex" ?
         <ScoutByIndex /> :
