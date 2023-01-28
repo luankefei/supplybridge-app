@@ -1,53 +1,60 @@
 import Link from "next/link";
-import { useState } from "react";
+import { useRouter } from "next/router";
 import styled, { keyframes } from "styled-components";
 
 export default function SideBarMenu() {
-  const [open, setOpen] = useState(false);
+  const router = useRouter();
 
   const solutionsData = [
     {
       icon: "scouting",
       title: "Scouting",
       path: "/scout",
-      active: true,
+      active: router.asPath.includes("scout"),
+      passiveIcon: false
     },
     {
       icon: "sourcing",
       title: "Sourcing",
       path: "/source",
-      active: true,
+      active: router.asPath.includes("source"),
+      passiveIcon: false
     },
     {
       icon: "evaluate",
       title: "Evaluate",
       path: "/evaluate",
-      active: true,
+      active: router.asPath.includes("evaluate"),
+      passiveIcon: false
     },
     {
       icon: "sustainability",
       title: "Sustainability",
       path: "/sustainability",
-      active: true,
+      active: router.asPath.includes("sustainability"),
+      passiveIcon: false,
       extra: "leaf",
     },
     {
       icon: "finance",
       title: "Finance",
       path: "/finance",
-      active: false,
+      active: router.asPath.includes("finance"),
+      passiveIcon: true
     },
     {
       icon: "transport",
       title: "Transport",
       path: "/transport",
-      active: false,
+      active: router.asPath.includes("transport"),
+      passiveIcon: true
     },
     {
       icon: "total-solution",
       title: "Total Solution",
       path: "/total-solution",
-      active: true,
+      active: router.asPath.includes("total-solution"),
+      passiveIcon: false
     },
   ];
 
@@ -56,31 +63,35 @@ export default function SideBarMenu() {
       icon: "raw-material",
       title: "Raw Material",
       path: "/raw-material",
-      active: true,
+      active: router.asPath.includes("raw-material"),
+      passiveIcon: false
     },
     {
       icon: "supplier-news",
       title: "Supplier News",
       path: "/supplier-news",
-      active: true,
+      active: router.asPath.includes("supplier-news"),
+      passiveIcon: false
     },
     {
       icon: "market-insights",
       title: "Market Insights",
       path: "/market-insights",
-      active: true,
+      active: router.asPath.includes("market-insights"),
+      passiveIcon: false
     },
     {
       icon: "exhibition-center",
       title: "Exhibition Center",
       path: "/exhibition-center",
-      active: false,
+      active: router.asPath.includes("exhibition-center"),
+      passiveIcon: true
     },
   ];
 
   return (
-    <Container width={open}>
-      {!open ? (
+    <Container>
+      {/* {!open ? (
         <IconContainer>
           <TopSection>
             <Section>
@@ -113,63 +124,63 @@ export default function SideBarMenu() {
             <Logo src="/menu/bmw.svg" />
           </Section>
         </IconContainer>
-      ) : (
-        <MenuContainer>
-          <TopSection>
-            <Section>
-              <Logo src="/menu/logo.svg" />
-            </Section>
-            <Section>
-              <UserContainer>
-                <Welcome>Welcome</Welcome>
-                <UserName>Baran!</UserName>
-                <Avatar>BG</Avatar>
-              </UserContainer>
-              <MenuTitle>SOLUTIONS</MenuTitle>
-              {solutionsData.map((item: any, index: any) => {
-                return (
-                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
-                    <MenuWrapper active={item.active}>
-                      <MenuIcon src={`/menu/${item.icon}.svg`} />
-                      <MenuItemTitle>{item.title}</MenuItemTitle>
-                      {item.extra && (
-                        <MenuIcon src={`/menu/${item.extra}.svg`} />
-                      )}
-                    </MenuWrapper>
-                  </Link>
-                );
-              })}
-            </Section>
-            <Section>
-              <MenuTitle>MARKET DATA</MenuTitle>
-              {marketData.map((item: any, index: any) => {
-                return (
-                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
-                    <MenuWrapper active={item.active}>
-                      <MenuIcon src={`/menu/${item.icon}.svg`} />
-                      <MenuItemTitle>{item.title}</MenuItemTitle>
-                    </MenuWrapper>
-                  </Link>
-                );
-              })}
-            </Section>
-          </TopSection>
+      ) : ( */}
+      <MenuContainer>
+        <TopSection>
           <Section>
-            <AccountContainer>
-              <Left>
-                <Logo src="/menu/bmw.svg" />
-              </Left>
-              <Right>
-                <AccountTitle>BMW</AccountTitle>
-                <AccountType>Premium Account</AccountType>
-              </Right>
-            </AccountContainer>
+            <Logo src="/menu/logo.svg" />
           </Section>
-        </MenuContainer>
-      )}
-      <ArrowWrapper onClick={() => setOpen(!open)}>
+          <Section>
+            <UserContainer>
+              <Welcome>Welcome</Welcome>
+              <UserName>Baran!</UserName>
+              <Avatar>BG</Avatar>
+            </UserContainer>
+            <MenuTitle>SOLUTIONS</MenuTitle>
+            {solutionsData.map((item: any, index: any) => {
+              return (
+                <Link key={index} href={item.passiveIcon ? '#' : `${item?.path}`}>
+                  <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
+                    <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
+                    <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
+                    {item.extra && (
+                      <ExtraIcon src={`/menu/${item.extra}.svg`} />
+                    )}
+                  </MenuWrapper>
+                </Link>
+              );
+            })}
+          </Section>
+          <Section>
+            <MenuTitle>MARKET DATA</MenuTitle>
+            {marketData.map((item: any, index: any) => {
+              return (
+                <Link key={index} href={item.passiveIcon ? '#' : `${item?.path}`}>
+                  <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
+                    <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
+                    <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
+                  </MenuWrapper>
+                </Link>
+              );
+            })}
+          </Section>
+        </TopSection>
+        <Section>
+          <AccountContainer>
+            <Left>
+              <Logo src="/menu/bmw.svg" />
+            </Left>
+            <Right>
+              <AccountTitle>BMW</AccountTitle>
+              <AccountType>Premium Account</AccountType>
+            </Right>
+          </AccountContainer>
+        </Section>
+      </MenuContainer>
+      {/* )} */}
+      {/* <ArrowWrapper onClick={() => setOpen(!open)}>
         <ArrowIcon src={`/menu/${open ? "left" : "right"}-arrow.svg`} />
-      </ArrowWrapper>
+      </ArrowWrapper> */}
     </Container>
   );
 }
@@ -180,13 +191,11 @@ const animation = keyframes`
 `;
 
 const Container = styled.div<any>`
-  height: 100vh;
-  min-height: 100%;
-  width: ${(props) => (props.width ? "280px" : "62px")};
-  transition: ${(props) => !props.width && ".5s ease"};
+  font-family: Nunito;
+  min-height: 100vh;
+  width: 280px;
   position: relative;
   box-sizing: border-box;
-  position: fixed;
   z-index: 1000;
   /* transition: 1s all 0s; */
 `;
@@ -205,20 +214,22 @@ const MenuContainer = styled.div`
   height: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   background-color: #ffffff;
+  position: fixed;
   transition: 0.9s ease;
   padding: 34px 24px;
-  animation-name: ${animation};
+  /* animation-name: ${animation}; */
   animation-duration: 0.9s;
+  @media (max-height: 820px) {
+    position: unset;
+  }
 `;
 
 const TopSection = styled.div`
-  min-height: 800px;
+  min-height: 700px;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  animation: linear;
+  gap: 46px;
 `;
 
 const Section = styled.div`
@@ -277,6 +288,7 @@ const UserContainer = styled.div`
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
+  margin-bottom: 24px;
 `;
 
 const Welcome = styled.span`
@@ -289,7 +301,12 @@ const Avatar = styled.span`
   color: #ffffff;
   border-radius: 100%;
   background: #6adac2;
-  padding: 6px;
+  width: 30px;
+  height: 28px;
+  font-size: 12px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;
 
 const MenuTitle = styled.div`
@@ -297,37 +314,43 @@ const MenuTitle = styled.div`
   font-size: 16px;
   line-height: 22px;
   color: #1a1a1a;
-  margin: 15px 0 5px 0;
+  margin-bottom: 5px;
+`;
+
+const MenuIcon = styled.img<any>`
+filter: ${(props) => (props.active && "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)")};
+`;
+const ExtraIcon = styled.img``;
+
+const MenuItemTitle = styled.span<any>`
+  font-weight: 300;
+  font-size: 16px;
+  line-height: 22px;
+  color: ${(props) => (props.passiveIcon ? "#B3B3B3" : props.active ? "#08979C" : "#1a1a1a")};
+  margin: 0 3px 0 15px;
 `;
 
 const MenuWrapper = styled.div<any>`
   display: flex;
-  /* margin: 20px 0 20px 10px; */
   border-radius: 8px;
-  cursor: ${(props) => (props.active ? "pointer" : "not-allowed")};
+  background-color: ${(props) => (props.active && "rgb(8, 151, 156, 0.1)")};
+  cursor: ${(props) => (props.passiveIcon ? "not-allowed" : "pointer")};
   padding: 10px;
   &:hover {
-    background: rgb(26, 26, 26, 0.1);
-    transition: background 0.3s ease;
-    filter: invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg)
-      brightness(99%) contrast(94%);
+    background: ${(props) => (!props.passiveIcon && "rgb(8, 151, 156, 0.1)")};
+    ${MenuItemTitle} {
+      color: ${props => !props.passiveIcon && "#08979C"}
+    }
+    ${MenuIcon} {
+      filter: ${props => !props.passiveIcon && "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)"}
+    }
   }
-`;
-
-const MenuIcon = styled.img``;
-
-const MenuItemTitle = styled.span`
-  font-weight: 300;
-  font-size: 16px;
-  line-height: 22px;
-  color: #1a1a1a;
-  margin: 0 3px 0 15px;
 `;
 
 const AccountContainer = styled.div`
   display: flex;
   align-items: center;
-  margin-top: 20px;
+  margin-top: 27px;
 `;
 
 const Left = styled.span`
