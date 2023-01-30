@@ -19,11 +19,10 @@ const Container = styled.div`
 const InnerContainer = styled.div`
   position: relative;
   left: 60px;
-  width: calc(100% - 60px);
+  width: calc(100% - 340px);
   background-color: #ecf0f1;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   z-index: 0;
 `;
 
