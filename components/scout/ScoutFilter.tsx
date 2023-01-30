@@ -10,12 +10,12 @@ import useStore from "hooks/useStore";
 import { useFilter } from "requests/useFilter";
 import Icon from "components/Icon";
 
-import OutlinedInput from '@mui/material/OutlinedInput';
-import InputLabel from '@mui/material/InputLabel';
-import MenuItem from '@mui/material/MenuItem';
-import FormControl from '@mui/material/FormControl';
-import ListItemText from '@mui/material/ListItemText';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import OutlinedInput from "@mui/material/OutlinedInput";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import FormControl from "@mui/material/FormControl";
+import ListItemText from "@mui/material/ListItemText";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { ClickAwayListener } from "@mui/material";
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -27,7 +27,6 @@ const MenuProps = {
     },
   },
 };
-
 
 const ScoutFilter = () => {
   const {
@@ -102,11 +101,17 @@ const ScoutFilter = () => {
       }
     }
 
-    if (type === 'commodities' && !value) {
-      const commodityComponents = components?.filter((c: any) => c.commodityId === id);
-      const commodityComponentsIDs = commodityComponents?.map((cc: any) => cc.id);
-      rawFilterData.components = rawFilterData?.components?.filter((com: any) => !commodityComponentsIDs?.includes(com))
-    } 
+    if (type === "commodities" && !value) {
+      const commodityComponents = components?.filter(
+        (c: any) => c.commodityId === id
+      );
+      const commodityComponentsIDs = commodityComponents?.map(
+        (cc: any) => cc.id
+      );
+      rawFilterData.components = rawFilterData?.components?.filter(
+        (com: any) => !commodityComponentsIDs?.includes(com)
+      );
+    }
 
     if (rawFilterData.commodities.length === 0) {
       rawFilterData.components = [];
@@ -115,7 +120,7 @@ const ScoutFilter = () => {
       rawFilterData.subRegions = [];
     }
     setFilterData(rawFilterData);
-    getFilterListById(rawFilterData, type); 
+    getFilterListById(rawFilterData, type);
   };
 
   const decisionCheckStatus = (type: string, obj: any) => {
@@ -125,63 +130,73 @@ const ScoutFilter = () => {
 
   const [expanded, setExpanded] = useState<number | false>(false);
   const handleChange =
-  (index: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
-    setExpanded(isExpanded ? index : false);
-  };
+    (index: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
+      setExpanded(isExpanded ? index : false);
+    };
   return (
-    <ClickAwayListener onClickAway={()=>setExpanded(false)}>
-    <FilterContainer>
-      {data.map((item, index) => {
-        if (item.items.length) {
-          return (
-            <CustomizeAccordion key={index} expanded={expanded === index} onChange={handleChange(index)}>
-              <CustomizeAccordionSummary
-                expandIcon={<Icon src="chevron-down" width={40} height={40} />}
-                aria-controls={item.key}
-                id={item.key}
+    <ClickAwayListener onClickAway={() => setExpanded(false)}>
+      <FilterContainer>
+        {data.map((item, index) => {
+          if (item.items.length) {
+            return (
+              <CustomizeAccordion
+                key={index}
+                expanded={expanded === index}
+                onChange={handleChange(index)}
               >
-                {item.label}
-              </CustomizeAccordionSummary>
-              <CustomizeAccordionDetails>
-                {item.items?.map((checkbox: any, index: number) => {
-
-                  const ischecked:boolean= decisionCheckStatus(item.key, checkbox)
-                  return (
-                  <FormControlLabel
-                  labelPlacement="start"
-                    key={index}
-                    label={
-                      <CheckboxLabel ischecked={ischecked}>
-                        <p>{checkbox.name}</p>
-                      </CheckboxLabel>
-                    }
-                    control={
-                      <Checkbox
-                        onChange={(event) =>
-                          onChangeHandler(event, item.key, checkbox)
+                <CustomizeAccordionSummary
+                  expandIcon={
+                    <Icon src="chevron-down" width={16} height={16} />
+                  }
+                  aria-controls={item.key}
+                  id={item.key}
+                >
+                  {item.label}
+                </CustomizeAccordionSummary>
+                <CustomizeAccordionDetails>
+                  {item.items?.map((checkbox: any, index: number) => {
+                    const ischecked: boolean = decisionCheckStatus(
+                      item.key,
+                      checkbox
+                    );
+                    return (
+                      <FormControlLabel
+                        labelPlacement="start"
+                        key={index}
+                        label={
+                          <CheckboxLabel ischecked={ischecked}>
+                            <p>{checkbox.name}</p>
+                          </CheckboxLabel>
                         }
-                        icon={<Icon src="tick" width={0} height={0} />}
-                        checked={decisionCheckStatus(item.key, checkbox)}
-                        checkedIcon={<Icon src="tick" width={14} height={10} />}
+                        control={
+                          <Checkbox
+                            onChange={(event) =>
+                              onChangeHandler(event, item.key, checkbox)
+                            }
+                            icon={<Icon src="tick" width={0} height={0} />}
+                            checked={decisionCheckStatus(item.key, checkbox)}
+                            checkedIcon={
+                              <Icon src="tick" width={14} height={10} />
+                            }
+                          />
+                        }
                       />
-                    }
-                  
-                  />
-                )})}
-              </CustomizeAccordionDetails>
-            </CustomizeAccordion>
-          );
-        }
-      })}
-    </FilterContainer>
+                    );
+                  })}
+                </CustomizeAccordionDetails>
+              </CustomizeAccordion>
+            );
+          }
+        })}
+      </FilterContainer>
     </ClickAwayListener>
   );
 };
 
 const FilterContainer = styled.div`
-margin-top: 24px;
-display: flex;
-gap: 20px;
+  margin-top: 24px;
+  display: flex;
+  gap: 20px;
   margin-bottom: 24px;
   /* width: 242px; */
   /* background: #fafafa; */
@@ -196,26 +211,31 @@ const CustomizeAccordion = styled(Accordion)`
   margin: 0 !important;
   border-radius: 16px !important;
   width: 178px;
-height: 44px;
-position: inherit !important;
+  height: 42px;
+  position: inherit !important;
 
-.Mui-expanded{
-min-height: 48px !important;
-display: flex;
-align-items: center;
-}
-.MuiCollapse-wrapper{
-  padding-top: 20px !important;
-}
+  .Mui-expanded {
+    min-height: 48px !important;
+    display: flex;
+    align-items: center;
+  }
+  .MuiCollapse-wrapper {
+    padding-top: 20px !important;
+  }
 `;
 
 const CustomizeAccordionSummary = styled(AccordionSummary)`
-  color: #006d75;
+  color: #08979c;
   width: 178px;
-height: 44px;
-background: #FFFFFF;
-box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-border-radius: 16px !important;
+  height: 44px;
+  background: #ffffff;
+  font-family: "Inter";
+  font-weight: 600;
+  font-size: 12px;
+  line-height: 24px;
+
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+  border-radius: 16px !important;
 `;
 
 const CustomizeAccordionDetails = styled(AccordionDetails)`
@@ -227,19 +247,18 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   position: absolute;
   width: 100%;
   z-index: 1;
-  background-color: #FFFFFF;
-
+  background-color: #ffffff;
 
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-border-radius: 16px;
-width: 178px;
+  border-radius: 16px;
+  width: 178px;
 
-.MuiFormControlLabel-root{
-  justify-content: start;
-}
-.Mui-checked{
-  color:${(props) => props.theme.colors.primary};
-}
+  .MuiFormControlLabel-root {
+    justify-content: start;
+  }
+  .Mui-checked {
+    color: ${(props) => props.theme.colors.primary};
+  }
 `;
 
 const CheckboxLabel = styled.div<any>`
@@ -252,7 +271,8 @@ const CheckboxLabel = styled.div<any>`
     line-height: 22px;
     display: flex;
     align-items: center;
-    color: ${(props) => props.ischecked? props.theme.colors.primary : '#1f1f1f'};
+    color: ${(props) =>
+      props.ischecked ? props.theme.colors.primary : "#1f1f1f"};
   }
   span {
     font-weight: 400;
