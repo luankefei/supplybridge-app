@@ -24,10 +24,17 @@ const Container = styled.span<ContainerProps>`
   height: 124px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px;
-  outline: ${(props) => (props.selected && "4px solid #08979C")};
+  border: ${(props) => (props.selected ? "4px solid #08979C" : "4px solid transparent")};
   display: flex;
   flex-direction: column;
   align-items: center;
+  background-color: #FFFFFF;
+  &:hover {
+    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  &:active {
+    border: 4px solid #445B66;
+  }
 `
 
 const IconWrapper = styled.span`
@@ -47,5 +54,4 @@ const Title = styled.span`
   font-size: 12px;
   line-height: 16px;
   color: #808080;
-  padding-bottom: 15px;
 `;
