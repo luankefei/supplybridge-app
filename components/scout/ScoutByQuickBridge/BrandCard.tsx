@@ -2,12 +2,13 @@ import styled from "styled-components"
 
 interface ContainerProps {
   selected: boolean;
+  clickable: boolean;
 }
 
-export default function BrandCard({ logo, title, selected }: any) {
+export default function BrandCard({ logo, title, selected, clickable = true }: any) {
   return (
     <>
-      <Container selected={selected}>
+      <Container selected={selected} clickable={clickable}>
         <IconWrapper>
           <Icon src={`/brands/${logo}.png`} />
         </IconWrapper>
@@ -24,16 +25,18 @@ const Container = styled.span<ContainerProps>`
   height: 124px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px;
-  border: ${(props) => (props.selected ? "4px solid #08979C" : "4px solid transparent")};
+  border: ${(props) => (props.clickable && props.selected ? "4px solid #08979C" : "4px solid transparent")};
   display: flex;
   flex-direction: column;
   align-items: center;
   background-color: #FFFFFF;
   &:hover {
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: ${(props) => (props.clickable ?
+    "0px 4px 4px rgba(0, 0, 0, 0.25)" :
+    "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)")};
   }
   &:active {
-    border: 4px solid #445B66;
+    border: ${(props) => (props.clickable ? "4px solid #445B66" : "4px solid transparent")};
   }
 `
 

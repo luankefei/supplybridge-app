@@ -36,23 +36,6 @@ export default function BySegment() {
     },
     {
       brand: {
-        logo: "bmw-logo",
-        title: "BMW",
-        models: [
-          {
-            title: "3 Series"
-          },
-          {
-            title: "5 Series"
-          },
-          {
-            title: "7 Series"
-          },
-        ]
-      }
-    },
-    {
-      brand: {
         logo: "mercedesbenz-logo",
         title: "Mercedes-Benz",
         models: [
@@ -89,7 +72,7 @@ export default function BySegment() {
               <>
                 <Section key={index}>
                   <Brand>
-                    <BrandCard logo={item.brand.logo} title={item.brand.title} />
+                    <BrandCard logo={item.brand.logo} title={item.brand.title} clickable={false} />
                   </Brand>
                   <ModelsWrapper>
                     {item?.brand.models?.map((model: any, i: any) => {

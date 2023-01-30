@@ -14,7 +14,7 @@ export default function ByClass() {
   };
 
   const ClassData = {
-    mass: [
+    volumn: [
       { logo: "ford-logo", title: "Ford" },
       { logo: "aiways-logo", title: "Aiways" },
       { logo: "byd-logo", title: "BYD" },
@@ -22,10 +22,10 @@ export default function ByClass() {
       { logo: "greatwallmotors-logo", title: "Great Wall" },
       { logo: "nissan-logo", title: "Nissan" },
       { logo: "honda-logo", title: "Hongda" },
-      { logo: "sonomotors-logo", title: "Sono" },
+      { logo: "generalmotors-logo", title: "GM" },
       { logo: "volkswagen-logo", title: "VW" },
     ],
-    premium: [
+    ev: [
       { logo: "rivian-logo", title: "Rivian" },
       { logo: "tesla-logo", title: "Tesla" },
       { logo: "hiphi-logo", title: "HiPhi" },
@@ -33,8 +33,7 @@ export default function ByClass() {
       { logo: "nio-logo", title: "Nio" },
       { logo: "hyundai-logo", title: "Hyundai" },
     ],
-    luxury: [
-      { logo: "bmw-logo", title: "BMW" },
+    premium: [
       { logo: "mercedesbenz-logo", title: "Mercedes-Benz" },
       { logo: "audi-logo", title: "Audi" },
     ],
@@ -50,7 +49,7 @@ export default function ByClass() {
         <Section>
           <Title>Volume</Title>
           <Brands>
-            {ClassData.mass.map((item: any, index) => {
+            {ClassData.volumn.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
@@ -69,7 +68,7 @@ export default function ByClass() {
         <Section>
           <Title>EV</Title>
           <Brands>
-            {ClassData.premium.map((item: any, index) => {
+            {ClassData.ev.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
@@ -86,9 +85,9 @@ export default function ByClass() {
           </Brands>
         </Section>
         <Section>
-          <Title>Luxury</Title>
+          <Title>Premium</Title>
           <Brands>
-            {ClassData.luxury.map((item: any, index) => {
+            {ClassData.premium.map((item: any, index) => {
               return (
                 <>
                   <CardWrapper onClick={() => onClick(item.title)}>
