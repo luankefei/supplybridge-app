@@ -52,6 +52,7 @@ export default class MyDocument extends Document {
             rel="stylesheet"
           />
           <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"></link>
+          <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet"></link>
         </Head>
         <body>
           <Main />

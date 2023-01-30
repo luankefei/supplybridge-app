@@ -7,12 +7,14 @@ import ByVehicle from "./ByVehicle";
 import ByOEM from "./ByOEM";
 import ByClass from "./ByClass";
 import ByTechnology from "./ByTechnology";
-import ByComponent from "./ByComponent";
 import ByProductionTech from "./ByProductionTech";
 import Icon from "components/Icon";
 import ByPioneer from "./ByPioneer";
-import Button from "components/Button";
 import BySegment from "./BySegment";
+import dynamic from "next/dynamic";
+import ByCommodity from "./ByCommodity";
+
+const Feedback = dynamic(() => import("components/scout/Feedback"));
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -26,6 +28,7 @@ interface TabPanelProps {
   index: number;
   value: number;
 }
+
 
 const StyledTabs = styled((props: StyledTabsProps) => (
   <Tabs
@@ -58,6 +61,7 @@ const StyledTab = styled((props: StyledTabProps) => (
   color: "#1A1A1A",
   borderRadius: "16px 16px 0px 0px",
   backgroundColor: "#E6E6E6",
+  boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
   '&.Mui-selected': {
     color: '#08979C',
     backgroundColor: "#fff"
@@ -100,70 +104,81 @@ export default function ScoutByQuickBridge() {
   return (
     <>
       <div className="Container">
-        <StyledTabs
-          value={value}
-          onChange={handleChange}
-          aria-label="tabs"
-        >
-          <StyledTab label="By Vehicle" />
-          <StyledTab label="By OEM" />
-          <StyledTab label="By Class" />
-          <StyledTab label="By Segment" />
-          <StyledTab label="By Technology" />
-          <StyledTab label="By Component" />
-          <StyledTab label="By Production Tech" />
-          <StyledTab label={<span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ marginRight: "-3px" }}>By Pioneer</span><Icon src={"pioneer"} height={18} /></span>} />
-        </StyledTabs>
-        <Box sx={{ p: 3, backgroundColor: "#F9FAFB", borderRadius: "0px 0px 16px 16px", height: "70vh" }}>
-          <TabPanel value={value} index={0} dir={theme.direction}>
-            <div style={{ alignItems: "center" }} className="TabPanelWrapper">
-              <ByVehicle />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={1} dir={theme.direction}>
-            <div className="TabPanelWrapper">
-              <ByOEM />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={2} dir={theme.direction}>
-            <div className="TabPanelWrapper">
-              <ByClass />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={3} dir={theme.direction}>
-            <div className="TabPanelWrapper">
-              <BySegment />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={4} dir={theme.direction}>
-            <div style={{ alignItems: "center" }} className="TabPanelWrapper">
-              <ByTechnology />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={5} dir={theme.direction}>
-            <div style={{ alignItems: "center" }} className="TabPanelWrapper">
-              <ByComponent />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={6} dir={theme.direction}>
-            <div style={{ alignItems: "center" }} className="TabPanelWrapper">
-              <ByProductionTech />
-            </div>
-          </TabPanel>
-          <TabPanel value={value} index={7} dir={theme.direction}>
-            <div style={{ alignItems: "center" }} className="TabPanelWrapper">
-              <ByPioneer />
-            </div>
-          </TabPanel>
-        </Box>
-        <Box sx={{ cursor: "pointer", marginTop: "18px", display: "flex", justifyContent: "flex-end" }}>
-          <Box sx={{ color: "#fff", width: "254px", height: "46px", display: "flex", justifyContent: "center", alignItems: "center", background: "#08979C", borderRadius: "16px" }}>Scout Now</Box>
-        </Box>
+        <div className="Content">
+          <StyledTabs
+            value={value}
+            onChange={handleChange}
+            aria-label="tabs"
+          >
+            <StyledTab label="By Vehicle" />
+            <StyledTab label="By OEM" />
+            <StyledTab label="By Class" />
+            <StyledTab label="By Segment" />
+            <StyledTab label="By Technology" />
+            <StyledTab label="By Commodity" />
+            <StyledTab label="By Production Tech" />
+            <StyledTab label={<span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ marginRight: "-3px" }}>By Pioneer</span><Icon src={"pioneer"} height={18} /></span>} />
+          </StyledTabs>
+          <Box sx={{ p: 3, backgroundColor: "#F9FAFB", borderRadius: "0px 0px 16px 16px", height: "606px", overflow: "overlay" }}>
+            <TabPanel value={value} index={0} dir={theme.direction}>
+              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                <ByVehicle />
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={1} dir={theme.direction}>
+              <div className="TabPanelWrapper">
+                <ByOEM />
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={2} dir={theme.direction}>
+              <div className="TabPanelWrapper">
+                <ByClass />
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={3} dir={theme.direction}>
+              <div className="TabPanelWrapper">
+                <BySegment />
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={4} dir={theme.direction}>
+              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                <ByTechnology />
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={5} dir={theme.direction}>
+              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                <ByCommodity />
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={6} dir={theme.direction}>
+              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                <ByProductionTech />
+              </div>
+            </TabPanel>
+            <TabPanel value={value} index={7} dir={theme.direction}>
+              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                <ByPioneer />
+              </div>
+            </TabPanel>
+          </Box>
+          <Box sx={{ cursor: "pointer", marginTop: "18px", display: "flex", justifyContent: "flex-end" }}>
+            <Box sx={{ color: "#fff", width: "254px", height: "46px", display: "flex", justifyContent: "center", alignItems: "center", background: "#08979C", borderRadius: "16px", marginBottom: "40px" }}>Scout Now</Box>
+          </Box>
+          <Feedback />
+        </div>
       </div>
 
       <style jsx>{`
         .Container {
-          width: 1440px;
+          width: 100%;
+          height: 80vh;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .Content {
+          width: 1056px;
+          height: 606px;
         }
         @media (max-width: 992px) {
           .Container {
@@ -176,8 +191,6 @@ export default function ScoutByQuickBridge() {
           display: flex; 
           justify-content: center; 
           height: 100%; 
-          min-height: 600px;
-          overflow: auto;
         }
       `}</style>
 

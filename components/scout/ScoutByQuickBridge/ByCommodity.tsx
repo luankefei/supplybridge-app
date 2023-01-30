@@ -4,7 +4,7 @@ import { useState } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 
-export default function ByComponent() {
+export default function ByCommodity() {
   const [selected, setSelected] = useState("")
 
 
