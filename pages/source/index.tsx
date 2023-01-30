@@ -8,6 +8,7 @@ import Icon from "components/Icon";
 import Slide1 from "components/source/slides/Slide1";
 import Slide2 from "components/source/slides/Slide2";
 import Slide3 from "components/source/slides/Slide3";
+import { useEffect, useRef, useState } from "react";
 const Layout = dynamic(() => import("components/Layout"));
 const Header = dynamic(() => import("components/NewHeader"));
 export default function SliderPage() {
@@ -28,6 +29,21 @@ export default function SliderPage() {
       </div>
     );
   };
+
+  const slideCard = (e: any) => {
+    if (slider === null) return 0;
+
+    e.wheelDelta > 0
+      ? slider?.current?.slickNext()
+      : slider?.current?.slickPrev();
+  };
+  useEffect(() => {
+    window.addEventListener("wheel", slideCard);
+    return () => {
+      window.removeEventListener("wheel", slideCard);
+    };
+  }, []);
+
   var settings = {
     dots: true,
     arrows: true,
@@ -35,15 +51,17 @@ export default function SliderPage() {
     speed: 500,
     slidesToShow: 1,
     slidesToScroll: 1,
+    swipeToSlide: true,
     fade: true,
     nextArrow: <NextArrow />,
     prevArrow: <PrevArrow />,
   };
 
+  const slider = useRef<Slider>(null);
   return (
     <Layout>
       <Header />
-      <StyledSlider {...settings}>
+      <StyledSlider {...settings} ref={slider}>
         <Slide1 />
         <Slide2 />
         <Slide3 />
@@ -96,7 +114,7 @@ const StyledSlider = styled(Slider)`
     background: transparent;
   }
 
-     @media (max-width: ${(props) => props.theme.size.laptop}) {
-       margin: 0px 20px;
-      }
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin: 0px 20px;
+  }
 `;

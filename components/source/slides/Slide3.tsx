@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from '@emotion/styled'
 import SliderCard from "../SliderCard";
 import { Button, ButtonGroup } from "@mui/material";
 import Icon from "components/Icon";
@@ -11,7 +11,7 @@ import { useState } from "react";
 
 export default function Slide3() {
   const [selectedValue, setSelectedValue] = useState("c");
-  const [groupSelectedValue,setGroupSelectedValue]=useState("mm")
+  const [groupSelectedValue, setGroupSelectedValue] = useState("mm");
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setSelectedValue(event.target.value);
@@ -71,13 +71,13 @@ export default function Slide3() {
                     value="mm"
                     control={<StyledRadio />}
                     label="mm"
-                    onClick={()=>setGroupSelectedValue("mm")}
+                    onClick={() => setGroupSelectedValue("mm")}
                   />
                   <FormControlLabel
                     value="in"
                     control={<StyledRadio />}
                     label="in"
-                    onClick={()=>setGroupSelectedValue("in")}
+                    onClick={() => setGroupSelectedValue("in")}
                   />
                 </RadioGroup>
               </ItemFeature>
@@ -304,7 +304,7 @@ const StyledRadio = styled(Radio)`
   margin-left: 10px;
   padding: 0px 9px !important;
   &.Mui-checked {
-    color: ${(props) => props.theme.colors.primary};
+    color: #08979C;
   }
 `;
 const DateDetail = styled.div`
@@ -348,7 +348,7 @@ const RadioCardContainer = styled.div`
 `;
 
 const StyledButtonGroup = styled(ButtonGroup)`
-  background-color: #FAFAFA;
+  background-color: #fafafa;
   &.MuiButtonGroup-outlined {
     border-radius: 16px !important;
   }
@@ -367,17 +367,17 @@ const StyledButtonGroup = styled(ButtonGroup)`
   }
 `;
 
-const AmountLabel=styled.h4`
-  font-family: 'Inter';
-font-style: normal;
-font-weight: 500;
-font-size: 24px;
-line-height: 32px;
-color: #08979C;
-`
+const AmountLabel = styled.h4`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  color: #08979c;
+`;
 
-const Line=styled.hr`
-  border: 1px solid #8C8C8C;
+const Line = styled.hr`
+  border: 1px solid #8c8c8c;
   width: 98%;
-  margin-left: 20px;   
-`
+  margin-left: 20px;
+`;

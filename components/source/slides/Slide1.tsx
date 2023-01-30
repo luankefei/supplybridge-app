@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import styled from "styled-components";
+import styled from '@emotion/styled'
 import Box from "../IconBox";
 import SliderCard from "../SliderCard";
 
@@ -99,7 +99,7 @@ const Row = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: #08979C;
   border-radius: 100px;
   width: 604px;
   height: 44px;

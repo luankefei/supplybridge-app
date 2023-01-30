@@ -51,8 +51,9 @@ const StyledBox = styled.div<{
   border-radius: 8px;
   cursor: pointer;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
+z-index: 1;
   border: ${(props) =>
-    props.ischecked ? "2px solid #08979c" : "1px solid #E5E7EB;"};
+    props.ischecked ? "2px solid #08979c" : "1px solid #E5E7EB"};
 `;
 
 const BoxInfo = styled.div`
