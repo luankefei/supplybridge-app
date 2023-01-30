@@ -175,7 +175,6 @@ border-radius: 16px;
 `;
 
 const BrandImage = styled.img`
-  box-shadow: inset 1px 1px 8px rgba(0, 0, 0, 0.08);
   border-radius: 2px;
 `;
 
@@ -188,8 +187,7 @@ const CountryFlag = styled.img`
 `;
 
 const ImageContainer = styled.div`
-  background: #f5f5f5;
-  box-shadow: inset 1px 1px 8px rgb(0 0 0 / 8%);
+  background: #ffffff;
   border-radius: 2px;
   max-width: 110px;
   width: 100%;
