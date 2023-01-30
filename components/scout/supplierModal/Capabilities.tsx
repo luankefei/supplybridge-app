@@ -56,7 +56,7 @@ export const CapabilitiesTabPanel = () => {
 }
 
 const CapabilitiesContainer = styled.div`
-  font-family: "Ubuntu", sans-serif !important;
+  font-family: "Inter", sans-serif;
 `
 
 const Title = styled.div`

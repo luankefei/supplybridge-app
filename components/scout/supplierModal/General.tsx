@@ -59,7 +59,7 @@ export const GeneralTabPanel = () => {
 };
 
 const GeneralContainer = styled.div`
-  font-family: "Ubuntu", sans-serif !important;
+  font-family: "Inter", sans-serif
 `;
 const Title = styled.div``;
 

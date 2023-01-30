@@ -67,7 +67,7 @@ export const SupplierModal = ({ ...props }: any) => {
         <Box sx={style}>
           <Head>
             <ImageContainer>
-              <BrandImage src={data?.picture} />
+              <BrandImage src="/images/demo-xyz-logo.png" />
             </ImageContainer>
             <HeadInfo>
               <Title>XYZ Tech (DEMO)</Title>
@@ -138,8 +138,7 @@ const Head = styled.div`
 `;
 
 const ImageContainer = styled.div`
-  background: #f5f5f5;
-  box-shadow: inset 1px 1px 8px rgb(0 0 0 / 8%);
+  background: #fff;
   border-radius: 2px;
   max-width: 110px;
   width: 100%;
@@ -171,7 +170,7 @@ const HeadInfo = styled.div`
 
 const CustomTab = styled(Tab)`
   text-transform: none;
-  font-family: "Ubuntu", sans-serif !important;
+  font-family: "Inter", sans-serif;
 `;
 const CloseIcon = styled.img`
   width: 16px;
@@ -214,7 +213,7 @@ const Flag = styled.img`
 
 const TabContainer = styled.div`
   height: 600px;
-  font-family: "Ubuntu", sans-serif !important;
+  font-family: "Inter", sans-serif;
   @media (max-width: ${(props) => props.theme.size.laptopL}) {
     height: 500px;
   }
