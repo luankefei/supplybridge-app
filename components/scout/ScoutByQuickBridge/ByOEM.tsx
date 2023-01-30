@@ -33,7 +33,6 @@ export default function ByOEM() {
     ],
     europe: [
       { logo: "astonmartin-logo", title: "Aston Martin" },
-      { logo: "bmw-logo", title: "BMW" },
       { logo: "mercedesbenz-logo", title: "Mercedes-Benz" },
       { logo: "sonomotors-logo", title: "Sono" },
       { logo: "volkswagen-logo", title: "VW" },
