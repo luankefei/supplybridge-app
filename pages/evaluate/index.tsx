@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import Icon from "components/Icon";
 import Layout from "components/Layout";
@@ -10,9 +10,12 @@ interface IconProps {
   iconHeight?: number;
   padding?: string;
   margin?: string;
+  ischecked:boolean;
+  onClick: React.MouseEventHandler
 }
 
 export default function Evaluate() {
+  const [isChecked, setChecked] = useState(0);
   return (
     <Layout>
       <Header></Header>
@@ -22,18 +25,24 @@ export default function Evaluate() {
           iconWidth={82}
           iconHeight={82}
           title="Should Cost Analysis"
+          ischecked={isChecked===0}
+          onClick={() => setChecked(0)}
         />
         <IconBox
           iconSrc="assessment"
           iconWidth={82}
           iconHeight={82}
           title="Risk Assessment"
+          ischecked={isChecked===1}
+          onClick={() => setChecked(1)}
         />
         <IconBox
           iconSrc="rating"
           iconWidth={82}
           iconHeight={82}
           title="ESG Rating"
+          ischecked={isChecked===2}
+          onClick={() => setChecked(2)}
         />
       </Container>
     </Layout>
@@ -62,15 +71,17 @@ const IconBox = ({
   iconWidth = 120,
   padding = "25px",
   margin = "0px",
+  ischecked=false,
+  onClick
 }: IconProps) => {
-  const [isChecked, setChecked] = useState(false);
+ 
 
   return (
     <StyledBox
-      ischecked={isChecked}
+      ischecked={ischecked}
       padding={padding}
-      onClick={() => setChecked(!isChecked)}
       margin={margin}
+      onClick={onClick}
     >
       <BoxInfo>
         <Icon src={iconSrc} width={iconWidth} height={iconHeight} />
@@ -93,11 +104,22 @@ const StyledBox = styled.div<{
   padding: ${(props) => `${props.padding}`};
   margin: ${(props) => `${props.margin}`};
   background-color: #ffffff;
-  border-radius: 8px;
+  border-radius: 16px;
   cursor: pointer;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   border: ${(props) =>
-    props.ischecked ? "2px solid #08979c" : "1px solid #E5E7EB;"};
+    props.ischecked ? "4px solid #08979c" : "1px solid #E5E7EB;"};
+
+  &:hover {
+    box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.18);
+  }
+  &:active{
+    border: 4px solid #445B66;
+  }
+
+  img{
+    cursor: pointer;
+  }
 `;
 
 const BoxInfo = styled.div`
