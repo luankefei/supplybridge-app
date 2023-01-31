@@ -48,7 +48,6 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
-
 export const SearchBar2 = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData } = useStore();
@@ -69,28 +68,40 @@ export const SearchBar2 = ({ onSearch }: Props) => {
 
   return (
     <Container>
-    <SearchField2
-      id="search-parts"
-      key="search-parts-input"
-      variant="filled"
-      data-testid="search-parts"
-      label="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
-      value={searchItem}
-      onChange={(e: any) => setSearchItem(e.target.value)}
-      onKeyPress={onKeyPressHandler}
-      //   InputProps={{
-      //   startAdornment: <InputAdornment position="start">
-      //        <Icon src="search" width={13} height={13} m={"12px"} hover />
-      //   </InputAdornment>,
-      // }}
-    />
+      <SearchField2
+        id="search-parts"
+        key="search-parts-input"
+        variant="filled"
+        data-testid="search-parts"
+        label={
+          searchItem === ""
+            ? "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+            : ""
+        }
+        value={searchItem}
+        onChange={(e: any) => setSearchItem(e.target.value)}
+        onKeyPress={onKeyPressHandler}
+        InputProps={{
+          startAdornment: (
+            <InputAdornment position="start">
+              <Icon
+                src="search2"
+                width={24}
+                height={24}
+                m={"0px 0px 12px 0px"}
+                hover
+              />
+            </InputAdornment>
+          ),
+        }}
+      />
 
-    <SearchButton onClick={onClickSearch}>Search</SearchButton>
+      <SearchButton onClick={onClickSearch}>Search</SearchButton>
     </Container>
   );
 };
 
-const Container=styled.div`
+const Container = styled.div`
   display: flex;
   width: 80%;
   justify-content: center;
@@ -98,12 +109,11 @@ const Container=styled.div`
   gap: 20px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     width: 100%;
- 
   }
   @media (max-width: ${(props) => props.theme.size.tablet}) {
     flex-direction: column;
   }
-`
+`;
 const SearchField = styled(TextField)`
   width: 65%;
   // max-width: 700px;
@@ -154,37 +164,66 @@ const CircleButton = styled.div`
   user-select: none;
 `;
 
-const SearchField2=styled(SearchField)`
-height: 46px;
-width: 80%;
+const SearchField2 = styled(SearchField)`
+  height: 46px;
+  width: 80%;
+  background-color: #fafafa;
 
-label {
-    margin-left: 32px;
-    font-size: 14px !important;
-    line-height: 22px !important;
-    color: #8c8c8c;
-    font-family: inherit !important;
-    @media (max-width: ${(props) => props.theme.size.tablet}) {
-   font-size: 11px;
-   line-height: 18px;
+  border-radius: 16px;
+
+  .MuiFilledInput-root {
+    background-color: #fafafa !important;
+    border-radius: 16px !important;
+    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+    &:hover {
+      background-color: #fafafa;
+    }
   }
+  .MuiFilledInput-root:before {
+    border: none !important;
+  }
+  .MuiFilledInput-root:after {
+    border: none !important;
+  }
+
+  label.Mui-focused {
+    display: none;
+  }
+  label {
+    font-family: "Inter" !important;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 22px;
+    color: #b3b3b3 !important;
+    margin-left: 32px;
+    margin-top: 10px;
+    font-size: 14px !important;
+
+   
+
+    @media (max-width: ${(props) => props.theme.size.tablet}) {
+      font-size: 11px;
+      line-height: 18px;
+    }
   }
   input {
-    margin-left: 32px;
+    margin-left: 2px;
+    background: #fafafa;
+    border-radius: 16px !important;
+    padding-top: 10px;
   }
-  
-`
-const SearchButton=styled.button`
+`;
+const SearchButton = styled.button`
   width: 196px;
   height: 46px;
   border: none;
   border-radius: 32px;
   background: ${(props) => `${props.theme.colors.primary}`};
-  color: #FFFFFF;
+  color: #ffffff;
   cursor: pointer;
   &:hover {
     opacity: 0.8;
   }
-`
+`;
 
 export default SearchBar;

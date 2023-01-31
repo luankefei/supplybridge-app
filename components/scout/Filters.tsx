@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Icon from 'components/Icon'
+import Icon from "components/Icon";
 
 type Props = {
   totalCount: any;
@@ -43,14 +43,14 @@ const Filters = ({ totalCount }: Props) => {
 };
 
 const FilterContainer = styled.div`
-  width: 100%;
+  width: 1068px;
   display: flex;
   flex-direction: row;
   justify-content: space-between;
   padding: 8px 24px;
   margin-top: 24px;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-border-radius: 16px;
+  border-radius: 16px;
   background-color: ${(props) => props.theme.colors.white};
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     margin-top: 0px;
@@ -88,6 +88,7 @@ const OrderContainer = styled.span`
 const OrderElement = styled.span`
   display: flex;
   flex-direction: column;
+  align-items: start;
 `;
 
 const Title = styled.span`
