@@ -1,11 +1,14 @@
 import "slick-carousel/slick/slick.css";
 import "slick-carousel/slick/slick-theme.css";
 import Slider from "react-slick";
-import Image from "next/image";
+
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Icon from "components/Icon";
-import { useEffect, useRef } from "react";
+import Slide1 from "components/source/slides/Slide1";
+import Slide2 from "components/source/slides/Slide2";
+import Slide3 from "components/source/slides/Slide3";
+import { useEffect, useRef, useState } from "react";
 const Layout = dynamic(() => import("components/Layout"));
 const Header = dynamic(() => import("components/NewHeader"));
 export default function SliderPage() {
@@ -40,8 +43,7 @@ export default function SliderPage() {
       window.removeEventListener("wheel", slideCard);
     };
   }, []);
- 
-  
+
   var settings = {
     dots: true,
     arrows: true,
@@ -60,54 +62,9 @@ export default function SliderPage() {
     <Layout>
       <Header />
       <StyledSlider {...settings} ref={slider}>
-        <Image
-          src="/images/slide1.svg"
-          width={1056}
-          height={700}
-          alt="slide1"
-        />
-        <Image
-          src="/images/slide2.svg"
-          width={1056}
-          height={700}
-          alt="slide2"
-        />
-        <Image
-          src="/images/slide3.svg"
-          width={1056}
-          height={700}
-          alt="slide3"
-        />
-        <Image
-          src="/images/slide4.svg"
-          width={1056}
-          height={700}
-          alt="slide4"
-        />
-        <Image
-          src="/images/slide5.svg"
-          width={1056}
-          height={700}
-          alt="slide5"
-        />
-        <Image
-          src="/images/slide6.svg"
-          width={1056}
-          height={700}
-          alt="slide6"
-        />
-        <Image
-          src="/images/slide7.svg"
-          width={1056}
-          height={700}
-          alt="slide7"
-        />
-        <Image
-          src="/images/slide8.svg"
-          width={1056}
-          height={700}
-          alt="slide8"
-        />
+        <Slide1 />
+        <Slide2 />
+        <Slide3 />
       </StyledSlider>
     </Layout>
   );
@@ -115,32 +72,19 @@ export default function SliderPage() {
 
 const StyledSlider = styled(Slider)`
   width: 1056px;
-  height: 700px;
+  height: 724px;
   margin: 0px auto;
-  .slick-dots{
-    bottom: -44px !important;
-}
+  .slick-dots {
+    bottom: -68px !important;
+  }
   .slick-dots li button:before {
     color: #08979c;
     font-size: 20px;
     line-height: 20px;
-    img {
-      @media (max-width: ${(props) => props.theme.size.laptop}) {
-        box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
-        border-radius: 16px;
-        width: 100%;
-        height: 500px;
-      }
-
-      @media (max-width: ${(props) => props.theme.size.tablet}) {
-        width: 100%;
-        height: 450px;
-      }
-    }
   }
- 
+
   .slick-prev {
-    left: -1px;
+    left: -20px;
     z-index: 1;
     img {
       &:hover {
@@ -152,7 +96,7 @@ const StyledSlider = styled(Slider)`
     display: none;
   }
   .slick-next {
-    right: 20px;
+    right: 0px;
     z-index: 1;
     img {
       &:hover {
@@ -168,5 +112,9 @@ const StyledSlider = styled(Slider)`
   .slick-next:hover,
   .slick-next:focus {
     background: transparent;
+  }
+
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin: 0px 20px;
   }
 `;

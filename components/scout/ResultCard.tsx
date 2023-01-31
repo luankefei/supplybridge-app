@@ -15,10 +15,7 @@ const ResultCard = ({ data }: { data?: any }) => {
         <BrandContainer>
           {data.id ? (
             <ImageContainer>
-              {
-                data.logo &&
-                <BrandImage src={data.logo} alt="Logo" />
-              }
+              {data.logo && <BrandImage src={data.logo} alt="Logo" />}
             </ImageContainer>
           ) : (
             <Skeleton
@@ -58,7 +55,16 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Commodity</PropertyTitle>
                 <PropertyDescription>
-                  <span>{_.join(_.uniq(_.map(data.products, 'coreCompetency.component.commoditiy.name')))}</span>
+                  <span>
+                    {_.join(
+                      _.uniq(
+                        _.map(
+                          data.products,
+                          "coreCompetency.component.commoditiy.name"
+                        )
+                      )
+                    )}
+                  </span>
                 </PropertyDescription>
               </Property>
             ) : (
@@ -68,7 +74,9 @@ const ResultCard = ({ data }: { data?: any }) => {
               <Property>
                 <PropertyTitle>Core Competence</PropertyTitle>
                 <PropertyDescription>
-                  <span>{_.join(_.map(data.products, 'coreCompetency.name'))}</span>
+                  <span>
+                    {_.join(_.map(data.products, "coreCompetency.name"))}
+                  </span>
                 </PropertyDescription>
               </Property>
             ) : (
@@ -100,7 +108,11 @@ const ResultCard = ({ data }: { data?: any }) => {
                 <PropertyDescription>
                   {data.headquarter?.name}
                   <CountryFlag
-                    src={data.headquarter ? `/flags/${data.headquarter.code.toLowerCase()}.png` : ''}
+                    src={
+                      data.headquarter
+                        ? `/flags/${data.headquarter.code.toLowerCase()}.png`
+                        : ""
+                    }
                   />
                 </PropertyDescription>
               </Property>
@@ -112,7 +124,10 @@ const ResultCard = ({ data }: { data?: any }) => {
             {data.id ? (
               <Property>
                 <PropertyTitle>Founded</PropertyTitle>
-                <PropertyDescription> {data.established || "-"}</PropertyDescription>
+                <PropertyDescription>
+                  {" "}
+                  {data.established || "-"}
+                </PropertyDescription>
               </Property>
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
@@ -161,7 +176,7 @@ const ResultCard = ({ data }: { data?: any }) => {
 };
 
 const ResultCardContainer = styled.div`
-  width: 100%;
+  width: 1068px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -171,7 +186,7 @@ const ResultCardContainer = styled.div`
   cursor: pointer;
 
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-border-radius: 16px;
+  border-radius: 16px;
 `;
 
 const BrandImage = styled.img`
@@ -179,8 +194,8 @@ const BrandImage = styled.img`
 `;
 
 const CountryFlag = styled.img`
-  width: 30px;
-  height: auto;
+  width: 16px;
+  height: 16px;
   margin-left: 5px;
   border-radius: 50%;
   object-fit: cover;
@@ -209,6 +224,7 @@ const BrandContainer = styled.div`
 `;
 
 const Title = styled.span`
+  font-family: "Inter";
   font-weight: 500;
   font-size: 24px;
   line-height: 32px;
@@ -224,6 +240,7 @@ const Description = styled.div`
   margin-left: 24px;
 `;
 const TitleBadge = styled.div`
+  font-family: "Inter";
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -231,6 +248,7 @@ const TitleBadge = styled.div`
 `;
 
 const Subtext = styled.div`
+  font-family: "Inter";
   font-weight: 400;
   font-size: 14px;
   line-height: 22px;
@@ -261,12 +279,14 @@ const Property = styled.div`
   justify-content: space-between;
 `;
 const PropertyTitle = styled.span`
+  font-family: "Inter";
   font-weight: 400;
   font-size: 16px;
   line-height: 24px;
   color: #8c8c8c;
 `;
 const PropertyDescription = styled.span<{ color?: string }>`
+  font-family: "Inter";
   display: flex;
   justify-content: center;
   align-items: center;

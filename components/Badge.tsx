@@ -2,7 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import { IconNames } from "components";
-import Icon from 'components/Icon'
+import Icon from "components/Icon";
 
 type Props = {
   icon?: IconNames;
@@ -35,7 +35,7 @@ const BadgeSpan = styled.span`
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
-  font-family: inherit;
+  font-family: "Inter";
   color: ${(props) => props.theme.colors.neutaral};
   @media (max-width: 1200px) {
     font-size: 12px;

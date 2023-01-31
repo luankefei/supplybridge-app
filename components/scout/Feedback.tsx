@@ -47,6 +47,7 @@ const Container = styled.div`
   width: 37px;
   height: 93px;
   background: #c41d7f;
+  border-radius: 16px 0px 0px 16px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
