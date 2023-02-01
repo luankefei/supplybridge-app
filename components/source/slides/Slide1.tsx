@@ -2,8 +2,10 @@ import { Button } from "@mui/material";
 import styled from '@emotion/styled'
 import Box from "../IconBox";
 import SliderCard from "../SliderCard";
+import { useState } from "react";
 
 export default function Slide1() {
+  const [isChecked, setChecked] = useState(0);
   return (
     <SliderCard>
       <Container>
@@ -20,12 +22,16 @@ export default function Slide1() {
               iconHeight={82}
               margin="0px"
               padding="0px"
+              ischecked={isChecked===0}
+              onClick={() => setChecked(0)}
             />
             <Box
               iconSrc="production"
               title="Series Production"
               iconWidth={82}
               iconHeight={82}
+              ischecked={isChecked===1}
+              onClick={() => setChecked(1)}
             />
           </Row>
           <Row>
@@ -36,12 +42,16 @@ export default function Slide1() {
               iconHeight={82}
               margin="0px"
               padding="0px"
+              ischecked={isChecked===2}
+              onClick={() => setChecked(2)}
             />
             <Box
               iconSrc="tooling"
               title="Tooling & Manufacturing Aids"
               iconWidth={82}
               iconHeight={82}
+              ischecked={isChecked===3}
+              onClick={() => setChecked(3)}
             />
           </Row>
         </BoxContainer>
@@ -67,7 +77,7 @@ const TextContainer = styled.div`
   display: flex;
   flex-direction: column;
 `;
-const Title = styled.h2`
+const Title = styled.div`
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
@@ -81,6 +91,7 @@ const SuTitle = styled.span`
   font-size: 14px;
   line-height: 20px;
   color: #4b5563;
+  margin-top: 8px;
 `;
 const BoxContainer = styled.div`
   display: flex;
