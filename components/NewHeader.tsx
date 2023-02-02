@@ -6,7 +6,7 @@ const StyledHeader = muiStyled('div')(`
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
-    height: ${theme.size.header};
+    height: ${theme.dimension.headerHeight};
     @media (max-width: ${theme.size.mobileXl}) {
         padding-left: 16px;
     }

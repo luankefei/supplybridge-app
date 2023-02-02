@@ -28,10 +28,14 @@ export const theme = {
     laptopL: "1441px",
     laptopXl: "2000px",
     desktop: "2560px",
-    header: "120px",
   },
   fonts: {
     primary: "'Open Sans', sans-serif",
     secondary: "'Montserrat', sans-serif",
   },
+  dimension: {
+    headerHeight: "120px",
+    leftMenuWidth: "280px",
+    cardMaxWidth: "1068px",
+  }
 };

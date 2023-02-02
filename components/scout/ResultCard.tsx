@@ -5,6 +5,7 @@ import _ from "lodash";
 import { SupplierModal } from "./supplierModal";
 import Badge from "components/Badge";
 import Icon from "components/Icon";
+import { theme } from "config/theme";
 
 const ResultCard = ({ data }: { data?: any }) => {
   const [supplierModalVisible, setSupplierModalVisible] = useState(false);
@@ -176,7 +177,7 @@ const ResultCard = ({ data }: { data?: any }) => {
 };
 
 const ResultCardContainer = styled.div`
-  width: 1068px;
+  width: ${theme.dimension.cardMaxWidth};
   display: flex;
   flex-direction: column;
   justify-content: space-between;

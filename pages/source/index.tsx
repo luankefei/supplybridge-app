@@ -31,16 +31,19 @@ export default function SliderPage() {
   };
 
   const slideCard = (e: any) => {
+    if (e.currentTarget.id !== 'slider-wrapper') return;
+    e.preventDefault();
     if (slider === null) return 0;
-
-    e.wheelDelta > 0
+    e.wheelDelta < 0
       ? slider?.current?.slickNext()
       : slider?.current?.slickPrev();
   };
+
   useEffect(() => {
-    window.addEventListener("wheel", slideCard);
+    let slideWrapper = document.getElementById("slider-wrapper");
+    slideWrapper?.addEventListener("wheel", slideCard);
     return () => {
-      window.removeEventListener("wheel", slideCard);
+      slideWrapper?.removeEventListener("wheel", slideCard);
     };
   }, []);
 
@@ -57,23 +60,39 @@ export default function SliderPage() {
     prevArrow: <PrevArrow />,
   };
 
+  
+
   const slider = useRef<Slider>(null);
   return (
     <Layout>
       <Header />
+      <Container>
+      <SliderWrapper id="slider-wrapper">
       <StyledSlider {...settings} ref={slider}>
         <Slide1 />
         <Slide2 />
         <Slide3 />
       </StyledSlider>
+      </SliderWrapper>
+      </Container>
     </Layout>
   );
 }
 
+const Container=styled.div`
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
+const SliderWrapper=styled.div``
 const StyledSlider = styled(Slider)`
   width: 1056px;
   height: 724px;
   margin: 0px auto;
+
   .slick-dots {
     bottom: -68px !important;
   }
@@ -87,6 +106,9 @@ const StyledSlider = styled(Slider)`
     left: -20px;
     z-index: 1;
     img {
+    object-fit: none;
+    box-shadow: 0px 1px 3px rgb(0 0 0 / 10%), 0px 1px 2px rgb(0 0 0 / 6%);
+    border-radius: 50%;
       &:hover {
         cursor: pointer;
       }
@@ -99,6 +121,9 @@ const StyledSlider = styled(Slider)`
     right: 0px;
     z-index: 1;
     img {
+    object-fit: none;
+    box-shadow: 0px 1px 3px rgb(0 0 0 / 10%), 0px 1px 2px rgb(0 0 0 / 6%);
+    border-radius: 50%;
       &:hover {
         cursor: pointer;
       }
@@ -113,8 +138,15 @@ const StyledSlider = styled(Slider)`
   .slick-next:focus {
     background: transparent;
   }
-
   @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 722px;
+    height: 724px;
+    margin: 0px 20px;
+  }
+
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    width: 500px;
+    height: 724px;
     margin: 0px 20px;
   }
 `;

@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled, { keyframes } from "styled-components";
+import { theme } from "config/theme";
 
 export default function SideBarMenu() {
   const router = useRouter();
@@ -193,7 +194,7 @@ const animation = keyframes`
 const Container = styled.div<any>`
   font-family: Nunito;
   min-height: 100vh;
-  width: 280px;
+  width: ${theme.dimension.leftMenuWidth};
   position: relative;
   box-sizing: border-box;
   z-index: 1000;

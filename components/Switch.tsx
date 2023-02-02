@@ -1,3 +1,4 @@
+import { theme } from "config/theme";
 import { useState } from "react";
 import styled from "styled-components";
 import ScoutByIndex from "./scout/ScoutByIndex";
@@ -26,9 +27,12 @@ export default function Switch() {
 }
 
 const Container = styled.div`
+  width: calc(100%);
+  @media (min-width: ${theme.dimension.cardMaxWidth}) {
+    width: ${theme.dimension.cardMaxWidth};
+  }
   display: flex;
   flex-direction: column;
-  width: 100%;
 `;
 
 const SwitchContainer = styled.div`

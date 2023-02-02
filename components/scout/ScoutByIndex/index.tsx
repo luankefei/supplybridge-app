@@ -16,6 +16,7 @@ const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const Feedback = dynamic(() => import("components/scout/Feedback"));
 const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
 import { SearchBar2 } from "components/scout/SearchBar";
+import { theme } from "config/theme";
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 const Filters = dynamic(() => import("components/scout/Filters"));
 
@@ -97,7 +98,7 @@ export default function ScoutByIndex() {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
+      document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -199,7 +200,7 @@ export default function ScoutByIndex() {
           <Filters totalCount={count} />
 
           <ScoutFilter />
-          
+
           <ResultContainer>
             {suppliers?.length > 0 ? (
               <>
@@ -221,7 +222,7 @@ export default function ScoutByIndex() {
 
 const ScoutContainer = styled.div`
   // width: 1440px;
-  width: 98%;
+  width: 100%;
   margin: 0px 5px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: block;
@@ -330,9 +331,9 @@ const TechnologyBoxContainer = styled.div`
 `;
 
 const MainContainer = styled.div`
+  width: calc(100%);
   display: flex;
   flex-direction: row;
-  width: 100%;
 `;
 
 const NoRecord = styled.div`

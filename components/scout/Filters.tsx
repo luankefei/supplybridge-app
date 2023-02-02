@@ -2,6 +2,7 @@ import React from "react";
 import styled from "styled-components";
 
 import Icon from "components/Icon";
+import { theme } from "config/theme";
 
 type Props = {
   totalCount: any;
@@ -43,7 +44,7 @@ const Filters = ({ totalCount }: Props) => {
 };
 
 const FilterContainer = styled.div`
-  width: 1068px;
+  width: ${theme.dimension.cardMaxWidth};
   display: flex;
   flex-direction: row;
   justify-content: space-between;

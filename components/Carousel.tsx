@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { theme } from "config/theme";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 
 const Indicator = ({ className, position, length, onIndicatorClick }: any) => (
@@ -39,9 +40,23 @@ const Gallery = ({ children }: any) => {
     setPosition(position);
   };
 
+  const handleScroll = (e: any) => {
+    if (e.currentTarget.id !== "carousel-container") return;
+    e.preventDefault();
+    handleArrowClick(e.wheelDelta < 0 ? directions.NEXT : directions.PREV);
+  }
+
+  useEffect(() => {
+    let carouselContainer = document.getElementById("carousel-container");
+    carouselContainer?.addEventListener("wheel", handleScroll, { passive: false });
+    return (() => {
+      carouselContainer?.removeEventListener("wheel", handleScroll);
+    });
+  }, [position])
+
   return (
     <Wrapper>
-      <CarouselContainer>
+      <CarouselContainer id="carousel-container">
         <CarouselImg position={position}>
           {children.map((child: any) => (
             <CarouselItem key={child.key}>{child}</CarouselItem>
@@ -64,12 +79,12 @@ const Gallery = ({ children }: any) => {
 };
 
 const Wrapper = styled.div`
-position: relative;
-width: 1056px;
+  position: relative;
+  width: ${theme.dimension.cardMaxWidth}
 `;
 
 const CarouselContainer = styled.div<any>`
-overflow: hidden;
+  overflow: hidden;
 `;
 
 const CarouselImg = styled.div<any>`
@@ -79,8 +94,8 @@ const CarouselImg = styled.div<any>`
 `;
 
 const CarouselItem = styled.div`
-flex: 1 0 100%;
-height: 100%;
+  flex: 1 0 100%;
+  height: 100%;
 `;
 
 const ArrowButton = styled.button`
@@ -96,8 +111,8 @@ const ArrowButton = styled.button`
 `;
 
 const PreviousButton = styled(ArrowButton)`
-position: absolute;
-left: -20px;
+  position: absolute;
+  left: -20px;
 `;
 
 const IconWrapper = styled.span`
@@ -142,8 +157,8 @@ const IndicatorDot = styled.div<any>`
 `;
 
 const Image = styled.img`
-width: 100%;
-height: 100%;
+  width: 100%;
+  height: 100%;
 `;
 
 export default function Carousel({ imageData }: any) {

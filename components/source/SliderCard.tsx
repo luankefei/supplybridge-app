@@ -10,7 +10,7 @@ export default function SliderCard({ children }: Props) {
 }
 
 const StyledCard = styled(Card)`
-   width: 1056px;
+   width: 100%;
   height: 724px;
   display: flex;
   justify-content: center;
@@ -18,6 +18,11 @@ const StyledCard = styled(Card)`
   flex-direction: column;
   border-radius: 16px;
   margin: 20px auto;
-  background-color: #f9fafb;
+  background-color: #F3F4F6;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
+
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin: 0px auto;
+  }
+  
 `;

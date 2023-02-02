@@ -173,9 +173,10 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
+  padding-bottom: 34px
 `;
 
-const Title = styled.h2`
+const Title = styled.div`
   font-family: "Inter";
   font-style: normal;
   font-weight: 600;
@@ -195,6 +196,7 @@ const Label = styled.label`
   font-size: 18px;
   line-height: 32px;
   color: #1a1a1a;
+  margin-top: 5px;
 `;
 
 const SubLabel = styled.span`
@@ -258,7 +260,7 @@ const CardFooter = styled.div`
   flex-direction: row;
   align-items: center;
   justify-content: space-between;
-  padding-left: 20px;
+  padding: 20px;
   border-bottom-left-radius: 16px;
   border-bottom-right-radius: 16px;
 `;
@@ -377,7 +379,9 @@ const AmountLabel = styled.h4`
 `;
 
 const Line = styled.hr`
-  border: 1px solid #8c8c8c;
-  width: 98%;
-  margin-left: 20px;
+  border: 1px solid #E5E7EB;
+  width: 94%;
+  margin-left:20px;
+  margin-right: 20px;
+ 
 `;
