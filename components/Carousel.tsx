@@ -1,7 +1,7 @@
 import { theme } from "config/theme";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
-
+import Slide1 from "./source/slides/Slide1";
 const Indicator = ({ className, position, length, onIndicatorClick }: any) => (
   <IndicatorContainer className={className}>
     {Array.from({ length }, (value, index) => (
@@ -161,13 +161,23 @@ const Image = styled.img`
   height: 100%;
 `;
 
-export default function Carousel({ imageData }: any) {
+export default function Carousel({ data, type }: any) {
   return (
     <>
       <Gallery>
-        {imageData.map((item: any, index: any) => (
+       {type==="image"? (
+        data.map((item: any, index: any) => (
           <Image key={index} src={item.src} alt={item.alt} />
-        ))}
+        ))
+       )
+       :
+       ( 
+        data.map((card: any, index: any) => (
+         card
+        ))
+        
+        )
+        }
       </Gallery>
     </>
   )
