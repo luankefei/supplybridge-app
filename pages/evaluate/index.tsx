@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import Icon from "components/Icon";
 import Layout from "components/Layout";
 import Header from "components/NewHeader";
@@ -10,38 +10,43 @@ interface IconProps {
   iconHeight?: number;
   padding?: string;
   margin?: string;
-  ischecked:boolean;
-  onClick: React.MouseEventHandler
+  ischecked: boolean;
+  onClick: React.MouseEventHandler;
+  disabled: boolean;
 }
 
 export default function Evaluate() {
   const [isChecked, setChecked] = useState(0);
+  const disabled=true;
   return (
     <Layout>
       <Header></Header>
       <Container>
         <IconBox
-          iconSrc="analysis"
+          iconSrc={disabled? "disabled-analysis": "analysis"}
           iconWidth={82}
           iconHeight={82}
           title="Should Cost Analysis"
-          ischecked={isChecked===0}
+          ischecked={isChecked === 0}
+          disabled={disabled}
           onClick={() => setChecked(0)}
         />
         <IconBox
-          iconSrc="assessment"
+          iconSrc={disabled? "disabled-assessment": "assessment"}
           iconWidth={82}
           iconHeight={82}
           title="Risk Assessment"
-          ischecked={isChecked===1}
+          ischecked={isChecked === 1}
+          disabled={disabled}
           onClick={() => setChecked(1)}
         />
         <IconBox
-          iconSrc="rating"
+          iconSrc={disabled? "disabled-rating" : "rating"}
           iconWidth={82}
           iconHeight={82}
           title="ESG Rating"
-          ischecked={isChecked===2}
+          ischecked={isChecked === 2}
+          disabled={disabled}
           onClick={() => setChecked(2)}
         />
       </Container>
@@ -71,12 +76,11 @@ const IconBox = ({
   iconWidth = 120,
   padding = "25px",
   margin = "0px",
-  ischecked=false,
-  onClick
+  ischecked = false,
+  disabled,
+  onClick,
 }: IconProps) => {
- 
-
-  return (
+  return !disabled ? (
     <StyledBox
       ischecked={ischecked}
       padding={padding}
@@ -88,6 +92,18 @@ const IconBox = ({
         <Title>{title}</Title>
       </BoxInfo>
     </StyledBox>
+  ) : (
+    <StyledBoxDisabled
+      ischecked={ischecked}
+      padding={padding}
+      margin={margin}
+      onClick={onClick}
+    >
+        <BoxInfo>
+        <Icon src={iconSrc} width={iconWidth} height={iconHeight} />
+        <Title>{title}</Title>
+      </BoxInfo>
+    </StyledBoxDisabled>
   );
 };
 
@@ -103,23 +119,35 @@ const StyledBox = styled.div<{
   align-items: center;
   padding: ${(props) => `${props.padding}`};
   margin: ${(props) => `${props.margin}`};
-  background-color: #ffffff;
   border-radius: 16px;
+  background-color: #ffffff;
   cursor: pointer;
   box-shadow: 0px 1px 2px rgba(0, 0, 0, 0.05);
   border: ${(props) =>
     props.ischecked ? "4px solid #08979c" : "1px solid #E5E7EB;"};
-
   &:hover {
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.18);
   }
-  &:active{
-    border: 4px solid #445B66;
+  &:active {
+    border: 4px solid #445b66;
   }
-
-  img{
+  img {
     cursor: pointer;
   }
+`;
+
+const StyledBoxDisabled = styled(StyledBox)<{
+  ischecked: boolean;
+  padding: string;
+  margin: string;
+}>`
+  background: #f3f4f6;
+  color: #808080;
+  border: ${(props) =>
+  props.ischecked ? "4px solid #b3b3b3;" : "1px solid #E5E7EB;"};    
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+
+  pointer-events: none;
 `;
 
 const BoxInfo = styled.div`
