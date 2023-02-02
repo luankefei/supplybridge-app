@@ -1,6 +1,7 @@
 import Carousel from "components/Carousel";
 import Layout from "components/Layout";
 import styled from "styled-components";
+import NewHeader from "components/NewHeader";
 
 export default function RawMaterial() {
 
@@ -23,6 +24,7 @@ export default function RawMaterial() {
 
   return (
     <Layout>
+      <NewHeader />
       <Container>
         <Carousel imageData={imageData} />
       </Container>
@@ -31,8 +33,10 @@ export default function RawMaterial() {
 }
 
 const Container = styled.div`
-height: 100vh;
-display: flex;
-justify-content: center;
-align-items: center;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 `;

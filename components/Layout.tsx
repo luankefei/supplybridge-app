@@ -1,3 +1,4 @@
+import { theme } from "config/theme";
 import React from "react";
 import styled from "styled-components";
 import SideBarMenu from "./SidebarMenu";
@@ -18,8 +19,8 @@ const Container = styled.div`
 `;
 const InnerContainer = styled.div`
   position: relative;
-  left: 60px;
-  width: calc(100% - 340px);
+  left: 0px;
+  width: calc(100% - ${theme.dimension.leftMenuWidth});
   background-color: #ecf0f1;
   display: flex;
   flex-direction: column;
