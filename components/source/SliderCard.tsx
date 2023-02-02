@@ -21,8 +21,8 @@ const StyledCard = styled(Card)`
   background-color: #F3F4F6;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1);
 
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
+  /* @media (max-width: ${(props) => props.theme.size.laptop}) {
     margin: 0px auto;
-  }
+  } */
   
 `;
