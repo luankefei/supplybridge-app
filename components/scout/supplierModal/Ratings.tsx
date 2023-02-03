@@ -1,4 +1,5 @@
 import { Input, TextField } from "@mui/material";
+import { theme } from "config/theme";
 import { useState } from "react";
 import styled, { keyframes } from "styled-components"
 
@@ -56,8 +57,10 @@ const RatingsContainer = styled.div`
 `
 
 const Title = styled.div`
-margin-bottom: 15px;
-font-weight: 600;
+  margin-bottom: 24px;
+  font-weight: 600;
+  font-size: 1rem;
+  color: ${theme.colors.text};
 `
 
 const breatheAnimation = keyframes`
@@ -86,18 +89,20 @@ const ProgressBar = styled.div<any>`
   align-items: flex-end;
   justify-content: center;
   &::before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: conic-gradient(from 0.75turn at 50% 100%, var(--primary) calc(var(--percentage) * 1% / 2), var(--secondary) calc(var(--percentage) * 1% / 2 + 0.1%));
-  mask: radial-gradient(at 50% 100%, white 65%, transparent 65.5%);
-  mask-mode: alpha;
-  -webkit-mask: radial-gradient(at 50% 100%, #0000 65%, #000 65.5%);
-  -webkit-mask-mode: alpha;
-  }`;
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: conic-gradient(from 0.75turn at 50% 100%, var(--primary) calc(var(--percentage) * 1% / 2), var(--secondary) calc(var(--percentage) * 1% / 2 + 0.1%));
+    mask: radial-gradient(at 50% 100%, white 65%, transparent 65.5%);
+    mask-mode: alpha;
+    -webkit-mask: radial-gradient(at 50% 100%, #0000 65%, #000 65.5%);
+    -webkit-mask-mode: alpha;
+    border: var(--border);
+  }
+`;
 
 const Score = styled.span`
   position: absolute;
@@ -118,12 +123,12 @@ const ScoreText = styled.span`
   bottom: 0;
   font-size: 16px;
   line-height: 19px;
-  color: #6B7280;
+  color: #9CA3AF;
 `;
 
 const ScoreList = styled.div`
-  margin-top: 40px;
-  padding: 0 20px;
+  margin-top: 24px;
+  padding: 0 21.5px;
 `;
 
 const ScoreInfo = styled.div`
@@ -135,9 +140,11 @@ const ScoreInfo = styled.div`
 const ScoreTitle = styled.span`
   font-size: 14px;
   line-height: 17px;
-  color: #6B7280;
+  color: #9CA3AF;
 `;
 
 const ScoreDescription = styled.span`
   font-size: 14px;
-  line-height: 17px;`
+  line-height: 17px;
+  color: ${theme.colors.text};
+`;

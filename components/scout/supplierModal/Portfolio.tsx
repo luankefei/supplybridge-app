@@ -1,4 +1,5 @@
 import { Divider } from "@mui/material";
+import { theme } from "config/theme";
 import styled from "styled-components";
 
 export const PortfolioTabPanel = () => {
@@ -15,7 +16,7 @@ export const PortfolioTabPanel = () => {
         <Tag>Li Auto</Tag>
         <Tag>Geely</Tag>
       </PartnerContainer>
-      <Divider style={{ margin: "20px 0" }} />
+      <Divider style={{ margin: "24px 0", borderColor: "transparent" }} />
       <Title>Product Lines</Title>
       <ProductContainer>
         <Tag>NCM523</Tag>
@@ -29,18 +30,21 @@ export const PortfolioTabPanel = () => {
 };
 
 const Title = styled.div`
-  margin-bottom: 15px;
   font-weight: 600;
+  font-size: 1rem;
+  color: ${theme.colors.text};
 `;
 
 const PortfolioContainer = styled.div`
   font-family: "Inter", sans-serif;
+  font-style: normal;
 `;
 
 const PartnerContainer = styled.div`
+  margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
-  margin: 5px 0;
+  gap: 10px;
 `;
 
 const Tag = styled.span`
@@ -48,14 +52,14 @@ const Tag = styled.span`
   border-radius: 8px;
   padding: 4px 12px;
   font-weight: 500;
-  font-size: 14px;
-  line-height: 20px;
-  color: #111827;
-  margin: 3px;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
+  color: ${theme.colors.text};
 `;
 
 const ProductContainer = styled.div`
+  margin-top: 16px;
   display: flex;
   flex-wrap: wrap;
-  margin: 5px 0;
+  gap: 10px;
 `;
