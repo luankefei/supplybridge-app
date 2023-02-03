@@ -71,28 +71,28 @@ export default function Slide3() {
                     value="mm"
                     control={<StyledRadio />}
                     label="mm"
-                    onClick={() => setGroupSelectedValue("mm")}
+                   disabled
                   />
                   <FormControlLabel
                     value="in"
                     control={<StyledRadio />}
                     label="in"
-                    onClick={() => setGroupSelectedValue("in")}
+                    disabled
                   />
                 </RadioGroup>
               </ItemFeature>
             </Column>
             <Column width={20} justifycontent="end">
-              <StyledButton bgcolor="#08979C" textcolor="#FFFFFF">
+              <StyledButton bgcolor="#08979C" textcolor="#FFFFFF" >
                 VIEW ANALYSIS
               </StyledButton>
-              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75">
+              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75" >
                 CONFIGURE PART
               </StyledButton>
-              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75">
+              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75" >
                 UPLOAD REVISION
               </StyledButton>
-              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75">
+              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75" >
                 PART OPTIONS
               </StyledButton>
             </Column>
@@ -108,9 +108,9 @@ export default function Slide3() {
             <RadioCardContainer>
               <RadioButtonCard isselected={selectedValue === "a"}>
                 <StyledRadio
-                  checked={selectedValue === "a"}
-                  onChange={handleChange}
+                  checked={selectedValue === "a"}                 
                   value="a"
+                  disabled
                 />
                 <LabelsContainer>
                   <DateLabel>Wed, Dec 21</DateLabel>
@@ -120,9 +120,9 @@ export default function Slide3() {
 
               <RadioButtonCard isselected={selectedValue === "b"}>
                 <StyledRadio
-                  checked={selectedValue === "b"}
-                  onChange={handleChange}
+                  checked={selectedValue === "b"}                 
                   value="b"
+                  disabled
                 />
                 <LabelsContainer>
                   <DateLabel>Fri, Dec 23</DateLabel>
@@ -132,9 +132,9 @@ export default function Slide3() {
 
               <RadioButtonCard isselected={selectedValue === "c"}>
                 <StyledRadio
-                  checked={selectedValue === "c"}
-                  onChange={handleChange}
+                  checked={selectedValue === "c"}                 
                   value="c"
+                  disabled
                 />
                 <LabelsContainer>
                   <DateLabel>Thu, Dec 29</DateLabel>
@@ -148,11 +148,11 @@ export default function Slide3() {
               variant="outlined"
               aria-label="outlined button group"
             >
-              <Button>
+              <Button disabled>
                 <Icon src="minus" width={24} height={24} />
               </Button>
               <Button disabled>25</Button>
-              <Button>
+              <Button disabled>
                 <Icon src="plus" width={24} height={24} />
               </Button>
             </StyledButtonGroup>
@@ -216,7 +216,7 @@ const ButtonContainer = styled.div`
   gap: 30px;
 `;
 const StyledButton = styled(Button)<{ bgcolor: string; textcolor: string }>`
-  background-color: ${(props) => props.bgcolor};
+  background-color: ${(props) => props.bgcolor} ;
   border-radius: 100px;
   width: 166px;
   height: 44px;
@@ -224,8 +224,9 @@ const StyledButton = styled(Button)<{ bgcolor: string; textcolor: string }>`
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
-  text-transform: capitalize;
+  text-transform: capitalize; 
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
+  pointer-events: none;
 `;
 
 const CardHeader = styled.div`

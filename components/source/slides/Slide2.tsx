@@ -14,7 +14,7 @@ export default function Slide2() {
             and we will take care of the rest
           </Paragraph>
 
-          <StyledButton>Upload CAD Files</StyledButton>
+          <StyledButton disabled>Upload CAD Files</StyledButton>
 
           <FileUploadNoteContainer>
             <Icon src="shield-check" width={24} height={24} />
@@ -64,7 +64,7 @@ const StyledButton = styled(Button)`
   border-radius: 100px;
   width: 240px;
   height: 44px;
-  color: #ffffff;
+  color: #ffffff !important;
   font-family: "Inter";
   font-weight: 600;
   font-size: 16px;
