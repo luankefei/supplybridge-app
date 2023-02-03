@@ -81,7 +81,7 @@ export default function ScoutByIndex() {
       pageLoaded.current = true;
       getCommodities();
       getRegions();
-      searchSuppliers(1, true);
+      //searchSuppliers(1, true);
       searchFuelTypes();
     }
   };
@@ -115,7 +115,6 @@ export default function ScoutByIndex() {
       setFilterData({ vehicleFuelTypes: [value] });
     }
   };
-
   const searchHandler = () => {
     pageRef.current = 1;
     searchSuppliers(1, true);
@@ -126,7 +125,7 @@ export default function ScoutByIndex() {
     clearFilterData();
     clearRef.current = true;
   };
-
+ const isSuppliersNotEmpty:boolean=suppliers?.length> 0 && Object.keys(suppliers[0]).length > 0
   return (
     <ScoutContainer>
       {/* <DuplicateHeaderForPosition scrollPosition={scrollOffset}>
@@ -181,12 +180,14 @@ export default function ScoutByIndex() {
 
         <MapResultContainer>
           {/* <DuplicateHeaderForPosition scrollPosition={scrollOffset}> */}
-          <SearchContainer>
-            <IconContainer>
+          <SearchContainer isrow={isSuppliersNotEmpty}>
+          {(!isSuppliersNotEmpty) && (
+            <Title>Global Scouting, for Automotive professionals.</Title>
+          )}
+            <IconContainer isrow={isSuppliersNotEmpty}>
               <Icon src="smart-bridge-ai" width={25} height={25} />
               <IconLabel>
-                <Label>powered by</Label>
-                <Label>SmartBridge Artificial Intelligence</Label>
+                <Label>powered by {(isSuppliersNotEmpty) && <br />}SmartBridge Artificial Intelligence</Label>
               </IconLabel>
             </IconContainer>
             <SearchBar2 onSearch={searchHandler} />
@@ -197,12 +198,11 @@ export default function ScoutByIndex() {
           </SearchContainer>
           {/* </DuplicateHeaderForPosition> */}
           <GeoCharts />
-          <Filters totalCount={count} />
-
+           {(isSuppliersNotEmpty) && <Filters totalCount={count} />}
           <ScoutFilter />
 
           <ResultContainer>
-            {suppliers?.length > 0 ? (
+            {(isSuppliersNotEmpty) ? (
               <>
                 {suppliers.map((supplier: any, index: number) => (
                   <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
@@ -213,6 +213,7 @@ export default function ScoutByIndex() {
           {suppliers.length === 0 && !loading && (
             <NoRecord>No record founds</NoRecord>
           )}
+        
         </MapResultContainer>
       </MainContainer>
       <Feedback />
@@ -220,6 +221,17 @@ export default function ScoutByIndex() {
   );
 }
 
+const Title=styled.div`
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
+font-size: 24px;
+line-height: 22px;
+display: flex;
+align-items: flex-end;
+color: #445B66;
+margin-top: 80px;
+`
 const ScoutContainer = styled.div`
   // width: 1440px;
   width: 100%;
@@ -233,11 +245,13 @@ const ScoutContainer = styled.div`
   }
 `;
 
-const SearchContainer = styled.div`
+const SearchContainer = styled.div<{isrow:boolean}>`
   display: flex;
   align-items: center;
   width: 100%;
   margin-bottom: 50px;
+  flex-direction: ${(props) => (props.isrow? 'row'  : "column")};
+  gap: 20px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
   }
@@ -265,10 +279,12 @@ const DuplicateHeaderForPosition = styled.div<SearchProps>`
   height: 90px;
 `;
 
-const IconContainer = styled.div`
+const IconContainer = styled.div<{isrow:boolean}>`
   display: flex;
   flex-grow: 1;
   flex-direction: row;
+  justify-content: ${(props) => (props.isrow? 'start'  : "center")};
+  align-items: center;
   /* margin-right: 100px; */
   /* min-width: 240px; */
   @media (max-width: ${(props) => props.theme.size.laptop}) {
@@ -283,11 +299,12 @@ const IconLabel = styled.div`
 `;
 
 const Label = styled.span`
-  font-style: normal;
-  font-weight: 400;
-  font-size: 8px;
-  line-height: 12px;
-  color: #89a8b3;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 400;
+font-size: 12px;
+line-height: 18px;
+color: #89A8B3;
 `;
 
 const Technology = styled.span`
