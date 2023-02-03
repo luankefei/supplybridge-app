@@ -38,6 +38,7 @@ const ScoutFilter = () => {
     filterData,
     selectedRegions,
     selectedCountries,
+    suppliers
   } = useStore();
   const { getComponents, getSubRegions } = useFilter();
 
@@ -134,6 +135,7 @@ const ScoutFilter = () => {
       setExpanded(isExpanded ? index : false);
     };
   return (
+    (suppliers?.length> 0 && Object.keys(suppliers[0]).length > 0) ?(      
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <FilterContainer>
         {data.map((item, index) => {
@@ -190,7 +192,9 @@ const ScoutFilter = () => {
         })}
       </FilterContainer>
     </ClickAwayListener>
-  );
+    ) : null
+    
+  )
 };
 
 const FilterContainer = styled.div`

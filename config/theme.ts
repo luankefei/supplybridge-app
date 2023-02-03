@@ -5,7 +5,7 @@ export const theme = {
     white: "#ffffff",
     black: "#1F1F1F",
     error: "#f44336;",
-    text: "#8C8C8C",
+    text: "#1A1A1A",
     gray: "#868f97",
     link: "#337ab7",
     hover: "#23527c",

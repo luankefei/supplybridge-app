@@ -1,10 +1,12 @@
 import { Box, Button, Modal, Tab, Tabs, Typography } from "@mui/material";
+import { theme } from "config/theme";
 import React, { useState } from "react";
 import styled from "styled-components";
-import { CapabilitiesTabPanel } from "./Capabilities";
+import { InnovationTabPanel } from "./Innovation";
 import { GeneralTabPanel } from "./General";
 import { PortfolioTabPanel } from "./Portfolio";
 import { Ratings } from "./Ratings";
+import { CertificationsTabPanel } from "./Certifications";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -24,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box sx={{ p: 3 }}>
+        <Box sx={{ padding: "20px 24px" }}>
           <Typography>{children}</Typography>
         </Box>
       )}
@@ -37,11 +39,12 @@ const style = {
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 500,
+  width: "450px",
   bgcolor: "background.paper",
-  borderRadius: "10px",
+  borderRadius: "16px",
   boxShadow: 24,
-  p: 4,
+  fontFamily: ["sans-serif", "Inter"],
+  fontStyle: "normal",
 };
 
 export const SupplierModal = ({ ...props }: any) => {
@@ -51,7 +54,7 @@ export const SupplierModal = ({ ...props }: any) => {
   const [isMemberUnlock, setIsMemberUnlock] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    if (newValue === 3) {
+    if (newValue === 4) {
       setTimeout(() => {
         setIsMemberUnlock(true);
       }, 1000);
@@ -66,9 +69,7 @@ export const SupplierModal = ({ ...props }: any) => {
       <Modal {...props}>
         <Box sx={style}>
           <Head>
-            <ImageContainer>
-              <BrandImage src="/images/demo-xyz-logo.png" />
-            </ImageContainer>
+            <BrandImage src="/images/demo-xyz-logo.png" />
             <HeadInfo>
               <Title>XYZ Tech (DEMO)</Title>
               <HeadInfoBottom>
@@ -88,17 +89,32 @@ export const SupplierModal = ({ ...props }: any) => {
                   value={value}
                   onChange={handleChange}
                   aria-label="basic tabs example"
-                  variant="fullWidth"
+                  variant="scrollable"
                   TabIndicatorProps={{ sx: { backgroundColor: "#08979c" } }}
                   sx={{
-                    "& button": { color: "#08979c" },
+                    "& ": {
+                      height: "40px",
+                      minHeight: "40px",
+                      maxHeight: "40px",
+                    },
+                    "& .MuiTabs-scrollButtons": { width: "0px", visibility: "hidden" },
+                    "& button": {
+                      color: "#9CA3AF",
+                      height: "40px",
+                      minHeight: "40px",
+                      maxHeight: "40px",
+                      minWidth: "unset",
+                      padding: "11.5px 12px",
+                      textTransform: "unset",
+                    },
                     "& button.Mui-selected": { color: "#08979c" },
                   }}
                 >
                   <CustomTab label="General" value={0} />
                   <CustomTab label="Portfolio" value={1} />
-                  <CustomTab label="Capabilities" value={2} />
-                  <CustomTab label="Ratings" value={3} />
+                  <CustomTab label="Innovations" value={2} />
+                  <CustomTab label="Certifications" value={3} />
+                  <CustomTab label="Ratings" value={4} />
                 </Tabs>
               </Box>
               <TabPanelContainer>
@@ -109,9 +125,12 @@ export const SupplierModal = ({ ...props }: any) => {
                   <PortfolioTabPanel />
                 </TabPanel>
                 <TabPanel value={value} index={2}>
-                  <CapabilitiesTabPanel />
+                  <InnovationTabPanel />
                 </TabPanel>
                 <TabPanel value={value} index={3}>
+                  <CertificationsTabPanel />
+                </TabPanel>
+                <TabPanel value={value} index={4}>
                   <Ratings />
                 </TabPanel>
               </TabPanelContainer>
@@ -132,39 +151,26 @@ export const SupplierModal = ({ ...props }: any) => {
 
 const Head = styled.div`
   display: flex;
-  /* width: 70%; */
-  margin-bottom: 25px;
-  height: 80px;
-`;
-
-const ImageContainer = styled.div`
-  background: #fff;
-  border-radius: 2px;
-  max-width: 110px;
-  width: 100%;
-  height: 110px;
-  display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: center;
-  position: relative;
-  img {
-    max-width: 100%;
-    height: auto;
-    vertical-align: middle;
-  }
+  /* width: 70%; */
+  height: 116px;
+  padding: 24px;
 `;
 
 const BrandImage = styled.img`
-  height: 64px;
-  width: auto;
-  border-radius: 8px;
+  height: 68px;
+  width: 68px;
+  border-radius: 2px;
   padding: 5px;
+  object-fit: contain;
 `;
 
 const HeadInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  gap:12px;
   margin-left: 20px;
 `;
 
@@ -172,42 +178,50 @@ const CustomTab = styled(Tab)`
   text-transform: none;
   font-family: "Inter", sans-serif;
 `;
+
 const CloseIcon = styled.img`
   width: 16px;
   position: absolute;
-  right: 16px;
-  top: 16px;
+  right: 24px;
+  top: 24px;
   cursor: pointer;
 `;
 
-const Title = styled.div``;
+const Title = styled.div`
+  font-weight: 600;
+  font-size: 1.25rem;
+  color: ${theme.colors.text}
+`;
 
 const HeadInfoBottom = styled.div`
   display: flex;
 `;
 
 const BadgeContainer = styled.div`
-  width: 150px;
-  height: 28px;
   border-radius: 28px;
   background-color: #e6f5f5;
   padding: 4px 8px;
   display: flex;
+  flex-direction: row;
   align-items: center;
-  justify-content: space-evenly;
+  gap: 4px;
 `;
 
-const BadgeIcon = styled.img``;
+const BadgeIcon = styled.img`
+  width: 16px;
+  height: 16px;
+`;
+
 const BadgeLabel = styled.span`
-  font-weight: 200;
-  font-size: 14px;
-  line-height: 20px;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.25rem;
   color: #08979c;
 `;
 
 const Flag = styled.img`
   align-self: flex-end;
-  margin-left: 10px;
+  margin-left: 48px;
   margin-bottom: 4px;
 `;
 
@@ -235,7 +249,6 @@ const Bottom = styled.div<any>`
   justify-content: center;
   align-items: center;
   height: 104px;
-  border-top: 1px solid rgb(0, 0, 0, 0.1);
   position: absolute;
   bottom: 0;
   left: 0;
@@ -243,7 +256,10 @@ const Bottom = styled.div<any>`
 `;
 
 const ModalButton = styled.div`
-  background: #08979c;
+  font-weight: 700;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  background: ${theme.colors.primary};
   border-radius: 8px;
   width: 100%;
   padding: 10px 0;
@@ -254,8 +270,12 @@ const ModalButton = styled.div`
 const UnlockMemberContainer = styled.div<any>`
   visibility: ${(props) => (props.isMemberUnlock ? "visible" : "hidden")};
   position: absolute;
-  bottom: 230px;
-  left: 50px;
+  bottom: 185px;
+  overflow-y: overlay;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    bottom: 140px;
+  }
+  left: 25px;
   width: 400px;
   height: 220px;
   border: 1px solid #d9b535;

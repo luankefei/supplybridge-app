@@ -1,5 +1,3 @@
-import "slick-carousel/slick/slick.css";
-import "slick-carousel/slick/slick-theme.css";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Carousel from "components/Carousel";
@@ -47,7 +45,7 @@ export default function SliderPage() {
     <Layout>
       <Header />
       <Container>
-        <Carousel imageData={imageData} />
+      <Carousel type="image" data={imageData} />
       </Container>
     </Layout>
   )

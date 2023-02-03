@@ -22,16 +22,16 @@ export default function Slide1() {
               iconHeight={82}
               margin="0px"
               padding="0px"
-              ischecked={isChecked===0}
-              onClick={() => setChecked(0)}
+               ischecked={true}
+              // onClick={() => setChecked(0)}
             />
             <Box
               iconSrc="production"
               title="Series Production"
               iconWidth={82}
               iconHeight={82}
-              ischecked={isChecked===1}
-              onClick={() => setChecked(1)}
+               ischecked={false}
+              // onClick={() => setChecked(1)}
             />
           </Row>
           <Row>
@@ -42,21 +42,21 @@ export default function Slide1() {
               iconHeight={82}
               margin="0px"
               padding="0px"
-              ischecked={isChecked===2}
-              onClick={() => setChecked(2)}
+               ischecked={false}
+              // onClick={() => setChecked(2)}
             />
             <Box
               iconSrc="tooling"
               title="Tooling & Manufacturing Aids"
               iconWidth={82}
               iconHeight={82}
-              ischecked={isChecked===3}
-              onClick={() => setChecked(3)}
+               ischecked={false}
+              // onClick={() => setChecked(3)}
             />
           </Row>
         </BoxContainer>
 
-        <StyledButton>Continue</StyledButton>
+        <StyledButton disabled>Continue</StyledButton>
       </Container>
     </SliderCard>
   );
@@ -114,7 +114,7 @@ const StyledButton = styled(Button)`
   border-radius: 100px;
   width: 604px;
   height: 44px;
-  color: #ffffff;
+  color: #ffffff !important;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;

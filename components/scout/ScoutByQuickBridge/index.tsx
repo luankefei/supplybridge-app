@@ -1,8 +1,8 @@
 import { useState } from "react";
-import { styled, useTheme } from '@mui/material/styles';
-import Tabs from '@mui/material/Tabs';
-import Tab from '@mui/material/Tab';
-import Box from '@mui/material/Box';
+import { keyframes, styled, useTheme } from "@mui/material/styles";
+import Tabs from "@mui/material/Tabs";
+import Tab from "@mui/material/Tab";
+import Box from "@mui/material/Box";
 import ByVehicle from "./ByVehicle";
 import ByOEM from "./ByOEM";
 import ByClass from "./ByClass";
@@ -29,20 +29,20 @@ interface TabPanelProps {
   value: number;
 }
 
-
 const StyledTabs = styled((props: StyledTabsProps) => (
   <Tabs
     {...props}
     TabIndicatorProps={{ children: <span className="MuiTabs-indicatorSpan" /> }}
   />
 ))({
-  '& .MuiTabs-flexContainer': {
-    width: "100%"
+  "& .MuiTabs-flexContainer": {
+    width: "100%",
+    paddingTop: "2px",
   },
-  '& .MuiTabs-indicator': {
-    display: 'flex',
-    justifyContent: 'space-around',
-    backgroundColor: 'transparent',
+  "& .MuiTabs-indicator": {
+    display: "flex",
+    justifyContent: "space-around",
+    backgroundColor: "transparent",
     // width: '100%',
   },
 });
@@ -52,22 +52,43 @@ interface StyledTabProps {
   icon?: any;
 }
 
+
 const StyledTab = styled((props: StyledTabProps) => (
   <Tab disableRipple {...props} />
 ))(({ theme }) => ({
   width: "12.5%",
-  textTransform: 'none',
+  textTransform: "none",
   fontSize: "12px",
+  fontFamily: "Inter",
+  fontWeight: "400",
+  lineHeight: "15px",
   color: "#1A1A1A",
   borderRadius: "16px 16px 0px 0px",
   backgroundColor: "#E6E6E6",
   boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
-  '&.Mui-selected': {
-    color: '#08979C',
-    backgroundColor: "#fff"
+  whiteSpace: "nowrap",
+  overflow: "visible",
+  marginTop: "10px",
+
+  "&:hover": {
+    boxShadow: "2px -2px 4px rgba(0, 0, 0, 0.25)",
+    position: "relative",
+    img: {
+      width: "30.66px",
+      height: "33.79px",
+      transform: 'translateY(-20px) rotate(26.5deg)',
+      transition: 'transform 0.3s ease-in',
+      zIndex: 100,
+      position: "absolute",
+      right: "5px",
+    },
   },
-  '&.Mui-focusVisible': {
-    backgroundColor: 'rgba(100, 95, 228, 0.32)',
+  "&.Mui-selected": {
+    color: "#08979C",
+    backgroundColor: "#fff",
+  },
+  "&.Mui-focusVisible": {
+    backgroundColor: "rgba(100, 95, 228, 0.32)",
   },
 }));
 
@@ -84,11 +105,7 @@ function TabPanel(props: TabPanelProps) {
       style={{ height: "100%" }}
       {...other}
     >
-      {value === index && (
-        <Box sx={{ p: 3, height: "100%" }}>
-          {children}
-        </Box>
-      )}
+      {value === index && <Box sx={{ p: 3, height: "100%" }}>{children}</Box>}
     </div>
   );
 }
@@ -105,11 +122,7 @@ export default function ScoutByQuickBridge() {
     <>
       <div className="Container">
         <div className="Content">
-          <StyledTabs
-            value={value}
-            onChange={handleChange}
-            aria-label="tabs"
-          >
+          <StyledTabs value={value} onChange={handleChange} aria-label="tabs">
             <StyledTab label="By Vehicle" />
             <StyledTab label="By OEM" />
             <StyledTab label="By Class" />
@@ -117,9 +130,30 @@ export default function ScoutByQuickBridge() {
             <StyledTab label="By Technology" />
             <StyledTab label="By Commodity" />
             <StyledTab label="By Production Tech" />
-            <StyledTab label={<span style={{ display: "flex", justifyContent: "center", alignItems: "center" }}><span style={{ marginRight: "-3px" }}>By Pioneer</span><Icon src={"pioneer"} height={18} /></span>} />
+            <StyledTab
+              label={
+                <span
+                  style={{
+                    display: "flex",
+                    justifyContent: "center",
+                    alignItems: "center",
+                  }}
+                >
+                  <span style={{ marginRight: "-3px" }}>By Pioneer</span>
+                  <Icon src={"pioneer"} height={18} />
+                </span>
+              }
+            />
           </StyledTabs>
-          <Box sx={{ p: 3, backgroundColor: "#F9FAFB", borderRadius: "0px 0px 16px 16px", height: "606px", overflow: "overlay" }}>
+          <Box
+            sx={{
+              p: 3,
+              backgroundColor: "#F9FAFB",
+              borderRadius: "0px 0px 16px 16px",
+              height: "606px",
+              overflow: "overlay",
+            }}
+          >
             <TabPanel value={value} index={0} dir={theme.direction}>
               <div style={{ alignItems: "center" }} className="TabPanelWrapper">
                 <ByVehicle />
@@ -161,8 +195,29 @@ export default function ScoutByQuickBridge() {
               </div>
             </TabPanel>
           </Box>
-          <Box sx={{ cursor: "pointer", marginTop: "18px", display: "flex", justifyContent: "flex-end" }}>
-            <Box sx={{ color: "#fff", width: "254px", height: "46px", display: "flex", justifyContent: "center", alignItems: "center", background: "#08979C", borderRadius: "16px", marginBottom: "40px" }}>Scout Now</Box>
+          <Box
+            sx={{
+              cursor: "pointer",
+              marginTop: "18px",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Box
+              sx={{
+                color: "#fff",
+                width: "254px",
+                height: "46px",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+                background: "#08979C",
+                borderRadius: "16px",
+                marginBottom: "40px",
+              }}
+            >
+              Scout Now
+            </Box>
           </Box>
           <Feedback />
         </div>
@@ -188,12 +243,11 @@ export default function ScoutByQuickBridge() {
         }
 
         .TabPanelWrapper {
-          display: flex; 
-          justify-content: center; 
-          height: 100%; 
+          display: flex;
+          justify-content: center;
+          height: 100%;
         }
       `}</style>
-
     </>
-  )
+  );
 }

@@ -26,7 +26,7 @@ export default function RawMaterial() {
     <Layout>
       <NewHeader />
       <Container>
-        <Carousel imageData={imageData} />
+      <Carousel type="image" data={imageData} />
       </Container>
     </Layout>
   )

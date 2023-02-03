@@ -103,7 +103,7 @@ export const SearchBar2 = ({ onSearch }: Props) => {
 
 const Container = styled.div`
   display: flex;
-  width: 80%;
+  width: 75%;
   justify-content: center;
   align-items: center;
   gap: 20px;

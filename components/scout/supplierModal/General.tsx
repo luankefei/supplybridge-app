@@ -1,4 +1,5 @@
 import { Divider } from "@mui/material";
+import { theme } from "config/theme";
 import styled from "styled-components";
 
 export const GeneralTabPanel = () => {
@@ -42,7 +43,6 @@ export const GeneralTabPanel = () => {
           <InfoDescription>Tier 1</InfoDescription>
         </InfoItem>
       </BasicInfoContainer>
-      <Divider style={{ marginTop: "30px" }} />
       <HighlightsContainer>
         <Title>Highlights</Title>
         <HighlightList>
@@ -59,9 +59,14 @@ export const GeneralTabPanel = () => {
 };
 
 const GeneralContainer = styled.div`
-  font-family: "Inter", sans-serif
+  font-family: "Inter", sans-serif;
+  font-style: normal;
 `;
-const Title = styled.div``;
+const Title = styled.div`
+  font-weight: 600;
+  font-size: 1rem;
+  color: ${theme.colors.text};
+`;
 
 const BasicInfoContainer = styled.div`
   margin-top: 10px;
@@ -70,35 +75,33 @@ const BasicInfoContainer = styled.div`
 const InfoItem = styled.div`
   display: flex;
   align-items: center;
+  gap: 8px;
   margin-bottom: 15px;
+  font-weight: 500;
+  font-size: 0.875rem;
 `;
 
 const InfoIcon = styled.img`
-  margin-right: 10px;
 `;
 const InfoTitle = styled.span`
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  color: #6b7280;
-  margin-right: 10px;
+  color: #9CA3AF;
 `;
 const InfoDescription = styled.span`
-  font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  color: #111827;
+  color: ${theme.colors.text};
 `;
 
 const HighlightsContainer = styled.div`
-  margin-top: 20px;
+  margin-top: 55px;
+  margin-bottom: 26px;
 `;
 
-const HighlightList = styled.ul``;
+const HighlightList = styled.ul`
+padding-inline-start: 24px;
+`;
+
 const HighlightListItem = styled.li`
   font-weight: 500;
-  font-size: 14px;
-  line-height: 17px;
-  color: #6b7280;
+  font-size: 0.875rem;
+  color: #9CA3AF;
   margin-bottom: 10px;
 `;
