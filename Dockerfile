@@ -23,9 +23,6 @@ RUN yarn
 
 RUN yarn build
 
-# To fix high-uid-error https://circleci.com/docs/high-uid-error/
-#RUN chown -R root:root /app
-
 # Open port 2222 for SSH access
 EXPOSE 2222 3000
 
