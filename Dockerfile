@@ -19,12 +19,12 @@ COPY . ./app
 
 WORKDIR /app
 
-RUN npm install
+RUN yarn
 
-RUN npm run build
+RUN yarn build
 
 # To fix high-uid-error https://circleci.com/docs/high-uid-error/
-RUN chown -R root:root /app
+#RUN chown -R root:root /app
 
 # Open port 2222 for SSH access
 EXPOSE 2222 3000
