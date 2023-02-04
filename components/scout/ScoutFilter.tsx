@@ -145,6 +145,7 @@ const ScoutFilter = () => {
   };
   return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
+      <Container>
       <FilterContainer>
         {data.map((item, index) => {
           const isselected: boolean = isCategoryChecked(item.key);
@@ -226,10 +227,15 @@ const ScoutFilter = () => {
           }
         })}
       </FilterContainer>
+      </Container>
     </ClickAwayListener>
   ) : null;
 };
-
+const Container=styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`
 const FilterContainer = styled.div`
   margin-top: 24px;
   display: flex;
@@ -240,7 +246,7 @@ const FilterContainer = styled.div`
   border-radius: 2px;
   height: fit-content;
   width: 926px;
-  justify-content: center;
+  justify-content: start;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }

@@ -57,7 +57,16 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   };
 
   useEffect(() => {
-    setFilterData({ q: searchItem });
+    //set new keyword and reset all other filters
+    setFilterData({
+      q: searchItem, 
+      commodities: [],
+      components: [],
+      coreCompetencies: [],
+      regions: [],
+      subRegions: [],
+      vehicleFuelTypes: []
+     });
   }, [searchItem]);
 
   const onKeyPressHandler = (event: any) => {
@@ -79,6 +88,7 @@ export const SearchBar2 = ({ onSearch }: Props) => {
           onChange={(e: any) => setSearchItem(e.target.value)}
           name="search"
           placeholder="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+          onKeyPress={onKeyPressHandler}
           value={searchItem}
           type="text"
         />
