@@ -4,30 +4,28 @@ import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
 import styled from "styled-components";
 import Icon from "components/Icon";
-
+import { theme } from "config/theme";
 const style = {
   position: "absolute" as "absolute",
-  top: "20%",
-  left: "20%",
-  //   transform: 'translate(-50%, -50%)',
-  width: 1140,
-  height: 600,
+  top: {md: "312px", lg: "338px",  xl: "350px"},
+  left:  `${theme.dimension.leftMenuWidth}`,
+  width:   `calc(100% - ${theme.dimension.leftMenuWidth})`,
+  height: {sm: 'calc(100% - 320px)',  md: 'calc(100% - 312px)', lg: 'calc(100% - 330px)', xl: 'calc(100% - 345px)'},
   bgcolor: "rgba(249, 250, 251, 0.6)",
-  borderRadius: 8,
-  boxShadow: 24,
   p: 4,
   display: 'flex',
   flexDirection: 'column',
   justifyContent: "center",
-  alignItems: 'center'
+  alignItems: 'center',
+ backdropFilter: 'blur(35px)',
 };
+
 
 interface Props{
     isOpen:boolean
 }
 export default function BackDrop({isOpen=false}:Props) {
   const [open, setOpen] = React.useState(isOpen);
-  const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
   return (
@@ -38,11 +36,13 @@ export default function BackDrop({isOpen=false}:Props) {
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
+        hideBackdrop={true}
       >
         <Box sx={style}>
             <Icon src="backdrop-logo" width={82} height={82} />
           <CustomizedTypography id="modal-modal-description" sx={{ mt: 2 }}>
-            There are no results matching to this search. Dispatching Scout
+            There are no results matching to this search.<br/>
+            Dispatching Scout
             team...
           </CustomizedTypography>
         </Box>
@@ -53,10 +53,11 @@ export default function BackDrop({isOpen=false}:Props) {
 
 
 const CustomizedTypography=styled(Typography)`
-width: 500px;
-font-weight: 700;
+font-family: 'Inter';
+font-style: normal;
+font-weight: 600;
 font-size: 24px;
-line-height: 33px;
+line-height: 29px;
 text-align: center;
 color: ${(props) => props.theme.colors.primary};;
 

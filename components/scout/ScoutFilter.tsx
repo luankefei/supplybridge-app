@@ -38,7 +38,7 @@ const ScoutFilter = () => {
     filterData,
     selectedRegions,
     selectedCountries,
-    suppliers
+    suppliers,
   } = useStore();
   const { getComponents, getSubRegions } = useFilter();
 
@@ -129,16 +129,25 @@ const ScoutFilter = () => {
     return filterData[type].includes(id) ? true : false;
   };
 
+  const isCategoryChecked = (type: string) => {
+    return filterData[type].length > 0 ? true : false;
+  };
+
   const [expanded, setExpanded] = useState<number | false>(false);
   const handleChange =
     (index: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? index : false);
     };
-  return (
-    (suppliers?.length> 0 && Object.keys(suppliers[0]).length > 0) ?(      
+
+  const [searchItem, setSearchItem] = useState("");
+  const handleSearchChange = (e: any) => {
+    setSearchItem(e.target.value);
+  };
+  return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <FilterContainer>
         {data.map((item, index) => {
+          const isselected: boolean = isCategoryChecked(item.key);
           if (item.items.length) {
             return (
               <CustomizeAccordion
@@ -148,14 +157,35 @@ const ScoutFilter = () => {
               >
                 <CustomizeAccordionSummary
                   expandIcon={
-                    <Icon src="chevron-down" width={16} height={16} />
+                    isselected ? (
+                      <Icon src="chevron-down" width={16} height={16} />
+                    ) : (
+                      <Icon src="down-arrow-black" width={16} height={16} />
+                    )
                   }
                   aria-controls={item.key}
                   id={item.key}
+                  $isselected={isselected}
                 >
                   {item.label}
                 </CustomizeAccordionSummary>
                 <CustomizeAccordionDetails>
+                  <InputContainer>
+                    <StyledInput
+                      onChange={handleSearchChange}
+                      name="search"
+                      placeholder="Search"
+                      value={searchItem}
+                      type="text"
+                    />
+                    <Icon
+                      src="search2"
+                      width={16}
+                      height={16}
+                      m={"0px"}
+                      hover
+                    />
+                  </InputContainer>
                   {item.items?.map((checkbox: any, index: number) => {
                     const ischecked: boolean = decisionCheckStatus(
                       item.key,
@@ -178,7 +208,12 @@ const ScoutFilter = () => {
                             icon={<Icon src="tick" width={0} height={0} />}
                             checked={decisionCheckStatus(item.key, checkbox)}
                             checkedIcon={
-                              <Icon src="tick" width={14} height={10} />
+                              <Icon
+                                src="tick"
+                                width={14}
+                                height={10}
+                                hover={false}
+                              />
                             }
                           />
                         }
@@ -192,9 +227,7 @@ const ScoutFilter = () => {
         })}
       </FilterContainer>
     </ClickAwayListener>
-    ) : null
-    
-  )
+  ) : null;
 };
 
 const FilterContainer = styled.div`
@@ -206,6 +239,8 @@ const FilterContainer = styled.div`
   /* background: #fafafa; */
   border-radius: 2px;
   height: fit-content;
+  width: 926px;
+  justify-content: center;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
@@ -228,16 +263,17 @@ const CustomizeAccordion = styled(Accordion)`
   }
 `;
 
-const CustomizeAccordionSummary = styled(AccordionSummary)`
-  color: #08979c;
+const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
   width: 178px;
   height: 44px;
-  background: #ffffff;
   font-family: "Inter";
-  font-weight: 600;
+  font-style: normal;
+  font-weight: 500;
   font-size: 12px;
   line-height: 24px;
-
+  color: ${(props) =>
+    `${props.$isselected ? props.theme.colors.primary : "#1A1A1A"} !important`};
+  background-color: #ffffff !important;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px !important;
 `;
@@ -245,7 +281,7 @@ const CustomizeAccordionSummary = styled(AccordionSummary)`
 const CustomizeAccordionDetails = styled(AccordionDetails)`
   display: flex;
   flex-direction: column;
-  max-height: 478px;
+  max-height: 500px;
   overflow: auto;
 
   position: absolute;
@@ -260,8 +296,21 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   .MuiFormControlLabel-root {
     justify-content: start;
   }
+  .MuiCheckbox-root {
+    margin-left: 15px;
+    &:hover {
+      background-color: #ffffff !important;
+    }
+  }
+  .Mui-focused {
+    background-color: #ffffff !important;
+  }
   .Mui-checked {
+    background-color: #ffffff !important;
     color: ${(props) => props.theme.colors.primary};
+    img {
+      object-fit: none !important;
+    }
   }
 `;
 
@@ -270,9 +319,12 @@ const CheckboxLabel = styled.div<any>`
   flex-direction: row;
   align-items: center;
   p {
+    font-family: "Inter";
+    font-style: normal;
     font-weight: 400;
     font-size: 12px;
-    line-height: 22px;
+    line-height: 24px;
+
     display: flex;
     align-items: center;
     color: ${(props) =>
@@ -287,4 +339,59 @@ const CheckboxLabel = styled.div<any>`
   }
 `;
 
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 46px;
+  margin: 20px 14px;
+  border-bottom: 1px solid #e5e7eb;
+  margin-left: 14px;
+  background: #ffffff;
+
+  &:hover {
+  }
+  &:focus {
+  }
+
+  @media (max-width: ${(props) => props.theme.size.mobileXl}) {
+    width: 100%;
+    height: 35px;
+  }
+`;
+
+const StyledInput = styled.input`
+  border: none !important;
+  width: 100px;
+  height: 44px;
+  background-color: #ffffff !important;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  color: #1a1a1a;
+  ::placeholder {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 12px;
+    line-height: 24px;
+    color: #8c8c8c;
+  }
+  img {
+    object-fit: none !important;
+  }
+  &:focus {
+    outline: none !important;
+  }
+
+  &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
+  }
+`;
 export default ScoutFilter;

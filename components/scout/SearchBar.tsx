@@ -68,34 +68,21 @@ export const SearchBar2 = ({ onSearch }: Props) => {
 
   return (
     <Container>
-      <SearchField2
-        id="search-parts"
-        key="search-parts-input"
-        variant="filled"
-        data-testid="search-parts"
-        label={
-          searchItem === ""
-            ? "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
-            : ""
-        }
-        value={searchItem}
-        onChange={(e: any) => setSearchItem(e.target.value)}
-        onKeyPress={onKeyPressHandler}
-        InputProps={{
-          startAdornment: (
-            <InputAdornment position="start">
-              <Icon
-                src="search2"
-                width={24}
-                height={24}
-                m={"0px 0px 12px 0px"}
-                hover
-              />
-            </InputAdornment>
-          ),
-        }}
-      />
+      <InputContainer>
+        {searchItem === "" ? (
+          <Icon src="search2" width={20} height={20} m={"0px"} hover />
+        ) : (
+          <Icon src="search-color" width={20} height={20} m={"0px"} hover />
+        )}
 
+        <StyledInput
+          onChange={(e: any) => setSearchItem(e.target.value)}
+          name="search"
+          placeholder="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+          value={searchItem}
+          type="text"
+        />
+      </InputContainer>
       <SearchButton onClick={onClickSearch}>Search</SearchButton>
     </Container>
   );
@@ -164,65 +151,92 @@ const CircleButton = styled.div`
   user-select: none;
 `;
 
-const SearchField2 = styled(SearchField)`
-  height: 46px;
-  width: 80%;
-  background-color: #fafafa;
-
-  border-radius: 16px;
-
-  .MuiFilledInput-root {
-    background-color: #fafafa !important;
-    border-radius: 16px !important;
-    box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-    &:hover {
-      background-color: #fafafa;
-    }
-  }
-  .MuiFilledInput-root:before {
-    border: none !important;
-  }
-  .MuiFilledInput-root:after {
-    border: none !important;
-  }
-
-  label.Mui-focused {
-    display: none;
-  }
-  label {
-    font-family: "Inter" !important;
-    font-style: normal;
-    font-weight: 400;
-    line-height: 22px;
-    color: #b3b3b3 !important;
-    margin-left: 32px;
-    margin-top: 10px;
-    font-size: 14px !important;
-
-   
-
-    @media (max-width: ${(props) => props.theme.size.tablet}) {
-      font-size: 11px;
-      line-height: 18px;
-    }
-  }
-  input {
-    margin-left: 2px;
-    background: #fafafa;
-    border-radius: 16px !important;
-    padding-top: 10px;
-  }
-`;
 const SearchButton = styled.button`
   width: 196px;
   height: 46px;
   border: none;
   border-radius: 32px;
   background: ${(props) => `${props.theme.colors.primary}`};
-  color: #ffffff;
   cursor: pointer;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #f5f5f5;
+  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
   &:hover {
-    opacity: 0.8;
+    box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
+      0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+    filter: drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08));
+  }
+  &:active {
+    background: #006d75;
+  }
+`;
+
+const InputContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 46px;
+  width: 80%;
+
+  padding-left: 16px;
+  border-radius: 50px;
+
+  background: #f9fafb;
+  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+  border-radius: 50px;
+
+  &:hover {
+    box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
+      0px 6px 16px rgba(0, 0, 0, 0.08), 0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+  }
+  &:focus {
+    box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
+      0px 6px 16px rgba(0, 0, 0, 0.08), 0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+  }
+
+  @media (max-width: ${(props) => props.theme.size.mobileXl}) {
+    width: 100%;
+    height: 35px;
+  }
+`;
+
+const StyledInput = styled.input`
+  flex: 1 0;
+  height: 46px;
+  background-color: #f9fafb !important;
+  padding-left: 13.34px;
+  border: 0;
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 22px;
+  border-radius: 50px;
+  color: #1a1a1a;
+  ::placeholder {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 400;
+    font-size: 14px;
+    line-height: 22px;
+    color: #b3b3b3;
+  }
+  &:focus {
+    outline: none !important;
+  }
+
+ &:-webkit-autofill,
+  &:-webkit-autofill:hover,
+  &:-webkit-autofill:focus,
+  &:-webkit-autofill:active {
+    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
+    -webkit-transition-delay: 9999s;
   }
 `;
 
