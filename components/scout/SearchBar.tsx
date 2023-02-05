@@ -5,7 +5,7 @@ import useStore from "hooks/useStore";
 
 import Icon from "components/Icon";
 import TextField from "components/TextField";
-import { InputAdornment } from "@mui/material";
+import { Button } from "@mui/material";
 
 interface Props {
   onSearch: () => void;
@@ -59,16 +59,25 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   useEffect(() => {
     //set new keyword and reset all other filters
     setFilterData({
-      q: searchItem, 
+      q: searchItem,
+    });
+    clearFilters();
+  }, [searchItem]);
+
+  const resetFilters = () => {
+    setSearchItem("");
+    clearFilters();
+  };
+  const clearFilters = () => {
+    setFilterData({
       commodities: [],
       components: [],
       coreCompetencies: [],
       regions: [],
       subRegions: [],
-      vehicleFuelTypes: []
-     });
-  }, [searchItem]);
-
+      vehicleFuelTypes: [],
+    });
+  };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
       onSearch();
@@ -77,30 +86,45 @@ export const SearchBar2 = ({ onSearch }: Props) => {
 
   return (
     <Container>
-      <InputContainer>
-        {searchItem === "" ? (
-          <Icon src="search2" width={20} height={20} m={"0px"} hover />
-        ) : (
-          <Icon src="search-color" width={20} height={20} m={"0px"} hover />
-        )}
+      <SearchBarContainer>
+        <InputContainer>
+          {searchItem === "" ? (
+            <Icon src="search2" width={20} height={20} m={"0px"} hover />
+          ) : (
+            <Icon src="search-color" width={20} height={20} m={"0px"} hover />
+          )}
 
-        <StyledInput
-          onChange={(e: any) => setSearchItem(e.target.value)}
-          name="search"
-          placeholder="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
-          onKeyPress={onKeyPressHandler}
-          value={searchItem}
-          type="text"
-        />
-      </InputContainer>
-      <SearchButton onClick={onClickSearch}>Search</SearchButton>
+          <StyledInput
+            onChange={(e: any) => setSearchItem(e.target.value)}
+            name="search"
+            placeholder="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+            onKeyPress={onKeyPressHandler}
+            value={searchItem}
+            type="text"
+          />
+        </InputContainer>
+        <SearchButton onClick={onClickSearch}>Search</SearchButton>
+      </SearchBarContainer>
+
+      <ResetButtonContainer>
+        <ResetAllButton variant="text" onClick={resetFilters}>
+          <Icon src="reset" width={12} height={12} m="0px 10px" />
+          Reset
+        </ResetAllButton>
+      </ResetButtonContainer>
     </Container>
   );
 };
 
 const Container = styled.div`
-  display: flex;
   width: 75%;
+  display: flex;
+  justify-content: end;
+  flex-direction: column;
+`;
+const SearchBarContainer = styled.div`
+  display: flex;
+  width: 100%;
   justify-content: center;
   align-items: center;
   gap: 20px;
@@ -241,7 +265,7 @@ const StyledInput = styled.input`
     outline: none !important;
   }
 
- &:-webkit-autofill,
+  &:-webkit-autofill,
   &:-webkit-autofill:hover,
   &:-webkit-autofill:focus,
   &:-webkit-autofill:active {
@@ -250,4 +274,18 @@ const StyledInput = styled.input`
   }
 `;
 
+const ResetButtonContainer = styled.div`
+  display: flex;
+  justify-content: end;
+`;
+const ResetAllButton = styled(Button)`
+  text-transform: capitalize;
+  width: 56px;
+  height: 24px;
+  margin-top: 8px !important;
+  margin-right: 5px !important;
+  &:hover {
+    cursor: pointer !important;
+  }
+`;
 export default SearchBar;

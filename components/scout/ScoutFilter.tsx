@@ -87,14 +87,31 @@ const ScoutFilter = () => {
       getSubRegions(data.regions);
     }
   };
+  const decisionCheckStatus = (type: string, obj: any) => {
+    const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
+    return filterData[type].includes(id) ? true : false;
+  };
 
+  const isCategoryChecked = (type: string) => {
+    return filterData[type].length > 0 ? true : false;
+  };
   const onChangeHandler = (event: any, type: string, obj: any) => {
+    selectFilterData(event.target.value, type, obj, false);
+  };
+  const selectFilterData = (
+    ischecked: boolean,
+    type: string,
+    obj: any,
+    isAllSelect: boolean
+  ) => {
     const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
     const rawFilterData = filterData;
-    const value = event.target.checked;
+    const value = ischecked;
 
-    if (!rawFilterData[type].includes(id) && value) {
+    if (!isAllSelect && !rawFilterData[type].includes(id) && value) {
       rawFilterData[type].push(id);
+    } else if (isAllSelect && value) {
+      rawFilterData[type].indexOf(id) === -1 && rawFilterData[type].push(id);
     } else {
       const index = rawFilterData[type].indexOf(id);
       if (index > -1) {
@@ -116,24 +133,51 @@ const ScoutFilter = () => {
 
     if (rawFilterData.commodities.length === 0) {
       rawFilterData.components = [];
+      setIsAllSelected((oldState) => ({
+        ...oldState,
+        components: false,
+      }));
     }
     if (rawFilterData.regions.length === 0) {
       rawFilterData.subRegions = [];
+      setIsAllSelected((oldState) => ({
+        ...oldState,
+        subRegions: false,
+      }));
     }
+
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
   };
 
-  const decisionCheckStatus = (type: string, obj: any) => {
-    const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
-    return filterData[type].includes(id) ? true : false;
-  };
-
-  const isCategoryChecked = (type: string) => {
-    return filterData[type].length > 0 ? true : false;
+  const selectAllHandler = (event: any, type: string) => {
+    const value = event.target.checked;
+    setIsAllSelected((oldState) => ({
+      ...oldState,
+      [type]: value,
+    }));
+    let obj = data.find((o) => o.key === type);
+    obj?.items.forEach((category: any) => {
+      selectFilterData(value, type, category, true);
+    });
   };
 
   const [expanded, setExpanded] = useState<number | false>(false);
+
+  type IallSelected = {
+    [key: string]: boolean;
+  };
+  const [isAllSelected, setIsAllSelected] = useState<IallSelected>({
+    commodities: false,
+    components: false,
+    coreCompetencies: false,
+    regions: false,
+    subRegions: false,
+  });
+
+  const checkSelectedAllStatus = (type: string) => {
+    return isAllSelected[type];
+  };
   const handleChange =
     (index: number) => (event: React.SyntheticEvent, isExpanded: boolean) => {
       setExpanded(isExpanded ? index : false);
@@ -146,96 +190,113 @@ const ScoutFilter = () => {
   return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <Container>
-      <FilterContainer>
-        {data.map((item, index) => {
-          const isselected: boolean = isCategoryChecked(item.key);
-          if (item.items.length) {
-            return (
-              <CustomizeAccordion
-                key={index}
-                expanded={expanded === index}
-                onChange={handleChange(index)}
-              >
-                <CustomizeAccordionSummary
-                  expandIcon={
-                    isselected ? (
-                      <Icon src="chevron-down" width={16} height={16} />
-                    ) : (
-                      <Icon src="down-arrow-black" width={16} height={16} />
-                    )
-                  }
-                  aria-controls={item.key}
-                  id={item.key}
-                  $isselected={isselected}
+        <FilterContainer>
+          {data.map((item, index) => {
+            const isselected: boolean = isCategoryChecked(item.key);
+            const isAllSelected: boolean = checkSelectedAllStatus(item.key);
+            if (item.items.length) {
+              return (
+                <CustomizeAccordion
+                  key={index}
+                  expanded={expanded === index}
+                  onChange={handleChange(index)}
                 >
-                  {item.label}
-                </CustomizeAccordionSummary>
-                <CustomizeAccordionDetails>
-                  <InputContainer>
-                    <StyledInput
-                      onChange={handleSearchChange}
-                      name="search"
-                      placeholder="Search"
-                      value={searchItem}
-                      type="text"
-                    />
-                    <Icon
-                      src="search2"
-                      width={16}
-                      height={16}
-                      m={"0px"}
-                      hover
-                    />
-                  </InputContainer>
-                  {item.items?.map((checkbox: any, index: number) => {
-                    const ischecked: boolean = decisionCheckStatus(
-                      item.key,
-                      checkbox
-                    );
-                    return (
-                      <FormControlLabel
-                        labelPlacement="start"
-                        key={index}
-                        label={
-                          <CheckboxLabel ischecked={ischecked}>
-                            <p>{checkbox.name}</p>
-                          </CheckboxLabel>
-                        }
-                        control={
-                          <Checkbox
-                            onChange={(event) =>
-                              onChangeHandler(event, item.key, checkbox)
-                            }
-                            icon={<Icon src="tick" width={0} height={0} />}
-                            checked={decisionCheckStatus(item.key, checkbox)}
-                            checkedIcon={
-                              <Icon
-                                src="tick"
-                                width={14}
-                                height={10}
-                                hover={false}
-                              />
-                            }
-                          />
-                        }
+                  <CustomizeAccordionSummary
+                    expandIcon={
+                      isselected ? (
+                        <Icon src="chevron-down" width={16} height={16} />
+                      ) : (
+                        <Icon src="down-arrow-black" width={16} height={16} />
+                      )
+                    }
+                    aria-controls={item.key}
+                    id={item.key}
+                    $isselected={isselected}
+                  >
+                    {item.label}
+                  </CustomizeAccordionSummary>
+                  <CustomizeAccordionDetails>
+                    <InputContainer>
+                      <StyledInput
+                        onChange={handleSearchChange}
+                        name="search"
+                        placeholder="Search"
+                        value={searchItem}
+                        type="text"
                       />
-                    );
-                  })}
-                </CustomizeAccordionDetails>
-              </CustomizeAccordion>
-            );
-          }
-        })}
-      </FilterContainer>
+                      <Icon
+                        src="search2"
+                        width={16}
+                        height={16}
+                        m={"0px"}
+                        hover
+                      />
+                    </InputContainer>
+                    <FormControlLabel
+                     className="checkbox-select-all"
+                      control={
+                        <Checkbox
+                          checked={isAllSelected}
+                          onChange={(event) =>
+                            selectAllHandler(event, item.key)
+                          }
+                        />
+                      }
+                      label={
+                        <CheckboxLabel>
+                          <b>{isAllSelected ? "Deselect All" : "Select All"}</b>
+                        </CheckboxLabel>
+                      }
+                    />
+                    {item.items?.map((checkbox: any, index: number) => {
+                      const ischecked: boolean = decisionCheckStatus(
+                        item.key,
+                        checkbox
+                      );
+                      return (
+                        <FormControlLabel
+                          labelPlacement="start"
+                          key={index}
+                          label={
+                            <CheckboxLabel ischecked={ischecked}>
+                              <p>{checkbox.name}</p>
+                            </CheckboxLabel>
+                          }
+                          control={
+                            <Checkbox
+                              onChange={(event) =>
+                                onChangeHandler(event, item.key, checkbox)
+                              }
+                              icon={<Icon src="tick" width={0} height={0} />}
+                              checked={ischecked}
+                              checkedIcon={
+                                <Icon
+                                  src="tick"
+                                  width={14}
+                                  height={10}
+                                  hover={false}
+                                />
+                              }
+                            />
+                          }
+                        />
+                      );
+                    })}
+                  </CustomizeAccordionDetails>
+                </CustomizeAccordion>
+              );
+            }
+          })}
+        </FilterContainer>
       </Container>
     </ClickAwayListener>
   ) : null;
 };
-const Container=styled.div`
+const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-`
+`;
 const FilterContainer = styled.div`
   margin-top: 24px;
   display: flex;
@@ -318,6 +379,12 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
       object-fit: none !important;
     }
   }
+
+  .checkbox-select-all{
+    .Mui-checked{
+    color: ${(props) => `${props.theme.colors.primary} !important`};  
+  }
+}
 `;
 
 const CheckboxLabel = styled.div<any>`
@@ -342,6 +409,15 @@ const CheckboxLabel = styled.div<any>`
     line-height: 20px;
     color: #8c8c8c;
     margin-left: 8px;
+  }
+
+  b {
+    font-family: "Inter";
+    font-style: normal;
+    font-weight: 600;
+    font-size: 12px;
+    line-height: 24px;
+    color: ${(props) => props.theme.colors.primary};
   }
 `;
 
