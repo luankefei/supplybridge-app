@@ -1,12 +1,13 @@
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 import React from "react";
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
 
 interface ContainerProps {
   selected: boolean;
+  disabled?:boolean
 }
 
-export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = null }: any) {
+export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = null, disabled=false}: any) {
   // const [selected, setSelected] = useState(false)
 
   // useEffect(() => {
@@ -29,12 +30,12 @@ export default function BigCard({ src, title, selected, width = 50, height = 50,
 
   return (
     <>
-      <CardContainer selected={selected}>
+      <CardContainer selected={selected} disabled={disabled}>
         <IconBackground>
           <Icon width={width} height={height} src={`/icons/${src}.svg`} />
         </IconBackground>
 
-        <Title>{title}</Title>
+        <Title disabled={disabled}>{title}</Title>
         {infoContent &&
           <HtmlTooltip
             placement="top"
@@ -54,7 +55,7 @@ export default function BigCard({ src, title, selected, width = 50, height = 50,
 const CardContainer = styled.div<ContainerProps>`
   width: 290px;
   height: 198px;
-  border: ${(props) => props.selected && "4px solid #08979C"};
+
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px;
   margin-left: 24px;
@@ -63,12 +64,23 @@ const CardContainer = styled.div<ContainerProps>`
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: #FFFFFF;
+  background-color: ${(props) => props.disabled? "#F3F4F6" : "#FFFFFF"};
+  pointer-events: ${(props) => props.disabled && "none"};
+
+  ${(props) =>
+    props.disabled
+      ? css`
+        border: 4px solid #B3B3B3;
+      `
+      : css<ContainerProps>`
+          border: ${(props) => props.selected && "4px solid #08979C"};
+        `};
   &:hover {
-    box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   }
   &:active {
     border: 4px solid #445B66;
+    box-shadow: none;
   }
 `;
 
@@ -84,13 +96,13 @@ const IconBackground = styled.span`
 
 const Icon = styled.img``;
 
-const Title = styled.span`
+const Title = styled.span<{disabled:boolean}>`
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  color: #111827;
+  color: ${(props)=>props.disabled? '#808080' : '#111827'};  
   margin-top: 22px;
 `;
 

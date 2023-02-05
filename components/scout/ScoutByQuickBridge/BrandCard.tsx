@@ -31,12 +31,11 @@ const Container = styled.span<ContainerProps>`
   align-items: center;
   background-color: #FFFFFF;
   &:hover {
-    box-shadow: ${(props) => (props.clickable ?
-    "0px 4px 4px rgba(0, 0, 0, 0.25)" :
-    "0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06)")};
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
   }
   &:active {
     border: ${(props) => (props.clickable ? "4px solid #445B66" : "4px solid transparent")};
+    box-shadow: none;
   }
 `
 

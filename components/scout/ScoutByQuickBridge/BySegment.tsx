@@ -87,7 +87,7 @@ export default function BySegment() {
                   </ModelsWrapper>
                 </Section>
                 {index + 1 !== data.length &&
-                  <Divider />
+                  <Divider sx={{bgcolor: "#E5E7EB"}} />
                 }
               </>
             )
