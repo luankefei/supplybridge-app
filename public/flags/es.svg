@@ -1,0 +1,21 @@
+<svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g clip-path="url(#clip0_1467_179704)">
+<rect width="16" height="16" rx="8" fill="#F93939"/>
+<path d="M20.2667 0H2.13333C0.955126 0 0 0.955126 0 2.13333V13.8667C0 15.0449 0.955126 16 2.13333 16H20.2667C21.4449 16 22.4 15.0449 22.4 13.8667V2.13333C22.4 0.955126 21.4449 0 20.2667 0Z" fill="#F93939"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M0 4.26758H22.4V11.7342H0V4.26758Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.59994 6.63775V9.32575C9.59994 10.0724 8.88314 10.6697 7.99994 10.6697H5.8666C4.98553 10.6676 4.2666 10.0671 4.2666 9.32362V6.63562C4.2666 6.02548 4.74447 5.51562 5.40154 5.35028C5.59994 4.79562 6.21007 5.29268 6.93327 5.29268C7.66074 5.29268 8.2666 4.79882 8.465 5.35135C9.11994 5.52095 9.59994 6.03188 9.59994 6.63775Z" fill="#D4AF2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.6002 7.4668H10.6669V10.6668H9.6002V7.4668ZM3.2002 7.4668H4.26686V10.6668H3.2002V7.4668Z" fill="#CBCBCB"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.6002 9.59961H10.6669V10.6663H9.6002V9.59961ZM3.2002 9.59961H4.26686V10.6663H3.2002V9.59961Z" fill="#1A47B8"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M9.6002 6.40039H10.6669V7.46706H9.6002V6.40039ZM3.2002 6.40039H4.26686V7.46706H3.2002V6.40039Z" fill="#D4AF2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.33301 6.40039H6.39967V8.00039H5.33301V6.40039ZM7.46634 8.53372H8.53301V10.1337H7.46634V8.53372Z" fill="#AF010D"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M7.4668 6.40039H8.53346V8.00039H7.4668V6.40039Z" fill="#AE6A3E"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M5.33301 8.5332H6.39967V10.1332H5.33301V8.5332Z" fill="#FFDA2C"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.39967 6.40065L5.33301 5.33398H8.53301L7.46634 6.40065H6.39967Z" fill="#AF010D"/>
+<path fill-rule="evenodd" clip-rule="evenodd" d="M6.40039 4.26758H7.46706V5.33424H6.40039V4.26758Z" fill="#D4AF2C"/>
+</g>
+<defs>
+<clipPath id="clip0_1467_179704">
+<rect width="16" height="16" rx="8" fill="white"/>
+</clipPath>
+</defs>
+</svg>
