@@ -210,9 +210,9 @@ export default function ScoutByIndex() {
               </>
             ) : null}
           </ResultContainer>
-          {suppliers.length === 0 && !loading && (
+          {/* {suppliers.length === 0 && !loading && (
             <NoRecord>No record founds</NoRecord>
-          )}
+          )} */}
         
         </MapResultContainer>
       </MainContainer>
@@ -230,7 +230,16 @@ line-height: 22px;
 display: flex;
 align-items: flex-end;
 color: #445B66;
-margin-top: 80px;
+margin-top: 70px;
+@media (max-width: ${(props) => props.theme.size.laptopL}) {
+  margin-top: 50px;
+  }
+@media (max-width: ${(props) => props.theme.size.laptop}) {
+  margin-top: 48px;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+margin-top: 30px;
+  }
 `
 const ScoutContainer = styled.div`
   // width: 1440px;
@@ -251,7 +260,7 @@ const SearchContainer = styled.div<{isrow:boolean}>`
   width: 100%;
   margin-bottom: 50px;
   flex-direction: ${(props) => (props.isrow? 'row'  : "column")};
-  gap: 20px;
+  gap: 19px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
   }
@@ -283,7 +292,7 @@ const IconContainer = styled.div<{isrow:boolean}>`
   display: flex;
   flex-grow: 1;
   flex-direction: row;
-  justify-content: ${(props) => (props.isrow? 'start'  : "center")};
+  justify-content: ${(props) => (props.isrow? 'end'  : "center")};
   align-items: center;
   /* margin-right: 100px; */
   /* min-width: 240px; */

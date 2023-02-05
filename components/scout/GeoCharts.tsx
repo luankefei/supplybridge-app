@@ -7,6 +7,7 @@ import { allCountry } from "utils/countries";
 import useStore from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
 import BackDrop from "./BackDrop";
+import Icon from "components/Icon";
 
 const initialOptions: any = {
   resolution: "countries",
@@ -220,7 +221,7 @@ const GeoCharts = () => {
       <ButtonContainer>
         {backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
         {selectedCountries.length > 0 && (
-          <GoWorld onClick={clearFilter}>Clear Filter</GoWorld>
+          <GoWorld onClick={clearFilter}>Reset Map</GoWorld>
         )}
       </ButtonContainer>
       {renderMapComponent()}
@@ -291,4 +292,5 @@ const Container = styled.div`
     font-size: 1px !important;
   }
 `;
+
 export default GeoCharts;
