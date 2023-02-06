@@ -1,6 +1,6 @@
 import { Box, Button, Modal, Tab, Tabs, Typography } from "@mui/material";
 import { theme } from "config/theme";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { InnovationTabPanel } from "./Innovation";
 import { GeneralTabPanel } from "./General";
@@ -48,21 +48,21 @@ const style = {
 };
 
 export const SupplierModal = ({ ...props }: any) => {
-  const { data } = props;
-
+  const { data, open } = props;
   const [value, setValue] = useState(0);
   const [isMemberUnlock, setIsMemberUnlock] = useState(false);
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    if (newValue === 4) {
+    setValue(newValue);
+  };
+
+  useEffect(() => {
+    if (open) {
       setTimeout(() => {
         setIsMemberUnlock(true);
       }, 1000);
-    } else {
-      setIsMemberUnlock(false);
     }
-    setValue(newValue);
-  };
+  }, [setIsMemberUnlock, open]);
 
   return (
     <>
@@ -235,7 +235,7 @@ const TabContainer = styled.div`
 
 const TabPanelContainer = styled.div`
   height: 450px;
-  overflow-y: overlay;
+  overflow-y: hidden; /* NOTE: Only for the presentation purpose, should be overflow*/
   @media (max-width: ${(props) => props.theme.size.laptopL}) {
     height: 350px;
   }

@@ -128,6 +128,7 @@ export default function ByClass() {
 }
 
 const Container = styled.div`
+margin-top: 60px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;

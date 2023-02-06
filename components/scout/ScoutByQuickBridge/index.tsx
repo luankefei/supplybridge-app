@@ -86,6 +86,7 @@ const StyledTab = styled((props: StyledTabProps) => (
   "&.Mui-selected": {
     color: "#08979C",
     backgroundColor: "#fff",
+    fontWeight: "600",
   },
   "&.Mui-focusVisible": {
     backgroundColor: "rgba(100, 95, 228, 0.32)",
@@ -214,6 +215,13 @@ export default function ScoutByQuickBridge() {
                 background: "#08979C",
                 borderRadius: "16px",
                 marginBottom: "40px",
+                "&:hover": {
+                  boxShadow: "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
+                  filter: "drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08))"
+                },
+                "&:active": {
+                  background: "#006D75",
+                },
               }}
             >
               Scout Now

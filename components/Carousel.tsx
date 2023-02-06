@@ -46,17 +46,9 @@ const Gallery = ({ children }: any) => {
     handleArrowClick(e.wheelDelta < 0 ? directions.NEXT : directions.PREV);
   }
 
-  useEffect(() => {
-    let carouselContainer = document.getElementById("carousel-container");
-    carouselContainer?.addEventListener("wheel", handleScroll, { passive: false });
-    return (() => {
-      carouselContainer?.removeEventListener("wheel", handleScroll);
-    });
-  }, [position])
-
   return (
     <Wrapper>
-      <CarouselContainer id="carousel-container">
+      <CarouselContainer>
         <CarouselImg position={position}>
           {children.map((child: any) => (
             <CarouselItem key={child.key}>{child}</CarouselItem>
@@ -165,18 +157,18 @@ export default function Carousel({ data, type }: any) {
   return (
     <>
       <Gallery>
-       {type==="image"? (
-        data.map((item: any, index: any) => (
-          <Image key={index} src={item.src} alt={item.alt} />
-        ))
-       )
-       :
-       ( 
-        data.map((card: any, index: any) => (
-         card
-        ))
-        
+        {type === "image" ? (
+          data.map((item: any, index: any) => (
+            <Image key={index} src={item.src} alt={item.alt} />
+          ))
         )
+          :
+          (
+            data.map((card: any, index: any) => (
+              card
+            ))
+
+          )
         }
       </Gallery>
     </>
