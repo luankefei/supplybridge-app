@@ -42,42 +42,22 @@ export default function Industry() {
   }, []);
 
   return (
-    <Layout>
-      <>
-        <Head>
-          <title>Choose an Industry | Supply Bridge</title>
-          <meta name="description" content="Supply Bridge" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
+    <>
+      <Head>
+        <title>Choose an Industry | Supply Bridge</title>
+        <meta name="description" content="Supply Bridge" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
 
-        <Container>
-          <Title>Choose an Industry</Title>
-          <CardContainer>
-            {industries
-              .filter((x: any) => x?.isActive)
-              .map((item: any, index: number) => {
-                return (
-                  <Link href={`/dashboard/${item?.name.toLowerCase()}`} passHref key={index}>
-                    <Card active={item.isActive}>
-                      <HeaderContainer>
-                        <IconContainer>
-                          <img src={item.icon} width={65} height={44} />
-                        </IconContainer>
-                      </HeaderContainer>
-                      <ContentContainer>
-                        <SubTitle>{item?.name}</SubTitle>
-                      </ContentContainer>
-                    </Card>
-                  </Link>
-                );
-              })}
-          </CardContainer>
-          <CardContainer>
-            {industries
-              .filter((x: any) => !x?.isActive)
-              .map((item: any, index: number) => {
-                return (
-                  <Card active={item.isActive} key={index}>
+      <Container>
+        <Title>Choose an Industry to Scout</Title>
+        <CardContainer>
+          {industries
+            .filter((x: any) => x?.isActive)
+            .map((item: any, index: number) => {
+              return (
+                <Link href={`/scout`} passHref key={index}>
+                  <Card active={item.isActive}>
                     <HeaderContainer>
                       <IconContainer>
                         <img src={item.icon} width={65} height={44} />
@@ -87,20 +67,41 @@ export default function Industry() {
                       <SubTitle>{item?.name}</SubTitle>
                     </ContentContainer>
                   </Card>
-                );
-              })}
-          </CardContainer>
-        </Container>
-      </>
-    </Layout>
+                </Link>
+              );
+            })}
+        </CardContainer>
+        <CardContainer>
+          {industries
+            .filter((x: any) => !x?.isActive)
+            .map((item: any, index: number) => {
+              return (
+                <Card active={item.isActive} key={index}>
+                  <HeaderContainer>
+                    <IconContainer>
+                      <img src={item.icon} width={85} height={54} />
+                    </IconContainer>
+                  </HeaderContainer>
+                  <ContentContainer>
+                    <SubTitle>{item?.name}</SubTitle>
+                    <Label>Coming Soon</Label>
+                  </ContentContainer>
+                </Card>
+              );
+            })}
+        </CardContainer>
+      </Container>
+    </>
   );
 }
 
 const Container = styled.div`
+  height: 100vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  font-family: Ubuntu;
 `;
 
 const Title = styled.span`
@@ -122,6 +123,7 @@ const Label = styled.span`
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
+  color: ${(props) => props.theme.colors.secondary};
 `;
 
 const CardContainer = styled.div`
