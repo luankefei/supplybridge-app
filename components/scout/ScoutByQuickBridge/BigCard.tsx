@@ -1,13 +1,14 @@
 import styled, { css } from "styled-components";
 import React from "react";
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
+import _ from "lodash";
 
 interface ContainerProps {
   selected: boolean;
-  disabled?:boolean
+  disabled?: boolean
 }
 
-export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = null, disabled=false}: any) {
+export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = null, disabled = false }: any) {
   // const [selected, setSelected] = useState(false)
 
   // useEffect(() => {
@@ -32,7 +33,11 @@ export default function BigCard({ src, title, selected, width = 50, height = 50,
     <>
       <CardContainer selected={selected} disabled={disabled}>
         <IconBackground>
-          <Icon width={width} height={height} src={`/icons/${src}.svg`} />
+          {
+            _.startsWith(src, "http") ?
+              <Icon width={width} height={height} src={src} /> :
+              <Icon width={width} height={height} src={`/icons/${src}.svg`} />
+          }
         </IconBackground>
 
         <Title disabled={disabled}>{title}</Title>
@@ -64,7 +69,7 @@ const CardContainer = styled.div<ContainerProps>`
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: ${(props) => props.disabled? "#F3F4F6" : "#FFFFFF"};
+  background-color: ${(props) => props.disabled ? "#F3F4F6" : "#FFFFFF"};
   pointer-events: ${(props) => props.disabled && "none"};
 
   ${(props) =>
@@ -96,13 +101,13 @@ const IconBackground = styled.span`
 
 const Icon = styled.img``;
 
-const Title = styled.span<{disabled:boolean}>`
+const Title = styled.span<{ disabled: boolean }>`
   font-style: normal;
   font-weight: 500;
   font-size: 18px;
   line-height: 22px;
   text-align: center;
-  color: ${(props)=>props.disabled? '#808080' : '#111827'};  
+  color: ${(props) => props.disabled ? '#808080' : '#111827'};  
   margin-top: 22px;
 `;
 
