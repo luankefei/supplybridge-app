@@ -2,36 +2,38 @@ import { StateCreator } from "zustand";
 import { logger } from "./middleware";
 
 
+type filterArrays={
+    industries: any;
+      vehicleFuelTypes: any;
+      segments: any;
+      commodities: any;
+      components: any;
+      coreCompetencies: any;
+      regions: any;
+      subRegions: any;
+      vehicleBrands: any;
+      vehicleModels: any;
+      pioneers: any;
+      productionTechnologies: any;
+      offerings: any;
+      certifications: any;
+      tiers: any;
+      headquarters: any;
+}
 interface State {
   quickbridge: {
-    q: "",
+    q: string,
     page: number;
     pageSize: number;
     count: number;
     suppliers: any;
-    filter: {
-        industries: any;
-        vehicleFuelTypes: any;
-        segments: any;
-        commodities: any;
-        components: any;
-        coreCompetencies: any;
-        regions: any;
-        subRegions: any;
-        vehicleBrands: any;
-        vehicleModels: any;
-        pioneers: any;
-        productionTechnologies: any;
-        offerings: any;
-        certifications: any;
-        tiers: any;
-        headquarters: any;
-    };
+    filter: filterArrays;
   };
 }
 
 interface Actions {
   quickbridge: {
+    setQ: (q: string)=>void
     setPage: (page: number) => void;
     setPageSize: (pageSize: number) => void;
     setCount: (count: number) => void;
@@ -79,6 +81,13 @@ export const createQuickbridgeSlice: StateCreator<
   (set, get) => ({
     quickbridge: {
       ...initialState,
+      setQ: (q:string)=>set((state= get())=>({
+        ...state,
+        quickbridge: {
+            ...state.quickbridge,
+            q
+        }
+      })),
       setPage: (page: number) =>
         set((state = get()) => ({
           ...state,
