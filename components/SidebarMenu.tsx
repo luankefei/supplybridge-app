@@ -2,9 +2,12 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styled, { keyframes } from "styled-components";
 import { theme } from "config/theme";
+import useStore from "hooks/useStore";
+import cookie from "js-cookie";
 
 export default function SideBarMenu() {
   const router = useRouter();
+  const { signOut } = useStore();
 
   const solutionsData = [
     {
@@ -90,6 +93,12 @@ export default function SideBarMenu() {
     },
   ];
 
+  const logout = () => {
+    signOut();
+    cookie.remove("token");
+    router.push("/");
+  };
+
   return (
     <Container>
       {/* {!open ? (
@@ -173,7 +182,10 @@ export default function SideBarMenu() {
             </Left>
             <Right>
               <AccountTitle>BMW</AccountTitle>
-              <AccountType>Premium Account</AccountType>
+              <TextContainer>
+                <AccountType>Premium Account |</AccountType>
+                <Logout onClick={logout}>Log out</Logout>
+              </TextContainer>
             </Right>
           </AccountContainer>
         </Section>
@@ -371,9 +383,22 @@ const AccountTitle = styled.span`
   color: #1a1a1a;
 `;
 
+const TextContainer = styled.div`
+  display: flex;
+`
+
 const AccountType = styled.span`
   font-weight: 300;
   font-size: 12px;
   line-height: 16px;
   color: #2c71f0;
 `;
+
+const Logout = styled.span`
+   font-weight: 300;
+  font-size: 12px;
+  line-height: 16px;
+  color: #2c71f0;
+  margin-left: 3px;
+  cursor: pointer;
+`
