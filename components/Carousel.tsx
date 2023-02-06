@@ -72,7 +72,7 @@ const Gallery = ({ children }: any) => {
 
 const Wrapper = styled.div`
   position: relative;
-  width: ${theme.dimension.cardMaxWidth}
+  width: ${theme.dimension.cardMaxWidth};
 `;
 
 const CarouselContainer = styled.div<any>`
@@ -109,13 +109,14 @@ const PreviousButton = styled(ArrowButton)`
 
 const IconWrapper = styled.span`
   background: #FFFFFF;
-  width: 40px;
-  height: 40px;
+  width: 60px;
+  height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
+  border: 2px solid #08979C;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 1px 3px rgba(0, 0, 0, 0.1);
   transform: matrix(-1, 0, 0, 1, 0, 0);
 `;
 
@@ -136,6 +137,7 @@ const IndicatorContainer = styled.div`
   display: flex;
   justify-content: center;
   margin-top: 20px;
+  z-index: 4;
 `;
 
 const IndicatorDot = styled.div<any>`
@@ -146,6 +148,7 @@ const IndicatorDot = styled.div<any>`
   border-radius: 50%;
   margin-right: 15px;
   cursor: pointer;
+  z-index: 4;
 `;
 
 const Image = styled.img`
