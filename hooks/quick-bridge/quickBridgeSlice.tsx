@@ -21,7 +21,7 @@ type filterArrays = {
   headquarters: any;
 }
 interface State {
-  quickbridge: {
+  quickBridge: {
     q: string,
     page: number;
     pageSize: number;
@@ -32,7 +32,7 @@ interface State {
 }
 
 interface Actions {
-  quickbridge: {
+  quickBridge: {
     setQ: (q: string) => void
     setPage: (page: number) => void;
     setPageSize: (pageSize: number) => void;
@@ -79,64 +79,64 @@ export const createQuickBridgeSlice: StateCreator<
   QuickBridgeSlice
 > = logger(
   (set, get) => ({
-    quickbridge: {
+    quickBridge: {
       ...initialState,
       setQ: (q: string) => set((state = get()) => ({
         ...state,
-        quickbridge: {
-          ...state.quickbridge,
+        quickBridge: {
+          ...state.quickBridge,
           q
         }
       })),
       setPage: (page: number) =>
         set((state = get()) => ({
           ...state,
-          quickbridge: {
-            ...state.quickbridge,
+          quickBridge: {
+            ...state.quickBridge,
             page,
           },
         })),
       setPageSize: (pageSize: number) =>
         set((state = get()) => ({
           ...state,
-          quickbridge: {
-            ...state.quickbridge,
+          quickBridge: {
+            ...state.quickBridge,
             pageSize,
           },
         })),
       setCount: (count: number) =>
         set((state = get()) => ({
           ...state,
-          quickbridge: {
-            ...state.quickbridge,
+          quickBridge: {
+            ...state.quickBridge,
             count,
           },
         })),
       setFilter: (type: string, data: []) => set((state = get()) => ({
         ...state,
-        quickbridge: {
-          ...state.quickbridge,
+        quickBridge: {
+          ...state.quickBridge,
           filter: {
-            ...state.quickbridge.filter,
+            ...state.quickBridge.filter,
             [type]: data
           },
         }
       })),
       setSuppliers: (suppliers: any) => set((state = get()) => {
-        if (get().quickbridge.page === 1) {
+        if (get().quickBridge.page === 1) {
           return {
             ...state,
-            quickbridge: {
-              ...state.quickbridge,
+            quickBridge: {
+              ...state.quickBridge,
               suppliers: [...suppliers],
             },
           };
         }
         return {
           ...state,
-          quickbridge: {
-            ...state.quickbridge,
-            suppliers: [...get().quickbridge.suppliers, ...suppliers],
+          quickBridge: {
+            ...state.quickBridge,
+            suppliers: [...get().quickBridge.suppliers, ...suppliers],
           },
         };
       }),
