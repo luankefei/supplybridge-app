@@ -111,7 +111,7 @@ const ResultCard = ({ data }: { data?: any }) => {
                   <CountryFlag
                     src={
                       data.headquarter
-                        ? `/flags/${data.headquarter.code.toLowerCase()}.png`
+                        ? `/flags/${data.headquarter.code.toLowerCase()}.svg`
                         : ""
                     }
                   />
@@ -198,7 +198,6 @@ const CountryFlag = styled.img`
   width: 16px;
   height: 16px;
   margin-left: 5px;
-  border-radius: 50%;
   object-fit: cover;
 `;
 
