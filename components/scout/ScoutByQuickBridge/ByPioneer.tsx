@@ -34,21 +34,21 @@ export default function ByPioneer() {
   return (
     <>
       <CardContainer>
-        <CardWrapper onClick={() => onClick("startups")}>
+        <CardWrapper onClick={() => onClick("startups")} disabled={false}>
           <BigCard
             src={"startups"}
             title={"Startups"}
             selected={selected === "startups"}
           />
         </CardWrapper>
-        <CardWrapper onClick={() => onClick("innovations")}>
+        <CardWrapper onClick={() => onClick("innovations")} disabled={false}>
           <BigCard
             src={"innovations"}
             title={"Innovations"}
             selected={selected === "innovations"}
           />
         </CardWrapper>
-        <CardWrapper onClick={() => onClick("dei")}>
+        <CardWrapper onClick={() => onClick("dei")} disabled={false}>
           <BigCard
             src={"dei"}
             title={"Diversity, Equity, and Inclusion (DEI)"}
@@ -56,14 +56,14 @@ export default function ByPioneer() {
             infoContent={deiInfoContent}
           />
         </CardWrapper>
-        <CardWrapper onClick={() => onClick("recyclers")}>
+        <CardWrapper onClick={() => onClick("recyclers")} disabled={false}>
           <BigCard
             src={"recyclers"}
             title={"Recyclers"}
             selected={selected === "recyclers"}
           />
         </CardWrapper>
-        <CardWrapper onClick={() => onClick("sustainable-production")}>
+        <CardWrapper onClick={() => onClick("sustainable-production")} disabled={false}>
           <BigCard
             src={"sustainable-production"}
             title={"Sustainable Production"}
@@ -72,16 +72,18 @@ export default function ByPioneer() {
           />
         </CardWrapper>
         <CardWrapper
-          onClick={() => onClick("esg")}
+          
           style={{ filter: "grayscale(100%)" }}
+          disabled={true}
         >
           <BigCard
-            src={"esg"}
+            src={"disabled-rating"}
             title={"ESG"}
             selected={selected === "esg"}
-            width={60}
-            height={60}
+            width={80}
+            height={80}
             infoContent={esgInfoContent}
+            disabled={true}
           />
         </CardWrapper>
       </CardContainer>
@@ -95,6 +97,6 @@ const CardContainer = styled.div`
   gap: 24px;
 `;
 
-const CardWrapper = styled.span`
-  cursor: pointer;
+const CardWrapper = styled.span<{disabled:boolean}>`
+  cursor: ${(props)=>props.disabled? 'default' : 'pointer'};
 `;
