@@ -51,8 +51,10 @@ export default class MyDocument extends Document {
             href="https://fonts.googleapis.com/css2?family=Ubuntu:wght@300;400;500;700&display=swap"
             rel="stylesheet"
           />
-          <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet"></link>
-          <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet"></link>
+          <link href="https://fonts.googleapis.com/css2?family=Inter&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Nunito&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Itim&display=swap" rel="stylesheet" />
+          <link href="https://fonts.googleapis.com/css2?family=Inter:wght@800&display=swap" rel="stylesheet" />
         </Head>
         <body>
           <Main />

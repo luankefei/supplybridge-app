@@ -1,6 +1,7 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Carousel from "components/Carousel";
+import Tutorial from "components/Tutorial";
 const Layout = dynamic(() => import("components/Layout"));
 const Header = dynamic(() => import("components/NewHeader"));
 
@@ -45,8 +46,9 @@ export default function SliderPage() {
     <Layout>
       <Header />
       <Container>
-      <Carousel type="image" data={imageData} />
+        <Carousel type="image" data={imageData} />
       </Container>
+      <Tutorial storageKey="tutorial-sustainability" />
     </Layout>
   )
 }
