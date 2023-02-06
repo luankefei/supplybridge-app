@@ -2,7 +2,7 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useRef } from "react";
 
-import { useQuickbridgeSupplier } from "requests/useQuickbridgeSupplier";
+import { useQuickBridgeSupplier } from "requests/useQuickBridgeSupplier";
 import useBoundStore from "hooks/useBoundStore";
 import { useViewport } from "hooks/useViewport";
 
@@ -21,17 +21,17 @@ interface SearchProps {
 }
 
 export default function QuickbridgeResult() {
-    const quickbridge = useBoundStore((state) => state.quickbridge);
- 
+  const quickBridge = useBoundStore((state) => state.quickBridge);
+
   const {
     suppliers,
     page,
     setPage,
     count,
     filter,
-  } = quickbridge;
+  } = quickBridge;
   const { scrollOffset } = useViewport();
-  const { searchSuppliers, loading } = useQuickbridgeSupplier();
+  const { searchSuppliers, loading } = useQuickBridgeSupplier();
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
   const pageRef = useRef(1);
@@ -48,7 +48,7 @@ export default function QuickbridgeResult() {
   }, []);
 
   useEffect(() => {
-   
+
     if (clearRef.current) {
       searchHandler();
       clearRef.current = false;
@@ -63,7 +63,7 @@ export default function QuickbridgeResult() {
     if (!pageLoaded.current) {
       pageLoaded.current = true;
       searchSuppliers(1, true);
-     
+
     }
   };
 
@@ -96,12 +96,12 @@ export default function QuickbridgeResult() {
   };
 
 
- const isSuppliersNotEmpty:boolean=suppliers?.length> 0 && Object.keys(suppliers[0]).length > 0
+  const isSuppliersNotEmpty: boolean = suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0
   return (
-    <ScoutContainer>     
+    <ScoutContainer>
       <MainContainer>
-   
-        <MapResultContainer>         
+
+        <MapResultContainer>
           <ResultContainer>
             {(isSuppliersNotEmpty) ? (
               <>
@@ -111,7 +111,7 @@ export default function QuickbridgeResult() {
               </>
             ) : null}
           </ResultContainer>
-                 
+
         </MapResultContainer>
       </MainContainer>
       <Feedback />
@@ -119,7 +119,7 @@ export default function QuickbridgeResult() {
   );
 }
 
-const Title=styled.div`
+const Title = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 600;
@@ -152,12 +152,12 @@ const ScoutContainer = styled.div`
   }
 `;
 
-const SearchContainer = styled.div<{isrow:boolean}>`
+const SearchContainer = styled.div<{ isrow: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
   margin-bottom: 50px;
-  flex-direction: ${(props) => (props.isrow? 'row'  : "column")};
+  flex-direction: ${(props) => (props.isrow ? 'row' : "column")};
   gap: 19px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
@@ -186,11 +186,11 @@ const DuplicateHeaderForPosition = styled.div<SearchProps>`
   height: 90px;
 `;
 
-const IconContainer = styled.div<{isrow:boolean}>`
+const IconContainer = styled.div<{ isrow: boolean }>`
   display: flex;
   flex-grow: 1;
   flex-direction: row;
-  justify-content: ${(props) => (props.isrow? 'end'  : "center")};
+  justify-content: ${(props) => (props.isrow ? 'end' : "center")};
   align-items: center;
   /* margin-right: 100px; */
   /* min-width: 240px; */

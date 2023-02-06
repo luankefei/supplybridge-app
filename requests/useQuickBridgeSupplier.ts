@@ -5,11 +5,11 @@ import { request } from "config/axios";
 
 import useBoundStore from "hooks/useBoundStore";
 
-export const useQuickbridgeSupplier = () => {
+export const useQuickBridgeSupplier = () => {
   const [loading, setLoading] = useState(false);
 
-  const quickbridge = useBoundStore((state) => state.quickbridge);
-  const { page, pageSize, setCount, setSuppliers,filter,q } = quickbridge;
+  const quickBridge = useBoundStore((state) => state.quickBridge);
+  const { page, pageSize, setCount, setSuppliers, filter, q } = quickBridge;
 
 
   const searchSuppliers = async (
@@ -18,7 +18,7 @@ export const useQuickbridgeSupplier = () => {
     searchString?: string
   ) => {
     try {
-     
+
       setLoading(true);
       const searchObj = {
         q: q || searchString,
@@ -29,12 +29,12 @@ export const useQuickbridgeSupplier = () => {
         },
       };
 
-      console.log("quickbridge suppliers searching for",searchObj)
+      console.log("quickbridge suppliers searching for", searchObj)
       const { data } = await request.post(
         `suppliers/search_full_text`,
         searchObj
       );
-      console.log("quick bridge result",data)
+      console.log("quick bridge result", data)
       setLoading(false);
       setSuppliers(data?.suppliers, reset);
       setCount(data.count);
