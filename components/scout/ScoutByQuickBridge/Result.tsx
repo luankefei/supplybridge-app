@@ -14,7 +14,7 @@ const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
 
-  const { suppliers, page, setPage, count, filter, setResult } = quickBridge;
+  const { suppliers, page, setPage, count, filter, setResult,setPageSize } = quickBridge;
   const { scrollOffset } = useViewport();
   const { searchSuppliers, resetAllSelected, loading } = useQuickBridgeSupplier();
   const infiniteScrollControl = useRef(true);
