@@ -6,6 +6,89 @@ import useBoundStore from "hooks/useBoundStore";
 import console from "utils/console";
 import { VehicleBrandModel, VehicleBrand, VehicleSegment, VehicleModel } from "hooks/quick-bridge/segmentSlice";
 
+export const useQuickBridgeSupplier = () => {
+    const [loading, setLoading] = useState(false);
+
+    const {
+        quickBridge,
+        quickBridgeVehicles,
+        quickBridgeOEMs,
+        quickBridgeClasses,
+        quickBridgeSegments,
+        quickBridgeTechnologies,
+        quickBridgeCommodities,
+        quickBridgeProductionTechnologies,
+        quickBridgePioneers
+    } = useBoundStore((state) => ({
+        quickBridge: state.quickBridge,
+        quickBridgeVehicles: state.quickBridgeVehicles,
+        quickBridgeOEMs: state.quickBridgeOEMs,
+        quickBridgeClasses: state.quickBridgeClasses,
+        quickBridgeSegments: state.quickBridgeSegments,
+        quickBridgeTechnologies: state.quickBridgeTechnologies,
+        quickBridgeCommodities: state.quickBridgeCommodities,
+        quickBridgeProductionTechnologies: state.quickBridgeProductionTechnologies,
+        quickBridgePioneers: state.quickBridgePioneers
+    }));
+    const { page, pageSize, setCount, setSuppliers, filter, q } = quickBridge;
+
+    const searchSuppliers = async (
+        pageNumber: number = page,
+        reset = true,
+        searchString?: string
+    ) => {
+        try {
+
+            setLoading(true);
+            const searchObj = {
+                q: q || searchString,
+                offset: ((pageNumber - 1) * pageSize),
+                limit: pageSize,
+                filter: {
+                    ...filter,
+                },
+            };
+
+            console.log("quickbridge suppliers searching for", searchObj)
+            const { data } = await request.post(
+                `suppliers/search_full_text`,
+                searchObj
+            );
+            console.log("quick bridge result", data)
+            setLoading(false);
+            setSuppliers(data?.suppliers, reset);
+            setCount(data.count);
+        } catch (err: any) {
+            setLoading(false);
+            toast.error(err.response.data.message, {
+                position: toast.POSITION.TOP_RIGHT,
+            });
+        }
+    };
+
+    const resetAllSelected = async () => {
+        const { setSelected: setSelectedVehicle } = quickBridgeVehicles;
+        const { setSelected: setSelectedOEM } = quickBridgeOEMs;
+        const { setSelected: setSelectedClass } = quickBridgeClasses;
+        const { setSelected: setSelectedSegment } = quickBridgeSegments;
+        const { setSelected: setSelectedTechnology } = quickBridgeTechnologies;
+        const { setSelected: setSelectedCommodity } = quickBridgeCommodities;
+        const { setSelected: setSelectedProductionTechnology } = quickBridgeProductionTechnologies;
+        const { setSelected: setSelectedPioneer } = quickBridgePioneers;
+
+        setSelectedVehicle(null);
+        setSelectedOEM(null);
+        setSelectedClass(null);
+        setSelectedSegment(null);
+        setSelectedTechnology(null);
+        setSelectedCommodity(null);
+        setSelectedProductionTechnology(null);
+        setSelectedPioneer(null);
+    }
+    return { searchSuppliers, resetAllSelected, loading };
+};
+
+
 export const useQuickBridgeVihicle = () => {
     const [loading, setLoading] = useState(false);
     const vehicleStore = useBoundStore((state) => state.quickBridgeVehicles);
@@ -16,14 +99,10 @@ export const useQuickBridgeVihicle = () => {
             if (loading) return;
             console.log("getVehicles - called");
             setLoading(true);
-
             const { data } = await request.get(`vehicle_types`);
 
-            console.log(data);
             if (!didCancel && "vehicleTypes" in data) {
                 setData(data["vehicleTypes"]);
-                setLoading(false);
-                return;
             }
             setLoading(false);
         } catch (err: any) {
@@ -49,14 +128,10 @@ export const useQuickBridgeOEM = () => {
             if (loading) return;
             console.log("getOEMs - called");
             setLoading(true);
-
             const { data } = await request.get(`vehicle_oems`);
 
-            console.log(data);
             if (!didCancel && "vehicleOems" in data) {
                 setData(data["vehicleOems"]);
-                setLoading(false);
-                return;
             }
             setLoading(false);
         } catch (err: any) {
@@ -82,14 +157,10 @@ export const useQuickBridgeClass = () => {
             if (loading) return;
             console.log("getClasses - called");
             setLoading(true);
-
             const { data } = await request.get(`vehicle_classes`);
 
-            console.log(data);
             if (!didCancel && "vehicleClasses" in data) {
                 setData(data["vehicleClasses"]);
-                setLoading(false);
-                return;
             }
             setLoading(false);
         } catch (err: any) {
@@ -117,14 +188,10 @@ export const useQuickBridgeSegment = () => {
             if (loadingBrands) return;
             console.log("getBrands - called");
             setLoadingBrands(true);
-
             const { data } = await request.get(`pvehicle_brands`);
 
-            console.log(data);
             if (!didCancel && "vehicleBrands" in data) {
                 setBrands(data["vehicleBrands"]);
-                setLoadingBrands(false);
-                return;
             }
             setLoadingBrands(false);
         } catch (err: any) {
@@ -142,14 +209,10 @@ export const useQuickBridgeSegment = () => {
             if (loadingSegments) return;
             console.log("getSegments - called");
             setLoadingSegments(true);
-
             const { data } = await request.get(`vehicle_segments`);
 
-            console.log(data);
             if (!didCancel && "vehicleSegments" in data) {
                 setSegments(data["vehicleSegments"]);
-                setLoadingSegments(false);
-                return;
             }
             setLoadingSegments(false);
         } catch (err: any) {
@@ -167,11 +230,8 @@ export const useQuickBridgeSegment = () => {
             if (loading) return;
             console.log("getBrandModels - called");
             setLoading(true);
-
             const { data: brandRes } = await request.get(`vehicle_brands`);
-            console.log(brandRes);
             const { data: segmentRes } = await request.get(`vehicle_segments`);
-            console.log(segmentRes);
 
             if (!didCancel) {
                 let segments: VehicleSegment[] = [];
@@ -209,17 +269,13 @@ export const useQuickBridgeSegment = () => {
                         brandModel.models.push(model as VehicleModel);
                     }
                     // If there is no segment's models related with a label, remove it from the array brands 
-                    console.log(brandModel.models);
                     if (brandModel.models) {
                         const modelCount = _.filter(
                             brandModel.models as VehicleModel[],
                             (model => model.id !== 0)
                         ).length;
-                        console.log(modelCount);
                         if (modelCount === 0) {
                             let [removed, ...newBrands] = brands;
-                            console.log(brands);
-                            console.log(newBrands);
                             brands = newBrands;
                             continue;
                         }
@@ -227,7 +283,6 @@ export const useQuickBridgeSegment = () => {
 
                     brandModels.push(brandModel);
                 }
-
                 setBrandModels(brandModels, brands, segments);
             }
             setLoading(false);
@@ -287,14 +342,10 @@ export const useQuickBridgeCommodity = () => {
             if (loading) return;
             console.log("getCommodities - called");
             setLoading(true);
-
             const { data } = await request.get(`commodities`);
 
-            console.log(data);
             if (!didCancel && "commodities" in data) {
                 setData(data["commodities"]);
-                setLoading(false);
-                return;
             }
             setLoading(false);
         } catch (err: any) {
@@ -320,14 +371,10 @@ export const useQuickBridgeProductionTechnology = () => {
             if (loading) return;
             console.log("getProductionTechnologies - called");
             setLoading(true);
-
             const { data } = await request.get(`production_technologies`);
 
-            console.log(data);
             if (!didCancel && "productionTechnologies" in data) {
                 setData(data["productionTechnologies"]);
-                setLoading(false);
-                return;
             }
             setLoading(false);
         } catch (err: any) {
@@ -353,14 +400,10 @@ export const useQuickBridgePioneer = () => {
             if (loading) return;
             console.log("getPioneers - called");
             setLoading(true);
-
             const { data } = await request.get(`pioneers`);
 
-            console.log(data);
             if (!didCancel && "pioneers" in data) {
                 setData(data["pioneers"]);
-                setLoading(false);
-                return;
             }
             setLoading(false);
         } catch (err: any) {
@@ -374,35 +417,4 @@ export const useQuickBridgePioneer = () => {
     }
 
     return { getPioneers, loading };
-}
-
-export const resetAllSelected = () => {
-    const {
-        quickBridgeVehicles,
-        quickBridgeOEMs,
-        quickBridgeClasses,
-        quickBridgeSegments,
-        quickBridgeTechnologies,
-        quickBridgeCommodities,
-        quickBridgeProductionTechnologies,
-        quickBridgePioneers
-    } = useBoundStore(state => state);
-
-    const { setSelected: setSelectedVehicle } = quickBridgeVehicles;
-    const { setSelected: setSelectedOEM } = quickBridgeOEMs;
-    const { setSelected: setSelectedClass } = quickBridgeClasses;
-    const { setSelected: setSelectedSegment } = quickBridgeSegments;
-    const { setSelected: setSelectedTechnology } = quickBridgeTechnologies;
-    const { setSelected: setSelectedCommodity } = quickBridgeCommodities;
-    const { setSelected: setSelectedProductionTechnology } = quickBridgeProductionTechnologies;
-    const { setSelected: setSelectedPioneer } = quickBridgePioneers;
-
-    setSelectedVehicle(null);
-    setSelectedOEM(null);
-    setSelectedClass(null);
-    setSelectedSegment(null);
-    setSelectedTechnology(null);
-    setSelectedCommodity(null);
-    setSelectedProductionTechnology(null);
-    setSelectedPioneer(null);
 }

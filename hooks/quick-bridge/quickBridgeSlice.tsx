@@ -1,24 +1,25 @@
 import { StateCreator } from "zustand";
 import { logger } from "../middleware";
 
-type filterArrays = {
-  industries: any;
-  vehicleFuelTypes: any;
-  segments: any;
-  commodities: any;
-  components: any;
-  coreCompetencies: any;
-  regions: any;
-  subRegions: any;
-  vehicleBrands: any;
-  vehicleModels: any;
-  pioneers: any;
-  productionTechnologies: any;
-  offerings: any;
-  certifications: any;
-  tiers: any;
-  headquarters: any;
-};
+// type filterArrays = {
+//   industries: any;
+//   commodities: any;
+//   components: any;
+//   coreCompetencies: any;
+//   regions: any;
+//   subRegions: any;
+//   vehicleTypes: any;
+//   vehicleBrands: any;
+//   vehicleModels: any;
+//   vehicleFuelTypes: any;
+//   pioneers: any;
+//   productionTechnologies: any;
+//   offerings: any;
+//   certifications: any;
+//   tiers: any;
+//   headquarters: any;
+// };
+
 interface State {
   quickBridge: {
     q: string;
@@ -26,7 +27,7 @@ interface State {
     pageSize: number;
     count: number;
     suppliers: any;
-    filter: filterArrays;
+    filter: any;
     tab: {
       activeTab: number;
       isResult: boolean;
@@ -41,11 +42,21 @@ interface Actions {
     setPageSize: (pageSize: number) => void;
     setCount: (count: number) => void;
     setSuppliers: (value: any) => void;
-    setFilter: (type: string, data: []) => void;
+    setFilter: (type: FilterType, data: any) => void;
     setTab: (activeTab: number) => void;
     setResult: (isResult: boolean) => void;
   };
 }
+// By Vehicle: vehicleTypes
+// By OEM: vehicleBrands
+// By Class: vehicleBrands
+// By Segment: vehicleModels
+// By Technology: vehicleFuelTypes
+// By Commodity: commodities
+// By Production Tech: productionTechnologies
+// By Pioneer: pioneers
+export type FilterType = "vehicleTypes" | "vehicleBrands" |
+  "vehicleModels" | "vehicleFuelTypes" | "commodities" | "productionTechnologies" | "pioneers";
 
 export type QuickBridgeSlice = State & Actions;
 
@@ -57,21 +68,21 @@ const initialState = {
   suppliers: [],
   filter: {
     industries: [],
-    vehicleFuelTypes: [],
-    segments: [],
     commodities: [],
     components: [],
     coreCompetencies: [],
     regions: [],
     subRegions: [],
+    vehicleTypes: [],
     vehicleBrands: [],
     vehicleModels: [],
+    vehicleFuelTypes: [],
     pioneers: [],
     productionTechnologies: [],
     offerings: [],
     certifications: [],
     tiers: [],
-    headquarters: [],
+    headquarters: []
   },
   tab: {
     activeTab: 0,
@@ -120,15 +131,16 @@ export const createQuickBridgeSlice: StateCreator<
             count,
           },
         })),
-      setFilter: (type: string, data: []) =>
+      setFilter: (type: FilterType, data: any) =>
         set((state = get()) => ({
           ...state,
           quickBridge: {
             ...state.quickBridge,
             filter: {
-              ...state.quickBridge.filter,
-              [type]: data,
+              [type]: [data]
             },
+            page: 1, // Reset the array suppliers with the new data.
+            suppliers: [], // Reset the array suppliers with the new data.
           },
         })),
       setTab: (activeTab: number) =>

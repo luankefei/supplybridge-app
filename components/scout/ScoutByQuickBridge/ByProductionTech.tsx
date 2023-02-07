@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -8,15 +8,21 @@ import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge"
 
 export default function ByProductionTech() {
-  const productionTechnologyStore = useBoundStore((state) => state.quickBridgeProductionTechnologies);
+  const { quickBridgeStore, productionTechnologyStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      productionTechnologyStore: state.quickBridgeProductionTechnologies
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = productionTechnologyStore;
   const { getProductionTechnologies, loading } = useQuickBridgeProductionTechnology();
 
   const onClick = (select: any) => {
     if (selected !== select) {
-      setSelected(select)
+      setSelected(select);
+      setFilter("productionTechnologies", select);
     } else {
-      setSelected("")
+      setSelected(null);
     }
   }
 

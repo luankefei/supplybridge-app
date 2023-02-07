@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -8,15 +8,21 @@ import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge"
 
 export default function ByTechnology() {
-  const technologyStore = useBoundStore((state) => state.quickBridgeTechnologies);
+  const { quickBridgeStore, technologyStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      technologyStore: state.quickBridgeTechnologies
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = technologyStore;
   const { getTechnologies, loading } = useQuickBridgeTechnology();
 
   const onClick = (select: any) => {
     if (selected !== select) {
-      setSelected(select)
+      setSelected(select);
+      setFilter("vehicleFuelTypes", select);
     } else {
-      setSelected("")
+      setSelected(null);
     }
   }
 

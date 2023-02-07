@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -8,15 +8,21 @@ import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeCommodity } from "requests/useScoutByScoutBridge"
 
 export default function ByCommodity() {
-  const commodityStore = useBoundStore((state) => state.quickBridgeCommodities);
+  const { quickBridgeStore, commodityStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      commodityStore: state.quickBridgeCommodities
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = commodityStore;
   const { getCommodities, loading } = useQuickBridgeCommodity();
 
   const onClick = (select: any) => {
     if (selected !== select) {
-      setSelected(select)
+      setSelected(select);
+      setFilter("commodities", select);
     } else {
-      setSelected("")
+      setSelected(null);
     }
   }
 
