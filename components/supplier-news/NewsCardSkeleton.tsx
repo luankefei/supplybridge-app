@@ -98,7 +98,7 @@ const SummaryLabel = muiStyled(Skeleton)(`
 
 const NewsCardSkeleton = function () {
     return (
-        <Container>
+        <Container> 
             <StyledImage variant="rectangular" />
             <Contents>
                 <DateLabel width="10%" />

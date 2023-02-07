@@ -1,4 +1,5 @@
 import styled from "styled-components"
+import _ from "lodash";
 
 interface ContainerProps {
   selected: boolean;
@@ -10,7 +11,11 @@ export default function BrandCard({ logo, title, selected, clickable = true }: a
     <>
       <Container selected={selected} clickable={clickable}>
         <IconWrapper>
-          <Icon src={`/brands/${logo}.png`} />
+          {
+            _.startsWith(logo, "http") ?
+              <Icon src={logo} /> :
+              <Icon src={`/brands/${logo}.png`} />
+          }
         </IconWrapper>
         <Title>
           {title}
@@ -31,7 +36,7 @@ const Container = styled.span<ContainerProps>`
   align-items: center;
   background-color: #FFFFFF;
   &:hover {
-    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.2);
+    box-shadow: ${(props) => (props.clickable && "0px 0px 8px rgba(0, 0, 0, 0.2)")};
   }
   &:active {
     border: ${(props) => (props.clickable ? "4px solid #445B66" : "4px solid transparent")};
