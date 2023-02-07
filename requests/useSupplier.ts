@@ -5,7 +5,7 @@ import { request } from "config/axios";
 import useStore from "hooks/useStore";
 
 export const useSupplier = () => {
-  const { setSuppliers, page, pageSize, setPage, setCount } =
+  const { setSuppliers, page, pageSize, setPage, setCount, setShowBackdrop } =
     useStore();
   const [loading, setLoading] = useState(false);
 
@@ -16,6 +16,7 @@ export const useSupplier = () => {
   ) => {
     try {
       const { filterData } = useStore.getState();
+      if(filterData.q !="" || filterData.regions.length>0 || filterData.subRegions>0){
       setLoading(true);
       const searchObj = {
         q: filterData.q || searchString,
@@ -33,9 +34,12 @@ export const useSupplier = () => {
       setLoading(false);
       setSuppliers(data?.suppliers, reset);
       setCount(data.count);
+      setShowBackdrop(data?.suppliers.length===0)
+      }
     } catch (err: any) {
+      console.log(err)
       setLoading(false);
-      toast.error(err.response.data.message, {
+      toast.error(err.response?.data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }

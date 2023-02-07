@@ -1,12 +1,25 @@
 import { theme } from "config/theme";
-import { useState } from "react";
+import useStore from "hooks/useStore";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import ScoutByIndex from "./scout/ScoutByIndex";
 import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
 
 export default function Switch() {
   const [selected, setSelected] = useState("byIndex")
-
+  const { setFilterData,setSuppliers } = useStore();
+useEffect(()=>{
+  setFilterData({
+    q: "",
+    commodities: [],
+    components: [],
+    coreCompetencies: [],
+    regions: [],
+    subRegions: [],
+    vehicleFuelTypes: [],
+  });
+  setSuppliers([],true);
+},[selected])
   return (
     <Container>
       <SwitchContainer>

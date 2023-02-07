@@ -38,6 +38,7 @@ const GeoCharts = () => {
     selectedCountries,
     filterData,
     suppliers,
+    showBackdrop
   } = useStore();
 
 
@@ -211,7 +212,7 @@ const GeoCharts = () => {
             },
           }}
         />
-        {suppliers.length<=0 && <BackDrop isOpen={true} /> }
+        { (suppliers.length<=0 && showBackdrop) && <BackDrop isOpen={true} /> }
       </Container>
     );
   }, [allCountries, options, mapLoaded]);
