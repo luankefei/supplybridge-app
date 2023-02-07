@@ -52,7 +52,6 @@ export default function ScoutByIndex() {
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
   const pageRef = useRef(1);
-  const clearRef = useRef(false);
   const pageLoaded = useRef(false);
   const searchString = useRef(filterData.q);
 
@@ -66,10 +65,7 @@ export default function ScoutByIndex() {
 
   useEffect(() => {
     searchString.current = filterData.q;
-    if (clearRef.current) {
       searchHandler();
-      clearRef.current = false;
-    }
   }, [filterData]);
 
   useEffect(() => {
@@ -81,7 +77,7 @@ export default function ScoutByIndex() {
       pageLoaded.current = true;
       getCommodities();
       getRegions();
-      //searchSuppliers(1, true);
+      searchSuppliers(1, true);
       searchFuelTypes();
     }
   };
@@ -123,7 +119,6 @@ export default function ScoutByIndex() {
 
   const clearHandler = () => {
     clearFilterData();
-    clearRef.current = true;
   };
  const isSuppliersNotEmpty:boolean=suppliers?.length> 0 && Object.keys(suppliers[0]).length > 0
   return (
