@@ -289,8 +289,7 @@ const IconContainer = styled.div<{isrow:boolean}>`
   flex-direction: row;
   justify-content: ${(props) => (props.isrow? 'end'  : "center")};
   align-items: center;
-  /* margin-right: 100px; */
-  /* min-width: 240px; */
+  margin-bottom: ${(props) => (props.isrow? '14px'  : "")};
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
