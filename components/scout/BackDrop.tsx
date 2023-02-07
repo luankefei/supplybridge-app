@@ -5,6 +5,7 @@ import Modal from "@mui/material/Modal";
 import styled from "styled-components";
 import Icon from "components/Icon";
 import { theme } from "config/theme";
+import useStore from "hooks/useStore";
 const style = {
   position: "absolute" as "absolute",
   top: {md: "312px", lg: "338px",  xl: "350px"},
@@ -25,8 +26,14 @@ interface Props{
     isOpen:boolean
 }
 export default function BackDrop({isOpen=false}:Props) {
+  const {
+    setShowBackdrop
+  } = useStore();
   const [open, setOpen] = React.useState(isOpen);
-  const handleClose = () => setOpen(false);
+  const handleClose = () => {
+  setOpen(false);
+  setShowBackdrop(false)
+  }
 
   return (
     <div>

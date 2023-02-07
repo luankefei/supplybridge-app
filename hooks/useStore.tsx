@@ -28,6 +28,8 @@ interface Store {
   setSelectedRegions: (value: any) => void;
   selectedCountries: any;
   setSelectedCountries: (value: any) => void;
+  showBackdrop: boolean;
+  setShowBackdrop: (value: any) => void;
 }
 
 const useStore = create<Store | any>(
@@ -72,6 +74,9 @@ const useStore = create<Store | any>(
       setFilterData: (data: any) =>
         set(() => ({ filterData: { ...get().filterData, ...data } })),
 
+      showBackdrop: false,
+      setShowBackdrop: (showBackdrop: boolean) => set(() => ({ showBackdrop })),
+
       clearFilterData: () =>
         set(() => ({
           page: 1,
@@ -95,7 +100,7 @@ const useStore = create<Store | any>(
       setAllCountries: (allCountries: any) =>
         set(() => ({ allCountries: [...allCountries] })),
 
-      suppliers: [{},{},{}],
+      suppliers: [{}, {}, {}],
       setSuppliers: (suppliers: any, reset: boolean) =>
         set(() => {
           if (reset) {
@@ -107,7 +112,7 @@ const useStore = create<Store | any>(
       industries: [],
       setIndustries: (industries: any) =>
         set(() => ({ industries: [...industries] })),
-        
+
       vehicleFuelTypes: [],
       setVehicleFuelTypes: (vehicleFuelTypes: any) =>
         set(() => ({ vehicleFuelTypes: [...vehicleFuelTypes] })),
