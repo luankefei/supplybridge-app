@@ -1,19 +1,17 @@
 'use client'
-'use client'
 
+import { useEffect } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge"
-import { useEffect } from "react";
 
 export default function ByVehicle() {
 
-  const vehicleStore = useBoundStore((state) => state.vehicles);
+  const vehicleStore = useBoundStore((state) => state.quickBridgeVehicles);
   const { selected, setSelected, data } = vehicleStore;
   const { getVehicles, loading } = useQuickBridgeVihicle();
-
 
   const onClick = (select: any) => {
     if (select !== selected) {

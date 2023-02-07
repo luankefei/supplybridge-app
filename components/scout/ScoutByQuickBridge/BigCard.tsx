@@ -8,26 +8,24 @@ interface ContainerProps {
   disabled?: boolean
 }
 
+const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    backgroundColor: '#374151',
+    borderRadius: "8px",
+    padding: "8px 10px",
+    fontSize: '12px',
+    fontWeight: 400,
+    lineHeight: "15px",
+    color: "#E6E6E6",
+  },
+}));
+
 export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = null, disabled = false }: any) {
   // const [selected, setSelected] = useState(false)
-
   // useEffect(() => {
-
   // }, [selected])
-
-  const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
-    <Tooltip {...props} classes={{ popper: className }} />
-  ))(({ theme }) => ({
-    [`& .${tooltipClasses.tooltip}`]: {
-      backgroundColor: '#374151',
-      borderRadius: "8px",
-      padding: "8px 10px",
-      fontSize: '12px',
-      fontWeight: 400,
-      lineHeight: "15px",
-      color: "#E6E6E6",
-    },
-  }));
 
   return (
     <>

@@ -16,6 +16,13 @@ export default function ModelCard({ title, selected }: any) {
   )
 }
 
+export function ModelBlankCard({ title, selected }: any) {
+  return (
+    <div style={{ width: "124px", height: "124px" }} />
+  )
+}
+
+
 const Container = styled.span<ContainerProps>`
   width: 124px;
   height: 124px;
