@@ -1,7 +1,6 @@
 import { StateCreator } from "zustand";
 import { logger } from "../middleware";
 
-
 type filterArrays = {
   industries: any;
   vehicleFuelTypes: any;

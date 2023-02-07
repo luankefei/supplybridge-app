@@ -2,47 +2,47 @@ import { StateCreator } from "zustand";
 import { logger } from "hooks/middleware";
 
 interface State {
-    quickBridgeVehicles: {
+    quickBridgeCommodities: {
         data: any,
         selected: any,
     }
 }
 
 interface Actions {
-    quickBridgeVehicles: {
+    quickBridgeCommodities: {
         setData: (data: any) => void;
         setSelected: (id: any) => void;
     }
 }
 
-export type VehicleSlice = State & Actions;
+export type CommoditySlice = State & Actions;
 
 const initialState = {
     data: null,
     selected: null,
 }
 
-export const createVehicleSlice: StateCreator<VehicleSlice, [], [], VehicleSlice> = (
+export const createCommoditySlice: StateCreator<CommoditySlice, [], [], CommoditySlice> = (
     logger(
         (set, get) => ({
-            quickBridgeVehicles: {
+            quickBridgeCommodities: {
                 ...initialState,
                 setData: (data: any) => set((state = get()) => ({
                     ...state,
-                    quickBridgeVehicles: {
-                        ...state.quickBridgeVehicles,
+                    quickBridgeCommodities: {
+                        ...state.quickBridgeCommodities,
                         data: [...data]
                     }
                 })),
                 setSelected: (id: any) => set((state = get()) => ({
                     ...state,
-                    quickBridgeVehicles: {
-                        ...state.quickBridgeVehicles,
+                    quickBridgeCommodities: {
+                        ...state.quickBridgeCommodities,
                         selected: id
                     }
                 })),
             }
         }),
-        'quick-bridge-vehicles'
+        'quick-bridge-commodities'
     )
 );

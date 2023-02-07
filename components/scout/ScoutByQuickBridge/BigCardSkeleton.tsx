@@ -8,8 +8,8 @@ export default function BigCardSkeleton() {
   return (
     <>
       <CardContainer>
-        <IconBackground variant="circular" />
-        <Title variant="text" />
+        <IconBackground variant="circular" width="82px" height="82px" />
+        <Title variant="text" width="120px" sx={{ marginTop: "22px" }} />
       </CardContainer>
     </>
   );

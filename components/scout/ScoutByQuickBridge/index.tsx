@@ -181,17 +181,17 @@ export default function ScoutByQuickBridge() {
               </div>
             </TabPanel>
             <TabPanel value={value} index={5} dir={theme.direction}>
-              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+              <div style={{}} className="TabPanelWrapper-FullContents">
                 <ByCommodity />
               </div>
             </TabPanel>
             <TabPanel value={value} index={6} dir={theme.direction}>
-              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+              <div style={{}} className="TabPanelWrapper-FullContents">
                 <ByProductionTech />
               </div>
             </TabPanel>
             <TabPanel value={value} index={7} dir={theme.direction}>
-              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+              <div style={{}} className="TabPanelWrapper-FullContents">
                 <ByPioneer />
               </div>
             </TabPanel>
@@ -254,6 +254,11 @@ export default function ScoutByQuickBridge() {
           display: flex;
           justify-content: center;
           height: 100%;
+        }
+
+        .TabPanelWrapper-FullContents {
+          display: flex;
+          justify-content: center;
         }
       `}</style>
     </>

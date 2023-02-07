@@ -1,3 +1,178 @@
+import { useState, useEffect } from "react";
+import { Divider, Skeleton } from "@mui/material";
+import styled from "styled-components"
+import BrandCard from "./BrandCard";
+import BrandCardSkeleton from "./BrandCardSkeleton";
+import ModelCard, { ModelBlankCard } from "./ModelCard";
+import ModelCardSkeleton from "./ModelCardSkeleton";
+import useBoundStore from "hooks/useBoundStore";
+import { useQuickBridgeSegment } from "requests/useScoutByScoutBridge"
+import { VehicleBrandModel, VehicleModel, VehicleSegment } from "hooks/quick-bridge/segmentSlice";
+
+export default function BySegment() {
+  const segmentStore = useBoundStore((state) => state.quickBridgeSegments);
+  console.log(segmentStore);
+  const { selected, setSelected, brandModels, segments } = segmentStore;
+  const { getBrandModels, loading } = useQuickBridgeSegment();
+
+  const onClick = (select: any) => {
+    if (selected !== select) {
+      setSelected(select)
+    } else {
+      setSelected("")
+    }
+  }
+
+  useEffect(() => {
+    if (!brandModels) {
+      getBrandModels();
+    }
+  }, [brandModels, getBrandModels])
+
+  if (loading) {
+    return (
+      <Container>
+        <Segments>
+          {[1, 2, 3, 4, 5, 6].map((segmentIndex) =>
+            <SegmentButtonSkeleton variant="rounded" key={segmentIndex} />
+          )}
+        </Segments>
+
+        <Models>
+          <>
+            {[1, 2, 3].map((brandIndex) => {
+              return (
+                <>
+                  <Section key={brandIndex}>
+                    <Brand>
+                      <BrandCardSkeleton />
+                    </Brand>
+                    <ModelsWrapper>
+                      {[1, 2, 3, 4, 5, 6].map((modelIndex) =>
+                        <ModelCardWrapper key={modelIndex}>
+                          <ModelCardSkeleton />
+                        </ModelCardWrapper>
+                      )}
+                    </ModelsWrapper>
+                  </Section>
+                  {brandIndex + 1 !== 3 &&
+                    <Divider sx={{ bgcolor: "#E5E7EB" }} />
+                  }
+                </>
+              )
+            })}
+          </>
+        </Models>
+      </Container>
+    )
+  }
+  return (
+    <Container>
+      <Segments>
+        {segments && segments.map((segment: VehicleSegment) =>
+          <SegmentButton key={segment.id}>{segment.name}</SegmentButton>
+        )}
+      </Segments>
+
+      <Models>
+        <>
+          {brandModels?.map((brand: VehicleBrandModel, brandIndex: any) => {
+            return (
+              <>
+                <Section key={brand.id}>
+                  <Brand>
+                    <BrandCard logo={brand.logo} title={brand.name} clickable={false} selected={false} />
+                  </Brand>
+                  <ModelsWrapper>
+                    {brand?.models?.map((model: VehicleModel, index: any) =>
+                      model.id ? (
+                        <ModelCardWrapper key={index} onClick={() => onClick(model.id)}>
+                          <ModelCard title={model.name} selected={selected === model.id} />
+                        </ModelCardWrapper>
+                      ) : (
+                        <ModelCardWrapper key={index}>
+                          <ModelBlankCard />
+                        </ModelCardWrapper>
+                      )
+                    )}
+                  </ModelsWrapper>
+                </Section>
+                {brandIndex + 1 !== brandModels.length &&
+                  <Divider sx={{ bgcolor: "#E5E7EB" }} />
+                }
+              </>
+            )
+          })}
+        </>
+      </Models>
+    </Container>
+  )
+}
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 40px;
+  justify-content: flex-start;
+  width: 100%;
+`;
+
+const Segments = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-left: 234px;
+`;
+
+const SegmentButton = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 124px;
+  height: 54px;
+  background: #F3F4F6;
+  border: 1px solid #D1D5DB;
+  border-radius: 16px;
+`;
+
+const SegmentButtonSkeleton = styled(Skeleton)`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 124px;
+  height: 54px;
+  background: #F3F4F6;
+  border: 1px solid #D1D5DB;
+  border-radius: 16px;
+`;
+
+const Models = styled.div`
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  padding-bottom: 30px;
+`;
+
+const ModelCardWrapper = styled.span`
+  cursor: pointer;  
+`;
+
+const Section = styled.div`
+  display: flex;
+  gap: 8px;
+`;
+
+const Brand = styled.div`
+
+`;
+
+const ModelsWrapper = styled.div`
+  display: flex;
+  gap: 8px;
+  margin-left: 72px;
+`;
+
+
+/*
 import { Divider } from "@mui/material";
 import { useState } from "react";
 import styled from "styled-components"
@@ -87,7 +262,7 @@ export default function BySegment() {
                   </ModelsWrapper>
                 </Section>
                 {index + 1 !== data.length &&
-                  <Divider sx={{bgcolor: "#E5E7EB"}} />
+                  <Divider sx={{ bgcolor: "#E5E7EB" }} />
                 }
               </>
             )
@@ -148,3 +323,4 @@ const ModelsWrapper = styled.div`
   gap: 8px;
   padding-right: 132px;
 `;
+//*/

@@ -1,5 +1,84 @@
 'use client'
 
+import { useEffect } from "react";
+import styled from "styled-components";
+import BigCard from "./BigCard";
+import BigCardSkeleton from "./BigCardSkeleton";
+import useBoundStore from "hooks/useBoundStore";
+import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge"
+
+export default function ByTechnology() {
+  const technologyStore = useBoundStore((state) => state.quickBridgeTechnologies);
+  const { selected, setSelected, data } = technologyStore;
+  const { getTechnologies, loading } = useQuickBridgeTechnology();
+
+  const onClick = (select: any) => {
+    if (selected !== select) {
+      setSelected(select)
+    } else {
+      setSelected("")
+    }
+  }
+
+  useEffect(() => {
+    if (!data) {
+      getTechnologies();
+    }
+  }, [data, getTechnologies])
+
+  if (loading) {
+    return (
+      <Container>
+        <CardContainer>
+          {[1, 2, 3, 4].map((index) => (
+            <CardWrapper key={index}>
+              <BigCardSkeleton />
+            </CardWrapper>
+          ))}
+        </CardContainer>
+      </Container>
+    );
+  }
+
+  return (
+    <Container>
+      <CardContainer>
+        {data && data.map(({ id, name, icon }: any) => (
+          <CardWrapper onClick={() => onClick(id)} key={id}>
+            <BigCard src={icon} title={name} selected={selected === id} />
+          </CardWrapper>
+        ))}
+      </CardContainer>
+    </Container>
+  );
+}
+
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+`;
+
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: auto auto;
+  gap: 24px;
+`;
+
+const Text = styled.span`
+  font-style: normal;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 20px;
+  color: #4B5563;
+  text-align: center;
+  margin-bottom: 18px;
+`
+
+const CardWrapper = styled.span`
+  cursor: pointer;
+`;
+
+/*
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
@@ -60,3 +139,4 @@ margin-bottom: 18px;
 const CardWrapper = styled.span`
 cursor: pointer;
 `;
+*/

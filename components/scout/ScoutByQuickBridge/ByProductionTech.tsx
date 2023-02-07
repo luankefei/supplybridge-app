@@ -1,5 +1,67 @@
 'use client'
 
+import { useEffect } from "react";
+import styled from "styled-components";
+import BigCard from "./BigCard";
+import BigCardSkeleton from "./BigCardSkeleton";
+import useBoundStore from "hooks/useBoundStore";
+import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge"
+
+export default function ByProductionTech() {
+  const productionTechnologyStore = useBoundStore((state) => state.quickBridgeProductionTechnologies);
+  const { selected, setSelected, data } = productionTechnologyStore;
+  const { getProductionTechnologies, loading } = useQuickBridgeProductionTechnology();
+
+  const onClick = (select: any) => {
+    if (selected !== select) {
+      setSelected(select)
+    } else {
+      setSelected("")
+    }
+  }
+
+  useEffect(() => {
+    if (!data) {
+      getProductionTechnologies();
+    }
+  }, [data, getProductionTechnologies])
+
+  if (loading) {
+    return (
+      <CardContainer>
+        {[1, 2, 3, 4, 5, 6].map((index) => (
+          <CardWrapper key={index}>
+            <BigCardSkeleton />
+          </CardWrapper>
+        ))}
+      </CardContainer>
+    );
+  }
+
+  return (
+    <CardContainer>
+      {data && data.map(({ id, name, icon }: any) => (
+        <CardWrapper onClick={() => onClick(id)} key={id}>
+          <BigCard src={icon} title={name} selected={selected === id} />
+        </CardWrapper>
+      ))}
+    </CardContainer>
+  )
+}
+
+const CardContainer = styled.div`
+  display: grid;
+  grid-template-columns: auto auto auto;
+  gap: 24px;
+  margin-top: 86px;
+  margin-bottom: 86px;
+`;
+
+const CardWrapper = styled.span`
+  cursor: pointer;
+`;
+
+/*
 import { useState } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
@@ -53,3 +115,4 @@ const CardContainer = styled.div`
 const CardWrapper = styled.span`
 cursor: pointer;
 `;
+*/
