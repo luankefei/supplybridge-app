@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { keyframes, styled, useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -13,8 +13,11 @@ import ByPioneer from "./ByPioneer";
 import BySegment from "./BySegment";
 import dynamic from "next/dynamic";
 import ByCommodity from "./ByCommodity";
+import QuickbridgeResult from "./Result";
 
 const Feedback = dynamic(() => import("components/scout/Feedback"));
+
+import useBoundStore from "hooks/useBoundStore";
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -114,15 +117,33 @@ function TabPanel(props: TabPanelProps) {
 export default function ScoutByQuickBridge() {
   const theme = useTheme();
   const [value, setValue] = useState(0);
+  const quickBridge = useBoundStore((state) => state.quickBridge);
+
+  const {
+   tab,
+   setTab,
+   setResult
+  } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setValue(newValue);
+   // setValue(newValue);
+    setTab(newValue)
   };
+  
+  const showResult=()=>{
+    setResult(true)
+  }
+  useEffect(()=>{
+  setValue(tab.activeTab)
+  },[tab])
 
-  return (
+  console.log("active tab",tab)
+  return (     
     <>
       <div className="Container">
         <div className="Content">
+       {  !tab.isResult ? 
+         <>
           <StyledTabs value={value} onChange={handleChange} aria-label="tabs">
             <StyledTab label="By Vehicle" />
             <StyledTab label="By OEM" />
@@ -197,6 +218,7 @@ export default function ScoutByQuickBridge() {
             </TabPanel>
           </Box>
           <Box
+          onClick={showResult}
             sx={{
               cursor: "pointer",
               marginTop: "18px",
@@ -228,7 +250,12 @@ export default function ScoutByQuickBridge() {
             </Box>
           </Box>
           <Feedback />
+          </> 
+          :
+          <QuickbridgeResult />
+            }
         </div>
+       
       </div>
 
       <style jsx>{`
