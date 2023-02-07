@@ -81,6 +81,7 @@ export default function QuickbridgeResult() {
     resetAllSelected();
     setResult(false);
   }
+
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
   return (
@@ -106,6 +107,7 @@ export default function QuickbridgeResult() {
                 )}
               </>
             ) : null}
+            {loading && [1, 2, 3, 4].map((index) => (<ResultCard key={`loading-${index}`} />))}
           </ResultContainer>
         </QuickbridgeContainer>
       </MainContainer>

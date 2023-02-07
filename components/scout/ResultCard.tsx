@@ -14,7 +14,7 @@ const ResultCard = ({ data }: { data?: any }) => {
     <>
       <ResultCardContainer onClick={() => setSupplierModalVisible(true)}>
         <BrandContainer>
-          {data.id ? (
+          {data?.id ? (
             <ImageContainer>
               {data.logo && <BrandImage src={data.logo} alt="Logo" />}
             </ImageContainer>
@@ -26,7 +26,7 @@ const ResultCard = ({ data }: { data?: any }) => {
               height={118}
             />
           )}
-          {data.id ? (
+          {data?.id ? (
             <Description>
               <TitleBadge>
                 <Title>{data.longName}</Title>
@@ -52,7 +52,7 @@ const ResultCard = ({ data }: { data?: any }) => {
         </BrandContainer>
         <PropertyContainer>
           <PropertySide>
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Commodity</PropertyTitle>
                 <PropertyDescription>
@@ -71,7 +71,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Core Competence</PropertyTitle>
                 <PropertyDescription>
@@ -83,7 +83,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Customers Served</PropertyTitle>
                 <PropertyDescription color={"#08979c"}>
@@ -93,7 +93,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Supplier Type</PropertyTitle>
                 <PropertyDescription>
@@ -103,7 +103,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Headquarter</PropertyTitle>
                 <PropertyDescription>
@@ -122,7 +122,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             )}
           </PropertySide>
           <PropertySide>
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Founded</PropertyTitle>
                 <PropertyDescription>
@@ -133,7 +133,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Revenue</PropertyTitle>
                 <PropertyDescription>
@@ -143,7 +143,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Capacity Availability</PropertyTitle>
                 <PropertyDescription>High Open / Med Open</PropertyDescription>
@@ -151,7 +151,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>
                   Insights (Financial, ESG, Ratings)
