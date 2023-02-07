@@ -18,26 +18,32 @@ type filterArrays = {
   certifications: any;
   tiers: any;
   headquarters: any;
-}
+};
 interface State {
   quickBridge: {
-    q: string,
+    q: string;
     page: number;
     pageSize: number;
     count: number;
     suppliers: any;
     filter: filterArrays;
+    tab: {
+      activeTab: number;
+      isResult: boolean;
+    };
   };
 }
 
 interface Actions {
   quickBridge: {
-    setQ: (q: string) => void
+    setQ: (q: string) => void;
     setPage: (page: number) => void;
     setPageSize: (pageSize: number) => void;
     setCount: (count: number) => void;
     setSuppliers: (value: any) => void;
-    setFilter: (type: string, data: []) => void
+    setFilter: (type: string, data: []) => void;
+    setTab: (activeTab: number) => void;
+    setResult: (isResult: boolean) => void;
   };
 }
 
@@ -66,10 +72,12 @@ const initialState = {
     certifications: [],
     tiers: [],
     headquarters: [],
-  }
+  },
+  tab: {
+    activeTab: 0,
+    isResult: false,
+  },
 };
-
-
 
 export const createQuickBridgeSlice: StateCreator<
   QuickBridgeSlice,
@@ -80,13 +88,14 @@ export const createQuickBridgeSlice: StateCreator<
   (set, get) => ({
     quickBridge: {
       ...initialState,
-      setQ: (q: string) => set((state = get()) => ({
-        ...state,
-        quickBridge: {
-          ...state.quickBridge,
-          q
-        }
-      })),
+      setQ: (q: string) =>
+        set((state = get()) => ({
+          ...state,
+          quickBridge: {
+            ...state.quickBridge,
+            q,
+          },
+        })),
       setPage: (page: number) =>
         set((state = get()) => ({
           ...state,
@@ -111,34 +120,58 @@ export const createQuickBridgeSlice: StateCreator<
             count,
           },
         })),
-      setFilter: (type: string, data: []) => set((state = get()) => ({
-        ...state,
-        quickBridge: {
-          ...state.quickBridge,
-          filter: {
-            ...state.quickBridge.filter,
-            [type]: data
+      setFilter: (type: string, data: []) =>
+        set((state = get()) => ({
+          ...state,
+          quickBridge: {
+            ...state.quickBridge,
+            filter: {
+              ...state.quickBridge.filter,
+              [type]: data,
+            },
           },
-        }
-      })),
-      setSuppliers: (suppliers: any) => set((state = get()) => {
-        if (get().quickBridge.page === 1) {
+        })),
+      setTab: (activeTab: number) =>
+        set((state = get()) => ({
+          ...state,
+          quickBridge: {
+            ...state.quickBridge,
+            tab: {
+              ...state.quickBridge.tab,
+              activeTab: activeTab,
+            },
+          },
+        })),
+      setResult: (isResult: boolean) =>
+        set((state = get()) => ({
+          ...state,
+          quickBridge: {
+            ...state.quickBridge,
+            tab: {
+              ...state.quickBridge.tab,
+              isResult: isResult,
+            },
+          },
+        })),
+      setSuppliers: (suppliers: any) =>
+        set((state = get()) => {
+          if (get().quickBridge.page === 1) {
+            return {
+              ...state,
+              quickBridge: {
+                ...state.quickBridge,
+                suppliers: [...suppliers],
+              },
+            };
+          }
           return {
             ...state,
             quickBridge: {
               ...state.quickBridge,
-              suppliers: [...suppliers],
+              suppliers: [...get().quickBridge.suppliers, ...suppliers],
             },
           };
-        }
-        return {
-          ...state,
-          quickBridge: {
-            ...state.quickBridge,
-            suppliers: [...get().quickBridge.suppliers, ...suppliers],
-          },
-        };
-      }),
+        }),
     },
   }),
   "quick-bridge-slice"
