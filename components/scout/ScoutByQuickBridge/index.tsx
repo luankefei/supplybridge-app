@@ -120,142 +120,142 @@ export default function ScoutByQuickBridge() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
 
   const {
-   tab,
-   setTab,
-   setResult
+    tab,
+    setTab,
+    setResult
   } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-   // setValue(newValue);
+    // setValue(newValue);
     setTab(newValue)
   };
-  
-  const showResult=()=>{
+
+  const showResult = () => {
     setResult(true)
   }
-  useEffect(()=>{
-  setValue(tab.activeTab)
-  },[tab])
+  useEffect(() => {
+    setValue(tab.activeTab)
+  }, [tab])
 
-  console.log("active tab",tab)
-  return (     
+  console.log("active tab", tab)
+  return (
     <>
       <div className="Container">
         <div className="Content">
-       {  !tab.isResult ? 
-         <>
-          <StyledTabs value={value} onChange={handleChange} aria-label="tabs">
-            <StyledTab label="By Vehicle" />
-            <StyledTab label="By OEM" />
-            <StyledTab label="By Class" />
-            <StyledTab label="By Segment" />
-            <StyledTab label="By Technology" />
-            <StyledTab label="By Commodity" />
-            <StyledTab label="By Production Tech" />
-            <StyledTab
-              label={
-                <span
-                  style={{
+          {!tab.isResult ?
+            <>
+              <StyledTabs value={value} onChange={handleChange} aria-label="tabs">
+                <StyledTab label="By Vehicle" />
+                <StyledTab label="By OEM" />
+                <StyledTab label="By Class" />
+                <StyledTab label="By Segment" />
+                <StyledTab label="By Technology" />
+                <StyledTab label="By Commodity" />
+                <StyledTab label="By Production Tech" />
+                <StyledTab
+                  label={
+                    <span
+                      style={{
+                        display: "flex",
+                        justifyContent: "center",
+                        alignItems: "center",
+                      }}
+                    >
+                      <span style={{ marginRight: "-3px" }}>By Pioneer</span>
+                      <Icon src={"pioneer"} height={18} />
+                    </span>
+                  }
+                />
+              </StyledTabs>
+              <Box
+                sx={{
+                  p: 3,
+                  backgroundColor: "#F9FAFB",
+                  borderRadius: "0px 0px 16px 16px",
+                  height: "606px",
+                  overflowY: "auto",
+                }}
+              >
+                <TabPanel value={value} index={0} dir={theme.direction}>
+                  <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                    <ByVehicle />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={1} dir={theme.direction}>
+                  <div className="TabPanelWrapper">
+                    <ByOEM />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={2} dir={theme.direction}>
+                  <div className="TabPanelWrapper">
+                    <ByClass />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={3} dir={theme.direction}>
+                  <div className="TabPanelWrapper">
+                    <BySegment />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={4} dir={theme.direction}>
+                  <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                    <ByTechnology />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={5} dir={theme.direction}>
+                  <div style={{}} className="TabPanelWrapper-FullContents">
+                    <ByCommodity />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={6} dir={theme.direction}>
+                  <div style={{}} className="TabPanelWrapper-FullContents">
+                    <ByProductionTech />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={7} dir={theme.direction}>
+                  <div style={{}} className="TabPanelWrapper-FullContents">
+                    <ByPioneer />
+                  </div>
+                </TabPanel>
+              </Box>
+              <Box
+                onClick={showResult}
+                sx={{
+                  cursor: "pointer",
+                  marginTop: "18px",
+                  display: "flex",
+                  justifyContent: "flex-end",
+                }}
+              >
+                <Box
+                  sx={{
+                    color: "#fff",
+                    width: "254px",
+                    height: "46px",
                     display: "flex",
                     justifyContent: "center",
                     alignItems: "center",
+                    background: "#08979C",
+                    borderRadius: "16px",
+                    marginBottom: "40px",
+                    "&:hover": {
+                      boxShadow: "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
+                      filter: "drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08))"
+                    },
+                    "&:active": {
+                      background: "#006D75",
+                    },
                   }}
                 >
-                  <span style={{ marginRight: "-3px" }}>By Pioneer</span>
-                  <Icon src={"pioneer"} height={18} />
-                </span>
-              }
-            />
-          </StyledTabs>
-          <Box
-            sx={{
-              p: 3,
-              backgroundColor: "#F9FAFB",
-              borderRadius: "0px 0px 16px 16px",
-              height: "606px",
-              overflow: "overlay",
-            }}
-          >
-            <TabPanel value={value} index={0} dir={theme.direction}>
-              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
-                <ByVehicle />
-              </div>
-            </TabPanel>
-            <TabPanel value={value} index={1} dir={theme.direction}>
-              <div className="TabPanelWrapper">
-                <ByOEM />
-              </div>
-            </TabPanel>
-            <TabPanel value={value} index={2} dir={theme.direction}>
-              <div className="TabPanelWrapper">
-                <ByClass />
-              </div>
-            </TabPanel>
-            <TabPanel value={value} index={3} dir={theme.direction}>
-              <div className="TabPanelWrapper">
-                <BySegment />
-              </div>
-            </TabPanel>
-            <TabPanel value={value} index={4} dir={theme.direction}>
-              <div style={{ alignItems: "center" }} className="TabPanelWrapper">
-                <ByTechnology />
-              </div>
-            </TabPanel>
-            <TabPanel value={value} index={5} dir={theme.direction}>
-              <div style={{}} className="TabPanelWrapper-FullContents">
-                <ByCommodity />
-              </div>
-            </TabPanel>
-            <TabPanel value={value} index={6} dir={theme.direction}>
-              <div style={{}} className="TabPanelWrapper-FullContents">
-                <ByProductionTech />
-              </div>
-            </TabPanel>
-            <TabPanel value={value} index={7} dir={theme.direction}>
-              <div style={{}} className="TabPanelWrapper-FullContents">
-                <ByPioneer />
-              </div>
-            </TabPanel>
-          </Box>
-          <Box
-          onClick={showResult}
-            sx={{
-              cursor: "pointer",
-              marginTop: "18px",
-              display: "flex",
-              justifyContent: "flex-end",
-            }}
-          >
-            <Box
-              sx={{
-                color: "#fff",
-                width: "254px",
-                height: "46px",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-                background: "#08979C",
-                borderRadius: "16px",
-                marginBottom: "40px",
-                "&:hover": {
-                  boxShadow: "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
-                  filter: "drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08))"
-                },
-                "&:active": {
-                  background: "#006D75",
-                },
-              }}
-            >
-              Scout Now
-            </Box>
-          </Box>
-          <Feedback />
-          </> 
-          :
-          <QuickbridgeResult />
-            }
+                  Scout Now
+                </Box>
+              </Box>
+              <Feedback />
+            </>
+            :
+            <QuickbridgeResult />
+          }
         </div>
-       
+
       </div>
 
       <style jsx>{`
