@@ -22,7 +22,7 @@ const HtmlTooltip = styled(({ className, ...props }: TooltipProps) => (
   },
 }));
 
-export default function BigCard({ src, title, selected, width = 50, height = 50, infoContent = null, disabled = false }: any) {
+export default function BigCard({ src, title, selected, width = 82, height = 82, infoContent = null, disabled = false }: any) {
   // const [selected, setSelected] = useState(false)
   // useEffect(() => {
   // }, [selected])
