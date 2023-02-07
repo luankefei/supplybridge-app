@@ -9,15 +9,21 @@ import { useQuickBridgePioneer } from "requests/useScoutByScoutBridge"
 import _ from "lodash";
 
 export default function ByPioneer() {
-  const pioneerStore = useBoundStore((state) => state.quickBridgePioneers);
+  const { quickBridgeStore, pioneerStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      pioneerStore: state.quickBridgePioneers
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = pioneerStore;
   const { getPioneers, loading } = useQuickBridgePioneer();
 
   const onClick = (select: any) => {
     if (selected !== select) {
-      setSelected(select)
+      setSelected(select);
+      setFilter("pioneers", select);
     } else {
-      setSelected("")
+      setSelected(null);
     }
   }
 

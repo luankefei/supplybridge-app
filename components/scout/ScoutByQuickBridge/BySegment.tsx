@@ -1,4 +1,6 @@
-import { useState, useEffect } from "react";
+"use client"
+
+import { useEffect } from "react";
 import { Divider, Skeleton } from "@mui/material";
 import styled from "styled-components"
 import BrandCard from "./BrandCard";
@@ -10,16 +12,21 @@ import { useQuickBridgeSegment } from "requests/useScoutByScoutBridge"
 import { VehicleBrandModel, VehicleModel, VehicleSegment } from "hooks/quick-bridge/segmentSlice";
 
 export default function BySegment() {
-  const segmentStore = useBoundStore((state) => state.quickBridgeSegments);
-  console.log(segmentStore);
+  const { quickBridgeStore, segmentStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      segmentStore: state.quickBridgeSegments
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, brandModels, segments } = segmentStore;
   const { getBrandModels, loading } = useQuickBridgeSegment();
 
   const onClick = (select: any) => {
     if (selected !== select) {
-      setSelected(select)
+      setSelected(select);
+      setFilter("vehicleModels", select);
     } else {
-      setSelected("")
+      setSelected(null);
     }
   }
 

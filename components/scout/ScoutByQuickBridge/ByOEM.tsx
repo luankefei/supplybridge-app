@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect } from "react";
 import styled from "styled-components";
 import { Skeleton } from "@mui/material";
@@ -7,13 +9,19 @@ import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeOEM } from "requests/useScoutByScoutBridge"
 
 export default function ByOEM() {
-  const oemStore = useBoundStore((state) => state.quickBridgeOEMs);
+  const { quickBridgeStore, oemStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      oemStore: state.quickBridgeOEMs
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = oemStore;
   const { getOEMs, loading } = useQuickBridgeOEM();
 
   const onClick = (select: any) => {
     if (select !== selected) {
       setSelected(select);
+      setFilter("vehicleBrands", select);
     } else {
       setSelected(null);
     }

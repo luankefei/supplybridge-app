@@ -1,4 +1,4 @@
-'use client'
+"use client"
 
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -8,16 +8,21 @@ import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge"
 
 export default function ByVehicle() {
-
-  const vehicleStore = useBoundStore((state) => state.quickBridgeVehicles);
+  const { quickBridgeStore, vehicleStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      vehicleStore: state.quickBridgeVehicles
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = vehicleStore;
   const { getVehicles, loading } = useQuickBridgeVihicle();
 
   const onClick = (select: any) => {
     if (select !== selected) {
-      setSelected(select)
+      setSelected(select);
+      setFilter("vehicleTypes", select);
     } else {
-      setSelected(null)
+      setSelected(null);
     }
   }
 

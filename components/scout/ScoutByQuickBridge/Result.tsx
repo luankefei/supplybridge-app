@@ -1,8 +1,10 @@
+"use client"
+
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
-import { useQuickBridgeSupplier } from "requests/useQuickBridgeSupplier";
+import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
 import { useViewport } from "hooks/useViewport";
 import UnlockBackDrop from '../UnlockBackDrop'
@@ -12,15 +14,15 @@ const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
 
-  const { suppliers, page, setPage, count, filter,setResult } = quickBridge;
+  const { suppliers, page, setPage, count, filter, setResult } = quickBridge;
   const { scrollOffset } = useViewport();
-  const { searchSuppliers, loading } = useQuickBridgeSupplier();
+  const { searchSuppliers, resetAllSelected, loading } = useQuickBridgeSupplier();
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
   const pageRef = useRef(1);
   const clearRef = useRef(false);
   const pageLoaded = useRef(false);
-  const [isLocked,setIsLocked]=useState(false)
+  const [isLocked, setIsLocked] = useState(false);
   useEffect(() => {
     getInitialRequests();
     window.addEventListener("scroll", handleScroll);
@@ -59,7 +61,7 @@ export default function QuickbridgeResult() {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
+      document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -74,33 +76,34 @@ export default function QuickbridgeResult() {
     searchSuppliers(1, true);
     infiniteScrollControl.current = true;
   };
- 
- const setTabResult=()=>{
-    setResult(false)
- }
+
+  const setTabResult = () => {
+    resetAllSelected();
+    setResult(false);
+  }
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
   return (
     <ScoutContainer>
       <MainContainer>
         <Button
-        onClick={setTabResult}
+          onClick={setTabResult}
         >Back</Button>
         <QuickbridgeContainer>
           <ResultContainer>
             {isSuppliersNotEmpty ? (
               <>
                 {suppliers.map((supplier: any, index: number) => (
-               index>20? null :
-               index==20 || index +1 ==suppliers.length?
-                 <LockedContainer>
-                 <LockedResultCard data={supplier} key={`${supplier.id}_${index}`} />
-                 <UnlockBackDrop isOpen={true} /> 
-                 </LockedContainer>
-                 :
-                 <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
-               )        
-                 )}
+                  index > 20 ? null :
+                    index == 20 || index + 1 == suppliers.length ?
+                      <LockedContainer>
+                        <LockedResultCard data={supplier} key={`${supplier.id}_${index}`} />
+                        <UnlockBackDrop isOpen={true} />
+                      </LockedContainer>
+                      :
+                      <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
+                )
+                )}
               </>
             ) : null}
           </ResultContainer>
@@ -175,6 +178,6 @@ line-height: 24px;
 `;
 
 
-const LockedContainer=styled.div`
+const LockedContainer = styled.div`
      position: relative !important;
 `

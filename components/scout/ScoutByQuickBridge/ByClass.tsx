@@ -1,3 +1,5 @@
+"use client"
+
 import { useEffect } from "react";
 import styled from "styled-components";
 import { Skeleton } from "@mui/material";
@@ -7,15 +9,21 @@ import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeClass } from "requests/useScoutByScoutBridge"
 
 export default function ByClass() {
-  const classStore = useBoundStore((state) => state.quickBridgeClasses);
+  const { quickBridgeStore, classStore } =
+    useBoundStore((state) => ({
+      quickBridgeStore: state.quickBridge,
+      classStore: state.quickBridgeClasses
+    }));
+  const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = classStore;
   const { getClasses, loading } = useQuickBridgeClass();
 
   const onClick = (select: any) => {
     if (select !== selected) {
       setSelected(select);
+      setFilter("vehicleBrands", select);
     } else {
-      setSelected("");
+      setSelected(null);
     }
   };
 
