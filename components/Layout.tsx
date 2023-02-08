@@ -2,6 +2,7 @@ import { theme } from "config/theme";
 import React from "react";
 import styled from "styled-components";
 import SideBarMenu from "./SidebarMenu";
+import withAuth from "utils/withAuth";
 
 const Layout = ({ children }: { children: React.ReactNode }) => {
   return (
@@ -27,4 +28,4 @@ const InnerContainer = styled.div`
   z-index: 0;
 `;
 
-export default Layout;
+export default withAuth(Layout);
