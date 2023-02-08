@@ -217,16 +217,15 @@ export default function ScoutByQuickBridge() {
                   </div>
                 </TabPanel>
               </Box>
-              <Box
-                onClick={showResult}
-                sx={{
-                  cursor: "pointer",
+              <div
+                style={{
                   marginTop: "18px",
                   display: "flex",
                   justifyContent: "flex-end",
                 }}
               >
                 <Box
+                  onClick={showResult}
                   sx={{
                     color: "#fff",
                     width: "254px",
@@ -248,7 +247,7 @@ export default function ScoutByQuickBridge() {
                 >
                   Scout Now
                 </Box>
-              </Box>
+              </div>
               <Feedback />
             </>
             :
