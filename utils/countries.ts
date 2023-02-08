@@ -89,7 +89,7 @@ export const allCountry = [
       { name: "IT", code: 0, fullName: "Italy" },
       { name: "MT", code: 0, fullName: "Malta" },
       { name: "PT", code: 0, fullName: "Portugal" },
-      { name: "SI", code: 0, fullName: "Slovenia" },
+      { name: "SI", code: 0, fullName: "Slovenia" }
     ],
   },
   {
@@ -152,12 +152,12 @@ export const allCountry = [
       { name: "VC", code: 0, fullName: "Saint Vincent and the Grenadines" },
       { name: "SR", code: 0, fullName: "Suriname" },
       { name: "TT", code: 0, fullName: "Trinidad and Tobago" },
-      { name: "United States", code: 0, fullName: "US" },
-      { name: "Uruguay", code: 0, fullName: "UY" },
-      { name: "Venezuela", code: 0, fullName: "VE" },
+      { name: "US", code: 0, fullName: "United States" },
+      { name: "UY", code: 0, fullName: "Uruguay" },
+      { name: "VE", code: 0, fullName: "Venezuela" },
 
-      { name: "Virgin Islands (British)", code: 0, fullName: "VG" },
-      { name: "Virgin Islands (U.S.)", code: 0, fullName: "VI" }
+      { name: "VG", code: 0, fullName: "Virgin Islands (British)" },
+      { name: "VI", code: 0, fullName: "Virgin Islands (U.S.)" }
     ],
   },
   {
