@@ -38,7 +38,8 @@ const GeoCharts = () => {
     selectedCountries,
     filterData,
     suppliers,
-    showBackdrop
+    showBackdrop,
+    setFilterData
   } = useStore();
 
 
@@ -143,8 +144,15 @@ const GeoCharts = () => {
     //Filter based on the selected countries
     searchHandler();
   };
+  const clearDropdownFilters = () => {
+    setFilterData({
+      commodities: [],
+      components: [],
+    });
+  };
 
   const selectCountryHandler = (region: any) => {
+    clearDropdownFilters()
     // Zooming
     for (const key in allCountry) {
       allCountry[key].children.map((item: any) => {

@@ -53,6 +53,7 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   const { setFilterData,setSuppliers } = useStore();
 
   const onClickSearch = () => {
+    clearFilters();
     onSearch();
   };
 
@@ -61,7 +62,6 @@ export const SearchBar2 = ({ onSearch }: Props) => {
     setFilterData({
       q: searchItem,
     });
-    clearFilters();
   }, [searchItem]);
 
   const resetFilters = () => {

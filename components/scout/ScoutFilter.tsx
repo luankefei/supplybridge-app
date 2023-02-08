@@ -145,7 +145,7 @@ const ScoutFilter = () => {
         subRegions: false,
       }));
     }
-
+  console.log("raw filter data",rawFilterData)
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
   };
@@ -255,6 +255,7 @@ const ScoutFilter = () => {
                       );
                       return (
                         <FormControlLabel
+                        className="dropdown-items"
                           labelPlacement="start"
                           key={index}
                           label={
@@ -348,11 +349,12 @@ const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
 const CustomizeAccordionDetails = styled(AccordionDetails)`
   display: flex;
   flex-direction: column;
+
   max-height: 500px;
   overflow: auto;
 
   position: absolute;
-  width: 100%;
+  width: 278px !important;
   z-index: 1;
   background-color: #ffffff;
 
@@ -363,8 +365,11 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   .MuiFormControlLabel-root {
     justify-content: start;
   }
+  .MuiFormControlLabel-root.dropdown-items{
+    justify-content: space-between !important;
+  }
   .MuiCheckbox-root {
-    margin-left: 15px;
+    //margin-left: 15px;
     &:hover {
       background-color: #ffffff !important;
     }
