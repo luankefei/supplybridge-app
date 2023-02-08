@@ -1,6 +1,6 @@
 "use client"
 
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
@@ -13,11 +13,11 @@ export default function ByCommodity() {
       quickBridgeStore: state.quickBridge,
       commodityStore: state.quickBridgeCommodities
     }));
-  const { setFilter } = quickBridgeStore;
+  const { setFilter,setSuppliers, suppliers} = quickBridgeStore;
   const { selected, setSelected, data } = commodityStore;
   const { getCommodities, loading } = useQuickBridgeCommodity();
-
   const onClick = (select: any) => {
+    console.log("selected",select)
     if (selected !== select) {
       setSelected(select);
       setFilter("commodities", select);
@@ -26,10 +26,11 @@ export default function ByCommodity() {
     }
   }
 
+  
   useEffect(() => {
     if (!data) {
       getCommodities();
-    }
+    }   
   }, [data, getCommodities])
 
   if (loading) {
@@ -43,14 +44,19 @@ export default function ByCommodity() {
       </CardContainer>
     );
   }
-
+console.log("commodity data",data)
   return (
     <CardContainer>
       {data && data.map(({ id, name, icon }: any) => (
+        [4,6].includes(id)? null : 
         <CardWrapper onClick={() => onClick(id)} key={id}>
           <BigCard src={icon} title={name} selected={selected === id} />
         </CardWrapper>
       ))}
+
+       <CardWrapper onClick={() => onClick([4,6])} key={4}>
+          <BigCard src={data?.find((o:any) => o.id === 4).icon} title="Interior/Exterior" selected={Array.isArray(selected) && [4,6].every((i)=>selected.includes(i))} />
+       </CardWrapper>
     </CardContainer>
   )
 }

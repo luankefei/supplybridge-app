@@ -49,6 +49,15 @@ export default function QuickbridgeResult() {
     }
   };
 
+  const formateSuppliersData=():any=>{
+    if(filter?.commodities?.length>0){
+   let interiorData=suppliers.filter((item:any)=> item?.products[0].coreCompetency?.component?.commoditiy?.id===6)
+   let exteriorData=suppliers.filter((item:any)=> item?.products[0].coreCompetency?.component?.commoditiy?.id===4)
+  let arr= [...interiorData.slice(0,9),...exteriorData.slice(0,9)]
+  return arr
+    }else return suppliers;
+  }
+
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
     if (currentPage * 10 < countRef.current) {
@@ -83,7 +92,7 @@ export default function QuickbridgeResult() {
   }
 
   const isSuppliersNotEmpty: boolean =
-    suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
+  formateSuppliersData()?.length > 0 && Object.keys(suppliers[0]).length > 0;
   return (
     <ScoutContainer>
       <MainContainer>
