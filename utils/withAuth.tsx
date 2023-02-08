@@ -9,7 +9,7 @@ const withAuth = (WrappedComponent: any) => {
       const { token } = StorageService.getAuthData();
   
       if (!token) {
-        Router.replace("/");
+        Router.replace("/login");
         return null;
       }
 

@@ -8,32 +8,34 @@ import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 const style = {
   position: "absolute" as "absolute",
-  top: {md: "312px", lg: "338px",  xl: "350px"},
-  left:  `${theme.dimension.leftMenuWidth}`,
-  width:   `calc(100% - ${theme.dimension.leftMenuWidth})`,
-  height: {sm: 'calc(100% - 320px)',  md: 'calc(100% - 312px)', lg: 'calc(100% - 330px)', xl: 'calc(100% - 345px)'},
+  top: { md: "312px", lg: "338px", xl: "350px" },
+  left: `${theme.dimension.leftMenuWidth}`,
+  width: `calc(100% - ${theme.dimension.leftMenuWidth})`,
+  height: {
+    sm: "calc(100% - 320px)",
+    md: "calc(100% - 312px)",
+    lg: "calc(100% - 330px)",
+    xl: "calc(100% - 345px)",
+  },
   bgcolor: "rgba(249, 250, 251, 0.6)",
   p: 4,
-  display: 'flex',
-  flexDirection: 'column',
+  display: "flex",
+  flexDirection: "column",
   justifyContent: "center",
-  alignItems: 'center',
- backdropFilter: 'blur(35px)',
+  alignItems: "center",
+  backdropFilter: "blur(35px)",
 };
 
-
-interface Props{
-    isOpen:boolean
+interface Props {
+  isOpen: boolean;
 }
-export default function BackDrop({isOpen=false}:Props) {
-  const {
-    setShowBackdrop
-  } = useStore();
+export default function BackDrop({ isOpen = false }: Props) {
+  const { setShowBackdrop } = useStore();
   const [open, setOpen] = React.useState(isOpen);
   const handleClose = () => {
-  setOpen(false);
-  setShowBackdrop(false)
-  }
+    setOpen(false);
+    setShowBackdrop(false);
+  };
 
   return (
     <div>
@@ -46,11 +48,11 @@ export default function BackDrop({isOpen=false}:Props) {
         hideBackdrop={true}
       >
         <Box sx={style}>
-            <Icon src="backdrop-logo" width={82} height={82} />
+          <Icon src="backdrop-logo" width={82} height={82} />
           <CustomizedTypography id="modal-modal-description" sx={{ mt: 2 }}>
-            There are no results matching to this search.<br/>
-            Dispatching Scout
-            team...
+            No results matching to this search
+            <br />
+            Our SmartBridge Artificial Intelligence will process the request
           </CustomizedTypography>
         </Box>
       </Modal>
@@ -58,14 +60,12 @@ export default function BackDrop({isOpen=false}:Props) {
   );
 }
 
-
-const CustomizedTypography=styled(Typography)`
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 24px;
-line-height: 29px;
-text-align: center;
-color: ${(props) => props.theme.colors.primary};;
-
-`
+const CustomizedTypography = styled(Typography)`
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 29px;
+  text-align: center;
+  color: ${(props) => props.theme.colors.primary}; ;
+`;
