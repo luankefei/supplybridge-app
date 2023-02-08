@@ -3,6 +3,7 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
+import _ from "lodash";
 
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
@@ -14,7 +15,7 @@ const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
 
-  const { suppliers, page, setPage, count, filter, setResult,setPageSize } = quickBridge;
+  const { suppliers, page, setPage, count, filter, setResult, setPageSize } = quickBridge;
   const { scrollOffset } = useViewport();
   const { searchSuppliers, resetAllSelected, loading } = useQuickBridgeSupplier();
   const infiniteScrollControl = useRef(true);
@@ -23,6 +24,7 @@ export default function QuickbridgeResult() {
   const clearRef = useRef(false);
   const pageLoaded = useRef(false);
   const [isLocked, setIsLocked] = useState(false);
+
   useEffect(() => {
     getInitialRequests();
     window.addEventListener("scroll", handleScroll);
@@ -49,13 +51,13 @@ export default function QuickbridgeResult() {
     }
   };
 
-  const formateSuppliersData=():any=>{
-    if(filter?.commodities?.length>0){
-   let interiorData=suppliers.filter((item:any)=> item?.products[0].coreCompetency?.component?.commoditiy?.id===6)
-   let exteriorData=suppliers.filter((item:any)=> item?.products[0].coreCompetency?.component?.commoditiy?.id===4)
-  let arr= [...interiorData.slice(0,9),...exteriorData.slice(0,9)]
-  return arr
-    }else return suppliers;
+  const formateSuppliersData = (): any => {
+    if (filter?.commodities?.length > 0 && (_.includes(filter?.commodities[0], 4) || _.includes(filter?.commodities[0], 6))) {
+      let interiorData = suppliers.filter((item: any) => item?.products[0].coreCompetency?.component?.commoditiy?.id === 6)
+      let exteriorData = suppliers.filter((item: any) => item?.products[0].coreCompetency?.component?.commoditiy?.id === 4)
+      let arr = [...interiorData.slice(0, 9), ...exteriorData.slice(0, 9)]
+      return arr
+    } else return suppliers;
   }
 
   const searchSupplierHandler = async () => {
@@ -92,7 +94,8 @@ export default function QuickbridgeResult() {
   }
 
   const isSuppliersNotEmpty: boolean =
-  formateSuppliersData()?.length > 0 && Object.keys(suppliers[0]).length > 0;
+    formateSuppliersData()?.length > 0 && Object.keys(suppliers[0]).length > 0;
+
   return (
     <ScoutContainer>
       <MainContainer>
