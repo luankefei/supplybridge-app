@@ -97,7 +97,7 @@ export default function QuickbridgeResult() {
                 {suppliers.map((supplier: any, index: number) => (
                   index > 20 ? null :
                     index == 20 || index + 1 == suppliers.length ?
-                      <LockedContainer>
+                      <LockedContainer key={`locked-container-${index}`}>
                         <LockedResultCard data={supplier} key={`${supplier.id}_${index}`} />
                         <UnlockBackDrop isOpen={true} />
                       </LockedContainer>
