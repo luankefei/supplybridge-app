@@ -6,15 +6,59 @@ export const allCountry = [
     category: "EMEA",
     categoryId: 3,
     children: [
-      // { name: "DZ", code: 0 },
-      { name: "EG", code: 0, fullName: "Egypt",  },
-      // { name: "EH", code: 0, fullName: "" },
-      // { name: "LY", code: 0, fullName: "" },
-      { name: "MA", code: 0, fullName: "Morocco" },
-      // { name: "SD", code: 0, fullName: "" },
-      // { name: "SS", code: 0, fullName: "" },
-      { name: "TN", code: 0, fullName: "Tunisia" },
-      { name: "ZA", code: 0, fullName: "South Africa" },
+    { name: "DZ", code: 0, fullName: "Algeria" },
+    { name: "AO", code: 0, fullName: "Angola" },
+    { name: "BJ", code: 0, fullName: "Benin" },
+    { name: "BW", code: 0, fullName: "Botswana" },
+
+    { name: "BF", code: 0, fullName: "Burkina Faso" },
+    { name: "BI", code: 0, fullName: "Burundi" },
+    { name: "CM", code: 0, fullName: "Cameroon" },
+    { name: "TD", code: 0, fullName: "Chad" },
+    { name: "DJ", code: 0, fullName: "Djibouti" },
+
+    { name: "EG", code: 0, fullName: "Egypt" },
+    { name: "GQ", code: 0, fullName: "Equatorial Guinea" },
+    { name: "ER", code: 0, fullName: "Eritrea" },
+    { name: "ET", code: 0, fullName: "Ethiopia" },
+    { name: "GA", code: 0, fullName: "Gabon" },
+    { name: "GH", code: 0, fullName: "Ghana" },
+
+    { name: "GN", code: 0, fullName: "Guinea" },
+    { name: "GW", code: 0, fullName: "Guinea-Bissau" },
+    { name: "KE", code: 0, fullName: "Kenya" },
+    { name: "LS", code: 0, fullName: "Lesotho" },
+    { name: "LR", code: 0, fullName: "Liberia" },
+
+    { name: "LY", code: 0, fullName: "Libya" },
+    { name: "MG", code: 0, fullName: "Madagascar" },
+    { name: "MW", code: 0, fullName: "Malawi" },
+    { name: "ML", code: 0, fullName: "Mali" },
+    { name: "MR", code: 0, fullName: "Mauritania" },
+    { name: "YT", code: 0, fullName: "Mayotte" },
+    { name: "MA", code: 0, fullName: "Morocco" },
+    { name: "MZ", code: 0, fullName: "Mozambique" },
+    { name: "NA", code: 0, fullName: "Namibia" },
+    { name: "NE", code: 0, fullName: "Niger" },
+    { name: "NG", code: 0, fullName: "Nigeria" },
+
+    { name: "RW", code: 0, fullName: "Rwanda" },
+    { name: "ST", code: 0, fullName: "Sao Tome and Principe" },
+    { name: "SN", code: 0, fullName: "Senegal" },
+
+    { name: "SL", code: 0, fullName: "Sierra Leone" },
+    { name: "SO", code: 0, fullName: "Somalia" },
+    { name: "ZA", code: 0, fullName: "South Africa" },
+
+    { name: "SS", code: 0, fullName: "South Sudan" },
+    { name: "TG", code: 0, fullName: "Togo" },
+    { name: "TN", code: 0, fullName: "Tunisia" },
+
+    { name: "UG", code: 0, fullName: "Uganda" },
+    { name: "EH", code: 0, fullName: "Western Sahara" },
+    { name: "ZM", code: 0, fullName: "Zambia" },
+
+    { name: "ZW", code: 0, fullName: "Zimbabwe" }
     ],
   },
   {
@@ -45,7 +89,7 @@ export const allCountry = [
       { name: "IT", code: 0, fullName: "Italy" },
       { name: "MT", code: 0, fullName: "Malta" },
       { name: "PT", code: 0, fullName: "Portugal" },
-      { name: "SI", code: 0, fullName: "Slovenia" },
+      { name: "SI", code: 0, fullName: "Slovenia" }
     ],
   },
   {
@@ -54,8 +98,66 @@ export const allCountry = [
     categoryId: 2,
     code: "019",
     children: [
+      // { name: "CA", code: 0, fullName: "Canada" },
+      // { name: "US", code: 0, fullName: "United States" },
+
+
+      { name: "AS", code: 0, fullName: "American Samoa" },
+      { name: "AI", code: 0, fullName: "Anguilla" },
+      { name: "AG", code: 0, fullName: "Antigua and Barbuda" },
+      { name: "AR", code: 0, fullName: "Argentina" },
+      { name: "AW", code: 0, fullName: "Aruba" },
+      { name: "BS", code: 0, fullName: "Bahamas" },
+      { name: "BB", code: 0, fullName: "Barbados" },
+
+
+      { name: "BZ", code: 0, fullName: "Belize" },
+      { name: "BM", code: 0, fullName: "Bermuda" },
+      { name: "BO", code: 0, fullName: "Bolivia" },
+      { name: "BR", code: 0, fullName: "Brazil" },
       { name: "CA", code: 0, fullName: "Canada" },
+      { name: "KY", code: 0, fullName: "Cayman Islands" },
+      { name: "CL", code: 0, fullName: "Chile" },
+
+      { name: "CO", code: 0, fullName: "Colombia" },
+      { name: "CR", code: 0, fullName: "Costa Rica" },
+      { name: "CU", code: 0, fullName: "Cuba" },
+      { name: "DM", code: 0, fullName: "Dominica" },
+      { name: "DO", code: 0, fullName: "Dominican Republic" },
+      { name: "EC", code: 0, fullName: "Ecuador" },
+      { name: "SV", code: 0, fullName: "El Salvador" },
+      { name: "GF", code: 0, fullName: "French Guiana" },
+
+      { name: "GD", code: 0, fullName: "Grenada" },
+      { name: "GP", code: 0, fullName: "Guadeloupe" },
+      { name: "GT", code: 0, fullName: "Guatemala" },
+      { name: "GY", code: 0, fullName: "Guyana" },
+      { name: "HT", code: 0, fullName: "Haiti" },
+      { name: "HN", code: 0, fullName: "Honduras" },
+
+
+      { name: "JM", code: 0, fullName: "Jamaica" },
+      { name: "MQ", code: 0, fullName: "Martinique" },
+      { name: "MX", code: 0, fullName: "Mexico" },
+      { name: "MS", code: 0, fullName: "Montserrat" },
+      { name: "NI", code: 0, fullName: "Nicaragua" },
+
+      { name: "PA", code: 0, fullName: "Panama" },
+
+      { name: "PY", code: 0, fullName: "Paraguay" },
+      { name: "PE", code: 0, fullName: "Peru" },
+      { name: "PR", code: 0, fullName: "Puerto Rico" },
+      { name: "KN", code: 0, fullName: "Saint Kitts and Nevis" },
+      { name: "LC", code: 0, fullName: "Saint Lucia" },
+      { name: "VC", code: 0, fullName: "Saint Vincent and the Grenadines" },
+      { name: "SR", code: 0, fullName: "Suriname" },
+      { name: "TT", code: 0, fullName: "Trinidad and Tobago" },
       { name: "US", code: 0, fullName: "United States" },
+      { name: "UY", code: 0, fullName: "Uruguay" },
+      { name: "VE", code: 0, fullName: "Venezuela" },
+
+      { name: "VG", code: 0, fullName: "Virgin Islands (British)" },
+      { name: "VI", code: 0, fullName: "Virgin Islands (U.S.)" }
     ],
   },
   {
