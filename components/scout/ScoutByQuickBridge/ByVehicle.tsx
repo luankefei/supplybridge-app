@@ -20,7 +20,7 @@ export default function ByVehicle() {
   const onClick = (select: any) => {
     if (select !== selected) {
       setSelected(select);
-      setFilter("vehicleTypes", select);
+      setFilter("industries", select);
     } else {
       setSelected(null);
     }

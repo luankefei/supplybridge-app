@@ -14,7 +14,7 @@ const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
 
-  const { suppliers, page, setPage, count, filter, setResult } = quickBridge;
+  const { suppliers, page, setPage, count, filter, setResult,setPageSize } = quickBridge;
   const { scrollOffset } = useViewport();
   const { searchSuppliers, resetAllSelected, loading } = useQuickBridgeSupplier();
   const infiniteScrollControl = useRef(true);
@@ -97,7 +97,7 @@ export default function QuickbridgeResult() {
                 {suppliers.map((supplier: any, index: number) => (
                   index > 20 ? null :
                     index == 20 || index + 1 == suppliers.length ?
-                      <LockedContainer>
+                      <LockedContainer key={`locked-container-${index}`}>
                         <LockedResultCard data={supplier} key={`${supplier.id}_${index}`} />
                         <UnlockBackDrop isOpen={true} />
                       </LockedContainer>

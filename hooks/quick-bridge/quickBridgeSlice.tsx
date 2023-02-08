@@ -63,7 +63,7 @@ export type QuickBridgeSlice = State & Actions;
 const initialState = {
   q: "",
   page: 1,
-  pageSize: 4,
+  pageSize: 21,
   count: 0,
   suppliers: [],
   filter: {
