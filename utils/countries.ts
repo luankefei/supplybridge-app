@@ -67,29 +67,59 @@ export const allCountry = [
     category: "EMEA",
     categoryId: 3,
     children: [
-      { name: "DK", code: 0, fullName: "Denmark" },
-      { name: "FI", code: 0, fullName: "Finland" },
-      { name: "GB", code: 0, fullName: "Great Britain" },
-      { name: "IE", code: 0, fullName: "Ireland" },
-      { name: "NO", code: 0, fullName: "Norway" },
-      { name: "SE", code: 0, fullName: "Sweden" },
-      { name: "CH", code: 0, fullName: "Chuvash" },
-      { name: "DE", code: 0, fullName: "Germany" },
-      { name: "FR", code: 0, fullName: "France" },
-      { name: "LU", code: 0, fullName: "Luxembourg" },
-      { name: "NL", code: 0, fullName: "Netherlands" },
-      { name: "CZ", code: 0, fullName: "Czech Republic" },
-      { name: "HU", code: 0, fullName: "Hungary" },
-      { name: "PL", code: 0, fullName: "Poland" },
-      { name: "RO", code: 0, fullName: "Romania" },
-      { name: "RU", code: 0, fullName: "Russian Federation" },
-      { name: "SK", code: 0, fullName: "Slovakia" },
-      { name: "ES", code: 0, fullName: "Spain" },
+      { name: "GL", code: 0, fullName: "Greenland" },
+      { name: "AL", code: 0, fullName: "Albania" },
+      { name: "CY", code: 0, fullName: "Cyprus" },
+      { name: "AD", code: 0, fullName: "Andorra" },
+      { name: "AT", code: 0, fullName: "Austria" },
+      { name: "BY", code: 0, fullName: "Belarus" },
+      { name: "BE", code: 0, fullName: "Belgium" },
+
+      { name: "BIH", code: 0, fullName: "Bosnia and Herzegovina" },
+      { name: "BG", code: 0, fullName: "Bulgaria" },
       { name: "HR", code: 0, fullName: "Croatia" },
+      { name: "CZ", code: 0, fullName: "Czech Republic" },
+      { name: "DK", code: 0, fullName: "Denmark" },
+      { name: "EST", code: 0, fullName: "Estonia" },
+      { name: "FIN", code: 0, fullName: "Finland" },
+
+      { name: "FR", code: 0, fullName: "France" },
+      { name: "DE", code: 0, fullName: "Germany" },
+      { name: "GI", code: 0, fullName: "Gibraltar" },
+      { name: "GR", code: 0, fullName: "Greece" },
+      { name: "HU", code: 0, fullName: "Hungary" },
+      { name: "IS", code: 0, fullName: "Iceland" },
+      { name: "IE", code: 0, fullName: "Ireland" },
       { name: "IT", code: 0, fullName: "Italy" },
+      { name: "RKS", code: 0, fullName: "Kosovo" },
+
+      { name: "LV", code: 0, fullName: "Latvia" },
+      { name: "LI", code: 0, fullName: "Liechtenstein" },
+      { name: "LT", code: 0, fullName: "Lithuania" },
+      { name: "LU", code: 0, fullName: "Luxembourg" },
       { name: "MT", code: 0, fullName: "Malta" },
+      { name: "MD", code: 0, fullName: "Republic of Moldova" },
+
+      { name: "MC", code: 0, fullName: "Monaco" },
+      { name: "ME", code: 0, fullName: "Montenegro" },
+      { name: "NL", code: 0, fullName: "Netherlands" },
+      { name: "NMK", code: 0, fullName: "North Macedonia" },
+      { name: "NO", code: 0, fullName: "Norway" },
+      { name: "PL", code: 0, fullName: "Poland" },
+
       { name: "PT", code: 0, fullName: "Portugal" },
-      { name: "SI", code: 0, fullName: "Slovenia" }
+      { name: "RO", code: 0, fullName: "Romania" },
+      { name: "SM", code: 0, fullName: "San Marino" },
+      { name: "RS", code: 0, fullName: "Serbia" },
+      { name: "SK", code: 0, fullName: "Slovakia (Slovak Republic)" },
+      { name: "SI", code: 0, fullName: "Slovenia" },
+
+
+      { name: "ES", code: 0, fullName: "Spain" },
+      { name: "SE", code: 0, fullName: "Sweden" },
+      { name: "CH", code: 0, fullName: "Switzerland" },
+      { name: "UA", code: 0, fullName: "Ukraine" },
+      { name: "GB", code: 0, fullName: "United Kingdom" },
     ],
   },
   {
@@ -98,10 +128,6 @@ export const allCountry = [
     categoryId: 2,
     code: "019",
     children: [
-      // { name: "CA", code: 0, fullName: "Canada" },
-      // { name: "US", code: 0, fullName: "United States" },
-
-
       { name: "AS", code: 0, fullName: "American Samoa" },
       { name: "AI", code: 0, fullName: "Anguilla" },
       { name: "AG", code: 0, fullName: "Antigua and Barbuda" },
@@ -166,15 +192,70 @@ export const allCountry = [
     category: "APAC",
     categoryId: 1,
     children: [
+      { name: "MU", code: 0, fullName: "Mauritius" },
+      { name: "SC", code: 0, fullName: "Seychelles" },
+      { name: "AF", code: 0, fullName: "Afghanistan" },
+      { name: "AM", code: 0, fullName: "Armenia" },
+      { name: "AZ", code: 0, fullName: "Azerbaijan" },
+
+      { name: "BH", code: 0, fullName: "Bahrain" },
+      { name: "BD", code: 0, fullName: "Bangladesh" },
+      { name: "BT", code: 0, fullName: "Bhutan" },
+      { name: "BN", code: 0, fullName: "Brunei Darussalam" },
+      { name: "KH", code: 0, fullName: "Cambodia" },
       { name: "CN", code: 0, fullName: "China" },
+
+      { name: "CX", code: 0, fullName: "Christmas Island" },
+      { name: "GE", code: 0, fullName: "Georgia" },
       { name: "HK", code: 0, fullName: "Hong Kong" },
-      { name: "JP", code: 0, fullName: "Japan" },
-      { name: "KR", code: 0, fullName: "Korea" },
-      { name: "TW", code: 0, fullName: "Taiwan" },
       { name: "IN", code: 0, fullName: "India" },
-      { name: "SG", code: 0, fullName: "Singapore" },
+      { name: "ID", code: 0, fullName: "Indonesia" },
+
+      { name: "IR", code: 0, fullName: "Iran" },
+      { name: "IQ", code: 0, fullName: "Iraq" },
       { name: "IL", code: 0, fullName: "Israel" },
+      { name: "JP", code: 0, fullName: "Japan" },
+      { name: "JO", code: 0, fullName: "Jordan" },
+
+      { name: "KZ", code: 0, fullName: "Kazakhstan" },
+      { name: "KP", code: 0, fullName: "Korea, Democratic People's Rep. (North Korea)" },
+      { name: "KR", code: 0, fullName: "Korea, Republic of (South Korea)" },
+      { name: "KW", code: 0, fullName: "Kuwait" },
+      { name: "KG", code: 0, fullName: "Kyrgyzstan" },
+
+      { name: "LA", code: 0, fullName: "Lao, People''s Democratic Republic" },
+      { name: "LB", code: 0, fullName: "Lebanon" },
+      { name: "MO", code: 0, fullName: "Macau" },
+      { name: "MY", code: 0, fullName: "Malaysia" },
+      { name: "MV", code: 0, fullName: "Maldives" },
+
+      { name: "MN", code: 0, fullName: "Mongolia" },
+      { name: "MM", code: 0, fullName: "Myanmar, Burma" },
+      { name: "NP", code: 0, fullName: "Nepal" },
+      { name: "NZ", code: 0, fullName: "New Zealand" },
+      { name: "OM", code: 0, fullName: "Oman" },
+
+      { name: "PK", code: 0, fullName: "Pakistan" },
+      { name: "PG", code: 0, fullName: "Papua New Guinea" },
+      { name: "PH", code: 0, fullName: "Philippines" },
+      { name: "QA", code: 0, fullName: "Qatar" },
+      { name: "RU", code: 0, fullName: "Russian Federation" },
+
+      { name: "SA", code: 0, fullName: "Saudi Arabia" },
+      { name: "SG", code: 0, fullName: "Singapore" },
+      { name: "LK", code: 0, fullName: "Sri Lanka" },
+      { name: "TW", code: 0, fullName: "Taiwan" },
+      { name: "TJ", code: 0, fullName: "Tajikistan" },
+
+      { name: "TH", code: 0, fullName: "Thailand" },
+      { name: "TK", code: 0, fullName: "Tokelau" },
       { name: "TR", code: 0, fullName: "Turkey" },
+      { name: "TM", code: 0, fullName: "Turkmenistan" },
+      { name: "AE", code: 0, fullName: "United Arab Emirates" },
+
+      { name: "UZ", code: 0, fullName: "Uzbekistan" },
+      { name: "VN", code: 0, fullName: "Vietnam" },
+      { name: "YE", code: 0, fullName: "Yemen" }
     ],
   },
   {
@@ -183,7 +264,7 @@ export const allCountry = [
     category: "APAC",
     categoryId: 1,
     children: [
-     
+      { name: "AU", code: 0, fullName: "Australia" }
     ],
   },
 ];
