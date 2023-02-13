@@ -240,7 +240,7 @@ const Description = styled.div`
   margin-left: 24px;
 `;
 const TitleBadge = styled.div`
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   display: flex;
   flex-direction: row;
   align-items: center;
