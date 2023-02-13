@@ -67,13 +67,14 @@ const CardContainer = styled.div<ContainerProps>`
   align-items: center;
   justify-content: center;
   position: relative;
-  background-color: ${(props) => props.disabled ? "#F3F4F6" : "#FFFFFF"};
+  //background-color: ${(props) => props.disabled ? "#F3F4F6" : "#FFFFFF"};
+  background-color: #FFFFFF;
   pointer-events: ${(props) => props.disabled && "none"};
 
   ${(props) =>
     props.disabled
       ? css`
-        border: 4px solid #B3B3B3;
+        border: none;
       `
       : css<ContainerProps>`
           border: ${(props) => props.selected && "4px solid #08979C"};
