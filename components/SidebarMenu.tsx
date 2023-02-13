@@ -96,7 +96,7 @@ export default function SideBarMenu() {
   const logout = () => {
     signOut();
     cookie.remove("token");
-    router.push("/");
+    window.location.href="https://partners.supplybridge.com"
   };
 
   return (
