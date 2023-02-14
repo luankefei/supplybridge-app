@@ -127,10 +127,11 @@ const Container = styled.div`
 const Segments = styled.div`
   display: flex;
   gap: 8px;
-  margin-left: 234px;
+  margin-left: 196px;
 `;
 
 const SegmentButton = styled.div`
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -142,6 +143,7 @@ const SegmentButton = styled.div`
 `;
 
 const SegmentButtonSkeleton = styled(Skeleton)`
+  flex-shrink: 0;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -175,7 +177,7 @@ const Brand = styled.div`
 const ModelsWrapper = styled.div`
   display: flex;
   gap: 8px;
-  margin-left: 72px;
+  margin-left: 64px;
 `;
 
 
