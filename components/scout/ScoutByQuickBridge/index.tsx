@@ -172,7 +172,13 @@ export default function ScoutByQuickBridge() {
                   p: 3,
                   backgroundColor: "#F9FAFB",
                   borderRadius: "0px 0px 16px 16px",
-                  height: "606px",
+                  // height: "606px",
+                  height: {
+                    sm: "calc(100vh - 220px)",
+                    md: "calc(100vh - 250px)",
+                    lg: "calc(100vh - 275px)",
+                    xl: "calc(100vh - 280px)",
+                  },
                   overflowY: "auto",
                 }}
               >
