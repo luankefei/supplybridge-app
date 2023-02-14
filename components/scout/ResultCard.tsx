@@ -74,11 +74,9 @@ const ResultCard = ({ data }: { data?: any }) => {
             {data?.id ? (
               <Property>
                 <PropertyTitle>Core Competence</PropertyTitle>
-                <PropertyDescription>
-                  <span>
-                    {_.join(_.map(data.products, "coreCompetency.name"))}
-                  </span>
-                </PropertyDescription>
+                <PropertyLongDescription>
+                  {_.join(_.map(data.products, "coreCompetency.name"), ", ")}
+                </PropertyLongDescription>
               </Property>
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
@@ -276,6 +274,7 @@ const PropertySide = styled.div`
 const Property = styled.div`
   display: flex;
   flex-direction: row;
+  gap-column: 8px;
   justify-content: space-between;
 `;
 const PropertyTitle = styled.span`
@@ -286,13 +285,27 @@ const PropertyTitle = styled.span`
   color: #8c8c8c;
 `;
 const PropertyDescription = styled.span<{ color?: string }>`
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: ${(props) => (props.color ? props.color : "#1f1f1f")};
+`;
+
+const PropertyLongDescription = styled.span<{ color?: string }>`
+  font-family: "Inter", sans-serif;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-align: right;
+  margin-left: 2rem;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
   color: ${(props) => (props.color ? props.color : "#1f1f1f")};
 `;
 
