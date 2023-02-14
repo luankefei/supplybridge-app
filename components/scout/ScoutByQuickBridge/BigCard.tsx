@@ -67,8 +67,7 @@ const CardContainer = styled.div<ContainerProps>`
   align-items: center;
   justify-content: center;
   position: relative;
-  //background-color: ${(props) => props.disabled ? "#F3F4F6" : "#FFFFFF"};
-  background-color: #FFFFFF;
+  background-color: ${(props) => props.disabled ? "#F3F4F6" : "#FFFFFF"};
   pointer-events: ${(props) => props.disabled && "none"};
 
   ${(props) =>
