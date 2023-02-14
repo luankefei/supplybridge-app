@@ -80,7 +80,7 @@ export default function MarketInsights() {
 
     return (
         <Layout>
-            <Header title="Market Insights"></Header>
+            <Header />
             <Container id="market-insights-container">
                 {news && Array.isArray(news) && news.map((item) => <InsightCard key={item.id} {...item} />)}
                 {loading && [1, 2, 3].map((index) => <InsightCardSkeleton key={index} />)}

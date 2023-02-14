@@ -6,7 +6,7 @@ import styled from "styled-components";
 export default function TotalSolutionPage() {
   return (
     <Layout>
-      <Header title="Total Solution"></Header>
+      <Header />
 
       <Container>
         <Image

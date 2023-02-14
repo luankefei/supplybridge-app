@@ -77,7 +77,7 @@ export default function SupplierNews() {
 
     return (
         <Layout>
-            <Header title="Supplier News" />
+            <Header />
             <Container id="supplier-news-container">
                 {news && Array.isArray(news) && news.map((item) => <NewsCard key={item.id} {...item} />)}
                 {loading && [1, 2, 3].map((value) => <NewsCardSkeleton key={value} />)}
