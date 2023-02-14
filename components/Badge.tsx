@@ -19,6 +19,7 @@ const Badge = ({ icon, label, color }: Props) => {
 };
 
 const BadgeContainer = styled.div`
+  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   justify-content: center;
