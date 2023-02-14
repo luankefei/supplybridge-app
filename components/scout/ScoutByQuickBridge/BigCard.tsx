@@ -73,7 +73,7 @@ const CardContainer = styled.div<ContainerProps>`
   ${(props) =>
     props.disabled
       ? css`
-        border: 4px solid #B3B3B3;
+        border: none;
       `
       : css<ContainerProps>`
           border: ${(props) => props.selected && "4px solid #08979C"};
