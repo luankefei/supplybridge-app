@@ -63,7 +63,7 @@ export default function BySegment() {
                     </ModelsWrapper>
                   </Section>
                   {brandIndex + 1 !== 3 &&
-                    <Divider sx={{ bgcolor: "#E5E7EB" }} />
+                    <StyledDivider />
                   }
                 </>
               )
@@ -105,7 +105,7 @@ export default function BySegment() {
                   </ModelsWrapper>
                 </Section>
                 {brandIndex + 1 !== brandModels.length &&
-                  <Divider sx={{ bgcolor: "#E5E7EB" }} />
+                  <StyledDivider  />
                 }
               </>
             )
@@ -180,6 +180,9 @@ const ModelsWrapper = styled.div`
   margin-left: 64px;
 `;
 
+const StyledDivider=styled(Divider)`
+  border-color: #D1D5DB !important;
+`
 
 /*
 import { Divider } from "@mui/material";
