@@ -61,7 +61,13 @@ const StyledTab = styled((props: StyledTabProps) => (
 ))(({ theme }) => ({
   width: "12.5%",
   textTransform: "none",
-  fontSize: "12px",
+  //fontSize: "12px",
+  [theme.breakpoints.down('lg')]: {
+    fontSize: "10px",
+  },
+  [theme.breakpoints.up('lg')]: {
+    fontSize: "12px",
+  },
   fontFamily: "Inter",
   fontWeight: "400",
   lineHeight: "15px",
@@ -172,7 +178,7 @@ export default function ScoutByQuickBridge() {
                   p: 3,
                   backgroundColor: "#F9FAFB",
                   borderRadius: "0px 0px 16px 16px",
-                  height: "606px",
+                  height: "70vh",
                   overflowY: "auto",
                 }}
               >
@@ -267,12 +273,19 @@ export default function ScoutByQuickBridge() {
         }
         .Content {
           width: 1056px;
-          height: 606px;
+          margin-top:35px;
+          //height: 606px;
+  
         }
         @media (max-width: 992px) {
           .Container {
             display: block;
             width: 100%;
+          }
+        }
+        @media (max-width: 1200px) {
+          .Content {
+            width: 800px;
           }
         }
 
