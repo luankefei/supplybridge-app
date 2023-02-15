@@ -3,6 +3,7 @@ import styled from '@emotion/styled'
 import Box from "../IconBox";
 import SliderCard from "../SliderCard";
 import { useState } from "react";
+import BigCard from "components/scout/ScoutByQuickBridge/BigCard";
 
 export default function Slide1() {
   const [isChecked, setChecked] = useState(0);
@@ -15,44 +16,12 @@ export default function Slide1() {
         </TextContainer>
         <BoxContainer>
           <Row>
-            <Box
-              iconSrc="prototype-colored"
-              title="Prototype"
-              iconWidth={82}
-              iconHeight={82}
-              margin="0px"
-              padding="0px"
-               ischecked={true}
-              // onClick={() => setChecked(0)}
-            />
-            <Box
-              iconSrc="production"
-              title="Series Production"
-              iconWidth={82}
-              iconHeight={82}
-               ischecked={false}
-              // onClick={() => setChecked(1)}
-            />
+            <BigCard src="prototype-colored" title="Prototype" selected />
+            <BigCard src="production" title="Series Production" />
           </Row>
           <Row>
-            <Box
-              iconSrc="spare-parts-colored"
-              title="Spare parts"
-              iconWidth={82}
-              iconHeight={82}
-              margin="0px"
-              padding="0px"
-               ischecked={false}
-              // onClick={() => setChecked(2)}
-            />
-            <Box
-              iconSrc="tooling"
-              title="Tooling & Manufacturing Aids"
-              iconWidth={82}
-              iconHeight={82}
-               ischecked={false}
-              // onClick={() => setChecked(3)}
-            />
+            <BigCard src="spare-parts-colored" title="Spare parts" />
+            <BigCard src="tooling" title="Tooling & Manufacturing Aids" />
           </Row>
         </BoxContainer>
 
