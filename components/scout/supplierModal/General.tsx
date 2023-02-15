@@ -82,11 +82,16 @@ const InfoItem = styled.div`
 `;
 
 const InfoIcon = styled.img`
+  flex-shrink: 0;
 `;
 const InfoTitle = styled.span`
+  flex-shrink: 0;
   color: #9CA3AF;
 `;
 const InfoDescription = styled.span`
+  flex-shrink: 1;
+  width: 100%;
+  text-align: end;
   color: ${theme.colors.text};
 `;
 

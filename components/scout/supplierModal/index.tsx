@@ -58,9 +58,15 @@ export const SupplierModal = ({ ...props }: any) => {
 
   useEffect(() => {
     if (open) {
-      setTimeout(() => {
+      const timeout = setTimeout(() => {
         setIsMemberUnlock(true);
-      }, 1000);
+      }, 3000);
+
+      return (() => {
+        clearTimeout(timeout);
+      });
+    } else {
+      setIsMemberUnlock(false);
     }
   }, [setIsMemberUnlock, open]);
 
@@ -235,7 +241,7 @@ const TabContainer = styled.div`
 
 const TabPanelContainer = styled.div`
   height: 450px;
-  overflow-y: hidden; /* NOTE: Only for the presentation purpose, should be overflow*/
+  overflow-y: auto; /* NOTE: Only for the presentation purpose, should be overflow*/
   @media (max-width: ${(props) => props.theme.size.laptopL}) {
     height: 350px;
   }
@@ -285,6 +291,7 @@ const UnlockMemberContainer = styled.div<any>`
   flex-direction: column;
   justify-content: space-between;
   align-items: center;
+  z-index: 10;
 `;
 
 const UnlockIcon = styled.img`
