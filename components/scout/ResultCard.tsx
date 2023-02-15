@@ -283,6 +283,7 @@ const PropertyTitle = styled.span`
   font-size: 16px;
   line-height: 24px;
   color: #8c8c8c;
+  flex-shrink: 0;
 `;
 const PropertyDescription = styled.span<{ color?: string }>`
   font-family: "Inter", sans-serif;

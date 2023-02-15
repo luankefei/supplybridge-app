@@ -65,7 +65,7 @@ const StyledButton = styled(Button)`
   width: 240px;
   height: 44px;
   color: #ffffff !important;
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   font-weight: 600;
   font-size: 16px;
   line-height: 24px;

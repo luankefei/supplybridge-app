@@ -175,11 +175,11 @@ const Button = styled.div`
   padding: 12px;
   cursor: pointer;
 
-  font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 16px;
-line-height: 24px;
+  font-family: "Inter", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
 
   &:hover {
     box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
