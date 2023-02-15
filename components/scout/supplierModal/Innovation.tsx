@@ -60,10 +60,8 @@ export const InnovationTabPanel = () => {
               has also pledged to be carbon neutral by 2039.
             </PattentInfoTitle>
           </PatentItemBox>
-          <PatentItemBox1>
-          </PatentItemBox1>
-          <PatentItemBox2>
-          </PatentItemBox2>
+          <PatentItemBox1 />
+          <PatentItemBox2 />
         </PatentItemBoxGroup>
       </PatentContainer>
     </InnovationContainer>
