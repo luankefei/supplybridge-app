@@ -51,15 +51,6 @@ export default function QuickbridgeResult() {
     }
   };
 
-  const formateSuppliersData = (): any => {
-    if (filter?.commodities?.length > 0 && (_.includes(filter?.commodities[0], 4) || _.includes(filter?.commodities[0], 6))) {
-      let interiorData = suppliers.filter((item: any) => item?.products[0].coreCompetency?.component?.commoditiy?.id === 6)
-      let exteriorData = suppliers.filter((item: any) => item?.products[0].coreCompetency?.component?.commoditiy?.id === 4)
-      let arr = [...interiorData.slice(0, 9), ...exteriorData.slice(0, 9)]
-      return arr
-    } else return suppliers;
-  }
-
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
     if (currentPage * 10 < countRef.current) {
@@ -75,7 +66,7 @@ export default function QuickbridgeResult() {
       document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
-    if (isAtBottom && infiniteScrollControl.current) {
+    if (isAtBottom && infiniteScrollControl.current && suppliers?.length < 20) {
       infiniteScrollControl.current = false;
       setPage(page + 1);
       await searchSupplierHandler();
@@ -94,7 +85,7 @@ export default function QuickbridgeResult() {
   }
 
   const isSuppliersNotEmpty: boolean =
-    formateSuppliersData()?.length > 0 && Object.keys(suppliers[0]).length > 0;
+    suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
 
   return (
     <ScoutContainer>
