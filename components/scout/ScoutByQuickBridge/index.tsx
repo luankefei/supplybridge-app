@@ -266,16 +266,13 @@ export default function ScoutByQuickBridge() {
       <style jsx>{`
         .Container {
           width: 100%;
-          height: 80vh;
           display: flex;
           justify-content: center;
           align-items: center;
         }
         .Content {
           width: 1056px;
-          margin-top:35px;
-          //height: 606px;
-  
+          margin-top:35px;        
         }
         @media (max-width: 992px) {
           .Container {
