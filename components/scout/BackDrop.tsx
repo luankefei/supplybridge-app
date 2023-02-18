@@ -1,64 +1,52 @@
 import * as React from "react";
-import Box from "@mui/material/Box";
 import Typography from "@mui/material/Typography";
-import Modal from "@mui/material/Modal";
 import styled from "styled-components";
 import Icon from "components/Icon";
-import { theme } from "config/theme";
 import useStore from "hooks/useStore";
-const style = {
-  position: "absolute" as "absolute",
-  top: { md: "312px", lg: "338px", xl: "350px" },
-  left: `${theme.dimension.leftMenuWidth}`,
-  width: `calc(100% - ${theme.dimension.leftMenuWidth})`,
-  height: {
-    sm: "calc(100% - 320px)",
-    md: "calc(100% - 312px)",
-    lg: "calc(100% - 330px)",
-    xl: "calc(100% - 345px)",
-  },
-  bgcolor: "rgba(249, 250, 251, 0.6)",
-  p: 4,
-  display: "flex",
-  flexDirection: "column",
-  justifyContent: "center",
-  alignItems: "center",
-  backdropFilter: "blur(35px)",
-};
 
 interface Props {
   isOpen: boolean;
 }
+
 export default function BackDrop({ isOpen = false }: Props) {
   const { setShowBackdrop } = useStore();
-  const [open, setOpen] = React.useState(isOpen);
+
   const handleClose = () => {
-    setOpen(false);
     setShowBackdrop(false);
   };
 
+  if (!isOpen) {
+    return <></>;
+  }
+
   return (
-    <div>
-      <Modal
-        onClick={handleClose}
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        hideBackdrop={true}
-      >
-        <Box sx={style}>
-          <Icon src="backdrop-logo" width={82} height={82} />
-          <CustomizedTypography id="modal-modal-description" sx={{ mt: 2 }}>
-            No results matching to this search
-            <br />
-            Our SmartBridge Artificial Intelligence will process the request
-          </CustomizedTypography>
-        </Box>
-      </Modal>
-    </div>
+    <Container onClick={handleClose}>
+      <Icon src="backdrop-logo" width={82} height={82} />
+      <CustomizedTypography id="modal-modal-description" sx={{ mt: 2 }}>
+        No results matching to this search
+        <br />
+        Our SmartBridge Artificial Intelligence will process the request
+      </CustomizedTypography>
+    </Container>
   );
 }
+
+const Container = styled.div`
+  position: absolute;
+  left: 0px;
+  right: 0px;
+  top: 360px;
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    top: 400px;
+  }
+  bottom: 0px;
+  backdrop-filter: blur(1.5rem);
+  z-index: 1300;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+`;
 
 const CustomizedTypography = styled(Typography)`
   font-family: "Inter";
