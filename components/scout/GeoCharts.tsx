@@ -1,12 +1,11 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
 import styled from "styled-components";
 import Chart from "react-google-charts";
-import {Skeleton } from "@mui/material";
+import { Skeleton } from "@mui/material";
 
 import { allCountry } from "utils/countries";
 import useStore from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
-import BackDrop from "./BackDrop";
 import Icon from "components/Icon";
 
 const initialOptions: any = {
@@ -38,7 +37,6 @@ const GeoCharts = () => {
     selectedCountries,
     filterData,
     suppliers,
-    showBackdrop,
     setFilterData
   } = useStore();
 
@@ -220,7 +218,6 @@ const GeoCharts = () => {
             },
           }}
         />
-        { (suppliers.length<=0 && showBackdrop) && <BackDrop isOpen={true} /> }
       </Container>
     );
   }, [allCountries, options, mapLoaded]);

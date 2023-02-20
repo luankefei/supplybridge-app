@@ -7,19 +7,19 @@ import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
 
 export default function Switch() {
   const [selected, setSelected] = useState("byIndex")
-  const { setFilterData,setSuppliers } = useStore();
-useEffect(()=>{
-  setFilterData({
-    q: "",
-    commodities: [],
-    components: [],
-    coreCompetencies: [],
-    regions: [],
-    subRegions: [],
-    vehicleFuelTypes: [],
-  });
-  setSuppliers([],true);
-},[selected])
+  const { setFilterData, setSuppliers } = useStore();
+  useEffect(() => {
+    setFilterData({
+      q: "",
+      commodities: [],
+      components: [],
+      coreCompetencies: [],
+      regions: [],
+      subRegions: [],
+      vehicleFuelTypes: [],
+    });
+    setSuppliers([], true);
+  }, [selected])
   return (
     <Container>
       <SwitchContainer>
@@ -41,14 +41,15 @@ useEffect(()=>{
 
 const Container = styled.div`
   width: calc(100%);
-  @media (min-width: ${theme.dimension.cardMaxWidth}) {
-    width: ${theme.dimension.cardMaxWidth};
-  }
   display: flex;
   flex-direction: column;
+  align-items: center;
 `;
 
 const SwitchContainer = styled.div`
+  @media (min-width: ${theme.dimension.cardMaxWidth}) {
+    width: ${theme.dimension.cardMaxWidth};
+  }
   height: 56px;
   margin: 36px 0;
   display: flex;
@@ -65,7 +66,6 @@ const Switches = styled.div`
   align-items: center;
   justify-content: space-between;
   position: relative;
-	position: relative;
 `;
 
 const Background = styled.div<any>`
