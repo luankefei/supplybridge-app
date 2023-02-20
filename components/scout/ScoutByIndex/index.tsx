@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useState, useRef } from "react";
-import { Skeleton } from "@mui/material";
+import { Box, Skeleton } from "@mui/material";
 
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
@@ -11,6 +11,7 @@ import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 
 const Icon = dynamic(() => import("components/Icon"));
 
+const BackDrop = dynamic(() => import("components/scout/BackDrop"));
 const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const Feedback = dynamic(() => import("components/scout/Feedback"));
@@ -41,6 +42,7 @@ export default function ScoutByIndex() {
     filterData,
     clearFilterData,
     vehicleFuelTypes,
+    showBackdrop,
   } = useStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
@@ -123,93 +125,40 @@ export default function ScoutByIndex() {
   const isSuppliersNotEmpty: boolean = suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0
   return (
     <ScoutContainer>
-      {/* <DuplicateHeaderForPosition scrollPosition={scrollOffset}>
-        <SearchContainer>
-          <IconContainer>
-            <Icon src="smart-bridge-ai" width={40} height={40} />
+      <MainContainer>
+        <SearchContainer isrow={isSuppliersNotEmpty}>
+          {(!isSuppliersNotEmpty) && (
+            <Title>Global Scouting, for Automotive professionals.</Title>
+          )}
+          <IconContainer isrow={isSuppliersNotEmpty}>
+            <Icon src="smart-bridge-ai" width={25} height={25} />
             <IconLabel>
-              <Label>powered by</Label>
-              <Label>SmartBridge Artificial Intelligence</Label>
+              <Label>powered by {(isSuppliersNotEmpty) && <br />}SmartBridge Artificial Intelligence</Label>
             </IconLabel>
           </IconContainer>
-          <SearchBar onSearch={searchHandler} />
-          <CircleButton onClick={() => setFilterModalVisible(true)}>
-            <Icon src="filter" p={"3px"} m={"12px"} hover />
-          </CircleButton>
+          <SearchBar2 onSearch={searchHandler} />
         </SearchContainer>
-      </DuplicateHeaderForPosition> */}
-      {/* <Technology>
-        <TechnologyHeader>Technology:</TechnologyHeader>
-        <TechnologyContainer>
-          {vehicleFuelTypes.length > 1 ? (
-            vehicleFuelTypes.map((item: any, index: number) => (
-              <TechnologyBoxContainer key={`${item.name}_${index}`}>
-                <TechnologyBox
-                  icon={item?.icon}
-                  label={item?.name}
-                  isSelected={filterData.vehicleFuelTypes.includes(
-                    item?.id
-                  )}
-                  onClick={() => setFuelType(item?.id)}
-                />
-              </TechnologyBoxContainer>
-            ))
-          ) : (
-            <TechnologySkeletonContainer>
-              <Skeleton animation="wave" width={242} height={125} />
-              <Skeleton animation="wave" width={242} height={125} />
-              <Skeleton animation="wave" width={242} height={125} />
-            </TechnologySkeletonContainer>
-          )}
-        </TechnologyContainer>
-      </Technology> */}
+        <ContentsContainer>
+          <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
+          <ContentsWrapper>
+            <GeoCharts />
+            {(isSuppliersNotEmpty) && <Filters totalCount={count} />}
+            <ScoutFilter />
 
-      <MainContainer>
-        {/* <div>
-          <ScoutFilter />
-          <Button secondary onClick={clearHandler}>
-            Clear Filter
-          </Button>
-          <Button onClick={() => searchHandler()}>Search</Button>
-        </div> */}
-
-        <MapResultContainer>
-          {/* <DuplicateHeaderForPosition scrollPosition={scrollOffset}> */}
-          <SearchContainer isrow={isSuppliersNotEmpty}>
-            {(!isSuppliersNotEmpty) && (
-              <Title>Global Scouting, for Automotive professionals.</Title>
-            )}
-            <IconContainer isrow={isSuppliersNotEmpty}>
-              <Icon src="smart-bridge-ai" width={25} height={25} />
-              <IconLabel>
-                <Label>powered by {(isSuppliersNotEmpty) && <br />}SmartBridge Artificial Intelligence</Label>
-              </IconLabel>
-            </IconContainer>
-            <SearchBar2 onSearch={searchHandler} />
-
-            {/* <CircleButton onClick={() => setFilterModalVisible(true)}>
-                <Icon src="filter" p={"3px"} m={"12px"} hover />Circle
-              </CircleButton>  */}
-          </SearchContainer>
-          {/* </DuplicateHeaderForPosition> */}
-          <GeoCharts />
-          {(isSuppliersNotEmpty) && <Filters totalCount={count} />}
-          <ScoutFilter />
-
-          <ResultContainer>
-            {(isSuppliersNotEmpty) ? (
-              <>
-                {suppliers.map((supplier: any, index: number) => (
-                  <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
-                ))}
-              </>
-            ) : null}
-          </ResultContainer>
-          {/* {suppliers.length === 0 && !loading && (
-            <NoRecord>No record founds</NoRecord>
-          )} */}
-
-        </MapResultContainer>
+            <ResultContainer>
+              {(isSuppliersNotEmpty) ? (
+                <>
+                  {suppliers.map((supplier: any, index: number) => (
+                    <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
+                  ))}
+                </>
+              ) : null}
+            </ResultContainer>
+            {/* {suppliers.length === 0 && !loading && (
+                <NoRecord>No record founds</NoRecord>
+              )} */}
+          </ContentsWrapper>
+        </ContentsContainer>
       </MainContainer>
       <Feedback />
     </ScoutContainer>
@@ -217,27 +166,26 @@ export default function ScoutByIndex() {
 }
 
 const Title = styled.div`
-font-family: 'Inter';
-font-style: normal;
-font-weight: 600;
-font-size: 24px;
-line-height: 22px;
-display: flex;
-align-items: flex-end;
-color: #445B66;
-margin-top: 70px;
-@media (max-width: ${(props) => props.theme.size.laptopL}) {
-  margin-top: 50px;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 22px;
+  display: flex;
+  align-items: flex-end;
+  color: #445B66;
+  margin-top: 70px;
+  @media (max-width: ${(props) => props.theme.size.laptopL}) {
+    margin-top: 50px;
   }
-@media (max-width: ${(props) => props.theme.size.laptop}) {
-  margin-top: 48px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    margin-top: 48px;
   }
   @media (max-width: ${(props) => props.theme.size.tablet}) {
-margin-top: 30px;
+    margin-top: 30px;
   }
 `
 const ScoutContainer = styled.div`
-  // width: 1440px;
   width: 100%;
   margin: 0px 5px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
@@ -250,9 +198,12 @@ const ScoutContainer = styled.div`
 `;
 
 const SearchContainer = styled.div<{ isrow: boolean }>`
+  width: 100%;
+  @media (min-width: ${theme.dimension.cardMaxWidth}) {
+    width: ${theme.dimension.cardMaxWidth};
+  }
   display: flex;
   align-items: center;
-  width: 100%;
   margin-bottom: 50px;
   flex-direction: ${(props) => (props.isrow ? 'row' : "column")};
   gap: 15px;
@@ -302,12 +253,12 @@ const IconLabel = styled.div`
 `;
 
 const Label = styled.span`
-font-family: 'Inter';
-font-style: normal;
-font-weight: 400;
-font-size: 12px;
-line-height: 18px;
-color: #89A8B3;
+  font-family: 'Inter';
+  font-style: normal;
+  font-weight: 400;
+  font-size: 12px;
+  line-height: 18px;
+  color: #89A8B3;
 `;
 
 const Technology = styled.span`
@@ -353,7 +304,8 @@ const TechnologyBoxContainer = styled.div`
 const MainContainer = styled.div`
   width: calc(100%);
   display: flex;
-  flex-direction: row;
+  flex-direction: column;
+  align-items: center;
 `;
 
 const NoRecord = styled.div`
@@ -363,15 +315,6 @@ const NoRecord = styled.div`
   justify-content: center;
   align-items: center;
   background-color: white;
-`;
-
-const MapResultContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    margin-left: 0;
-  }
 `;
 
 const ResultContainer = styled.div`
@@ -405,4 +348,18 @@ const Button = styled.div<{ secondary?: boolean }>`
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
+`;
+
+const ContentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0;
+  width: calc(100%);
+  height: calc(100%);
+`;
+
+const ContentsWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 `;
