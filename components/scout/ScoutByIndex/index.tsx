@@ -122,9 +122,7 @@ export default function ScoutByIndex() {
   const clearHandler = () => {
     clearFilterData();
   };
-  const isSuppliersNotEmpty: boolean = suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
-  console.log(`isSuppliersNotEmpty: ${isSuppliersNotEmpty}`);
-  console.log(`showBackdrop: ${showBackdrop}`);
+  const isSuppliersNotEmpty: boolean = suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0
   return (
     <ScoutContainer>
       <MainContainer>
@@ -208,7 +206,7 @@ const SearchContainer = styled.div<{ isrow: boolean }>`
   align-items: center;
   margin-bottom: 50px;
   flex-direction: ${(props) => (props.isrow ? 'row' : "column")};
-  gap: 19px;
+  gap: 15px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
   }
