@@ -50,7 +50,7 @@ const SearchBar = ({ onSearch }: Props) => {
 
 export const SearchBar2 = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
-  const { setFilterData,setSuppliers } = useStore();
+  const { setFilterData, setSuppliers } = useStore();
 
   const onClickSearch = () => {
     clearFilters();
@@ -67,8 +67,8 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   const resetFilters = () => {
     setSearchItem("");
     clearFilters();
-    setSuppliers([],true);
-    
+    setSuppliers([], true);
+
   };
   const clearFilters = () => {
     setFilterData({
@@ -105,14 +105,18 @@ export const SearchBar2 = ({ onSearch }: Props) => {
             type="text"
           />
         </InputContainer>
-        <SearchButton onClick={onClickSearch}>Search</SearchButton>
+        <SearchButtonWrapper>
+          <ResetAllButton variant="text" onClick={resetFilters}>
+            <Icon src="reset" width={12} height={12} m="0px 10px" />
+            Reset
+          </ResetAllButton>
+          <SearchButton onClick={onClickSearch}>Search</SearchButton>
+        </SearchButtonWrapper>
+
       </SearchBarContainer>
 
       <ResetButtonContainer>
-        <ResetAllButton variant="text" onClick={resetFilters}>
-          <Icon src="reset" width={12} height={12} m="0px 10px" />
-          Reset
-        </ResetAllButton>
+
       </ResetButtonContainer>
     </Container>
   );
@@ -120,6 +124,7 @@ export const SearchBar2 = ({ onSearch }: Props) => {
 
 const Container = styled.div`
   width: 75%;
+  margin-top: 22px;
   display: flex;
   justify-content: end;
   flex-direction: column;
@@ -135,6 +140,7 @@ const SearchBarContainer = styled.div`
   }
   @media (max-width: ${(props) => props.theme.size.tablet}) {
     flex-direction: column;
+    gap: 30px;
   }
 `;
 const SearchField = styled(TextField)`
@@ -185,6 +191,10 @@ const CircleButton = styled.div`
   border-radius: 50%;
   cursor: pointer;
   user-select: none;
+`;
+
+const SearchButtonWrapper = styled.div`
+  position: relative;
 `;
 
 const SearchButton = styled.button`
@@ -281,6 +291,9 @@ const ResetButtonContainer = styled.div`
   justify-content: end;
 `;
 const ResetAllButton = styled(Button)`
+  position: absolute !important;
+  top: -2.25rem;
+  right: 23px;
   text-transform: capitalize;
   width: 56px;
   height: 24px;

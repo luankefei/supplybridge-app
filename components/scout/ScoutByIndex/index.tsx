@@ -65,7 +65,7 @@ export default function ScoutByIndex() {
 
   useEffect(() => {
     searchString.current = filterData.q;
-      searchHandler();
+    searchHandler();
   }, [filterData]);
 
   useEffect(() => {
@@ -120,7 +120,7 @@ export default function ScoutByIndex() {
   const clearHandler = () => {
     clearFilterData();
   };
- const isSuppliersNotEmpty:boolean=suppliers?.length> 0 && Object.keys(suppliers[0]).length > 0
+  const isSuppliersNotEmpty: boolean = suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0
   return (
     <ScoutContainer>
       {/* <DuplicateHeaderForPosition scrollPosition={scrollOffset}>
@@ -176,9 +176,9 @@ export default function ScoutByIndex() {
         <MapResultContainer>
           {/* <DuplicateHeaderForPosition scrollPosition={scrollOffset}> */}
           <SearchContainer isrow={isSuppliersNotEmpty}>
-          {(!isSuppliersNotEmpty) && (
-            <Title>Global Scouting, for Automotive professionals.</Title>
-          )}
+            {(!isSuppliersNotEmpty) && (
+              <Title>Global Scouting, for Automotive professionals.</Title>
+            )}
             <IconContainer isrow={isSuppliersNotEmpty}>
               <Icon src="smart-bridge-ai" width={25} height={25} />
               <IconLabel>
@@ -193,7 +193,7 @@ export default function ScoutByIndex() {
           </SearchContainer>
           {/* </DuplicateHeaderForPosition> */}
           <GeoCharts />
-           {(isSuppliersNotEmpty) && <Filters totalCount={count} />}
+          {(isSuppliersNotEmpty) && <Filters totalCount={count} />}
           <ScoutFilter />
 
           <ResultContainer>
@@ -208,7 +208,7 @@ export default function ScoutByIndex() {
           {/* {suppliers.length === 0 && !loading && (
             <NoRecord>No record founds</NoRecord>
           )} */}
-        
+
         </MapResultContainer>
       </MainContainer>
       <Feedback />
@@ -216,7 +216,7 @@ export default function ScoutByIndex() {
   );
 }
 
-const Title=styled.div`
+const Title = styled.div`
 font-family: 'Inter';
 font-style: normal;
 font-weight: 600;
@@ -249,13 +249,13 @@ const ScoutContainer = styled.div`
   }
 `;
 
-const SearchContainer = styled.div<{isrow:boolean}>`
+const SearchContainer = styled.div<{ isrow: boolean }>`
   display: flex;
   align-items: center;
   width: 100%;
   margin-bottom: 50px;
-  flex-direction: ${(props) => (props.isrow? 'row'  : "column")};
-  gap: 19px;
+  flex-direction: ${(props) => (props.isrow ? 'row' : "column")};
+  gap: 15px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
   }
@@ -283,13 +283,13 @@ const DuplicateHeaderForPosition = styled.div<SearchProps>`
   height: 90px;
 `;
 
-const IconContainer = styled.div<{isrow:boolean}>`
+const IconContainer = styled.div<{ isrow: boolean }>`
   display: flex;
   flex-grow: 1;
   flex-direction: row;
-  justify-content: ${(props) => (props.isrow? 'end'  : "center")};
+  justify-content: ${(props) => (props.isrow ? 'end' : "center")};
   align-items: center;
-  margin-bottom: ${(props) => (props.isrow? '14px'  : "")};
+  margin-bottom: ${(props) => (props.isrow ? '14px' : "")};
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
