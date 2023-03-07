@@ -183,10 +183,41 @@ const ScoutFilter = () => {
       setExpanded(isExpanded ? index : false);
     };
 
-  const [searchItem, setSearchItem] = useState("");
-  const handleSearchChange = (e: any) => {
-    setSearchItem(e.target.value);
+    type ISearchTerm = {
+      [key: string]: string;
+    };
+  const [searchItem, setSearchItem] = useState<ISearchTerm>({
+  });
+  type IFilterType = {
+    [key: string]: [];
   };
+
+
+const initialDropDown:IFilterType={ 
+  commodities: commodities,
+  components: components,
+  coreCompetencies: [],
+  regions: regions,
+  subRegions: subRegions,
+}
+const [dropdownData, setDropdownData] = useState<IFilterType>(initialDropDown);
+  const handleSearchChange = (e: any,type:string) => {
+    const searchString=e.target.value
+    console.log("search term",searchString)
+    setSearchItem((oldState)=>({
+      [type]:  searchString
+    }));
+    
+  //   if(searchString !=""){
+  //   setDropdownData((oldState) => ({
+  //           ...oldState,
+  //           [type]: dropdownData?.filter,
+  //         }));
+  // };
+}
+  // const getItems=(item:any):[]=>{
+  // return item?.items?.filter((i:any)=>)
+  // }
   return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <Container>
@@ -218,10 +249,10 @@ const ScoutFilter = () => {
                   <CustomizeAccordionDetails>
                     <InputContainer>
                       <StyledInput
-                        onChange={handleSearchChange}
+                        onChange={(e:any)=>handleSearchChange(e,item.key)}
                         name="search"
                         placeholder="Search"
-                        value={searchItem}
+                        value={searchItem?.[item.key]}
                         type="text"
                       />
                       <Icon
@@ -248,7 +279,7 @@ const ScoutFilter = () => {
                         </CheckboxLabel>
                       }
                     />
-                    {item.items?.map((checkbox: any, index: number) => {
+                    {dropdownData[item.key]?.map((checkbox: any, index: number) => {
                       const ischecked: boolean = decisionCheckStatus(
                         item.key,
                         checkbox
