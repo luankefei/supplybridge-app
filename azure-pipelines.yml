@@ -6,6 +6,8 @@ trigger:
 - stage
 - master
 
+pr: none
+
 resources:
 - repo: self
 
