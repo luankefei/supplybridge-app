@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -70,6 +70,8 @@ const ScoutFilter = () => {
       items: subRegions,
     },
   ];
+
+
 
   useEffect(() => {
     setFilterData({ regions: selectedRegions });
@@ -192,32 +194,58 @@ const ScoutFilter = () => {
     [key: string]: [];
   };
 
-
-const initialDropDown:IFilterType={ 
-  commodities: commodities,
-  components: components,
-  coreCompetencies: [],
-  regions: regions,
-  subRegions: subRegions,
+  const dropdownRef = useRef(true);
+  // const initialDropDown:IFilterType={ 
+  //   commodities: commodities,
+  //   components: components,
+  //   coreCompetencies: [],
+  //   regions: regions,
+  //   subRegions: subRegions,
+  // }
+const setInitialDropdownData=()=>{
+  setDropdownData({ 
+    commodities: commodities,
+    components: components,
+    coreCompetencies: [],
+    regions: regions,
+    subRegions: subRegions,
+  })
 }
-const [dropdownData, setDropdownData] = useState<IFilterType>(initialDropDown);
+useEffect(()=>{
+  // if(dropdownRef.current){
+  setInitialDropdownData()
+  console.log("i am initialized",commodities)
+  // dropdownRef.current=false;
+  // }
+},[commodities,components,commodities,regions,subRegions])
+
+const [dropdownData, setDropdownData] = useState<IFilterType>({});
+
   const handleSearchChange = (e: any,type:string) => {
     const searchString=e.target.value
     console.log("search term",searchString)
     setSearchItem((oldState)=>({
       [type]:  searchString
-    }));
-    
-  //   if(searchString !=""){
-  //   setDropdownData((oldState) => ({
-  //           ...oldState,
-  //           [type]: dropdownData?.filter,
-  //         }));
-  // };
+    }));    
 }
-  // const getItems=(item:any):[]=>{
-  // return item?.items?.filter((i:any)=>)
-  // }
+
+useEffect(()=>{
+  const objKey=Object.keys(searchItem)[0]
+  console.log("key is",objKey)
+if(objKey && searchItem[objKey] !=""){
+ const foundObject=data?.find((d:any)=>d.key===objKey);
+   const filteredData:any=foundObject?.items?.filter((d:any)=>d.name.toLowerCase().includes(searchItem[objKey].toLowerCase()));
+      setDropdownData({
+           ...dropdownData,
+            [objKey]: filteredData
+          });
+  console.log("object item",dropdownData)
+}
+else setInitialDropdownData()
+},[searchItem])
+
+
+
   return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <Container>
