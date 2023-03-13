@@ -17,6 +17,7 @@ export const useAuth = () => {
       setLoading(false);
       if (data.id) {
         StorageService.setAuthData(data.token, data.refreshToken);
+        StorageService.setSurveyCount(data.surveyPopupCount ?? 0);
         cookie.set("token", data.token, { expires: 1 / 24 });
         toast.success("Success", {
           position: toast.POSITION.TOP_RIGHT,
@@ -31,5 +32,23 @@ export const useAuth = () => {
     }
   };
 
-  return { login, loading };
+  const updateAccount = async (postData: any) => {
+    try {
+      setLoading(true);
+      const { data } = await request.put(`account`, postData);
+      setLoading(false);
+      if (data.id) {
+        StorageService.setAuthData(data.token, data.refreshToken);
+        StorageService.setSurveyCount(data.surveyPopupCount ?? 0);
+        cookie.set("token", data.token, { expires: 1 / 24 });
+      }
+    } catch (err: any) {
+      setLoading(false);
+      toast.error(err.response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  }
+
+  return { login, updateAccount, loading };
 };

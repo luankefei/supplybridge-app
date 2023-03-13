@@ -1,27 +1,70 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import Script from "next/script";
-
+import { useAuth } from "requests/useAuth";
+import StorageService from "services/storage";
 const Feedback = () => {
   const [loadSurvey, setLoadSurvey] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const { updateAccount } = useAuth();
+
+  const handleFeedback = () => {
+    if (StorageService.getSurveyCount() >= 2 || StorageService.getSurveyDisplayed()) {
+      return;
+    }
+    setLoadSurvey(true);
+  }
+
+
+  const setAttributes = () => {
+    setDisabled(false);
+  }
 
   const openSurvey = () => {
-    if (loadSurvey) {
+    console.log('not returned');
+    //@ts-ignore
+    if (window._sva) {
       //@ts-ignore
-      if (window._sva) {
-        //@ts-ignore
-        window._sva.destroyVisitor();
-        //@ts-ignore
-        window._sva.showSurvey("6ee2160548399c3c");
-      }
-    } else {
-      setLoadSurvey(true);
+      var _sva = window._sva;
+      _sva.destroyVisitor();
+      _sva.addEventListener('survey_completed', function () {
+        updateSurveyStatus();
+      });
+      _sva.addEventListener('survey_closed', function () {
+        updateSurveyStatus();
+      });
+      var options = {
+        forceDisplay: true,
+        displayMethod: 'immediately',
+      };
+
+      _sva.showSurvey("6ee2160548399c3c");
+      console.log("request to show sva", options);
     }
   };
+
+  const updateSurveyStatus = () => {
+    setLoadSurvey(false);
+    const scriptElement = document.getElementById("show-banner")
+    scriptElement?.parentNode?.removeChild(scriptElement);
+    const survicateBox = document.getElementById("survicate-box");
+    survicateBox?.parentElement?.removeChild(survicateBox);
+    StorageService.setSurveyDisplayed();
+    updateAccount({ surveyPopupCount: StorageService.getSurveyCount() + 1 });
+  }
+
+  useEffect(() => {
+    window.addEventListener("SurvicateReady", setAttributes);
+    if (loadSurvey) {
+      openSurvey();
+    }
+
+  }, [loadSurvey, openSurvey]);
+
   return (
-    <Container onClick={openSurvey}>
+    <Container disabled={disabled} onClick={handleFeedback}>
       <Title>FEEDBACK</Title>
-      {loadSurvey ? (
+      {(
         <Script
           id="show-banner"
           dangerouslySetInnerHTML={{
@@ -34,19 +77,20 @@ const Feedback = () => {
           })(window);`,
           }}
         />
-      ) : null}
+      )}
     </Container>
   );
 };
 
-const Container = styled.div`
+const Container = styled.div<{ disabled: boolean }>`
+  pointer-events: ${props => props.disabled ? "none" : "auto"};
   position: fixed;
   cursor: pointer;
   right: 0px;
   top: 120px;
   width: 37px;
   height: 93px;
-  background: #c41d7f;
+  background: ${props => props.disabled ? "#c41d7f80" : "#c41d7f"};
   border-radius: 16px 0px 0px 16px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
