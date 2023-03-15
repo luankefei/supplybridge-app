@@ -107,7 +107,7 @@ export const SearchBar2 = ({ onSearch }: Props) => {
         </InputContainer>
         <SearchButtonWrapper>
           <ResetAllButton variant="text" onClick={resetFilters}>
-            <Icon src="reset" width={12} height={12} m="0px 10px" />
+            <Icon src="reset" width={12} height={12} m="0px 6px" />
             Reset
           </ResetAllButton>
           <SearchButton onClick={onClickSearch}>Search</SearchButton>
@@ -294,11 +294,16 @@ const ResetAllButton = styled(Button)`
   position: absolute !important;
   top: -2.25rem;
   right: 23px;
-  text-transform: capitalize;
-  width: 56px;
-  height: 24px;
-  margin-top: 8px !important;
-  margin-right: 5px !important;
+  margin-left: 0px !important;
+  margin-right: 0px !important;
+  margin-bottom: 8px !important;;
+  padding: 0px 0px !important;
+  font-family: "Inter", sans-serif !important;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.875rem;
+  line-height: 1.5remx;
+  text-transform: capitalize !important;
   &:hover {
     cursor: pointer !important;
   }

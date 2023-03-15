@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { keyframes, styled, useTheme } from "@mui/material/styles";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
@@ -144,10 +144,27 @@ export default function ScoutByQuickBridge() {
   }, [tab])
 
   console.log("active tab", tab)
+  const [windowHeight,setWindowHeight ]= useState(window.innerHeight);
+  const [tabHeight,setTabHeight ]= useState("63vh");
+  useEffect(()=>{
+    window.addEventListener('resize',  ()=> setWindowHeight(window.innerHeight));
+  })
+  useEffect(()=>{
+
+  if(windowHeight>=600 && windowHeight <=800) setTabHeight("60vh");
+  else if(windowHeight>800 && windowHeight <=900) setTabHeight("63vh");
+  else if(windowHeight> 900 && windowHeight <=1000) setTabHeight("68vh")
+  else if(windowHeight> 1000 && windowHeight <=1200) setTabHeight("70vh")
+  else if(windowHeight> 1200 && windowHeight <=1400) setTabHeight("75vh")
+  else if(windowHeight> 1400 && windowHeight <=1500) setTabHeight("78vh")
+  else if(windowHeight >1500) setTabHeight("80vh");
+
+  },[windowHeight])
   return (
     <>
       <div className="Container">
         <div className="Content">
+         
           {!tab.isResult ?
             <>
               <StyledTabs value={value} onChange={handleChange} aria-label="tabs">
@@ -178,7 +195,7 @@ export default function ScoutByQuickBridge() {
                   p: 3,
                   backgroundColor: "#F9FAFB",
                   borderRadius: "0px 0px 16px 16px",
-                  height: "70vh",
+                  height: tabHeight,
                   overflowY: "auto",
                 }}
               >
