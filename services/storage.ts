@@ -2,6 +2,8 @@ const clearUserData = () => {
   localStorage.removeItem('@authToken');
   localStorage.removeItem('@refreshToken');
   localStorage.removeItem('@userData');
+  localStorage.removeItem('@surveyCount');
+  localStorage.removeItem('@surveyDisplayed');
 };
 
 const setAuthData = (token: string, refreshToken: string) => {
@@ -31,12 +33,37 @@ const getUserData = () => {
   return {}
 };
 
+const setSurveyDisplayed = () => {
+  localStorage.setItem("@surveyDisplayed", "true");
+}
+
+const getSurveyDisplayed = () => {
+  return localStorage.getItem("@surveyDisplayed") === "true";
+}
+
+const setSurveyCount = (count: number) => {
+  console.log(count);
+  localStorage.setItem("@surveyCount", count.toString());
+}
+
+const getSurveyCount = () => {
+  const count = localStorage.getItem("@surveyCount");
+  if (count) {
+    return Number.parseInt(count)
+  }
+  return 0;
+}
+
 const Storage = {
   clearUserData,
   setAuthData,
   getAuthData,
   setUserData,
-  getUserData
+  getUserData,
+  setSurveyCount,
+  getSurveyCount,
+  setSurveyDisplayed,
+  getSurveyDisplayed,
 };
 
 export default Storage;
