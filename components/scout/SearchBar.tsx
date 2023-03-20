@@ -54,21 +54,16 @@ export const SearchBar2 = ({ onSearch }: Props) => {
 
   const onClickSearch = () => {
     clearFilters();
-    onSearch();
-  };
-
-  useEffect(() => {
-    //set new keyword and reset all other filters
     setFilterData({
       q: searchItem,
     });
-  }, [searchItem]);
+    onSearch();
+  };
 
   const resetFilters = () => {
     setSearchItem("");
     clearFilters();
     setSuppliers([], true);
-
   };
   const clearFilters = () => {
     setFilterData({
@@ -82,6 +77,9 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
+      setFilterData({
+        q: searchItem,
+      });
       onSearch();
     }
   };
@@ -112,12 +110,9 @@ export const SearchBar2 = ({ onSearch }: Props) => {
           </ResetAllButton>
           <SearchButton onClick={onClickSearch}>Search</SearchButton>
         </SearchButtonWrapper>
-
       </SearchBarContainer>
 
-      <ResetButtonContainer>
-
-      </ResetButtonContainer>
+      <ResetButtonContainer></ResetButtonContainer>
     </Container>
   );
 };
@@ -296,7 +291,7 @@ const ResetAllButton = styled(Button)`
   right: 23px;
   margin-left: 0px !important;
   margin-right: 0px !important;
-  margin-bottom: 8px !important;;
+  margin-bottom: 8px !important;
   padding: 0px 0px !important;
   font-family: "Inter", sans-serif !important;
   font-style: normal;
