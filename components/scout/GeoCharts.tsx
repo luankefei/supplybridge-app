@@ -7,6 +7,7 @@ import { allCountry } from "utils/countries";
 import useStore from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
 import Icon from "components/Icon";
+import { useFilter } from "requests/useFilter";
 
 const initialOptions: any = {
   resolution: "countries",
@@ -16,6 +17,7 @@ const initialOptions: any = {
   backgroundColor: "#edf1f3",
   focusTarget: "category",
   tooltip: { isHtml: true },
+  
 };
 
 const dataHeader = [
@@ -28,7 +30,9 @@ const GeoCharts = () => {
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
+  const allSubRegionsLoaded = useRef(false);
   const { searchSuppliers, loading } = useSupplier();
+  const { getAllSubRegions } = useFilter();
   const {
     allCountries,
     setAllCountries,
@@ -37,29 +41,38 @@ const GeoCharts = () => {
     selectedCountries,
     filterData,
     suppliers,
-    setFilterData
+    setFilterData,
+    allSubRegions,
   } = useStore();
 
-
-
-  const generateTooltipContent = (name: string, shortName: string) => {
-    return `<div><b>${name} </b><p> Suppliers: ${getNumberOfSuppliers(
-      shortName
-    )}</p></div>`;
+  useEffect(() => {
+    if (!allSubRegionsLoaded.current) {
+      getAllSubRegions();
+      allSubRegionsLoaded.current = true;
+    }
+  }, []);
+  const generateTooltipContent = (name: string, noOfSuppliers: number) => {
+    return noOfSuppliers >0? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
+    : `<div><b>${name} </b></div>`
   };
   const setInitialData = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
+        const noOfSuppliers=getNumberOfSuppliers(item.name)
+          // colorValue: null | 0 | 1
+          // null => default color
+          // 0 => #08979c
+          // 1 =>  #10712B
+          const colorValue=noOfSuppliers===0? null : 0
         initialData.push([
           item.name,
-          0,
-          generateTooltipContent(item.fullName, item.name),
+          colorValue,
+          generateTooltipContent(item.fullName, noOfSuppliers),
         ]);
       });
     }
     setAllCountries([dataHeader, ...initialData]);
-
   };
 
   const searchHandler = () => {
@@ -69,7 +82,7 @@ const GeoCharts = () => {
   useEffect(() => {
     setInitialData();
     setOptions(initialOptions);
-  }, [suppliers]);
+  }, [suppliers,allSubRegions]);
 
   const mapFilterHandler = (data: any) => {
     let selectedCountry: string[] = [];
@@ -150,7 +163,7 @@ const GeoCharts = () => {
   };
 
   const selectCountryHandler = (region: any) => {
-    clearDropdownFilters()
+    clearDropdownFilters();
     // Zooming
     for (const key in allCountry) {
       allCountry[key].children.map((item: any) => {
@@ -182,10 +195,8 @@ const GeoCharts = () => {
 
   //Get Number of suppliers for country
   const getNumberOfSuppliers = (countryCode: string) => {
-    const nosuppliers = suppliers.filter(
-      (s: any) => s.location?.code === countryCode
-    ).length;
-    return nosuppliers;
+    const region = allSubRegions.find((s: any) => s.code === countryCode);
+    return region ? region.countSuppliersInLocation : 0;
   };
 
   const renderMapComponent = useCallback(() => {
@@ -216,6 +227,7 @@ const GeoCharts = () => {
               maxValue: 1,
               colors: ["#08979c", "#10712B"],
             },
+            defaultColor: '#f5f5f5',
           }}
         />
       </Container>
