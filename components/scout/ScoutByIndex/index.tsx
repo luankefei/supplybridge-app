@@ -14,7 +14,7 @@ const Icon = dynamic(() => import("components/Icon"));
 const BackDrop = dynamic(() => import("components/scout/BackDrop"));
 const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
-const Feedback = dynamic(() => import("components/scout/Feedback"));
+const Feedback = dynamic(() => import("components/Feedback"));
 const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
 import { SearchBar2 } from "components/scout/SearchBar";
 import { theme } from "config/theme";
@@ -321,7 +321,7 @@ const ResultContainer = styled.div`
 `;
 
 const CircleButton = styled.div`
-  background-color: ${(props) => `${props.theme.colors.primary}`};
+  background-color: ${(props) => `${props.theme.colors.secondary}`};
   display: none;
   justify-content: center;
   align-items: center;

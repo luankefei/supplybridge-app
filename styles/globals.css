@@ -16,6 +16,45 @@ a {
   box-sizing: border-box;
 }
 
+.title {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.5rem; /*40px*/
+  line-height: 1.8125rem; /*29px*/
+}
+
+.subtitle {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.125rem; /*18px*/
+  line-height: 1.375rem; /*22px*/
+}
+
+.text {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875rem; /*14px*/
+  line-height: 1.125rem; /*18px*/
+}
+
+.text-bold {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 0.875rem; /*14px*/
+  line-height: 1.125rem; /*18px*/
+}
+
+.text-small {
+  font-family: 'Inter', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 0.75rem; /*12px*/
+  line-height: 0.9375rem; /*15px*/
+}
 /* @media (prefers-color-scheme: dark) {
   html {
     color-scheme: dark;
