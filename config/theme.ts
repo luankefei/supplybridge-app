@@ -1,7 +1,6 @@
 export const theme = {
   colors: {
-    primary: "#08979C",
-    secondary: "#445B66",
+    oldSecondary: "#445B66",
     white: "#ffffff",
     black: "#1F1F1F",
     error: "#f44336;",
@@ -10,6 +9,19 @@ export const theme = {
     link: "#337ab7",
     hover: "#23527c",
     neutaral: "#F5F5F5",
+
+    primary: "#1A1A1A", // colors for almost text
+    primaryDisabled: "#808080",
+    secondary: "#08979C", // Used for highlight color for the primary button background, selected text or menus
+    secondaryVariant: "#E6F5F5",
+    secondaryDisabled: "#D9D9D9",
+    onSecondary: "#FFFFFF", // Used for text color on the background with secondary color
+    grey: "#9CA3AF",
+    background: "#F3F4F6", // FE background
+    surface: "#FFFFFF", // Used for a component background such as card, button and so on
+    blue: "#2C71F0",
+    red: "#AF0000",
+
   },
   constants: {
     s: "8px",

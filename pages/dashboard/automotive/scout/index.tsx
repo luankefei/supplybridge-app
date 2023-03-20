@@ -17,7 +17,7 @@ const Layout = dynamic(() => import("components/Layout"));
 
 const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
-const Feedback = dynamic(() => import("components/scout/Feedback"));
+const Feedback = dynamic(() => import("components/Feedback"));
 const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
 const SearchBar = dynamic(() => import("components/scout/SearchBar"));
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
@@ -34,7 +34,7 @@ interface SearchProps {
   scrollPosition: number;
 }
 
-export default function Industry({}: Props) {
+export default function Industry({ }: Props) {
   const {
     suppliers,
     page,
@@ -101,7 +101,7 @@ export default function Industry({}: Props) {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
+      document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -343,7 +343,7 @@ const MapResultContainer = styled.div`
 const ResultContainer = styled.div``;
 
 const CircleButton = styled.div`
-  background-color: ${(props) => `${props.theme.colors.primary}`};
+  background-color: ${(props) => `${props.theme.colors.secondary}`};
   display: none;
   justify-content: center;
   align-items: center;

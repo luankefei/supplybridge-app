@@ -31,10 +31,10 @@ const Header = () => {
   };
 
   const mainHeaderItems = [
-    { title: "AUTOMOTIVE", path: "automotive", parentPath:'', lock: false },
-    { title: "AEROSPACE", path: "aerospace", parentPath:'', lock: true },
-    { title: "RAILWAY", path: "railway", parentPath:'', lock: true },
-    { title: "OTHER", path: "other", parentPath:'', lock: true },
+    { title: "AUTOMOTIVE", path: "automotive", parentPath: '', lock: false },
+    { title: "AEROSPACE", path: "aerospace", parentPath: '', lock: true },
+    { title: "RAILWAY", path: "railway", parentPath: '', lock: true },
+    { title: "OTHER", path: "other", parentPath: '', lock: true },
   ];
 
   const automotiveHeaderItems = [
@@ -145,9 +145,9 @@ const MenuUnit = styled.span<{ active?: boolean; order: any }>`
   display: flex;
   position: relative;
   border-bottom: ${(props) =>
-    props.active ? `2px solid ${props.theme.colors.primary}` : 0};
+    props.active ? `2px solid ${props.theme.colors.secondary}` : 0};
   color: ${(props) =>
-    props.active ? props.theme.colors.primary : props.theme.colors.text};
+    props.active ? props.theme.colors.secondary : props.theme.colors.text};
 `;
 
 const LockIcon = styled.img`
@@ -179,7 +179,7 @@ const DropdownItem = styled.span`
   justify-content: center;
   align-items: center;
   display: flex;
-  color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.secondary};
 `;
 
 export default Header;

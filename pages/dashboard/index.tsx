@@ -108,7 +108,7 @@ const Title = styled.span`
   font-weight: 500;
   font-size: 30px;
   line-height: 40px;
-  color: ${(props) => props.theme.colors.primary};
+  color: ${(props) => props.theme.colors.secondary};
   margin-bottom: 40px;
 `;
 
@@ -116,14 +116,14 @@ const SubTitle = styled.span`
   font-weight: 500;
   font-size: 16px;
   line-height: 24px;
-  color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.theme.colors.oldSecondary};
 `;
 
 const Label = styled.span`
   font-weight: 400;
   font-size: 12px;
   line-height: 20px;
-  color: ${(props) => props.theme.colors.secondary};
+  color: ${(props) => props.theme.colors.oldSecondary};
 `;
 
 const CardContainer = styled.div`
@@ -138,7 +138,7 @@ const Card = styled.div<{ active: boolean }>`
   width: 212px;
   height: 212px;
   border-radius: 8px;
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.secondary};
   opacity: ${(props) => (props.active ? 1 : 0.5)};
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
 `;

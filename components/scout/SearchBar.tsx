@@ -162,7 +162,7 @@ const SearchField = styled(TextField)`
     &.Mui-focused {
       background-color: white;
       box-shadow: 0.25 0 0 0 2px;
-      border-color: ${(props) => props.theme.colors.primary};
+      border-color: ${(props) => props.theme.colors.secondary};
     }
   }
   label {
@@ -184,7 +184,7 @@ const SearchField = styled(TextField)`
 `;
 
 const CircleButton = styled.div`
-  background-color: ${(props) => `${props.theme.colors.primary}`};
+  background-color: ${(props) => `${props.theme.colors.secondary}`};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,7 +202,7 @@ const SearchButton = styled.button`
   height: 46px;
   border: none;
   border-radius: 32px;
-  background: ${(props) => `${props.theme.colors.primary}`};
+  background: ${(props) => `${props.theme.colors.secondary}`};
   cursor: pointer;
 
   font-family: "Inter";
