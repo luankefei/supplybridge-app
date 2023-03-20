@@ -129,7 +129,7 @@ const FeedbackLabelWrapper = styled.div`
     position: relative;
     margin-right: -1.8125rem;
     margin-top: 3.3125rem;
-    background: ${(props) => props.theme.colors.red};
+    background: #C41D7F;
     border-radius: 16px 16px 0px 0px;
     transform: rotate(-90deg);
 
