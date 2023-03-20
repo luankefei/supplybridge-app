@@ -15,7 +15,7 @@ import dynamic from "next/dynamic";
 import ByCommodity from "./ByCommodity";
 import QuickbridgeResult from "./Result";
 
-const Feedback = dynamic(() => import("components/scout/Feedback"));
+const Feedback = dynamic(() => import("components/Feedback"));
 
 import useBoundStore from "hooks/useBoundStore";
 
@@ -144,27 +144,27 @@ export default function ScoutByQuickBridge() {
   }, [tab])
 
   console.log("active tab", tab)
-  const [windowHeight,setWindowHeight ]= useState(window.innerHeight);
-  const [tabHeight,setTabHeight ]= useState("63vh");
-  useEffect(()=>{
-    window.addEventListener('resize',  ()=> setWindowHeight(window.innerHeight));
+  const [windowHeight, setWindowHeight] = useState(window.innerHeight);
+  const [tabHeight, setTabHeight] = useState("63vh");
+  useEffect(() => {
+    window.addEventListener('resize', () => setWindowHeight(window.innerHeight));
   })
-  useEffect(()=>{
+  useEffect(() => {
 
-  if(windowHeight>=600 && windowHeight <=800) setTabHeight("60vh");
-  else if(windowHeight>800 && windowHeight <=900) setTabHeight("63vh");
-  else if(windowHeight> 900 && windowHeight <=1000) setTabHeight("68vh")
-  else if(windowHeight> 1000 && windowHeight <=1200) setTabHeight("70vh")
-  else if(windowHeight> 1200 && windowHeight <=1400) setTabHeight("75vh")
-  else if(windowHeight> 1400 && windowHeight <=1500) setTabHeight("78vh")
-  else if(windowHeight >1500) setTabHeight("80vh");
+    if (windowHeight >= 600 && windowHeight <= 800) setTabHeight("60vh");
+    else if (windowHeight > 800 && windowHeight <= 900) setTabHeight("63vh");
+    else if (windowHeight > 900 && windowHeight <= 1000) setTabHeight("68vh")
+    else if (windowHeight > 1000 && windowHeight <= 1200) setTabHeight("70vh")
+    else if (windowHeight > 1200 && windowHeight <= 1400) setTabHeight("75vh")
+    else if (windowHeight > 1400 && windowHeight <= 1500) setTabHeight("78vh")
+    else if (windowHeight > 1500) setTabHeight("80vh");
 
-  },[windowHeight])
+  }, [windowHeight])
   return (
     <>
       <div className="Container">
         <div className="Content">
-         
+
           {!tab.isResult ?
             <>
               <StyledTabs value={value} onChange={handleChange} aria-label="tabs">

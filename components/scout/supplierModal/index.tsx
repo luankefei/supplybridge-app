@@ -265,7 +265,7 @@ const ModalButton = styled.div`
   font-weight: 700;
   font-size: 1rem;
   line-height: 1.5rem;
-  background: ${theme.colors.primary};
+  background: ${theme.colors.secondary};
   border-radius: 8px;
   width: 100%;
   padding: 10px 0;

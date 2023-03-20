@@ -56,5 +56,5 @@ const CustomizedTypography = styled(Typography)`
   font-size: 24px;
   line-height: 29px;
   text-align: center;
-  color: ${(props) => props.theme.colors.primary}; ;
+  color: ${(props) => props.theme.colors.secondary}; ;
 `;

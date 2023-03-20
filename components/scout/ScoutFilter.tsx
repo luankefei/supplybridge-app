@@ -145,7 +145,7 @@ const ScoutFilter = () => {
         subRegions: false,
       }));
     }
-  console.log("raw filter data",rawFilterData)
+    console.log("raw filter data", rawFilterData)
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
   };
@@ -233,7 +233,7 @@ const ScoutFilter = () => {
                       />
                     </InputContainer>
                     <FormControlLabel
-                     className="checkbox-select-all"
+                      className="checkbox-select-all"
                       control={
                         <Checkbox
                           checked={isAllSelected}
@@ -255,7 +255,7 @@ const ScoutFilter = () => {
                       );
                       return (
                         <FormControlLabel
-                        className="dropdown-items"
+                          className="dropdown-items"
                           labelPlacement="start"
                           key={index}
                           label={
@@ -331,7 +331,7 @@ const CustomizeAccordion = styled(Accordion)`
   }
 `;
 
-const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
+const CustomizeAccordionSummary = styled(AccordionSummary) <any>`
   width: 178px;
   height: 44px;
   font-family: "Inter";
@@ -340,7 +340,7 @@ const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
   font-size: 12px;
   line-height: 24px;
   color: ${(props) =>
-    `${props.$isselected ? props.theme.colors.primary : "#1A1A1A"} !important`};
+    `${props.$isselected ? props.theme.colors.secondary : "#1A1A1A"} !important`};
   background-color: #ffffff !important;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px !important;
@@ -379,7 +379,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   }
   .Mui-checked {
     background-color: #ffffff !important;
-    color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.secondary};
     img {
       object-fit: none !important;
     }
@@ -387,7 +387,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
 
   .checkbox-select-all{
     .Mui-checked{
-    color: ${(props) => `${props.theme.colors.primary} !important`};  
+    color: ${(props) => `${props.theme.colors.secondary} !important`};  
   }
 }
 `;
@@ -406,7 +406,7 @@ const CheckboxLabel = styled.div<any>`
     display: flex;
     align-items: center;
     color: ${(props) =>
-      props.ischecked ? props.theme.colors.primary : "#1f1f1f"};
+    props.ischecked ? props.theme.colors.secondary : "#1f1f1f"};
   }
   span {
     font-weight: 400;
@@ -422,7 +422,7 @@ const CheckboxLabel = styled.div<any>`
     font-weight: 600;
     font-size: 12px;
     line-height: 24px;
-    color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.secondary};
   }
 `;
 
