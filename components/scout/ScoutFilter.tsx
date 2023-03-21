@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -65,6 +65,8 @@ const ScoutFilter = () => {
     },
   ];
 
+
+
   useEffect(() => {
     setFilterData({ regions: selectedRegions });
     getFilterListById({ regions: selectedRegions }, "regions");
@@ -90,6 +92,9 @@ const ScoutFilter = () => {
     return filterData[type].length > 0 ? true : false;
   };
   const onChangeHandler = (event: any, type: string, obj: any) => {
+    setSearchItem((oldState)=>({
+      [type]:  ""
+    })); 
     selectFilterData(event.target.value, type, obj, false);
   };
   const selectFilterData = (
@@ -139,7 +144,7 @@ const ScoutFilter = () => {
         subRegions: false,
       }));
     }
-  console.log("raw filter data",rawFilterData)
+    console.log("raw filter data", rawFilterData)
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
   };
@@ -177,10 +182,59 @@ const ScoutFilter = () => {
       setExpanded(isExpanded ? index : false);
     };
 
-  const [searchItem, setSearchItem] = useState("");
-  const handleSearchChange = (e: any) => {
-    setSearchItem(e.target.value);
+    type ISearchTerm = {
+      [key: string]: string;
+    };
+  const [searchItem, setSearchItem] = useState<ISearchTerm>({
+  });
+  type IFilterType = {
+    [key: string]: [];
   };
+
+
+const setInitialDropdownData=()=>{
+  setDropdownData({ 
+    commodities: commodities,
+    components: components,
+    coreCompetencies: [],
+    regions: regions,
+    subRegions: subRegions,
+  })
+}
+useEffect(()=>{
+  // if(dropdownRef.current){
+  setInitialDropdownData()
+  console.log("i am initialized",commodities)
+  // dropdownRef.current=false;
+  // }
+},[commodities,components,commodities,regions,subRegions])
+
+const [dropdownData, setDropdownData] = useState<IFilterType>({});
+
+  const handleSearchChange = (e: any,type:string) => {
+    const searchString=e.target.value
+    console.log("search term",searchString)
+    setSearchItem((oldState)=>({
+      [type]:  searchString
+    }));    
+}
+
+useEffect(()=>{
+  const objKey=Object.keys(searchItem)[0]
+if(objKey && searchItem[objKey] !=""){
+ const foundObject=data?.find((d:any)=>d.key===objKey);
+   const filteredData:any=foundObject?.items?.filter((d:any)=>d.name.toLowerCase().includes(searchItem[objKey].toLowerCase()));
+      setDropdownData({
+           ...dropdownData,
+            [objKey]: filteredData
+          });
+  console.log("object item",dropdownData)
+}
+else setInitialDropdownData()
+},[searchItem])
+
+
+
   return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <Container>
@@ -212,10 +266,10 @@ const ScoutFilter = () => {
                   <CustomizeAccordionDetails>
                     <InputContainer>
                       <StyledInput
-                        onChange={handleSearchChange}
+                        onChange={(e:any)=>handleSearchChange(e,item.key)}
                         name="search"
                         placeholder="Search"
-                        value={searchItem}
+                        value={searchItem?.[item.key]}
                         type="text"
                       />
                       <Icon
@@ -227,7 +281,7 @@ const ScoutFilter = () => {
                       />
                     </InputContainer>
                     <FormControlLabel
-                     className="checkbox-select-all"
+                      className="checkbox-select-all"
                       control={
                         <Checkbox
                           checked={isAllSelected}
@@ -242,14 +296,14 @@ const ScoutFilter = () => {
                         </CheckboxLabel>
                       }
                     />
-                    {item.items?.map((checkbox: any, index: number) => {
+                    {dropdownData[item.key]?.map((checkbox: any, index: number) => {
                       const ischecked: boolean = decisionCheckStatus(
                         item.key,
                         checkbox
                       );
                       return (
                         <FormControlLabel
-                        className="dropdown-items"
+                          className="dropdown-items"
                           labelPlacement="start"
                           key={index}
                           label={
@@ -323,9 +377,15 @@ const CustomizeAccordion = styled(Accordion)`
   .MuiCollapse-wrapper {
     padding-top: 20px !important;
   }
+  .MuiCollapse-hidden {
+    .MuiAccordionDetails-root{
+    z-index: -1 !important;
+    }
+  }
+
 `;
 
-const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
+const CustomizeAccordionSummary = styled(AccordionSummary) <any>`
   width: 178px;
   height: 44px;
   font-family: "Inter";
@@ -334,7 +394,7 @@ const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
   font-size: 12px;
   line-height: 24px;
   color: ${(props) =>
-    `${props.$isselected ? props.theme.colors.primary : "#1A1A1A"} !important`};
+    `${props.$isselected ? props.theme.colors.secondary : "#1A1A1A"} !important`};
   background-color: #ffffff !important;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px !important;
@@ -359,6 +419,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   .MuiFormControlLabel-root {
     justify-content: start;
   }
+
   .MuiFormControlLabel-root.dropdown-items{
     justify-content: space-between !important;
   }
@@ -373,7 +434,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   }
   .Mui-checked {
     background-color: #ffffff !important;
-    color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.secondary};
     img {
       object-fit: none !important;
     }
@@ -381,7 +442,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
 
   .checkbox-select-all{
     .Mui-checked{
-    color: ${(props) => `${props.theme.colors.primary} !important`};  
+    color: ${(props) => `${props.theme.colors.secondary} !important`};  
   }
 }
 `;
@@ -400,7 +461,7 @@ const CheckboxLabel = styled.div<any>`
     display: flex;
     align-items: center;
     color: ${(props) =>
-      props.ischecked ? props.theme.colors.primary : "#1f1f1f"};
+    props.ischecked ? props.theme.colors.secondary : "#1f1f1f"};
   }
   span {
     font-weight: 400;
@@ -416,7 +477,7 @@ const CheckboxLabel = styled.div<any>`
     font-weight: 600;
     font-size: 12px;
     line-height: 24px;
-    color: ${(props) => props.theme.colors.primary};
+    color: ${(props) => props.theme.colors.secondary};
   }
 `;
 

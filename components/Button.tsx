@@ -24,7 +24,7 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
   display: flex;
   justify-content: center;
   position: relative;
-  background-color: ${(props) => (props.secondary ? theme.colors.white : theme.colors.primary)};
+  background-color: ${(props) => (props.secondary ? theme.colors.white : theme.colors.secondary)};
   width: ${(props) => (props?.block ? '100%' : '250px')};
   padding: 15px;
   border-radius: 4px;
@@ -35,7 +35,7 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
   font-size: 18px;
   transition: all 200ms ease;
   cursor: pointer;
-  border: ${(props) => (props.secondary ? `1px solid #CCE4EC !important` : `1px solid ${theme.colors.primary} !important`)};
+  border: ${(props) => (props.secondary ? `1px solid #CCE4EC !important` : `1px solid ${theme.colors.secondary} !important`)};
   margin-bottom: 10px;
   margin: ${(props) => props.margin ? props.margin : 0};
 

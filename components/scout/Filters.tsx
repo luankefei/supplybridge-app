@@ -69,7 +69,7 @@ font-style: normal;
 font-weight: 500;
 font-size: 16px;
 line-height: 24px;
-color: ${(props) => props.theme.colors.primary};
+color: ${(props) => props.theme.colors.secondary};
 
 
 `;

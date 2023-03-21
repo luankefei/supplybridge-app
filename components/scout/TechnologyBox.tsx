@@ -44,7 +44,7 @@ const Container = styled.div<{ selected: boolean }>`
   cursor: pointer;
   height: 74px;
   border: ${(props) =>
-    props.selected ? `1px solid ${props.theme.colors.primary}` : 0};
+    props.selected ? `1px solid ${props.theme.colors.secondary}` : 0};
 
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     width: 100%;
