@@ -18,6 +18,8 @@ interface Store {
   setCount: (value: number) => void;
   suppliers: any;
   setSuppliers: (value: any) => void;
+  stats: any;
+  setStats: (value: any) => void;
   industries: any;
   setIndustries: (value: any) => void;
   vehicleFuelTypes: any;
@@ -26,6 +28,8 @@ interface Store {
   setAllCountries: (value: any) => void;
   selectedRegions: any;
   setSelectedRegions: (value: any) => void;
+  allSubRegions: any;
+  setAllSubRegions: (value: any) => void;
   selectedCountries: any;
   setSelectedCountries: (value: any) => void;
   showBackdrop: boolean;
@@ -52,7 +56,8 @@ const useStore = create<Store | any>(
 
       subRegions: [],
       setSubRegions: (subRegions: any) => set(() => ({ subRegions })),
-
+      allSubRegions: [],
+      setAllSubRegions: (allSubRegions: any) => set(() => ({ allSubRegions })),
       page: 1,
       setPage: (page: any) => set(() => ({ page })),
 
@@ -61,6 +66,9 @@ const useStore = create<Store | any>(
 
       count: 0,
       setCount: (count: number) => set(() => ({ count })),
+      stats: {},
+      setStats: (stats: number) => set(() => ({ stats })),
+
 
       filterData: {
         commodities: [],

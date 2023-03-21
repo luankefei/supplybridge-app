@@ -5,7 +5,7 @@ import { request } from "config/axios";
 import useStore from "hooks/useStore";
 
 export const useSupplier = () => {
-  const { setSuppliers, page, pageSize, setPage, setCount, setShowBackdrop } =
+  const { setSuppliers, page, pageSize, setPage, setCount, setShowBackdrop, setStats } =
     useStore();
   const [loading, setLoading] = useState(false);
 
@@ -27,15 +27,15 @@ export const useSupplier = () => {
           },
         };
 
-        const { data } = await request.post(
-          `suppliers/search_full_text`,
-          searchObj
-        );
-        setLoading(false);
-        setSuppliers(data?.suppliers, reset);
-        setCount(data.count);
-        console.log("supplier count %d", data?.suppliers.length ?? 0);
-        setShowBackdrop(data?.suppliers.length === 0)
+      const { data } = await request.post(
+        `suppliers/search_full_text`,
+        searchObj
+      );
+      setLoading(false);
+      setSuppliers(data?.suppliers, reset);
+      setCount(data?.count);
+      setStats(data?.stats)
+      setShowBackdrop(data?.suppliers.length===0)
       }
     } catch (err: any) {
       console.log(err)
