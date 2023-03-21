@@ -4,7 +4,7 @@ import { request } from 'config/axios';
 import useStore from 'hooks/useStore';
 
 export const useFilter = () => {
-  const { setCommodities, setRegions, setComponents, setSubRegions } = useStore();
+  const { setCommodities, setRegions, setComponents, setSubRegions,setAllSubRegions } = useStore();
 
   const getCommodities = async () => {
     try {
@@ -58,6 +58,16 @@ export const useFilter = () => {
       });
     }
   };
+  const getAllSubRegions = async () => {
+    try {
+        const { data } = await request.get(`sub_regions`);
+        setAllSubRegions(data.subRegions);      
+    } catch (err: any) {
+      toast.error(err.response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+    }
+  };
 
-  return { getCommodities, getComponents, getRegions, getSubRegions };
+  return { getCommodities, getComponents, getRegions, getSubRegions,getAllSubRegions };
 };
