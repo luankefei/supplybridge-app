@@ -98,6 +98,9 @@ const ScoutFilter = () => {
     return filterData[type].length > 0 ? true : false;
   };
   const onChangeHandler = (event: any, type: string, obj: any) => {
+    setSearchItem((oldState)=>({
+      [type]:  ""
+    })); 
     selectFilterData(event.target.value, type, obj, false);
   };
   const selectFilterData = (
@@ -194,14 +197,7 @@ const ScoutFilter = () => {
     [key: string]: [];
   };
 
-  const dropdownRef = useRef(true);
-  // const initialDropDown:IFilterType={ 
-  //   commodities: commodities,
-  //   components: components,
-  //   coreCompetencies: [],
-  //   regions: regions,
-  //   subRegions: subRegions,
-  // }
+
 const setInitialDropdownData=()=>{
   setDropdownData({ 
     commodities: commodities,
@@ -231,7 +227,6 @@ const [dropdownData, setDropdownData] = useState<IFilterType>({});
 
 useEffect(()=>{
   const objKey=Object.keys(searchItem)[0]
-  console.log("key is",objKey)
 if(objKey && searchItem[objKey] !=""){
  const foundObject=data?.find((d:any)=>d.key===objKey);
    const filteredData:any=foundObject?.items?.filter((d:any)=>d.name.toLowerCase().includes(searchItem[objKey].toLowerCase()));
@@ -388,6 +383,12 @@ const CustomizeAccordion = styled(Accordion)`
   .MuiCollapse-wrapper {
     padding-top: 20px !important;
   }
+  .MuiCollapse-hidden {
+    .MuiAccordionDetails-root{
+    z-index: -1 !important;
+    }
+  }
+
 `;
 
 const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
@@ -424,6 +425,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   .MuiFormControlLabel-root {
     justify-content: start;
   }
+
   .MuiFormControlLabel-root.dropdown-items{
     justify-content: space-between !important;
   }
