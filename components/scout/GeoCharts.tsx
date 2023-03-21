@@ -76,13 +76,13 @@ const GeoCharts = () => {
     setAllCountries([dataHeader, ...initialData]);
   };
 
-  const setMapDataBasedOnFilters = () => {
+  const setRegionsAndSubRegionsData = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
         if(filterData?.subRegions?.includes(item.name))
         {
-        const noOfSuppliers=getNumberOfSuppliers(item.name)
+        const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
           // colorValue: null | 0 | 1
           // null => default color
           // 0 => #08979c
@@ -107,7 +107,7 @@ const GeoCharts = () => {
         console.log("allcoutnry key", allCountry[key])
         if(filterData?.regions?.includes(allCountry[key]?.categoryId))
         {
-        const noOfSuppliers=getNumberOfSuppliers(item.name)
+        const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
           // colorValue: null | 0 | 1
           // null => default color
           // 0 => #08979c
@@ -137,7 +137,7 @@ const GeoCharts = () => {
     }
     else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
     console.log("region sub region data")
-    setMapDataBasedOnFilters();
+    setRegionsAndSubRegionsData();
     }
     else if(filterData?.subRegions?.length<1 && filterData?.regions?.length >=1){
       console.log("region data")
@@ -263,10 +263,12 @@ const GeoCharts = () => {
   };
 
     //Get Number of suppliers for country
-    const getNumberOfRegionSuppliers = (countryCode: string) => {
+    const getNumberOfSuppliersByRegion = (countryCode: string) => {
       const region = allSubRegions.find((s: any) => s.code === countryCode);
-      console.log("region",region)
-      return region ? region.countSuppliersInLocation : 0;
+      console.log("region",stats[region?.id])
+      console.log("region",region?.id)
+      if(region) console.log("stats",stats?.locationId?.[region?.id]);
+      return region ? stats?.locationId?.[region?.id] : 0     
     };
   const renderMapComponent = useCallback(() => {
     return (
