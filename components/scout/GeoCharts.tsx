@@ -182,9 +182,9 @@ const GeoCharts = () => {
 
   //Get Number of suppliers for country
   const getNumberOfSuppliers = (countryCode: string) => {
-    const nosuppliers = suppliers.filter(
+    const nosuppliers = suppliers?.filter(
       (s: any) => s.location?.code === countryCode
-    ).length;
+    )?.length;
     return nosuppliers;
   };
 
