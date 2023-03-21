@@ -50,7 +50,7 @@ const SearchBar = ({ onSearch }: Props) => {
 
 export const SearchBar2 = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
-  const { setFilterData, setSuppliers } = useStore();
+  const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
 
   const onClickSearch = () => {
     clearFilters();
@@ -63,7 +63,8 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   const resetFilters = () => {
     setSearchItem("");
     clearFilters();
-    setSuppliers([], true);
+    setSuppliers(null, true);
+    setShowBackdrop(false);
   };
   const clearFilters = () => {
     setFilterData({

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Accordion from "@mui/material/Accordion";
 import AccordionDetails from "@mui/material/AccordionDetails";
 import AccordionSummary from "@mui/material/AccordionSummary";
@@ -71,6 +71,8 @@ const ScoutFilter = () => {
     },
   ];
 
+
+
   useEffect(() => {
     setFilterData({ regions: selectedRegions });
     getFilterListById({ regions: selectedRegions }, "regions");
@@ -96,6 +98,9 @@ const ScoutFilter = () => {
     return filterData[type].length > 0 ? true : false;
   };
   const onChangeHandler = (event: any, type: string, obj: any) => {
+    setSearchItem((oldState)=>({
+      [type]:  ""
+    })); 
     selectFilterData(event.target.value, type, obj, false);
   };
   const selectFilterData = (
@@ -183,10 +188,59 @@ const ScoutFilter = () => {
       setExpanded(isExpanded ? index : false);
     };
 
-  const [searchItem, setSearchItem] = useState("");
-  const handleSearchChange = (e: any) => {
-    setSearchItem(e.target.value);
+    type ISearchTerm = {
+      [key: string]: string;
+    };
+  const [searchItem, setSearchItem] = useState<ISearchTerm>({
+  });
+  type IFilterType = {
+    [key: string]: [];
   };
+
+
+const setInitialDropdownData=()=>{
+  setDropdownData({ 
+    commodities: commodities,
+    components: components,
+    coreCompetencies: [],
+    regions: regions,
+    subRegions: subRegions,
+  })
+}
+useEffect(()=>{
+  // if(dropdownRef.current){
+  setInitialDropdownData()
+  console.log("i am initialized",commodities)
+  // dropdownRef.current=false;
+  // }
+},[commodities,components,commodities,regions,subRegions])
+
+const [dropdownData, setDropdownData] = useState<IFilterType>({});
+
+  const handleSearchChange = (e: any,type:string) => {
+    const searchString=e.target.value
+    console.log("search term",searchString)
+    setSearchItem((oldState)=>({
+      [type]:  searchString
+    }));    
+}
+
+useEffect(()=>{
+  const objKey=Object.keys(searchItem)[0]
+if(objKey && searchItem[objKey] !=""){
+ const foundObject=data?.find((d:any)=>d.key===objKey);
+   const filteredData:any=foundObject?.items?.filter((d:any)=>d.name.toLowerCase().includes(searchItem[objKey].toLowerCase()));
+      setDropdownData({
+           ...dropdownData,
+            [objKey]: filteredData
+          });
+  console.log("object item",dropdownData)
+}
+else setInitialDropdownData()
+},[searchItem])
+
+
+
   return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <Container>
@@ -218,10 +272,10 @@ const ScoutFilter = () => {
                   <CustomizeAccordionDetails>
                     <InputContainer>
                       <StyledInput
-                        onChange={handleSearchChange}
+                        onChange={(e:any)=>handleSearchChange(e,item.key)}
                         name="search"
                         placeholder="Search"
-                        value={searchItem}
+                        value={searchItem?.[item.key]}
                         type="text"
                       />
                       <Icon
@@ -248,7 +302,7 @@ const ScoutFilter = () => {
                         </CheckboxLabel>
                       }
                     />
-                    {item.items?.map((checkbox: any, index: number) => {
+                    {dropdownData[item.key]?.map((checkbox: any, index: number) => {
                       const ischecked: boolean = decisionCheckStatus(
                         item.key,
                         checkbox
@@ -329,6 +383,12 @@ const CustomizeAccordion = styled(Accordion)`
   .MuiCollapse-wrapper {
     padding-top: 20px !important;
   }
+  .MuiCollapse-hidden {
+    .MuiAccordionDetails-root{
+    z-index: -1 !important;
+    }
+  }
+
 `;
 
 const CustomizeAccordionSummary = styled(AccordionSummary) <any>`
@@ -365,6 +425,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
   .MuiFormControlLabel-root {
     justify-content: start;
   }
+
   .MuiFormControlLabel-root.dropdown-items{
     justify-content: space-between !important;
   }
