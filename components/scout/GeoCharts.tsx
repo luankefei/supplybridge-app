@@ -104,7 +104,6 @@ const GeoCharts = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-        console.log("allcoutnry key", allCountry[key])
         if(filterData?.regions?.includes(allCountry[key]?.categoryId))
         {
         const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
@@ -132,15 +131,12 @@ const GeoCharts = () => {
   useEffect(() => {
     //if there is no query parameter initilize the map with all the suppliers data
     if(filterData?.subRegions?.length<1 && filterData?.regions?.length<1) {
-      console.log("intitial data")
     setInitialData();
     }
     else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
-    console.log("region sub region data")
     setRegionsAndSubRegionsData();
     }
     else if(filterData?.subRegions?.length<1 && filterData?.regions?.length >=1){
-      console.log("region data")
     setRegionsSuppliersData();
     }
 
