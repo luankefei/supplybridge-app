@@ -41,6 +41,7 @@ const GeoCharts = () => {
     selectedCountries,
     filterData,
     suppliers,
+    stats,
     setFilterData,
     allSubRegions,
   } = useStore();
@@ -75,12 +76,74 @@ const GeoCharts = () => {
     setAllCountries([dataHeader, ...initialData]);
   };
 
+  const setMapDataBasedOnFilters = () => {
+    let initialData: any = [];
+    for (const key in allCountry) {
+      allCountry[key].children.map((item) => {
+        if(filterData?.subRegions?.includes(item.name))
+        {
+        const noOfSuppliers=getNumberOfSuppliers(item.name)
+          // colorValue: null | 0 | 1
+          // null => default color
+          // 0 => #08979c
+          // 1 =>  #10712B
+          const colorValue=noOfSuppliers===0? null : 0
+        initialData.push([
+          item.name,
+          colorValue,
+          generateTooltipContent(item.fullName, noOfSuppliers),
+        ]);
+      }
+      });
+    
+    }
+    setAllCountries([dataHeader, ...initialData]);
+  };
+
+  const setRegionsSuppliersData = () => {
+    let initialData: any = [];
+    for (const key in allCountry) {
+      allCountry[key].children.map((item) => {
+        console.log("allcoutnry key", allCountry[key])
+        if(filterData?.regions?.includes(allCountry[key]?.categoryId))
+        {
+        const noOfSuppliers=getNumberOfSuppliers(item.name)
+          // colorValue: null | 0 | 1
+          // null => default color
+          // 0 => #08979c
+          // 1 =>  #10712B
+          const colorValue=noOfSuppliers===0? null : 0
+        initialData.push([
+          item.name,
+          colorValue,
+          generateTooltipContent(item.fullName, noOfSuppliers),
+        ]);
+      }
+      });
+    
+    }
+    setAllCountries([dataHeader, ...initialData]);
+  };
+
   const searchHandler = () => {
     searchSuppliers(1, true);
   };
 
   useEffect(() => {
+    //if there is no query parameter initilize the map with all the suppliers data
+    if(filterData?.subRegions?.length<1 && filterData?.regions?.length<1) {
+      console.log("intitial data")
     setInitialData();
+    }
+    else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
+    console.log("region sub region data")
+    setMapDataBasedOnFilters();
+    }
+    else if(filterData?.subRegions?.length<1 && filterData?.regions?.length >=1){
+      console.log("region data")
+    setRegionsSuppliersData();
+    }
+
     setOptions(initialOptions);
   }, [suppliers,allSubRegions]);
 
@@ -199,6 +262,12 @@ const GeoCharts = () => {
     return region ? region.countSuppliersInLocation : 0;
   };
 
+    //Get Number of suppliers for country
+    const getNumberOfRegionSuppliers = (countryCode: string) => {
+      const region = allSubRegions.find((s: any) => s.code === countryCode);
+      console.log("region",region)
+      return region ? region.countSuppliersInLocation : 0;
+    };
   const renderMapComponent = useCallback(() => {
     return (
       <Container>
