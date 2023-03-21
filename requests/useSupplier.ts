@@ -16,25 +16,26 @@ export const useSupplier = () => {
   ) => {
     try {
       const { filterData } = useStore.getState();
-      if(filterData.q !="" || filterData.regions.length>0 || filterData.subRegions>0){
-      setLoading(true);
-      const searchObj = {
-        q: filterData.q || searchString,
-        offset: ((pageNumber - 1) * pageSize),
-        limit: pageSize,
-        filter: {
-          ...filterData,
-        },
-      };
+      if (filterData.q != "" || filterData.regions.length > 0 || filterData.subRegions > 0) {
+        setLoading(true);
+        const searchObj = {
+          q: filterData.q || searchString,
+          offset: ((pageNumber - 1) * pageSize),
+          limit: pageSize,
+          filter: {
+            ...filterData,
+          },
+        };
 
-      const { data } = await request.post(
-        `suppliers/search_full_text`,
-        searchObj
-      );
-      setLoading(false);
-      setSuppliers(data?.suppliers, reset);
-      setCount(data.count);
-      setShowBackdrop(data?.suppliers.length===0)
+        const { data } = await request.post(
+          `suppliers/search_full_text`,
+          searchObj
+        );
+        setLoading(false);
+        setSuppliers(data?.suppliers, reset);
+        setCount(data.count);
+        console.log("supplier count %d", data?.suppliers.length ?? 0);
+        setShowBackdrop(data?.suppliers.length === 0)
       }
     } catch (err: any) {
       console.log(err)

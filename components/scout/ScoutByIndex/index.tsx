@@ -67,7 +67,6 @@ export default function ScoutByIndex() {
 
   useEffect(() => {
     searchString.current = filterData.q;
-    searchHandler();
   }, [filterData]);
 
   useEffect(() => {
