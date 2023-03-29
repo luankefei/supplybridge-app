@@ -2,13 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 
 import useStore from "hooks/useStore";
-
+import useBoundStore from "hooks/useBoundStore";
 import Icon from "components/Icon";
 import TextField from "components/TextField";
 import { Button } from "@mui/material";
 
 interface Props {
   onSearch: () => void;
+  width?: number;
 }
 
 const SearchBar = ({ onSearch }: Props) => {
@@ -48,7 +49,7 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
-export const SearchBar2 = ({ onSearch }: Props) => {
+export const SearchBar2 = ({ onSearch,width=100 }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
 
@@ -87,7 +88,7 @@ export const SearchBar2 = ({ onSearch }: Props) => {
 
   return (
     <Container>
-      <SearchBarContainer>
+      <SearchBarContainer width={width}>
         <InputContainer>
           {searchItem === "" ? (
             <Icon src="search2" width={20} height={20} m={"0px"} hover />
@@ -118,6 +119,87 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   );
 };
 
+export const SearchBarForFilter = ({ onSearch, width = 60 }: Props) => {
+
+
+  const {
+    quickBridge
+  
+  } = useBoundStore((state) => ({
+    quickBridge: state.quickBridge,
+    quickBridgeVehicles: state.quickBridgeVehicles,
+    quickBridgeOEMs: state.quickBridgeOEMs,
+    quickBridgeClasses: state.quickBridgeClasses,
+    quickBridgeSegments: state.quickBridgeSegments,
+    quickBridgeTechnologies: state.quickBridgeTechnologies,
+    quickBridgeCommodities: state.quickBridgeCommodities,
+    quickBridgeProductionTechnologies: state.quickBridgeProductionTechnologies,
+    quickBridgePioneers: state.quickBridgePioneers
+  }));
+
+  const [searchItem, setSearchItem] = useState("");
+  const { setQ:setFilterData } = quickBridge;
+
+  const onClickSearch = () => {
+    clearFilters();
+    setFilterData(
+     searchItem
+    );
+    onSearch();
+  };
+  const clearFilters = () => {
+    setFilterData({
+      commodities: [],
+      components: [],
+      coreCompetencies: [],
+      regions: [],
+      subRegions: [],
+      vehicleFuelTypes: [],
+    });
+  };
+  const onKeyPressHandler = (event: any) => {
+    if (event.key === "Enter") {
+      setFilterData({
+        q: searchItem,
+      });
+      onSearch();
+    }
+  };
+
+  return (
+  <MainContainer>
+      <SearchBarContainer width={width}>
+        <InputContainer>
+          {searchItem === "" ? (
+            <Icon src="search2" width={20} height={20} m={"0px"} hover />
+          ) : (
+            <Icon src="search-color" width={20} height={20} m={"0px"} hover />
+          )}
+
+          <StyledInput
+            onChange={(e: any) => setSearchItem(e.target.value)}
+            name="search"
+            placeholder="Search..."
+            onKeyPress={onKeyPressHandler}
+            value={searchItem}
+            type="text"
+          />
+        </InputContainer>
+        <SearchButtonWrapper>
+          <SearchButton onClick={onClickSearch}>Search</SearchButton>
+        </SearchButtonWrapper>
+      </SearchBarContainer>
+    </MainContainer>
+  );
+};
+
+const MainContainer = styled.div`
+  width: calc(100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+`;
+
 const Container = styled.div`
   width: 75%;
   margin-top: 22px;
@@ -125,9 +207,11 @@ const Container = styled.div`
   justify-content: end;
   flex-direction: column;
 `;
-const SearchBarContainer = styled.div`
+const SearchBarContainer = styled.div<{
+  width: number;
+}>`
   display: flex;
-  width: 100%;
+  width: ${(props) => `${props.width}%`};
   justify-content: center;
   align-items: center;
   gap: 20px;

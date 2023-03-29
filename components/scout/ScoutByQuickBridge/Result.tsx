@@ -11,10 +11,13 @@ import { useViewport } from "hooks/useViewport";
 import UnlockBackDrop from '../UnlockBackDrop'
 import LockedResultCard from "../LockedResultCard";
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
+const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
+
+import { SearchBarForFilter } from "components/scout/SearchBar";
+import { theme } from "config/theme";
 
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
-
   const { suppliers, page, setPage, count, filter, setResult, setPageSize } = quickBridge;
   const { scrollOffset } = useViewport();
   const { searchSuppliers, resetAllSelected, loading } = useQuickBridgeSupplier();
@@ -50,6 +53,10 @@ export default function QuickbridgeResult() {
       searchSuppliers(1, true);
     }
   };
+
+  const searchMethod = ()  => {
+    //I will write here
+  }
 
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
@@ -93,6 +100,12 @@ export default function QuickbridgeResult() {
         <Button
           onClick={setTabResult}
         >Back</Button>
+        <SearchContainer >
+          <SearchBarForFilter onSearch={searchMethod} />
+        </SearchContainer>
+        <FilterContainer>
+          {isSuppliersNotEmpty && <ScoutFilter />}
+        </FilterContainer>
         <QuickbridgeContainer>
           <ResultContainer>
             {isSuppliersNotEmpty ? (
@@ -186,3 +199,36 @@ const Button = styled.div`
 const LockedContainer = styled.div`
      position: relative !important;
 `
+
+const SearchContainer = styled.div`
+  width: 40%;
+  @media (min-width: ${theme.dimension.cardMaxWidth}) {
+    width: ${theme.dimension.cardMaxWidth};
+  }
+  margin: 25px 0px 0px 0px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  gap: 15px;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    justify-content: space-between;
+  }
+  @media (max-width: ${(props) => props.theme.size.mobileXl}) {
+    flex-direction: column;
+  }
+`;
+
+const FilterContainer = styled.div`
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  align-items: center;
+  margin: 2% -6% -2% 0%;
+  @media (max-width: ${(props) => props.theme.size.laptop}) {
+    width: 100%;
+  }
+  @media (max-width: ${(props) => props.theme.size.tablet}) {
+    flex-direction: column;
+    gap: 30px;
+  }
+`;

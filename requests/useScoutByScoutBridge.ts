@@ -5,6 +5,7 @@ import { request } from "config/axios";
 import useBoundStore from "hooks/useBoundStore";
 import console from "utils/console";
 import { VehicleBrandModel, VehicleBrand, VehicleSegment, VehicleModel } from "hooks/quick-bridge/segmentSlice";
+import useStore from "hooks/useStore";
 
 export const useQuickBridgeSupplier = () => {
     const [loading, setLoading] = useState(false);
@@ -31,6 +32,7 @@ export const useQuickBridgeSupplier = () => {
         quickBridgePioneers: state.quickBridgePioneers
     }));
     const { page, pageSize, setCount, setSuppliers, filter, q } = quickBridge;
+    const { setSuppliers : setSuppliersStore } = useStore() //I added this to use the filter on quickbridge
 
     const searchSuppliers = async (
         pageNumber: number = page,
@@ -57,6 +59,7 @@ export const useQuickBridgeSupplier = () => {
             console.log("quick bridge result", data)
             setLoading(false);
             setSuppliers(data?.suppliers, reset);
+            setSuppliersStore(data?.suppliers, reset)
             setCount(data.count);
         } catch (err: any) {
             setLoading(false);
