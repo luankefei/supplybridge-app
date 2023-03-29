@@ -28,7 +28,7 @@ const BadgeContainer = styled.div`
   gap: 4px;
   height: 32px;
   background-color: ${(props) =>
-    props.color ? props.color : props.theme.colors.primary};
+    props.color ? props.color : props.theme.colors.secondary};
   border-radius: 41px;
 `;
 

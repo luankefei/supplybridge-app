@@ -50,25 +50,21 @@ const SearchBar = ({ onSearch }: Props) => {
 
 export const SearchBar2 = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
-  const { setFilterData, setSuppliers } = useStore();
+  const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
 
   const onClickSearch = () => {
     clearFilters();
-    onSearch();
-  };
-
-  useEffect(() => {
-    //set new keyword and reset all other filters
     setFilterData({
       q: searchItem,
     });
-  }, [searchItem]);
+    onSearch();
+  };
 
   const resetFilters = () => {
     setSearchItem("");
     clearFilters();
-    setSuppliers([], true);
-
+    setSuppliers(null, true);
+    setShowBackdrop(false);
   };
   const clearFilters = () => {
     setFilterData({
@@ -82,6 +78,9 @@ export const SearchBar2 = ({ onSearch }: Props) => {
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
+      setFilterData({
+        q: searchItem,
+      });
       onSearch();
     }
   };
@@ -112,12 +111,9 @@ export const SearchBar2 = ({ onSearch }: Props) => {
           </ResetAllButton>
           <SearchButton onClick={onClickSearch}>Search</SearchButton>
         </SearchButtonWrapper>
-
       </SearchBarContainer>
 
-      <ResetButtonContainer>
-
-      </ResetButtonContainer>
+      <ResetButtonContainer></ResetButtonContainer>
     </Container>
   );
 };
@@ -162,7 +158,7 @@ const SearchField = styled(TextField)`
     &.Mui-focused {
       background-color: white;
       box-shadow: 0.25 0 0 0 2px;
-      border-color: ${(props) => props.theme.colors.primary};
+      border-color: ${(props) => props.theme.colors.secondary};
     }
   }
   label {
@@ -184,7 +180,7 @@ const SearchField = styled(TextField)`
 `;
 
 const CircleButton = styled.div`
-  background-color: ${(props) => `${props.theme.colors.primary}`};
+  background-color: ${(props) => `${props.theme.colors.secondary}`};
   display: flex;
   justify-content: center;
   align-items: center;
@@ -202,7 +198,7 @@ const SearchButton = styled.button`
   height: 46px;
   border: none;
   border-radius: 32px;
-  background: ${(props) => `${props.theme.colors.primary}`};
+  background: ${(props) => `${props.theme.colors.secondary}`};
   cursor: pointer;
 
   font-family: "Inter";
@@ -296,7 +292,7 @@ const ResetAllButton = styled(Button)`
   right: 23px;
   margin-left: 0px !important;
   margin-right: 0px !important;
-  margin-bottom: 8px !important;;
+  margin-bottom: 8px !important;
   padding: 0px 0px !important;
   font-family: "Inter", sans-serif !important;
   font-style: normal;

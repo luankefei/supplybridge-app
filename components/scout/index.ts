@@ -1,4 +1,3 @@
-export * from './Feedback';
 export * from './GeoCharts';
 export * from './ResultCard';
 export * from './ScoutFilter';

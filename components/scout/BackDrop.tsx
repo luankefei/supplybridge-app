@@ -9,18 +9,13 @@ interface Props {
 }
 
 export default function BackDrop({ isOpen = false }: Props) {
-  const { setShowBackdrop } = useStore();
-
-  const handleClose = () => {
-    setShowBackdrop(false);
-  };
 
   if (!isOpen) {
     return <></>;
   }
 
   return (
-    <Container onClick={handleClose}>
+    <Container>
       <Icon src="backdrop-logo" width={82} height={82} />
       <CustomizedTypography id="modal-modal-description" sx={{ mt: 2 }}>
         No results matching to this search
@@ -56,5 +51,5 @@ const CustomizedTypography = styled(Typography)`
   font-size: 24px;
   line-height: 29px;
   text-align: center;
-  color: ${(props) => props.theme.colors.primary}; ;
+  color: ${(props) => props.theme.colors.secondary}; ;
 `;

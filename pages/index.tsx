@@ -413,7 +413,7 @@ const HeaderLoginButton = styled.div`
 
 const HeaderRegisterButton = styled.div`
   padding: 9px 17px;;
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.secondary};
   color: #fff;
   border-radius: 4px;
   margin-left: 14px;
@@ -862,7 +862,7 @@ const ContactContainerInput = styled.input`
   font-size: 18px;
   &:focus {
     outline: none !important;
-    border: 3px solid ${(props) => props.theme.colors.primary};
+    border: 3px solid ${(props) => props.theme.colors.secondary};
   }
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -899,7 +899,7 @@ const ContactContainerMessageInput = styled.textarea`
   resize: none;
   &:focus {
     outline: none !important;
-    border: 3px solid ${(props) => props.theme.colors.primary};
+    border: 3px solid ${(props) => props.theme.colors.secondary};
   }
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -928,7 +928,7 @@ const ContactContainerMessageInput = styled.textarea`
 const ContactContainerFormButton = styled.div`
   width: 255px;
   height: 43px;
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.secondary};
   border-radius: 4px;
   display: flex;
   justify-content: center;
@@ -1110,7 +1110,7 @@ const FooterNewsletterInput = styled.input`
   opacity: 0.7;
   &:focus {
     outline: none !important;
-    border: 1px solid ${(props) => props.theme.colors.primary};
+    border: 1px solid ${(props) => props.theme.colors.secondary};
   }
   ::placeholder,
   ::-webkit-input-placeholder {
@@ -1190,7 +1190,7 @@ const MobileMenu = styled.div<{ openMobileMenu: boolean }>`
     border-radius: 15px;
     top: 10px;
     right: 0;
-    background-color: ${(props) => props.theme.colors.primary};
+    background-color: ${(props) => props.theme.colors.secondary};
     z-index: 100;
     box-shadow: rgba(0, 0, 0.5, 0.5) 0px 10px 50px;
   }
@@ -1241,7 +1241,7 @@ const MobileMenuButtons = styled.div`
 
 const MobileButton = styled.div`
   padding: 9px 17px;;
-  background-color: ${(props) => props.theme.colors.primary};
+  background-color: ${(props) => props.theme.colors.secondary};
   color: #fff;
   border-radius: 4px;
   margin-left: 14px;
