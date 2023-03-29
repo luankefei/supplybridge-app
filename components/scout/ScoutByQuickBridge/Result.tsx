@@ -14,6 +14,7 @@ const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 
 import { SearchBarForFilter } from "components/scout/SearchBar";
+import { GoBackIcon } from "components/Button";
 import { theme } from "config/theme";
 
 export default function QuickbridgeResult() {
@@ -97,9 +98,7 @@ export default function QuickbridgeResult() {
   return (
     <ScoutContainer>
       <MainContainer>
-        <Button
-          onClick={setTabResult}
-        >Back</Button>
+        <GoBackIcon goBack={setTabResult}></GoBackIcon>
         <SearchContainer >
           <SearchBarForFilter onSearch={searchMethod} />
         </SearchContainer>
@@ -164,37 +163,6 @@ const QuickbridgeContainer = styled.div`
 `;
 
 const ResultContainer = styled.div``;
-
-const Button = styled.div`
-  width: 254px;
-  height: 46px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 100px !important;
-  background-color: #08979c;
-  color: #f5f5f5;
-  margin-bottom: 8px;
-  border: 1px solid #08979c;
-  padding: 12px;
-  cursor: pointer;
-
-  font-family: "Inter", sans-serif;
-  font-style: normal;
-  font-weight: 600;
-  font-size: 16px;
-  line-height: 24px;
-
-  &:hover {
-    box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
-      0px 9px 28px 8px rgba(0, 0, 0, 0.05);
-    filter: drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08));
-  }
-  &:active {
-    background-color: #006d75;
-  }
-`;
-
 
 const LockedContainer = styled.div`
      position: relative !important;

@@ -2,6 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import { ButtonUnstyledProps, useButton } from '@mui/base/ButtonUnstyled';
 import CircularProgress from '@mui/material/CircularProgress';
+import ArrowBackIcon from '@mui/icons-material/ArrowBack';
 import { styled as muiStyled } from '@mui/system';
 import clsx from 'clsx';
 import { theme } from 'config/theme';
@@ -101,5 +102,28 @@ const Button = React.forwardRef(function CustomButton(
     </CustomButtonRoot>
   );
 });
+
+interface Props {
+  goBack: () => void;
+}
+
+export const GoBackIcon = ({ goBack }: Props) => {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        right: "10%",
+        top: "48px",
+        display: "flex",
+        alignItems: "center",
+        cursor: "pointer",
+      }}
+      onClick={goBack}
+    >
+      <ArrowBackIcon /> <span style={{ marginLeft: "8px" }}>BACK</span>
+    </div>
+  );
+};
+
 
 export default Button;
