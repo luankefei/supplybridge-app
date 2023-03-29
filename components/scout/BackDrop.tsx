@@ -9,18 +9,13 @@ interface Props {
 }
 
 export default function BackDrop({ isOpen = false }: Props) {
-  const { setShowBackdrop } = useStore();
-
-  const handleClose = () => {
-    setShowBackdrop(false);
-  };
 
   if (!isOpen) {
     return <></>;
   }
 
   return (
-    <Container onClick={handleClose}>
+    <Container>
       <Icon src="backdrop-logo" width={82} height={82} />
       <CustomizedTypography id="modal-modal-description" sx={{ mt: 2 }}>
         No results matching to this search
