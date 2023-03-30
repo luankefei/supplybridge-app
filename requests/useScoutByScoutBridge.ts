@@ -31,8 +31,8 @@ export const useQuickBridgeSupplier = () => {
         quickBridgeProductionTechnologies: state.quickBridgeProductionTechnologies,
         quickBridgePioneers: state.quickBridgePioneers
     }));
-    const { page, pageSize, setCount, setSuppliers, filter, q } = quickBridge;
-    const { setSuppliers : setSuppliersStore } = useStore() //I added this to use the filter on quickbridge
+    const { page, pageSize, setCount, setSuppliers, filter,q } = quickBridge;
+    const { setSuppliers : setSuppliersStore,filterData } = useStore() //I added this to use the filter on quickbridge
 
     const searchSuppliers = async (
         pageNumber: number = page,
@@ -40,10 +40,10 @@ export const useQuickBridgeSupplier = () => {
         searchString?: string
     ) => {
         try {
-
+            
             setLoading(true);
             const searchObj = {
-                q: q || searchString,
+                q: q || filterData.q || searchString,
                 offset: ((pageNumber - 1) * pageSize),
                 limit: pageSize,
                 filter: {

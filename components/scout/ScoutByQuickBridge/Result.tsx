@@ -16,6 +16,7 @@ const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 import { SearchBarForFilter } from "components/scout/SearchBar";
 import { GoBackIcon } from "components/Button";
 import { theme } from "config/theme";
+import useStore from "hooks/useStore";
 
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
@@ -28,6 +29,10 @@ export default function QuickbridgeResult() {
   const clearRef = useRef(false);
   const pageLoaded = useRef(false);
   const [isLocked, setIsLocked] = useState(false);
+
+  const {
+    filterData,clearFilterData
+  } = useStore();
 
   useEffect(() => {
     getInitialRequests();
@@ -55,10 +60,6 @@ export default function QuickbridgeResult() {
     }
   };
 
-  const searchMethod = ()  => {
-    //I will write here
-  }
-
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
     if (currentPage * 10 < countRef.current) {
@@ -81,16 +82,21 @@ export default function QuickbridgeResult() {
     }
   };
 
-  const searchHandler = () => {
+  const searchHandler = async () => {
     pageRef.current = 1;
-    searchSuppliers(1, true);
+    await searchSuppliers(1, true,filterData.q);
     infiniteScrollControl.current = true;
   };
-
+  
   const setTabResult = () => {
     resetAllSelected();
+    clearFilters();
     setResult(false);
   }
+
+  const clearFilters = () => {
+    filterData.q = ""
+  };
 
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
@@ -100,7 +106,7 @@ export default function QuickbridgeResult() {
       <MainContainer>
         <GoBackIcon goBack={setTabResult}></GoBackIcon>
         <SearchContainer >
-          <SearchBarForFilter onSearch={searchMethod} />
+          <SearchBarForFilter onSearch={searchHandler} />
         </SearchContainer>
         <FilterContainer>
           {isSuppliersNotEmpty && <ScoutFilter />}

@@ -15,7 +15,7 @@ interface Props {
 const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData } = useStore();
-
+  
   const onClickSearch = () => {
     onSearch();
   };
@@ -122,33 +122,26 @@ export const SearchBar2 = ({ onSearch,width=100 }: Props) => {
 export const SearchBarForFilter = ({ onSearch, width = 60 }: Props) => {
 
 
-  const {
-    quickBridge
-  
-  } = useBoundStore((state) => ({
-    quickBridge: state.quickBridge,
-    quickBridgeVehicles: state.quickBridgeVehicles,
-    quickBridgeOEMs: state.quickBridgeOEMs,
-    quickBridgeClasses: state.quickBridgeClasses,
-    quickBridgeSegments: state.quickBridgeSegments,
-    quickBridgeTechnologies: state.quickBridgeTechnologies,
-    quickBridgeCommodities: state.quickBridgeCommodities,
-    quickBridgeProductionTechnologies: state.quickBridgeProductionTechnologies,
-    quickBridgePioneers: state.quickBridgePioneers
-  }));
-
   const [searchItem, setSearchItem] = useState("");
-  const { setQ:setFilterData } = quickBridge;
+
+  const {
+    setFilterData
+  } = useStore();
+
+  useEffect(() => {
+    setFilterData({ q: searchItem });
+  }, [searchItem]);
 
   const onClickSearch = () => {
     clearFilters();
     setFilterData(
-     searchItem
+     {q:searchItem}
     );
     onSearch();
   };
   const clearFilters = () => {
     setFilterData({
+      q: "",
       commodities: [],
       components: [],
       coreCompetencies: [],
@@ -159,9 +152,6 @@ export const SearchBarForFilter = ({ onSearch, width = 60 }: Props) => {
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
-      setFilterData({
-        q: searchItem,
-      });
       onSearch();
     }
   };
