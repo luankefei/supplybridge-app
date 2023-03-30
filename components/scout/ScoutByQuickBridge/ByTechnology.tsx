@@ -1,36 +1,38 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge";
 
 export default function ByTechnology() {
-  const { quickBridgeStore, technologyStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      technologyStore: state.quickBridgeTechnologies
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, technologyStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    technologyStore: state.quickBridgeTechnologies,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = technologyStore;
   const { getTechnologies, loading } = useQuickBridgeTechnology();
 
   const onClick = (select: any) => {
     if (selected !== select) {
       setSelected(select);
+      let label = data.find((d: any) => d.id == select).name;
+      setSelectedLabel(label);
       setFilter("vehicleFuelTypes", select);
     } else {
+      setSelectedLabel("");
       setSelected(null);
     }
-  }
+  };
 
   useEffect(() => {
     if (!data) {
       getTechnologies();
     }
-  }, [data, getTechnologies])
+  }, [data, getTechnologies]);
 
   if (loading) {
     return (
@@ -49,11 +51,12 @@ export default function ByTechnology() {
   return (
     <Container>
       <CardContainer>
-        {data && data.map(({ id, name, icon }: any) => (
-          <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} />
-          </CardWrapper>
-        ))}
+        {data &&
+          data.map(({ id, name, icon }: any) => (
+            <CardWrapper onClick={() => onClick(id)} key={id}>
+              <BigCard src={icon} title={name} selected={selected === id} />
+            </CardWrapper>
+          ))}
       </CardContainer>
     </Container>
   );
@@ -75,10 +78,10 @@ const Text = styled.span`
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #4B5563;
+  color: #4b5563;
   text-align: center;
   margin-bottom: 18px;
-`
+`;
 
 const CardWrapper = styled.span`
   cursor: pointer;

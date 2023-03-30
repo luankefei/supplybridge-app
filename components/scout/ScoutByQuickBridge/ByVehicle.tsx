@@ -1,19 +1,18 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge";
 
 export default function ByVehicle() {
-  const { quickBridgeStore, vehicleStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      vehicleStore: state.quickBridgeVehicles
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, vehicleStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    vehicleStore: state.quickBridgeVehicles,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = vehicleStore;
   const { getVehicles, loading } = useQuickBridgeVihicle();
 
@@ -21,16 +20,19 @@ export default function ByVehicle() {
     if (select !== selected) {
       setSelected(select);
       setFilter("vehicleTypes", select);
+      let label = data.find((d: any) => d.id == select).name;
+      setSelectedLabel(label);
     } else {
       setSelected(null);
+      setSelectedLabel("");
     }
-  }
+  };
 
   useEffect(() => {
     if (!data) {
       getVehicles();
     }
-  }, [data, getVehicles])
+  }, [data, getVehicles]);
 
   if (loading) {
     return (
@@ -46,11 +48,12 @@ export default function ByVehicle() {
 
   return (
     <>
-      {data && data.map(({ id, name, icon }: any) => (
-        <CardWrapper onClick={() => onClick(id)} key={id}>
-          <BigCard src={icon} title={name} selected={selected === id} />
-        </CardWrapper>
-      ))}
+      {data &&
+        data.map(({ id, name, icon }: any) => (
+          <CardWrapper onClick={() => onClick(id)} key={id}>
+            <BigCard src={icon} title={name} selected={selected === id} />
+          </CardWrapper>
+        ))}
     </>
   );
 }
@@ -58,7 +61,6 @@ export default function ByVehicle() {
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
 
 /*import { useState } from "react";
 import styled from "styled-components";

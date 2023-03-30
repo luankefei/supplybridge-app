@@ -10,12 +10,13 @@ import { Button } from "@mui/material";
 interface Props {
   onSearch: () => void;
   width?: number;
+  placeholder?: string;
 }
 
 const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData } = useStore();
-  
+
   const onClickSearch = () => {
     onSearch();
   };
@@ -49,7 +50,7 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
-export const SearchBar2 = ({ onSearch,width=100 }: Props) => {
+export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
 
@@ -119,14 +120,14 @@ export const SearchBar2 = ({ onSearch,width=100 }: Props) => {
   );
 };
 
-export const SearchBarForFilter = ({ onSearch, width = 60 }: Props) => {
-
-
+export const SearchBarForFilter = ({
+  onSearch,
+  width = 60,
+  placeholder = "Searching...",
+}: Props) => {
   const [searchItem, setSearchItem] = useState("");
 
-  const {
-    setFilterData
-  } = useStore();
+  const { setFilterData } = useStore();
 
   useEffect(() => {
     setFilterData({ q: searchItem });
@@ -134,9 +135,7 @@ export const SearchBarForFilter = ({ onSearch, width = 60 }: Props) => {
 
   const onClickSearch = () => {
     clearFilters();
-    setFilterData(
-     {q:searchItem}
-    );
+    setFilterData({ q: searchItem });
     onSearch();
   };
   const clearFilters = () => {
@@ -157,7 +156,7 @@ export const SearchBarForFilter = ({ onSearch, width = 60 }: Props) => {
   };
 
   return (
-  <MainContainer>
+    <MainContainer>
       <SearchBarContainer width={width}>
         <InputContainer>
           {searchItem === "" ? (
@@ -169,7 +168,7 @@ export const SearchBarForFilter = ({ onSearch, width = 60 }: Props) => {
           <StyledInput
             onChange={(e: any) => setSearchItem(e.target.value)}
             name="search"
-            placeholder="Search..."
+            placeholder={placeholder}
             onKeyPress={onKeyPressHandler}
             value={searchItem}
             type="text"

@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -6,23 +6,33 @@ import { Skeleton } from "@mui/material";
 import BrandCard from "./BrandCard";
 import BrandCardSkeleton from "./BrandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeClass } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeClass } from "requests/useScoutByScoutBridge";
 
 export default function ByClass() {
-  const { quickBridgeStore, classStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      classStore: state.quickBridgeClasses
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, classStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    classStore: state.quickBridgeClasses,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = classStore;
   const { getClasses, loading } = useQuickBridgeClass();
 
   const onClick = (select: any) => {
     if (select !== selected) {
+      let label = "";
+      loopOut: for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].vehicleBrands.length; j++) {
+          if (data[i].vehicleBrands[j].id == select) {
+            label = data[i].vehicleBrands[j].name;
+            break loopOut;
+          }
+        }
+      }
+      setSelectedLabel(label);
       setSelected(select);
       setFilter("vehicleBrands", select);
     } else {
+      setSelectedLabel("");
       setSelected(null);
     }
   };
@@ -31,7 +41,7 @@ export default function ByClass() {
     if (!data) {
       getClasses();
     }
-  }, [data, getClasses])
+  }, [data, getClasses]);
 
   if (loading) {
     return (
@@ -39,7 +49,11 @@ export default function ByClass() {
         <Container>
           {[1, 2].map((index) => (
             <Section key={index}>
-              <Skeleton variant="text" sx={{ fontSize: "1.125rem", marginBottom: "30px" }} width="60px" />
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1.125rem", marginBottom: "30px" }}
+                width="60px"
+              />
               <Brands>
                 {[1, 2, 3, 4, 5].map((brandIndex) => (
                   <CardWrapper key={brandIndex}>
@@ -57,32 +71,35 @@ export default function ByClass() {
   return (
     <>
       <Container>
-        {data && data.map((_class: any, classIndex: any) => (
-          <Section key={classIndex}>
-            <Title>{_class.name ?? ""}</Title>
-            <Brands>
-              {_class.vehicleBrands && (
-                _class.vehicleBrands.map((brand: any, brandIndex: any) => (
-                  <CardWrapper key={brandIndex} onClick={() => onClick(brand.id)}>
-                    <BrandCard
-                      key={brand.id}
-                      logo={brand.logo}
-                      title={brand.name}
-                      selected={selected === brand.id}
-                    />
-                  </CardWrapper>
-                ))
-              )}
-            </Brands>
-          </Section>
-        ))}
+        {data &&
+          data.map((_class: any, classIndex: any) => (
+            <Section key={classIndex}>
+              <Title>{_class.name ?? ""}</Title>
+              <Brands>
+                {_class.vehicleBrands &&
+                  _class.vehicleBrands.map((brand: any, brandIndex: any) => (
+                    <CardWrapper
+                      key={brandIndex}
+                      onClick={() => onClick(brand.id)}
+                    >
+                      <BrandCard
+                        key={brand.id}
+                        logo={brand.logo}
+                        title={brand.name}
+                        selected={selected === brand.id}
+                      />
+                    </CardWrapper>
+                  ))}
+              </Brands>
+            </Section>
+          ))}
       </Container>
     </>
   );
 }
 
 const Container = styled.div`
-margin-top: 60px;
+  margin-top: 60px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
@@ -112,7 +129,6 @@ const Brands = styled.span<any>`
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
 
 /*
 import { useState } from "react";

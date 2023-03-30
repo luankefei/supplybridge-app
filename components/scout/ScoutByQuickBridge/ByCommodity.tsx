@@ -1,37 +1,39 @@
-"use client"
+"use client";
 
 import { useEffect, useState } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeCommodity } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeCommodity } from "requests/useScoutByScoutBridge";
 
 export default function ByCommodity() {
-  const { quickBridgeStore, commodityStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      commodityStore: state.quickBridgeCommodities
-    }));
-  const { setFilter, setSuppliers, suppliers } = quickBridgeStore;
+  const { quickBridgeStore, commodityStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    commodityStore: state.quickBridgeCommodities,
+  }));
+  const { setFilter, setSelectedLabel, setSuppliers, suppliers } =
+    quickBridgeStore;
   const { selected, setSelected, data } = commodityStore;
   const { getCommodities, loading } = useQuickBridgeCommodity();
   const onClick = (select: any) => {
-    console.log("selected", select)
+    console.log("selected", select);
     if (selected !== select) {
+      let label = data.find((d: any) => d.id == select).name;
+      setSelectedLabel(label);
       setSelected(select);
       setFilter("commodities", select);
     } else {
+      setSelectedLabel("");
       setSelected(null);
     }
-  }
-
+  };
 
   useEffect(() => {
     if (!data) {
       getCommodities();
     }
-  }, [data, getCommodities])
+  }, [data, getCommodities]);
 
   if (loading) {
     return (
@@ -44,18 +46,18 @@ export default function ByCommodity() {
       </CardContainer>
     );
   }
-  console.log("commodity data", data)
+  console.log("commodity data", data);
   return (
     <CardContainer>
-      {data && data.map(({ id, name, icon }: any) => (
-        <CardWrapper onClick={() => onClick(id)} key={id}>
-          <BigCard src={icon} title={name} selected={selected === id} />
-        </CardWrapper>
-      ))}
+      {data &&
+        data.map(({ id, name, icon }: any) => (
+          <CardWrapper onClick={() => onClick(id)} key={id}>
+            <BigCard src={icon} title={name} selected={selected === id} />
+          </CardWrapper>
+        ))}
     </CardContainer>
-  )
+  );
 }
-
 
 const CardContainer = styled.div`
   display: grid;

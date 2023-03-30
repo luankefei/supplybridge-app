@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import styled from "styled-components";
 import dynamic from "next/dynamic";
@@ -8,7 +8,7 @@ import _ from "lodash";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
 import { useViewport } from "hooks/useViewport";
-import UnlockBackDrop from '../UnlockBackDrop'
+import UnlockBackDrop from "../UnlockBackDrop";
 import LockedResultCard from "../LockedResultCard";
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
@@ -20,9 +20,19 @@ import useStore from "hooks/useStore";
 
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
-  const { suppliers, page, setPage, count, filter, setResult, setPageSize } = quickBridge;
+  const {
+    suppliers,
+    page,
+    setPage,
+    count,
+    filter,
+    setResult,
+    setPageSize,
+    selectedLabel,
+  } = quickBridge;
   const { scrollOffset } = useViewport();
-  const { searchSuppliers, resetAllSelected, loading } = useQuickBridgeSupplier();
+  const { searchSuppliers, resetAllSelected, loading } =
+    useQuickBridgeSupplier();
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
   const pageRef = useRef(1);
@@ -30,9 +40,7 @@ export default function QuickbridgeResult() {
   const pageLoaded = useRef(false);
   const [isLocked, setIsLocked] = useState(false);
 
-  const {
-    filterData,clearFilterData
-  } = useStore();
+  const { filterData, clearFilterData } = useStore();
 
   useEffect(() => {
     getInitialRequests();
@@ -72,7 +80,7 @@ export default function QuickbridgeResult() {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-      document.documentElement.scrollTop <=
+        document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current && suppliers?.length < 20) {
@@ -84,29 +92,37 @@ export default function QuickbridgeResult() {
 
   const searchHandler = async () => {
     pageRef.current = 1;
-    await searchSuppliers(1, true,filterData.q);
+    await searchSuppliers(1, true, filterData.q);
     infiniteScrollControl.current = true;
   };
-  
+
   const setTabResult = () => {
     resetAllSelected();
     clearFilters();
     setResult(false);
-  }
+  };
 
   const clearFilters = () => {
-    filterData.q = ""
+    filterData.q = "";
   };
 
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
 
+  let searchPlaceholder = "Search";
+  if (selectedLabel != "") {
+    searchPlaceholder += " in " + selectedLabel;
+  }
+
   return (
     <ScoutContainer>
       <MainContainer>
         <GoBackIcon goBack={setTabResult}></GoBackIcon>
-        <SearchContainer >
-          <SearchBarForFilter onSearch={searchHandler} />
+        <SearchContainer>
+          <SearchBarForFilter
+            onSearch={searchHandler}
+            placeholder={searchPlaceholder}
+          />
         </SearchContainer>
         <FilterContainer>
           {isSuppliersNotEmpty && <ScoutFilter />}
@@ -115,20 +131,29 @@ export default function QuickbridgeResult() {
           <ResultContainer>
             {isSuppliersNotEmpty ? (
               <>
-                {suppliers.map((supplier: any, index: number) => (
-                  index > 20 ? null :
-                    index == 20 || index + 1 == suppliers.length ?
-                      <LockedContainer key={`locked-container-${index}`}>
-                        <LockedResultCard data={supplier} key={`${supplier.id}_${index}`} />
-                        <UnlockBackDrop isOpen={true} />
-                      </LockedContainer>
-                      :
-                      <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
-                )
+                {suppliers.map((supplier: any, index: number) =>
+                  index > 20 ? null : index == 20 ||
+                    index + 1 == suppliers.length ? (
+                    <LockedContainer key={`locked-container-${index}`}>
+                      <LockedResultCard
+                        data={supplier}
+                        key={`${supplier.id}_${index}`}
+                      />
+                      <UnlockBackDrop isOpen={true} />
+                    </LockedContainer>
+                  ) : (
+                    <ResultCard
+                      data={supplier}
+                      key={`${supplier.id}_${index}`}
+                    />
+                  )
                 )}
               </>
             ) : null}
-            {loading && [1, 2, 3, 4].map((index) => (<ResultCard key={`loading-${index}`} />))}
+            {loading &&
+              [1, 2, 3, 4].map((index) => (
+                <ResultCard key={`loading-${index}`} />
+              ))}
           </ResultContainer>
         </QuickbridgeContainer>
       </MainContainer>
@@ -171,8 +196,8 @@ const QuickbridgeContainer = styled.div`
 const ResultContainer = styled.div``;
 
 const LockedContainer = styled.div`
-     position: relative !important;
-`
+  position: relative !important;
+`;
 
 const SearchContainer = styled.div`
   width: 40%;
