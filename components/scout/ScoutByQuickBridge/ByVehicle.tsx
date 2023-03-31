@@ -25,6 +25,7 @@ export default function ByVehicle() {
     } else {
       setSelected(null);
       setSelectedLabel("");
+      setFilter("vehicleTypes", null);
     }
   };
 
@@ -33,6 +34,10 @@ export default function ByVehicle() {
       getVehicles();
     }
   }, [data, getVehicles]);
+
+  useEffect(() => {
+    setFilter("vehicleTypes", null);
+  }, []);
 
   if (loading) {
     return (

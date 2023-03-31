@@ -34,6 +34,7 @@ export default function ByOEM() {
     } else {
       setSelected(null);
       setSelectedLabel("");
+      setFilter("vehicleBrands", null);
     }
   };
 
@@ -42,6 +43,10 @@ export default function ByOEM() {
       getOEMs();
     }
   }, [data, getOEMs]);
+
+  useEffect(() => {
+    setFilter("vehicleBrands", null);
+  }, []);
 
   if (loading) {
     return (

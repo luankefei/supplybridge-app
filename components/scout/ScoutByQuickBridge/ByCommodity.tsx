@@ -26,6 +26,7 @@ export default function ByCommodity() {
     } else {
       setSelectedLabel("");
       setSelected(null);
+      setFilter("commodities", null);
     }
   };
 
@@ -34,6 +35,10 @@ export default function ByCommodity() {
       getCommodities();
     }
   }, [data, getCommodities]);
+
+  useEffect(() => {
+    setFilter("commodities", null);
+  }, []);
 
   if (loading) {
     return (

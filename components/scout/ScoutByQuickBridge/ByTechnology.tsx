@@ -25,6 +25,7 @@ export default function ByTechnology() {
     } else {
       setSelectedLabel("");
       setSelected(null);
+      setFilter("vehicleFuelTypes", null);
     }
   };
 
@@ -33,6 +34,10 @@ export default function ByTechnology() {
       getTechnologies();
     }
   }, [data, getTechnologies]);
+
+  useEffect(() => {
+    setFilter("vehicleFuelTypes", null);
+  }, []);
 
   if (loading) {
     return (

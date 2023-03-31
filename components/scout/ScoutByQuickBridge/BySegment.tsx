@@ -41,6 +41,7 @@ export default function BySegment() {
     } else {
       setSelected(null);
       setSelectedLabel("");
+      setFilter("vehicleModels", null);
     }
   };
 
@@ -49,6 +50,10 @@ export default function BySegment() {
       getBrandModels();
     }
   }, [brandModels, getBrandModels]);
+
+  useEffect(() => {
+    setFilter("vehicleModels", null);
+  }, []);
 
   if (loading) {
     return (

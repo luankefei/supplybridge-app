@@ -55,17 +55,16 @@ interface StyledTabProps {
   icon?: any;
 }
 
-
 const StyledTab = styled((props: StyledTabProps) => (
   <Tab disableRipple {...props} />
 ))(({ theme }) => ({
   width: "12.5%",
   textTransform: "none",
   //fontSize: "12px",
-  [theme.breakpoints.down('lg')]: {
+  [theme.breakpoints.down("lg")]: {
     fontSize: "10px",
   },
-  [theme.breakpoints.up('lg')]: {
+  [theme.breakpoints.up("lg")]: {
     fontSize: "12px",
   },
   fontFamily: "Inter",
@@ -85,8 +84,8 @@ const StyledTab = styled((props: StyledTabProps) => (
     img: {
       width: "30.66px",
       height: "33.79px",
-      transform: 'translateY(-20px) rotate(26.5deg)',
-      transition: 'transform 0.3s ease-in',
+      transform: "translateY(-20px) rotate(26.5deg)",
+      transition: "transform 0.3s ease-in",
       zIndex: 100,
       position: "absolute",
       right: "5px",
@@ -125,49 +124,47 @@ export default function ScoutByQuickBridge() {
   const [value, setValue] = useState(0);
   const quickBridge = useBoundStore((state) => state.quickBridge);
 
-  const {
-    tab,
-    setTab,
-    setResult
-  } = quickBridge;
+  const { tab, setTab, setResult } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     // setValue(newValue);
-    setTab(newValue)
+    setTab(newValue);
   };
 
   const showResult = () => {
-    setResult(true)
-  }
+    setResult(true);
+  };
   useEffect(() => {
-    setValue(tab.activeTab)
-  }, [tab])
+    setValue(tab.activeTab);
+  }, [tab]);
 
-  console.log("active tab", tab)
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [tabHeight, setTabHeight] = useState("63vh");
   useEffect(() => {
-    window.addEventListener('resize', () => setWindowHeight(window.innerHeight));
-  })
+    window.addEventListener("resize", () =>
+      setWindowHeight(window.innerHeight)
+    );
+  });
   useEffect(() => {
-
     if (windowHeight >= 600 && windowHeight <= 800) setTabHeight("60vh");
     else if (windowHeight > 800 && windowHeight <= 900) setTabHeight("63vh");
-    else if (windowHeight > 900 && windowHeight <= 1000) setTabHeight("68vh")
-    else if (windowHeight > 1000 && windowHeight <= 1200) setTabHeight("70vh")
-    else if (windowHeight > 1200 && windowHeight <= 1400) setTabHeight("75vh")
-    else if (windowHeight > 1400 && windowHeight <= 1500) setTabHeight("78vh")
+    else if (windowHeight > 900 && windowHeight <= 1000) setTabHeight("68vh");
+    else if (windowHeight > 1000 && windowHeight <= 1200) setTabHeight("70vh");
+    else if (windowHeight > 1200 && windowHeight <= 1400) setTabHeight("75vh");
+    else if (windowHeight > 1400 && windowHeight <= 1500) setTabHeight("78vh");
     else if (windowHeight > 1500) setTabHeight("80vh");
-
-  }, [windowHeight])
+  }, [windowHeight]);
   return (
     <>
       <div className="Container">
         <div className="Content">
-
-          {!tab.isResult ?
+          {!tab.isResult ? (
             <>
-              <StyledTabs value={value} onChange={handleChange} aria-label="tabs">
+              <StyledTabs
+                value={value}
+                onChange={handleChange}
+                aria-label="tabs"
+              >
                 <StyledTab label="By Vehicle" />
                 <StyledTab label="By OEM" />
                 <StyledTab label="By Class" />
@@ -200,7 +197,10 @@ export default function ScoutByQuickBridge() {
                 }}
               >
                 <TabPanel value={value} index={0} dir={theme.direction}>
-                  <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                  <div
+                    style={{ alignItems: "center" }}
+                    className="TabPanelWrapper"
+                  >
                     <ByVehicle />
                   </div>
                 </TabPanel>
@@ -220,7 +220,10 @@ export default function ScoutByQuickBridge() {
                   </div>
                 </TabPanel>
                 <TabPanel value={value} index={4} dir={theme.direction}>
-                  <div style={{ alignItems: "center" }} className="TabPanelWrapper">
+                  <div
+                    style={{ alignItems: "center" }}
+                    className="TabPanelWrapper"
+                  >
                     <ByTechnology />
                   </div>
                 </TabPanel>
@@ -260,8 +263,9 @@ export default function ScoutByQuickBridge() {
                     borderRadius: "16px",
                     marginBottom: "40px",
                     "&:hover": {
-                      boxShadow: "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
-                      filter: "drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08))"
+                      boxShadow:
+                        "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
+                      filter: "drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08))",
                     },
                     "&:active": {
                       background: "#006D75",
@@ -273,11 +277,10 @@ export default function ScoutByQuickBridge() {
               </div>
               <Feedback />
             </>
-            :
+          ) : (
             <QuickbridgeResult />
-          }
+          )}
         </div>
-
       </div>
 
       <style jsx>{`
@@ -289,7 +292,7 @@ export default function ScoutByQuickBridge() {
         }
         .Content {
           width: 1056px;
-          margin-top:35px;        
+          margin-top: 35px;
         }
         @media (max-width: 992px) {
           .Container {

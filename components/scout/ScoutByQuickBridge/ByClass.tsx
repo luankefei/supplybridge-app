@@ -34,6 +34,7 @@ export default function ByClass() {
     } else {
       setSelectedLabel("");
       setSelected(null);
+      setFilter("vehicleBrands", null);
     }
   };
 
@@ -42,6 +43,10 @@ export default function ByClass() {
       getClasses();
     }
   }, [data, getClasses]);
+
+  useEffect(() => {
+    setFilter("vehicleBrands", null);
+  }, []);
 
   if (loading) {
     return (

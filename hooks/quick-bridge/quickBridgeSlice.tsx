@@ -144,7 +144,7 @@ export const createQuickBridgeSlice: StateCreator<
           quickBridge: {
             ...state.quickBridge,
             filter: {
-              [type]: [data],
+              [type]: data == null ? [] : [data],
             },
             page: 1, // Reset the array suppliers with the new data.
             suppliers: [], // Reset the array suppliers with the new data.

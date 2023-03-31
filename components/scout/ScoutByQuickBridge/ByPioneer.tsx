@@ -26,6 +26,7 @@ export default function ByPioneer() {
     } else {
       setSelected(null);
       setSelectedLabel("");
+      setFilter("pioneers", null);
     }
   };
 
@@ -34,6 +35,10 @@ export default function ByPioneer() {
       getPioneers();
     }
   }, [data, getPioneers]);
+
+  useEffect(() => {
+    setFilter("pioneers", null);
+  }, []);
 
   if (loading) {
     return (

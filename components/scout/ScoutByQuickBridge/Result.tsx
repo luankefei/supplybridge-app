@@ -29,6 +29,7 @@ export default function QuickbridgeResult() {
     setResult,
     setPageSize,
     selectedLabel,
+    setSelectedLabel,
   } = quickBridge;
   const { scrollOffset } = useViewport();
   const { searchSuppliers, resetAllSelected, loading } =
@@ -100,6 +101,7 @@ export default function QuickbridgeResult() {
     resetAllSelected();
     clearFilters();
     setResult(false);
+    setSelectedLabel("");
   };
 
   const clearFilters = () => {

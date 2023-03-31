@@ -28,6 +28,7 @@ export default function ByProductionTech() {
     } else {
       setSelected(null);
       setSelectedLabel("");
+      setFilter("productionTechnologies", null);
     }
   };
 
@@ -36,6 +37,10 @@ export default function ByProductionTech() {
       getProductionTechnologies();
     }
   }, [data, getProductionTechnologies]);
+
+  useEffect(() => {
+    setFilter("productionTechnologies", null);
+  }, []);
 
   if (loading) {
     return (
