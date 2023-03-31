@@ -262,6 +262,7 @@ export default function ScoutByQuickBridge() {
                     background: "#08979C",
                     borderRadius: "16px",
                     marginBottom: "40px",
+                    cursor: "pointer",
                     "&:hover": {
                       boxShadow:
                         "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
