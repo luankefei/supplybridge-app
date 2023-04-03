@@ -207,7 +207,7 @@ const Container = styled.div<any>`
   font-family: Nunito;
   min-height: 100vh;
   width: ${theme.dimension.leftMenuWidth};
-  position: relative;
+  position: fixed;
   box-sizing: border-box;
   z-index: 1000;
   /* transition: 1s all 0s; */

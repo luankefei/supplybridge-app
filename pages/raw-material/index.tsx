@@ -25,15 +25,20 @@ export default function RawMaterial() {
 
   return (
     <Layout>
-      <NewHeader />
+      <SliderContainer>
+      <NewHeader />      
       <Container>
         <Carousel type="image" data={imageData} />
       </Container>
       <Tutorial storageKey="tutorial-raw-material" />
+      </SliderContainer>
     </Layout>
   )
 }
 
+const SliderContainer=styled.div`
+  height: 100vh !important;
+`
 const Container = styled.div`
   position: absolute;
   width: 100%;
@@ -41,4 +46,5 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  top: 10px;
 `;
