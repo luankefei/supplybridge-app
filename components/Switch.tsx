@@ -7,16 +7,55 @@ import ScoutByIndex from "./scout/ScoutByIndex";
 import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
 
 export default function Switch() {
-  // const quickBridge = useBoundStore((state) => state.quickBridge);
-  const { quickBridgeStore, vehicleStore } = useBoundStore((state) => ({
+  const {
+    quickBridgeStore,
+    vehicleStore,
+    oemStore,
+    classStore,
+    segmentStore,
+    technologyStore,
+    commodityStore,
+    productionTechStore,
+    pioneerStore,
+  } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
     vehicleStore: state.quickBridgeVehicles,
+    oemStore: state.quickBridgeOEMs,
+    classStore: state.quickBridgeClasses,
+    segmentStore: state.quickBridgeSegments,
+    technologyStore: state.quickBridgeTechnologies,
+    commodityStore: state.quickBridgeCommodities,
+    productionTechStore: state.quickBridgeProductionTechnologies,
+    pioneerStore: state.quickBridgePioneers,
   }));
-  const { setResult, setTab, setFilter } = quickBridgeStore;
-  const { setSelected: setVehicleSelected } = vehicleStore;
-
+  const { setResult, setTab, setFilter, setSelectedLabel } = quickBridgeStore;
   const [selected, setSelected] = useState("byIndex");
   const { setFilterData, setSuppliers } = useStore();
+
+  const onClickByQuickBridge = () => {
+    // reset to default state
+    setResult(false);
+    setTab(0);
+    setFilter("vehicleTypes", null);
+    setFilter("vehicleBrands", null);
+    setFilter("vehicleModels", null);
+    setFilter("vehicleFuelTypes", null);
+    setFilter("commodities", null);
+    setFilter("productionTechnologies", null);
+    setFilter("pioneers", null);
+
+    vehicleStore.setSelected(null);
+    oemStore.setSelected(null);
+    classStore.setSelected(null);
+    segmentStore.setSelected(null);
+    technologyStore.setSelected(null);
+    commodityStore.setSelected(null);
+    productionTechStore.setSelected(null);
+    pioneerStore.setSelected(null);
+
+    setSelectedLabel("");
+    setSelected("byQuickBridge");
+  };
 
   useEffect(() => {
     setFilterData({
@@ -38,17 +77,7 @@ export default function Switch() {
           <ByIndex selected={selected} onClick={() => setSelected("byIndex")}>
             Scout by Index
           </ByIndex>
-          <ByQuickBridge
-            selected={selected}
-            onClick={() => {
-              // reset to default state
-              setResult(false);
-              setTab(0);
-              setVehicleSelected(null);
-              setFilter("vehicleTypes", null);
-              setSelected("byQuickBridge");
-            }}
-          >
+          <ByQuickBridge selected={selected} onClick={onClickByQuickBridge}>
             Scout by QuickBridge
           </ByQuickBridge>
         </Switches>
