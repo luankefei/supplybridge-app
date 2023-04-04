@@ -34,6 +34,7 @@ export default function QuickbridgeResult() {
   const { scrollOffset } = useViewport();
   const { searchSuppliers, resetAllSelected, loading } =
     useQuickBridgeSupplier();
+
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
   const pageRef = useRef(1);
@@ -41,7 +42,7 @@ export default function QuickbridgeResult() {
   const pageLoaded = useRef(false);
   const [isLocked, setIsLocked] = useState(false);
 
-  const { filterData, clearFilterData } = useStore();
+  const { filterData, setFilterData, clearFilterData } = useStore();
 
   useEffect(() => {
     getInitialRequests();
@@ -106,6 +107,7 @@ export default function QuickbridgeResult() {
 
   const clearFilters = () => {
     filterData.q = "";
+    clearFilterData();
   };
 
   const isSuppliersNotEmpty: boolean =
@@ -115,6 +117,8 @@ export default function QuickbridgeResult() {
   if (selectedLabel != "") {
     searchPlaceholder += " in " + selectedLabel;
   }
+
+  // console.log("filterData: ", filterData);
 
   return (
     <ScoutContainer>
@@ -127,7 +131,7 @@ export default function QuickbridgeResult() {
           />
         </SearchContainer>
         <FilterContainer>
-          {isSuppliersNotEmpty && <ScoutFilter />}
+          <ScoutFilter isQuickSearch={true} />
         </FilterContainer>
         <QuickbridgeContainer>
           <ResultContainer>

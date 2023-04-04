@@ -150,6 +150,23 @@ export const createQuickBridgeSlice: StateCreator<
             suppliers: [], // Reset the array suppliers with the new data.
           },
         })),
+      setExtraFilter: (
+        data: any // data: {commodities: [], components: [], regions: [], subRegions: [] }
+      ) =>
+        set((state = get()) => {
+          return {
+            ...state,
+            quickBridge: {
+              ...state.quickBridge,
+              filter: {
+                ...state.quickBridge.filter,
+                ...data,
+              },
+              page: 1, // Reset the array suppliers with the new data.
+              suppliers: [], // Reset the array suppliers with the new data.
+            },
+          };
+        }),
       setTab: (activeTab: number) =>
         set((state = get()) => ({
           ...state,

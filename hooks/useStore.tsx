@@ -69,7 +69,6 @@ const useStore = create<Store | any>(
       stats: {},
       setStats: (stats: number) => set(() => ({ stats })),
 
-
       filterData: {
         commodities: [],
         components: [],
@@ -79,9 +78,10 @@ const useStore = create<Store | any>(
         vehicleFuelTypes: [],
         q: "",
       },
-      setFilterData: (data: any) =>
-        set(() => ({ filterData: { ...get().filterData, ...data } })),
-
+      setFilterData: (data: any) => {
+        console.log("setting filter data: ", data);
+        set(() => ({ filterData: { ...get().filterData, ...data } }));
+      },
       showBackdrop: false,
       setShowBackdrop: (showBackdrop: boolean) => set(() => ({ showBackdrop })),
 

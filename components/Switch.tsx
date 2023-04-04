@@ -5,32 +5,16 @@ import useBoundStore from "hooks/useBoundStore";
 import styled from "styled-components";
 import ScoutByIndex from "./scout/ScoutByIndex";
 import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
+import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 
 export default function Switch() {
-  const {
-    quickBridgeStore,
-    vehicleStore,
-    oemStore,
-    classStore,
-    segmentStore,
-    technologyStore,
-    commodityStore,
-    productionTechStore,
-    pioneerStore,
-  } = useBoundStore((state) => ({
+  const { resetAllSelected } = useQuickBridgeSupplier();
+  const { quickBridgeStore } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
-    vehicleStore: state.quickBridgeVehicles,
-    oemStore: state.quickBridgeOEMs,
-    classStore: state.quickBridgeClasses,
-    segmentStore: state.quickBridgeSegments,
-    technologyStore: state.quickBridgeTechnologies,
-    commodityStore: state.quickBridgeCommodities,
-    productionTechStore: state.quickBridgeProductionTechnologies,
-    pioneerStore: state.quickBridgePioneers,
   }));
   const { setResult, setTab, setFilter, setSelectedLabel } = quickBridgeStore;
   const [selected, setSelected] = useState("byIndex");
-  const { setFilterData, setSuppliers } = useStore();
+  const { setFilterData, clearFilterData, setSuppliers } = useStore();
 
   const onClickByQuickBridge = () => {
     // reset to default state
@@ -44,29 +28,15 @@ export default function Switch() {
     setFilter("productionTechnologies", null);
     setFilter("pioneers", null);
 
-    vehicleStore.setSelected(null);
-    oemStore.setSelected(null);
-    classStore.setSelected(null);
-    segmentStore.setSelected(null);
-    technologyStore.setSelected(null);
-    commodityStore.setSelected(null);
-    productionTechStore.setSelected(null);
-    pioneerStore.setSelected(null);
+    clearFilterData();
 
+    resetAllSelected();
     setSelectedLabel("");
     setSelected("byQuickBridge");
   };
 
   useEffect(() => {
-    setFilterData({
-      q: "",
-      commodities: [],
-      components: [],
-      coreCompetencies: [],
-      regions: [],
-      subRegions: [],
-      vehicleFuelTypes: [],
-    });
+    clearFilterData();
     setSuppliers([], true);
   }, [selected]);
   return (

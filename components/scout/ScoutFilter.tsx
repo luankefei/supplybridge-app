@@ -6,6 +6,8 @@ import Checkbox from "@mui/material/Checkbox";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import styled from "styled-components";
 
+import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
+import useBoundStore from "hooks/useBoundStore";
 import useStore from "hooks/useStore";
 import { useFilter } from "requests/useFilter";
 import Icon from "components/Icon";
@@ -22,7 +24,11 @@ const MenuProps = {
   },
 };
 
-const ScoutFilter = () => {
+const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
+  const quickBridge = useBoundStore((state) => state.quickBridge);
+  const { setExtraFilter } = quickBridge;
+
+  const { searchSuppliers, loading } = useQuickBridgeSupplier();
   const {
     commodities,
     components,
@@ -65,15 +71,15 @@ const ScoutFilter = () => {
     },
   ];
 
-
-
   useEffect(() => {
     setFilterData({ regions: selectedRegions });
     getFilterListById({ regions: selectedRegions }, "regions");
+    // console.log("regions changed: ", selectedRegions);
   }, [selectedRegions]);
 
   useEffect(() => {
     setFilterData({ subRegions: selectedCountries });
+    // console.log("countries changed: ", selectedCountries);
   }, [selectedCountries]);
 
   const getFilterListById = (data: any, type: string) => {
@@ -92,9 +98,9 @@ const ScoutFilter = () => {
     return filterData[type].length > 0 ? true : false;
   };
   const onChangeHandler = (event: any, type: string, obj: any) => {
-    setSearchItem((oldState)=>({
-      [type]:  ""
-    })); 
+    setSearchItem((oldState) => ({
+      [type]: "",
+    }));
     selectFilterData(event.target.value, type, obj, false);
   };
   const selectFilterData = (
@@ -144,9 +150,21 @@ const ScoutFilter = () => {
         subRegions: false,
       }));
     }
-    console.log("raw filter data", rawFilterData)
+
+    // console.log("raw filter data/type: ", type, "//", rawFilterData);
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
+
+    if (isQuickSearch && (type == "regions" || type == "subRegions")) {
+      // console.log("filtering... now with: ", rawFilterData);
+      setExtraFilter({
+        commodities: rawFilterData.commodities,
+        components: rawFilterData.components,
+        regions: rawFilterData.regions,
+        subRegions: rawFilterData.subRegions,
+      });
+      searchSuppliers(1, true);
+    }
   };
 
   const selectAllHandler = (event: any, type: string) => {
@@ -182,59 +200,57 @@ const ScoutFilter = () => {
       setExpanded(isExpanded ? index : false);
     };
 
-    type ISearchTerm = {
-      [key: string]: string;
-    };
-  const [searchItem, setSearchItem] = useState<ISearchTerm>({
-  });
+  type ISearchTerm = {
+    [key: string]: string;
+  };
+  const [searchItem, setSearchItem] = useState<ISearchTerm>({});
   type IFilterType = {
     [key: string]: [];
   };
 
+  const setInitialDropdownData = () => {
+    setDropdownData({
+      commodities: commodities,
+      components: components,
+      coreCompetencies: [],
+      regions: regions,
+      subRegions: subRegions,
+    });
+  };
+  useEffect(() => {
+    // if(dropdownRef.current){
+    setInitialDropdownData();
+    console.log("i am initialized", commodities);
+    // dropdownRef.current=false;
+    // }
+  }, [commodities, components, commodities, regions, subRegions]);
 
-const setInitialDropdownData=()=>{
-  setDropdownData({ 
-    commodities: commodities,
-    components: components,
-    coreCompetencies: [],
-    regions: regions,
-    subRegions: subRegions,
-  })
-}
-useEffect(()=>{
-  // if(dropdownRef.current){
-  setInitialDropdownData()
-  console.log("i am initialized",commodities)
-  // dropdownRef.current=false;
-  // }
-},[commodities,components,commodities,regions,subRegions])
+  const [dropdownData, setDropdownData] = useState<IFilterType>({});
 
-const [dropdownData, setDropdownData] = useState<IFilterType>({});
+  const handleSearchChange = (e: any, type: string) => {
+    const searchString = e.target.value;
+    console.log("search term", searchString);
+    setSearchItem((oldState) => ({
+      [type]: searchString,
+    }));
+  };
 
-  const handleSearchChange = (e: any,type:string) => {
-    const searchString=e.target.value
-    console.log("search term",searchString)
-    setSearchItem((oldState)=>({
-      [type]:  searchString
-    }));    
-}
-
-useEffect(()=>{
-  const objKey=Object.keys(searchItem)[0]
-if(objKey && searchItem[objKey] !=""){
- const foundObject=data?.find((d:any)=>d.key===objKey);
-   const filteredData:any=foundObject?.items?.filter((d:any)=>d.name.toLowerCase().includes(searchItem[objKey].toLowerCase()));
+  useEffect(() => {
+    const objKey = Object.keys(searchItem)[0];
+    if (objKey && searchItem[objKey] != "") {
+      const foundObject = data?.find((d: any) => d.key === objKey);
+      const filteredData: any = foundObject?.items?.filter((d: any) =>
+        d.name.toLowerCase().includes(searchItem[objKey].toLowerCase())
+      );
       setDropdownData({
-           ...dropdownData,
-            [objKey]: filteredData
-          });
-  console.log("object item",dropdownData)
-}
-else setInitialDropdownData()
-},[searchItem])
+        ...dropdownData,
+        [objKey]: filteredData,
+      });
+      console.log("object item", dropdownData);
+    } else setInitialDropdownData();
+  }, [searchItem]);
 
-
-
+  // isQuickSearch ||
   return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <Container>
@@ -266,7 +282,7 @@ else setInitialDropdownData()
                   <CustomizeAccordionDetails>
                     <InputContainer>
                       <StyledInput
-                        onChange={(e:any)=>handleSearchChange(e,item.key)}
+                        onChange={(e: any) => handleSearchChange(e, item.key)}
                         name="search"
                         placeholder="Search"
                         value={searchItem?.[item.key]}
@@ -296,41 +312,43 @@ else setInitialDropdownData()
                         </CheckboxLabel>
                       }
                     />
-                    {dropdownData[item.key]?.map((checkbox: any, index: number) => {
-                      const ischecked: boolean = decisionCheckStatus(
-                        item.key,
-                        checkbox
-                      );
-                      return (
-                        <FormControlLabel
-                          className="dropdown-items"
-                          labelPlacement="start"
-                          key={index}
-                          label={
-                            <CheckboxLabel ischecked={ischecked}>
-                              <p>{checkbox.name}</p>
-                            </CheckboxLabel>
-                          }
-                          control={
-                            <Checkbox
-                              onChange={(event) =>
-                                onChangeHandler(event, item.key, checkbox)
-                              }
-                              icon={<Icon src="tick" width={0} height={0} />}
-                              checked={ischecked}
-                              checkedIcon={
-                                <Icon
-                                  src="tick"
-                                  width={14}
-                                  height={10}
-                                  hover={false}
-                                />
-                              }
-                            />
-                          }
-                        />
-                      );
-                    })}
+                    {dropdownData[item.key]?.map(
+                      (checkbox: any, index: number) => {
+                        const ischecked: boolean = decisionCheckStatus(
+                          item.key,
+                          checkbox
+                        );
+                        return (
+                          <FormControlLabel
+                            className="dropdown-items"
+                            labelPlacement="start"
+                            key={index}
+                            label={
+                              <CheckboxLabel ischecked={ischecked}>
+                                <p>{checkbox.name}</p>
+                              </CheckboxLabel>
+                            }
+                            control={
+                              <Checkbox
+                                onChange={(event) =>
+                                  onChangeHandler(event, item.key, checkbox)
+                                }
+                                icon={<Icon src="tick" width={0} height={0} />}
+                                checked={ischecked}
+                                checkedIcon={
+                                  <Icon
+                                    src="tick"
+                                    width={14}
+                                    height={10}
+                                    hover={false}
+                                  />
+                                }
+                              />
+                            }
+                          />
+                        );
+                      }
+                    )}
                   </CustomizeAccordionDetails>
                 </CustomizeAccordion>
               );
@@ -378,14 +396,13 @@ const CustomizeAccordion = styled(Accordion)`
     padding-top: 20px !important;
   }
   .MuiCollapse-hidden {
-    .MuiAccordionDetails-root{
-    z-index: -1 !important;
+    .MuiAccordionDetails-root {
+      z-index: -1 !important;
     }
   }
-
 `;
 
-const CustomizeAccordionSummary = styled(AccordionSummary) <any>`
+const CustomizeAccordionSummary = styled(AccordionSummary)<any>`
   width: 178px;
   height: 44px;
   font-family: "Inter";
@@ -394,7 +411,9 @@ const CustomizeAccordionSummary = styled(AccordionSummary) <any>`
   font-size: 12px;
   line-height: 24px;
   color: ${(props) =>
-    `${props.$isselected ? props.theme.colors.secondary : "#1A1A1A"} !important`};
+    `${
+      props.$isselected ? props.theme.colors.secondary : "#1A1A1A"
+    } !important`};
   background-color: #ffffff !important;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px !important;
@@ -420,7 +439,7 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
     justify-content: start;
   }
 
-  .MuiFormControlLabel-root.dropdown-items{
+  .MuiFormControlLabel-root.dropdown-items {
     justify-content: space-between !important;
   }
   .MuiCheckbox-root {
@@ -440,11 +459,11 @@ const CustomizeAccordionDetails = styled(AccordionDetails)`
     }
   }
 
-  .checkbox-select-all{
-    .Mui-checked{
-    color: ${(props) => `${props.theme.colors.secondary} !important`};  
+  .checkbox-select-all {
+    .Mui-checked {
+      color: ${(props) => `${props.theme.colors.secondary} !important`};
+    }
   }
-}
 `;
 
 const CheckboxLabel = styled.div<any>`
@@ -461,7 +480,7 @@ const CheckboxLabel = styled.div<any>`
     display: flex;
     align-items: center;
     color: ${(props) =>
-    props.ischecked ? props.theme.colors.secondary : "#1f1f1f"};
+      props.ischecked ? props.theme.colors.secondary : "#1f1f1f"};
   }
   span {
     font-weight: 400;
