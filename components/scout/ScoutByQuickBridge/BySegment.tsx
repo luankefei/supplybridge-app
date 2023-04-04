@@ -10,6 +10,8 @@ import ModelCardSkeleton from "./ModelCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeSegment } from "requests/useScoutByScoutBridge"
 import { VehicleBrandModel, VehicleModel, VehicleSegment } from "hooks/quick-bridge/segmentSlice";
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function BySegment() {
   const { quickBridgeStore, segmentStore } =
@@ -20,13 +22,26 @@ export default function BySegment() {
   const { setFilter } = quickBridgeStore;
   const { selected, setSelected, brandModels, segments } = segmentStore;
   const { getBrandModels, loading } = useQuickBridgeSegment();
+  const router = useRouter();
 
   const onClick = (select: any) => {
     if (selected !== select) {
       setSelected(select);
       setFilter("vehicleModels", select);
+
+      if (!brandModels || !Array.isArray(brandModels)) return;
+      const item = brandModels.flatMap((item) => item.models).find((item) => item.id === select);
+      if (!item || !item.id) return;
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.segment}/${item.name}`
+      );
     } else {
       setSelected(null);
+      setFilter("vehicleModels", null);
+
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.segment}`
+      );
     }
   }
 
@@ -34,7 +49,25 @@ export default function BySegment() {
     if (!brandModels) {
       getBrandModels();
     }
-  }, [brandModels, getBrandModels])
+  }, [brandModels, getBrandModels]);
+
+  useEffect(() => {
+    if (!brandModels || !Array.isArray(brandModels)) return;
+
+    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+      if (router.query.slug.length > 2 && router.query.slug[2]) {
+        const slug = router.query.slug[2];
+        const item = brandModels.flatMap((item) => item.models).find((item) => item.name.toLowerCase() === slug.toLowerCase());
+        if (item && item.id) {
+          setSelected(item.id);
+          setFilter("vehicleModels", item.id);
+        } else {
+          setSelected(null);
+          setFilter("vehicleModels", null);
+        }
+      }
+    }
+  }, [brandModels]);
 
   if (loading) {
     return (
@@ -105,7 +138,7 @@ export default function BySegment() {
                   </ModelsWrapper>
                 </Section>
                 {brandIndex + 1 !== brandModels.length &&
-                  <StyledDivider  />
+                  <StyledDivider />
                 }
               </>
             )
@@ -180,7 +213,7 @@ const ModelsWrapper = styled.div`
   margin-left: 64px;
 `;
 
-const StyledDivider=styled(Divider)`
+const StyledDivider = styled(Divider)`
   border-color: #D1D5DB !important;
 `
 

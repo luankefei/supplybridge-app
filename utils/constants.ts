@@ -284,3 +284,20 @@ export const Constants = {
     },
   ],
 };
+
+
+export enum ScoutSwitchType {
+  index = "Index",
+  quickBridge = "QuickBridge"
+}
+
+export enum QuickBridgeTabType {
+  vehile = "Vehicle",
+  oem = "OEM",
+  class = "Class",
+  segment = "Segment",
+  technology = "Technology",
+  commodity = "Commodity",
+  productionTech = "Production Tec",
+  pioneer = "Pioneer"
+}

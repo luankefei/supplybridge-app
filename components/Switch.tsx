@@ -1,13 +1,21 @@
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
+import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styled from "styled-components";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 import ScoutByIndex from "./scout/ScoutByIndex";
 import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
 
 export default function Switch() {
-  const [selected, setSelected] = useState("byIndex")
+  const [selected, setSelected] = useState(ScoutSwitchType.index)
   const { setFilterData, setSuppliers } = useStore();
+  const router = useRouter();
+  const handleSwitchSelected = (val: ScoutSwitchType) => {
+    setSelected(val);
+    router.push(`/scout/${val}`);
+  }
+
   useEffect(() => {
     setFilterData({
       q: "",
@@ -19,17 +27,28 @@ export default function Switch() {
       vehicleFuelTypes: [],
     });
     setSuppliers([], true);
-  }, [selected])
+  }, [selected]);
+
+  useEffect(() => {
+    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+      if (router.query.slug[0] === ScoutSwitchType.quickBridge) {
+        setSelected(ScoutSwitchType.quickBridge);
+      } else {
+        setSelected(ScoutSwitchType.index);
+      }
+    }
+  }, [setSelected]);
+
   return (
     <Container>
       <SwitchContainer>
         <Switches>
           <Background selected={selected}></Background>
-          <ByIndex selected={selected} onClick={() => setSelected("byIndex")}>Scout by Index</ByIndex>
-          <ByQuickBridge selected={selected} onClick={() => setSelected("byQuickBridge")}>Scout by QuickBridge</ByQuickBridge>
+          <ByIndex selected={selected} onClick={() => handleSwitchSelected(ScoutSwitchType.index)}>Scout by Index</ByIndex>
+          <ByQuickBridge selected={selected} onClick={() => handleSwitchSelected(ScoutSwitchType.quickBridge)}>Scout by QuickBridge</ByQuickBridge>
         </Switches>
       </SwitchContainer>
-      {selected === "byIndex" ?
+      {selected === ScoutSwitchType.index ?
         <ScoutByIndex /> :
         <ScoutByQuickBridge />
       }
@@ -69,7 +88,7 @@ const Switches = styled.div`
 `;
 
 const Background = styled.div<any>`
-  left: ${(props) => (props.selected === "byIndex" ? "5px" : "169px")};
+  left: ${(props) => (props.selected === ScoutSwitchType.index ? "5px" : "169px")};
 	top: 5;
 	position: absolute;
 	width: 174px;
@@ -87,7 +106,7 @@ const ByIndex = styled.span<any>`
   font-size: 14px;
   line-height: 17px;
   text-align: center;
-  color: ${(props) => (props.selected === "byIndex" ? "#fff" : "#808080")};
+  color: ${(props) => (props.selected === ScoutSwitchType.index ? "#fff" : "#808080")};
 	cursor: pointer;
 	background: transparent;
 	position: relative;
@@ -103,7 +122,7 @@ const ByQuickBridge = styled.span<any>`
   font-size: 14px;
   line-height: 17px;
   text-align: center;
-  color: ${(props) => (props.selected === "byQuickBridge" ? "#fff" : "#808080")};
+  color: ${(props) => (props.selected === ScoutSwitchType.quickBridge ? "#fff" : "#808080")};
 	cursor: pointer;
 	background: transparent;
 	position: relative;

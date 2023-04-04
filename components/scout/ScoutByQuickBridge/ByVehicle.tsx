@@ -6,6 +6,8 @@ import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge"
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByVehicle() {
   const { quickBridgeStore, vehicleStore } =
@@ -16,21 +18,55 @@ export default function ByVehicle() {
   const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = vehicleStore;
   const { getVehicles, loading } = useQuickBridgeVihicle();
+  const router = useRouter();
 
   const onClick = (select: any) => {
     if (select !== selected) {
       setSelected(select);
       setFilter("vehicleTypes", select);
+
+      if (!data || !Array.isArray(data)) return;
+      const item = data.find((item) => item.id === select);
+      if (!item || !item.id) return;
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.vehile}/${item.name}`
+      );
     } else {
       setSelected(null);
+      setFilter("vehicleTypes", null);
+
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.vehile}`
+      );
     }
   }
 
   useEffect(() => {
     if (!data) {
       getVehicles();
+      return;
     }
-  }, [data, getVehicles])
+  }, [data, getVehicles, setSelected, setFilter]);
+
+  useEffect(() => {
+    if (!data || !Array.isArray(data)) return;
+
+    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+      if (router.query.slug.length > 2 && router.query.slug[2]) {
+        const slug = router.query.slug[2];
+        const item = data.find((item) => item.name.toLowerCase() === slug.toLowerCase());
+
+        if (item && item.id) {
+          setSelected(item.id);
+          setFilter("vehicleTypes", item.id);
+        } else {
+          setSelected(null);
+          setFilter("vehicleTypes", null);
+        }
+      }
+    }
+  }, [data]);
+
 
   if (loading) {
     return (
