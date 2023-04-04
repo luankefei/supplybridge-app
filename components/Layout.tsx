@@ -30,7 +30,7 @@ const Container = styled.div`
 `;
 const InnerContainer = styled.div`
   position: relative;
-  left: 0px;
+  left:  ${theme.dimension.leftMenuWidth};
   width: calc(100% - ${theme.dimension.leftMenuWidth});
   background-color: #ecf0f1;
   display: flex;

@@ -202,7 +202,7 @@ const SearchContainer = styled.div<{ isrow: boolean }>`
     width: ${theme.dimension.cardMaxWidth};
   }
   display: flex;
-  align-items: center;
+  align-items: ${(props) => (props.isrow ? 'end' : "center")};;
   margin-bottom: 50px;
   flex-direction: ${(props) => (props.isrow ? 'row' : "column")};
   gap: 15px;
@@ -238,8 +238,7 @@ const IconContainer = styled.div<{ isrow: boolean }>`
   flex-grow: 1;
   flex-direction: row;
   justify-content: ${(props) => (props.isrow ? 'end' : "center")};
-  align-items: center;
-  margin-bottom: ${(props) => (props.isrow ? '14px' : "")};
+  align-items: end;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }

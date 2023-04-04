@@ -106,7 +106,6 @@ const ScoutFilter = () => {
     const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
     const rawFilterData = filterData;
     const value = ischecked;
-
     if (!isAllSelect && !rawFilterData[type].includes(id) && value) {
       rawFilterData[type].push(id);
     } else if (isAllSelect && value) {
@@ -118,19 +117,22 @@ const ScoutFilter = () => {
       }
     }
 
-    if (type === "commodities" && !value) {
+    if (type === "commodities" && value) {
       const commodityComponents = components?.filter(
         (c: any) => c.commodityId === id
       );
       const commodityComponentsIDs = commodityComponents?.map(
         (cc: any) => cc.id
       );
+     
       rawFilterData.components = rawFilterData?.components?.filter(
         (com: any) => !commodityComponentsIDs?.includes(com)
       );
     }
+   
 
     if (rawFilterData.commodities.length === 0) {
+      console.log("commodities are 0")
       rawFilterData.components = [];
       setIsAllSelected((oldState) => ({
         ...oldState,
@@ -145,8 +147,10 @@ const ScoutFilter = () => {
       }));
     }
     console.log("raw filter data", rawFilterData)
+    
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
+    console.log("dropdown data",dropdownData)
   };
 
   const selectAllHandler = (event: any, type: string) => {
@@ -202,18 +206,13 @@ const setInitialDropdownData=()=>{
   })
 }
 useEffect(()=>{
-  // if(dropdownRef.current){
   setInitialDropdownData()
-  console.log("i am initialized",commodities)
-  // dropdownRef.current=false;
-  // }
-},[commodities,components,commodities,regions,subRegions])
+},[commodities,components,regions,subRegions])
 
 const [dropdownData, setDropdownData] = useState<IFilterType>({});
 
   const handleSearchChange = (e: any,type:string) => {
     const searchString=e.target.value
-    console.log("search term",searchString)
     setSearchItem((oldState)=>({
       [type]:  searchString
     }));    
@@ -228,7 +227,6 @@ if(objKey && searchItem[objKey] !=""){
            ...dropdownData,
             [objKey]: filteredData
           });
-  console.log("object item",dropdownData)
 }
 else setInitialDropdownData()
 },[searchItem])
@@ -269,7 +267,7 @@ else setInitialDropdownData()
                         onChange={(e:any)=>handleSearchChange(e,item.key)}
                         name="search"
                         placeholder="Search"
-                        value={searchItem?.[item.key]}
+                        value={searchItem? searchItem?.[item.key] : ""}
                         type="text"
                       />
                       <Icon
@@ -318,6 +316,7 @@ else setInitialDropdownData()
                               }
                               icon={<Icon src="tick" width={0} height={0} />}
                               checked={ischecked}
+                             
                               checkedIcon={
                                 <Icon
                                   src="tick"
