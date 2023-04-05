@@ -250,8 +250,10 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
     } else setInitialDropdownData();
   }, [searchItem]);
 
-  // isQuickSearch ||
-  return suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0 ? (
+  // in Scout by index, if search result is empty, ScoutFilter won't show up.
+  // but in QuickSearch, it's better to be there all the time for users to fine-tune the filter setting to narrow down or widen up the result set.
+  return isQuickSearch ||
+    (suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0) ? (
     <ClickAwayListener onClickAway={() => setExpanded(false)}>
       <Container>
         <FilterContainer>
