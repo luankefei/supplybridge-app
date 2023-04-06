@@ -160,7 +160,7 @@ export default function ScoutByQuickBridge() {
         break;
     }
 
-    router.push(`/scout/${ScoutSwitchType.quickBridge}/${tabName}`);
+    router.push(`/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${tabName.toLowerCase()}`);
   };
 
   const showResult = () => {
@@ -178,25 +178,25 @@ export default function ScoutByQuickBridge() {
         setTab(0);
       } else if (router.query.slug.length >= 2) {
         switch (router.query.slug[1]) {
-          case QuickBridgeTabType.oem:
+          case QuickBridgeTabType.oem.toLowerCase():
             setTab(1);
             break;
-          case QuickBridgeTabType.class:
+          case QuickBridgeTabType.class.toLowerCase():
             setTab(2);
             break;
-          case QuickBridgeTabType.segment:
+          case QuickBridgeTabType.segment.toLowerCase():
             setTab(3);
             break;
-          case QuickBridgeTabType.technology:
+          case QuickBridgeTabType.technology.toLowerCase():
             setTab(4);
             break;
-          case QuickBridgeTabType.commodity:
+          case QuickBridgeTabType.commodity.toLowerCase():
             setTab(5);
             break;
-          case QuickBridgeTabType.productionTech:
+          case QuickBridgeTabType.productionTech.toLowerCase():
             setTab(6);
             break;
-          case QuickBridgeTabType.pioneer:
+          case QuickBridgeTabType.pioneer.toLowerCase():
             setTab(7);
             break;
         }

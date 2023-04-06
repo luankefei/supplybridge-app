@@ -87,7 +87,7 @@ export default function QuickbridgeResult() {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
+      document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current && suppliers?.length < 20) {
@@ -121,14 +121,9 @@ export default function QuickbridgeResult() {
     breadcrumbs = router.query.slug.map((value, index) => {
       path += "/" + value;
       return (
-        <Link
-          underline="hover"
-          key={index}
-          href={path}
-          style={{ color: index === 2 ? "#000000C7" : "#00000096" }}
-        >
-          {value}
-        </Link>
+        <Link underline="hover" key={index} href={path} style={{ color: index === 2 ? "#000000C7" : "#00000096" }}>
+          {_.capitalize(value)}
+        </Link >
       );
     });
   }

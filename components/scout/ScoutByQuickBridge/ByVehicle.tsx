@@ -29,7 +29,7 @@ export default function ByVehicle() {
       const item = data.find((item) => item.id === select);
       if (!item || !item.id) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.vehile}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.vehile.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelectedLabel("");
@@ -37,7 +37,7 @@ export default function ByVehicle() {
       setFilter("vehicleTypes", null);
 
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.vehile}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.vehile.toLowerCase()}`
       );
     }
   };

@@ -38,8 +38,8 @@ export default function Switch() {
   const router = useRouter();
   const handleSwitchSelected = (val: ScoutSwitchType) => {
     setSelected(val);
-    router.push(`/scout/${val}`);
-  };
+    router.push(`/scout/${val.toLowerCase()}`);
+  }
 
   useEffect(() => {
     clearFilterData();
@@ -47,13 +47,9 @@ export default function Switch() {
   }, [selected]);
 
   useEffect(() => {
-    if (
-      router.query &&
-      router.query.slug &&
-      Array.isArray(router.query.slug) &&
-      router.query.slug.length > 0
-    ) {
-      if (router.query.slug[0] === ScoutSwitchType.quickBridge) {
+    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+      console.log(router.query.slug[0]);
+      if (router.query.slug[0].toLowerCase() === ScoutSwitchType.quickBridge.toLowerCase()) {
         setSelected(ScoutSwitchType.quickBridge);
       } else {
         setSelected(ScoutSwitchType.index);

@@ -41,7 +41,7 @@ export default function ByClass() {
         .find((item) => item.id === select);
       if (!item || !item.name) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.class}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.class.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelectedLabel("");
@@ -49,7 +49,7 @@ export default function ByClass() {
       setFilter("vehicleBrands", select);
 
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.class}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.class.toLowerCase()}`
       );
     }
   };

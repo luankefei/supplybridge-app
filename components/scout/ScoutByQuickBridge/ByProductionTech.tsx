@@ -34,14 +34,14 @@ export default function ByProductionTech() {
       const item = data.find((item) => item.id === select);
       if (!item || !item.id) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.productionTech}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.productionTech.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelected(null);
       setFilter("productionTechnologies", null);
       setSelectedLabel("");
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.productionTech}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.productionTech.toLowerCase()}`
       );
     }
   };
