@@ -5,6 +5,7 @@ import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
+import _ from "lodash";
 import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge"
 
 export default function ByProductionTech() {
@@ -44,14 +45,30 @@ export default function ByProductionTech() {
     );
   }
 
+  const InfoContent = (description: any) => {
+    const items = _.split(description, "\n");
+    if (items && Array.isArray(items) && items.length > 1) {
+      return (
+        items.map((item: any) => (<div key={item}>{item}</div>))
+      )
+    }
+    return <div>{description}</div>
+  }
+
   return (
     <CardContainer>
-      {data && data.map(({ id, name, icon }: any) => (
-        <CardWrapper onClick={() => onClick(id)} key={id}>
-          <BigCard src={icon} title={name} selected={selected === id} />
-        </CardWrapper>
-      ))}
-    </CardContainer>
+      {data && data.map(({ id, name, icon, description }: any) => (
+        description ? (
+          <CardWrapper onClick={() => onClick(id)} key={id}>
+            <BigCard src={icon} title={name} selected={selected === id} infoContent={InfoContent(description)} />
+          </CardWrapper>
+        ) : (
+          <CardWrapper onClick={() => onClick(id)} key={id}>
+            <BigCard src={icon} title={name} selected={selected === id} />
+          </CardWrapper>
+        )))
+      }
+    </CardContainer >
   )
 }
 
