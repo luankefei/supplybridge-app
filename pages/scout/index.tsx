@@ -8,26 +8,28 @@ import { useAuth } from "requests/useAuth";
 const Layout = dynamic(() => import("components/Layout"));
 
 export default function Industry() {
-
   const [loadSurvey, setLoadSurvey] = useState(false);
   const { updateAccount } = useAuth();
 
   const handleSurvicate = () => {
-    if (StorageService.getSurveyCount() >= 2 || StorageService.getSurveyDisplayed()) {
+    if (
+      StorageService.getSurveyCount() >= 2 ||
+      StorageService.getSurveyDisplayed()
+    ) {
       return;
     }
     setLoadSurvey(true);
-  }
+  };
 
   const handleCloseSurvicate = () => {
     setLoadSurvey(false);
-    const scriptElement = document.getElementById("show-banner")
+    const scriptElement = document.getElementById("show-banner");
     scriptElement?.parentNode?.removeChild(scriptElement);
     const survicateBox = document.getElementById("survicate-box");
     survicateBox?.parentElement?.removeChild(survicateBox);
     StorageService.setSurveyDisplayed();
     updateAccount({ surveyPopupCount: StorageService.getSurveyCount() + 1 });
-  }
+  };
 
   return (
     <Layout>
@@ -43,6 +45,7 @@ export default function Industry() {
 
 const Container = styled.div`
   width: calc(100%);
+  height: 100vh;
   display: flex;
   flex-direction: row;
   justify-content: center;
