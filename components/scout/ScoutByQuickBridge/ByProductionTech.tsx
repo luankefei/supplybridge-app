@@ -57,14 +57,14 @@ export default function ByProductionTech() {
 
   return (
     <CardContainer>
-      {data && data.map(({ id, name, icon, description }: any) => (
+      {data && data.map(({ id, name, icon, description, isActive }: any) => (
         description ? (
           <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} infoContent={InfoContent(description)} />
+            <BigCard src={icon} title={name} selected={selected === id} infoContent={InfoContent(description)} disabled={!isActive} />
           </CardWrapper>
         ) : (
           <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} />
+            <BigCard src={icon} title={name} selected={selected === id} disabled={!isActive} />
           </CardWrapper>
         )))
       }
