@@ -18,6 +18,8 @@ import QuickbridgeResult from "./Result";
 const Feedback = dynamic(() => import("components/Feedback"));
 
 import useBoundStore from "hooks/useBoundStore";
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -123,28 +125,98 @@ export default function ScoutByQuickBridge() {
   const theme = useTheme();
   const [value, setValue] = useState(0);
   const quickBridge = useBoundStore((state) => state.quickBridge);
+  const router = useRouter();
 
   const { tab, setTab, setResult } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    // setValue(newValue);
     setTab(newValue);
+
+    var tabName = QuickBridgeTabType.vehile;
+    switch (newValue) {
+      case 0:
+        tabName = QuickBridgeTabType.vehile;
+        break;
+      case 1:
+        tabName = QuickBridgeTabType.oem;
+        break;
+      case 2:
+        tabName = QuickBridgeTabType.class;
+        break;
+      case 3:
+        tabName = QuickBridgeTabType.segment;
+        break;
+      case 4:
+        tabName = QuickBridgeTabType.technology;
+        break;
+      case 5:
+        tabName = QuickBridgeTabType.commodity;
+        break;
+      case 6:
+        tabName = QuickBridgeTabType.productionTech;
+        break;
+      case 7:
+        tabName = QuickBridgeTabType.pioneer;
+        break;
+    }
+
+    router.push(`/scout/${ScoutSwitchType.quickBridge}/${tabName}`);
   };
 
   const showResult = () => {
     setResult(true);
   };
+
+  useEffect(() => {
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
+      if (router.query.slug.length === 1) {
+        setTab(0);
+      } else if (router.query.slug.length >= 2) {
+        switch (router.query.slug[1]) {
+          case QuickBridgeTabType.oem:
+            setTab(1);
+            break;
+          case QuickBridgeTabType.class:
+            setTab(2);
+            break;
+          case QuickBridgeTabType.segment:
+            setTab(3);
+            break;
+          case QuickBridgeTabType.technology:
+            setTab(4);
+            break;
+          case QuickBridgeTabType.commodity:
+            setTab(5);
+            break;
+          case QuickBridgeTabType.productionTech:
+            setTab(6);
+            break;
+          case QuickBridgeTabType.pioneer:
+            setTab(7);
+            break;
+        }
+      }
+    }
+  }, [setTab]);
+
   useEffect(() => {
     setValue(tab.activeTab);
   }, [tab]);
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
   const [tabHeight, setTabHeight] = useState("63vh");
+
   useEffect(() => {
     window.addEventListener("resize", () =>
       setWindowHeight(window.innerHeight)
     );
   });
+
   useEffect(() => {
     if (windowHeight >= 600 && windowHeight <= 800) setTabHeight("60vh");
     else if (windowHeight > 800 && windowHeight <= 900) setTabHeight("63vh");
@@ -154,6 +226,9 @@ export default function ScoutByQuickBridge() {
     else if (windowHeight > 1400 && windowHeight <= 1500) setTabHeight("78vh");
     else if (windowHeight > 1500) setTabHeight("80vh");
   }, [windowHeight]);
+
+  console.log(value);
+
   return (
     <>
       <div className="Container">

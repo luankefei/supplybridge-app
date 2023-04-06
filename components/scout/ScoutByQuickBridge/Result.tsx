@@ -3,13 +3,17 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import _ from "lodash";
+import _, { capitalize } from "lodash";
 
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
 import { useViewport } from "hooks/useViewport";
 import UnlockBackDrop from "../UnlockBackDrop";
 import LockedResultCard from "../LockedResultCard";
+import { Breadcrumbs, Link } from "@mui/material";
+import { Stack } from "@mui/system";
+import { useRouter } from "next/router";
+
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 
@@ -41,6 +45,7 @@ export default function QuickbridgeResult() {
   const clearRef = useRef(false);
   const pageLoaded = useRef(false);
   const [isLocked, setIsLocked] = useState(false);
+  const router = useRouter();
 
   const { filterData, setFilterData, clearFilterData } = useStore();
 
@@ -110,6 +115,24 @@ export default function QuickbridgeResult() {
     clearFilterData();
   };
 
+  var breadcrumbs: any = [];
+  if (router.query.slug && Array.isArray(router.query.slug)) {
+    var path = "/scout";
+    breadcrumbs = router.query.slug.map((value, index) => {
+      path += "/" + value;
+      return (
+        <Link
+          underline="hover"
+          key={index}
+          href={path}
+          style={{ color: index === 2 ? "#000000C7" : "#00000096" }}
+        >
+          {value}
+        </Link>
+      );
+    });
+  }
+
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
 
@@ -122,8 +145,15 @@ export default function QuickbridgeResult() {
 
   return (
     <ScoutContainer>
+      <BreadcrumbsContainer>
+        <Stack spacing={2}>
+          <Breadcrumbs separator=">" aria-label="breadcrumb">
+            {breadcrumbs}
+          </Breadcrumbs>
+        </Stack>
+      </BreadcrumbsContainer>
       <MainContainer>
-        <GoBackIcon goBack={setTabResult}></GoBackIcon>
+        <Button onClick={setTabResult}>Back</Button>
         <SearchContainer>
           <SearchBarForFilter
             onSearch={searchHandler}
@@ -182,6 +212,13 @@ const ScoutContainer = styled.div`
   }
 `;
 
+const BreadcrumbsContainer = styled.div`
+  display: flex;
+  align-items: flex-start;
+  position: absolute;
+  top: 103px;
+`;
+
 const MainContainer = styled.div`
   width: calc(100%);
   display: flex;
@@ -190,21 +227,50 @@ const MainContainer = styled.div`
 `;
 
 const QuickbridgeContainer = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  margin-top: 22px;
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    margin-left: 0;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        margin-top: 22px;
+        @media (max-width: ${(props) => props.theme.size.laptop}) {
+          margin - left: 0;
   }
-`;
+        `;
 
 const ResultContainer = styled.div``;
+
+const Button = styled.div`
+        width: 254px;
+        height: 46px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        border-radius: 100px !important;
+        background-color: #08979c;
+        color: #f5f5f5;
+        margin-bottom: 8px;
+        border: 1px solid #08979c;
+        padding: 12px;
+        cursor: pointer;
+
+        font-family: "Inter", sans-serif;
+        font-style: normal;
+        font-weight: 600;
+        font-size: 16px;
+        line-height: 24px;
+
+        &:hover {
+          box - shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
+        0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+        filter: drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08));
+  }
+        &:active {
+          background - color: #006d75;
+  }
+        `;
 
 const LockedContainer = styled.div`
   position: relative !important;
 `;
-
 const SearchContainer = styled.div`
   width: 40%;
   @media (min-width: ${theme.dimension.cardMaxWidth}) {

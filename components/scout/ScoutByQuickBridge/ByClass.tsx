@@ -7,6 +7,8 @@ import BrandCard from "./BrandCard";
 import BrandCardSkeleton from "./BrandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeClass } from "requests/useScoutByScoutBridge";
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByClass() {
   const { quickBridgeStore, classStore } = useBoundStore((state) => ({
@@ -16,6 +18,7 @@ export default function ByClass() {
   const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = classStore;
   const { getClasses, loading } = useQuickBridgeClass();
+  const router = useRouter();
 
   const onClick = (select: any) => {
     if (select !== selected) {
@@ -31,10 +34,23 @@ export default function ByClass() {
       setSelectedLabel(label);
       setSelected(select);
       setFilter("vehicleBrands", select);
+
+      if (!data || !Array.isArray(data)) return;
+      const item = data
+        .flatMap((item) => item.vehicleBrands)
+        .find((item) => item.id === select);
+      if (!item || !item.name) return;
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.class}/${item.name}`
+      );
     } else {
       setSelectedLabel("");
       setSelected(null);
-      setFilter("vehicleBrands", null);
+      setFilter("vehicleBrands", select);
+
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.class}`
+      );
     }
   };
 
@@ -47,6 +63,32 @@ export default function ByClass() {
   useEffect(() => {
     setFilter("vehicleBrands", null);
   }, []);
+
+  useEffect(() => {
+    if (!data || !Array.isArray(data)) return;
+
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
+      if (router.query.slug.length > 2 && router.query.slug[2]) {
+        const slug = router.query.slug[2];
+        const item = data
+          .flatMap((item) => item.vehicleBrands)
+          .find((item) => item.name.toLowerCase() === slug.toLowerCase());
+
+        if (item && item.id) {
+          setSelected(item.id);
+          setFilter("vehicleBrands", item.id);
+        } else {
+          setSelected(null);
+          setFilter("vehicleBrands", null);
+        }
+      }
+    }
+  }, [data]);
 
   if (loading) {
     return (

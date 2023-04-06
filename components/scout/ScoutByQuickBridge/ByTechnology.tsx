@@ -6,6 +6,8 @@ import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge";
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByTechnology() {
   const { quickBridgeStore, technologyStore } = useBoundStore((state) => ({
@@ -15,6 +17,7 @@ export default function ByTechnology() {
   const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = technologyStore;
   const { getTechnologies, loading } = useQuickBridgeTechnology();
+  const router = useRouter();
 
   const onClick = (select: any) => {
     if (selected !== select) {
@@ -22,10 +25,20 @@ export default function ByTechnology() {
       let label = data.find((d: any) => d.id == select).name;
       setSelectedLabel(label);
       setFilter("vehicleFuelTypes", select);
+
+      if (!data || !Array.isArray(data)) return;
+      const item = data.find((item) => item.id === select);
+      if (!item || !item.id) return;
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.technology}/${item.name}`
+      );
     } else {
       setSelectedLabel("");
       setSelected(null);
       setFilter("vehicleFuelTypes", null);
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.technology}`
+      );
     }
   };
 
@@ -36,8 +49,29 @@ export default function ByTechnology() {
   }, [data, getTechnologies]);
 
   useEffect(() => {
-    setFilter("vehicleFuelTypes", null);
-  }, []);
+    if (!data || !Array.isArray(data)) return;
+
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
+      if (router.query.slug.length > 2 && router.query.slug[2]) {
+        const slug = router.query.slug[2];
+        const item = data.find(
+          (item) => item.name.toLowerCase() === slug.toLowerCase()
+        );
+        if (item && item.id) {
+          setSelected(item.id);
+          setFilter("vehicleFuelTypes", item.id);
+        } else {
+          setSelected(null);
+          setFilter("vehicleFuelTypes", null);
+        }
+      }
+    }
+  }, [data]);
 
   if (loading) {
     return (

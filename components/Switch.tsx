@@ -1,8 +1,10 @@
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
+import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useBoundStore from "hooks/useBoundStore";
 import styled from "styled-components";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 import ScoutByIndex from "./scout/ScoutByIndex";
 import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
@@ -13,11 +15,10 @@ export default function Switch() {
     quickBridgeStore: state.quickBridge,
   }));
   const { setResult, setTab, setFilter, setSelectedLabel } = quickBridgeStore;
-  const [selected, setSelected] = useState("byIndex");
+  // const [selected, setSelected] = useState("byIndex");
   const { setFilterData, clearFilterData, setSuppliers } = useStore();
 
-  const onClickByQuickBridge = () => {
-    // reset to default state
+  const clearFilter = () => {
     setResult(false);
     setTab(0);
     setFilter("vehicleTypes", null);
@@ -27,32 +28,66 @@ export default function Switch() {
     setFilter("commodities", null);
     setFilter("productionTechnologies", null);
     setFilter("pioneers", null);
-
     clearFilterData();
-
     resetAllSelected();
     setSelectedLabel("");
-    setSelected("byQuickBridge");
+  };
+
+  const [selected, setSelected] = useState(ScoutSwitchType.index);
+  // const { setFilterData, setSuppliers } = useStore();
+  const router = useRouter();
+  const handleSwitchSelected = (val: ScoutSwitchType) => {
+    setSelected(val);
+    router.push(`/scout/${val}`);
   };
 
   useEffect(() => {
     clearFilterData();
     setSuppliers([], true);
   }, [selected]);
+
+  useEffect(() => {
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
+      if (router.query.slug[0] === ScoutSwitchType.quickBridge) {
+        setSelected(ScoutSwitchType.quickBridge);
+      } else {
+        setSelected(ScoutSwitchType.index);
+      }
+    }
+  }, [setSelected]);
+
   return (
     <Container>
       <SwitchContainer>
         <Switches>
           <Background selected={selected}></Background>
-          <ByIndex selected={selected} onClick={() => setSelected("byIndex")}>
+          <ByIndex
+            selected={selected}
+            onClick={() => {
+              clearFilter();
+              handleSwitchSelected(ScoutSwitchType.index);
+            }}
+          >
             Scout by Index
           </ByIndex>
-          <ByQuickBridge selected={selected} onClick={onClickByQuickBridge}>
+          <ByQuickBridge
+            selected={selected}
+            onClick={() => handleSwitchSelected(ScoutSwitchType.quickBridge)}
+          >
             Scout by QuickBridge
           </ByQuickBridge>
         </Switches>
       </SwitchContainer>
-      {selected === "byIndex" ? <ScoutByIndex /> : <ScoutByQuickBridge />}
+      {selected === ScoutSwitchType.index ? (
+        <ScoutByIndex />
+      ) : (
+        <ScoutByQuickBridge />
+      )}
     </Container>
   );
 }
@@ -87,7 +122,8 @@ const Switches = styled.div`
 `;
 
 const Background = styled.div<any>`
-  left: ${(props) => (props.selected === "byIndex" ? "5px" : "169px")};
+  left: ${(props) =>
+    props.selected === ScoutSwitchType.index ? "5px" : "169px"};
   top: 5;
   position: absolute;
   width: 174px;
@@ -105,7 +141,8 @@ const ByIndex = styled.span<any>`
   font-size: 14px;
   line-height: 17px;
   text-align: center;
-  color: ${(props) => (props.selected === "byIndex" ? "#fff" : "#808080")};
+  color: ${(props) =>
+    props.selected === ScoutSwitchType.index ? "#fff" : "#808080"};
   cursor: pointer;
   background: transparent;
   position: relative;
@@ -121,7 +158,7 @@ const ByQuickBridge = styled.span<any>`
   line-height: 17px;
   text-align: center;
   color: ${(props) =>
-    props.selected === "byQuickBridge" ? "#fff" : "#808080"};
+    props.selected === ScoutSwitchType.quickBridge ? "#fff" : "#808080"};
   cursor: pointer;
   background: transparent;
   position: relative;
