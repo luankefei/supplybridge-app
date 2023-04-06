@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -6,33 +6,45 @@ import { Skeleton } from "@mui/material";
 import BrandCard from "./BrandCard";
 import BrandCardSkeleton from "./BrandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeClass } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeClass } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByClass() {
-  const { quickBridgeStore, classStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      classStore: state.quickBridgeClasses
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, classStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    classStore: state.quickBridgeClasses,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = classStore;
   const { getClasses, loading } = useQuickBridgeClass();
   const router = useRouter();
 
   const onClick = (select: any) => {
     if (select !== selected) {
+      let label = "";
+      loopOut: for (let i = 0; i < data.length; i++) {
+        for (let j = 0; j < data[i].vehicleBrands.length; j++) {
+          if (data[i].vehicleBrands[j].id == select) {
+            label = data[i].vehicleBrands[j].name;
+            break loopOut;
+          }
+        }
+      }
+      setSelectedLabel(label);
       setSelected(select);
       setFilter("vehicleBrands", select);
 
       if (!data || !Array.isArray(data)) return;
-      const item = data.flatMap((item) => item.vehicleBrands).find((item) => item.id === select)
+      const item = data
+        .flatMap((item) => item.vehicleBrands)
+        .find((item) => item.id === select);
       if (!item || !item.name) return;
       router.push(
         `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.class}/${item.name}`
       );
     } else {
+      setSelectedLabel("");
       setSelected(null);
       setFilter("vehicleBrands", select);
 
@@ -46,15 +58,26 @@ export default function ByClass() {
     if (!data) {
       getClasses();
     }
-  }, [data, getClasses])
+  }, [data, getClasses]);
+
+  useEffect(() => {
+    setFilter("vehicleBrands", null);
+  }, []);
 
   useEffect(() => {
     if (!data || !Array.isArray(data)) return;
 
-    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
       if (router.query.slug.length > 2 && router.query.slug[2]) {
         const slug = router.query.slug[2];
-        const item = data.flatMap((item) => item.vehicleBrands).find((item) => item.name.toLowerCase() === slug.toLowerCase());
+        const item = data
+          .flatMap((item) => item.vehicleBrands)
+          .find((item) => item.name.toLowerCase() === slug.toLowerCase());
 
         if (item && item.id) {
           setSelected(item.id);
@@ -67,14 +90,17 @@ export default function ByClass() {
     }
   }, [data]);
 
-
   if (loading) {
     return (
       <>
         <Container>
           {[1, 2].map((index) => (
             <Section key={index}>
-              <Skeleton variant="text" sx={{ fontSize: "1.125rem", marginBottom: "30px" }} width="60px" />
+              <Skeleton
+                variant="text"
+                sx={{ fontSize: "1.125rem", marginBottom: "30px" }}
+                width="60px"
+              />
               <Brands>
                 {[1, 2, 3, 4, 5].map((brandIndex) => (
                   <CardWrapper key={brandIndex}>
@@ -92,32 +118,35 @@ export default function ByClass() {
   return (
     <>
       <Container>
-        {data && data.map((_class: any, classIndex: any) => (
-          <Section key={classIndex}>
-            <Title>{_class.name ?? ""}</Title>
-            <Brands>
-              {_class.vehicleBrands && (
-                _class.vehicleBrands.map((brand: any, brandIndex: any) => (
-                  <CardWrapper key={brandIndex} onClick={() => onClick(brand.id)}>
-                    <BrandCard
-                      key={brand.id}
-                      logo={brand.logo}
-                      title={brand.name}
-                      selected={selected === brand.id}
-                    />
-                  </CardWrapper>
-                ))
-              )}
-            </Brands>
-          </Section>
-        ))}
+        {data &&
+          data.map((_class: any, classIndex: any) => (
+            <Section key={classIndex}>
+              <Title>{_class.name ?? ""}</Title>
+              <Brands>
+                {_class.vehicleBrands &&
+                  _class.vehicleBrands.map((brand: any, brandIndex: any) => (
+                    <CardWrapper
+                      key={brandIndex}
+                      onClick={() => onClick(brand.id)}
+                    >
+                      <BrandCard
+                        key={brand.id}
+                        logo={brand.logo}
+                        title={brand.name}
+                        selected={selected === brand.id}
+                      />
+                    </CardWrapper>
+                  ))}
+              </Brands>
+            </Section>
+          ))}
       </Container>
     </>
   );
 }
 
 const Container = styled.div`
-margin-top: 60px;
+  margin-top: 60px;
   margin-bottom: 30px;
   display: flex;
   flex-direction: column;
@@ -147,7 +176,6 @@ const Brands = styled.span<any>`
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
 
 /*
 import { useState } from "react";

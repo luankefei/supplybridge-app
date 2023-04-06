@@ -1,21 +1,20 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByTechnology() {
-  const { quickBridgeStore, technologyStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      technologyStore: state.quickBridgeTechnologies
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, technologyStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    technologyStore: state.quickBridgeTechnologies,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = technologyStore;
   const { getTechnologies, loading } = useQuickBridgeTechnology();
   const router = useRouter();
@@ -23,6 +22,8 @@ export default function ByTechnology() {
   const onClick = (select: any) => {
     if (selected !== select) {
       setSelected(select);
+      let label = data.find((d: any) => d.id == select).name;
+      setSelectedLabel(label);
       setFilter("vehicleFuelTypes", select);
 
       if (!data || !Array.isArray(data)) return;
@@ -32,13 +33,14 @@ export default function ByTechnology() {
         `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.technology}/${item.name}`
       );
     } else {
+      setSelectedLabel("");
       setSelected(null);
       setFilter("vehicleFuelTypes", null);
       router.push(
         `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.technology}`
       );
     }
-  }
+  };
 
   useEffect(() => {
     if (!data) {
@@ -49,10 +51,17 @@ export default function ByTechnology() {
   useEffect(() => {
     if (!data || !Array.isArray(data)) return;
 
-    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
       if (router.query.slug.length > 2 && router.query.slug[2]) {
         const slug = router.query.slug[2];
-        const item = data.find((item) => item.name.toLowerCase() === slug.toLowerCase());
+        const item = data.find(
+          (item) => item.name.toLowerCase() === slug.toLowerCase()
+        );
         if (item && item.id) {
           setSelected(item.id);
           setFilter("vehicleFuelTypes", item.id);
@@ -81,11 +90,12 @@ export default function ByTechnology() {
   return (
     <Container>
       <CardContainer>
-        {data && data.map(({ id, name, icon }: any) => (
-          <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} />
-          </CardWrapper>
-        ))}
+        {data &&
+          data.map(({ id, name, icon }: any) => (
+            <CardWrapper onClick={() => onClick(id)} key={id}>
+              <BigCard src={icon} title={name} selected={selected === id} />
+            </CardWrapper>
+          ))}
       </CardContainer>
     </Container>
   );
@@ -107,10 +117,10 @@ const Text = styled.span`
   font-weight: 400;
   font-size: 14px;
   line-height: 20px;
-  color: #4B5563;
+  color: #4b5563;
   text-align: center;
   margin-bottom: 18px;
-`
+`;
 
 const CardWrapper = styled.span`
   cursor: pointer;

@@ -34,7 +34,7 @@ interface SearchProps {
   scrollPosition: number;
 }
 
-export default function Industry({ }: Props) {
+export default function Industry({}: Props) {
   const {
     suppliers,
     page,
@@ -101,7 +101,7 @@ export default function Industry({ }: Props) {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-      document.documentElement.scrollTop <=
+        document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -182,7 +182,7 @@ export default function Industry({ }: Props) {
 
           <MainContainer>
             <div>
-              <ScoutFilter />
+              <ScoutFilter isQuickSearch={false} />
               <Button secondary onClick={clearHandler}>
                 Clear Filter
               </Button>

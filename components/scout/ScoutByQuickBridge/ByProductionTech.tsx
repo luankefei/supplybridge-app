@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import styled from "styled-components";
@@ -6,24 +6,28 @@ import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import _ from "lodash";
-import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByProductionTech() {
-  const { quickBridgeStore, productionTechnologyStore } =
-    useBoundStore((state) => ({
+  const { quickBridgeStore, productionTechnologyStore } = useBoundStore(
+    (state) => ({
       quickBridgeStore: state.quickBridge,
-      productionTechnologyStore: state.quickBridgeProductionTechnologies
-    }));
-  const { setFilter } = quickBridgeStore;
+      productionTechnologyStore: state.quickBridgeProductionTechnologies,
+    })
+  );
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = productionTechnologyStore;
-  const { getProductionTechnologies, loading } = useQuickBridgeProductionTechnology();
+  const { getProductionTechnologies, loading } =
+    useQuickBridgeProductionTechnology();
   const router = useRouter();
 
   const onClick = (select: any) => {
     if (selected !== select) {
       setSelected(select);
+      let label = data.find((d: any) => d.id == select).name;
+      setSelectedLabel(label);
       setFilter("productionTechnologies", select);
 
       if (!data || !Array.isArray(data)) return;
@@ -35,25 +39,37 @@ export default function ByProductionTech() {
     } else {
       setSelected(null);
       setFilter("productionTechnologies", null);
+      setSelectedLabel("");
       router.push(
         `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.productionTech}`
       );
     }
-  }
+  };
 
   useEffect(() => {
     if (!data) {
       getProductionTechnologies();
     }
-  }, [data, getProductionTechnologies])
+  }, [data, getProductionTechnologies]);
+
+  useEffect(() => {
+    setFilter("productionTechnologies", null);
+  }, []);
 
   useEffect(() => {
     if (!data || !Array.isArray(data)) return;
 
-    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
       if (router.query.slug.length > 2 && router.query.slug[2]) {
         const slug = router.query.slug[2];
-        const item = data.find((item) => item.name.toLowerCase() === slug.toLowerCase());
+        const item = data.find(
+          (item) => item.name.toLowerCase() === slug.toLowerCase()
+        );
         if (item && item.id) {
           setSelected(item.id);
           setFilter("productionTechnologies", item.id);
@@ -80,28 +96,38 @@ export default function ByProductionTech() {
   const InfoContent = (description: any) => {
     const items = _.split(description, "\n");
     if (items && Array.isArray(items) && items.length > 1) {
-      return (
-        items.map((item: any) => (<div key={item}>{item}</div>))
-      )
+      return items.map((item: any) => <div key={item}>{item}</div>);
     }
-    return <div>{description}</div>
-  }
+    return <div>{description}</div>;
+  };
 
   return (
     <CardContainer>
-      {data && data.map(({ id, name, icon, description, isActive }: any) => (
-        description ? (
-          <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} infoContent={InfoContent(description)} disabled={!isActive} />
-          </CardWrapper>
-        ) : (
-          <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} disabled={!isActive} />
-          </CardWrapper>
-        )))
-      }
-    </CardContainer >
-  )
+      {data &&
+        data.map(({ id, name, icon, description, isActive }: any) =>
+          description ? (
+            <CardWrapper onClick={() => onClick(id)} key={id}>
+              <BigCard
+                src={icon}
+                title={name}
+                selected={selected === id}
+                infoContent={InfoContent(description)}
+                disabled={!isActive}
+              />
+            </CardWrapper>
+          ) : (
+            <CardWrapper onClick={() => onClick(id)} key={id}>
+              <BigCard
+                src={icon}
+                title={name}
+                selected={selected === id}
+                disabled={!isActive}
+              />
+            </CardWrapper>
+          )
+        )}
+    </CardContainer>
+  );
 }
 
 const CardContainer = styled.div`

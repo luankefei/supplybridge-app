@@ -1,21 +1,20 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge"
+import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByVehicle() {
-  const { quickBridgeStore, vehicleStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      vehicleStore: state.quickBridgeVehicles
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, vehicleStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    vehicleStore: state.quickBridgeVehicles,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = vehicleStore;
   const { getVehicles, loading } = useQuickBridgeVihicle();
   const router = useRouter();
@@ -24,7 +23,8 @@ export default function ByVehicle() {
     if (select !== selected) {
       setSelected(select);
       setFilter("vehicleTypes", select);
-
+      let label = data.find((d: any) => d.id == select).name;
+      setSelectedLabel(label);
       if (!data || !Array.isArray(data)) return;
       const item = data.find((item) => item.id === select);
       if (!item || !item.id) return;
@@ -32,6 +32,7 @@ export default function ByVehicle() {
         `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.vehile}/${item.name}`
       );
     } else {
+      setSelectedLabel("");
       setSelected(null);
       setFilter("vehicleTypes", null);
 
@@ -39,7 +40,7 @@ export default function ByVehicle() {
         `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.vehile}`
       );
     }
-  }
+  };
 
   useEffect(() => {
     if (!data) {
@@ -51,10 +52,17 @@ export default function ByVehicle() {
   useEffect(() => {
     if (!data || !Array.isArray(data)) return;
 
-    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
       if (router.query.slug.length > 2 && router.query.slug[2]) {
         const slug = router.query.slug[2];
-        const item = data.find((item) => item.name.toLowerCase() === slug.toLowerCase());
+        const item = data.find(
+          (item) => item.name.toLowerCase() === slug.toLowerCase()
+        );
 
         if (item && item.id) {
           setSelected(item.id);
@@ -66,7 +74,6 @@ export default function ByVehicle() {
       }
     }
   }, [data]);
-
 
   if (loading) {
     return (
@@ -82,11 +89,12 @@ export default function ByVehicle() {
 
   return (
     <>
-      {data && data.map(({ id, name, icon }: any) => (
-        <CardWrapper onClick={() => onClick(id)} key={id}>
-          <BigCard src={icon} title={name} selected={selected === id} />
-        </CardWrapper>
-      ))}
+      {data &&
+        data.map(({ id, name, icon }: any) => (
+          <CardWrapper onClick={() => onClick(id)} key={id}>
+            <BigCard src={icon} title={name} selected={selected === id} />
+          </CardWrapper>
+        ))}
     </>
   );
 }
@@ -94,7 +102,6 @@ export default function ByVehicle() {
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
 
 /*import { useState } from "react";
 import styled from "styled-components";
