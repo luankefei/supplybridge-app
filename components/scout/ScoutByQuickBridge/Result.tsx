@@ -153,7 +153,7 @@ export default function QuickbridgeResult() {
         </Stack>
       </BreadcrumbsContainer>
       <MainContainer>
-        <Button onClick={setTabResult}>Back</Button>
+        <GoBackIcon goBack={setTabResult}></GoBackIcon>
         <SearchContainer>
           <SearchBarForFilter
             onSearch={searchHandler}
