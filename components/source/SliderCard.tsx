@@ -10,6 +10,7 @@ export default function SliderCard({ children }: Props) {
 }
 
 const StyledCard = styled(Card)`
+  position:relative;
    width: 100%;
   height: 724px;
   display: flex;

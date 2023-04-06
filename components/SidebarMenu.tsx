@@ -96,7 +96,7 @@ export default function SideBarMenu() {
   const logout = () => {
     signOut();
     cookie.remove("token");
-    window.location.href="https://partners.supplybridge.com"
+    router.push("/login");
   };
 
   return (
@@ -207,7 +207,7 @@ const Container = styled.div<any>`
   font-family: Nunito;
   min-height: 100vh;
   width: ${theme.dimension.leftMenuWidth};
-  position: relative;
+  position: fixed;
   box-sizing: border-box;
   z-index: 1000;
   /* transition: 1s all 0s; */

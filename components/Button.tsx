@@ -1,12 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import { ButtonUnstyledProps, useButton } from '@mui/base/ButtonUnstyled';
-import CircularProgress from '@mui/material/CircularProgress';
-import { styled as muiStyled } from '@mui/system';
-import clsx from 'clsx';
-import { theme } from 'config/theme';
+import React from "react";
+import styled from "styled-components";
+import { ButtonUnstyledProps, useButton } from "@mui/base/ButtonUnstyled";
+import CircularProgress from "@mui/material/CircularProgress";
+import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import { styled as muiStyled } from "@mui/system";
+import clsx from "clsx";
+import { theme } from "config/theme";
 
-import Icon from 'components/Icon'
+import Icon from "components/Icon";
 
 const CustomCircularProgress = muiStyled(CircularProgress)`
   margin-left: 10px;
@@ -20,24 +21,29 @@ const IconContainer = styled.div`
   padding-top: 1px;
 `;
 
-const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
+const CustomButtonRoot = styled<ButtonUnstyledProps | any>("button")`
   display: flex;
   justify-content: center;
   position: relative;
-  background-color: ${(props) => (props.secondary ? theme.colors.white : theme.colors.secondary)};
-  width: ${(props) => (props?.block ? '100%' : '250px')};
+  background-color: ${(props) =>
+    props.secondary ? theme.colors.white : theme.colors.secondary};
+  width: ${(props) => (props?.block ? "100%" : "250px")};
   padding: 15px;
   border-radius: 4px;
-  color: ${(props) => (props.secondary ? theme.colors.black : theme.colors.white)};
+  color: ${(props) =>
+    props.secondary ? theme.colors.black : theme.colors.white};
   border-color: transparent;
   font-weight: 400;
-  font-family: 'Ubuntu', sans-serif !important;
+  font-family: "Ubuntu", sans-serif !important;
   font-size: 18px;
   transition: all 200ms ease;
   cursor: pointer;
-  border: ${(props) => (props.secondary ? `1px solid #CCE4EC !important` : `1px solid ${theme.colors.secondary} !important`)};
+  border: ${(props) =>
+    props.secondary
+      ? `1px solid #CCE4EC !important`
+      : `1px solid ${theme.colors.secondary} !important`};
   margin-bottom: 10px;
-  margin: ${(props) => props.margin ? props.margin : 0};
+  margin: ${(props) => (props.margin ? props.margin : 0)};
 
   &:hover {
     // background-color: #0059b2;
@@ -49,7 +55,8 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
   }
 
   &.focusVisible {
-    box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1), 0 0 0 5px rgba(0, 127, 255, 0.5);
+    box-shadow: 0 4px 20px 0 rgba(61, 71, 82, 0.1),
+      0 0 0 5px rgba(0, 127, 255, 0.5);
     outline: none;
   }
 
@@ -65,9 +72,17 @@ const CustomButtonRoot = styled<ButtonUnstyledProps | any>('button')`
 
 const Button = React.forwardRef(function CustomButton(
   props: ButtonUnstyledProps | any,
-  ref: React.ForwardedRef<any>,
+  ref: React.ForwardedRef<any>
 ) {
-  const { children, loading, color = theme.colors.primary, block = true, secondary = false, icon = false, margin = 0 } = props;
+  const {
+    children,
+    loading,
+    color = theme.colors.primary,
+    block = true,
+    secondary = false,
+    icon = false,
+    margin = 0,
+  } = props;
   const { active, disabled, focusVisible, getRootProps } = useButton({
     ...props,
     ref,
@@ -97,9 +112,31 @@ const Button = React.forwardRef(function CustomButton(
         </IconContainer>
       )}
       {children}
-      {loading && <CustomCircularProgress size={20} color={'inherit'} />}
+      {loading && <CustomCircularProgress size={20} color={"inherit"} />}
     </CustomButtonRoot>
   );
 });
+
+interface Props {
+  goBack: () => void;
+}
+
+export const GoBackIcon = ({ goBack }: Props) => {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        right: "10%",
+        top: "96px",
+        display: "flex",
+        alignItems: "center",
+        cursor: "pointer",
+      }}
+      onClick={goBack}
+    >
+      <ArrowBackIcon /> <span style={{ marginLeft: "8px" }}>BACK</span>
+    </div>
+  );
+};
 
 export default Button;

@@ -95,7 +95,7 @@ export default function ScoutByIndex() {
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-      document.documentElement.scrollTop <=
+        document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current) {
@@ -121,18 +121,22 @@ export default function ScoutByIndex() {
   const clearHandler = () => {
     clearFilterData();
   };
-  const isSuppliersNotEmpty: boolean = suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0
+  const isSuppliersNotEmpty: boolean =
+    suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
   return (
     <ScoutContainer>
       <MainContainer>
         <SearchContainer isrow={isSuppliersNotEmpty}>
-          {(!isSuppliersNotEmpty) && (
+          {!isSuppliersNotEmpty && (
             <Title>Global Scouting, for Automotive professionals.</Title>
           )}
           <IconContainer isrow={isSuppliersNotEmpty}>
             <Icon src="smart-bridge-ai" width={25} height={25} />
             <IconLabel>
-              <Label>powered by {(isSuppliersNotEmpty) && <br />}SmartBridge Artificial Intelligence</Label>
+              <Label>
+                powered by {isSuppliersNotEmpty && <br />}SmartBridge Artificial
+                Intelligence
+              </Label>
             </IconLabel>
           </IconContainer>
           <SearchBar2 onSearch={searchHandler} />
@@ -141,14 +145,17 @@ export default function ScoutByIndex() {
           <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
           <ContentsWrapper>
             <GeoCharts />
-            {(isSuppliersNotEmpty) && <Filters totalCount={count} />}
-            <ScoutFilter />
+            {isSuppliersNotEmpty && <Filters totalCount={count} />}
+            <ScoutFilter isQuickSearch={false} />
 
             <ResultContainer>
-              {(isSuppliersNotEmpty) ? (
+              {isSuppliersNotEmpty ? (
                 <>
                   {suppliers.map((supplier: any, index: number) => (
-                    <ResultCard data={supplier} key={`${supplier.id}_${index}`} />
+                    <ResultCard
+                      data={supplier}
+                      key={`${supplier.id}_${index}`}
+                    />
                   ))}
                 </>
               ) : null}
@@ -165,14 +172,14 @@ export default function ScoutByIndex() {
 }
 
 const Title = styled.div`
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 600;
   font-size: 24px;
   line-height: 22px;
   display: flex;
   align-items: flex-end;
-  color: #445B66;
+  color: #445b66;
   margin-top: 70px;
   @media (max-width: ${(props) => props.theme.size.laptopL}) {
     margin-top: 50px;
@@ -183,7 +190,7 @@ const Title = styled.div`
   @media (max-width: ${(props) => props.theme.size.tablet}) {
     margin-top: 30px;
   }
-`
+`;
 const ScoutContainer = styled.div`
   width: 100%;
   margin: 0px 5px;
@@ -192,7 +199,7 @@ const ScoutContainer = styled.div`
     width: 100%;
   }
   @media (max-width: ${(props) => props.theme.size.laptop}) {
-  margin: 10px 10px;
+    margin: 10px 10px;
   }
 `;
 
@@ -202,9 +209,9 @@ const SearchContainer = styled.div<{ isrow: boolean }>`
     width: ${theme.dimension.cardMaxWidth};
   }
   display: flex;
-  align-items: center;
+  align-items: ${(props) => (props.isrow ? "end" : "center")};
   margin-bottom: 50px;
-  flex-direction: ${(props) => (props.isrow ? 'row' : "column")};
+  flex-direction: ${(props) => (props.isrow ? "row" : "column")};
   gap: 15px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
@@ -237,9 +244,8 @@ const IconContainer = styled.div<{ isrow: boolean }>`
   display: flex;
   flex-grow: 1;
   flex-direction: row;
-  justify-content: ${(props) => (props.isrow ? 'end' : "center")};
-  align-items: center;
-  margin-bottom: ${(props) => (props.isrow ? '14px' : "")};
+  justify-content: ${(props) => (props.isrow ? "end" : "center")};
+  align-items: end;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
   }
@@ -252,12 +258,12 @@ const IconLabel = styled.div`
 `;
 
 const Label = styled.span`
-  font-family: 'Inter';
+  font-family: "Inter";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
   line-height: 18px;
-  color: #89A8B3;
+  color: #89a8b3;
 `;
 
 const Technology = styled.span`
@@ -316,8 +322,7 @@ const NoRecord = styled.div`
   background-color: white;
 `;
 
-const ResultContainer = styled.div`
-`;
+const ResultContainer = styled.div``;
 
 const CircleButton = styled.div`
   background-color: ${(props) => `${props.theme.colors.secondary}`};

@@ -5,6 +5,15 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination: '/dashboard',
+        permanent: true,
+      },
+    ]
+  },
 }
 
 module.exports = nextConfig

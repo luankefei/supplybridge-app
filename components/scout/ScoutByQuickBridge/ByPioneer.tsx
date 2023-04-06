@@ -5,33 +5,78 @@ import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgePioneer } from "requests/useScoutByScoutBridge"
+import { useQuickBridgePioneer } from "requests/useScoutByScoutBridge";
 import _ from "lodash";
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByPioneer() {
-  const { quickBridgeStore, pioneerStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      pioneerStore: state.quickBridgePioneers
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, pioneerStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    pioneerStore: state.quickBridgePioneers,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, data } = pioneerStore;
   const { getPioneers, loading } = useQuickBridgePioneer();
+  const router = useRouter();
 
   const onClick = (select: any) => {
     if (selected !== select) {
       setSelected(select);
+      let label = data.find((d: any) => d.id == select).name;
+      setSelectedLabel(label);
       setFilter("pioneers", select);
+
+      if (!data || !Array.isArray(data)) return;
+      const item = data.find((item) => item.id === select);
+      if (!item || !item.id) return;
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.pioneer.toLowerCase()}/${item.name.toLowerCase()}`
+      );
     } else {
       setSelected(null);
+      setFilter("pioneers", select);
+      setSelectedLabel("");
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.pioneer.toLowerCase()}`
+      );
     }
-  }
+  };
 
   useEffect(() => {
     if (!data) {
       getPioneers();
     }
-  }, [data, getPioneers])
+  }, [data, getPioneers]);
+
+  useEffect(() => {
+    setFilter("pioneers", null);
+  }, []);
+
+  useEffect(() => {
+    if (!data || !Array.isArray(data)) return;
+
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
+      if (router.query.slug.length > 2 && router.query.slug[2]) {
+        const slug = router.query.slug[2];
+        const item = data.find(
+          (item) => item.name.toLowerCase() === slug.toLowerCase()
+        );
+        if (item && item.id) {
+          setSelected(item.id);
+          setFilter("pioneers", item.id);
+        } else {
+          setSelected(null);
+          setFilter("pioneers", null);
+        }
+      }
+    }
+  }, [data]);
 
   if (loading) {
     return (
@@ -48,27 +93,45 @@ export default function ByPioneer() {
   const InfoContent = (description: any) => {
     const items = _.split(description, "\n");
     if (items && Array.isArray(items) && items.length > 1) {
-      return (
-        items.map((item: any) => (<div key={item}>{item}</div>))
-      )
+      return items.map((item: any) => <div key={item}>{item}</div>);
     }
-    return <div>{description}</div>
-  }
+    return <div>{description}</div>;
+  };
 
   return (
     <CardContainer>
-      {data && data.map(({ id, name, icon, description, isActive }: any) => (
-        description ? (
-          <CardWrapper onClick={() => onClick(id)} key={id} disabled={!isActive}>
-            <BigCard src={icon} title={name} selected={selected === id} infoContent={InfoContent(description)} disabled={!isActive} />
-          </CardWrapper>
-        ) : (
-          <CardWrapper onClick={() => onClick(id)} key={id} disabled={!isActive}>
-            <BigCard src={icon} title={name} selected={selected === id} disabled={!isActive} />
-          </CardWrapper>
-        )
-      ))}
-    </CardContainer >
+      {data &&
+        data.map(({ id, name, icon, description, isActive }: any) =>
+          description ? (
+            <CardWrapper
+              onClick={() => onClick(id)}
+              key={id}
+              disabled={!isActive}
+            >
+              <BigCard
+                src={icon}
+                title={name}
+                selected={selected === id}
+                infoContent={InfoContent(description)}
+                disabled={!isActive}
+              />
+            </CardWrapper>
+          ) : (
+            <CardWrapper
+              onClick={() => onClick(id)}
+              key={id}
+              disabled={!isActive}
+            >
+              <BigCard
+                src={icon}
+                title={name}
+                selected={selected === id}
+                disabled={!isActive}
+              />
+            </CardWrapper>
+          )
+        )}
+    </CardContainer>
   );
 }
 
@@ -81,8 +144,8 @@ const CardContainer = styled.div`
 `;
 
 const CardWrapper = styled.span<{ disabled: boolean }>`
-  cursor: ${(props) => props.disabled ? "default" : "pointer"};
-  filter: ${(props) => props.disabled ? "grayscale(100%)" : "none"};
+  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
+  filter: ${(props) => (props.disabled ? "grayscale(100%)" : "none")};
 `;
 //*/
 
