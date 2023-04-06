@@ -155,16 +155,15 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
     setFilterData(rawFilterData);
     getFilterListById(rawFilterData, type);
 
-    if (isQuickSearch && (type == "regions" || type == "subRegions")) {
-      // console.log("filtering... now with: ", rawFilterData);
-      setExtraFilter({
-        commodities: rawFilterData.commodities,
-        components: rawFilterData.components,
-        regions: rawFilterData.regions,
-        subRegions: rawFilterData.subRegions,
-      });
-      searchSuppliers(1, true);
-    }
+    // if (isQuickSearch && (type == "regions" || type == "subRegions")) {
+    setExtraFilter({
+      commodities: rawFilterData.commodities,
+      components: rawFilterData.components,
+      regions: rawFilterData.regions,
+      subRegions: rawFilterData.subRegions,
+    });
+    searchSuppliers(1, true);
+    // }
   };
 
   const selectAllHandler = (event: any, type: string) => {
