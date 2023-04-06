@@ -55,8 +55,14 @@ interface Actions {
 // By Commodity: commodities
 // By Production Tech: productionTechnologies
 // By Pioneer: pioneers
-export type FilterType = "vehicleTypes" | "vehicleBrands" |
-  "vehicleModels" | "vehicleFuelTypes" | "commodities" | "productionTechnologies" | "pioneers";
+export type FilterType =
+  | "vehicleTypes"
+  | "vehicleBrands"
+  | "vehicleModels"
+  | "vehicleFuelTypes"
+  | "commodities"
+  | "productionTechnologies"
+  | "pioneers";
 
 export type QuickBridgeSlice = State & Actions;
 
@@ -82,12 +88,13 @@ const initialState = {
     offerings: [],
     certifications: [],
     tiers: [],
-    headquarters: []
+    headquarters: [],
   },
   tab: {
     activeTab: 0,
     isResult: false,
   },
+  selectedLabel: "", // in each tab, when user click one item, e.g., OEM/BYD, Segment/C-class, this label need to be saved to be used in search bar in Result component.
 };
 
 export const createQuickBridgeSlice: StateCreator<
@@ -137,12 +144,29 @@ export const createQuickBridgeSlice: StateCreator<
           quickBridge: {
             ...state.quickBridge,
             filter: {
-              [type]: [data]
+              [type]: data == null ? [] : [data],
             },
             page: 1, // Reset the array suppliers with the new data.
             suppliers: [], // Reset the array suppliers with the new data.
           },
         })),
+      setExtraFilter: (
+        data: any // data: {commodities: [], components: [], regions: [], subRegions: [] }
+      ) =>
+        set((state = get()) => {
+          return {
+            ...state,
+            quickBridge: {
+              ...state.quickBridge,
+              filter: {
+                ...state.quickBridge.filter,
+                ...data,
+              },
+              page: 1, // Reset the array suppliers with the new data.
+              suppliers: [], // Reset the array suppliers with the new data.
+            },
+          };
+        }),
       setTab: (activeTab: number) =>
         set((state = get()) => ({
           ...state,
@@ -184,6 +208,15 @@ export const createQuickBridgeSlice: StateCreator<
             },
           };
         }),
+
+      setSelectedLabel: (label: string) =>
+        set((state = get()) => ({
+          ...state,
+          quickBridge: {
+            ...state.quickBridge,
+            selectedLabel: label,
+          },
+        })),
     },
   }),
   "quick-bridge-slice"

@@ -1,48 +1,103 @@
-"use client"
+"use client";
 
 import { useEffect } from "react";
 import { Divider, Skeleton } from "@mui/material";
-import styled from "styled-components"
+import styled from "styled-components";
 import BrandCard from "./BrandCard";
 import BrandCardSkeleton from "./BrandCardSkeleton";
 import ModelCard, { ModelBlankCard } from "./ModelCard";
 import ModelCardSkeleton from "./ModelCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeSegment } from "requests/useScoutByScoutBridge"
-import { VehicleBrandModel, VehicleModel, VehicleSegment } from "hooks/quick-bridge/segmentSlice";
+import { useQuickBridgeSegment } from "requests/useScoutByScoutBridge";
+import {
+  VehicleBrandModel,
+  VehicleModel,
+  VehicleSegment,
+} from "hooks/quick-bridge/segmentSlice";
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function BySegment() {
-  const { quickBridgeStore, segmentStore } =
-    useBoundStore((state) => ({
-      quickBridgeStore: state.quickBridge,
-      segmentStore: state.quickBridgeSegments
-    }));
-  const { setFilter } = quickBridgeStore;
+  const { quickBridgeStore, segmentStore } = useBoundStore((state) => ({
+    quickBridgeStore: state.quickBridge,
+    segmentStore: state.quickBridgeSegments,
+  }));
+  const { setFilter, setSelectedLabel } = quickBridgeStore;
   const { selected, setSelected, brandModels, segments } = segmentStore;
   const { getBrandModels, loading } = useQuickBridgeSegment();
+  const router = useRouter();
 
   const onClick = (select: any) => {
     if (selected !== select) {
       setSelected(select);
+      let label = "";
+      loopOut: for (let i = 0; i < segments.length; i++) {
+        for (let j = 0; j < segments[i].vehicleModels.length; j++) {
+          if (segments[i].vehicleModels[j].id == select) {
+            label = segments[i].vehicleModels[j].name;
+            break loopOut;
+          }
+        }
+      }
+      setSelectedLabel(label);
       setFilter("vehicleModels", select);
+
+      if (!brandModels || !Array.isArray(brandModels)) return;
+      const item = brandModels
+        .flatMap((item) => item.models)
+        .find((item) => item.id === select);
+      if (!item || !item.id) return;
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.segment.toLowerCase()}/${item.name.toLowerCase()}`
+      );
     } else {
       setSelected(null);
+      setFilter("vehicleModels", null);
+      setSelectedLabel("");
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.segment.toLowerCase()}`
+      );
     }
-  }
+  };
 
   useEffect(() => {
     if (!brandModels) {
       getBrandModels();
     }
-  }, [brandModels, getBrandModels])
+  }, [brandModels, getBrandModels]);
+
+  useEffect(() => {
+    if (!brandModels || !Array.isArray(brandModels)) return;
+
+    if (
+      router.query &&
+      router.query.slug &&
+      Array.isArray(router.query.slug) &&
+      router.query.slug.length > 0
+    ) {
+      if (router.query.slug.length > 2 && router.query.slug[2]) {
+        const slug = router.query.slug[2];
+        const item = brandModels
+          .flatMap((item) => item.models)
+          .find((item) => item.name.toLowerCase() === slug.toLowerCase());
+        if (item && item.id) {
+          setSelected(item.id);
+          setFilter("vehicleModels", item.id);
+        } else {
+          setSelected(null);
+          setFilter("vehicleModels", null);
+        }
+      }
+    }
+  }, [brandModels]);
 
   if (loading) {
     return (
       <Container>
         <Segments>
-          {[1, 2, 3, 4, 5, 6].map((segmentIndex) =>
+          {[1, 2, 3, 4, 5, 6].map((segmentIndex) => (
             <SegmentButtonSkeleton variant="rounded" key={segmentIndex} />
-          )}
+          ))}
         </Segments>
 
         <Models>
@@ -55,30 +110,29 @@ export default function BySegment() {
                       <BrandCardSkeleton />
                     </Brand>
                     <ModelsWrapper>
-                      {[1, 2, 3, 4, 5, 6].map((modelIndex) =>
+                      {[1, 2, 3, 4, 5, 6].map((modelIndex) => (
                         <ModelCardWrapper key={modelIndex}>
                           <ModelCardSkeleton />
                         </ModelCardWrapper>
-                      )}
+                      ))}
                     </ModelsWrapper>
                   </Section>
-                  {brandIndex + 1 !== 3 &&
-                    <StyledDivider />
-                  }
+                  {brandIndex + 1 !== 3 && <StyledDivider />}
                 </>
-              )
+              );
             })}
           </>
         </Models>
       </Container>
-    )
+    );
   }
   return (
     <Container>
       <Segments>
-        {segments && segments.map((segment: VehicleSegment) =>
-          <SegmentButton key={segment.id}>{segment.name}</SegmentButton>
-        )}
+        {segments &&
+          segments.map((segment: VehicleSegment) => (
+            <SegmentButton key={segment.id}>{segment.name}</SegmentButton>
+          ))}
       </Segments>
 
       <Models>
@@ -88,13 +142,24 @@ export default function BySegment() {
               <>
                 <Section key={brand.id}>
                   <Brand>
-                    <BrandCard logo={brand.logo} title={brand.name} clickable={false} selected={false} />
+                    <BrandCard
+                      logo={brand.logo}
+                      title={brand.name}
+                      clickable={false}
+                      selected={false}
+                    />
                   </Brand>
                   <ModelsWrapper>
                     {brand?.models?.map((model: VehicleModel, index: any) =>
                       model.id ? (
-                        <ModelCardWrapper key={index} onClick={() => onClick(model.id)}>
-                          <ModelCard title={model.name} selected={selected === model.id} />
+                        <ModelCardWrapper
+                          key={index}
+                          onClick={() => onClick(model.id)}
+                        >
+                          <ModelCard
+                            title={model.name}
+                            selected={selected === model.id}
+                          />
                         </ModelCardWrapper>
                       ) : (
                         <ModelCardWrapper key={index}>
@@ -104,16 +169,14 @@ export default function BySegment() {
                     )}
                   </ModelsWrapper>
                 </Section>
-                {brandIndex + 1 !== brandModels.length &&
-                  <StyledDivider  />
-                }
+                {brandIndex + 1 !== brandModels.length && <StyledDivider />}
               </>
-            )
+            );
           })}
         </>
       </Models>
     </Container>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -137,8 +200,8 @@ const SegmentButton = styled.div`
   align-items: center;
   width: 124px;
   height: 54px;
-  background: #F3F4F6;
-  border: 1px solid #D1D5DB;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
   border-radius: 16px;
 `;
 
@@ -149,8 +212,8 @@ const SegmentButtonSkeleton = styled(Skeleton)`
   align-items: center;
   width: 124px;
   height: 54px;
-  background: #F3F4F6;
-  border: 1px solid #D1D5DB;
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
   border-radius: 16px;
 `;
 
@@ -162,7 +225,7 @@ const Models = styled.div`
 `;
 
 const ModelCardWrapper = styled.span`
-  cursor: pointer;  
+  cursor: pointer;
 `;
 
 const Section = styled.div`
@@ -170,9 +233,7 @@ const Section = styled.div`
   gap: 8px;
 `;
 
-const Brand = styled.div`
-
-`;
+const Brand = styled.div``;
 
 const ModelsWrapper = styled.div`
   display: flex;
@@ -180,9 +241,9 @@ const ModelsWrapper = styled.div`
   margin-left: 64px;
 `;
 
-const StyledDivider=styled(Divider)`
-  border-color: #D1D5DB !important;
-`
+const StyledDivider = styled(Divider)`
+  border-color: #d1d5db !important;
+`;
 
 /*
 import { Divider } from "@mui/material";
