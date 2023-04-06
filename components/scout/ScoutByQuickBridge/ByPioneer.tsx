@@ -7,6 +7,8 @@ import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgePioneer } from "requests/useScoutByScoutBridge"
 import _ from "lodash";
+import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByPioneer() {
   const { quickBridgeStore, pioneerStore } =
@@ -17,13 +19,25 @@ export default function ByPioneer() {
   const { setFilter } = quickBridgeStore;
   const { selected, setSelected, data } = pioneerStore;
   const { getPioneers, loading } = useQuickBridgePioneer();
+  const router = useRouter();
 
   const onClick = (select: any) => {
     if (selected !== select) {
       setSelected(select);
       setFilter("pioneers", select);
+
+      if (!data || !Array.isArray(data)) return;
+      const item = data.find((item) => item.id === select);
+      if (!item || !item.id) return;
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.pioneer}/${item.name}`
+      );
     } else {
       setSelected(null);
+      setFilter("pioneers", select);
+      router.push(
+        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.pioneer}`
+      );
     }
   }
 
@@ -32,6 +46,24 @@ export default function ByPioneer() {
       getPioneers();
     }
   }, [data, getPioneers])
+
+  useEffect(() => {
+    if (!data || !Array.isArray(data)) return;
+
+    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
+      if (router.query.slug.length > 2 && router.query.slug[2]) {
+        const slug = router.query.slug[2];
+        const item = data.find((item) => item.name.toLowerCase() === slug.toLowerCase());
+        if (item && item.id) {
+          setSelected(item.id);
+          setFilter("pioneers", item.id);
+        } else {
+          setSelected(null);
+          setFilter("pioneers", null);
+        }
+      }
+    }
+  }, [data]);
 
   if (loading) {
     return (
