@@ -48,14 +48,14 @@ export default function BySegment() {
         .find((item) => item.id === select);
       if (!item || !item.id) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.segment}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.segment.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelected(null);
       setFilter("vehicleModels", null);
       setSelectedLabel("");
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.segment}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.segment.toLowerCase()}`
       );
     }
   };

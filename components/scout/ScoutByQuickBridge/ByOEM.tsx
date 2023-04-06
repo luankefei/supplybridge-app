@@ -41,14 +41,14 @@ export default function ByOEM() {
         .find((item) => item.id === select);
       if (!item || !item.id) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.oem}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.oem.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelected(null);
       setFilter("vehicleBrands", null);
       setSelectedLabel("");
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.oem}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.oem.toLowerCase()}`
       );
     }
   };

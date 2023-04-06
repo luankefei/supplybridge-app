@@ -30,14 +30,14 @@ export default function ByTechnology() {
       const item = data.find((item) => item.id === select);
       if (!item || !item.id) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.technology}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.technology.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelectedLabel("");
       setSelected(null);
       setFilter("vehicleFuelTypes", null);
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.technology}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.technology.toLowerCase()}`
       );
     }
   };

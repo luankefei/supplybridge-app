@@ -31,7 +31,7 @@ export default function ByCommodity() {
       const item = data.find((item) => item.id === select);
       if (!item || !item.id) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.commodity}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.commodity.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelectedLabel("");
@@ -39,7 +39,7 @@ export default function ByCommodity() {
       setFilter("commodities", null);
 
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.commodity}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.commodity.toLowerCase()}`
       );
     }
   };

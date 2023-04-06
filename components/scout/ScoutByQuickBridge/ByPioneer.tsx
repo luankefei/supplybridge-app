@@ -31,14 +31,14 @@ export default function ByPioneer() {
       const item = data.find((item) => item.id === select);
       if (!item || !item.id) return;
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.pioneer}/${item.name}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.pioneer.toLowerCase()}/${item.name.toLowerCase()}`
       );
     } else {
       setSelected(null);
       setFilter("pioneers", select);
       setSelectedLabel("");
       router.push(
-        `/scout/${ScoutSwitchType.quickBridge}/${QuickBridgeTabType.pioneer}`
+        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.pioneer.toLowerCase()}`
       );
     }
   };
