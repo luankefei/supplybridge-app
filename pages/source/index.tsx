@@ -13,14 +13,20 @@ export default function SourcePage() {
 
   return (
     <Layout>
+      <SliderContainer>
       <NewHeader />
       <Container>
         <Carousel type="card" data={data} />
       </Container>
       <Tutorial storageKey={"tutorial-source"} />
+      </SliderContainer>
     </Layout>
   )
 }
+
+const SliderContainer=styled.div`
+  height: 100vh !important;
+`
 
 const Container = styled.div`
   position: absolute;
@@ -29,4 +35,5 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  top:10px;
 `;

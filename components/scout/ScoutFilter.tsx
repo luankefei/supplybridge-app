@@ -112,7 +112,6 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
     const id = obj.hasOwnProperty("code") ? obj.code : obj.id;
     const rawFilterData = filterData;
     const value = ischecked;
-
     if (!isAllSelect && !rawFilterData[type].includes(id) && value) {
       rawFilterData[type].push(id);
     } else if (isAllSelect && value) {
@@ -124,19 +123,21 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
       }
     }
 
-    if (type === "commodities" && !value) {
+    if (type === "commodities" && value) {
       const commodityComponents = components?.filter(
         (c: any) => c.commodityId === id
       );
       const commodityComponentsIDs = commodityComponents?.map(
         (cc: any) => cc.id
       );
+
       rawFilterData.components = rawFilterData?.components?.filter(
         (com: any) => !commodityComponentsIDs?.includes(com)
       );
     }
 
     if (rawFilterData.commodities.length === 0) {
+      console.log("commodities are 0");
       rawFilterData.components = [];
       setIsAllSelected((oldState) => ({
         ...oldState,
@@ -216,15 +217,12 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
       subRegions: subRegions,
     });
   };
-  useEffect(() => {
-    // if(dropdownRef.current){
-    setInitialDropdownData();
-    console.log("i am initialized", commodities);
-    // dropdownRef.current=false;
-    // }
-  }, [commodities, components, commodities, regions, subRegions]);
 
   const [dropdownData, setDropdownData] = useState<IFilterType>({});
+
+  useEffect(() => {
+    setInitialDropdownData();
+  }, [commodities, components, regions, subRegions]);
 
   const handleSearchChange = (e: any, type: string) => {
     const searchString = e.target.value;
@@ -286,7 +284,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
                         onChange={(e: any) => handleSearchChange(e, item.key)}
                         name="search"
                         placeholder="Search"
-                        value={searchItem?.[item.key]}
+                        value={searchItem ? searchItem?.[item.key] : ""}
                         type="text"
                       />
                       <Icon

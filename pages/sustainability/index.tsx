@@ -44,15 +44,20 @@ export default function SliderPage() {
 
   return (
     <Layout>
+      <SliderContainer>
       <Header />
       <Container>
         <Carousel type="image" data={imageData} />
       </Container>
       <Tutorial storageKey="tutorial-sustainability" />
+      </SliderContainer>
     </Layout>
   )
 }
 
+const SliderContainer=styled.div`
+  height: 100vh !important;
+`
 const Container = styled.div`
   position: absolute;
   width: 100%;
@@ -60,4 +65,5 @@ const Container = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
+  top:10px;
 `;
