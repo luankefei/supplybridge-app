@@ -8,7 +8,6 @@ import BrandCardSkeleton from "./BrandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeOEM } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByOEM() {
   const { quickBridgeStore, oemStore } = useBoundStore((state) => ({
@@ -34,22 +33,10 @@ export default function ByOEM() {
       }
       setSelectedLabel(label);
       setFilter("vehicleBrands", select);
-
-      if (!data || !Array.isArray(data)) return;
-      const item = data
-        .flatMap((item) => item.vehicleBrands)
-        .find((item) => item.id === select);
-      if (!item || !item.id) return;
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.oem.toLowerCase()}/${item.name.toLowerCase()}`
-      );
     } else {
       setSelected(null);
       setFilter("vehicleBrands", null);
       setSelectedLabel("");
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.oem.toLowerCase()}`
-      );
     }
   };
 
@@ -62,31 +49,6 @@ export default function ByOEM() {
   useEffect(() => {
     setFilter("vehicleBrands", null);
   }, []);
-
-  useEffect(() => {
-    if (!data || !Array.isArray(data)) return;
-
-    if (
-      router.query &&
-      router.query.slug &&
-      Array.isArray(router.query.slug) &&
-      router.query.slug.length > 0
-    ) {
-      if (router.query.slug.length > 2 && router.query.slug[2]) {
-        const slug = router.query.slug[2];
-        const item = data
-          .flatMap((item) => item.vehicleBrands)
-          .find((item) => item.name.toLowerCase() === slug.toLowerCase());
-        if (item && item.id) {
-          setSelected(item.id);
-          setFilter("vehicleBrands", item.id);
-        } else {
-          setSelected(null);
-          setFilter("vehicleBrands", null);
-        }
-      }
-    }
-  }, [data]);
 
   if (loading) {
     return (

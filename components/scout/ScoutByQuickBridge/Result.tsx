@@ -21,6 +21,7 @@ import { SearchBarForFilter } from "components/scout/SearchBar";
 import { GoBackIcon } from "components/Button";
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
+import { QuickBridgeTabType } from "utils/constants";
 
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
@@ -34,6 +35,8 @@ export default function QuickbridgeResult() {
     setPageSize,
     selectedLabel,
     setSelectedLabel,
+    setTab,
+    tab,
   } = quickBridge;
   const { scrollOffset } = useViewport();
   const { searchSuppliers, resetAllSelected, loading } =
@@ -115,17 +118,41 @@ export default function QuickbridgeResult() {
     clearFilterData();
   };
 
+  const handleClickLink = (index: number) => {
+    switch (index) {
+      case 1:
+        clearFilters();
+        setTab(0, QuickBridgeTabType.vehile)
+      case 2:
+        setSelectedLabel("");
+        resetAllSelected();
+      case 3:
+        break;
+    }
+    setResult(false);
+  }
+
   var breadcrumbs: any = [];
-  if (router.query.slug && Array.isArray(router.query.slug)) {
-    var path = "/scout";
-    breadcrumbs = router.query.slug.map((value, index) => {
-      path += "/" + value;
-      return (
-        <Link underline="hover" key={index} href={path} style={{ color: index === 2 ? "#000000C7" : "#00000096" }}>
-          {_.capitalize(value)}
-        </Link >
-      );
-    });
+
+  if (tab && tab.tabLabel) {
+    breadcrumbs.push(
+      <Link underline="hover" key={1} href={"#"} style={{ color: "#00000096" }} onClick={() => handleClickLink(1)}>
+        {"Quickbridge"}
+      </Link >
+    );
+    breadcrumbs.push(
+      <Link underline="hover" key={2} href={"#"} style={{ color: selectedLabel ? "#00000096" : "#000000C7" }} onClick={() => handleClickLink(2)}>
+        {tab.tabLabel}
+      </Link >
+    );
+  }
+
+  if (selectedLabel) {
+    breadcrumbs.push(
+      <Link underline="hover" key={3} href={"#"} style={{ color: "#000000C7" }} onClick={() => handleClickLink(3)}>
+        {selectedLabel}
+      </Link >
+    );
   }
 
   const isSuppliersNotEmpty: boolean =
@@ -136,7 +163,6 @@ export default function QuickbridgeResult() {
     searchPlaceholder += " in " + selectedLabel;
   }
 
-  // console.log("filterData: ", filterData);
 
   return (
     <ScoutContainer>

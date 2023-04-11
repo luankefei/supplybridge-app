@@ -130,8 +130,6 @@ export default function ScoutByQuickBridge() {
   const { tab, setTab, setResult } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue);
-
     var tabName = QuickBridgeTabType.vehile;
     switch (newValue) {
       case 0:
@@ -159,8 +157,7 @@ export default function ScoutByQuickBridge() {
         tabName = QuickBridgeTabType.pioneer;
         break;
     }
-
-    router.push(`/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${tabName.toLowerCase()}`);
+    setTab(newValue, tabName);
   };
 
   const showResult = () => {
@@ -168,41 +165,11 @@ export default function ScoutByQuickBridge() {
   };
 
   useEffect(() => {
-    if (
-      router.query &&
-      router.query.slug &&
-      Array.isArray(router.query.slug) &&
-      router.query.slug.length > 0
-    ) {
-      if (router.query.slug.length === 1) {
-        setTab(0);
-      } else if (router.query.slug.length >= 2) {
-        switch (router.query.slug[1]) {
-          case QuickBridgeTabType.oem.toLowerCase():
-            setTab(1);
-            break;
-          case QuickBridgeTabType.class.toLowerCase():
-            setTab(2);
-            break;
-          case QuickBridgeTabType.segment.toLowerCase():
-            setTab(3);
-            break;
-          case QuickBridgeTabType.technology.toLowerCase():
-            setTab(4);
-            break;
-          case QuickBridgeTabType.commodity.toLowerCase():
-            setTab(5);
-            break;
-          case QuickBridgeTabType.productionTech.toLowerCase():
-            setTab(6);
-            break;
-          case QuickBridgeTabType.pioneer.toLowerCase():
-            setTab(7);
-            break;
-        }
-      }
+    if (!tab || tab.tabName) {
+      setTab(0, QuickBridgeTabType.vehile);
+      console.log("setTab");
     }
-  }, [setTab]);
+  }, [setTab])
 
   useEffect(() => {
     setValue(tab.activeTab);
