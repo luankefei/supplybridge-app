@@ -7,7 +7,6 @@ import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByVehicle() {
   const { quickBridgeStore, vehicleStore } = useBoundStore((state) => ({
@@ -25,20 +24,10 @@ export default function ByVehicle() {
       setFilter("vehicleTypes", select);
       let label = data.find((d: any) => d.id == select).name;
       setSelectedLabel(label);
-      if (!data || !Array.isArray(data)) return;
-      const item = data.find((item) => item.id === select);
-      if (!item || !item.id) return;
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.vehile.toLowerCase()}/${item.name.toLowerCase()}`
-      );
     } else {
       setSelectedLabel("");
       setSelected(null);
       setFilter("vehicleTypes", null);
-
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.vehile.toLowerCase()}`
-      );
     }
   };
 
@@ -48,32 +37,6 @@ export default function ByVehicle() {
       return;
     }
   }, [data, getVehicles, setSelected, setFilter]);
-
-  useEffect(() => {
-    if (!data || !Array.isArray(data)) return;
-
-    if (
-      router.query &&
-      router.query.slug &&
-      Array.isArray(router.query.slug) &&
-      router.query.slug.length > 0
-    ) {
-      if (router.query.slug.length > 2 && router.query.slug[2]) {
-        const slug = router.query.slug[2];
-        const item = data.find(
-          (item) => item.name.toLowerCase() === slug.toLowerCase()
-        );
-
-        if (item && item.id) {
-          setSelected(item.id);
-          setFilter("vehicleTypes", item.id);
-        } else {
-          setSelected(null);
-          setFilter("vehicleTypes", null);
-        }
-      }
-    }
-  }, [data]);
 
   if (loading) {
     return (

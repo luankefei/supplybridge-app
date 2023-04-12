@@ -7,7 +7,6 @@ import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeCommodity } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByCommodity() {
   const { quickBridgeStore, commodityStore } = useBoundStore((state) => ({
@@ -26,21 +25,10 @@ export default function ByCommodity() {
       setSelectedLabel(label);
       setSelected(select);
       setFilter("commodities", select);
-
-      if (!data || !Array.isArray(data)) return;
-      const item = data.find((item) => item.id === select);
-      if (!item || !item.id) return;
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.commodity.toLowerCase()}/${item.name.toLowerCase()}`
-      );
     } else {
       setSelectedLabel("");
       setSelected(null);
       setFilter("commodities", null);
-
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.commodity.toLowerCase()}`
-      );
     }
   };
 
@@ -53,36 +41,6 @@ export default function ByCommodity() {
   useEffect(() => {
     setFilter("commodities", null);
   }, []);
-
-  useEffect(() => {
-    if (!data || !Array.isArray(data)) return;
-
-    if (
-      router.query &&
-      router.query.slug &&
-      Array.isArray(router.query.slug) &&
-      router.query.slug.length > 0
-    ) {
-      if (router.query.slug.length > 2) {
-        var slug = "";
-        if (router.query.slug.length > 3) {
-          slug = `${router.query.slug[2]}/${router.query.slug[3]}`;
-        } else {
-          slug = router.query.slug[2];
-        }
-        const item = data.find(
-          (item) => item.name.toLowerCase() === slug.toLowerCase()
-        );
-        if (item && item.id) {
-          setSelected(item.id);
-          setFilter("commodities", item.id);
-        } else {
-          setSelected(null);
-          setFilter("commodities", null);
-        }
-      }
-    }
-  }, [data]);
 
   if (loading) {
     return (

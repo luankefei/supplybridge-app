@@ -1,6 +1,5 @@
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
-import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useBoundStore from "hooks/useBoundStore";
 import styled from "styled-components";
@@ -20,7 +19,7 @@ export default function Switch() {
 
   const clearFilter = () => {
     setResult(false);
-    setTab(0);
+    setTab(0, QuickBridgeTabType.vehile);
     setFilter("vehicleTypes", null);
     setFilter("vehicleBrands", null);
     setFilter("vehicleModels", null);
@@ -35,27 +34,14 @@ export default function Switch() {
 
   const [selected, setSelected] = useState(ScoutSwitchType.index);
   // const { setFilterData, setSuppliers } = useStore();
-  const router = useRouter();
   const handleSwitchSelected = (val: ScoutSwitchType) => {
     setSelected(val);
-    router.push(`/scout/${val.toLowerCase()}`);
   }
 
   useEffect(() => {
     clearFilterData();
     setSuppliers([], true);
   }, [selected]);
-
-  useEffect(() => {
-    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
-      console.log(router.query.slug[0]);
-      if (router.query.slug[0].toLowerCase() === ScoutSwitchType.quickBridge.toLowerCase()) {
-        setSelected(ScoutSwitchType.quickBridge);
-      } else {
-        setSelected(ScoutSwitchType.index);
-      }
-    }
-  }, [setSelected]);
 
   return (
     <Container>
