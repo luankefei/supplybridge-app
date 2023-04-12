@@ -35,6 +35,12 @@ export default function ByTechnology() {
     }
   };
 
+  useEffect(() => {
+    if (!data) {
+      getTechnologies();
+    }
+  }, [data, getTechnologies]);
+
   if (loading) {
     return (
       <Container>
