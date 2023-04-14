@@ -7,6 +7,7 @@ import Icon from "components/Icon";
 import { useIndustries } from "requests/useIndustries";
 import { useEffect } from "react";
 import useStore from "hooks/useStore";
+import withAuth from "utils/withAuth";
 
 const Layout = dynamic(() => import("components/Layout"));
 
@@ -34,7 +35,7 @@ const lowerMenu = [
   },
 ];
 
-export default function Industry() {
+function Industry() {
   const { searchIndustries } = useIndustries();
   const { industries } = useStore();
   useEffect(() => {
@@ -94,6 +95,8 @@ export default function Industry() {
     </>
   );
 }
+
+export default withAuth(Industry);
 
 const Container = styled.div`
   height: 100vh;
