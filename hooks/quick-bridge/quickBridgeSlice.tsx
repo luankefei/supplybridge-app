@@ -30,6 +30,7 @@ interface State {
     filter: any;
     tab: {
       activeTab: number;
+      tabLabel: string;
       isResult: boolean;
     };
   };
@@ -43,8 +44,10 @@ interface Actions {
     setCount: (count: number) => void;
     setSuppliers: (value: any) => void;
     setFilter: (type: FilterType, data: any) => void;
-    setTab: (activeTab: number) => void;
+    setExtraFilter: (data: any) => void;
+    setTab: (activeTab: number, tabLabel: string) => void;
     setResult: (isResult: boolean) => void;
+    setSelectedLabel: (label: string) => void;
   };
 }
 // By Vehicle: vehicleTypes
@@ -92,6 +95,7 @@ const initialState = {
   },
   tab: {
     activeTab: 0,
+    tabLabel: "",
     isResult: false,
   },
   selectedLabel: "", // in each tab, when user click one item, e.g., OEM/BYD, Segment/C-class, this label need to be saved to be used in search bar in Result component.
@@ -167,13 +171,14 @@ export const createQuickBridgeSlice: StateCreator<
             },
           };
         }),
-      setTab: (activeTab: number) =>
+      setTab: (activeTab: number, tabLabel: string) =>
         set((state = get()) => ({
           ...state,
           quickBridge: {
             ...state.quickBridge,
             tab: {
               ...state.quickBridge.tab,
+              tabLabel,
               activeTab: activeTab,
             },
           },

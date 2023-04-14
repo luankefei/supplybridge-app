@@ -161,7 +161,7 @@ export default function SideBarMenu() {
               );
             })}
           </Section>
-          <Section>
+          <Section >
             <MenuTitle>MARKET DATA</MenuTitle>
             {marketData.map((item: any, index: any) => {
               return (
@@ -242,6 +242,7 @@ const TopSection = styled.div`
   min-height: 700px;
   display: flex;
   flex-direction: column;
+  flex-grow: 1;
   gap: 46px;
 `;
 
