@@ -46,7 +46,9 @@ export default function BySegment() {
       setSelectedLabel("");
     }
   };
-
+  useEffect(() => {
+    setFilter("vehicleModels", null);
+  }, []);
   useEffect(() => {
     if (!brandModels) {
       getBrandModels();

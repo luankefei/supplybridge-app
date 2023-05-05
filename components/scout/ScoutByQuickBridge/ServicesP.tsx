@@ -5,43 +5,42 @@ import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
+import { useQuickBridgeService } from "requests/useScoutByScoutBridge";
 
-export default function ByTechnology() {
-  const { quickBridgeStore, technologyStore } = useBoundStore((state) => ({
+export default function ServicesP() {
+  const { quickBridgeStore, services } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
-    technologyStore: state.quickBridgeTechnologies,
+    services: state.quickBridgeService,
   }));
   const { setFilter, setSelectedLabel } = quickBridgeStore;
-  const { selected, setSelected, data } = technologyStore;
-  const { getTechnologies, loading } = useQuickBridgeTechnology();
+  const { selected, setSelected, data } = services;
+  const { getServices3P, loading } = useQuickBridgeService();
   const router = useRouter();
 
   const onClick = (select: any) => {
-    if (selected !== select) {
+    if (select !== selected) {
       setSelected(select);
+      setFilter("servicesType", select);
       let label = data.find((d: any) => d.id == select).name;
       setSelectedLabel(label);
-      setFilter("vehicleFuelTypes", select);
-
-      if (!data || !Array.isArray(data)) return;
-      const item = data.find((item) => item.id === select);
-      if (!item || !item.id) return;
+      setFilter("servicesType", label);
     } else {
       setSelectedLabel("");
       setSelected(null);
-      setFilter("vehicleFuelTypes", null);
+      setFilter("servicesType", null);
     }
   };
 
   useEffect(() => {
     if (!data) {
-      getTechnologies();
+      getServices3P();
+      return;
     }
-  }, [data, getTechnologies]);
+  }, [data, getServices3P, setSelected, setFilter]);
   useEffect(() => {
-    setFilter("vehicleFuelTypes", null);
+    setFilter("servicesType", null);
   }, []);
   if (loading) {
     return (
@@ -78,7 +77,7 @@ const Container = styled.div`
 
 const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   gap: 24px;
 `;
 

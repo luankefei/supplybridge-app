@@ -20,6 +20,8 @@ const Feedback = dynamic(() => import("components/Feedback"));
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
+import ServicesP from "./ServicesP";
+import { Button } from "@mui/material";
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -60,7 +62,7 @@ interface StyledTabProps {
 const StyledTab = styled((props: StyledTabProps) => (
   <Tab disableRipple {...props} />
 ))(({ theme }) => ({
-  width: "12.5%",
+  width: "11.1%",
   textTransform: "none",
   //fontSize: "12px",
   [theme.breakpoints.down("lg")]: {
@@ -127,7 +129,7 @@ export default function ScoutByQuickBridge() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const router = useRouter();
 
-  const { tab, setTab, setResult } = quickBridge;
+  const { tab, setTab, setResult, filter,selectedLabel } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     var tabName = QuickBridgeTabType.vehile;
@@ -153,7 +155,10 @@ export default function ScoutByQuickBridge() {
       case 6:
         tabName = QuickBridgeTabType.productionTech;
         break;
-      case 7:
+        case 7:
+          tabName = QuickBridgeTabType.services;
+          break;
+      case 8:
         tabName = QuickBridgeTabType.pioneer;
         break;
     }
@@ -163,16 +168,16 @@ export default function ScoutByQuickBridge() {
   const showResult = () => {
     setResult(true);
   };
-
   useEffect(() => {
     if (!tab || tab.tabName) {
       setTab(0, QuickBridgeTabType.vehile);
       console.log("setTab");
     }
   }, [setTab])
-
+ 
   useEffect(() => {
     setValue(tab.activeTab);
+
   }, [tab]);
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -194,7 +199,7 @@ export default function ScoutByQuickBridge() {
     else if (windowHeight > 1500) setTabHeight("80vh");
   }, [windowHeight]);
 
-  console.log(value);
+ 
 
   return (
     <>
@@ -214,6 +219,8 @@ export default function ScoutByQuickBridge() {
                 <StyledTab label="By Technology" />
                 <StyledTab label="By Commodity" />
                 <StyledTab label="By Production Tech" />
+                <StyledTab label="3P Services" />
+
                 <StyledTab
                   label={
                     <span
@@ -281,6 +288,11 @@ export default function ScoutByQuickBridge() {
                 </TabPanel>
                 <TabPanel value={value} index={7} dir={theme.direction}>
                   <div style={{}} className="TabPanelWrapper-FullContents">
+                    <ServicesP />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={8} dir={theme.direction}>
+                  <div style={{}} className="TabPanelWrapper-FullContents">
                     <ByPioneer />
                   </div>
                 </TabPanel>
@@ -292,8 +304,9 @@ export default function ScoutByQuickBridge() {
                   justifyContent: "flex-end",
                 }}
               >
-                <Box
+                <Button
                   onClick={showResult}
+                  disabled={filter?.[Object.keys(filter)?.toString()]?.length ==0 }
                   sx={{
                     color: "#fff",
                     width: "254px",
@@ -316,7 +329,7 @@ export default function ScoutByQuickBridge() {
                   }}
                 >
                   Scout Now
-                </Box>
+                </Button>
               </div>
               <Feedback />
             </>

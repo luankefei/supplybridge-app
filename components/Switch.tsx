@@ -27,6 +27,7 @@ export default function Switch() {
     setFilter("commodities", null);
     setFilter("productionTechnologies", null);
     setFilter("pioneers", null);
+    setFilter("servicesType", null);
     clearFilterData();
     resetAllSelected();
     setSelectedLabel("");

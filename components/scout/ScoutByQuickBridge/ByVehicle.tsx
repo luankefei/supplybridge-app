@@ -37,7 +37,9 @@ export default function ByVehicle() {
       return;
     }
   }, [data, getVehicles, setSelected, setFilter]);
-
+  useEffect(() => {
+    setFilter("vehicleTypes", null);
+  }, []);
   if (loading) {
     return (
       <>
