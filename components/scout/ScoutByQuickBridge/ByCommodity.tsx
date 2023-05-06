@@ -13,7 +13,7 @@ export default function ByCommodity() {
     quickBridgeStore: state.quickBridge,
     commodityStore: state.quickBridgeCommodities,
   }));
-  const { setFilter, setSelectedLabel, setSuppliers, suppliers } =
+  const { setFilter, setSelectedLabel, setSuppliers, suppliers, tab } =
     quickBridgeStore;
   const { selected, setSelected, data } = commodityStore;
   const { getCommodities, loading } = useQuickBridgeCommodity();
@@ -38,9 +38,20 @@ export default function ByCommodity() {
     }
   }, [data, getCommodities]);
 
+  /*
   useEffect(() => {
     setFilter("commodities", null);
   }, []);
+  */
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 5) {
+      setFilter("commodities", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
 
   if (loading) {
     return (

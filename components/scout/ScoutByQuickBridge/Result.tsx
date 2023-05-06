@@ -23,6 +23,7 @@ import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import { QuickBridgeTabType } from "utils/constants";
 
+
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const {
@@ -39,7 +40,7 @@ export default function QuickbridgeResult() {
     tab,
   } = quickBridge;
   const { scrollOffset } = useViewport();
-  const { searchSuppliers, resetAllSelected, loading } =
+  const { searchSuppliers, searchSuppliersThreeP, resetAllSelected, loading } =
     useQuickBridgeSupplier();
 
   const infiniteScrollControl = useRef(true);
@@ -72,25 +73,41 @@ export default function QuickbridgeResult() {
   }, [count]);
 
   const getInitialRequests = () => {
-    if (!pageLoaded.current) {
-      pageLoaded.current = true;
-      searchSuppliers(1, true);
+    if (
+      filter?.servicesType == "logistics" ||
+      filter?.servicesType == "engineering" ||
+      filter?.servicesType == "quality" || tab?.activeTab == 7
+    ) {
+      searchSuppliersThreeP(1, false, "");
+    } else {
+      if (!pageLoaded.current) {
+        pageLoaded.current = true;
+        searchSuppliers(1, true);
+      }
     }
   };
 
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
-    if (currentPage * 10 < countRef.current) {
-      await searchSuppliers(currentPage + 1, false, "");
-      pageRef.current = currentPage + 1;
-      infiniteScrollControl.current = true;
+    if (
+      filter?.servicesType == "logistics" ||
+      filter?.servicesType == "engineering" ||
+      filter?.servicesType == "quality" || tab?.activeTab == 7
+    ) {
+      await searchSuppliersThreeP(currentPage + 1, false, "");
+    } else {
+      if (currentPage * 10 < countRef.current) {
+        await searchSuppliers(currentPage + 1, false, "");
+        pageRef.current = currentPage + 1;
+        infiniteScrollControl.current = true;
+      }
     }
   };
 
   const handleScroll = async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
-      document.documentElement.scrollTop <=
+        document.documentElement.scrollTop <=
       document.documentElement.clientHeight;
 
     if (isAtBottom && infiniteScrollControl.current && suppliers?.length < 20) {
@@ -131,9 +148,7 @@ export default function QuickbridgeResult() {
     }
     setResult(false);
   }
-
   var breadcrumbs: any = [];
-
   if (tab && tab.tabLabel) {
     breadcrumbs.push(
       <Link underline="hover" key={1} href={"#"} style={{ color: "#00000096" }} onClick={() => handleClickLink(1)}>
@@ -162,7 +177,7 @@ export default function QuickbridgeResult() {
   if (selectedLabel != "") {
     searchPlaceholder += " in " + selectedLabel;
   }
-
+  // console.log("filterData: ", filterData);
 
   return (
     <ScoutContainer>
@@ -190,7 +205,7 @@ export default function QuickbridgeResult() {
               <>
                 {suppliers.map((supplier: any, index: number) =>
                   index > 20 ? null : index == 20 ||
-                    index + 1 == suppliers.length ? (
+                    index == suppliers.length ? (
                     <LockedContainer key={`locked-container-${index}`}>
                       <LockedResultCard
                         data={supplier}

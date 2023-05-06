@@ -14,7 +14,7 @@ export default function ByPioneer() {
     quickBridgeStore: state.quickBridge,
     pioneerStore: state.quickBridgePioneers,
   }));
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = pioneerStore;
   const { getPioneers, loading } = useQuickBridgePioneer();
   const router = useRouter();
@@ -38,9 +38,20 @@ export default function ByPioneer() {
     }
   }, [data, getPioneers]);
 
+  /*
   useEffect(() => {
     setFilter("pioneers", null);
   }, []);
+  */
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 8) {
+      setFilter("pioneers", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
 
   if (loading) {
     return (

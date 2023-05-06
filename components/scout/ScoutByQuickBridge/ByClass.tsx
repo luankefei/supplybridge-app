@@ -14,7 +14,7 @@ export default function ByClass() {
     quickBridgeStore: state.quickBridge,
     classStore: state.quickBridgeClasses,
   }));
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = classStore;
   const { getClasses, loading } = useQuickBridgeClass();
   const router = useRouter();
@@ -46,9 +46,20 @@ export default function ByClass() {
     }
   }, [data, getClasses]);
 
+  /*
   useEffect(() => {
     setFilter("vehicleBrands", null);
   }, []);
+  */
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 2) {
+      setFilter("vehicleBrands", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
 
   if (loading) {
     return (
