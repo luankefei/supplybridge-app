@@ -71,6 +71,7 @@ export default function QuickbridgeResult() {
     countRef.current = count;
   }, [count]);
 
+  /*
   const getInitialRequests = () => {
     if (
       filter?.servicesType == "Logistics" ||
@@ -86,7 +87,15 @@ export default function QuickbridgeResult() {
       }
     }
   };
+  */
+  const getInitialRequests = () => {
+    if (!pageLoaded.current) {
+      pageLoaded.current = true;
+      searchSuppliers(1, true);
+    }
+  };
 
+  /*
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
     if (
@@ -102,6 +111,17 @@ export default function QuickbridgeResult() {
         pageRef.current = currentPage + 1;
         infiniteScrollControl.current = true;
       }
+    }
+  };
+  */
+
+  const searchSupplierHandler = async () => {
+    const currentPage = pageRef.current;
+
+    if (currentPage * 10 < countRef.current) {
+      await searchSuppliers(currentPage + 1, false, "");
+      pageRef.current = currentPage + 1;
+      infiniteScrollControl.current = true;
     }
   };
 
