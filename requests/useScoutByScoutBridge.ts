@@ -85,41 +85,42 @@ export const useQuickBridgeSupplier = () => {
       });
     }
   };
-  const searchSuppliersThreeP = async ( pageNumber: number = page,
+  const searchSuppliersThreeP = async (
+    pageNumber: number = page,
     reset = true,
-    searchString?: string) => {
+    searchString?: string
+  ) => {
     try {
       setLoading(true);
       const searchObj = {
         q: q || filterData.q || searchString,
         offset: (pageNumber - 1) * pageSize,
         limit: pageSize,
-        serviceType: filter?.servicesType?.toString()=== '' ? ["logistics","engineering", "quality"] : filter?.servicesType?.toString(),
+        serviceType:
+          filter?.servicesType?.toString() === ""
+            ? ["Logistics", "Engineering", "Quality"]
+            : filter?.servicesType?.toString(),
       };
-     
+
+      console.log("searchObj: ", searchObj, "//", filter);
       /*
       if (extraFilter != null) {
         searchObj.filter = { ...searchObj.filter, ...extraFilter };
       }
       */
-     
-        const { data } = await request.post(
-          `suppliers/by-3p-service`,
-          searchObj,
 
-        );
-        setLoading(false);
-        setSuppliers(data?.suppliers, reset);
-        setSuppliersStore(data?.suppliers, reset);
-        setCount(data.count);
-      }
-     catch (err: any) {
+      const { data } = await request.post(`suppliers/by-3p-service`, searchObj);
+      setLoading(false);
+      setSuppliers(data?.suppliers, reset);
+      setSuppliersStore(data?.suppliers, reset);
+      setCount(data.count);
+    } catch (err: any) {
       setLoading(false);
       toast.error(err.response.data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
-  }
+  };
   const resetAllSelected = async () => {
     const { setSelected: setSelectedVehicle } = quickBridgeVehicles;
     const { setSelected: setSelectedOEM } = quickBridgeOEMs;

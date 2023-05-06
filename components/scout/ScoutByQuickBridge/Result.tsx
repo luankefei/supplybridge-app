@@ -23,7 +23,6 @@ import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import { QuickBridgeTabType } from "utils/constants";
 
-
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const {
@@ -74,9 +73,10 @@ export default function QuickbridgeResult() {
 
   const getInitialRequests = () => {
     if (
-      filter?.servicesType == "logistics" ||
-      filter?.servicesType == "engineering" ||
-      filter?.servicesType == "quality" || tab?.activeTab == 7
+      filter?.servicesType == "Logistics" ||
+      filter?.servicesType == "Engineering" ||
+      filter?.servicesType == "Quality" ||
+      tab?.activeTab == 7
     ) {
       searchSuppliersThreeP(1, false, "");
     } else {
@@ -90,9 +90,10 @@ export default function QuickbridgeResult() {
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
     if (
-      filter?.servicesType == "logistics" ||
-      filter?.servicesType == "engineering" ||
-      filter?.servicesType == "quality" || tab?.activeTab == 7
+      filter?.servicesType == "Logistics" ||
+      filter?.servicesType == "Engineering" ||
+      filter?.servicesType == "Quality" ||
+      tab?.activeTab == 7
     ) {
       await searchSuppliersThreeP(currentPage + 1, false, "");
     } else {
@@ -139,7 +140,7 @@ export default function QuickbridgeResult() {
     switch (index) {
       case 1:
         clearFilters();
-        setTab(0, QuickBridgeTabType.vehile)
+        setTab(0, QuickBridgeTabType.vehile);
       case 2:
         setSelectedLabel("");
         resetAllSelected();
@@ -147,26 +148,44 @@ export default function QuickbridgeResult() {
         break;
     }
     setResult(false);
-  }
+  };
   var breadcrumbs: any = [];
   if (tab && tab.tabLabel) {
     breadcrumbs.push(
-      <Link underline="hover" key={1} href={"#"} style={{ color: "#00000096" }} onClick={() => handleClickLink(1)}>
+      <Link
+        underline="hover"
+        key={1}
+        href={"#"}
+        style={{ color: "#00000096" }}
+        onClick={() => handleClickLink(1)}
+      >
         {"Quickbridge"}
-      </Link >
+      </Link>
     );
     breadcrumbs.push(
-      <Link underline="hover" key={2} href={"#"} style={{ color: selectedLabel ? "#00000096" : "#000000C7" }} onClick={() => handleClickLink(2)}>
+      <Link
+        underline="hover"
+        key={2}
+        href={"#"}
+        style={{ color: selectedLabel ? "#00000096" : "#000000C7" }}
+        onClick={() => handleClickLink(2)}
+      >
         {tab.tabLabel}
-      </Link >
+      </Link>
     );
   }
 
   if (selectedLabel) {
     breadcrumbs.push(
-      <Link underline="hover" key={3} href={"#"} style={{ color: "#000000C7" }} onClick={() => handleClickLink(3)}>
+      <Link
+        underline="hover"
+        key={3}
+        href={"#"}
+        style={{ color: "#000000C7" }}
+        onClick={() => handleClickLink(3)}
+      >
         {selectedLabel}
-      </Link >
+      </Link>
     );
   }
 
