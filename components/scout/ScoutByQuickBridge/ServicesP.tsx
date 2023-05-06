@@ -59,7 +59,7 @@ export default function ServicesP() {
     return (
       <Container>
         <CardContainer>
-          {[1, 2, 3, 4].map((index) => (
+          {[1, 2, 3].map((index) => (
             <CardWrapper key={index}>
               <BigCardSkeleton />
             </CardWrapper>
