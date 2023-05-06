@@ -16,7 +16,7 @@ export default function ByProductionTech() {
       productionTechnologyStore: state.quickBridgeProductionTechnologies,
     })
   );
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = productionTechnologyStore;
   const { getProductionTechnologies, loading } =
     useQuickBridgeProductionTechnology();
@@ -41,9 +41,20 @@ export default function ByProductionTech() {
     }
   }, [data, getProductionTechnologies]);
 
+  /*
   useEffect(() => {
     setFilter("productionTechnologies", null);
   }, []);
+  */
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 6) {
+      setFilter("productionTechnologies", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
 
   if (loading) {
     return (

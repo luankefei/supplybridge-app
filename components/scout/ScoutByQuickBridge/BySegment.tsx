@@ -21,7 +21,7 @@ export default function BySegment() {
     quickBridgeStore: state.quickBridge,
     segmentStore: state.quickBridgeSegments,
   }));
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, brandModels, segments } = segmentStore;
   const { getBrandModels, loading } = useQuickBridgeSegment();
   const router = useRouter();
@@ -46,14 +46,27 @@ export default function BySegment() {
       setSelectedLabel("");
     }
   };
+
+  /*
   useEffect(() => {
     setFilter("vehicleModels", null);
   }, []);
+  */
+
   useEffect(() => {
     if (!brandModels) {
       getBrandModels();
     }
   }, [brandModels, getBrandModels]);
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 3) {
+      setFilter("vehicleModels", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
 
   if (loading) {
     return (

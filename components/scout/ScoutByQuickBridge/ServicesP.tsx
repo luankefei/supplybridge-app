@@ -14,7 +14,7 @@ export default function ServicesP() {
     quickBridgeStore: state.quickBridge,
     services: state.quickBridgeService,
   }));
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = services;
   const { getServices3P, loading } = useQuickBridgeService();
   const router = useRouter();
@@ -39,9 +39,22 @@ export default function ServicesP() {
       return;
     }
   }, [data, getServices3P, setSelected, setFilter]);
+
+  /*
   useEffect(() => {
     setFilter("servicesType", null);
   }, []);
+  */
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 7) {
+      setFilter("servicesType", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
+
   if (loading) {
     return (
       <Container>

@@ -13,10 +13,12 @@ export default function ByVehicle() {
     quickBridgeStore: state.quickBridge,
     vehicleStore: state.quickBridgeVehicles,
   }));
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = vehicleStore;
   const { getVehicles, loading } = useQuickBridgeVihicle();
   const router = useRouter();
+
+  // console.log("tab: ", tab);
 
   const onClick = (select: any) => {
     if (select !== selected) {
@@ -37,9 +39,16 @@ export default function ByVehicle() {
       return;
     }
   }, [data, getVehicles, setSelected, setFilter]);
+
   useEffect(() => {
-    setFilter("vehicleTypes", null);
-  }, []);
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 0) {
+      setFilter("vehicleTypes", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
+
   if (loading) {
     return (
       <>

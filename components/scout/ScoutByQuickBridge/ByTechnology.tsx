@@ -13,7 +13,7 @@ export default function ByTechnology() {
     quickBridgeStore: state.quickBridge,
     technologyStore: state.quickBridgeTechnologies,
   }));
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = technologyStore;
   const { getTechnologies, loading } = useQuickBridgeTechnology();
   const router = useRouter();
@@ -40,9 +40,22 @@ export default function ByTechnology() {
       getTechnologies();
     }
   }, [data, getTechnologies]);
+
+  /*
   useEffect(() => {
     setFilter("vehicleFuelTypes", null);
   }, []);
+  */
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 4) {
+      setFilter("vehicleFuelTypes", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
+
   if (loading) {
     return (
       <Container>

@@ -129,7 +129,7 @@ export default function ScoutByQuickBridge() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const router = useRouter();
 
-  const { tab, setTab, setResult, filter,selectedLabel } = quickBridge;
+  const { tab, setTab, setResult, filter, selectedLabel } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     var tabName = QuickBridgeTabType.vehile;
@@ -155,9 +155,9 @@ export default function ScoutByQuickBridge() {
       case 6:
         tabName = QuickBridgeTabType.productionTech;
         break;
-        case 7:
-          tabName = QuickBridgeTabType.services;
-          break;
+      case 7:
+        tabName = QuickBridgeTabType.services;
+        break;
       case 8:
         tabName = QuickBridgeTabType.pioneer;
         break;
@@ -173,11 +173,10 @@ export default function ScoutByQuickBridge() {
       setTab(0, QuickBridgeTabType.vehile);
       console.log("setTab");
     }
-  }, [setTab])
- 
+  }, [setTab]);
+
   useEffect(() => {
     setValue(tab.activeTab);
-
   }, [tab]);
 
   const [windowHeight, setWindowHeight] = useState(window.innerHeight);
@@ -199,8 +198,7 @@ export default function ScoutByQuickBridge() {
     else if (windowHeight > 1500) setTabHeight("80vh");
   }, [windowHeight]);
 
- 
-
+  let scoutDisabled = filter?.[Object.keys(filter)?.toString()]?.length == 0;
   return (
     <>
       <div className="Container">
@@ -306,7 +304,7 @@ export default function ScoutByQuickBridge() {
               >
                 <Button
                   onClick={showResult}
-                  disabled={filter?.[Object.keys(filter)?.toString()]?.length ==0 }
+                  disabled={scoutDisabled}
                   sx={{
                     color: "#fff",
                     width: "254px",
@@ -319,12 +317,15 @@ export default function ScoutByQuickBridge() {
                     marginBottom: "40px",
                     cursor: "pointer",
                     "&:hover": {
-                      boxShadow:
-                        "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
-                      filter: "drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08))",
+                      background: "#08979C",
                     },
                     "&:active": {
                       background: "#006D75",
+                    },
+                    "&:disabled": {
+                      color: "#ddd",
+                      cursor: "not-allowed",
+                      pointerEvents: "auto",
                     },
                   }}
                 >
