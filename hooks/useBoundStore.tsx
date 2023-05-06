@@ -11,6 +11,7 @@ import { createCommoditySlice, CommoditySlice } from "./quick-bridge/commoditySl
 import { createProudctionTechnologySlice, ProductionTechnologySlice } from "./quick-bridge/productionTechnologySlice";
 import { createPioneerSlice, PioneerSlice } from "./quick-bridge/pioneerSlice";
 import { createFeedbackSlice, FeedbackSlice } from "./feedbackSlice";
+import { createServiceSlice, ServiceSlice } from './quick-bridge/threePService';
 
 export type TotalSlice = SupplierNewsSlice &
   MarketInsightsSlice &
@@ -22,6 +23,7 @@ export type TotalSlice = SupplierNewsSlice &
   TechnologySlice &
   CommoditySlice &
   ProductionTechnologySlice &
+  ServiceSlice &
   PioneerSlice &
   FeedbackSlice &
   any;
@@ -38,6 +40,7 @@ const useBoundStore = create<TotalSlice>()((...state) => ({
   ...createCommoditySlice(...state),
   ...createProudctionTechnologySlice(...state),
   ...createPioneerSlice(...state),
+  ...createServiceSlice(...state),
   ...createFeedbackSlice(...state),
 }));
 
