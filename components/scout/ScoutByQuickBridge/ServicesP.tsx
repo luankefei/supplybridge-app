@@ -20,6 +20,7 @@ export default function ServicesP() {
   const router = useRouter();
 
   const onClick = (select: any) => {
+    // console.log("clicked: ", select);
     if (select !== selected) {
       setSelected(select);
       setFilter("servicesType", select);
