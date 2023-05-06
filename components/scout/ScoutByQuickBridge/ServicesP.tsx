@@ -20,17 +20,15 @@ export default function ServicesP() {
   const router = useRouter();
 
   const onClick = (select: any) => {
-    // console.log("clicked: ", select);
     if (select !== selected) {
       setSelected(select);
-      setFilter("servicesType", select);
+      setFilter("offerings", select);
       let label = data.find((d: any) => d.id == select).name;
       setSelectedLabel(label);
-      setFilter("servicesType", label);
     } else {
       setSelectedLabel("");
       setSelected(null);
-      setFilter("servicesType", null);
+      setFilter("offerings", null);
     }
   };
 
@@ -50,7 +48,7 @@ export default function ServicesP() {
   useEffect(() => {
     // when this is the active tab, clear the selection/filter
     if (tab.activeTab == 7) {
-      setFilter("servicesType", null);
+      setFilter("offerings", null);
       setSelectedLabel("");
       setSelected(null);
     }
