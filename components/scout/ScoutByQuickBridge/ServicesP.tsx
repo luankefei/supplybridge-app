@@ -72,11 +72,13 @@ export default function ServicesP() {
     <Container>
       <CardContainer>
         {data &&
-          data.map(({ id, name, icon }: any) => (
-            <CardWrapper onClick={() => onClick(id)} key={id}>
-              <BigCard src={icon} title={name} selected={selected === id} />
-            </CardWrapper>
-          ))}
+          data
+            .sort((a: any, b: any) => a.id - b.id)
+            .map(({ id, name, icon }: any) => (
+              <CardWrapper onClick={() => onClick(id)} key={id}>
+                <BigCard src={icon} title={name} selected={selected === id} />
+              </CardWrapper>
+            ))}
       </CardContainer>
     </Container>
   );
