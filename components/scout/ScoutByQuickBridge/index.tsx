@@ -285,7 +285,10 @@ export default function ScoutByQuickBridge() {
                   </div>
                 </TabPanel>
                 <TabPanel value={value} index={7} dir={theme.direction}>
-                  <div style={{}} className="TabPanelWrapper-FullContents">
+                  <div
+                    style={{ alignItems: "center" }}
+                    className="TabPanelWrapper"
+                  >
                     <ServicesP />
                   </div>
                 </TabPanel>
