@@ -9,10 +9,13 @@ import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 
+import Summary from "components/scout/Summary";
+import ResultTable from "components/scout/ResultTable";
+import GeoCharts from "components/scout/GeoCharts";
+
 const Icon = dynamic(() => import("components/Icon"));
 
 const BackDrop = dynamic(() => import("components/scout/BackDrop"));
-const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const Feedback = dynamic(() => import("components/Feedback"));
 const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
@@ -145,9 +148,12 @@ export default function ScoutByIndex() {
           <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
           <ContentsWrapper>
             <GeoCharts />
+            {isSuppliersNotEmpty && <Summary />}
             {isSuppliersNotEmpty && <Filters totalCount={count} />}
             <ScoutFilter isQuickSearch={false} />
 
+            <ResultTable />
+            {/*
             <ResultContainer>
               {isSuppliersNotEmpty ? (
                 <>
@@ -160,6 +166,7 @@ export default function ScoutByIndex() {
                 </>
               ) : null}
             </ResultContainer>
+            */}
             {/* {suppliers.length === 0 && !loading && (
                 <NoRecord>No record founds</NoRecord>
               )} */}
@@ -202,6 +209,12 @@ const ScoutContainer = styled.div`
     margin: 10px 10px;
   }
 `;
+const ScoutScrollContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
 
 const SearchContainer = styled.div<{ isrow: boolean }>`
   width: 100%;
@@ -241,10 +254,10 @@ const DuplicateHeaderForPosition = styled.div<SearchProps>`
 `;
 
 const IconContainer = styled.div<{ isrow: boolean }>`
+  margin-left: 20px;
   display: flex;
-  flex-grow: 1;
   flex-direction: row;
-  justify-content: ${(props) => (props.isrow ? "end" : "center")};
+  justify-content: "center";
   align-items: end;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;

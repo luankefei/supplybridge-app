@@ -3,3 +3,4 @@ export * from './ResultCard';
 export * from './ScoutFilter';
 export * from './SearchBar';
 export * from './TechnologyBox';
+export * from './Summary';

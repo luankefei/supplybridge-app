@@ -17,6 +17,7 @@ const Filters = ({ totalCount }: Props) => {
         </ListingCount>
         <SubText>Use Filters to Narrow Down Results</SubText>
       </StaticInformation>
+      {/*
       <OrderContainer>
         <OrderElement>
           <Title>SUPPLIER TYPE</Title>
@@ -39,6 +40,7 @@ const Filters = ({ totalCount }: Props) => {
           </Description>
         </OrderElement>
       </OrderContainer>
+      */}
     </FilterContainer>
   );
 };

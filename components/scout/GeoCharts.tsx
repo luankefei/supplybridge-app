@@ -26,6 +26,12 @@ const dataHeader = [
   { role: "tooltip", type: "string", p: { html: true } },
 ];
 
+const env: any = {};
+const debounce = (fn: any, ms: number = 200) => {
+   if (env.timer) clearTimeout(env.timer);
+   env.timer = setTimeout(() => {env.timer = 0; fn();}, ms);
+}
+
 const GeoCharts = () => {
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
@@ -60,7 +66,7 @@ const GeoCharts = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-        const noOfSuppliers=getNumberOfSuppliers(item.name)
+        const noOfSuppliers = getNumberOfSuppliers(item.name);
           // colorValue: null | 0 | 1
           // null => default color
           // 0 => #08979c
@@ -176,8 +182,8 @@ const GeoCharts = () => {
   };
 
   useEffect(() => {
+    debounce(outsideFilterHandler);
     if (filterData.subRegions.length) {
-      outsideFilterHandler();
     } else {
       setInitialData();
     }
@@ -255,7 +261,9 @@ const GeoCharts = () => {
   //Get Number of suppliers for country
   const getNumberOfSuppliers = (countryCode: string) => {
     const region = allSubRegions.find((s: any) => s.code === countryCode);
-    return region ? region.countSuppliersInLocation : 0;
+    if (!region) return 0;
+    if (!stats || !stats.locationId) return region.countSuppliersInLocation;
+    return stats?.locationId?.[region.id] || 0;
   };
 
     //Get Number of suppliers for country
@@ -266,8 +274,15 @@ const GeoCharts = () => {
       if(region) console.log("stats",stats?.locationId?.[region?.id]);
       return region ? stats?.locationId?.[region?.id] : 0     
     };
-  const renderMapComponent = useCallback(() => {
-    return (
+
+  return (
+    <MapContainer>
+      <ButtonContainer>
+        {false && backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
+        {selectedCountries.length === 1 ? (
+          <GoWorld onClick={clearFilter}>Show All</GoWorld>
+        ): null}
+      </ButtonContainer>
       <Container>
         <Chart
           chartEvents={[
@@ -275,6 +290,7 @@ const GeoCharts = () => {
               eventName: "select",
               callback: ({ chartWrapper }) => {
                 const chart = chartWrapper.getChart();
+                if (!chart) return;
                 const selection = chart.getSelection();
                 if (selection.length === 0) return;
                 const region = allCountries[selection[0].row + 1];
@@ -298,18 +314,6 @@ const GeoCharts = () => {
           }}
         />
       </Container>
-    );
-  }, [allCountries, options, mapLoaded]);
-
-  return (
-    <MapContainer>
-      <ButtonContainer>
-        {backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
-        {selectedCountries.length > 0 && (
-          <GoWorld onClick={clearFilter}>Reset Map</GoWorld>
-        )}
-      </ButtonContainer>
-      {renderMapComponent()}
       {!mapLoaded ? (
         <Skeleton animation="wave" height={410} width="100%" />
       ) : null}
