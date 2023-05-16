@@ -58,7 +58,7 @@ export default function QuickbridgeResult() {
   useEffect(() => {
     setTimeout(() => {
       setLoadingAnimations(false);
-    }, 7000);
+    }, 9000);
   }, []);
 
   useEffect(() => {
