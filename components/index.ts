@@ -8,5 +8,6 @@ export * from './scout/TechnologyBox'
 export * from './scout/ScoutFilter'
 export * from './scout/GeoCharts'
 export * from './scout/Filters'
+export * from './scout/Summary';
 export * from './Badge'
 export * from './Modal'

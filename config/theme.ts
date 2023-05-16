@@ -48,6 +48,6 @@ export const theme = {
   dimension: {
     headerHeight: "120px",
     leftMenuWidth: "280px",
-    cardMaxWidth: "1068px",
+    cardMaxWidth: "100%",
   }
 };

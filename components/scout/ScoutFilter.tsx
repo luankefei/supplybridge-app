@@ -43,6 +43,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
   const { getComponents, getSubRegions } = useFilter();
 
   const data = [
+/*
     {
       label: "Commodities",
       key: "commodities",
@@ -58,12 +59,12 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
       key: "coreCompetencies",
       items: [],
     },
+*/
     {
       label: "Regions",
       key: "regions",
       items: regions,
     },
-
     {
       label: "Sub Regions",
       key: "subRegions",
@@ -251,7 +252,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
   // but in QuickSearch, it's better to be there all the time for users to fine-tune the filter setting to narrow down or widen up the result set.
   return isQuickSearch ||
     (suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0) ? (
-    <ClickAwayListener onClickAway={() => setExpanded(false)}>
+    <ClickAwayListener onClickAway={() => expanded && setExpanded(false)}>
       <Container>
         <FilterContainer>
           {data.map((item, index) => {
@@ -359,9 +360,8 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
   ) : null;
 };
 const Container = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  width: 100%;
+  padding: 0 20px;
 `;
 const FilterContainer = styled.div`
   margin-top: 24px;

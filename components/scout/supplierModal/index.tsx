@@ -145,10 +145,10 @@ export const SupplierModal = ({ ...props }: any) => {
           <Bottom isMemberUnlock={isMemberUnlock}>
             <ModalButton>Send RFQ</ModalButton>
           </Bottom>
-          <UnlockMemberContainer isMemberUnlock={isMemberUnlock}>
+          {false && <UnlockMemberContainer isMemberUnlock={isMemberUnlock}>
             <UnlockIcon src="/icons/unlock-member.svg"></UnlockIcon>
             <UnlockText>Unlock With Membership</UnlockText>
-          </UnlockMemberContainer>
+          </UnlockMemberContainer>}
         </Box>
       </Modal>
     </>
