@@ -210,13 +210,13 @@ export default function ScoutByQuickBridge() {
                 onChange={handleChange}
                 aria-label="tabs"
               >
-                <StyledTab label="By Vehicle" />
-                <StyledTab label="By OEM" />
-                <StyledTab label="By Class" />
-                <StyledTab label="By Segment" />
-                <StyledTab label="By Technology" />
-                <StyledTab label="By Commodity" />
-                <StyledTab label="By Production Tech" />
+                <StyledTab label="Vehicle" />
+                <StyledTab label="OEM" />
+                <StyledTab label="Class" />
+                <StyledTab label="Segment" />
+                <StyledTab label="Technology" />
+                <StyledTab label="Commodity" />
+                <StyledTab label="Production Tech" />
                 <StyledTab label="3P Services" />
 
                 <StyledTab
@@ -228,7 +228,7 @@ export default function ScoutByQuickBridge() {
                         alignItems: "center",
                       }}
                     >
-                      <span style={{ marginRight: "-3px" }}>By Pioneer</span>
+                      <span style={{ marginRight: "-3px" }}>Pioneer</span>
                       <Icon src={"pioneer"} height={18} />
                     </span>
                   }
