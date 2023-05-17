@@ -72,7 +72,7 @@ export default function ScoutByIndex() {
   useEffect(() => {
      // XXX: current css layout may lead messy scrollbars, especially 2 scrollbars in one view
      //      polish scout panel css and use js to find the scrollable element then hook event handler
-     let scrollable = thisElementRef.current;
+     let scrollable: any = thisElementRef.current;
      let last = scrollable;
      while (scrollable) {
         if (scrollable.clientHeight === scrollable.scrollHeight && last.clientHeight < last.scrollHeight) {

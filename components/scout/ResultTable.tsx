@@ -85,7 +85,7 @@ const ResultHeadCell = styled(TableCell)`
 const NullableImg = (props: any) => {
    const { url } = props;
    return url ? <img src={url} /> : null ;
-}
+};
 
 const IdCell = styled(TableCell)`
    max-width: 50px;

@@ -34,21 +34,30 @@ export const SummaryTitle = styled.div`
 export const SummaryColumn = styled.div`
    padding: 10px;
 `;
+export const SummarySpaceColumn = styled.div<{space: number}>`
+   padding: 10px;
+   width: ${(props: any) => `${props.space}%`};
+`;
 
 export const SummaryLabel = styled.div`
    font-size: 12px;
    color: #ccc;
 `;
 
-export const SummarySubCategoryListContainer = styled.div``;
+export const SummaryCategoryListContainer = styled.div``;
 
-export const SummarySubCategoryList = styled.ul`
+export const SummaryCategoryList = styled.ul`
    list-style: none;
    padding: 0;
-   margin: 0;
+   margin: 2px 0;
 `;
 
-export const SummarySubCategoryItem = styled.li``;
+export const SummaryCategoryItem = styled.li`
+   width: 100%;
+   white-space: nowrap;
+   text-overflow: ellipsis;
+   overflow-x: hidden;
+`;
 
 export const SummaryTop10List = styled.div`
    width: 100%;
@@ -56,5 +65,22 @@ export const SummaryTop10List = styled.div`
 `;
 
 export const SummaryTop10ListHalf = styled.div`
-   flex: 1 0 auto;
+   width: 50%;
+   margin-left: 5px;
+`;
+
+export const SummarySupplierContainer = styled.div`
+   display: flex;
+   > img {
+      border-radius: 50%;
+      width: 24px;
+      height: 24px;
+   }
+`;
+
+export const SummarySupplierTitle = styled.div`
+   width: calc(100% - 24px);
+   overflow: hidden;
+   white-space: nowrap;
+   text-overflow: ellipsis;
 `;
