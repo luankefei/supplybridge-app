@@ -59,6 +59,7 @@ export default function ScoutByIndex() {
   const pageRef = useRef(1);
   const pageLoaded = useRef(false);
   const searchString = useRef(filterData.q);
+  const thisElementRef = useRef(null);
 
   useEffect(() => {
     getInitialRequests();
@@ -67,6 +68,26 @@ export default function ScoutByIndex() {
       window.removeEventListener("scroll", handleScroll);
     };
   }, []);
+
+  useEffect(() => {
+     // XXX: current css layout may lead messy scrollbars, especially 2 scrollbars in one view
+     //      polish scout panel css and use js to find the scrollable element then hook event handler
+     let scrollable = thisElementRef.current;
+     let last = scrollable;
+     while (scrollable) {
+        if (scrollable.clientHeight === scrollable.scrollHeight && last.clientHeight < last.scrollHeight) {
+           scrollable = last;
+           break;
+        }
+        last = scrollable;
+        scrollable = scrollable.parentNode;
+     }
+     if (!scrollable) return;
+     scrollable.addEventListener("scroll", handleScroll);
+     return () => {
+        scrollable.removeEventListener("scroll", handleScroll);
+     };
+  }, [thisElementRef, suppliers])
 
   useEffect(() => {
     searchString.current = filterData.q;
@@ -95,11 +116,10 @@ export default function ScoutByIndex() {
     }
   };
 
-  const handleScroll = async () => {
-    var isAtBottom =
-      document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
-      document.documentElement.clientHeight;
+  const handleScroll = async (evt: any) => {
+    const isAtBottom = (
+       evt.target.scrollHeight - evt.target.scrollTop <= evt.target.clientHeight
+    );
 
     if (isAtBottom && infiniteScrollControl.current) {
       infiniteScrollControl.current = false;
@@ -127,7 +147,7 @@ export default function ScoutByIndex() {
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
   return (
-    <ScoutContainer>
+    <ScoutContainer ref={thisElementRef}>
       <MainContainer>
         <SearchContainer isrow={isSuppliersNotEmpty}>
           {!isSuppliersNotEmpty && (
