@@ -8,6 +8,7 @@ import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 import { useQuickBridgeService } from "requests/useScoutByScoutBridge";
+import _ from "lodash";
 
 export default function ServicesP() {
   const { quickBridgeStore, services } = useBoundStore((state) => ({
@@ -68,15 +69,28 @@ export default function ServicesP() {
     );
   }
 
+  const InfoContent = (description: any) => {
+    const items = _.split(description, "\n");
+    if (items && Array.isArray(items) && items.length > 1) {
+      return items.map((item: any) => <div key={item}>{item}</div>);
+    }
+    return <div>{description}</div>;
+  };
+
   return (
     <Container>
       <CardContainer>
         {data &&
           data
             .sort((a: any, b: any) => a.id - b.id)
-            .map(({ id, name, icon }: any) => (
+            .map(({ id, name, icon, description }: any) => (
               <CardWrapper onClick={() => onClick(id)} key={id}>
-                <BigCard src={icon} title={name} selected={selected === id} />
+                <BigCard
+                  src={icon}
+                  title={name}
+                  selected={selected === id}
+                  infoContent={InfoContent(description)}
+                />
               </CardWrapper>
             ))}
       </CardContainer>
