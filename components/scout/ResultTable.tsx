@@ -37,11 +37,11 @@ const ResultTableContainer = styled('div')`
 
 const ResultTitleCell = styled('div')`
    display: inline-block;
-   flex: 1 0 auto;
    white-space: nowrap;
    text-overflow: ellipsis;
    overflow: hidden;
    background-color: white;
+   margin-right: 5px;
 `;
 
 const ResultTableCellWithImg = styled(TableCell)`
@@ -52,8 +52,9 @@ const ResultTableCellWithImg = styled(TableCell)`
       margin-right: 3px;
    }
    > div {
-      line-height: 24px;
+      line-height: 22px;
       display: flex;
+      max-width: 300px;
    }
 `;
 
@@ -104,6 +105,7 @@ const BadgeContainer = styled('span')`
    border-radius: 50%;
    padding: 3px 4px 0 4px;
    margin-right: 3px;
+   margin-top: -3px;
 `
 
 const BadgeListContainer = styled('div')`
@@ -148,7 +150,7 @@ export default function BasicTable() {
               <IdCell>{i+1}</IdCell>
               <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}}><div>
                  <NullableImg url={row.logo} />
-                 <ResultTitleCell>{row.longName || row.name}</ResultTitleCell>
+                 <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
                  <BadgeList data={row} />
               </div></ResultTableCellWithImg>
               <ResultTableCellWithImg><div>
@@ -156,7 +158,7 @@ export default function BasicTable() {
                  <div>{row.headquarter?.name}</div>
               </div></ResultTableCellWithImg>
               <TableCell>{regionMap[row.headquarter?.regionId] || ''}</TableCell>
-              <CompetenceCell>{row.coreCompetence}</CompetenceCell>
+              <CompetenceCell><a title={row.coreCompetence}>{row.coreCompetence}</a></CompetenceCell>
             </ResultTableRow>
           ))}
         </TableBody>
