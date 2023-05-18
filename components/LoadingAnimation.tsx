@@ -5,6 +5,10 @@ type Props = { showType?: string };
 
 const LoadingAnimation = ({ showType }: Props) => {
   const boxClassName = showType === "long" ? "box" : "box-short";
+  /*
+  const stopAnimationTime = showType === "long" ? 6000 : 2900;
+  const startAnimationTime = showType === "long" ? 1200 : 500;
+  */
   const stopAnimationTime = showType === "long" ? 6000 : 2900;
   const startAnimationTime = showType === "long" ? 1200 : 500;
   const [currentText, setCurrentText] = useState("");
@@ -109,7 +113,20 @@ const LoadingAnimation = ({ showType }: Props) => {
   };
 
   return (
-    <>
+    <div
+      style={{
+        background: "#1F2022",
+        opacity: "0.8",
+        width: "380px",
+        height: "300px",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        borderRadius: "18px",
+        paddingLeft: "20px",
+        paddingBottom: "40px",
+      }}
+    >
       <div className={"grid"}>
         <div className={boxClassName}></div>
         <div className={boxClassName}></div>
@@ -205,11 +222,12 @@ const LoadingAnimation = ({ showType }: Props) => {
           }
         ></div>
       </div>
+
       <div id="balloon-container" ref={balloonContainerRef}></div>
       <div style={{ marginTop: "13rem", marginRight: "0.67rem" }}>
         <span className="loading-text">{currentText}</span>
       </div>
-    </>
+    </div>
   );
 };
 

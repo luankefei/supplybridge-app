@@ -24,6 +24,13 @@ import useStore from "hooks/useStore";
 import { QuickBridgeTabType } from "utils/constants";
 import LoadingAnimation from "components/LoadingAnimation";
 
+let randomDuration = () => {
+  let r = Math.floor(Math.random() * 10); // 0 ~ 9
+  // console.log("animation r: ", r);
+  return r == 0 || r == 1 ? "long" : "short"; // 1/5 odd is long, 4/5 odd is short
+  // return "long";
+};
+
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const {
@@ -45,6 +52,8 @@ export default function QuickbridgeResult() {
 
   const [loadingAnimations, setLoadingAnimations] = useState(true);
 
+  const [aniDuration, setAniDuration] = useState(randomDuration());
+
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
   const pageRef = useRef(1);
@@ -56,9 +65,12 @@ export default function QuickbridgeResult() {
   const { filterData, setFilterData, clearFilterData } = useStore();
 
   useEffect(() => {
-    setTimeout(() => {
-      setLoadingAnimations(false);
-    }, 9000);
+    setTimeout(
+      () => {
+        setLoadingAnimations(false);
+      },
+      aniDuration == "short" ? 3200 : 6200
+    );
   }, []);
 
   useEffect(() => {
@@ -190,11 +202,14 @@ export default function QuickbridgeResult() {
     searchPlaceholder += " in " + selectedLabel;
   }
 
+  console.log("duration: ", aniDuration);
+
   return (
     <ScoutContainer>
       {loadingAnimations ? (
         <LoadingAnimationContainer>
-          <LoadingAnimation showType={"long"} />
+          {/* <LoadingAnimation showType={"long"} /> */}
+          <LoadingAnimation showType={aniDuration} />
         </LoadingAnimationContainer>
       ) : (
         <>
