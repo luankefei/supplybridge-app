@@ -14,7 +14,7 @@ export default function ByOEM() {
     quickBridgeStore: state.quickBridge,
     oemStore: state.quickBridgeOEMs,
   }));
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = oemStore;
   const { getOEMs, loading } = useQuickBridgeOEM();
   const router = useRouter();
@@ -46,9 +46,20 @@ export default function ByOEM() {
     }
   }, [data, getOEMs]);
 
+  /*
   useEffect(() => {
     setFilter("vehicleBrands", null);
   }, []);
+  */
+
+  useEffect(() => {
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 1) {
+      setFilter("vehicleBrands", null);
+      setSelectedLabel("");
+      setSelected(null);
+    }
+  }, [tab]);
 
   if (loading) {
     return (

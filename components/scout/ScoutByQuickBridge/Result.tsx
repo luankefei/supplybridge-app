@@ -47,7 +47,7 @@ export default function QuickbridgeResult() {
     tab,
   } = quickBridge;
   const { scrollOffset } = useViewport();
-  const { searchSuppliers, resetAllSelected, loading } =
+  const { searchSuppliers, searchSuppliersThreeP, resetAllSelected, loading } =
     useQuickBridgeSupplier();
 
   const [loadingAnimations, setLoadingAnimations] = useState(true);
@@ -92,6 +92,23 @@ export default function QuickbridgeResult() {
     countRef.current = count;
   }, [count]);
 
+  /*
+  const getInitialRequests = () => {
+    if (
+      filter?.servicesType == "Logistics" ||
+      filter?.servicesType == "Engineering" ||
+      filter?.servicesType == "Quality" ||
+      tab?.activeTab == 7
+    ) {
+      searchSuppliersThreeP(1, false, "");
+    } else {
+      if (!pageLoaded.current) {
+        pageLoaded.current = true;
+        searchSuppliers(1, true);
+      }
+    }
+  };
+  */
   const getInitialRequests = () => {
     if (!pageLoaded.current) {
       pageLoaded.current = true;
@@ -99,8 +116,29 @@ export default function QuickbridgeResult() {
     }
   };
 
+  /*
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
+    if (
+      filter?.servicesType == "Logistics" ||
+      filter?.servicesType == "Engineering" ||
+      filter?.servicesType == "Quality" ||
+      tab?.activeTab == 7
+    ) {
+      await searchSuppliersThreeP(currentPage + 1, false, "");
+    } else {
+      if (currentPage * 10 < countRef.current) {
+        await searchSuppliers(currentPage + 1, false, "");
+        pageRef.current = currentPage + 1;
+        infiniteScrollControl.current = true;
+      }
+    }
+  };
+  */
+
+  const searchSupplierHandler = async () => {
+    const currentPage = pageRef.current;
+
     if (currentPage * 10 < countRef.current) {
       await searchSuppliers(currentPage + 1, false, "");
       pageRef.current = currentPage + 1;
@@ -152,9 +190,7 @@ export default function QuickbridgeResult() {
     }
     setResult(false);
   };
-
   var breadcrumbs: any = [];
-
   if (tab && tab.tabLabel) {
     breadcrumbs.push(
       <Link
