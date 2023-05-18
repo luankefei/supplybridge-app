@@ -22,6 +22,14 @@ import { GoBackIcon } from "components/Button";
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import { QuickBridgeTabType } from "utils/constants";
+import LoadingAnimation from "components/LoadingAnimation";
+
+let randomDuration = () => {
+  let r = Math.floor(Math.random() * 10); // 0 ~ 9
+  // console.log("animation r: ", r);
+  return r == 0 || r == 1 ? "long" : "short"; // 1/5 odd is long, 4/5 odd is short
+  // return "long";
+};
 
 export default function QuickbridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
@@ -42,6 +50,10 @@ export default function QuickbridgeResult() {
   const { searchSuppliers, searchSuppliersThreeP, resetAllSelected, loading } =
     useQuickBridgeSupplier();
 
+  const [loadingAnimations, setLoadingAnimations] = useState(true);
+
+  const [aniDuration, setAniDuration] = useState(randomDuration());
+
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
   const pageRef = useRef(1);
@@ -51,6 +63,15 @@ export default function QuickbridgeResult() {
   const router = useRouter();
 
   const { filterData, setFilterData, clearFilterData } = useStore();
+
+  useEffect(() => {
+    setTimeout(
+      () => {
+        setLoadingAnimations(false);
+      },
+      aniDuration == "short" ? 3200 : 6200
+    );
+  }, []);
 
   useEffect(() => {
     getInitialRequests();
@@ -216,58 +237,68 @@ export default function QuickbridgeResult() {
   if (selectedLabel != "") {
     searchPlaceholder += " in " + selectedLabel;
   }
-  // console.log("filterData: ", filterData);
+
+  console.log("duration: ", aniDuration);
 
   return (
     <ScoutContainer>
-      <BreadcrumbsContainer>
-        <Stack spacing={2}>
-          <Breadcrumbs separator=">" aria-label="breadcrumb">
-            {breadcrumbs}
-          </Breadcrumbs>
-        </Stack>
-      </BreadcrumbsContainer>
-      <MainContainer>
-        <GoBackIcon goBack={setTabResult}></GoBackIcon>
-        <SearchContainer>
-          <SearchBarForFilter
-            onSearch={searchHandler}
-            placeholder={searchPlaceholder}
-          />
-        </SearchContainer>
-        <FilterContainer>
-          <ScoutFilter isQuickSearch={true} />
-        </FilterContainer>
-        <QuickbridgeContainer>
-          <ResultContainer>
-            {isSuppliersNotEmpty ? (
-              <>
-                {suppliers.map((supplier: any, index: number) =>
-                  index > 20 ? null : index == 20 ||
-                    index == suppliers.length ? (
-                    <LockedContainer key={`locked-container-${index}`}>
-                      <LockedResultCard
-                        data={supplier}
-                        key={`${supplier.id}_${index}`}
-                      />
-                      <UnlockBackDrop isOpen={true} />
-                    </LockedContainer>
-                  ) : (
-                    <ResultCard
-                      data={supplier}
-                      key={`${supplier.id}_${index}`}
-                    />
-                  )
-                )}
-              </>
-            ) : null}
-            {loading &&
-              [1, 2, 3, 4].map((index) => (
-                <ResultCard key={`loading-${index}`} />
-              ))}
-          </ResultContainer>
-        </QuickbridgeContainer>
-      </MainContainer>
+      {loadingAnimations ? (
+        <LoadingAnimationContainer>
+          {/* <LoadingAnimation showType={"long"} /> */}
+          <LoadingAnimation showType={aniDuration} />
+        </LoadingAnimationContainer>
+      ) : (
+        <>
+          <BreadcrumbsContainer>
+            <Stack spacing={2}>
+              <Breadcrumbs separator=">" aria-label="breadcrumb">
+                {breadcrumbs}
+              </Breadcrumbs>
+            </Stack>
+          </BreadcrumbsContainer>
+          <MainContainer>
+            <GoBackIcon goBack={setTabResult}></GoBackIcon>
+            <SearchContainer>
+              <SearchBarForFilter
+                onSearch={searchHandler}
+                placeholder={searchPlaceholder}
+              />
+            </SearchContainer>
+            <FilterContainer>
+              <ScoutFilter isQuickSearch={true} />
+            </FilterContainer>
+            <QuickbridgeContainer>
+              <ResultContainer>
+                {isSuppliersNotEmpty ? (
+                  <>
+                    {suppliers.map((supplier: any, index: number) =>
+                      index > 20 ? null : index == 20 ||
+                        index + 1 == suppliers.length ? (
+                        <LockedContainer key={`locked-container-${index}`}>
+                          <LockedResultCard
+                            data={supplier}
+                            key={`${supplier.id}_${index}`}
+                          />
+                          <UnlockBackDrop isOpen={true} />
+                        </LockedContainer>
+                      ) : (
+                        <ResultCard
+                          data={supplier}
+                          key={`${supplier.id}_${index}`}
+                        />
+                      )
+                    )}
+                  </>
+                ) : null}
+                {loading &&
+                  [1, 2, 3, 4].map((index) => (
+                    <ResultCard key={`loading-${index}`} />
+                  ))}
+              </ResultContainer>
+            </QuickbridgeContainer>
+          </MainContainer>
+        </>
+      )}
 
       {/* <UnlockBackDrop isOpen={true} /> */}
     </ScoutContainer>
@@ -299,6 +330,13 @@ const MainContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-end;
+`;
+
+const LoadingAnimationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
 `;
 
 const QuickbridgeContainer = styled.div`
