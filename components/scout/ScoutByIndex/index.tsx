@@ -63,10 +63,6 @@ export default function ScoutByIndex() {
 
   useEffect(() => {
     getInitialRequests();
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
   useEffect(() => {
@@ -118,7 +114,7 @@ export default function ScoutByIndex() {
 
   const handleScroll = async (evt: any) => {
     const isAtBottom = (
-       evt.target.scrollHeight - evt.target.scrollTop <= evt.target.clientHeight
+       evt.target.scrollHeight - evt.target.scrollTop - evt.target.clientHeight < 1
     );
 
     if (isAtBottom && infiniteScrollControl.current) {

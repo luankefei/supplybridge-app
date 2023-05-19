@@ -2,6 +2,7 @@ import * as React from 'react';
 import { styled } from '@mui/system';
 import Icon from "components/Icon";
 import useStore from "hooks/useStore";
+import { NullableImg } from "components/scout/Summary.styled";
 
 const regionMap: any = {
    '1': 'APAC',
@@ -81,11 +82,6 @@ const ResultHeadCell = styled(TableCell)`
    background-color: transparancy;
    color: #ccc;
 `;
-
-const NullableImg = (props: any) => {
-   const { url } = props;
-   return url ? <img src={url} /> : null ;
-};
 
 const IdCell = styled(TableCell)`
    max-width: 50px;
