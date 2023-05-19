@@ -89,7 +89,7 @@ const LoadingAnimation = ({ showType }: Props) => {
     const celebrateWithChance = (chance: number) => {
       const randomNum = Math.floor(Math.random() * chance) + 1;
       if (randomNum === 1) {
-        createBalloons(2);
+        // createBalloons(2);
         party.confetti(document.body, {
           count: party.variation.range(100, 150),
         });
@@ -99,7 +99,7 @@ const LoadingAnimation = ({ showType }: Props) => {
       stopAnimation();
       if (showType === "long") {
         celebrateWithChance(1);
-        removeBalloons();
+        // removeBalloons();
       }
     }, stopAnimationTime);
     return () => {
@@ -123,8 +123,9 @@ const LoadingAnimation = ({ showType }: Props) => {
         justifyContent: "center",
         alignItems: "center",
         borderRadius: "18px",
-        paddingLeft: "20px",
-        paddingBottom: "40px",
+        paddingLeft: "28px",
+        paddingRight: "20px",
+        paddingBottom: "60px",
       }}
     >
       <div className={"grid"}>
@@ -224,8 +225,15 @@ const LoadingAnimation = ({ showType }: Props) => {
       </div>
 
       <div id="balloon-container" ref={balloonContainerRef}></div>
-      <div style={{ marginTop: "13rem", marginRight: "0.67rem" }}>
-        <span className="loading-text">{currentText}</span>
+      <div
+        style={{
+          marginTop: "13rem",
+          marginRight: "0.67rem",
+          paddingLeft: "0.5rem",
+        }}
+      >
+        {/* <span className="loading-text">{currentText}</span> */}
+        <span className="animation-text">{currentText}</span>
       </div>
     </div>
   );

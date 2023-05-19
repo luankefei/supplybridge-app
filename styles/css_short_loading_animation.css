@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "Russo One";
+  src: url("/fonts/RussoOne-Regular.ttf");
+}
+
 .grid {
   display: grid;
   grid-template-columns: repeat(5, 35px);
@@ -5,6 +10,12 @@
   grid-gap: 5px;
   position: absolute;
   z-index: 5;
+}
+
+.animation-text {
+  font-family: "Russo One";
+  font-size: 24px;
+  color: white;
 }
 
 .loading-text {
