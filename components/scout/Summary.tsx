@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import useStore from "hooks/useStore";
 import {
+   NullableImg,
    SummaryContainer,
    SummaryCategoryIcon,
    SummaryTitleColumn,
@@ -8,13 +9,11 @@ import {
    SummaryColumn,
    SummarySpaceColumn,
    SummaryLabel,
-   SummaryCategoryListContainer,
-   SummaryCategoryList,
-   SummaryCategoryItem,
-   SummaryTop10List,
-   SummaryTop10ListHalf,
+   SummaryTopList,
+   SummaryTopListOne,
    SummarySupplierContainer,
    SummarySupplierTitle,
+   SummaryCategoriesContainer,
 } from "components/scout/Summary.styled";
 
 import demoData from "components/scout/summaryCategoryData";
@@ -29,24 +28,33 @@ function demoRandomPick(obj: any): any {
    }
 }
 
+function selectNearestL2(L2: string[], q: string) {
+   const L2lowercases = L2.map((x: string) => x.toLowerCase());
+   const i = L2lowercases.indexOf(q.toLowerCase());
+   if (i < 0) return null;
+   return L2[i];
+}
+
 function determineSummary(filterData: any, suppliers: any) {
    const summary: any = {};
    // TODO: determine summary title by filterData.q
-   summary.title = demoRandomPick(demoData.L2L3);
-   summary.categories = demoData.L2L3[summary.title];
    summary.lastQ = filterData.q;
+   const L2 = Object.keys(demoData.L2L3);
+   summary.title = selectNearestL2(L2, summary.lastQ);
+   summary.L2selected = summary.title;
+   if (summary.title) {
+      summary.categories = demoData.L2L3[summary.title];
+   } else {
+      summary.title = summary.lastQ;
+      summary.categories = null;
+   }
    // TODO: rank suppliers by revenue; currently pick the first 10
-   const selectedSuppliers = suppliers.slice(0, 10);
-   const selectedN = Math.floor(selectedSuppliers.length/2);
-   summary.suppliersA = selectedSuppliers.slice(0, selectedN);
-   summary.suppliersB = selectedSuppliers.slice(selectedN);
+   const selectedSuppliers = suppliers.slice(0, 9);
+   summary.suppliersA = selectedSuppliers.slice(0, 3);
+   summary.suppliersB = selectedSuppliers.slice(3, 6);
+   summary.suppliersC = selectedSuppliers.slice(6, 9);
    return summary;
 }
-
-const NullableImg = (props: any) => {
-   const { url } = props;
-   return url ? <img src={url} /> : null ;
-};
 
 const Supplier = (props: any) => {
    return (
@@ -62,6 +70,27 @@ const Suppliers = (props: any) => {
       (z: any, i: number) => <Supplier key={i} logo={z.logo} name={z.longName || z.name} />
    );
 };
+
+const SummaryCategories = (props: any) => {
+   const { L2, L2selected, L3, L3Selected } = props;
+   if (!L2?.length) return null;
+   return (
+      <SummaryCategoriesContainer>
+         <div className="cat-L2-list">
+            { L2.map((name: string, i: number) => <span className={`cat-L2 ${name === L2selected?'active':''}`} key={i}>{name}</span>) }
+            <span class="cat-L2 cat-L2-more">More Categories</span>
+         </div>
+         { (!L3?.length) ? null : (<>
+            <div className="cat-L3-title">Categories</div>
+            <div className="cat-L3-list">
+               { L3.map((name: string, i: number) => <span class="cat-L3" key={i}>{name}</span>) }
+            </div>
+         </>)
+         }
+      </SummaryCategoriesContainer>
+   );
+   // TODO: L3 -> object (innovation -> icon) displayed before L3 name
+}
 
 export default function Summary() {
   const {
@@ -79,34 +108,37 @@ export default function Summary() {
   useEffect(() => {
      if (filterData.q === summary.lastQ) return;
      setSummary(determineSummary(filterData, suppliers));
-  }, [filterData]);
+  }, [suppliers]);
 
   return (
+     <>
      <SummaryContainer><div>
         <SummaryColumn><SummaryCategoryIcon /></SummaryColumn>
         <SummaryTitleColumn>
            <SummaryLabel>Suggest for you ...</SummaryLabel>
            <SummaryTitle>{summary.title}</SummaryTitle>
         </SummaryTitleColumn>
-        <SummarySpaceColumn space={20}>
-           <SummaryLabel>Categories</SummaryLabel>
-           <SummaryCategoryListContainer><SummaryCategoryList>
-              {summary.categories?.map(
-                 (z: string, i: number) => (<SummaryCategoryItem key={i}><a title={z}>{z}</a></SummaryCategoryItem>)
-              )}
-           </SummaryCategoryList></SummaryCategoryListContainer>
-        </SummarySpaceColumn>
-        <SummarySpaceColumn space={30}>
-           <SummaryLabel>Top 10 Suppliers</SummaryLabel>
-           <SummaryTop10List>
-              <SummaryTop10ListHalf>
+        <SummarySpaceColumn space={70}>
+        {
+           summary?.categories ? (<><SummaryLabel>Top Suppliers</SummaryLabel>
+           <SummaryTopList>
+              <SummaryTopListOne>
                  <Suppliers data={summary.suppliersA}/>
-              </SummaryTop10ListHalf>
-              <SummaryTop10ListHalf>
+              </SummaryTopListOne>
+              <SummaryTopListOne>
                  <Suppliers data={summary.suppliersB}/>
-              </SummaryTop10ListHalf>
-           </SummaryTop10List>
+              </SummaryTopListOne>
+              <SummaryTopListOne>
+                 <Suppliers data={summary.suppliersC}/>
+              </SummaryTopListOne>
+           </SummaryTopList></>) : null
+        }
         </SummarySpaceColumn>
      </div></SummaryContainer>
+     <SummaryCategories
+        L2={Object.keys(demoData.L2L3)} L2selected={summary.L2selected}
+        L3={summary?.categories} L3selected={''}
+     />
+     </>
   );
 }
