@@ -5,7 +5,9 @@ import useStore from "hooks/useStore";
 import useBoundStore from "hooks/useBoundStore";
 import Icon from "components/Icon";
 import TextField from "components/TextField";
-import { Button } from "@mui/material";
+import { Button, MenuItem, FormControl } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Switch from "@mui/material/Switch";
 
 interface Props {
   onSearch: () => void;
@@ -50,9 +52,34 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
+// XXX: in future, we should use i18n component
+//      now we just hardcoded map
+const langWordMap: any = {
+   EN: {
+      Keywords: "Keywords",
+      Companies: "Companies",
+      Search: "Search",
+   },
+   DE: {
+      Keywords: "Schlüsselwörtern",
+      Companies: "Lieferanten",
+      Search: "Suchen",
+   },
+};
+
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchItem, setSearchItem] = useState("");
+  const [searchType, setSearchType] = useState("Keywords");
+  const [searchLang, setSearchLang] = useState("EN");
   const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
+
+  const handleSearchTypeChange = (evt: SelectChangeEvent) => {
+     setSearchType(evt.target.value as string);
+  }
+
+  const handleSearchLangChange = (evt: SelectChangeEvent) => {
+     setSearchLang(evt.target.checked ? "DE" : "EN");
+  }
 
   const onClickSearch = () => {
     clearFilters();
@@ -89,8 +116,20 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
 
   return (
     <Container>
+      <ControlContainer>
+        <SearchLangContainer label={searchLang}><Switch onChange={handleSearchLangChange} /></SearchLangContainer>
+        <ControlSpace />
+        <ResetAllButton variant="text" onClick={resetFilters}>
+          <Icon src="reset" width={12} height={12} m="0px 6px" />
+          Reset
+        </ResetAllButton>
+      </ControlContainer>
       <SearchBarContainer width={width}>
         <InputContainer>
+          <SearchTypeSelect id="search_type" value={searchType} onChange={handleSearchTypeChange}>
+             <MenuItem value={"Keywords"}>{langWordMap[searchLang]?.Keywords}</MenuItem>
+             <MenuItem value={"Companies"}>{langWordMap[searchLang]?.Companies}</MenuItem>
+          </SearchTypeSelect>
           {searchItem === "" ? (
             <Icon src="search2" width={20} height={20} m={"0px"} hover />
           ) : (
@@ -107,11 +146,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           />
         </InputContainer>
         <SearchButtonWrapper>
-          <ResetAllButton variant="text" onClick={resetFilters}>
-            <Icon src="reset" width={12} height={12} m="0px 6px" />
-            Reset
-          </ResetAllButton>
-          <SearchButton onClick={onClickSearch}>Search</SearchButton>
+          <SearchButton onClick={onClickSearch}>{langWordMap[searchLang]?.Search}</SearchButton>
         </SearchButtonWrapper>
       </SearchBarContainer>
 
@@ -321,6 +356,19 @@ const InputContainer = styled.div`
   }
 `;
 
+const SearchTypeSelect = styled(Select)`
+  min-width: 100px;
+  max-width: 160px;
+  border: none;
+
+  & .MuiSelect-select {
+     padding: 4px 0 5px 0;
+  }
+  & .MuiOutlinedInput-notchedOutline {
+     border: none;
+  }
+`;
+
 const StyledInput = styled.input`
   flex: 1 0;
   height: 46px;
@@ -355,18 +403,62 @@ const StyledInput = styled.input`
   }
 `;
 
+const ControlContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const ControlSpace = styled.div`
+  flex: 1 0 auto;
+`;
+
+const SearchLangContainer = styled.div<{label: string}>`
+  & .MuiSwitch-root {
+     padding: 0;
+     margin-bottom: 3px;
+     width: 100px;
+     border-radius: 50px;
+  }
+  & .MuiSwitch-root > span.MuiSwitch-track { background-color: #ccc; }
+  & .MuiSwitch-track:before {
+     content: "EN";
+     color: black;
+     position: absolute;
+     top: 10px;
+     left: 15px;
+  }
+  & .MuiSwitch-track:after {
+     content: "DE";
+     color: black;
+     position: absolute;
+     top: 10px;
+     right: 20px;
+  }
+  & .MuiButtonBase-root {
+     padding: 4px;
+  }
+  & .MuiSwitch-thumb {
+     width: 50px;
+     height: 30px;
+     border-radius: 50px;
+  }
+  & .MuiTouchRipple-root:before{
+     content: ${(props) => `"${props.label || 'EN'}"`};
+     position: absolute;
+     color: black;
+     top: 10px;
+     left: 18px;
+  }
+  & .MuiButtonBase-root.MuiSwitch-switchBase.Mui-checked {
+     color: white;
+     margin-left: 20px;
+  }
+`;
+
 const ResetButtonContainer = styled.div`
   display: flex;
   justify-content: end;
 `;
 const ResetAllButton = styled(Button)`
-  position: absolute !important;
-  top: -2.25rem;
-  right: 23px;
-  margin-left: 0px !important;
-  margin-right: 0px !important;
-  margin-bottom: 8px !important;
-  padding: 0px 0px !important;
   font-family: "Inter", sans-serif !important;
   font-style: normal;
   font-weight: 400;
