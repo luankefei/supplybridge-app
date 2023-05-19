@@ -76,10 +76,9 @@ export default function Switch() {
 }
 
 const Container = styled.div`
-  width: calc(100%);
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const SwitchContainer = styled.div`
@@ -87,7 +86,7 @@ const SwitchContainer = styled.div`
     width: ${theme.dimension.cardMaxWidth};
   }
   height: 56px;
-  margin: 36px 0;
+  margin: 36px 20px;
   display: flex;
   justify-content: space-between;
 `;
