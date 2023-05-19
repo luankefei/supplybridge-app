@@ -70,6 +70,7 @@ export default function QuickbridgeResult() {
         setLoadingAnimations(false);
       },
       aniDuration == "short" ? 3200 : 6200
+      // aniDuration == "short" ? 3200000 : 6200000
     );
   }, []);
 
