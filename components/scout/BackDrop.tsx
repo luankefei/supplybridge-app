@@ -28,6 +28,7 @@ export default function BackDrop({ isOpen = false }: Props) {
 
 const Container = styled.div`
   position: absolute;
+  margin-top: 10px;
   left: 0px;
   right: 0px;
   top: 360px;
