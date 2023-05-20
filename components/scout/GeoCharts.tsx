@@ -86,15 +86,14 @@ const GeoCharts = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-console.log(filterData?.subRegions, '???????????????????????');
         if(filterData?.subRegions?.includes(item.name))
         {
         const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
-          // colorValue: null | 0 | 1
-          // null => default color
-          // 0 => #08979c
-          // 1 =>  #10712B
-          const colorValue=noOfSuppliers===0? null : 0
+        // colorValue: null | 0 | 1
+        // null => default color
+        // 0 => #08979c
+        // 1 =>  #10712B
+        const colorValue = noOfSuppliers ? 0 : null;
         initialData.push([
           item.name,
           colorValue,
@@ -211,9 +210,9 @@ console.log(filterData?.subRegions, '???????????????????????');
       if (subRegions.includes(c[0])) {
         allList[index][1] = 1;
       } else {
-        if (allList[index] && c[0] !== "Country") {
-          allList[index][1] = 0;
-        }
+        /*if (allList[index] && c[0] !== "Country") {
+          allList[index][1] = null;
+        }*/
       }
     });
     setAllCountries(allList);
@@ -295,6 +294,8 @@ console.log(filterData?.subRegions, '???????????????????????');
                 const selection = chart.getSelection();
                 if (selection.length === 0) return;
                 const region = allCountries[selection[0].row + 1];
+                if (region?.[1] === null) return;
+console.log(allCountries, region, stats);
                 selectCountryHandler(region);
               },
             },
@@ -306,9 +307,6 @@ console.log(filterData?.subRegions, '???????????????????????');
           data={allCountries}
           options={{
             ...options,
-            //enableRegionInteractivity: 'true',
-            //region:'world',
-            //resolution: 'countries',
             colorAxis: {
               minValue: 0,
               maxValue: 1,
