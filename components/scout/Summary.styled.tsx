@@ -66,7 +66,7 @@ export const SummarySupplierTitle = styled.div`
    text-overflow: ellipsis;
 `;
 
-const NullabeImgContainer = styled.div<{size: string}>`
+const NullabeImgContainer = styled.div<any>`
    margin: 1px;
    width: ${(props) => props.size || '24px'};
    height: ${(props) => props.size || '24px'};

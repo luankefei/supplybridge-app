@@ -78,12 +78,12 @@ const SummaryCategories = (props: any) => {
       <SummaryCategoriesContainer>
          <div className="cat-L2-list">
             { L2.map((name: string, i: number) => <span className={`cat-L2 ${name === L2selected?'active':''}`} key={i}>{name}</span>) }
-            <span class="cat-L2 cat-L2-more">More Categories</span>
+            <span className="cat-L2 cat-L2-more">More Categories</span>
          </div>
          { (!L3?.length) ? null : (<>
             <div className="cat-L3-title">Categories</div>
             <div className="cat-L3-list">
-               { L3.map((name: string, i: number) => <span class="cat-L3" key={i}>{name}</span>) }
+               { L3.map((name: string, i: number) => <span className="cat-L3" key={i}>{name}</span>) }
             </div>
          </>)
          }

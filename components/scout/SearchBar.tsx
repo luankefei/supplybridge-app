@@ -78,7 +78,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   }
 
   const handleSearchLangChange = (evt: SelectChangeEvent) => {
-     setSearchLang(evt.target.checked ? "DE" : "EN");
+     setSearchLang((evt.target as any).checked ? "DE" : "EN");
   }
 
   const onClickSearch = () => {
@@ -356,7 +356,7 @@ const InputContainer = styled.div`
   }
 `;
 
-const SearchTypeSelect = styled(Select)`
+const SearchTypeSelect = styled(Select)<any>`
   min-width: 100px;
   max-width: 160px;
   border: none;

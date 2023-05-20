@@ -24,7 +24,7 @@ const Introduction = () => {
    return (
      <DescContainer>
        <DescTitle>We build bridges between Supply and Demand</DescTitle>
-       <DescSubtitle>All-in-One "Supply Chain-as-a-Service” Platform</DescSubtitle>
+       <DescSubtitle>All-in-One &#34;Supply Chain-as-a-Service&#34; Platform</DescSubtitle>
      </DescContainer>
    );
 };
