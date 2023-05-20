@@ -67,11 +67,11 @@ const GeoCharts = () => {
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
         const noOfSuppliers = getNumberOfSuppliers(item.name);
-          // colorValue: null | 0 | 1
-          // null => default color
-          // 0 => #08979c
-          // 1 =>  #10712B
-          const colorValue=noOfSuppliers===0? null : 0
+        // colorValue: null | 0 | 1
+        // null => default color
+        // 0 => #08979c
+        // 1 =>  #10712B
+        const colorValue = noOfSuppliers ? 0 : null;
         initialData.push([
           item.name,
           colorValue,
@@ -86,6 +86,7 @@ const GeoCharts = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
+console.log(filterData?.subRegions, '???????????????????????');
         if(filterData?.subRegions?.includes(item.name))
         {
         const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
@@ -113,11 +114,11 @@ const GeoCharts = () => {
         if(filterData?.regions?.includes(allCountry[key]?.categoryId))
         {
         const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
-          // colorValue: null | 0 | 1
-          // null => default color
-          // 0 => #08979c
-          // 1 =>  #10712B
-          const colorValue=noOfSuppliers===0? null : 0
+        // colorValue: null | 0 | 1
+        // null => default color
+        // 0 => #08979c
+        // 1 =>  #10712B
+        const colorValue = noOfSuppliers ? 0 : null;
         initialData.push([
           item.name,
           colorValue,
@@ -262,7 +263,7 @@ const GeoCharts = () => {
   const getNumberOfSuppliers = (countryCode: string) => {
     const region = allSubRegions.find((s: any) => s.code === countryCode);
     if (!region) return 0;
-    if (!stats || !stats.locationId) return region.countSuppliersInLocation;
+    if (!stats || !stats.locationId) return region.countSuppliersInLocation || 0;
     return stats?.locationId?.[region.id] || 0;
   };
 
@@ -305,6 +306,9 @@ const GeoCharts = () => {
           data={allCountries}
           options={{
             ...options,
+            //enableRegionInteractivity: 'true',
+            //region:'world',
+            //resolution: 'countries',
             colorAxis: {
               minValue: 0,
               maxValue: 1,

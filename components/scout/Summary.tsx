@@ -110,12 +110,14 @@ export default function Summary() {
      setSummary(determineSummary(filterData, suppliers));
   }, [suppliers]);
 
+  if (!summary.L2selected) return null;
+
   return (
      <>
      <SummaryContainer><div>
         <SummaryColumn><SummaryCategoryIcon /></SummaryColumn>
         <SummaryTitleColumn>
-           <SummaryLabel>Suggest for you ...</SummaryLabel>
+           <SummaryLabel></SummaryLabel>
            <SummaryTitle>{summary.title}</SummaryTitle>
         </SummaryTitleColumn>
         <SummarySpaceColumn space={70}>

@@ -37,6 +37,9 @@ export default function Feedback() {
     e.stopPropagation();
   }
 
+  const handleFeedbackClose = () => {
+     setShow(false);
+  }
 
   const handleFeedbackButton = (e: any) => {
     e.stopPropagation();
@@ -55,6 +58,7 @@ export default function Feedback() {
 
   return (
     <ContainerWrapper>
+      <Mask show={show} onClick={handleFeedbackClose}/>
       <Container className={show ? "shown" : "hidden"} onClick={handleClickContainer}>
         <FeedbackLabelWrapper onClick={handleFeedbackButton}>
           FEEDBACK
@@ -91,13 +95,25 @@ const ContainerWrapper = styled.div`
   }
 `;
 
+const Mask = styled.div<any>`
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: white;
+  opacity: 0.3;
+  z-index: 3000;
+  display: ${(props) => props.show ? 'block' : 'none'};
+`;
+
 const Container = styled.div`
   position: absolute;
   top: 14px;
   right: -492px;
 
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
-  z-index: 1000;
+  z-index: 3001;
 
   display: flex;
   flex-direction: row;
