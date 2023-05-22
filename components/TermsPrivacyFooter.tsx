@@ -6,6 +6,7 @@ const Wrapper = styled.main`
   font-size: 13px;
   line-height: 16px;
   ul {
+    padding-left: 0;
     display: flex;
     align-items: center;
     list-style: none;
@@ -37,13 +38,13 @@ export default function Footer() {
       <footer>
         <ul>
           <li>
-            <a href="#">terms</a>
+            <a href="/about/terms_and_conditions/" target="_blank">terms</a>
           </li>
           <li>
             <span>•</span>
           </li>
           <li>
-            <a href="#">privacy</a>
+            <a href="/about/privacy_policy/" target="_blank">privacy</a>
           </li>
           <li>
             <span>•</span>
