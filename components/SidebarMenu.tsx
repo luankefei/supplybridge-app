@@ -143,8 +143,10 @@ export default function SideBarMenu() {
           <Section>
             <UserContainer>
               <Welcome>Welcome</Welcome>
+              {/*
               <UserName>Baran!</UserName>
               <Avatar>BG</Avatar>
+              */}
             </UserContainer>
             <MenuTitle>SOLUTIONS</MenuTitle>
             {solutionsData.map((item: any, index: any) => {
