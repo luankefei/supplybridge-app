@@ -96,6 +96,7 @@ export const SummaryCategoriesContainer = styled.div`
       border: 1px solid #999;
       margin: 0 3px;
       line-height: 45px;
+      white-space: nowrap;
    }
    .cat-L2.active {
       color: white;

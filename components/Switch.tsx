@@ -86,7 +86,7 @@ const SwitchContainer = styled.div`
     width: ${theme.dimension.cardMaxWidth};
   }
   height: 56px;
-  margin: 36px 20px;
+  margin: 36px 20px 0 20px;
   display: flex;
   justify-content: space-between;
 `;

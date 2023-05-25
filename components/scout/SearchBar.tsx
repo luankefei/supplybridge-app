@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
 import useStore from "hooks/useStore";
@@ -8,6 +8,8 @@ import TextField from "components/TextField";
 import { Button, MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
+
+import { L2L3tree } from "components/scout/summaryCategoryData.tsx";
 
 interface Props {
   onSearch: () => void;
@@ -77,28 +79,45 @@ const langWordMap: any = {
 
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchItem, setSearchItem] = useState("");
+  const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState("Keywords");
   const [searchLang, setSearchLang] = useState("EN");
-  const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
+  const { filterData, setFilterData, setSuppliers, setShowBackdrop, stats } = useStore();
 
   const handleSearchTypeChange = (evt: SelectChangeEvent) => {
-     setSearchType(evt.target.value as string);
+     const val: string = evt.target.value as string;
+     stats.type = val;
+     setSearchType(val);
   }
 
   const handleSearchLangChange = (evt: SelectChangeEvent) => {
-     setSearchLang((evt.target as any).checked ? "DE" : "EN");
+     const val: string = (evt.target as any).checked ? "DE" : "EN";
+     stats.lang = val;
+     setSearchLang(val);
   }
+
+  const doTransform = () => {
+    let transformed = searchItem;
+    const keys = Object.keys(L2L3tree);
+    const possible = keys.map((L2: string) => L2L3tree[L2].de);
+    const i = possible.indexOf(transformed.toLowerCase());
+    if (i >= 0) {
+       transformed = keys[i];
+    }
+    return transformed;
+  };
 
   const onClickSearch = () => {
     clearFilters();
-    setFilterData({
-      q: searchItem,
-    });
+    stats.q = searchItemDisplay;
+    setFilterData({ q: doTransform() });
     onSearch();
   };
 
   const resetFilters = () => {
     setSearchItem("");
+    setSearchItemDisplay("");
+    stats.q = "";
     clearFilters();
     setSuppliers(null, true);
     setShowBackdrop(false);
@@ -115,12 +134,22 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
-      setFilterData({
-        q: searchItem,
-      });
+      setFilterData({ q: doTransform() });
       onSearch();
     }
   };
+
+  const cbOnSearchChange = useCallback((evt: any) => {
+     const value: string = evt.target.value;
+     let transformed = value;
+     if (value === 'achsenkomponenten') transformed = 'axle components';
+     setSearchItem(transformed);
+     setSearchItemDisplay(value);
+  }, [setSearchItem, setSearchItemDisplay]);
+
+  useEffect(() => {
+     setSearchItemDisplay(stats.q);
+  }, [filterData]);
 
   return (
     <Container>
@@ -145,11 +174,11 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           )}
 
           <StyledInput
-            onChange={(e: any) => setSearchItem(e.target.value)}
+            onChange={cbOnSearchChange}
             name="search"
             placeholder={langWordMap[searchLang]?.Placeholder?.[searchType]}
             onKeyPress={onKeyPressHandler}
-            value={searchItem}
+            value={searchItemDisplay}
             type="text"
           />
         </InputContainer>
@@ -234,7 +263,7 @@ const MainContainer = styled.div`
 
 const Container = styled.div`
   width: 100%;
-  padding: 0 20px;
+  padding: 0 30px;
   margin-top: 22px;
   display: flex;
   justify-content: end;

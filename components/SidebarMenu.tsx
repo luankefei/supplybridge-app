@@ -24,6 +24,7 @@ export default function SideBarMenu() {
       active: router.asPath.includes("source"),
       passiveIcon: false
     },
+/* REL202306
     {
       icon: "evaluate",
       title: "Evaluate",
@@ -60,9 +61,11 @@ export default function SideBarMenu() {
       active: router.asPath.includes("total-solution"),
       passiveIcon: false
     },
+*/
   ];
 
   const marketData = [
+/*
     {
       icon: "raw-material",
       title: "Raw Material",
@@ -91,6 +94,7 @@ export default function SideBarMenu() {
       active: router.asPath.includes("exhibition-center"),
       passiveIcon: true
     },
+*/
   ];
 
   const logout = () => {
@@ -175,6 +179,13 @@ export default function SideBarMenu() {
                 </Link>
               );
             })}
+            {/* REL202306 */}
+            <Link href={'#'}>
+              <MenuWrapper active={false} passiveIcon={true}>
+                <MenuIcon src={`/menu/transport.svg`} active={false} passiveIcon={true} />
+                <MenuItemTitle active={false} passiveIcon={true}>{"Comming Soon"}</MenuItemTitle>
+              </MenuWrapper>
+            </Link>
           </Section>
         </TopSection>
         <Section>

@@ -72,12 +72,26 @@ const Suppliers = (props: any) => {
 };
 
 const SummaryCategories = (props: any) => {
+   const { stats, setFilterData } = useStore();
    const { L2, L2selected, L3, L3Selected } = props;
    if (!L2?.length) return null;
+
+   const onL2Click = (L2: string) => {
+      stats.q = L2;
+      setFilterData({ q: L2 });
+   }
+
    return (
       <SummaryCategoriesContainer>
          <div className="cat-L2-list">
-            { L2.map((name: string, i: number) => <span className={`cat-L2 ${name === L2selected?'active':''}`} key={i}>{name}</span>) }
+            { L2.map((name: string, i: number) => (
+                 <span
+                    className={`cat-L2 ${name === L2selected?'active':''}`}
+                    onClick={() => onL2Click(name)}
+                    key={i}>
+                 {name}
+                 </span>
+              )) }
             <span className="cat-L2 cat-L2-more">More Categories</span>
          </div>
          { (!L3?.length) ? null : (<>
@@ -93,16 +107,7 @@ const SummaryCategories = (props: any) => {
 }
 
 export default function Summary() {
-  const {
-    suppliers,
-    page,
-    setPage,
-    count,
-    setFilterData,
-    filterData,
-    clearFilterData,
-    vehicleFuelTypes,
-  } = useStore();
+  const { suppliers, filterData } = useStore();
 
   const [summary, setSummary] = useState(determineSummary(filterData, suppliers) || {});
   useEffect(() => {
@@ -115,7 +120,7 @@ export default function Summary() {
   return (
      <>
      <SummaryContainer><div>
-        <SummaryColumn><SummaryCategoryIcon /></SummaryColumn>
+        <SummaryColumn><SummaryCategoryIcon src={`https://stsupplybridgeprod.blob.core.windows.net/images/L2/${summary.title.split(/\s+/).join('')}.jpeg`} /></SummaryColumn>
         <SummaryTitleColumn>
            <SummaryLabel></SummaryLabel>
            <SummaryTitle>{summary.title}</SummaryTitle>

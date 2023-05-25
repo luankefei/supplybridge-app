@@ -50,7 +50,7 @@ const FilterContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 8px 24px;
+  padding: 8px 30px;
   margin-top: 24px;
   /* box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px; */

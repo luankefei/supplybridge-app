@@ -43,6 +43,7 @@ const ResultTitleCell = styled('div')`
    overflow: hidden;
    background-color: white;
    margin-right: 5px;
+   max-width: 500px;
 `;
 
 const ResultTableCellWithImg = styled(TableCell)`
@@ -55,7 +56,6 @@ const ResultTableCellWithImg = styled(TableCell)`
    > div {
       line-height: 22px;
       display: flex;
-      max-width: 300px;
    }
 `;
 

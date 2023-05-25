@@ -57,7 +57,7 @@ const GeoCharts = () => {
       getAllSubRegions();
       allSubRegionsLoaded.current = true;
     }
-  }, []);
+  }, [allSubRegionsLoaded]);
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
     return noOfSuppliers >0? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
     : `<div><b>${name} </b></div>`
@@ -136,7 +136,7 @@ const GeoCharts = () => {
 
   useEffect(() => {
     //if there is no query parameter initilize the map with all the suppliers data
-    if(filterData?.subRegions?.length<1 && filterData?.regions?.length<1) {
+    if(!stats.q || (filterData?.subRegions?.length<1 && filterData?.regions?.length<1)) {
     setInitialData();
     }
     else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
@@ -218,7 +218,7 @@ const GeoCharts = () => {
     setAllCountries(allList);
 
     //Filter based on the selected countries
-    searchHandler();
+    if (filterData.q && stats.q) searchHandler();
   };
   const clearDropdownFilters = () => {
     setFilterData({
@@ -275,6 +275,13 @@ const GeoCharts = () => {
       return region ? stats?.locationId?.[region?.id] : 0     
     };
 
+  const elContainer = useRef(null);
+  const [fitMapHeight, setFitMapHeight] = useState(400);
+  useEffect(() => {
+     const el = elContainer.current;
+     setFitMapHeight((window.innerHeight - el.parentNode.offsetTop) * 0.8);
+  }, [elContainer]);
+
   return (
     <MapContainer>
       <ButtonContainer>
@@ -283,7 +290,7 @@ const GeoCharts = () => {
           <GoWorld onClick={clearFilter}>Show All</GoWorld>
         ): null}
       </ButtonContainer>
-      <Container>
+      <Container ref={elContainer}>
         <Chart
           chartEvents={[
             {
@@ -302,9 +309,8 @@ console.log(allCountries, region, stats);
           ]}
           onLoad={onMapLoadHandler}
           chartType="GeoChart"
-          width="99%"
-          height="411px"
           data={allCountries}
+          height={`${fitMapHeight}px`}
           options={{
             ...options,
             colorAxis: {
