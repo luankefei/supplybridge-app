@@ -69,12 +69,23 @@ const ResultTableHeadRow = styled(TableRow)`
 
 const ResultTableRow = styled(TableRow)`
    background-color: white;
+   border-radius: 10px;
+   &>:first-child {
+      border-radius: 10px 0 0 10px;
+      box-shadow: 0px -3px 2px -3px rgba(0, 0, 0, 0.2) inset;
+   }
+   &>:last-child {
+      border-radius: 0 10px 10px 0;
+      box-shadow: -2px -3px 2px -3px rgba(0, 0, 0, 0.2) inset;
+   }
    &>:nth-child(2) {
       left: 0;
       position: sticky;
    }
    > td {
+      border-radius: 0;
       border-bottom: 5px solid #edf1f3;
+      box-shadow: 0px -3px 0px -2px rgba(0, 0, 0, 0.1) inset;
    }
 `;
 
@@ -135,9 +146,9 @@ export default function BasicTable() {
           <ResultTableHeadRow>
             <ResultHeadCell sx={{width: '50px'}}>&nbsp;</ResultHeadCell>
             <ResultHeadCell>Organization</ResultHeadCell>
-            <ResultHeadCell>HQ Location</ResultHeadCell>
-            <ResultHeadCell>Region</ResultHeadCell>
-            <ResultHeadCell>Core Competence</ResultHeadCell>
+            {/* REL202306 <ResultHeadCell>HQ Location</ResultHeadCell>*/}
+            <ResultHeadCell>Global Footprint</ResultHeadCell>
+            <ResultHeadCell>Category</ResultHeadCell>
           </ResultTableHeadRow>
         </TableHead>
         <TableBody>
@@ -149,10 +160,10 @@ export default function BasicTable() {
                  <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
                  <BadgeList data={row} />
               </div></ResultTableCellWithImg>
-              <ResultTableCellWithImg><div>
+              {/* REL202306 <ResultTableCellWithImg><div>
                  <NullableImg url={row.headquarter?.code ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg` : ''} />
                  <div>{row.headquarter?.name}</div>
-              </div></ResultTableCellWithImg>
+              </div></ResultTableCellWithImg> */}
               <TableCell>{regionMap[row.headquarter?.regionId] || ''}</TableCell>
               <CompetenceCell><a title={row.coreCompetence}>{row.coreCompetence}</a></CompetenceCell>
             </ResultTableRow>

@@ -59,11 +59,19 @@ const langWordMap: any = {
       Keywords: "Keywords",
       Companies: "Companies",
       Search: "Search",
+      Placeholder: {
+         Keywords: "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
+         Companies: "Such as Lieferanten",
+      },
    },
    DE: {
       Keywords: "Schlüsselwörtern",
       Companies: "Lieferanten",
       Search: "Suchen",
+      Placeholder: {
+         Keywords: "Suchen Sie nach Komponenten oder Schlüsselwörtern (z.B. Reifen, NMC-Batterie, Recycling...)",
+         Companies: "Suche nach Lieferanten",
+      },
    },
 };
 
@@ -139,7 +147,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           <StyledInput
             onChange={(e: any) => setSearchItem(e.target.value)}
             name="search"
-            placeholder="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+            placeholder={langWordMap[searchLang]?.Placeholder?.[searchType]}
             onKeyPress={onKeyPressHandler}
             value={searchItem}
             type="text"
@@ -218,14 +226,15 @@ export const SearchBarForFilter = ({
 };
 
 const MainContainer = styled.div`
-  width: calc(100%);
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Container = styled.div`
-  width: 75%;
+  width: 100%;
+  padding: 0 20px;
   margin-top: 22px;
   display: flex;
   justify-content: end;
@@ -302,7 +311,7 @@ const SearchButtonWrapper = styled.div`
 `;
 
 const SearchButton = styled.button`
-  width: 196px;
+  min-width: 120px;
   height: 46px;
   border: none;
   border-radius: 32px;
@@ -332,7 +341,7 @@ const InputContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 46px;
-  width: 80%;
+  width: 100%;
 
   padding-left: 16px;
   border-radius: 50px;
@@ -359,6 +368,7 @@ const InputContainer = styled.div`
 const SearchTypeSelect = styled(Select)<any>`
   min-width: 100px;
   max-width: 160px;
+  width: 160px;
   border: none;
 
   & .MuiSelect-select {

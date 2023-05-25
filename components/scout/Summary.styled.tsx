@@ -67,7 +67,7 @@ export const SummarySupplierTitle = styled.div`
 `;
 
 const NullabeImgContainer = styled.div<any>`
-   margin: 1px;
+   margin-right: 5px;
    width: ${(props) => props.size || '24px'};
    height: ${(props) => props.size || '24px'};
    border-radius: 50%;
