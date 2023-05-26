@@ -263,7 +263,7 @@ const GeoCharts = () => {
   const getNumberOfSuppliers = (countryCode: string) => {
     const region = allSubRegions.find((s: any) => s.code === countryCode);
     if (!region) return 0;
-    if (!stats || !stats.locationId) return region.countSuppliersInLocation || 0;
+    if (!stats || !stats.locationId || !flags.q) return region.countSuppliersInLocation || 0;
     return stats?.locationId?.[region.id] || 0;
   };
 
@@ -273,6 +273,7 @@ const GeoCharts = () => {
       console.log("region",stats[region?.id])
       console.log("region",region?.id)
       if(region) console.log("stats",stats?.locationId?.[region?.id]);
+      if (!flags.q) return region.countSuppliersInLocation || 0;
       return region ? stats?.locationId?.[region?.id] : 0     
     };
 
