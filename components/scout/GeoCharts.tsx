@@ -50,6 +50,7 @@ const GeoCharts = () => {
     stats,
     setFilterData,
     allSubRegions,
+    flags,
   } = useStore();
 
   useEffect(() => {
@@ -218,7 +219,7 @@ const GeoCharts = () => {
     setAllCountries(allList);
 
     //Filter based on the selected countries
-    if (filterData.q && stats.q) searchHandler();
+    if (filterData.q && flags.q) searchHandler();
   };
   const clearDropdownFilters = () => {
     setFilterData({
@@ -286,7 +287,7 @@ const GeoCharts = () => {
     <MapContainer>
       <ButtonContainer>
         {false && backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
-        {selectedCountries.length === 1 ? (
+        {selectedCountries.length >= 1 ? (
           <GoWorld onClick={clearFilter}>Show All</GoWorld>
         ): null}
       </ButtonContainer>
@@ -295,14 +296,13 @@ const GeoCharts = () => {
           chartEvents={[
             {
               eventName: "select",
-              callback: ({ chartWrapper }) => {
-                const chart = chartWrapper.getChart();
-                if (!chart) return;
-                const selection = chart.getSelection();
-                if (selection.length === 0) return;
-                const region = allCountries[selection[0].row + 1];
+              callback: (evt: any) => {
+                if (!flags.q) return;
+                //if (selectedCountries.length) return;
+                const row = evt.eventArgs[0]?.getSelection()[0]?.row;
+                if (!row) return;
+                const region = allCountries[row + 1];
                 if (region?.[1] === null) return;
-console.log(allCountries, region, stats);
                 selectCountryHandler(region);
               },
             },

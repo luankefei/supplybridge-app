@@ -31,6 +31,13 @@ export const SummaryTitle = styled.div`
    margin-top: 5px;
 `;
 
+export const SummaryL3Title = styled.div`
+   font-size: 25px;
+   color: #08979c;
+   font-weight: bold;
+   margin-top: 5px;
+`;
+
 export const SummaryColumn = styled.div`
    padding: 10px;
 `;

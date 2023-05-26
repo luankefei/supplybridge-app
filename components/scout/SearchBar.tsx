@@ -82,21 +82,27 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState("Keywords");
   const [searchLang, setSearchLang] = useState("EN");
-  const { filterData, setFilterData, setSuppliers, setShowBackdrop, stats } = useStore();
+  const {
+     filterData,
+     setSelectedCountries,
+     setSelectedRegions,
+     setFilterData, setSuppliers, setShowBackdrop, flags
+  } = useStore();
 
   const handleSearchTypeChange = (evt: SelectChangeEvent) => {
      const val: string = evt.target.value as string;
-     stats.type = val;
+     flags.type = val;
      setSearchType(val);
   }
 
   const handleSearchLangChange = (evt: SelectChangeEvent) => {
      const val: string = (evt.target as any).checked ? "DE" : "EN";
-     stats.lang = val;
+     flags.lang = val;
      setSearchLang(val);
   }
 
   const doTransform = () => {
+    flags.q = searchItemDisplay;
     let transformed = searchItem;
     const keys = Object.keys(L2L3tree);
     const possible = keys.map((L2: string) => L2L3tree[L2].de);
@@ -109,7 +115,6 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
 
   const onClickSearch = () => {
     clearFilters();
-    stats.q = searchItemDisplay;
     setFilterData({ q: doTransform() });
     onSearch();
   };
@@ -117,7 +122,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const resetFilters = () => {
     setSearchItem("");
     setSearchItemDisplay("");
-    stats.q = "";
+    flags.q = "";
     clearFilters();
     setSuppliers(null, true);
     setShowBackdrop(false);
@@ -131,9 +136,12 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
       subRegions: [],
       vehicleFuelTypes: [],
     });
+    setSelectedCountries([]);
+    setSelectedRegions([]);
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
+      clearFilters();
       setFilterData({ q: doTransform() });
       onSearch();
     }
@@ -148,7 +156,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   }, [setSearchItem, setSearchItemDisplay]);
 
   useEffect(() => {
-     setSearchItemDisplay(stats.q);
+     setSearchItemDisplay(flags.q);
   }, [filterData]);
 
   return (

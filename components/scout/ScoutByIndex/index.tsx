@@ -46,7 +46,7 @@ export default function ScoutByIndex() {
     clearFilterData,
     vehicleFuelTypes,
     showBackdrop,
-    stats,
+    flags,
   } = useStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
@@ -87,7 +87,7 @@ export default function ScoutByIndex() {
   }, [thisElementRef, suppliers]);
 
   useEffect(() => {
-    if (!stats.q) {
+    if (!flags.q) {
        searchString.current = '';
        return;
     }
