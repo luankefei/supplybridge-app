@@ -9,7 +9,7 @@ import { Button, MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
 
-import { L2L3tree } from "components/scout/summaryCategoryData.tsx";
+import { L2L3tree } from "components/scout/summaryCategoryData";
 
 interface Props {
   onSearch: () => void;

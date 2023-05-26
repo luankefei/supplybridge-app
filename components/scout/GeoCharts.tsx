@@ -279,7 +279,8 @@ const GeoCharts = () => {
   const elContainer = useRef(null);
   const [fitMapHeight, setFitMapHeight] = useState(400);
   useEffect(() => {
-     const el = elContainer.current;
+     const el: any = elContainer.current;
+     if (!el) return;
      setFitMapHeight((window.innerHeight - el.parentNode.offsetTop) * 0.8);
   }, [elContainer]);
 

@@ -64,7 +64,7 @@ export default function SideBarMenu() {
 */
   ];
 
-  const marketData = [
+  const marketData: any = [
 /*
     {
       icon: "raw-material",
