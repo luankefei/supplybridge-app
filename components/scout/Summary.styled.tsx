@@ -31,6 +31,13 @@ export const SummaryTitle = styled.div`
    margin-top: 5px;
 `;
 
+export const SummaryL3Title = styled.div`
+   font-size: 25px;
+   color: #08979c;
+   font-weight: bold;
+   margin-top: 5px;
+`;
+
 export const SummaryColumn = styled.div`
    padding: 10px;
 `;
@@ -67,7 +74,7 @@ export const SummarySupplierTitle = styled.div`
 `;
 
 const NullabeImgContainer = styled.div<any>`
-   margin: 1px;
+   margin-right: 5px;
    width: ${(props) => props.size || '24px'};
    height: ${(props) => props.size || '24px'};
    border-radius: 50%;
@@ -96,6 +103,7 @@ export const SummaryCategoriesContainer = styled.div`
       border: 1px solid #999;
       margin: 0 3px;
       line-height: 45px;
+      white-space: nowrap;
    }
    .cat-L2.active {
       color: white;

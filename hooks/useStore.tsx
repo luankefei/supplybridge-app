@@ -34,6 +34,7 @@ interface Store {
   setSelectedCountries: (value: any) => void;
   showBackdrop: boolean;
   setShowBackdrop: (value: any) => void;
+  flags: any;
 }
 
 const useStore = create<Store | any>(
@@ -153,6 +154,7 @@ const useStore = create<Store | any>(
           suppliers: [],
         }));
       },
+      flags: {},
     }),
     {
       name: "supply-storage",

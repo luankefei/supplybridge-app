@@ -50,6 +50,7 @@ const GeoCharts = () => {
     stats,
     setFilterData,
     allSubRegions,
+    flags,
   } = useStore();
 
   useEffect(() => {
@@ -57,7 +58,7 @@ const GeoCharts = () => {
       getAllSubRegions();
       allSubRegionsLoaded.current = true;
     }
-  }, []);
+  }, [allSubRegionsLoaded]);
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
     return noOfSuppliers >0? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
     : `<div><b>${name} </b></div>`
@@ -136,7 +137,7 @@ const GeoCharts = () => {
 
   useEffect(() => {
     //if there is no query parameter initilize the map with all the suppliers data
-    if(filterData?.subRegions?.length<1 && filterData?.regions?.length<1) {
+    if(!stats.q || (filterData?.subRegions?.length<1 && filterData?.regions?.length<1)) {
     setInitialData();
     }
     else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
@@ -218,7 +219,7 @@ const GeoCharts = () => {
     setAllCountries(allList);
 
     //Filter based on the selected countries
-    searchHandler();
+    if (filterData.q && flags.q) searchHandler();
   };
   const clearDropdownFilters = () => {
     setFilterData({
@@ -275,36 +276,42 @@ const GeoCharts = () => {
       return region ? stats?.locationId?.[region?.id] : 0     
     };
 
+  const elContainer = useRef(null);
+  const [fitMapHeight, setFitMapHeight] = useState(400);
+  useEffect(() => {
+     const el: any = elContainer.current;
+     if (!el) return;
+     setFitMapHeight((window.innerHeight - el.parentNode.offsetTop) * 0.8);
+  }, [elContainer]);
+
   return (
     <MapContainer>
       <ButtonContainer>
         {false && backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
-        {selectedCountries.length === 1 ? (
+        {selectedCountries.length >= 1 ? (
           <GoWorld onClick={clearFilter}>Show All</GoWorld>
         ): null}
       </ButtonContainer>
-      <Container>
+      <Container ref={elContainer}>
         <Chart
           chartEvents={[
             {
               eventName: "select",
-              callback: ({ chartWrapper }) => {
-                const chart = chartWrapper.getChart();
-                if (!chart) return;
-                const selection = chart.getSelection();
-                if (selection.length === 0) return;
-                const region = allCountries[selection[0].row + 1];
+              callback: (evt: any) => {
+                if (!flags.q) return;
+                //if (selectedCountries.length) return;
+                const row = evt.eventArgs[0]?.getSelection()[0]?.row;
+                if (!row) return;
+                const region = allCountries[row + 1];
                 if (region?.[1] === null) return;
-console.log(allCountries, region, stats);
                 selectCountryHandler(region);
               },
             },
           ]}
           onLoad={onMapLoadHandler}
           chartType="GeoChart"
-          width="99%"
-          height="411px"
           data={allCountries}
+          height={`${fitMapHeight}px`}
           options={{
             ...options,
             colorAxis: {

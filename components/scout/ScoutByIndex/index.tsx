@@ -46,6 +46,7 @@ export default function ScoutByIndex() {
     clearFilterData,
     vehicleFuelTypes,
     showBackdrop,
+    flags,
   } = useStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
@@ -83,9 +84,13 @@ export default function ScoutByIndex() {
      return () => {
         scrollable.removeEventListener("scroll", handleScroll);
      };
-  }, [thisElementRef, suppliers])
+  }, [thisElementRef, suppliers]);
 
   useEffect(() => {
+    if (!flags.q) {
+       searchString.current = '';
+       return;
+    }
     searchString.current = filterData.q;
   }, [filterData]);
 

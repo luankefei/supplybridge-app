@@ -8,12 +8,14 @@ const DescContainer = styled.div`
   user-select: none;
 `;
 const DescTitle = styled.div`
+  font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 500;
   font-size: 38px;
   line-height: 46px;
 `;
 const DescSubtitle = styled.div`
+  font-family: 'Ubuntu';
   font-style: normal;
   font-weight: 500;
   font-size: 24px;

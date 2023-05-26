@@ -6,6 +6,7 @@ import {
    SummaryCategoryIcon,
    SummaryTitleColumn,
    SummaryTitle,
+   SummaryL3Title,
    SummaryColumn,
    SummarySpaceColumn,
    SummaryLabel,
@@ -16,7 +17,7 @@ import {
    SummaryCategoriesContainer,
 } from "components/scout/Summary.styled";
 
-import demoData from "components/scout/summaryCategoryData";
+import demoData, { L2L3tree } from "components/scout/summaryCategoryData";
 
 function demoRandomPick(obj: any): any {
    if (!obj) return null;
@@ -35,13 +36,53 @@ function selectNearestL2(L2: string[], q: string) {
    return L2[i];
 }
 
-function determineSummary(filterData: any, suppliers: any) {
+function doScore(q: any, q0: any) {
+   if (q.length < 3) return 0;
+   if (!q || !q0) return 0;
+   q = q.toLowerCase();
+   q0 = q0.toLowerCase();
+   if (q0.indexOf(q) >= 0) {
+      return q.length / q0.length;
+   }
+   return 0;
+}
+
+function determineSummary(filterData: any, suppliers: any): any {
    const summary: any = {};
    // TODO: determine summary title by filterData.q
    summary.lastQ = filterData.q;
-   const L2 = Object.keys(demoData.L2L3);
-   summary.title = selectNearestL2(L2, summary.lastQ);
+
+   let nearest = [null, null, 0], score = 0;
+   Object.keys(L2L3tree).forEach((key: string) => {
+      const L2 = L2L3tree[key];
+      const L3s = L2L3tree[key].L3;
+      const s00 = doScore(summary.lastQ, L2.en);
+      const s01 = doScore(summary.lastQ, L2.de);
+      if (s00 > score) {
+         nearest[0] = L2.en;
+         nearest[1] = null;
+         score = s00;
+      }
+      if (s01 > score) {
+         nearest[0] = L2.en;
+         nearest[1] = null;
+         score = s01;
+      }
+      Object.keys(L3s).forEach((subkey: string) => {
+         const L3 = L3s[subkey];
+         const s1 = doScore(summary.lastQ, L3.en);
+         if (s1 > score) {
+            nearest[0] = L2.en;
+            nearest[1] = L3.en;
+            score = s1;
+         }
+      });
+   });
+   nearest[2] = score;
+   summary.title = nearest[0];
    summary.L2selected = summary.title;
+   summary.L3selected = nearest[1];
+
    if (summary.title) {
       summary.categories = demoData.L2L3[summary.title];
    } else {
@@ -72,12 +113,26 @@ const Suppliers = (props: any) => {
 };
 
 const SummaryCategories = (props: any) => {
+   const { flags, setFilterData } = useStore();
    const { L2, L2selected, L3, L3Selected } = props;
    if (!L2?.length) return null;
+
+   const onL2Click = (L2: string) => {
+      flags.q = L2;
+      setFilterData({ q: L2 });
+   }
+
    return (
       <SummaryCategoriesContainer>
          <div className="cat-L2-list">
-            { L2.map((name: string, i: number) => <span className={`cat-L2 ${name === L2selected?'active':''}`} key={i}>{name}</span>) }
+            { L2.map((name: string, i: number) => (
+                 <span
+                    className={`cat-L2 ${name === L2selected?'active':''}`}
+                    onClick={() => onL2Click(name)}
+                    key={i}>
+                 {name}
+                 </span>
+              )) }
             <span className="cat-L2 cat-L2-more">More Categories</span>
          </div>
          { (!L3?.length) ? null : (<>
@@ -93,16 +148,7 @@ const SummaryCategories = (props: any) => {
 }
 
 export default function Summary() {
-  const {
-    suppliers,
-    page,
-    setPage,
-    count,
-    setFilterData,
-    filterData,
-    clearFilterData,
-    vehicleFuelTypes,
-  } = useStore();
+  const { suppliers, filterData } = useStore();
 
   const [summary, setSummary] = useState(determineSummary(filterData, suppliers) || {});
   useEffect(() => {
@@ -115,14 +161,15 @@ export default function Summary() {
   return (
      <>
      <SummaryContainer><div>
-        <SummaryColumn><SummaryCategoryIcon /></SummaryColumn>
+        <SummaryColumn><SummaryCategoryIcon src={`https://stsupplybridgeprod.blob.core.windows.net/images/L2/${summary.title.split(/\s+/).join('')}.jpeg`} /></SummaryColumn>
         <SummaryTitleColumn>
            <SummaryLabel></SummaryLabel>
            <SummaryTitle>{summary.title}</SummaryTitle>
+           {summary.L3selected? (<SummaryL3Title>{summary.L3selected}</SummaryL3Title>) : null}
         </SummaryTitleColumn>
         <SummarySpaceColumn space={70}>
         {
-           summary?.categories ? (<><SummaryLabel>Top Suppliers</SummaryLabel>
+           summary?.L2selected ? (<><SummaryLabel>Top Suppliers</SummaryLabel>
            <SummaryTopList>
               <SummaryTopListOne>
                  <Suppliers data={summary.suppliersA}/>

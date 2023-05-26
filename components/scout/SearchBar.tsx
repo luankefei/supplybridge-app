@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
 import useStore from "hooks/useStore";
@@ -8,6 +8,8 @@ import TextField from "components/TextField";
 import { Button, MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
+
+import { L2L3tree } from "components/scout/summaryCategoryData";
 
 interface Props {
   onSearch: () => void;
@@ -59,38 +61,68 @@ const langWordMap: any = {
       Keywords: "Keywords",
       Companies: "Companies",
       Search: "Search",
+      Placeholder: {
+         Keywords: "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
+         Companies: "Such as Lieferanten",
+      },
    },
    DE: {
       Keywords: "Schlüsselwörtern",
       Companies: "Lieferanten",
       Search: "Suchen",
+      Placeholder: {
+         Keywords: "Suchen Sie nach Komponenten oder Schlüsselwörtern (z.B. Reifen, NMC-Batterie, Recycling...)",
+         Companies: "Suche nach Lieferanten",
+      },
    },
 };
 
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchItem, setSearchItem] = useState("");
+  const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState("Keywords");
   const [searchLang, setSearchLang] = useState("EN");
-  const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
+  const {
+     filterData,
+     setSelectedCountries,
+     setSelectedRegions,
+     setFilterData, setSuppliers, setShowBackdrop, flags
+  } = useStore();
 
   const handleSearchTypeChange = (evt: SelectChangeEvent) => {
-     setSearchType(evt.target.value as string);
+     const val: string = evt.target.value as string;
+     flags.type = val;
+     setSearchType(val);
   }
 
   const handleSearchLangChange = (evt: SelectChangeEvent) => {
-     setSearchLang((evt.target as any).checked ? "DE" : "EN");
+     const val: string = (evt.target as any).checked ? "DE" : "EN";
+     flags.lang = val;
+     setSearchLang(val);
   }
+
+  const doTransform = () => {
+    flags.q = searchItemDisplay;
+    let transformed = searchItem;
+    const keys = Object.keys(L2L3tree);
+    const possible = keys.map((L2: string) => L2L3tree[L2].de);
+    const i = possible.indexOf(transformed.toLowerCase());
+    if (i >= 0) {
+       transformed = keys[i];
+    }
+    return transformed;
+  };
 
   const onClickSearch = () => {
     clearFilters();
-    setFilterData({
-      q: searchItem,
-    });
+    setFilterData({ q: doTransform() });
     onSearch();
   };
 
   const resetFilters = () => {
     setSearchItem("");
+    setSearchItemDisplay("");
+    flags.q = "";
     clearFilters();
     setSuppliers(null, true);
     setShowBackdrop(false);
@@ -104,15 +136,28 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
       subRegions: [],
       vehicleFuelTypes: [],
     });
+    setSelectedCountries([]);
+    setSelectedRegions([]);
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
-      setFilterData({
-        q: searchItem,
-      });
+      clearFilters();
+      setFilterData({ q: doTransform() });
       onSearch();
     }
   };
+
+  const cbOnSearchChange = useCallback((evt: any) => {
+     const value: string = evt.target.value;
+     let transformed = value;
+     if (value === 'achsenkomponenten') transformed = 'axle components';
+     setSearchItem(transformed);
+     setSearchItemDisplay(value);
+  }, [setSearchItem, setSearchItemDisplay]);
+
+  useEffect(() => {
+     setSearchItemDisplay(flags.q);
+  }, [filterData]);
 
   return (
     <Container>
@@ -137,11 +182,11 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           )}
 
           <StyledInput
-            onChange={(e: any) => setSearchItem(e.target.value)}
+            onChange={cbOnSearchChange}
             name="search"
-            placeholder="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+            placeholder={langWordMap[searchLang]?.Placeholder?.[searchType]}
             onKeyPress={onKeyPressHandler}
-            value={searchItem}
+            value={searchItemDisplay}
             type="text"
           />
         </InputContainer>
@@ -218,14 +263,15 @@ export const SearchBarForFilter = ({
 };
 
 const MainContainer = styled.div`
-  width: calc(100%);
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Container = styled.div`
-  width: 75%;
+  width: 100%;
+  padding: 0 30px;
   margin-top: 22px;
   display: flex;
   justify-content: end;
@@ -302,7 +348,7 @@ const SearchButtonWrapper = styled.div`
 `;
 
 const SearchButton = styled.button`
-  width: 196px;
+  min-width: 120px;
   height: 46px;
   border: none;
   border-radius: 32px;
@@ -332,7 +378,7 @@ const InputContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 46px;
-  width: 80%;
+  width: 100%;
 
   padding-left: 16px;
   border-radius: 50px;
@@ -359,6 +405,7 @@ const InputContainer = styled.div`
 const SearchTypeSelect = styled(Select)<any>`
   min-width: 100px;
   max-width: 160px;
+  width: 160px;
   border: none;
 
   & .MuiSelect-select {

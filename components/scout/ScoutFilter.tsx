@@ -65,11 +65,11 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
       key: "regions",
       items: regions,
     },
-    {
+    /* REL202306 {
       label: "Sub Regions",
       key: "subRegions",
       items: subRegions,
-    },
+    }, */
   ];
 
   useEffect(() => {
@@ -361,7 +361,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
 };
 const Container = styled.div`
   width: 100%;
-  padding: 0 20px;
+  padding: 0 30px;
 `;
 const FilterContainer = styled.div`
   margin-top: 24px;
