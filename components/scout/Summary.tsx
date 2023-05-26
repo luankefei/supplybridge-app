@@ -161,7 +161,9 @@ export default function Summary() {
   return (
      <>
      <SummaryContainer><div>
-        <SummaryColumn><SummaryCategoryIcon src={`https://stsupplybridgeprod.blob.core.windows.net/images/L2/${summary.title.split(/\s+/).join('')}.jpeg`} /></SummaryColumn>
+        <SummaryColumn><SummaryCategoryIcon src={`https://stsupplybridgeprod.blob.core.windows.net/images/L2/${
+           summary.title.split(/[\s/]+/).join('')
+        }.jpeg`} /></SummaryColumn>
         <SummaryTitleColumn>
            <SummaryLabel></SummaryLabel>
            <SummaryTitle>{summary.title}</SummaryTitle>

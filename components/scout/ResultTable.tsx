@@ -136,7 +136,7 @@ export default function BasicTable() {
      name: x.name,
      longName: x.longName,
      headquarter: x.headquarter,
-     coreCompetence: (x.products || []).map((z: any) => z.coreCompetency.name).filter((z: any) => !!z).join(', '),
+     coreCompetence: (x.products || []).map((z: any) => z?.coreCompetency?.name).filter((z: any) => !!z).join(', '),
      isInnovation: x.isInnovation,
   }));
   return !data?.length ? null : (
