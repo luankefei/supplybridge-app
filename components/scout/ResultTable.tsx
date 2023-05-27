@@ -136,6 +136,7 @@ export default function BasicTable() {
      name: x.name,
      longName: x.longName,
      headquarter: x.headquarter,
+     supplierCategory: x.supplierCategory?.lvlThreeEnglishName || '',
      coreCompetence: (x.products || []).map((z: any) => z?.coreCompetency?.name).filter((z: any) => !!z).join(', '),
      isInnovation: x.isInnovation,
   }));
@@ -146,7 +147,7 @@ export default function BasicTable() {
           <ResultTableHeadRow>
             <ResultHeadCell sx={{width: '50px'}}>&nbsp;</ResultHeadCell>
             <ResultHeadCell>Organization</ResultHeadCell>
-            {/* REL202306 <ResultHeadCell>HQ Location</ResultHeadCell>*/}
+            <ResultHeadCell>HQ Location</ResultHeadCell>
             <ResultHeadCell>Global Footprint</ResultHeadCell>
             <ResultHeadCell>Category</ResultHeadCell>
           </ResultTableHeadRow>
@@ -160,12 +161,12 @@ export default function BasicTable() {
                  <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
                  <BadgeList data={row} />
               </div></ResultTableCellWithImg>
-              {/* REL202306 <ResultTableCellWithImg><div>
+              <ResultTableCellWithImg><div>
                  <NullableImg url={row.headquarter?.code ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg` : ''} />
                  <div>{row.headquarter?.name}</div>
-              </div></ResultTableCellWithImg> */}
+              </div></ResultTableCellWithImg>
               <TableCell>{regionMap[row.headquarter?.regionId] || ''}</TableCell>
-              <CompetenceCell><a title={row.coreCompetence}>{row.coreCompetence}</a></CompetenceCell>
+              <CompetenceCell><a title={row.supplierCategory}>{row.supplierCategory}</a></CompetenceCell>
             </ResultTableRow>
           ))}
         </TableBody>
