@@ -56,8 +56,8 @@ function determineSummary(filterData: any, suppliers: any): any {
    Object.keys(L2L3tree).forEach((key: string) => {
       const L2 = L2L3tree[key];
       const L3s = L2L3tree[key].L3;
-      const s00 = doScore(summary.lastQ, L2.en);
-      const s01 = doScore(summary.lastQ, L2.de);
+      const s00 = doScore(summary.lastQ, L2.en) + 0.03;
+      const s01 = doScore(summary.lastQ, L2.de) + 0.03;
       if (s00 > score) {
          nearest[0] = L2.en;
          nearest[1] = null;
@@ -68,14 +68,17 @@ function determineSummary(filterData: any, suppliers: any): any {
          nearest[1] = null;
          score = s01;
       }
+if (s00 > 0.9) console.log('L2', L2.en, s00);
+if (s01 > 0.9) console.log('L2', L2.de, s01);
       Object.keys(L3s).forEach((subkey: string) => {
          const L3 = L3s[subkey];
-         const s1 = doScore(summary.lastQ, L3.en);
+         const s1 = doScore(summary.lastQ, L3.en) + 0.02;
          if (s1 > score) {
             nearest[0] = L2.en;
             nearest[1] = L3.en;
             score = s1;
          }
+if (s1 > 0.9) console.log('L3', L2.en, L3.en, s1);
       });
    });
    nearest[2] = score;
