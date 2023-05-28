@@ -104,12 +104,14 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const doTransform = () => {
     flags.q = searchItemDisplay;
     let transformed = searchItem;
+/*
     const keys = Object.keys(L2L3tree);
     const possible = keys.map((L2: string) => L2L3tree[L2].de);
     const i = possible.indexOf(transformed.toLowerCase());
     if (i >= 0) {
        transformed = keys[i];
     }
+*/
     return transformed;
   };
 
@@ -270,6 +272,7 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
+  max-width: 800px;
   width: 100%;
   padding: 0 30px;
   margin-top: 22px;
