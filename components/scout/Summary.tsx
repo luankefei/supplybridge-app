@@ -17,7 +17,10 @@ import {
    SummaryCategoriesContainer,
 } from "components/scout/Summary.styled";
 
-import demoData, { L2L3tree } from "components/scout/summaryCategoryData";
+import demoData, {
+   L2L3tree,
+   L2top, L2topLogo,
+} from "components/scout/summaryCategoryData";
 
 function demoRandomPick(obj: any): any {
    if (!obj) return null;
@@ -93,7 +96,15 @@ if (s1 > 0.9) console.log('L3', L2.en, L3.en, s1);
       summary.categories = null;
    }
    // TODO: rank suppliers by revenue; currently pick the first 10
-   const selectedSuppliers = suppliers.slice(0, 9);
+   let selectedSuppliers;
+   if (summary.title) {
+      const matchedtop = summary.title.toLowerCase().split(/[\s/\-]+/).join(' ');
+      selectedSuppliers = L2top.top[matchedtop]?.map((z: any) => ({
+         logo: L2topLogo[L2top.cs[z]] ? `https://cdn-stage.supplybridge.com/images/logos/${L2topLogo[L2top.cs[z]]}` : null,
+         name: L2top.cs[z],
+      }));
+   }
+   if (!selectedSuppliers) selectedSuppliers = suppliers.slice(0, 9);
    summary.suppliersA = selectedSuppliers.slice(0, 3);
    summary.suppliersB = selectedSuppliers.slice(3, 6);
    summary.suppliersC = selectedSuppliers.slice(6, 9);
