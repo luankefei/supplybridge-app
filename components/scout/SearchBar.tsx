@@ -63,7 +63,7 @@ const langWordMap: any = {
       Search: "Search",
       Placeholder: {
          Keywords: "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
-         Companies: "Such as Lieferanten",
+         Companies: "Search for Companies",
       },
    },
    DE: {
@@ -272,7 +272,7 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 800px;
+  max-width: 1040px;
   width: 100%;
   padding: 0 30px;
   margin-top: 22px;

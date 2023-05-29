@@ -167,6 +167,7 @@ export default function SideBarMenu() {
               );
             })}
           </Section>
+          {/* REL202306
           <Section >
             <MenuTitle>MARKET DATA</MenuTitle>
             {marketData.map((item: any, index: any) => {
@@ -179,7 +180,6 @@ export default function SideBarMenu() {
                 </Link>
               );
             })}
-            {/* REL202306 */}
             <Link href={'#'}>
               <MenuWrapper active={false} passiveIcon={true}>
                 <MenuIcon src={`/menu/transport.svg`} active={false} passiveIcon={true} />
@@ -187,6 +187,7 @@ export default function SideBarMenu() {
               </MenuWrapper>
             </Link>
           </Section>
+          */}
         </TopSection>
         <Section>
           <AccountContainer>
