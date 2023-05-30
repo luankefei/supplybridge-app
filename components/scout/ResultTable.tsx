@@ -140,7 +140,7 @@ const Badge = (props: any) => <Icon src={props?.icon} width={20} height={20} hov
 const BadgeList = (props: any) => {
    const { data } = props;
    return (<BadgeListContainer>
-      <BadgeContainer><Badge icon={"verified"} label={"Verified Supplier"} /></BadgeContainer>
+      {/*<BadgeContainer><Badge icon={"verified"} label={"Verified Supplier"} /></BadgeContainer>*/}
       {data.isInnovation ? (<BadgeContainer color={"#eb2f96"}><Badge icon={"innovation"} label={"innovation"} /></BadgeContainer>) : null }
    </BadgeListContainer>);
 }
