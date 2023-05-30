@@ -107,9 +107,9 @@ if (s1 > 0.9) console.log('L3', L2.en, L3.en, s1);
       }));
    }
    if (!selectedSuppliers) selectedSuppliers = suppliers.slice(0, 9);
-   summary.suppliersA = selectedSuppliers.slice(0, 3);
-   summary.suppliersB = selectedSuppliers.slice(3, 6);
-   summary.suppliersC = selectedSuppliers.slice(6, 9);
+   summary.suppliersA = selectedSuppliers.slice(0, 5);
+   //summary.suppliersB = selectedSuppliers.slice(3, 6);
+   //summary.suppliersC = selectedSuppliers.slice(6, 9);
    return summary;
 }
 
@@ -138,7 +138,7 @@ const SummaryCategories = (props: any) => {
       setFilterData({ q: L2 });
    }
 
-   function check(name, name0) {
+   function check(name: any, name0: any) {
       if (name === 'Steering System / Steering Gear' && name0 === 'Steering Gear') return true;
       if (name === 'Battery Cell Module' && name0 === 'HV Battery') return true;
       return name === name0;
@@ -157,13 +157,13 @@ const SummaryCategories = (props: any) => {
               )) }
             <span className="cat-L2 cat-L2-more">More Categories</span>
          </div>
-         { (!L3?.length) ? null : (<>
+         {/* (!L3?.length) ? null : (<>
             <div className="cat-L3-title">Categories</div>
             <div className="cat-L3-list">
                { L3.map((name: string, i: number) => <span className="cat-L3" key={i}>{name}</span>) }
             </div>
          </>)
-         }
+         */}
       </SummaryCategoriesContainer>
    );
    // TODO: L3 -> object (innovation -> icon) displayed before L3 name
@@ -191,19 +191,29 @@ export default function Summary() {
            <SummaryTitle>{summary.title}</SummaryTitle>
            {summary.L3selected? (<SummaryL3Title>{summary.L3selected}</SummaryL3Title>) : null}
         </SummaryTitleColumn>
-        <SummarySpaceColumn space={70}>
+        {summary?.categories ? (
+        <SummarySpaceColumn space={20}>
+           <SummaryLabel>Categories</SummaryLabel>
+           {summary.categories.map((name: string, i: number) => (
+              <div key={i}>{name}</div>
+           ))}
+        </SummarySpaceColumn> ) : null
+        }
+        <SummarySpaceColumn space={50}>
         {
            summary?.L2selected ? (<><SummaryLabel>Top Suppliers</SummaryLabel>
            <SummaryTopList>
               <SummaryTopListOne>
                  <Suppliers data={summary.suppliersA}/>
               </SummaryTopListOne>
+{/*
               <SummaryTopListOne>
                  <Suppliers data={summary.suppliersB}/>
               </SummaryTopListOne>
               <SummaryTopListOne>
                  <Suppliers data={summary.suppliersC}/>
               </SummaryTopListOne>
+*/}
            </SummaryTopList></>) : null
         }
         </SummarySpaceColumn>

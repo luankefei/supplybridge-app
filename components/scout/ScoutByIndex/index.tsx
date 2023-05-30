@@ -187,8 +187,8 @@ export default function ScoutByIndex() {
           <ContentsWrapper>
             <GeoCharts />
             {flags.selected ? <ResultSelected selected={flags.selected} /> : null}
-            {isSuppliersNotEmpty && <Summary />}
             {isSuppliersNotEmpty && <Filters totalCount={count} />}
+            {(isSuppliersNotEmpty && !flags.selected) && <Summary />}
             <ScoutFilter isQuickSearch={false} />
 
             <ResultTable />

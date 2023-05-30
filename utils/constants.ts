@@ -288,7 +288,8 @@ export const Constants = {
 
 export enum ScoutSwitchType {
   index = "Index",
-  quickBridge = "QuickBridge"
+  quickBridge = "QuickBridge",
+  bidder = "Bidder"
 }
 
 export enum QuickBridgeTabType {

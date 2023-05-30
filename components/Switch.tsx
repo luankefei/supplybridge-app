@@ -20,6 +20,7 @@ export default function Switch() {
   const clearFilter = () => {
     setResult(false);
     setTab(0, QuickBridgeTabType.vehile);
+    setFilter("q", '');
     setFilter("vehicleTypes", null);
     setFilter("vehicleBrands", null);
     setFilter("vehicleModels", null);
@@ -64,12 +65,19 @@ export default function Switch() {
           >
             Scout by QuickBridge
           </ByQuickBridge>
+          <ByBidder
+            selected={selected}
+            onClick={() => handleSwitchSelected(ScoutSwitchType.bidder)}>
+            Bidder
+          </ByBidder>
         </Switches>
       </SwitchContainer>
       {selected === ScoutSwitchType.index ? (
         <ScoutByIndex />
       ) : (
+       selected === ScoutSwitchType.quickBridge ? (
         <ScoutByQuickBridge />
+      ) : null
       )}
     </Container>
   );
@@ -92,7 +100,8 @@ const SwitchContainer = styled.div`
 `;
 
 const Switches = styled.div`
-  width: 348px;
+  //width: 348px;
+  width: 522px;
   height: 56px;
   background: #f9fafb;
   border: 1px solid #d1d5db;
@@ -105,7 +114,7 @@ const Switches = styled.div`
 
 const Background = styled.div<any>`
   left: ${(props) =>
-    props.selected === ScoutSwitchType.index ? "5px" : "169px"};
+    props.selected === ScoutSwitchType.index ? "5px" : (props.selected === ScoutSwitchType.quickBridge ? "169px" : "345px")};
   top: 5;
   position: absolute;
   width: 174px;
@@ -141,6 +150,22 @@ const ByQuickBridge = styled.span<any>`
   text-align: center;
   color: ${(props) =>
     props.selected === ScoutSwitchType.quickBridge ? "#fff" : "#808080"};
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  transition: 0.5s;
+`;
+
+const ByBidder = styled.span<any>`
+  width: 50%;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: ${(props) =>
+    props.selected === ScoutSwitchType.bidder ? "#fff" : "#808080"};
   cursor: pointer;
   background: transparent;
   position: relative;

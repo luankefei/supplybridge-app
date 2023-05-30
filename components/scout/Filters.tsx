@@ -13,9 +13,9 @@ const Filters = ({ totalCount }: Props) => {
     <FilterContainer>
       <StaticInformation>
         <ListingCount>
-          Listing {totalCount} Suppliers Matching Your Criteria
+          Listing <strong>{totalCount}</strong> Suppliers Matching Your Criteria
         </ListingCount>
-        <SubText>Use Filters to Narrow Down Results</SubText>
+        {/*<SubText>Use Filters to Narrow Down Results</SubText>*/}
       </StaticInformation>
       {/*
       <OrderContainer>
