@@ -34,6 +34,22 @@ const ResultTableContainer = styled('div')`
    & { background-color: transparent; }
    width: 100%;
    margin: 0 20px;
+
+   .blur {
+      filter: blur(3px);
+      user-select: none;
+   }
+   .blur-lock:after {
+      background: url(/icons/lock.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 22px;
+      height: 22px;
+      position: absolute;
+      content: "";
+      left: calc(100% + 12px);
+      top: 12px;
+   }
 `;
 
 const ResultTitleCell = styled('div')`
@@ -139,6 +155,7 @@ export default function BasicTable() {
      supplierCategory: x.supplierCategory?.lvlThreeEnglishName || '',
      coreCompetence: (x.products || []).map((z: any) => z?.coreCompetency?.name).filter((z: any) => !!z).join(', '),
      isInnovation: x.isInnovation,
+     isBlur: !x.headquarter?.name,
   }));
   return !data?.length ? null : (
     <Result><ResultTableContainer>
@@ -156,17 +173,17 @@ export default function BasicTable() {
           {data.map((row: any, i: number) => (
             <ResultTableRow key={i}>
               <IdCell>{i+1}</IdCell>
-              <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}}><div>
+              <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}} className={row.isBlur?'blur-lock':''} ><div>
                  <NullableImg url={row.logo} />
                  <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
                  <BadgeList data={row} />
               </div></ResultTableCellWithImg>
-              <ResultTableCellWithImg><div>
+              <ResultTableCellWithImg className={row.isBlur?'blur':''}><div>
                  <NullableImg url={row.headquarter?.code ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg` : ''} />
-                 <div>{row.headquarter?.name}</div>
+                 <div>{row.headquarter?.name || 'hidden'}</div>
               </div></ResultTableCellWithImg>
-              <TableCell>{regionMap[row.headquarter?.regionId] || ''}</TableCell>
-              <CompetenceCell><a title={row.supplierCategory}>{row.supplierCategory}</a></CompetenceCell>
+              <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
+              <CompetenceCell className={row.isBlur?'blur':''}><a title={row.supplierCategory || row.coreCompetence}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
             </ResultTableRow>
           ))}
         </TableBody>
