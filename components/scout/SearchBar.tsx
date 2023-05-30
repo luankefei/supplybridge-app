@@ -78,16 +78,16 @@ const langWordMap: any = {
 };
 
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
-  const [searchItem, setSearchItem] = useState("");
-  const [searchItemDisplay, setSearchItemDisplay] = useState("");
-  const [searchType, setSearchType] = useState("Keywords");
-  const [searchLang, setSearchLang] = useState("EN");
   const {
      filterData,
      setSelectedCountries,
      setSelectedRegions,
      setFilterData, setSuppliers, setShowBackdrop, flags
   } = useStore();
+  const [searchItem, setSearchItem] = useState("");
+  const [searchItemDisplay, setSearchItemDisplay] = useState("");
+  const [searchType, setSearchType] = useState(flags.type || "Keywords");
+  const [searchLang, setSearchLang] = useState(flags.lang || "EN");
 
   const handleSearchTypeChange = (evt: SelectChangeEvent) => {
      const val: string = evt.target.value as string;

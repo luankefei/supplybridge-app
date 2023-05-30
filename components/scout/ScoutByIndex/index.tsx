@@ -153,6 +153,7 @@ export default function ScoutByIndex() {
      flags.selected = null;
      const q = flags.back;
      flags.back = '';
+     flags.type = 'Companies';
      clearFilterData();
      setFilterData({ q });
   };
