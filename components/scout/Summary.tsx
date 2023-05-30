@@ -85,8 +85,10 @@ if (s1 > 0.9) console.log('L3', L2.en, L3.en, s1);
       });
    });
    nearest[2] = score;
+   if (score >= 0.5) {
    summary.title = nearest[0];
    summary.L2selected = summary.title;
+   }
    summary.L3selected = nearest[1];
 
    if (summary.title) {
