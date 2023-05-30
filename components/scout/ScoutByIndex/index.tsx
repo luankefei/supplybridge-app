@@ -185,7 +185,7 @@ export default function ScoutByIndex() {
           <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
           <ContentsWrapper>
             <GeoCharts />
-            {flags.selected ? <ResultSelected selected={flags.selected} /> : null};
+            {flags.selected ? <ResultSelected selected={flags.selected} /> : null}
             {isSuppliersNotEmpty && <Summary />}
             {isSuppliersNotEmpty && <Filters totalCount={count} />}
             <ScoutFilter isQuickSearch={false} />

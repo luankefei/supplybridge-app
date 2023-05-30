@@ -78,6 +78,7 @@ const NullabeImgContainer = styled.div<any>`
    width: ${(props) => props.size || '24px'};
    height: ${(props) => props.size || '24px'};
    border-radius: 50%;
+   overflow: hidden;
    > img {
       width: 100%;
    }
