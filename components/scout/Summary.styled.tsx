@@ -88,7 +88,7 @@ export const NullableImg = (props: any) => {
    const { url } = props;
    return (
       <NullabeImgContainer>
-      {url ? <img src={url}/> : null}
+      {url ? <img src={url} alt=""/> : null}
       </NullabeImgContainer>
    );
 };

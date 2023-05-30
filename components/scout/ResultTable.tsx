@@ -165,7 +165,7 @@ export default function BasicTable() {
   const { suppliers, flags, setFilterData } = useStore();
   const isSearchForCompanies = flags.type === 'Companies' && !flags.selected;
   const data = suppliers?.map((x: any) => ({
-     logo: x.logo,
+     logo: x.logo || `https://cdn.supplybridge.com/images/companylogos/${x.id}.jpeg`,
      name: x.name,
      longName: x.longName,
      headquarter: x.headquarter,
