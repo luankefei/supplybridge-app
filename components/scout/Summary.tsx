@@ -138,12 +138,18 @@ const SummaryCategories = (props: any) => {
       setFilterData({ q: L2 });
    }
 
+   function check(name, name0) {
+      if (name === 'Steering System / Steering Gear' && name0 === 'Steering Gear') return true;
+      if (name === 'Battery Cell Module' && name0 === 'HV Battery') return true;
+      return name === name0;
+   }
+
    return (
       <SummaryCategoriesContainer>
          <div className="cat-L2-list">
             { L2.map((name: string, i: number) => (
                  <span
-                    className={`cat-L2 ${name === L2selected?'active':''}`}
+                    className={`cat-L2 ${check(L2selected, name)?'active':''}`}
                     onClick={() => onL2Click(name)}
                     key={i}>
                  {name}
