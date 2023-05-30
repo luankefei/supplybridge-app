@@ -208,7 +208,7 @@ export default function BasicTable() {
                  <div>{row.headquarter?.name || 'hidden'}</div>
               </div></ResultTableCellWithImg>
               <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
-              <CompetenceCell className={row.isBlur?'blur':''}><a title={row.supplierCategory || row.coreCompetence}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
+              <CompetenceCell className={row.isBlur?'blur':''}><a title={row.isBlur ? '' : (row.supplierCategory || row.coreCompetence)}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
               {isSearchForCompanies ? (<TableCell><NextButton onClick={() => onResultClick(row)} title="Show Similar">&gt;</NextButton></TableCell>) : null}
             </ResultTableRow>
           ))}
