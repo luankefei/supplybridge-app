@@ -22,6 +22,11 @@ const Result = styled('div')`
    display: flex;
    width: 100%;
 `;
+const ResultSelectedContainer = styled('div')`
+   margin-top: 30px;
+   display: flex;
+   width: 100%;
+`;
 
 const ResultTable = styled('table')`
    width: 100%;
@@ -145,8 +150,20 @@ const BadgeList = (props: any) => {
    </BadgeListContainer>);
 }
 
+const NextButton = styled('button')`
+   background-color: white;
+   border: 1px solid #ccc;
+   border-radius: 50%;
+   color: #08979c;
+   width: 28px;
+   height: 28px;
+
+   &:hover { opacity: 0.5; }
+`;
+
 export default function BasicTable() {
-  const { suppliers } = useStore();
+  const { suppliers, flags, setFilterData } = useStore();
+  const isSearchForCompanies = flags.type === 'Companies' && !flags.selected;
   const data = suppliers?.map((x: any) => ({
      logo: x.logo,
      name: x.name,
@@ -157,6 +174,13 @@ export default function BasicTable() {
      isInnovation: x.isInnovation,
      isBlur: !x.headquarter?.name,
   }));
+  const onResultClick = (row: any) => {
+     const q = row.supplierCategory || row.coreCompetence;
+     if (!q) return;
+     flags.selected = row;
+     flags.back = flags.q;
+     setFilterData({ q: q.split(',')[0] });
+  };
   return !data?.length ? null : (
     <Result><ResultTableContainer>
       <ResultTable aria-label="simple table">
@@ -167,6 +191,7 @@ export default function BasicTable() {
             <ResultHeadCell>HQ Location</ResultHeadCell>
             <ResultHeadCell>Global Footprint</ResultHeadCell>
             <ResultHeadCell>Category</ResultHeadCell>
+            {isSearchForCompanies ? (<ResultHeadCell>&nbsp;</ResultHeadCell>) : null}
           </ResultTableHeadRow>
         </TableHead>
         <TableBody>
@@ -184,6 +209,7 @@ export default function BasicTable() {
               </div></ResultTableCellWithImg>
               <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
               <CompetenceCell className={row.isBlur?'blur':''}><a title={row.supplierCategory || row.coreCompetence}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
+              {isSearchForCompanies ? (<TableCell><NextButton onClick={() => onResultClick(row)} title="Show Similar">&gt;</NextButton></TableCell>) : null}
             </ResultTableRow>
           ))}
         </TableBody>
@@ -191,3 +217,30 @@ export default function BasicTable() {
     </ResultTableContainer></Result>
   );
 }
+
+export const ResultSelected = (props: any) => {
+   const row: any = props?.selected;
+   const isBlur = !row.headquarter?.name;
+   return (
+      <ResultSelectedContainer><ResultTableContainer>
+        <ResultTable aria-label="simple table">
+          <TableBody>
+            <ResultTableRow>
+              <IdCell>&nbsp;</IdCell>
+              <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}} className={row.isBlur?'blur-lock':''} ><div>
+                 <NullableImg url={row.logo} />
+                 <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
+                 <BadgeList data={row} />
+              </div></ResultTableCellWithImg>
+              <ResultTableCellWithImg className={row.isBlur?'blur':''}><div>
+                 <NullableImg url={row.headquarter?.code ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg` : ''} />
+                 <div>{row.headquarter?.name || 'hidden'}</div>
+              </div></ResultTableCellWithImg>
+              <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
+              <CompetenceCell className={row.isBlur?'blur':''}><a title={row.supplierCategory || row.coreCompetence}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
+            </ResultTableRow>
+          </TableBody>
+        </ResultTable>
+      </ResultTableContainer></ResultSelectedContainer>
+   );
+};

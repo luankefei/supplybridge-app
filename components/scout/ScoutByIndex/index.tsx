@@ -10,7 +10,7 @@ import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 
 import Summary from "components/scout/Summary";
-import ResultTable from "components/scout/ResultTable";
+import ResultTable, { ResultSelected } from "components/scout/ResultTable";
 import GeoCharts from "components/scout/GeoCharts";
 
 const Icon = dynamic(() => import("components/Icon"));
@@ -145,11 +145,26 @@ export default function ScoutByIndex() {
   const clearHandler = () => {
     clearFilterData();
   };
+
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
+
+  const onSelectedBackClick = () => {
+     flags.selected = null;
+     const q = flags.back;
+     flags.back = '';
+     clearFilterData();
+     setFilterData({ q });
+  };
+
   return (
     <ScoutContainer ref={thisElementRef}>
       <MainContainer>
+        {flags.selected ? (
+        <SelectedBackButtonContainer><SelectedBackButton onClick={onSelectedBackClick}>
+           <span>&#x1f860;</span> BACK
+        </SelectedBackButton></SelectedBackButtonContainer>
+        ) : (
         <SearchContainer isrow={isSuppliersNotEmpty}>
           {!isSuppliersNotEmpty && (
             <Title>Global Scouting, for Automotive professionals.</Title>
@@ -165,10 +180,12 @@ export default function ScoutByIndex() {
           </IconContainer>
           <SearchBar2 onSearch={searchHandler} />
         </SearchContainer>
+        )}
         <ContentsContainer>
           <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
           <ContentsWrapper>
             <GeoCharts />
+            {flags.selected ? <ResultSelected selected={flags.selected} /> : null};
             {isSuppliersNotEmpty && <Summary />}
             {isSuppliersNotEmpty && <Filters totalCount={count} />}
             <ScoutFilter isQuickSearch={false} />
@@ -400,4 +417,22 @@ const ContentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const SelectedBackButtonContainer = styled.div`
+   width: 100%;
+   margin-top: 20px;
+`;
+const SelectedBackButton = styled.div`
+   padding: 5px 40px;
+   color: #666;
+   font-weight: bold;
+   cursor: pointer;
+
+   > span {
+      font-size: 25px;
+      vertical-align: middle;
+      display: inline-block;
+      margin-top: -6px;
+   }
 `;

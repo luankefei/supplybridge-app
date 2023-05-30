@@ -65,11 +65,11 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
       key: "regions",
       items: regions,
     },
-    /* REL202306 {
+    {
       label: "Sub Regions",
       key: "subRegions",
       items: subRegions,
-    }, */
+    },
   ];
 
   useEffect(() => {
