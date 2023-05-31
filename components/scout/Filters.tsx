@@ -73,7 +73,9 @@ font-size: 16px;
 line-height: 24px;
 color: ${(props) => props.theme.colors.secondary};
 
-
+> strong {
+   font-size: 24px;
+}
 `;
 
 const SubText = styled.span`

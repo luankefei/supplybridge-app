@@ -79,6 +79,7 @@ const langWordMap: any = {
 
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const {
+     suppliers,
      filterData,
      setSelectedCountries,
      setSelectedRegions,
@@ -88,6 +89,14 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState(flags.type || "Keywords");
   const [searchLang, setSearchLang] = useState(flags.lang || "EN");
+
+  useEffect(() => {
+     // ensure first enter, no last search showing
+     if (!suppliers.length && !searchItem) {
+        flags.q = '';
+        filterData.q = '';
+     }
+  }, [suppliers]);
 
   const handleSearchTypeChange = (evt: SelectChangeEvent) => {
      const val: string = evt.target.value as string;

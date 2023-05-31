@@ -15,6 +15,7 @@ import {
    SummarySupplierContainer,
    SummarySupplierTitle,
    SummaryCategoriesContainer,
+   SummaryL3,
 } from "components/scout/Summary.styled";
 
 import demoData, {
@@ -195,7 +196,7 @@ export default function Summary() {
         <SummarySpaceColumn space={20}>
            <SummaryLabel>Categories</SummaryLabel>
            {summary.categories.map((name: string, i: number) => (
-              <div key={i}>{name}</div>
+              <SummaryL3 key={i}>{name}</SummaryL3>
            ))}
         </SummarySpaceColumn> ) : null
         }
