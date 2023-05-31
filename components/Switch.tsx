@@ -6,6 +6,7 @@ import styled from "styled-components";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 import ScoutByIndex from "./scout/ScoutByIndex";
 import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
+import BidderPart from "./bidder/index";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 
 export default function Switch() {
@@ -68,7 +69,7 @@ export default function Switch() {
           <ByBidder
             selected={selected}
             onClick={() => handleSwitchSelected(ScoutSwitchType.bidder)}>
-            Bidder
+            Bidder List
           </ByBidder>
         </Switches>
       </SwitchContainer>
@@ -77,7 +78,7 @@ export default function Switch() {
       ) : (
        selected === ScoutSwitchType.quickBridge ? (
         <ScoutByQuickBridge />
-      ) : null
+      ) : (<BidderPart />)
       )}
     </Container>
   );

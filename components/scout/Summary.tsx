@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useCallback } from "react";
 import useStore from "hooks/useStore";
 import {
    NullableImg,
@@ -171,7 +171,7 @@ const SummaryCategories = (props: any) => {
 }
 
 export default function Summary() {
-  const { suppliers, filterData } = useStore();
+  const { suppliers, filterData, setFilterData } = useStore();
 
   const [summary, setSummary] = useState(determineSummary(filterData, suppliers) || {});
   useEffect(() => {
@@ -196,7 +196,7 @@ export default function Summary() {
         <SummarySpaceColumn space={20}>
            <SummaryLabel>Categories</SummaryLabel>
            {summary.categories.map((name: string, i: number) => (
-              <SummaryL3 key={i}>{name}</SummaryL3>
+              <SummaryL3 key={i} onClick={() => { console.log('???', name); setFilterData({ q: `${summary.L2selected} ${name}` }); }}>{name}</SummaryL3>
            ))}
         </SummarySpaceColumn> ) : null
         }

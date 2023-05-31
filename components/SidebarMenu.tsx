@@ -24,22 +24,22 @@ export default function SideBarMenu() {
       active: router.asPath.includes("source"),
       passiveIcon: false
     },
-/* REL202306
     {
       icon: "evaluate",
       title: "Evaluate",
       path: "/evaluate",
       active: router.asPath.includes("evaluate"),
-      passiveIcon: false
+      passiveIcon: true
     },
     {
       icon: "sustainability",
       title: "Sustainability",
       path: "/sustainability",
       active: router.asPath.includes("sustainability"),
-      passiveIcon: false,
+      passiveIcon: true,
       extra: "leaf",
     },
+/* REL202306
     {
       icon: "finance",
       title: "Finance",
@@ -114,7 +114,7 @@ export default function SideBarMenu() {
             <Section>
               {solutionsData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
+                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
                     <IconWrapper active={item.active}>
                       <Icon src={`/menu/${item.icon}.svg`} />
                     </IconWrapper>
@@ -125,7 +125,7 @@ export default function SideBarMenu() {
             <Section>
               {marketData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
+                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
                     <IconWrapper active={item.active}>
                       <Icon src={`/menu/${item.icon}.svg`} />
                     </IconWrapper>
@@ -155,7 +155,7 @@ export default function SideBarMenu() {
             <MenuTitle>SOLUTIONS</MenuTitle>
             {solutionsData.map((item: any, index: any) => {
               return (
-                <Link key={index} href={item.passiveIcon ? '#' : `${item?.path}`}>
+                <Link key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
                   <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
                     <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
                     <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
@@ -167,12 +167,11 @@ export default function SideBarMenu() {
               );
             })}
           </Section>
-          {/* REL202306
           <Section >
             <MenuTitle>MARKET DATA</MenuTitle>
             {marketData.map((item: any, index: any) => {
               return (
-                <Link key={index} href={item.passiveIcon ? '#' : `${item?.path}`}>
+                <Link key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
                   <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
                     <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
                     <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
@@ -180,14 +179,13 @@ export default function SideBarMenu() {
                 </Link>
               );
             })}
-            <Link href={'#'}>
+            <Link href={''}>
               <MenuWrapper active={false} passiveIcon={true}>
                 <MenuIcon src={`/menu/transport.svg`} active={false} passiveIcon={true} />
                 <MenuItemTitle active={false} passiveIcon={true}>{"Comming Soon"}</MenuItemTitle>
               </MenuWrapper>
             </Link>
           </Section>
-          */}
         </TopSection>
         <Section>
           <AccountContainer>
