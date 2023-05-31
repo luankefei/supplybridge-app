@@ -155,4 +155,8 @@ export const SummaryCategoriesContainer = styled.div`
 export const SummaryL3 = styled.div`
    margin: 5px 0;
    cursor: pointer;
+   &.active {
+      color: white;
+      background-color: #08979c;
+   }
 `;

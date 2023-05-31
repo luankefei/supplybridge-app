@@ -51,10 +51,16 @@ function doScore(q: any, q0: any) {
    return 0;
 }
 
-function determineSummary(filterData: any, suppliers: any): any {
+function determineSummary(filterData: any, suppliers: any, flags: any): any {
    const summary: any = {};
    // TODO: determine summary title by filterData.q
-   summary.lastQ = filterData.q;
+   if (flags.L2 && filterData.q === `${flags.L2} ${flags.L3 || ''}`) {
+      summary.lastQ = flags.L2;
+   } else {
+      flags.L2 = null;
+      flags.L3 = null;
+      summary.lastQ = filterData.q;
+   }
 
    let nearest = [null, null, 0], score = 0;
    Object.keys(L2L3tree).forEach((key: string) => {
@@ -171,12 +177,12 @@ const SummaryCategories = (props: any) => {
 }
 
 export default function Summary() {
-  const { suppliers, filterData, setFilterData } = useStore();
+  const { suppliers, filterData, setFilterData, flags } = useStore();
 
-  const [summary, setSummary] = useState(determineSummary(filterData, suppliers) || {});
+  const [summary, setSummary] = useState(determineSummary(filterData, suppliers, flags) || {});
   useEffect(() => {
      if (filterData.q === summary.lastQ) return;
-     setSummary(determineSummary(filterData, suppliers));
+     setSummary(determineSummary(filterData, suppliers, flags));
   }, [suppliers]);
 
   if (!summary.L2selected) return null;
@@ -196,7 +202,16 @@ export default function Summary() {
         <SummarySpaceColumn space={20}>
            <SummaryLabel>Categories</SummaryLabel>
            {summary.categories.map((name: string, i: number) => (
-              <SummaryL3 key={i} onClick={() => { console.log('???', name); setFilterData({ q: `${summary.L2selected} ${name}` }); }}>{name}</SummaryL3>
+              <SummaryL3 className={flags.L3 === name ? 'active':''} key={i} onClick={() => {
+                 flags.L2 = summary.L2selected;
+                 if (flags.L3 === name) {
+                    flags.L3 = '';
+                    setFilterData({ q: `${summary.L2selected} ` });
+                 } else {
+                    flags.L3 = name;
+                    setFilterData({ q: `${summary.L2selected} ${name}` });
+                 }
+              }}>{name}</SummaryL3>
            ))}
         </SummarySpaceColumn> ) : null
         }
