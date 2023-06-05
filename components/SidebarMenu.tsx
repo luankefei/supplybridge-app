@@ -73,13 +73,15 @@ export default function SideBarMenu() {
       active: router.asPath.includes("raw-material"),
       passiveIcon: false
     },
+*/
     {
       icon: "supplier-news",
-      title: "Supplier News",
+      title: "News & Insights",
       path: "/supplier-news",
       active: router.asPath.includes("supplier-news"),
-      passiveIcon: false
+      passiveIcon: true
     },
+/*
     {
       icon: "market-insights",
       title: "Market Insights",
@@ -162,6 +164,7 @@ export default function SideBarMenu() {
                     {item.extra && (
                       <ExtraIcon src={`/menu/${item.extra}.svg`} />
                     )}
+                    {item.passiveIcon && (<ComingSoon>COMING SOON</ComingSoon>)}
                   </MenuWrapper>
                 </Link>
               );
@@ -175,16 +178,11 @@ export default function SideBarMenu() {
                   <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
                     <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
                     <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
+                    {item.passiveIcon && (<ComingSoon>COMING SOON</ComingSoon>)}
                   </MenuWrapper>
                 </Link>
               );
             })}
-            <Link href={''}>
-              <MenuWrapper active={false} passiveIcon={true}>
-                <MenuIcon src={`/menu/transport.svg`} active={false} passiveIcon={true} />
-                <MenuItemTitle active={false} passiveIcon={true}>{"Comming Soon"}</MenuItemTitle>
-              </MenuWrapper>
-            </Link>
           </Section>
         </TopSection>
         <Section>
@@ -356,6 +354,18 @@ const MenuItemTitle = styled.span<any>`
   margin: 0 3px 0 15px;
 `;
 
+const ComingSoon = styled('span')`
+   font-size: 12px;
+   line-height: 18px;
+   background-color: #fef0da;
+   padding: 3px 5px;
+   transform: scale(0.7);
+   margin-left: -8px;
+   border-radius: 5px;
+   color: #b97f24;
+   font-weight: bold;
+`;
+
 const MenuWrapper = styled.div<any>`
   display: flex;
   border-radius: 8px;
@@ -370,6 +380,9 @@ const MenuWrapper = styled.div<any>`
     ${MenuIcon} {
       filter: ${props => !props.passiveIcon && "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)"}
     }
+  }
+  & > img {
+    opacity: ${(props) => (!props.passiveIcon ? 1 : 0.4)};
   }
 `;
 
