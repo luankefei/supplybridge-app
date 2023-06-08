@@ -37,7 +37,7 @@ L2L3tree.Airbag = L2airbag;
 const batteryCellModuleSummary: any = {
    name: 'battery cell module',
    top: [
-      'Contemporary Amperex Technology Co., Limited (CATL)', '"LG Energy Solution Ltd.', 'BYD Company Limited', 'SK Innovation', 'Samsung SDI Co., Ltd.',
+      'Contemporary Amperex Technology Co., Limited (CATL)', 'LG Energy Solution Ltd.', 'BYD Company Limited', 'SK Innovation', 'Samsung SDI Co., Ltd.',
       'China Aviation Lithium Battery Co., Ltd (CALB)', 'Guoxuan High-tech', 'Sunwoda Electronic Co., Ltd', 'Farasis Energy',
    ],
 };

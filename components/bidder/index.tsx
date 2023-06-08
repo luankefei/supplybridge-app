@@ -11,7 +11,7 @@ const CarouselContainer = styled.div`
    display: flex;
    justify-content: center;
    align-items: center;
-   margin-top: 20px;
+   margin-top: 60px;
 `;
 
 const CarouselWrapper = styled(Carousel)`
@@ -21,7 +21,7 @@ const CarouselWrapper = styled(Carousel)`
 const SlideContainer = styled.div`
    text-align:center;
    > img {
-      width: 600px;
+      width: 710px;
    }
 `;
 

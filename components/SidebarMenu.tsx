@@ -5,6 +5,10 @@ import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import cookie from "js-cookie";
 
+const LinkItem = styled(Link)`
+   margin-top: 12px;
+`;
+
 export default function SideBarMenu() {
   const router = useRouter();
   const { signOut } = useStore();
@@ -157,7 +161,7 @@ export default function SideBarMenu() {
             <MenuTitle>SOLUTIONS</MenuTitle>
             {solutionsData.map((item: any, index: any) => {
               return (
-                <Link key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
+                <LinkItem key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
                   <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
                     <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
                     <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
@@ -166,7 +170,7 @@ export default function SideBarMenu() {
                     )}
                     {item.passiveIcon && (<ComingSoon>COMING SOON</ComingSoon>)}
                   </MenuWrapper>
-                </Link>
+                </LinkItem>
               );
             })}
           </Section>
@@ -174,13 +178,13 @@ export default function SideBarMenu() {
             <MenuTitle>MARKET DATA</MenuTitle>
             {marketData.map((item: any, index: any) => {
               return (
-                <Link key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
+                <LinkItem key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
                   <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
                     <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
                     <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
                     {item.passiveIcon && (<ComingSoon>COMING SOON</ComingSoon>)}
                   </MenuWrapper>
-                </Link>
+                </LinkItem>
               );
             })}
           </Section>
@@ -352,18 +356,22 @@ const MenuItemTitle = styled.span<any>`
   line-height: 22px;
   color: ${(props) => (props.passiveIcon ? "#B3B3B3" : props.active ? "#08979C" : "#1a1a1a")};
   margin: 0 3px 0 15px;
+  white-space: nowrap;
 `;
 
 const ComingSoon = styled('span')`
+   font-family: Ubuntu;
    font-size: 12px;
    line-height: 18px;
-   background-color: #fef0da;
+   background-color: #fcf1e2;
    padding: 3px 5px;
    transform: scale(0.7);
-   margin-left: -8px;
+   margin-left: -9px;
    border-radius: 5px;
    color: #b97f24;
    font-weight: bold;
+   white-space: nowrap;
+   height: 24px;
 `;
 
 const MenuWrapper = styled.div<any>`

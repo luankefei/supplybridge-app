@@ -159,6 +159,7 @@ const NextButton = styled('button')`
    height: 28px;
 
    &:hover { opacity: 0.5; }
+   &.inactive { pointer-events: none; opacity: 0.3; }
 `;
 
 export default function BasicTable() {
@@ -191,7 +192,7 @@ export default function BasicTable() {
             <ResultHeadCell>HQ Location</ResultHeadCell>
             <ResultHeadCell>Global Footprint</ResultHeadCell>
             <ResultHeadCell>Category</ResultHeadCell>
-            {isSearchForCompanies ? (<ResultHeadCell>&nbsp;</ResultHeadCell>) : null}
+            {isSearchForCompanies ? (<ResultHeadCell>Show Similar</ResultHeadCell>) : null}
           </ResultTableHeadRow>
         </TableHead>
         <TableBody>
@@ -200,7 +201,7 @@ export default function BasicTable() {
               <IdCell>{i+1}</IdCell>
               <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}} className={row.isBlur?'blur-lock':''} ><div>
                  <NullableImg url={row.logo} />
-                 <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
+                 <ResultTitleCell><a title={row.name || row.longName}>{row.name || row.longName}</a></ResultTitleCell>
                  <BadgeList data={row} />
               </div></ResultTableCellWithImg>
               <ResultTableCellWithImg className={row.isBlur?'blur':''}><div>
@@ -209,7 +210,7 @@ export default function BasicTable() {
               </div></ResultTableCellWithImg>
               <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
               <CompetenceCell className={row.isBlur?'blur':''}><a title={row.isBlur ? '' : (row.supplierCategory || row.coreCompetence)}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
-              {isSearchForCompanies ? (<TableCell><NextButton onClick={() => onResultClick(row)} title="Show Similar">&gt;</NextButton></TableCell>) : null}
+              {isSearchForCompanies ? (<TableCell><NextButton className={!!(row.supplierCategory || row.coreCompetence) ? '': 'inactive'}  onClick={() => onResultClick(row)} title="Show Similar">&gt;</NextButton></TableCell>) : null}
             </ResultTableRow>
           ))}
         </TableBody>
