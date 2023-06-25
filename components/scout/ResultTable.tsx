@@ -22,6 +22,11 @@ const Result = styled('div')`
    display: flex;
    width: 100%;
 `;
+const ResultSelectedContainer = styled('div')`
+   margin-top: 30px;
+   display: flex;
+   width: 100%;
+`;
 
 const ResultTable = styled('table')`
    width: 100%;
@@ -34,6 +39,22 @@ const ResultTableContainer = styled('div')`
    & { background-color: transparent; }
    width: 100%;
    margin: 0 20px;
+
+   .blur {
+      filter: blur(3px);
+      user-select: none;
+   }
+   .blur-lock:after {
+      background: url(/icons/lock.svg);
+      background-size: contain;
+      background-repeat: no-repeat;
+      width: 22px;
+      height: 22px;
+      position: absolute;
+      content: "";
+      left: calc(100% + 12px);
+      top: 12px;
+   }
 `;
 
 const ResultTitleCell = styled('div')`
@@ -124,21 +145,43 @@ const Badge = (props: any) => <Icon src={props?.icon} width={20} height={20} hov
 const BadgeList = (props: any) => {
    const { data } = props;
    return (<BadgeListContainer>
-      <BadgeContainer><Badge icon={"verified"} label={"Verified Supplier"} /></BadgeContainer>
+      {/*<BadgeContainer><Badge icon={"verified"} label={"Verified Supplier"} /></BadgeContainer>*/}
       {data.isInnovation ? (<BadgeContainer color={"#eb2f96"}><Badge icon={"innovation"} label={"innovation"} /></BadgeContainer>) : null }
    </BadgeListContainer>);
 }
 
+const NextButton = styled('button')`
+   background-color: white;
+   border: 1px solid #ccc;
+   border-radius: 50%;
+   color: #08979c;
+   width: 28px;
+   height: 28px;
+
+   &:hover { opacity: 0.5; }
+   &.inactive { pointer-events: none; opacity: 0.3; }
+`;
+
 export default function BasicTable() {
-  const { suppliers } = useStore();
+  const { suppliers, flags, setFilterData } = useStore();
+  const isSearchForCompanies = flags.type === 'Companies' && !flags.selected;
   const data = suppliers?.map((x: any) => ({
-     logo: x.logo,
+     logo: x.logo || `https://cdn.supplybridge.com/images/companylogos/${x.id}.jpeg`,
      name: x.name,
      longName: x.longName,
      headquarter: x.headquarter,
-     coreCompetence: (x.products || []).map((z: any) => z.coreCompetency.name).filter((z: any) => !!z).join(', '),
+     supplierCategory: x.supplierCategory?.lvlThreeEnglishName || '',
+     coreCompetence: (x.products || []).map((z: any) => z?.coreCompetency?.name).filter((z: any) => !!z).join(', '),
      isInnovation: x.isInnovation,
+     isBlur: !x.headquarter?.name,
   }));
+  const onResultClick = (row: any) => {
+     const q = row.supplierCategory || row.coreCompetence;
+     if (!q) return;
+     flags.selected = row;
+     flags.back = flags.q;
+     setFilterData({ q: q.split(',')[0] });
+  };
   return !data?.length ? null : (
     <Result><ResultTableContainer>
       <ResultTable aria-label="simple table">
@@ -146,26 +189,28 @@ export default function BasicTable() {
           <ResultTableHeadRow>
             <ResultHeadCell sx={{width: '50px'}}>&nbsp;</ResultHeadCell>
             <ResultHeadCell>Organization</ResultHeadCell>
-            {/* REL202306 <ResultHeadCell>HQ Location</ResultHeadCell>*/}
+            <ResultHeadCell>HQ Location</ResultHeadCell>
             <ResultHeadCell>Global Footprint</ResultHeadCell>
             <ResultHeadCell>Category</ResultHeadCell>
+            {isSearchForCompanies ? (<ResultHeadCell>Show Similar</ResultHeadCell>) : null}
           </ResultTableHeadRow>
         </TableHead>
         <TableBody>
           {data.map((row: any, i: number) => (
             <ResultTableRow key={i}>
               <IdCell>{i+1}</IdCell>
-              <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}}><div>
+              <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}} className={row.isBlur?'blur-lock':''} ><div>
                  <NullableImg url={row.logo} />
-                 <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
+                 <ResultTitleCell><a title={row.name || row.longName}>{row.name || row.longName}</a></ResultTitleCell>
                  <BadgeList data={row} />
               </div></ResultTableCellWithImg>
-              {/* REL202306 <ResultTableCellWithImg><div>
+              <ResultTableCellWithImg className={row.isBlur?'blur':''}><div>
                  <NullableImg url={row.headquarter?.code ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg` : ''} />
-                 <div>{row.headquarter?.name}</div>
-              </div></ResultTableCellWithImg> */}
-              <TableCell>{regionMap[row.headquarter?.regionId] || ''}</TableCell>
-              <CompetenceCell><a title={row.coreCompetence}>{row.coreCompetence}</a></CompetenceCell>
+                 <div>{row.headquarter?.name || 'hidden'}</div>
+              </div></ResultTableCellWithImg>
+              <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
+              <CompetenceCell className={row.isBlur?'blur':''}><a title={row.isBlur ? '' : (row.supplierCategory || row.coreCompetence)}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
+              {isSearchForCompanies ? (<TableCell><NextButton className={!!(row.supplierCategory || row.coreCompetence) ? '': 'inactive'}  onClick={() => onResultClick(row)} title="Show Similar">&gt;</NextButton></TableCell>) : null}
             </ResultTableRow>
           ))}
         </TableBody>
@@ -173,3 +218,30 @@ export default function BasicTable() {
     </ResultTableContainer></Result>
   );
 }
+
+export const ResultSelected = (props: any) => {
+   const row: any = props?.selected;
+   const isBlur = !row.headquarter?.name;
+   return (
+      <ResultSelectedContainer><ResultTableContainer>
+        <ResultTable aria-label="simple table">
+          <TableBody>
+            <ResultTableRow>
+              <IdCell>&nbsp;</IdCell>
+              <ResultTableCellWithImg sx={{'min-width': '30%', 'padding-right': '30px'}} className={row.isBlur?'blur-lock':''} ><div>
+                 <NullableImg url={row.logo} />
+                 <ResultTitleCell><a title={row.longName || row.name}>{row.longName || row.name}</a></ResultTitleCell>
+                 <BadgeList data={row} />
+              </div></ResultTableCellWithImg>
+              <ResultTableCellWithImg className={row.isBlur?'blur':''}><div>
+                 <NullableImg url={row.headquarter?.code ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg` : ''} />
+                 <div>{row.headquarter?.name || 'hidden'}</div>
+              </div></ResultTableCellWithImg>
+              <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
+              <CompetenceCell className={row.isBlur?'blur':''}><a title={row.supplierCategory || row.coreCompetence}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
+            </ResultTableRow>
+          </TableBody>
+        </ResultTable>
+      </ResultTableContainer></ResultSelectedContainer>
+   );
+};

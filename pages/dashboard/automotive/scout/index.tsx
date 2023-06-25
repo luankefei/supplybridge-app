@@ -145,7 +145,7 @@ export default function Industry({}: Props) {
                 <Icon src="smart-bridge-ai" width={40} height={40} />
                 <IconLabel>
                   <Label>powered by</Label>
-                  <Label>SmartBridge Artificial Intelligence</Label>
+                  <Label>SmartBridge AI</Label>
                 </IconLabel>
               </IconContainer>
               <SearchBar onSearch={searchHandler} />

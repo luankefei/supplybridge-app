@@ -90,9 +90,11 @@ const LoadingAnimation = ({ showType }: Props) => {
       const randomNum = Math.floor(Math.random() * chance) + 1;
       if (randomNum === 1) {
         // createBalloons(2);
+        /*
         party.confetti(document.body, {
           count: party.variation.range(100, 150),
         });
+        */
       }
     };
     const timeout = setTimeout(() => {

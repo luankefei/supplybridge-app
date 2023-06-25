@@ -20,7 +20,7 @@ export default function BackDrop({ isOpen = false }: Props) {
       <CustomizedTypography id="modal-modal-description" sx={{ mt: 2 }}>
         No results matching to this search
         <br />
-        Our SmartBridge Artificial Intelligence will process the request
+        Our SmartBridge AI will process the request
       </CustomizedTypography>
     </Container>
   );

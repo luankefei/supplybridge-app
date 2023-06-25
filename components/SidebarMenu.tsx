@@ -5,6 +5,10 @@ import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import cookie from "js-cookie";
 
+const LinkItem = styled(Link)`
+   margin-top: 12px;
+`;
+
 export default function SideBarMenu() {
   const router = useRouter();
   const { signOut } = useStore();
@@ -24,22 +28,22 @@ export default function SideBarMenu() {
       active: router.asPath.includes("source"),
       passiveIcon: false
     },
-/* REL202306
     {
       icon: "evaluate",
       title: "Evaluate",
       path: "/evaluate",
       active: router.asPath.includes("evaluate"),
-      passiveIcon: false
+      passiveIcon: true
     },
     {
       icon: "sustainability",
       title: "Sustainability",
       path: "/sustainability",
       active: router.asPath.includes("sustainability"),
-      passiveIcon: false,
+      passiveIcon: true,
       extra: "leaf",
     },
+/* REL202306
     {
       icon: "finance",
       title: "Finance",
@@ -73,13 +77,15 @@ export default function SideBarMenu() {
       active: router.asPath.includes("raw-material"),
       passiveIcon: false
     },
+*/
     {
       icon: "supplier-news",
-      title: "Supplier News",
+      title: "News & Insights",
       path: "/supplier-news",
       active: router.asPath.includes("supplier-news"),
-      passiveIcon: false
+      passiveIcon: true
     },
+/*
     {
       icon: "market-insights",
       title: "Market Insights",
@@ -114,7 +120,7 @@ export default function SideBarMenu() {
             <Section>
               {solutionsData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
+                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
                     <IconWrapper active={item.active}>
                       <Icon src={`/menu/${item.icon}.svg`} />
                     </IconWrapper>
@@ -125,7 +131,7 @@ export default function SideBarMenu() {
             <Section>
               {marketData.map((item: any, index: any) => {
                 return (
-                  <Link key={index} href={item.active ? `${item?.path}` : "#"}>
+                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
                     <IconWrapper active={item.active}>
                       <Icon src={`/menu/${item.icon}.svg`} />
                     </IconWrapper>
@@ -155,15 +161,16 @@ export default function SideBarMenu() {
             <MenuTitle>SOLUTIONS</MenuTitle>
             {solutionsData.map((item: any, index: any) => {
               return (
-                <Link key={index} href={item.passiveIcon ? '#' : `${item?.path}`}>
+                <LinkItem key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
                   <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
                     <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
                     <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
                     {item.extra && (
                       <ExtraIcon src={`/menu/${item.extra}.svg`} />
                     )}
+                    {item.passiveIcon && (<ComingSoon>COMING SOON</ComingSoon>)}
                   </MenuWrapper>
-                </Link>
+                </LinkItem>
               );
             })}
           </Section>
@@ -171,21 +178,15 @@ export default function SideBarMenu() {
             <MenuTitle>MARKET DATA</MenuTitle>
             {marketData.map((item: any, index: any) => {
               return (
-                <Link key={index} href={item.passiveIcon ? '#' : `${item?.path}`}>
+                <LinkItem key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
                   <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
                     <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
                     <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
+                    {item.passiveIcon && (<ComingSoon>COMING SOON</ComingSoon>)}
                   </MenuWrapper>
-                </Link>
+                </LinkItem>
               );
             })}
-            {/* REL202306 */}
-            <Link href={'#'}>
-              <MenuWrapper active={false} passiveIcon={true}>
-                <MenuIcon src={`/menu/transport.svg`} active={false} passiveIcon={true} />
-                <MenuItemTitle active={false} passiveIcon={true}>{"Comming Soon"}</MenuItemTitle>
-              </MenuWrapper>
-            </Link>
           </Section>
         </TopSection>
         <Section>
@@ -355,6 +356,22 @@ const MenuItemTitle = styled.span<any>`
   line-height: 22px;
   color: ${(props) => (props.passiveIcon ? "#B3B3B3" : props.active ? "#08979C" : "#1a1a1a")};
   margin: 0 3px 0 15px;
+  white-space: nowrap;
+`;
+
+const ComingSoon = styled('span')`
+   font-family: Ubuntu;
+   font-size: 12px;
+   line-height: 18px;
+   background-color: #fcf1e2;
+   padding: 3px 5px;
+   transform: scale(0.7);
+   margin-left: -9px;
+   border-radius: 5px;
+   color: #b97f24;
+   font-weight: bold;
+   white-space: nowrap;
+   height: 24px;
 `;
 
 const MenuWrapper = styled.div<any>`
@@ -371,6 +388,9 @@ const MenuWrapper = styled.div<any>`
     ${MenuIcon} {
       filter: ${props => !props.passiveIcon && "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)"}
     }
+  }
+  & > img {
+    opacity: ${(props) => (!props.passiveIcon ? 1 : 0.4)};
   }
 `;
 

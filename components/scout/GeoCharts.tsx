@@ -17,7 +17,6 @@ const initialOptions: any = {
   backgroundColor: "#edf1f3",
   focusTarget: "category",
   tooltip: { isHtml: true },
-  
 };
 
 const dataHeader = [
@@ -63,6 +62,40 @@ const GeoCharts = () => {
     return noOfSuppliers >0? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
     : `<div><b>${name} </b></div>`
   };
+
+  const [legendSummary, setLegendSummary]: any = useState(null);
+  const [showLegend, setShowLegend]: any = useState(false);
+  const [legendTop, setLegendTop] = useState(0);
+  const legendBaseTop = useRef(0);
+  const buildLegendSummary = () => {
+     const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0 };
+     if (filterData.q) {
+        if (stats.locationId) {
+           allCountry.forEach((regionObj: any) => {
+              regionObj.children.forEach((countryObj: any) => {
+                 const item = allSubRegions.find((z: any) => z.code === countryObj.name);
+                 if (!item || !stats.locationId[item.id]) return;
+                 if (item.code === 'CN') agg.CN = stats.locationId[item.id];
+                 agg[regionObj.category] += stats.locationId[item.id];
+              });
+           });
+        }
+     } else {
+        allCountry.forEach((regionObj: any) => {
+           regionObj.children.forEach((countryObj: any) => {
+              const item = allSubRegions.find((z: any) => z.code === countryObj.name);
+              if (!item) return;
+              if (item.code === 'CN') agg.CN = item.countSuppliersInLocation;
+              agg[regionObj.category] += item.countSuppliersInLocation;
+           });
+        });
+     }
+     Object.keys(agg).forEach(key => { agg[key] = agg[key].toLocaleString(); });
+     setShowLegend(filterData.regions.length === 0);
+     setLegendTop(legendBaseTop.current);
+     setLegendSummary(agg);
+  };
+console.log(showLegend, legendTop, legendSummary);
   const setInitialData = () => {
     let initialData: any = [];
     for (const key in allCountry) {
@@ -80,6 +113,7 @@ const GeoCharts = () => {
         ]);
       });
     }
+    buildLegendSummary();
     setAllCountries([dataHeader, ...initialData]);
   };
 
@@ -141,9 +175,11 @@ const GeoCharts = () => {
     setInitialData();
     }
     else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
+    setShowLegend(false);
     setRegionsAndSubRegionsData();
     }
     else if(filterData?.subRegions?.length<1 && filterData?.regions?.length >=1){
+    setShowLegend(false);
     setRegionsSuppliersData();
     }
 
@@ -263,7 +299,7 @@ const GeoCharts = () => {
   const getNumberOfSuppliers = (countryCode: string) => {
     const region = allSubRegions.find((s: any) => s.code === countryCode);
     if (!region) return 0;
-    if (!stats || !stats.locationId) return region.countSuppliersInLocation || 0;
+    if (!stats || !stats.locationId || !flags.q) return region.countSuppliersInLocation || 0;
     return stats?.locationId?.[region.id] || 0;
   };
 
@@ -273,6 +309,7 @@ const GeoCharts = () => {
       console.log("region",stats[region?.id])
       console.log("region",region?.id)
       if(region) console.log("stats",stats?.locationId?.[region?.id]);
+      if (!flags.q) return region.countSuppliersInLocation || 0;
       return region ? stats?.locationId?.[region?.id] : 0     
     };
 
@@ -281,7 +318,11 @@ const GeoCharts = () => {
   useEffect(() => {
      const el: any = elContainer.current;
      if (!el) return;
-     setFitMapHeight((window.innerHeight - el.parentNode.offsetTop) * 0.8);
+     const h = (window.innerHeight - el.parentNode.offsetTop) * 0.8;
+     //legendBaseTop.current = el.parentNode.offsetTop + h - 200;
+     legendBaseTop.current = h - 200;
+console.log(el.parentNode.offsetTop, h);
+     setFitMapHeight(h);
   }, [elContainer]);
 
   return (
@@ -323,6 +364,27 @@ const GeoCharts = () => {
           }}
         />
       </Container>
+      {showLegend ? (
+      <LegendContainer top={legendTop}>
+         Total Results
+         <LegendItemGapContainer>
+            <LegendItemKey>EMEA</LegendItemKey>
+            <LegendItemVal>{legendSummary?.EMEA || 0}</LegendItemVal>
+         </LegendItemGapContainer>
+         <LegendItemGapContainer>
+            <LegendItemKey>Americas</LegendItemKey>
+            <LegendItemVal>{legendSummary?.Americas || 0}</LegendItemVal>
+         </LegendItemGapContainer>
+         <LegendItemGapAContainer>
+            <LegendItemKey>APAC (Total)</LegendItemKey>
+            <LegendItemVal>{legendSummary?.APAC || 0}</LegendItemVal>
+         </LegendItemGapAContainer>
+         <LegendItemBContainer>
+            <LegendItemKey>China</LegendItemKey>
+            <LegendItemVal>{legendSummary?.CN || 0}</LegendItemVal>
+         </LegendItemBContainer>
+      </LegendContainer>
+      ) : null}
       {!mapLoaded ? (
         <Skeleton animation="wave" height={410} width="100%" />
       ) : null}
@@ -359,6 +421,44 @@ const GoWorld = styled.div`
   width: fit-content;
   padding: 12px 6px;
   border-radius: 4px;
+`;
+
+const LegendContainer = styled.div<any>`
+  position: absolute;
+  left: calc(100% - 200px);
+  top: ${(props) => `${props.top || 0}px`};
+  width: 180px;
+  height: 200px;
+  background-color: trasparent;
+`;
+
+const LegendItemContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+`;
+const LegendItemGapContainer = styled(LegendItemContainer)`
+  background-color: #f3f3f3;
+  margin-top: 3px;
+`;
+const LegendItemGapAContainer = styled(LegendItemContainer)`
+  background-color: #f3f3f3;
+  margin-top: 3px;
+  border-radius: 8px 8px 0 0;
+`;
+const LegendItemBContainer = styled(LegendItemContainer)`
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+  border-top: none;
+`;
+
+const LegendItemKey = styled.div`
+  width: 60%;
+`;
+const LegendItemVal = styled.div`
+  width: 40%;
+  text-align: right;
 `;
 
 const Container = styled.div`

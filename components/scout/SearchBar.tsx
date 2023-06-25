@@ -63,7 +63,7 @@ const langWordMap: any = {
       Search: "Search",
       Placeholder: {
          Keywords: "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
-         Companies: "Such as Lieferanten",
+         Companies: "Search for Companies",
       },
    },
    DE: {
@@ -78,16 +78,25 @@ const langWordMap: any = {
 };
 
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
-  const [searchItem, setSearchItem] = useState("");
-  const [searchItemDisplay, setSearchItemDisplay] = useState("");
-  const [searchType, setSearchType] = useState("Keywords");
-  const [searchLang, setSearchLang] = useState("EN");
   const {
+     suppliers,
      filterData,
      setSelectedCountries,
      setSelectedRegions,
      setFilterData, setSuppliers, setShowBackdrop, flags
   } = useStore();
+  const [searchItem, setSearchItem] = useState("");
+  const [searchItemDisplay, setSearchItemDisplay] = useState("");
+  const [searchType, setSearchType] = useState(flags.type || "Keywords");
+  const [searchLang, setSearchLang] = useState(flags.lang || "EN");
+
+  useEffect(() => {
+     // ensure first enter, no last search showing
+     if (!suppliers?.length && !searchItem) {
+        flags.q = '';
+        filterData.q = '';
+     }
+  }, [suppliers]);
 
   const handleSearchTypeChange = (evt: SelectChangeEvent) => {
      const val: string = evt.target.value as string;
@@ -103,13 +112,15 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
 
   const doTransform = () => {
     flags.q = searchItemDisplay;
-    let transformed = searchItem;
+    let transformed = searchItemDisplay;
+/*
     const keys = Object.keys(L2L3tree);
     const possible = keys.map((L2: string) => L2L3tree[L2].de);
     const i = possible.indexOf(transformed.toLowerCase());
     if (i >= 0) {
        transformed = keys[i];
     }
+*/
     return transformed;
   };
 
@@ -270,6 +281,7 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
+  max-width: 1040px;
   width: 100%;
   padding: 0 30px;
   margin-top: 22px;

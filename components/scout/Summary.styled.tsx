@@ -78,6 +78,7 @@ const NullabeImgContainer = styled.div<any>`
    width: ${(props) => props.size || '24px'};
    height: ${(props) => props.size || '24px'};
    border-radius: 50%;
+   overflow: hidden;
    > img {
       width: 100%;
    }
@@ -87,7 +88,7 @@ export const NullableImg = (props: any) => {
    const { url } = props;
    return (
       <NullabeImgContainer>
-      {url ? <img src={url}/> : null}
+      {url ? <img src={url} alt=""/> : null}
       </NullabeImgContainer>
    );
 };
@@ -150,3 +151,12 @@ export const SummaryCategoriesContainer = styled.div`
    }
 `;
 
+
+export const SummaryL3 = styled.div`
+   margin: 5px 0;
+   cursor: pointer;
+   &.active {
+      color: white;
+      background-color: #08979c;
+   }
+`;

@@ -13,9 +13,9 @@ const Filters = ({ totalCount }: Props) => {
     <FilterContainer>
       <StaticInformation>
         <ListingCount>
-          Listing {totalCount} Suppliers Matching Your Criteria
+          Listing <strong>{totalCount}</strong> Suppliers Matching Your Criteria
         </ListingCount>
-        <SubText>Use Filters to Narrow Down Results</SubText>
+        {/*<SubText>Use Filters to Narrow Down Results</SubText>*/}
       </StaticInformation>
       {/*
       <OrderContainer>
@@ -73,7 +73,9 @@ font-size: 16px;
 line-height: 24px;
 color: ${(props) => props.theme.colors.secondary};
 
-
+> strong {
+   font-size: 24px;
+}
 `;
 
 const SubText = styled.span`
