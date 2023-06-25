@@ -239,7 +239,7 @@ export default function QuickbridgeResult() {
     searchPlaceholder += " in " + selectedLabel;
   }
 
-  console.log("duration: ", aniDuration);
+  console.log("duration new: ", aniDuration);
 
   return (
     <ScoutContainer>
