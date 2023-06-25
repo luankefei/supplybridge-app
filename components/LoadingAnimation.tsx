@@ -100,7 +100,7 @@ const LoadingAnimation = ({ showType }: Props) => {
     const timeout = setTimeout(() => {
       stopAnimation();
       if (showType === "long") {
-        celebrateWithChance(1);
+        // celebrateWithChance(1);
         // removeBalloons();
       }
     }, stopAnimationTime);
