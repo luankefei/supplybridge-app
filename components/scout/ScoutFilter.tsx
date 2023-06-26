@@ -43,7 +43,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
   const { getComponents, getSubRegions } = useFilter();
 
   const data = [
-/*
+    /*
     {
       label: "Commodities",
       key: "commodities",
@@ -65,11 +65,13 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
       key: "regions",
       items: regions,
     },
+    /*
     {
       label: "Sub Regions",
       key: "subRegions",
       items: subRegions,
     },
+    */
   ];
 
   useEffect(() => {
