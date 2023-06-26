@@ -61,11 +61,13 @@ export const useFilter = () => {
   const getAllSubRegions = async () => {
     try {
         const { data } = await request.get(`sub_regions`);
-        setAllSubRegions(data.subRegions);      
+        setAllSubRegions(data.subRegions);
+        return data.subRegions;
     } catch (err: any) {
       toast.error(err.response.data.message, {
         position: toast.POSITION.TOP_RIGHT,
       });
+      return null;
     }
   };
 

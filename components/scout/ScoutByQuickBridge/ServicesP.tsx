@@ -5,52 +5,51 @@ import styled from "styled-components";
 import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
+import { useQuickBridgeService } from "requests/useScoutByScoutBridge";
+import _ from "lodash";
 
-export default function ByTechnology() {
-  const { quickBridgeStore, technologyStore } = useBoundStore((state) => ({
+export default function ServicesP() {
+  const { quickBridgeStore, services } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
-    technologyStore: state.quickBridgeTechnologies,
+    services: state.quickBridgeService,
   }));
   const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
-  const { selected, setSelected, data } = technologyStore;
-  const { getTechnologies, loading } = useQuickBridgeTechnology();
+  const { selected, setSelected, data } = services;
+  const { getServices3P, loading } = useQuickBridgeService();
   const router = useRouter();
 
   const onClick = (select: any) => {
-    if (selected !== select) {
+    if (select !== selected) {
       setSelected(select);
+      setFilter("offerings", select);
       let label = data.find((d: any) => d.id == select).name;
       setSelectedLabel(label);
-      setFilter("vehicleFuelTypes", select);
-
-      if (!data || !Array.isArray(data)) return;
-      const item = data.find((item) => item.id === select);
-      if (!item || !item.id) return;
     } else {
       setSelectedLabel("");
       setSelected(null);
-      setFilter("vehicleFuelTypes", null);
+      setFilter("offerings", null);
     }
   };
 
   useEffect(() => {
     if (!data) {
-      getTechnologies();
+      getServices3P();
+      return;
     }
-  }, [data, getTechnologies]);
+  }, [data, getServices3P, setSelected, setFilter]);
 
   /*
   useEffect(() => {
-    setFilter("vehicleFuelTypes", null);
+    setFilter("servicesType", null);
   }, []);
   */
 
   useEffect(() => {
     // when this is the active tab, clear the selection/filter
-    if (tab.activeTab == 4) {
-      setFilter("vehicleFuelTypes", null);
+    if (tab.activeTab == 7) {
+      setFilter("offerings", null);
       setSelectedLabel("");
       setSelected(null);
     }
@@ -60,7 +59,7 @@ export default function ByTechnology() {
     return (
       <Container>
         <CardContainer>
-          {[1, 2, 3, 4].map((index) => (
+          {[1, 2, 3].map((index) => (
             <CardWrapper key={index}>
               <BigCardSkeleton />
             </CardWrapper>
@@ -70,15 +69,30 @@ export default function ByTechnology() {
     );
   }
 
+  const InfoContent = (description: any) => {
+    const items = _.split(description, "\n");
+    if (items && Array.isArray(items) && items.length > 1) {
+      return items.map((item: any) => <div key={item}>{item}</div>);
+    }
+    return <div>{description}</div>;
+  };
+
   return (
     <Container>
       <CardContainer>
         {data &&
-          data.map(({ id, name, icon }: any) => (
-            <CardWrapper onClick={() => onClick(id)} key={id}>
-              <BigCard src={icon} title={name} selected={selected === id} />
-            </CardWrapper>
-          ))}
+          data
+            .sort((a: any, b: any) => a.id - b.id)
+            .map(({ id, name, icon, description }: any) => (
+              <CardWrapper onClick={() => onClick(id)} key={id}>
+                <BigCard
+                  src={icon}
+                  title={name}
+                  selected={selected === id}
+                  infoContent={InfoContent(description)}
+                />
+              </CardWrapper>
+            ))}
       </CardContainer>
     </Container>
   );
@@ -91,7 +105,7 @@ const Container = styled.div`
 
 const CardContainer = styled.div`
   display: grid;
-  grid-template-columns: auto auto;
+  grid-template-columns: auto auto auto;
   gap: 24px;
 `;
 

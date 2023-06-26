@@ -13,10 +13,11 @@ const Filters = ({ totalCount }: Props) => {
     <FilterContainer>
       <StaticInformation>
         <ListingCount>
-          Listing {totalCount} Suppliers Matching Your Criteria
+          Listing <strong>{totalCount}</strong> Suppliers Matching Your Criteria
         </ListingCount>
-        <SubText>Use Filters to Narrow Down Results</SubText>
+        {/*<SubText>Use Filters to Narrow Down Results</SubText>*/}
       </StaticInformation>
+      {/*
       <OrderContainer>
         <OrderElement>
           <Title>SUPPLIER TYPE</Title>
@@ -39,6 +40,7 @@ const Filters = ({ totalCount }: Props) => {
           </Description>
         </OrderElement>
       </OrderContainer>
+      */}
     </FilterContainer>
   );
 };
@@ -48,7 +50,7 @@ const FilterContainer = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: 8px 24px;
+  padding: 8px 30px;
   margin-top: 24px;
   /* box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
   border-radius: 16px; */
@@ -71,7 +73,9 @@ font-size: 16px;
 line-height: 24px;
 color: ${(props) => props.theme.colors.secondary};
 
-
+> strong {
+   font-size: 24px;
+}
 `;
 
 const SubText = styled.span`

@@ -9,10 +9,13 @@ import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 
+import Summary from "components/scout/Summary";
+import ResultTable, { ResultSelected } from "components/scout/ResultTable";
+import GeoCharts from "components/scout/GeoCharts";
+
 const Icon = dynamic(() => import("components/Icon"));
 
 const BackDrop = dynamic(() => import("components/scout/BackDrop"));
-const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const Feedback = dynamic(() => import("components/Feedback"));
 const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
@@ -43,6 +46,7 @@ export default function ScoutByIndex() {
     clearFilterData,
     vehicleFuelTypes,
     showBackdrop,
+    flags,
   } = useStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
@@ -56,16 +60,37 @@ export default function ScoutByIndex() {
   const pageRef = useRef(1);
   const pageLoaded = useRef(false);
   const searchString = useRef(filterData.q);
+  const thisElementRef = useRef(null);
 
   useEffect(() => {
     getInitialRequests();
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
   }, []);
 
   useEffect(() => {
+     // XXX: current css layout may lead messy scrollbars, especially 2 scrollbars in one view
+     //      polish scout panel css and use js to find the scrollable element then hook event handler
+     let scrollable: any = thisElementRef.current;
+     let last = scrollable;
+     while (scrollable) {
+        if (scrollable.clientHeight === scrollable.scrollHeight && last.clientHeight < last.scrollHeight) {
+           scrollable = last;
+           break;
+        }
+        last = scrollable;
+        scrollable = scrollable.parentNode;
+     }
+     if (!scrollable) return;
+     scrollable.addEventListener("scroll", handleScroll);
+     return () => {
+        scrollable.removeEventListener("scroll", handleScroll);
+     };
+  }, [thisElementRef, suppliers]);
+
+  useEffect(() => {
+    if (!flags.q) {
+       searchString.current = '';
+       return;
+    }
     searchString.current = filterData.q;
   }, [filterData]);
 
@@ -92,11 +117,10 @@ export default function ScoutByIndex() {
     }
   };
 
-  const handleScroll = async () => {
-    var isAtBottom =
-      document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
-      document.documentElement.clientHeight;
+  const handleScroll = async (evt: any) => {
+    const isAtBottom = (
+       evt.target.scrollHeight - evt.target.scrollTop - evt.target.clientHeight < 1
+    );
 
     if (isAtBottom && infiniteScrollControl.current) {
       infiniteScrollControl.current = false;
@@ -121,11 +145,27 @@ export default function ScoutByIndex() {
   const clearHandler = () => {
     clearFilterData();
   };
+
   const isSuppliersNotEmpty: boolean =
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
+
+  const onSelectedBackClick = () => {
+     flags.selected = null;
+     const q = flags.back;
+     flags.back = '';
+     flags.type = 'Companies';
+     clearFilterData();
+     setFilterData({ q });
+  };
+
   return (
-    <ScoutContainer>
+    <ScoutContainer ref={thisElementRef}>
       <MainContainer>
+        {flags.selected ? (
+        <SelectedBackButtonContainer><SelectedBackButton onClick={onSelectedBackClick}>
+           <span>&#x1f860;</span> BACK
+        </SelectedBackButton></SelectedBackButtonContainer>
+        ) : (
         <SearchContainer isrow={isSuppliersNotEmpty}>
           {!isSuppliersNotEmpty && (
             <Title>Global Scouting, for Automotive professionals.</Title>
@@ -134,20 +174,24 @@ export default function ScoutByIndex() {
             <Icon src="smart-bridge-ai" width={25} height={25} />
             <IconLabel>
               <Label>
-                powered by {isSuppliersNotEmpty && <br />}SmartBridge Artificial
-                Intelligence
+                powered by {isSuppliersNotEmpty && <br />}SmartBridge AI
               </Label>
             </IconLabel>
           </IconContainer>
           <SearchBar2 onSearch={searchHandler} />
         </SearchContainer>
+        )}
         <ContentsContainer>
           <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
           <ContentsWrapper>
             <GeoCharts />
+            {flags.selected ? <ResultSelected selected={flags.selected} /> : null}
             {isSuppliersNotEmpty && <Filters totalCount={count} />}
+            {(isSuppliersNotEmpty && !flags.selected) && <Summary />}
             <ScoutFilter isQuickSearch={false} />
 
+            <ResultTable />
+            {/*
             <ResultContainer>
               {isSuppliersNotEmpty ? (
                 <>
@@ -160,6 +204,7 @@ export default function ScoutByIndex() {
                 </>
               ) : null}
             </ResultContainer>
+            */}
             {/* {suppliers.length === 0 && !loading && (
                 <NoRecord>No record founds</NoRecord>
               )} */}
@@ -202,6 +247,12 @@ const ScoutContainer = styled.div`
     margin: 10px 10px;
   }
 `;
+const ScoutScrollContainer = styled.div`
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  overflow-y: auto;
+`;
 
 const SearchContainer = styled.div<{ isrow: boolean }>`
   width: 100%;
@@ -241,10 +292,10 @@ const DuplicateHeaderForPosition = styled.div<SearchProps>`
 `;
 
 const IconContainer = styled.div<{ isrow: boolean }>`
+  margin-left: 20px;
   display: flex;
-  flex-grow: 1;
   flex-direction: row;
-  justify-content: ${(props) => (props.isrow ? "end" : "center")};
+  justify-content: "center";
   align-items: end;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
@@ -366,4 +417,22 @@ const ContentsWrapper = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+`;
+
+const SelectedBackButtonContainer = styled.div`
+   width: 100%;
+   margin-top: 20px;
+`;
+const SelectedBackButton = styled.div`
+   padding: 5px 40px;
+   color: #666;
+   font-weight: bold;
+   cursor: pointer;
+
+   > span {
+      font-size: 25px;
+      vertical-align: middle;
+      display: inline-block;
+      margin-top: -6px;
+   }
 `;

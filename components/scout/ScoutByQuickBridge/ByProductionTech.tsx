@@ -8,7 +8,6 @@ import useBoundStore from "hooks/useBoundStore";
 import _ from "lodash";
 import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 
 export default function ByProductionTech() {
   const { quickBridgeStore, productionTechnologyStore } = useBoundStore(
@@ -17,7 +16,7 @@ export default function ByProductionTech() {
       productionTechnologyStore: state.quickBridgeProductionTechnologies,
     })
   );
-  const { setFilter, setSelectedLabel } = quickBridgeStore;
+  const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
   const { selected, setSelected, data } = productionTechnologyStore;
   const { getProductionTechnologies, loading } =
     useQuickBridgeProductionTechnology();
@@ -29,20 +28,10 @@ export default function ByProductionTech() {
       let label = data.find((d: any) => d.id == select).name;
       setSelectedLabel(label);
       setFilter("productionTechnologies", select);
-
-      if (!data || !Array.isArray(data)) return;
-      const item = data.find((item) => item.id === select);
-      if (!item || !item.id) return;
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.productionTech.toLowerCase()}/${item.name.toLowerCase()}`
-      );
     } else {
       setSelected(null);
       setFilter("productionTechnologies", null);
       setSelectedLabel("");
-      router.push(
-        `/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${QuickBridgeTabType.productionTech.toLowerCase()}`
-      );
     }
   };
 
@@ -52,34 +41,20 @@ export default function ByProductionTech() {
     }
   }, [data, getProductionTechnologies]);
 
+  /*
   useEffect(() => {
     setFilter("productionTechnologies", null);
   }, []);
+  */
 
   useEffect(() => {
-    if (!data || !Array.isArray(data)) return;
-
-    if (
-      router.query &&
-      router.query.slug &&
-      Array.isArray(router.query.slug) &&
-      router.query.slug.length > 0
-    ) {
-      if (router.query.slug.length > 2 && router.query.slug[2]) {
-        const slug = router.query.slug[2];
-        const item = data.find(
-          (item) => item.name.toLowerCase() === slug.toLowerCase()
-        );
-        if (item && item.id) {
-          setSelected(item.id);
-          setFilter("productionTechnologies", item.id);
-        } else {
-          setSelected(null);
-          setFilter("productionTechnologies", null);
-        }
-      }
+    // when this is the active tab, clear the selection/filter
+    if (tab.activeTab == 6) {
+      setFilter("productionTechnologies", null);
+      setSelectedLabel("");
+      setSelected(null);
     }
-  }, [data]);
+  }, [tab]);
 
   if (loading) {
     return (

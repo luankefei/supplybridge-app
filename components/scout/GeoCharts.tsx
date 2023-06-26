@@ -17,7 +17,6 @@ const initialOptions: any = {
   backgroundColor: "#edf1f3",
   focusTarget: "category",
   tooltip: { isHtml: true },
-  
 };
 
 const dataHeader = [
@@ -25,6 +24,12 @@ const dataHeader = [
   "Selection",
   { role: "tooltip", type: "string", p: { html: true } },
 ];
+
+const env: any = {};
+const debounce = (fn: any, ms: number = 200) => {
+   if (env.timer) clearTimeout(env.timer);
+   env.timer = setTimeout(() => {env.timer = 0; fn();}, ms);
+}
 
 const GeoCharts = () => {
   const [options, setOptions] = useState<any>(null);
@@ -44,6 +49,7 @@ const GeoCharts = () => {
     stats,
     setFilterData,
     allSubRegions,
+    flags,
   } = useStore();
 
   useEffect(() => {
@@ -51,21 +57,55 @@ const GeoCharts = () => {
       getAllSubRegions();
       allSubRegionsLoaded.current = true;
     }
-  }, []);
+  }, [allSubRegionsLoaded]);
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
     return noOfSuppliers >0? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
     : `<div><b>${name} </b></div>`
+  };
+
+  const [legendSummary, setLegendSummary]: any = useState(null);
+  const [showLegend, setShowLegend]: any = useState(false);
+  const [legendTop, setLegendTop] = useState(0);
+  const legendBaseTop = useRef(0);
+  const buildLegendSummary = () => {
+     const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0, Total: 0, };
+     if (filterData.q) {
+        if (stats.locationId) {
+           allCountry.forEach((regionObj: any) => {
+              regionObj.children.forEach((countryObj: any) => {
+                 const item = allSubRegions.find((z: any) => z.code === countryObj.name);
+                 if (!item || !stats.locationId[item.id]) return;
+                 if (item.code === 'CN') agg.CN = stats.locationId[item.id];
+                 agg[regionObj.category] += stats.locationId[item.id];
+              });
+           });
+        }
+     } else {
+        allCountry.forEach((regionObj: any) => {
+           regionObj.children.forEach((countryObj: any) => {
+              const item = allSubRegions.find((z: any) => z.code === countryObj.name);
+              if (!item) return;
+              if (item.code === 'CN') agg.CN = item.countSuppliersInLocation;
+              agg[regionObj.category] += item.countSuppliersInLocation;
+           });
+        });
+     }
+     agg.Total = agg.EMEA + agg.Americas + agg.APAC;
+     Object.keys(agg).forEach(key => { agg[key] = agg[key].toLocaleString(); });
+     setShowLegend(filterData.regions.length === 0);
+     setLegendTop(legendBaseTop.current);
+     setLegendSummary(agg);
   };
   const setInitialData = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-        const noOfSuppliers=getNumberOfSuppliers(item.name)
-          // colorValue: null | 0 | 1
-          // null => default color
-          // 0 => #08979c
-          // 1 =>  #10712B
-          const colorValue=noOfSuppliers===0? null : 0
+        const noOfSuppliers = getNumberOfSuppliers(item.name);
+        // colorValue: null | 0 | 1
+        // null => default color
+        // 0 => #08979c
+        // 1 =>  #10712B
+        const colorValue = noOfSuppliers ? 0 : null;
         initialData.push([
           item.name,
           colorValue,
@@ -73,6 +113,7 @@ const GeoCharts = () => {
         ]);
       });
     }
+    buildLegendSummary();
     setAllCountries([dataHeader, ...initialData]);
   };
 
@@ -83,11 +124,11 @@ const GeoCharts = () => {
         if(filterData?.subRegions?.includes(item.name))
         {
         const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
-          // colorValue: null | 0 | 1
-          // null => default color
-          // 0 => #08979c
-          // 1 =>  #10712B
-          const colorValue=noOfSuppliers===0? null : 0
+        // colorValue: null | 0 | 1
+        // null => default color
+        // 0 => #08979c
+        // 1 =>  #10712B
+        const colorValue = noOfSuppliers ? 0 : null;
         initialData.push([
           item.name,
           colorValue,
@@ -107,11 +148,11 @@ const GeoCharts = () => {
         if(filterData?.regions?.includes(allCountry[key]?.categoryId))
         {
         const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
-          // colorValue: null | 0 | 1
-          // null => default color
-          // 0 => #08979c
-          // 1 =>  #10712B
-          const colorValue=noOfSuppliers===0? null : 0
+        // colorValue: null | 0 | 1
+        // null => default color
+        // 0 => #08979c
+        // 1 =>  #10712B
+        const colorValue = noOfSuppliers ? 0 : null;
         initialData.push([
           item.name,
           colorValue,
@@ -130,13 +171,15 @@ const GeoCharts = () => {
 
   useEffect(() => {
     //if there is no query parameter initilize the map with all the suppliers data
-    if(filterData?.subRegions?.length<1 && filterData?.regions?.length<1) {
+    if(!stats.q || (filterData?.subRegions?.length<1 && filterData?.regions?.length<1)) {
     setInitialData();
     }
     else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
+    setShowLegend(false);
     setRegionsAndSubRegionsData();
     }
     else if(filterData?.subRegions?.length<1 && filterData?.regions?.length >=1){
+    setShowLegend(false);
     setRegionsSuppliersData();
     }
 
@@ -176,8 +219,8 @@ const GeoCharts = () => {
   };
 
   useEffect(() => {
+    debounce(outsideFilterHandler);
     if (filterData.subRegions.length) {
-      outsideFilterHandler();
     } else {
       setInitialData();
     }
@@ -204,15 +247,15 @@ const GeoCharts = () => {
       if (subRegions.includes(c[0])) {
         allList[index][1] = 1;
       } else {
-        if (allList[index] && c[0] !== "Country") {
-          allList[index][1] = 0;
-        }
+        /*if (allList[index] && c[0] !== "Country") {
+          allList[index][1] = null;
+        }*/
       }
     });
     setAllCountries(allList);
 
     //Filter based on the selected countries
-    searchHandler();
+    if (filterData.q && flags.q) searchHandler();
   };
   const clearDropdownFilters = () => {
     setFilterData({
@@ -255,7 +298,9 @@ const GeoCharts = () => {
   //Get Number of suppliers for country
   const getNumberOfSuppliers = (countryCode: string) => {
     const region = allSubRegions.find((s: any) => s.code === countryCode);
-    return region ? region.countSuppliersInLocation : 0;
+    if (!region) return 0;
+    if (!stats || !stats.locationId || !flags.q) return region.countSuppliersInLocation || 0;
+    return stats?.locationId?.[region.id] || 0;
   };
 
     //Get Number of suppliers for country
@@ -264,29 +309,48 @@ const GeoCharts = () => {
       console.log("region",stats[region?.id])
       console.log("region",region?.id)
       if(region) console.log("stats",stats?.locationId?.[region?.id]);
+      if (!flags.q) return region.countSuppliersInLocation || 0;
       return region ? stats?.locationId?.[region?.id] : 0     
     };
-  const renderMapComponent = useCallback(() => {
-    return (
-      <Container>
+
+  const elContainer = useRef(null);
+  const [fitMapHeight, setFitMapHeight] = useState(400);
+  useEffect(() => {
+     const el: any = elContainer.current;
+     if (!el) return;
+     const h = (window.innerHeight - el.parentNode.offsetTop) * 0.8;
+     legendBaseTop.current = h - 200;
+     setFitMapHeight(h);
+  }, [elContainer]);
+
+  return (
+    <MapContainer>
+      <ButtonContainer>
+        {false && backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
+        {selectedCountries.length >= 1 ? (
+          <GoWorld onClick={clearFilter}>Show All</GoWorld>
+        ): null}
+      </ButtonContainer>
+      <Container ref={elContainer}>
         <Chart
           chartEvents={[
             {
               eventName: "select",
-              callback: ({ chartWrapper }) => {
-                const chart = chartWrapper.getChart();
-                const selection = chart.getSelection();
-                if (selection.length === 0) return;
-                const region = allCountries[selection[0].row + 1];
+              callback: (evt: any) => {
+                if (!flags.q) return;
+                //if (selectedCountries.length) return;
+                const row = evt.eventArgs[0]?.getSelection()[0]?.row;
+                if (!row) return;
+                const region = allCountries[row + 1];
+                if (region?.[1] === null) return;
                 selectCountryHandler(region);
               },
             },
           ]}
           onLoad={onMapLoadHandler}
           chartType="GeoChart"
-          width="99%"
-          height="411px"
           data={allCountries}
+          height={`${fitMapHeight}px`}
           options={{
             ...options,
             colorAxis: {
@@ -298,18 +362,31 @@ const GeoCharts = () => {
           }}
         />
       </Container>
-    );
-  }, [allCountries, options, mapLoaded]);
-
-  return (
-    <MapContainer>
-      <ButtonContainer>
-        {backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
-        {selectedCountries.length > 0 && (
-          <GoWorld onClick={clearFilter}>Reset Map</GoWorld>
-        )}
-      </ButtonContainer>
-      {renderMapComponent()}
+      {showLegend ? (
+      <LegendContainer top={legendTop}>
+         Total Results
+         <LegendItemGapContainer>
+            <LegendItemKey>EMEA</LegendItemKey>
+            <LegendItemVal>{legendSummary?.EMEA || 0}</LegendItemVal>
+         </LegendItemGapContainer>
+         <LegendItemGapContainer>
+            <LegendItemKey>Americas</LegendItemKey>
+            <LegendItemVal>{legendSummary?.Americas || 0}</LegendItemVal>
+         </LegendItemGapContainer>
+         <LegendItemGapAContainer>
+            <LegendItemKey>APAC (Total)</LegendItemKey>
+            <LegendItemVal>{legendSummary?.APAC || 0}</LegendItemVal>
+         </LegendItemGapAContainer>
+         <LegendItemBContainer>
+            <LegendItemKey>China</LegendItemKey>
+            <LegendItemVal>{legendSummary?.CN || 0}</LegendItemVal>
+         </LegendItemBContainer>
+         <LegendItemGapContainer>
+            <LegendItemKey>Total</LegendItemKey>
+            <LegendItemVal>{legendSummary?.Total || 0}</LegendItemVal>
+         </LegendItemGapContainer>
+      </LegendContainer>
+      ) : null}
       {!mapLoaded ? (
         <Skeleton animation="wave" height={410} width="100%" />
       ) : null}
@@ -346,6 +423,44 @@ const GoWorld = styled.div`
   width: fit-content;
   padding: 12px 6px;
   border-radius: 4px;
+`;
+
+const LegendContainer = styled.div<any>`
+  position: absolute;
+  left: calc(100% - 200px);
+  top: ${(props) => `${props.top || 0}px`};
+  width: 180px;
+  height: 200px;
+  background-color: trasparent;
+`;
+
+const LegendItemContainer = styled.div`
+  display: flex;
+  padding: 10px;
+  border: 2px solid #ccc;
+  border-radius: 8px;
+`;
+const LegendItemGapContainer = styled(LegendItemContainer)`
+  background-color: #f3f3f3;
+  margin-top: 3px;
+`;
+const LegendItemGapAContainer = styled(LegendItemContainer)`
+  background-color: #f3f3f3;
+  margin-top: 3px;
+  border-radius: 8px 8px 0 0;
+`;
+const LegendItemBContainer = styled(LegendItemContainer)`
+  background-color: white;
+  border-radius: 0 0 8px 8px;
+  border-top: none;
+`;
+
+const LegendItemKey = styled.div`
+  width: 60%;
+`;
+const LegendItemVal = styled.div`
+  width: 40%;
+  text-align: right;
 `;
 
 const Container = styled.div`

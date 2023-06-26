@@ -1,12 +1,12 @@
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
-import { Router, useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import useBoundStore from "hooks/useBoundStore";
 import styled from "styled-components";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 import ScoutByIndex from "./scout/ScoutByIndex";
 import ScoutByQuickBridge from "./scout/ScoutByQuickBridge";
+import BidderPart from "./bidder/index";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 
 export default function Switch() {
@@ -20,7 +20,8 @@ export default function Switch() {
 
   const clearFilter = () => {
     setResult(false);
-    setTab(0);
+    setTab(0, QuickBridgeTabType.vehile);
+    setFilter("q", '');
     setFilter("vehicleTypes", null);
     setFilter("vehicleBrands", null);
     setFilter("vehicleModels", null);
@@ -28,6 +29,7 @@ export default function Switch() {
     setFilter("commodities", null);
     setFilter("productionTechnologies", null);
     setFilter("pioneers", null);
+    setFilter("servicesType", null);
     clearFilterData();
     resetAllSelected();
     setSelectedLabel("");
@@ -35,27 +37,14 @@ export default function Switch() {
 
   const [selected, setSelected] = useState(ScoutSwitchType.index);
   // const { setFilterData, setSuppliers } = useStore();
-  const router = useRouter();
   const handleSwitchSelected = (val: ScoutSwitchType) => {
     setSelected(val);
-    router.push(`/scout/${val.toLowerCase()}`);
   }
 
   useEffect(() => {
     clearFilterData();
     setSuppliers([], true);
   }, [selected]);
-
-  useEffect(() => {
-    if (router.query && router.query.slug && Array.isArray(router.query.slug) && router.query.slug.length > 0) {
-      console.log(router.query.slug[0]);
-      if (router.query.slug[0].toLowerCase() === ScoutSwitchType.quickBridge.toLowerCase()) {
-        setSelected(ScoutSwitchType.quickBridge);
-      } else {
-        setSelected(ScoutSwitchType.index);
-      }
-    }
-  }, [setSelected]);
 
   return (
     <Container>
@@ -77,22 +66,28 @@ export default function Switch() {
           >
             Scout by QuickBridge
           </ByQuickBridge>
+          <ByBidder
+            selected={selected}
+            onClick={() => handleSwitchSelected(ScoutSwitchType.bidder)}>
+            Bidder List
+          </ByBidder>
         </Switches>
       </SwitchContainer>
       {selected === ScoutSwitchType.index ? (
         <ScoutByIndex />
       ) : (
+       selected === ScoutSwitchType.quickBridge ? (
         <ScoutByQuickBridge />
+      ) : (<BidderPart />)
       )}
     </Container>
   );
 }
 
 const Container = styled.div`
-  width: calc(100%);
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
 `;
 
 const SwitchContainer = styled.div`
@@ -100,13 +95,14 @@ const SwitchContainer = styled.div`
     width: ${theme.dimension.cardMaxWidth};
   }
   height: 56px;
-  margin: 36px 0;
+  margin: 36px 20px 0 20px;
   display: flex;
   justify-content: space-between;
 `;
 
 const Switches = styled.div`
-  width: 348px;
+  //width: 348px;
+  width: 522px;
   height: 56px;
   background: #f9fafb;
   border: 1px solid #d1d5db;
@@ -119,7 +115,7 @@ const Switches = styled.div`
 
 const Background = styled.div<any>`
   left: ${(props) =>
-    props.selected === ScoutSwitchType.index ? "5px" : "169px"};
+    props.selected === ScoutSwitchType.index ? "5px" : (props.selected === ScoutSwitchType.quickBridge ? "169px" : "345px")};
   top: 5;
   position: absolute;
   width: 174px;
@@ -155,6 +151,22 @@ const ByQuickBridge = styled.span<any>`
   text-align: center;
   color: ${(props) =>
     props.selected === ScoutSwitchType.quickBridge ? "#fff" : "#808080"};
+  cursor: pointer;
+  background: transparent;
+  position: relative;
+  transition: 0.5s;
+`;
+
+const ByBidder = styled.span<any>`
+  width: 50%;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-weight: 400;
+  font-size: 14px;
+  line-height: 17px;
+  text-align: center;
+  color: ${(props) =>
+    props.selected === ScoutSwitchType.bidder ? "#fff" : "#808080"};
   cursor: pointer;
   background: transparent;
   position: relative;

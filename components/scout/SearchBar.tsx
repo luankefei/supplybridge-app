@@ -1,11 +1,15 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useCallback } from "react";
 import styled from "styled-components";
 
 import useStore from "hooks/useStore";
 import useBoundStore from "hooks/useBoundStore";
 import Icon from "components/Icon";
 import TextField from "components/TextField";
-import { Button } from "@mui/material";
+import { Button, MenuItem, FormControl } from "@mui/material";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
+import Switch from "@mui/material/Switch";
+
+import { L2L3tree } from "components/scout/summaryCategoryData";
 
 interface Props {
   onSearch: () => void;
@@ -50,20 +54,86 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
+// XXX: in future, we should use i18n component
+//      now we just hardcoded map
+const langWordMap: any = {
+   EN: {
+      Keywords: "Keywords",
+      Companies: "Companies",
+      Search: "Search",
+      Placeholder: {
+         Keywords: "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
+         Companies: "Search for Companies",
+      },
+   },
+   DE: {
+      Keywords: "Schlüsselwörter",
+      Companies: "Lieferanten",
+      Search: "Suchen",
+      Placeholder: {
+         Keywords: "Suchen Sie nach Komponenten oder Schlüsselwörter (z.B. Reifen, NMC-Batterie, Recycling...)",
+         Companies: "Suche nach Lieferanten",
+      },
+   },
+};
+
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
+  const {
+     suppliers,
+     filterData,
+     setSelectedCountries,
+     setSelectedRegions,
+     setFilterData, setSuppliers, setShowBackdrop, flags
+  } = useStore();
   const [searchItem, setSearchItem] = useState("");
-  const { setFilterData, setSuppliers, setShowBackdrop } = useStore();
+  const [searchItemDisplay, setSearchItemDisplay] = useState("");
+  const [searchType, setSearchType] = useState(flags.type || "Keywords");
+  const [searchLang, setSearchLang] = useState(flags.lang || "EN");
+
+  useEffect(() => {
+     // ensure first enter, no last search showing
+     if (!suppliers?.length && !searchItem) {
+        flags.q = '';
+        filterData.q = '';
+     }
+  }, [suppliers]);
+
+  const handleSearchTypeChange = (evt: SelectChangeEvent) => {
+     const val: string = evt.target.value as string;
+     flags.type = val;
+     setSearchType(val);
+  }
+
+  const handleSearchLangChange = (evt: SelectChangeEvent) => {
+     const val: string = (evt.target as any).checked ? "DE" : "EN";
+     flags.lang = val;
+     setSearchLang(val);
+  }
+
+  const doTransform = () => {
+    flags.q = searchItemDisplay;
+    let transformed = searchItemDisplay;
+/*
+    const keys = Object.keys(L2L3tree);
+    const possible = keys.map((L2: string) => L2L3tree[L2].de);
+    const i = possible.indexOf(transformed.toLowerCase());
+    if (i >= 0) {
+       transformed = keys[i];
+    }
+*/
+    return transformed;
+  };
 
   const onClickSearch = () => {
     clearFilters();
-    setFilterData({
-      q: searchItem,
-    });
+    setFilterData({ q: doTransform() });
     onSearch();
   };
 
   const resetFilters = () => {
     setSearchItem("");
+    setSearchItemDisplay("");
+    flags.q = "";
     clearFilters();
     setSuppliers(null, true);
     setShowBackdrop(false);
@@ -77,20 +147,45 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
       subRegions: [],
       vehicleFuelTypes: [],
     });
+    setSelectedCountries([]);
+    setSelectedRegions([]);
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
-      setFilterData({
-        q: searchItem,
-      });
+      clearFilters();
+      setFilterData({ q: doTransform() });
       onSearch();
     }
   };
 
+  const cbOnSearchChange = useCallback((evt: any) => {
+     const value: string = evt.target.value;
+     let transformed = value;
+     if (value === 'achsenkomponenten') transformed = 'axle components';
+     setSearchItem(transformed);
+     setSearchItemDisplay(value);
+  }, [setSearchItem, setSearchItemDisplay]);
+
+  useEffect(() => {
+     setSearchItemDisplay(flags.q);
+  }, [filterData]);
+
   return (
     <Container>
+      <ControlContainer>
+        <SearchLangContainer label={searchLang}><Switch onChange={handleSearchLangChange} /></SearchLangContainer>
+        <ControlSpace />
+        <ResetAllButton variant="text" onClick={resetFilters}>
+          <Icon src="reset" width={12} height={12} m="0px 6px" />
+          Reset
+        </ResetAllButton>
+      </ControlContainer>
       <SearchBarContainer width={width}>
         <InputContainer>
+          <SearchTypeSelect id="search_type" value={searchType} onChange={handleSearchTypeChange}>
+             <MenuItem value={"Keywords"}>{langWordMap[searchLang]?.Keywords}</MenuItem>
+             <MenuItem value={"Companies"}>{langWordMap[searchLang]?.Companies}</MenuItem>
+          </SearchTypeSelect>
           {searchItem === "" ? (
             <Icon src="search2" width={20} height={20} m={"0px"} hover />
           ) : (
@@ -98,20 +193,16 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           )}
 
           <StyledInput
-            onChange={(e: any) => setSearchItem(e.target.value)}
+            onChange={cbOnSearchChange}
             name="search"
-            placeholder="Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)"
+            placeholder={langWordMap[searchLang]?.Placeholder?.[searchType]}
             onKeyPress={onKeyPressHandler}
-            value={searchItem}
+            value={searchItemDisplay}
             type="text"
           />
         </InputContainer>
         <SearchButtonWrapper>
-          <ResetAllButton variant="text" onClick={resetFilters}>
-            <Icon src="reset" width={12} height={12} m="0px 6px" />
-            Reset
-          </ResetAllButton>
-          <SearchButton onClick={onClickSearch}>Search</SearchButton>
+          <SearchButton onClick={onClickSearch}>{langWordMap[searchLang]?.Search}</SearchButton>
         </SearchButtonWrapper>
       </SearchBarContainer>
 
@@ -183,14 +274,16 @@ export const SearchBarForFilter = ({
 };
 
 const MainContainer = styled.div`
-  width: calc(100%);
+  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
 `;
 
 const Container = styled.div`
-  width: 75%;
+  max-width: 1040px;
+  width: 100%;
+  padding: 0 30px;
   margin-top: 22px;
   display: flex;
   justify-content: end;
@@ -267,7 +360,7 @@ const SearchButtonWrapper = styled.div`
 `;
 
 const SearchButton = styled.button`
-  width: 196px;
+  min-width: 120px;
   height: 46px;
   border: none;
   border-radius: 32px;
@@ -297,7 +390,7 @@ const InputContainer = styled.div`
   align-items: center;
   justify-content: space-between;
   height: 46px;
-  width: 80%;
+  width: 100%;
 
   padding-left: 16px;
   border-radius: 50px;
@@ -318,6 +411,20 @@ const InputContainer = styled.div`
   @media (max-width: ${(props) => props.theme.size.mobileXl}) {
     width: 100%;
     height: 35px;
+  }
+`;
+
+const SearchTypeSelect = styled(Select)<any>`
+  min-width: 100px;
+  max-width: 160px;
+  width: 160px;
+  border: none;
+
+  & .MuiSelect-select {
+     padding: 4px 0 5px 0;
+  }
+  & .MuiOutlinedInput-notchedOutline {
+     border: none;
   }
 `;
 
@@ -355,18 +462,62 @@ const StyledInput = styled.input`
   }
 `;
 
+const ControlContainer = styled.div`
+  display: flex;
+  flex-direction: row;
+`;
+const ControlSpace = styled.div`
+  flex: 1 0 auto;
+`;
+
+const SearchLangContainer = styled.div<{label: string}>`
+  & .MuiSwitch-root {
+     padding: 0;
+     margin-bottom: 3px;
+     width: 100px;
+     border-radius: 50px;
+  }
+  & .MuiSwitch-root > span.MuiSwitch-track { background-color: #ccc; }
+  & .MuiSwitch-track:before {
+     content: "EN";
+     color: black;
+     position: absolute;
+     top: 10px;
+     left: 15px;
+  }
+  & .MuiSwitch-track:after {
+     content: "DE";
+     color: black;
+     position: absolute;
+     top: 10px;
+     right: 20px;
+  }
+  & .MuiButtonBase-root {
+     padding: 4px;
+  }
+  & .MuiSwitch-thumb {
+     width: 50px;
+     height: 30px;
+     border-radius: 50px;
+  }
+  & .MuiTouchRipple-root:before{
+     content: ${(props) => `"${props.label || 'EN'}"`};
+     position: absolute;
+     color: black;
+     top: 10px;
+     left: 18px;
+  }
+  & .MuiButtonBase-root.MuiSwitch-switchBase.Mui-checked {
+     color: white;
+     margin-left: 20px;
+  }
+`;
+
 const ResetButtonContainer = styled.div`
   display: flex;
   justify-content: end;
 `;
 const ResetAllButton = styled(Button)`
-  position: absolute !important;
-  top: -2.25rem;
-  right: 23px;
-  margin-left: 0px !important;
-  margin-right: 0px !important;
-  margin-bottom: 8px !important;
-  padding: 0px 0px !important;
   font-family: "Inter", sans-serif !important;
   font-style: normal;
   font-weight: 400;

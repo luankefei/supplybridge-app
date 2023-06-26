@@ -26,6 +26,7 @@ interface Props {
   m?: any;
   p?: any;
   hover?: boolean;
+  tooltip?: string;
 }
 
 const Icon = ({
@@ -36,6 +37,7 @@ const Icon = ({
   m = "",
   p = "",
   hover = false,
+  tooltip = "",
 }: Props) => {
   return (
     <StyledIcon
@@ -46,6 +48,7 @@ const Icon = ({
       m={m}
       p={p}
       hover={hover}
+      title={tooltip}
     />
   );
 };

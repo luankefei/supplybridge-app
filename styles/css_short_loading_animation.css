@@ -1,0 +1,315 @@
+@font-face {
+  font-family: "Russo One";
+  src: url("/fonts/RussoOne-Regular.ttf");
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(5, 35px);
+  grid-template-rows: repeat(5, 18.5px);
+  grid-gap: 5px;
+  position: absolute;
+  z-index: 5;
+}
+
+.animation-text {
+  font-family: "Russo One";
+  font-size: 24px;
+  color: white;
+}
+
+.loading-text {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: #08979c;
+}
+
+.box-short {
+  width: 22px;
+  height: 22px;
+  background-color: #cce4ec;
+  opacity: 0.1;
+  animation: first-animation 3s linear forwards;
+  animation-delay: 0;
+  border-radius: 7px;
+}
+
+.box-short:nth-child(1),
+.box-short:nth-child(25) {
+  animation: second-animation 0.25s linear forwards;
+  animation-delay: 0.25s;
+}
+
+.box-short:nth-child(5),
+.box-short:nth-child(21) {
+  animation: second-animation 0.25s linear forwards;
+  animation-delay: 0.5s;
+}
+
+.box-short:nth-child(7),
+.box-short:nth-child(13) {
+  animation: second-animation 0.25s linear forwards;
+  animation-delay: 0.75s;
+}
+
+.box-short:nth-child(7),
+.box-short:nth-child(13) {
+  animation: second-animation 0.25s linear forwards;
+  animation-delay: 1s;
+}
+
+.box-short:nth-child(9),
+.box-short:nth-child(19) {
+  animation: second-animation 0.25s linear forwards;
+  animation-delay: 1.25s;
+}
+
+.box-short:nth-child(17) {
+  animation: second-animation 0.25s linear forwards;
+  animation-delay: 1.5s;
+}
+
+.box-short:nth-child(11),
+.box-short:nth-child(15) {
+  animation: second-animation 0.25s linear forwards;
+  animation-delay: 1.75s;
+}
+
+.zigzag_inner_short,
+.zigzag_inner_short_two,
+.zigzag_inner_short_three,
+.zigzag_inner_short_fourth,
+.zigzag_left_short,
+.zigzag_left_short_two,
+.zigzag_left_short_three,
+.zigzag_left_short_four,
+.zigzag_right_short,
+.zigzag_right_short_two,
+.zigzag_right_short_three,
+.zigzag_right_short_four {
+  width: 6px;
+  height: 31px;
+  background-color: #cce4ec;
+  opacity: 0;
+  position: absolute;
+  z-index: -1;
+}
+
+.zigzag_inner_short {
+  transform: rotate(317deg);
+  left: 65px;
+  top: 33px;
+  animation: third-animation 0.25s linear forwards;
+  animation-delay: 2s;
+}
+.zigzag_inner_short_two {
+  transform: rotate(43deg);
+  left: 65px;
+  top: 53px;
+  animation: third-animation 0.25s linear forwards;
+  animation-delay: 2s;
+}
+
+.zigzag_inner_short_three {
+  transform: rotate(317deg);
+  left: 111px;
+  top: 53px;
+  animation: third-animation 0.25s linear forwards;
+  animation-delay: 2s;
+}
+.zigzag_inner_short_fourth {
+  transform: rotate(43deg);
+  left: 111px;
+  top: 33px;
+  animation: third-animation 0.25s linear forwards;
+  animation-delay: 2s;
+}
+
+/* soldaki zigzag */
+.zigzag_left_short {
+  transform: rotate(319deg);
+  left: 25px;
+  background-color: #e7eff3;
+  top: 10px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+.zigzag_left_short_two {
+  transform: rotate(42deg);
+  left: 25px;
+  background-color: #e7eff3;
+  top: 30px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+
+.zigzag_left_short_three {
+  transform: rotate(319deg);
+  left: 25px;
+  background-color: #e7eff3;
+  top: 55px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+
+.zigzag_left_short_four {
+  transform: rotate(44deg);
+  left: 25px;
+  background-color: #e7eff3;
+  top: 75px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+
+.zigzag_right_short {
+  transform: rotate(44deg);
+  left: 151px;
+  background-color: #e7eff3;
+  top: 11px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+.zigzag_right_short_two {
+  transform: rotate(319deg);
+  left: 151px;
+  background-color: #e7eff3;
+  top: 31px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+
+.zigzag_right_short_three {
+  transform: rotate(39deg);
+  left: 152px;
+  background-color: #e7eff3;
+  top: 55px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+
+.zigzag_right_short_four {
+  transform: rotate(319deg);
+  left: 151px;
+  background-color: #e7eff3;
+  top: 76px;
+  animation: fourth-animation 0.5s linear forwards;
+  animation-delay: 2s;
+}
+
+@keyframes first-animation {
+  0% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  30% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 0;
+  }
+}
+
+@keyframes second-animation {
+  0% {
+    opacity: 10%;
+    width: 23px;
+    height: 23px;
+  }
+  10% {
+    opacity: 10%;
+    width: 24px;
+    height: 24px;
+    box-short-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  20% {
+    opacity: 20%;
+    width: 25px;
+    height: 25px;
+    box-short-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  30% {
+    opacity: 30%;
+    width: 26px;
+    height: 26px;
+    box-short-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  40% {
+    opacity: 40%;
+    width: 27px;
+    height: 27px;
+    box-short-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  60% {
+    opacity: 60%;
+    width: 26px;
+    height: 26px;
+    box-short-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  80% {
+    opacity: 80%;
+    width: 25px;
+    height: 25px;
+    box-short-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  90% {
+    opacity: 90%;
+    width: 24px;
+    height: 24px;
+    box-short-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  }
+  100% {
+    opacity: 100%;
+    width: 22px;
+    height: 22px;
+  }
+}
+
+@keyframes third-animation {
+  0% {
+    opacity: 0.1;
+  }
+  20% {
+    opacity: 0.2;
+  }
+  30% {
+    opacity: 0.3;
+  }
+  40% {
+    opacity: 0.4;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes fourth-animation {
+  0% {
+    opacity: 0;
+    background-color: #e7eff3;
+  }
+  30% {
+    opacity: 0.3;
+    background-color: #e7eff3;
+  }
+  50% {
+    opacity: 0.5;
+    background-color: #e7eff3;
+  }
+  75% {
+    opacity: 0.75;
+    background-color: #cce4ec;
+  }
+  100% {
+    opacity: 1;
+    background-color: #cce4ec;
+  }
+}

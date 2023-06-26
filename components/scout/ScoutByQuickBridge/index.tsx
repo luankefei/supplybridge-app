@@ -20,6 +20,8 @@ const Feedback = dynamic(() => import("components/Feedback"));
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
+import ServicesP from "./ServicesP";
+import { Button } from "@mui/material";
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -60,7 +62,7 @@ interface StyledTabProps {
 const StyledTab = styled((props: StyledTabProps) => (
   <Tab disableRipple {...props} />
 ))(({ theme }) => ({
-  width: "12.5%",
+  width: "11.1%",
   textTransform: "none",
   //fontSize: "12px",
   [theme.breakpoints.down("lg")]: {
@@ -127,11 +129,9 @@ export default function ScoutByQuickBridge() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const router = useRouter();
 
-  const { tab, setTab, setResult } = quickBridge;
+  const { tab, setTab, setResult, filter, selectedLabel } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
-    setTab(newValue);
-
     var tabName = QuickBridgeTabType.vehile;
     switch (newValue) {
       case 0:
@@ -156,51 +156,22 @@ export default function ScoutByQuickBridge() {
         tabName = QuickBridgeTabType.productionTech;
         break;
       case 7:
+        tabName = QuickBridgeTabType.services;
+        break;
+      case 8:
         tabName = QuickBridgeTabType.pioneer;
         break;
     }
-
-    router.push(`/scout/${ScoutSwitchType.quickBridge.toLowerCase()}/${tabName.toLowerCase()}`);
+    setTab(newValue, tabName);
   };
 
   const showResult = () => {
     setResult(true);
   };
-
   useEffect(() => {
-    if (
-      router.query &&
-      router.query.slug &&
-      Array.isArray(router.query.slug) &&
-      router.query.slug.length > 0
-    ) {
-      if (router.query.slug.length === 1) {
-        setTab(0);
-      } else if (router.query.slug.length >= 2) {
-        switch (router.query.slug[1]) {
-          case QuickBridgeTabType.oem.toLowerCase():
-            setTab(1);
-            break;
-          case QuickBridgeTabType.class.toLowerCase():
-            setTab(2);
-            break;
-          case QuickBridgeTabType.segment.toLowerCase():
-            setTab(3);
-            break;
-          case QuickBridgeTabType.technology.toLowerCase():
-            setTab(4);
-            break;
-          case QuickBridgeTabType.commodity.toLowerCase():
-            setTab(5);
-            break;
-          case QuickBridgeTabType.productionTech.toLowerCase():
-            setTab(6);
-            break;
-          case QuickBridgeTabType.pioneer.toLowerCase():
-            setTab(7);
-            break;
-        }
-      }
+    if (!tab || tab.tabName) {
+      setTab(0, QuickBridgeTabType.vehile);
+      console.log("setTab");
     }
   }, [setTab]);
 
@@ -227,8 +198,7 @@ export default function ScoutByQuickBridge() {
     else if (windowHeight > 1500) setTabHeight("80vh");
   }, [windowHeight]);
 
-  console.log(value);
-
+  let scoutDisabled = filter?.[Object.keys(filter)?.toString()]?.length == 0;
   return (
     <>
       <div className="Container">
@@ -240,13 +210,15 @@ export default function ScoutByQuickBridge() {
                 onChange={handleChange}
                 aria-label="tabs"
               >
-                <StyledTab label="By Vehicle" />
-                <StyledTab label="By OEM" />
-                <StyledTab label="By Class" />
-                <StyledTab label="By Segment" />
-                <StyledTab label="By Technology" />
-                <StyledTab label="By Commodity" />
-                <StyledTab label="By Production Tech" />
+                <StyledTab label="Vehicle" />
+                <StyledTab label="OEM" />
+                <StyledTab label="Class" />
+                <StyledTab label="Segment" />
+                <StyledTab label="Technology" />
+                <StyledTab label="Commodity" />
+                <StyledTab label="Production Tech" />
+                <StyledTab label="3P Services" />
+
                 <StyledTab
                   label={
                     <span
@@ -256,7 +228,7 @@ export default function ScoutByQuickBridge() {
                         alignItems: "center",
                       }}
                     >
-                      <span style={{ marginRight: "-3px" }}>By Pioneer</span>
+                      <span style={{ marginRight: "-3px" }}>Pioneer</span>
                       <Icon src={"pioneer"} height={18} />
                     </span>
                   }
@@ -313,6 +285,14 @@ export default function ScoutByQuickBridge() {
                   </div>
                 </TabPanel>
                 <TabPanel value={value} index={7} dir={theme.direction}>
+                  <div
+                    style={{ alignItems: "center" }}
+                    className="TabPanelWrapper"
+                  >
+                    <ServicesP />
+                  </div>
+                </TabPanel>
+                <TabPanel value={value} index={8} dir={theme.direction}>
                   <div style={{}} className="TabPanelWrapper-FullContents">
                     <ByPioneer />
                   </div>
@@ -325,8 +305,9 @@ export default function ScoutByQuickBridge() {
                   justifyContent: "flex-end",
                 }}
               >
-                <Box
+                <Button
                   onClick={showResult}
+                  disabled={scoutDisabled}
                   sx={{
                     color: "#fff",
                     width: "254px",
@@ -339,17 +320,20 @@ export default function ScoutByQuickBridge() {
                     marginBottom: "40px",
                     cursor: "pointer",
                     "&:hover": {
-                      boxShadow:
-                        "0px 3px 6px -4px rgba(0, 0, 0, 0.12), 0px 9px 28px 8px rgba(0, 0, 0, 0.05)",
-                      filter: "drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08))",
+                      background: "#08979C",
                     },
                     "&:active": {
                       background: "#006D75",
                     },
+                    "&:disabled": {
+                      color: "#ddd",
+                      // cursor: "not-allowed",
+                      pointerEvents: "auto",
+                    },
                   }}
                 >
                   Scout Now
-                </Box>
+                </Button>
               </div>
               <Feedback />
             </>

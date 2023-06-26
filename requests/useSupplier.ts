@@ -15,8 +15,8 @@ export const useSupplier = () => {
     searchString?: string
   ) => {
     try {
-      const { filterData } = useStore.getState();
-      if (filterData.q != "" || filterData.regions.length > 0 || filterData.subRegions > 0) {
+      const { flags, filterData } = useStore.getState();
+      if (filterData.q || filterData.regions.length > 0 || filterData.subRegions > 0) {
         setLoading(true);
         const searchObj = {
           q: filterData.q || searchString,
@@ -27,8 +27,9 @@ export const useSupplier = () => {
           },
         };
 
+      const entrypoint = (!flags.type || flags.type === 'Keywords') ? "suppliers/search_full_text" : "suppliers/search_full_text" ;
       const { data } = await request.post(
-        `suppliers/search_full_text`,
+        entrypoint,
         searchObj
       );
       setLoading(false);
