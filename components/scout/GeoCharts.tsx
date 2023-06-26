@@ -95,7 +95,6 @@ const GeoCharts = () => {
      setLegendTop(legendBaseTop.current);
      setLegendSummary(agg);
   };
-console.log(showLegend, legendTop, legendSummary);
   const setInitialData = () => {
     let initialData: any = [];
     for (const key in allCountry) {
@@ -319,9 +318,7 @@ console.log(showLegend, legendTop, legendSummary);
      const el: any = elContainer.current;
      if (!el) return;
      const h = (window.innerHeight - el.parentNode.offsetTop) * 0.8;
-     //legendBaseTop.current = el.parentNode.offsetTop + h - 200;
      legendBaseTop.current = h - 200;
-console.log(el.parentNode.offsetTop, h);
      setFitMapHeight(h);
   }, [elContainer]);
 

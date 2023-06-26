@@ -22,6 +22,9 @@ export const SummaryCategoryIcon = styled.img`
 export const SummaryTitleColumn = styled.div`
    padding: 10px;
    flex: 1 0 auto;
+   display: flex;
+   flex-direction: column;
+   justify-content: center
 `;
 
 export const SummaryTitle = styled.div`
@@ -44,6 +47,12 @@ export const SummaryColumn = styled.div`
 export const SummarySpaceColumn = styled.div<{space: number}>`
    padding: 10px;
    width: ${(props: any) => `${props.space}%`};
+`;
+export const SummaryCenterColumn = styled.div`
+   display: flex;
+   flex-direction: column;
+   justify-content: center;
+   padding: 10px;
 `;
 
 export const SummaryLabel = styled.div`

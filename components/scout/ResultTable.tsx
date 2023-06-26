@@ -191,7 +191,9 @@ export default function BasicTable() {
             <ResultHeadCell>Organization</ResultHeadCell>
             <ResultHeadCell>HQ Location</ResultHeadCell>
             <ResultHeadCell>Global Footprint</ResultHeadCell>
+            {/*
             <ResultHeadCell>Category</ResultHeadCell>
+            */}
             {isSearchForCompanies ? (<ResultHeadCell>Show Similar</ResultHeadCell>) : null}
           </ResultTableHeadRow>
         </TableHead>
@@ -209,7 +211,9 @@ export default function BasicTable() {
                  <div>{row.headquarter?.name || 'hidden'}</div>
               </div></ResultTableCellWithImg>
               <TableCell className={row.isBlur?'blur':''}>{regionMap[row.headquarter?.regionId] || 'hidden'}</TableCell>
+              {/*
               <CompetenceCell className={row.isBlur?'blur':''}><a title={row.isBlur ? '' : (row.supplierCategory || row.coreCompetence)}>{row.supplierCategory || row.coreCompetence}</a></CompetenceCell>
+              */}
               {isSearchForCompanies ? (<TableCell><NextButton className={!!(row.supplierCategory || row.coreCompetence) ? '': 'inactive'}  onClick={() => onResultClick(row)} title="Show Similar">&gt;</NextButton></TableCell>) : null}
             </ResultTableRow>
           ))}
