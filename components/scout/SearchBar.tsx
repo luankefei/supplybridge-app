@@ -67,11 +67,11 @@ const langWordMap: any = {
       },
    },
    DE: {
-      Keywords: "Schlüsselwörtern",
+      Keywords: "Schlüsselwörter",
       Companies: "Lieferanten",
       Search: "Suchen",
       Placeholder: {
-         Keywords: "Suchen Sie nach Komponenten oder Schlüsselwörtern (z.B. Reifen, NMC-Batterie, Recycling...)",
+         Keywords: "Suchen Sie nach Komponenten oder Schlüsselwörter (z.B. Reifen, NMC-Batterie, Recycling...)",
          Companies: "Suche nach Lieferanten",
       },
    },
