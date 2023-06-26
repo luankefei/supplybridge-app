@@ -68,7 +68,7 @@ const GeoCharts = () => {
   const [legendTop, setLegendTop] = useState(0);
   const legendBaseTop = useRef(0);
   const buildLegendSummary = () => {
-     const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0 };
+     const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0, Total: 0, };
      if (filterData.q) {
         if (stats.locationId) {
            allCountry.forEach((regionObj: any) => {
@@ -90,6 +90,7 @@ const GeoCharts = () => {
            });
         });
      }
+     agg.Total = agg.EMEA + agg.Americas + agg.APAC;
      Object.keys(agg).forEach(key => { agg[key] = agg[key].toLocaleString(); });
      setShowLegend(filterData.regions.length === 0);
      setLegendTop(legendBaseTop.current);
@@ -380,6 +381,10 @@ const GeoCharts = () => {
             <LegendItemKey>China</LegendItemKey>
             <LegendItemVal>{legendSummary?.CN || 0}</LegendItemVal>
          </LegendItemBContainer>
+         <LegendItemGapContainer>
+            <LegendItemKey>Total</LegendItemKey>
+            <LegendItemVal>{legendSummary?.Total || 0}</LegendItemVal>
+         </LegendItemGapContainer>
       </LegendContainer>
       ) : null}
       {!mapLoaded ? (
