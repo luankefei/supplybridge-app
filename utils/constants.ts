@@ -299,7 +299,7 @@ export enum QuickBridgeTabType {
   segment = "Segment",
   technology = "Technology",
   commodity = "Commodity",
-  productionTech = "Production Tec",
+  productionTech = "Production Tech",
   services = "3P Services",
   pioneer = "Pioneer",
 }
