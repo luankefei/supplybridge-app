@@ -89,6 +89,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState(flags.type || "Keywords");
   const [searchLang, setSearchLang] = useState(flags.lang || "EN");
+  const [langSwChecked, setLangSwChecked] = useState(flags.lang === 'DE' ? true : false);
 
   useEffect(() => {
      // ensure first enter, no last search showing
@@ -105,7 +106,9 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   }
 
   const handleSearchLangChange = (evt: SelectChangeEvent) => {
-     const val: string = (evt.target as any).checked ? "DE" : "EN";
+     const checked = !!((evt.target as any).checked);
+     setLangSwChecked(checked);
+     const val: string = checked ? "DE" : "EN";
      flags.lang = val;
      setSearchLang(val);
   }
@@ -173,7 +176,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   return (
     <Container>
       <ControlContainer>
-        <SearchLangContainer label={searchLang}><Switch onChange={handleSearchLangChange} /></SearchLangContainer>
+        <SearchLangContainer label={searchLang}><Switch checked={langSwChecked} onChange={handleSearchLangChange} /></SearchLangContainer>
         <ControlSpace />
         <ResetAllButton variant="text" onClick={resetFilters}>
           <Icon src="reset" width={12} height={12} m="0px 6px" />
