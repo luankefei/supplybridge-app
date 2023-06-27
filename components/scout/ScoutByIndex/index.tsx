@@ -1,5 +1,6 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
 import {
   Box,
@@ -184,9 +185,19 @@ export default function ScoutByIndex() {
 
   const carouselRef = useRef<CarouselRef>(null);
 
+  const filerImg = [
+    { src: "filter1_general.png" },
+    { src: "filter2_global_footprint.png" },
+    { src: "filter3_engineering.png" },
+    { src: "filter4_certificate.png" },
+    { src: "filter5_portfolio.png" },
+    { src: "filter6_pioneer.png" },
+  ];
+
   return (
     <ScoutContainer ref={thisElementRef}>
       <Modal
+        maskStyle={{ background: "#1A1A1A", opacity: "80%" }}
         open={filterModalVisible}
         footer={null}
         width={800}
@@ -211,7 +222,13 @@ export default function ScoutByIndex() {
             dots={{ className: styles.carouselDots }}
             effect="scrollx"
           >
-            <div style={contentStyle}>
+            {filerImg.map((i) => (
+              <div key={i.src} style={contentStyle}>
+                <img src={i.src} width={"640px"} style={{ margin: "0 auto" }} />
+              </div>
+            ))}
+
+            {/* <div style={contentStyle}>
               <img
                 src="/filter1_1.png"
                 width={"640px"}
@@ -224,7 +241,7 @@ export default function ScoutByIndex() {
                 width={"640px"}
                 style={{ margin: "0 auto" }}
               />
-            </div>
+          </div>*/}
           </Carousel>
           <div
             style={{ position: "absolute", right: "-36px", bottom: "260px" }}
@@ -270,16 +287,19 @@ export default function ScoutByIndex() {
 
             <div
               style={{
+                padding: "12px",
+                width: "100%",
+                margin: "8px",
                 display: "flex",
-                justifyContent: "space-between",
+                // justifyContent: "space-between",
                 alignItems: "center",
               }}
             >
-              <ScoutFilter isQuickSearch={false} />
+              {/* <ScoutFilter isQuickSearch={false} /> */}
               {suppliers?.length > 0 ? (
                 <div>
                   <FilterButton onClick={() => setFilterModalVisible(true)}>
-                    Advanced Filter
+                    Build my Shortlist
                   </FilterButton>
                 </div>
               ) : null}
@@ -316,7 +336,7 @@ const FilterButton = styled.button`
   height: 46px;
   border: none;
   border-radius: 32px;
-  background: ${(props) => `${props.theme.colors.secondary}`};
+  background: #006d75;
   cursor: pointer;
 
   font-family: "Inter";
