@@ -1,7 +1,17 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useState, useRef } from "react";
-import { Box, Skeleton } from "@mui/material";
+import {
+  Box,
+  Skeleton,
+  Paper,
+  // Modal,
+} from "@mui/material";
+import { Carousel, Modal } from "antd";
+import { CarouselRef } from "antd/lib/carousel";
+
+// import { Paper, Button } from '@material-ui/core';
+import styles from "./styles.module.css";
 
 import { useSupplier } from "requests/useSupplier";
 import useStore from "hooks/useStore";
@@ -54,6 +64,7 @@ export default function ScoutByIndex() {
   const { searchFuelTypes } = useVehicleFuelTypes();
 
   const [filterModalVisible, setFilterModalVisible] = useState(false);
+  const onFilterModalCancel = () => setFilterModalVisible(false);
 
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
@@ -67,29 +78,32 @@ export default function ScoutByIndex() {
   }, []);
 
   useEffect(() => {
-     // XXX: current css layout may lead messy scrollbars, especially 2 scrollbars in one view
-     //      polish scout panel css and use js to find the scrollable element then hook event handler
-     let scrollable: any = thisElementRef.current;
-     let last = scrollable;
-     while (scrollable) {
-        if (scrollable.clientHeight === scrollable.scrollHeight && last.clientHeight < last.scrollHeight) {
-           scrollable = last;
-           break;
-        }
-        last = scrollable;
-        scrollable = scrollable.parentNode;
-     }
-     if (!scrollable) return;
-     scrollable.addEventListener("scroll", handleScroll);
-     return () => {
-        scrollable.removeEventListener("scroll", handleScroll);
-     };
+    // XXX: current css layout may lead messy scrollbars, especially 2 scrollbars in one view
+    //      polish scout panel css and use js to find the scrollable element then hook event handler
+    let scrollable: any = thisElementRef.current;
+    let last = scrollable;
+    while (scrollable) {
+      if (
+        scrollable.clientHeight === scrollable.scrollHeight &&
+        last.clientHeight < last.scrollHeight
+      ) {
+        scrollable = last;
+        break;
+      }
+      last = scrollable;
+      scrollable = scrollable.parentNode;
+    }
+    if (!scrollable) return;
+    scrollable.addEventListener("scroll", handleScroll);
+    return () => {
+      scrollable.removeEventListener("scroll", handleScroll);
+    };
   }, [thisElementRef, suppliers]);
 
   useEffect(() => {
     if (!flags.q) {
-       searchString.current = '';
-       return;
+      searchString.current = "";
+      return;
     }
     searchString.current = filterData.q;
   }, [filterData]);
@@ -118,9 +132,9 @@ export default function ScoutByIndex() {
   };
 
   const handleScroll = async (evt: any) => {
-    const isAtBottom = (
-       evt.target.scrollHeight - evt.target.scrollTop - evt.target.clientHeight < 1
-    );
+    const isAtBottom =
+      evt.target.scrollHeight - evt.target.scrollTop - evt.target.clientHeight <
+      1;
 
     if (isAtBottom && infiniteScrollControl.current) {
       infiniteScrollControl.current = false;
@@ -150,45 +164,126 @@ export default function ScoutByIndex() {
     suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
 
   const onSelectedBackClick = () => {
-     flags.selected = null;
-     const q = flags.back;
-     flags.back = '';
-     flags.type = 'Companies';
-     clearFilterData();
-     setFilterData({ q });
+    flags.selected = null;
+    const q = flags.back;
+    flags.back = "";
+    flags.type = "Companies";
+    clearFilterData();
+    setFilterData({ q });
   };
+
+  const contentStyle: React.CSSProperties = {
+    margin: 0,
+    height: "600px",
+    width: "460px",
+    color: "#fff",
+    lineHeight: "160px",
+    textAlign: "center",
+    background: "#364d79",
+  };
+
+  const carouselRef = useRef<CarouselRef>(null);
 
   return (
     <ScoutContainer ref={thisElementRef}>
+      <Modal
+        open={filterModalVisible}
+        footer={null}
+        width={800}
+        zIndex={900}
+        onCancel={onFilterModalCancel}
+        style={{
+          height: "800px",
+          position: "absolute",
+          right: "180px",
+          left: "400px",
+        }}
+      >
+        <div>
+          <div
+            style={{ position: "absolute", left: "-36px", bottom: "260px" }}
+            onClick={() => carouselRef.current?.prev()}
+          >
+            <CarouselLeft />
+          </div>
+          <Carousel
+            ref={carouselRef}
+            dots={{ className: styles.carouselDots }}
+            effect="scrollx"
+          >
+            <div style={contentStyle}>
+              <img
+                src="/filter1_1.png"
+                width={"640px"}
+                style={{ margin: "0 auto" }}
+              />
+            </div>
+            <div style={contentStyle}>
+              <img
+                src="/filter2_2.png"
+                width={"640px"}
+                style={{ margin: "0 auto" }}
+              />
+            </div>
+          </Carousel>
+          <div
+            style={{ position: "absolute", right: "-36px", bottom: "260px" }}
+            onClick={() => carouselRef.current?.next()}
+          >
+            <CarouselRight />
+          </div>
+        </div>
+      </Modal>
+
       <MainContainer>
         {flags.selected ? (
-        <SelectedBackButtonContainer><SelectedBackButton onClick={onSelectedBackClick}>
-           <span>&#x1f860;</span> BACK
-        </SelectedBackButton></SelectedBackButtonContainer>
+          <SelectedBackButtonContainer>
+            <SelectedBackButton onClick={onSelectedBackClick}>
+              <span>&#x1f860;</span> BACK
+            </SelectedBackButton>
+          </SelectedBackButtonContainer>
         ) : (
-        <SearchContainer isrow={isSuppliersNotEmpty}>
-          {!isSuppliersNotEmpty && (
-            <Title>Global Scouting, for Automotive professionals.</Title>
-          )}
-          <IconContainer isrow={isSuppliersNotEmpty}>
-            <Icon src="smart-bridge-ai" width={25} height={25} />
-            <IconLabel>
-              <Label>
-                powered by {isSuppliersNotEmpty && <br />}SmartBridge AI
-              </Label>
-            </IconLabel>
-          </IconContainer>
-          <SearchBar2 onSearch={searchHandler} />
-        </SearchContainer>
+          <SearchContainer isrow={isSuppliersNotEmpty}>
+            {!isSuppliersNotEmpty && (
+              <Title>Global Scouting, for Automotive professionals.</Title>
+            )}
+            <IconContainer isrow={isSuppliersNotEmpty}>
+              <Icon src="smart-bridge-ai" width={25} height={25} />
+              <IconLabel>
+                <Label>
+                  powered by {isSuppliersNotEmpty && <br />}SmartBridge AI
+                </Label>
+              </IconLabel>
+            </IconContainer>
+            <SearchBar2 onSearch={searchHandler} />
+          </SearchContainer>
         )}
         <ContentsContainer>
           <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
           <ContentsWrapper>
             <GeoCharts />
-            {flags.selected ? <ResultSelected selected={flags.selected} /> : null}
+            {flags.selected ? (
+              <ResultSelected selected={flags.selected} />
+            ) : null}
             {isSuppliersNotEmpty && <Filters totalCount={count} />}
-            {(isSuppliersNotEmpty && !flags.selected) && <Summary />}
-            <ScoutFilter isQuickSearch={false} />
+            {isSuppliersNotEmpty && !flags.selected && <Summary />}
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center",
+              }}
+            >
+              <ScoutFilter isQuickSearch={false} />
+              {suppliers?.length > 0 ? (
+                <div>
+                  <FilterButton onClick={() => setFilterModalVisible(true)}>
+                    Advanced Filter
+                  </FilterButton>
+                </div>
+              ) : null}
+            </div>
 
             <ResultTable />
             {/*
@@ -215,6 +310,217 @@ export default function ScoutByIndex() {
     </ScoutContainer>
   );
 }
+const FilterButton = styled.button`
+  width: 180px;
+  min-width: 120px;
+  height: 46px;
+  border: none;
+  border-radius: 32px;
+  background: ${(props) => `${props.theme.colors.secondary}`};
+  cursor: pointer;
+
+  font-family: "Inter";
+  font-style: normal;
+  font-weight: 600;
+  font-size: 16px;
+  line-height: 24px;
+
+  color: #f5f5f5;
+  filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
+  &:hover {
+    box-shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
+      0px 9px 28px 8px rgba(0, 0, 0, 0.05);
+    filter: drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08));
+  }
+  &:active {
+    background: #006d75;
+  }
+`;
+
+const CarouselLeft = () => (
+  <svg
+    width="72"
+    height="72"
+    style={{ zIndex: 10000, cursor: "pointer" }}
+    viewBox="0 0 72 72"
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_429_98021)">
+      <g filter="url(#filter0_dd_429_98021)">
+        <path
+          d="M36 66C19.4314 66 6 52.5686 6 36C6 19.4315 19.4314 6 36 6C52.5685 6 66 19.4315 66 36C66 52.5686 52.5685 66 36 66Z"
+          fill="white"
+        />
+        <path
+          d="M36 66C19.4314 66 6 52.5686 6 36C6 19.4315 19.4314 6 36 6C52.5685 6 66 19.4315 66 36C66 52.5686 52.5685 66 36 66Z"
+          stroke="#08979C"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+      </g>
+      <path
+        d="M40.5 49.5L27 36L40.5 22.5"
+        stroke="#08979C"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </g>
+    <defs>
+      <filter
+        id="filter0_dd_429_98021"
+        x="1"
+        y="3"
+        width="70"
+        height="72"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="1" />
+        <feGaussianBlur stdDeviation="1.5" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="BackgroundImageFix"
+          result="effect1_dropShadow_429_98021"
+        />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="4" />
+        <feGaussianBlur stdDeviation="2" />
+        <feComposite in2="hardAlpha" operator="out" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="effect1_dropShadow_429_98021"
+          result="effect2_dropShadow_429_98021"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect2_dropShadow_429_98021"
+          result="shape"
+        />
+      </filter>
+      <clipPath id="clip0_429_98021">
+        <rect
+          width="72"
+          height="72"
+          fill="white"
+          transform="matrix(-1 0 0 1 72 0)"
+        />
+      </clipPath>
+    </defs>
+  </svg>
+);
+
+const CarouselRight = () => (
+  <svg
+    width="72"
+    height="72"
+    viewBox="0 0 72 72"
+    style={{ zIndex: 10000, cursor: "pointer" }}
+    fill="none"
+    xmlns="http://www.w3.org/2000/svg"
+  >
+    <g clip-path="url(#clip0_429_98024)">
+      <g filter="url(#filter0_dd_429_98024)">
+        <path
+          d="M36 66C52.5686 66 66 52.5686 66 36C66 19.4315 52.5686 6 36 6C19.4315 6 6 19.4315 6 36C6 52.5686 19.4315 66 36 66Z"
+          fill="white"
+        />
+        <path
+          d="M36 66C52.5686 66 66 52.5686 66 36C66 19.4315 52.5686 6 36 6C19.4315 6 6 19.4315 6 36C6 52.5686 19.4315 66 36 66Z"
+          stroke="#08979C"
+          stroke-width="2"
+          stroke-linejoin="round"
+        />
+      </g>
+      <path
+        d="M31.5 49.5L45 36L31.5 22.5"
+        stroke="#08979C"
+        stroke-width="4"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+      />
+    </g>
+    <defs>
+      <filter
+        id="filter0_dd_429_98024"
+        x="1"
+        y="3"
+        width="70"
+        height="72"
+        filterUnits="userSpaceOnUse"
+        color-interpolation-filters="sRGB"
+      >
+        <feFlood flood-opacity="0" result="BackgroundImageFix" />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="1" />
+        <feGaussianBlur stdDeviation="1.5" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.1 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="BackgroundImageFix"
+          result="effect1_dropShadow_429_98024"
+        />
+        <feColorMatrix
+          in="SourceAlpha"
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0"
+          result="hardAlpha"
+        />
+        <feOffset dy="4" />
+        <feGaussianBlur stdDeviation="2" />
+        <feComposite in2="hardAlpha" operator="out" />
+        <feColorMatrix
+          type="matrix"
+          values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.25 0"
+        />
+        <feBlend
+          mode="normal"
+          in2="effect1_dropShadow_429_98024"
+          result="effect2_dropShadow_429_98024"
+        />
+        <feBlend
+          mode="normal"
+          in="SourceGraphic"
+          in2="effect2_dropShadow_429_98024"
+          result="shape"
+        />
+      </filter>
+      <clipPath id="clip0_429_98024">
+        <rect width="72" height="72" fill="white" />
+      </clipPath>
+    </defs>
+  </svg>
+);
 
 const Title = styled.div`
   font-family: "Inter";
@@ -420,19 +726,19 @@ const ContentsWrapper = styled.div`
 `;
 
 const SelectedBackButtonContainer = styled.div`
-   width: 100%;
-   margin-top: 20px;
+  width: 100%;
+  margin-top: 20px;
 `;
 const SelectedBackButton = styled.div`
-   padding: 5px 40px;
-   color: #666;
-   font-weight: bold;
-   cursor: pointer;
+  padding: 5px 40px;
+  color: #666;
+  font-weight: bold;
+  cursor: pointer;
 
-   > span {
-      font-size: 25px;
-      vertical-align: middle;
-      display: inline-block;
-      margin-top: -6px;
-   }
+  > span {
+    font-size: 25px;
+    vertical-align: middle;
+    display: inline-block;
+    margin-top: -6px;
+  }
 `;
