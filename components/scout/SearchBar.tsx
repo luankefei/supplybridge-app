@@ -9,6 +9,7 @@ import { Button, MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
 
+import { useSupplier } from "requests/useSupplier";
 import { L2L3tree } from "components/scout/summaryCategoryData";
 
 interface Props {
@@ -17,6 +18,7 @@ interface Props {
   placeholder?: string;
 }
 
+const autoEnv: any = { timer: 0, fire: false };
 const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData } = useStore();
@@ -85,11 +87,15 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
      setSelectedRegions,
      setFilterData, setSuppliers, setShowBackdrop, flags
   } = useStore();
+  const { searchAutocomplete } = useSupplier();
   const [searchItem, setSearchItem] = useState("");
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState(flags.type || "Keywords");
   const [searchLang, setSearchLang] = useState(flags.lang || "EN");
   const [langSwChecked, setLangSwChecked] = useState(flags.lang === 'DE' ? true : false);
+
+  const [showAutoComplete, setShowAutoComplete] = useState(false);
+  const [autocompleteList, setAutocompleteList] = useState([]);
 
   useEffect(() => {
      // ensure first enter, no last search showing
@@ -152,11 +158,16 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     });
     setSelectedCountries([]);
     setSelectedRegions([]);
+    setShowAutoComplete(false);
+    setAutocompleteList([]);
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
+      autoEnv.fire = true;
       clearFilters();
       setFilterData({ q: doTransform() });
+      setShowAutoComplete(false);
+      setAutocompleteList([]);
       onSearch();
     }
   };
@@ -164,10 +175,40 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const cbOnSearchChange = useCallback((evt: any) => {
      const value: string = evt.target.value;
      let transformed = value;
-     if (value === 'achsenkomponenten') transformed = 'axle components';
+     (() => {
+        if (searchType !== 'Keywords') return;
+        if (autoEnv.timer) clearTimeout(autoEnv.timer);
+        if (value.length < 2) {
+           setShowAutoComplete(false);
+           setAutocompleteList([]);
+           return;
+        }
+        autoEnv.timer = setTimeout(async (q) => {
+           autoEnv.timer = 0;
+           if (autoEnv.fire) {
+              setShowAutoComplete(false);
+              setAutocompleteList([]);
+              autoEnv.fire = false;
+              return;
+           }
+           const autolist = await searchAutocomplete(q);
+           if (!autolist || !autolist.length) {
+              setShowAutoComplete(false);
+              return;
+           }
+           setShowAutoComplete(true);
+           setAutocompleteList(autolist);
+        }, 500, value);
+     })();
      setSearchItem(transformed);
      setSearchItemDisplay(value);
   }, [setSearchItem, setSearchItemDisplay]);
+  const autocompleteFill = (z: any) => {
+     setShowAutoComplete(false);
+     setAutocompleteList([]);
+     setSearchItem(z);
+     setSearchItemDisplay(z);
+  };
 
   useEffect(() => {
      setSearchItemDisplay(flags.q);
@@ -182,6 +223,9 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           <Icon src="reset" width={12} height={12} m="0px 6px" />
           Reset
         </ResetAllButton>
+        <AutocompleteContainer active={showAutoComplete?1:0}>{autocompleteList.map((z:any, i: number) => (
+           <AutocompleteItem key={i} onClick={() => autocompleteFill(z)}>{z}</AutocompleteItem>
+        ))}</AutocompleteContainer>
       </ControlContainer>
       <SearchBarContainer width={width}>
         <InputContainer>
@@ -530,5 +574,29 @@ const ResetAllButton = styled(Button)`
   &:hover {
     cursor: pointer !important;
   }
+`;
+
+const AutocompleteContainer = styled.div<any>`
+   display: ${(props) => props.active ? 'block' : 'none'};
+   position: absolute;
+   width: 300px;
+   z-index: 9000;
+   background-color: rgb(249, 250, 251);
+   margin-top: 87px;
+   margin-left: 200px;
+   padding: 10px;
+   white-space: nowrap;
+   max-height: 400px;
+   overflow-x: hidden;
+   overflow-y: auto
+`;
+const AutocompleteItem = styled.div`
+   user-select: none;
+   curosr: pointer;
+   padding: 5px;
+   :hover {
+      background-color: rgb(8, 151, 156);
+      color: white;
+   }
 `;
 export default SearchBar;

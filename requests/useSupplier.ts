@@ -9,6 +9,17 @@ export const useSupplier = () => {
     useStore();
   const [loading, setLoading] = useState(false);
 
+  const searchAutocomplete = async (q: string) => {
+     if (!q || q.length < 2) return [];
+     try {
+        const { data } = await request.get(`configData/categorylevel?a=${encodeURIComponent(q)}&l=en`);
+        return data.items || [];
+     } catch(err: any) {
+        console.error(err);
+        return [];
+     }
+  };
+
   const searchSuppliers = async (
     pageNumber: number = page,
     reset = true,
@@ -47,5 +58,5 @@ export const useSupplier = () => {
     }
   };
 
-  return { searchSuppliers, loading };
+  return { searchSuppliers, loading, searchAutocomplete };
 };
