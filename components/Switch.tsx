@@ -69,7 +69,7 @@ export default function Switch() {
           <ByBidder
             selected={selected}
             onClick={() => handleSwitchSelected(ScoutSwitchType.bidder)}>
-            Bidder List
+            Bidders List
           </ByBidder>
         </Switches>
       </SwitchContainer>
