@@ -21,7 +21,7 @@ const CarouselWrapper = styled(Carousel)`
 const SlideContainer = styled.div`
    text-align:center;
    > img {
-      width: 710px;
+      height: 710px;
    }
 `;
 
