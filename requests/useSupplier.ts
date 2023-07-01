@@ -3,6 +3,7 @@ import { toast } from "react-toastify";
 
 import { request } from "config/axios";
 import useStore from "hooks/useStore";
+import fakeData from "requests/hotpatchSearchDemoData";
 
 export const useSupplier = () => {
   const { setSuppliers, page, pageSize, setPage, setCount, setShowBackdrop, setStats } =
@@ -43,6 +44,7 @@ export const useSupplier = () => {
         entrypoint,
         searchObj
       );
+      await fakeData(data, searchObj);
       setLoading(false);
       setSuppliers(data?.suppliers, reset);
       setCount(data?.count);

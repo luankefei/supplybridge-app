@@ -10,7 +10,6 @@ import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
 
 import { useSupplier } from "requests/useSupplier";
-import { L2L3tree } from "components/scout/summaryCategoryData";
 
 interface Props {
   onSearch: () => void;
@@ -122,14 +121,6 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const doTransform = () => {
     flags.q = searchItemDisplay;
     let transformed = searchItemDisplay;
-/*
-    const keys = Object.keys(L2L3tree);
-    const possible = keys.map((L2: string) => L2L3tree[L2].de);
-    const i = possible.indexOf(transformed.toLowerCase());
-    if (i >= 0) {
-       transformed = keys[i];
-    }
-*/
     return transformed;
   };
 

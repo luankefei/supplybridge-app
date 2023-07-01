@@ -19,10 +19,7 @@ import {
    SummaryL3,
 } from "components/scout/Summary.styled";
 
-import demoData, {
-   L2L3tree,
-   L2top, L2topLogo,
-} from "components/scout/summaryCategoryData";
+import demoData from "components/scout/summaryCategoryData";
 
 function demoRandomPick(obj: any): any {
    if (!obj) return null;
@@ -52,10 +49,10 @@ function doScore(q: any, q0: any) {
    return 0;
 }
 
-function determineSummary(filterData: any, suppliers: any, flags: any): any {
+function determineSummary(filterData: any, suppliers: any, flags: any, stats: any): any {
    const summary: any = {};
    // TODO: determine summary title by filterData.q
-   if (flags.L2 && filterData.q === `${flags.L2} ${flags.L3 || ''}`) {
+   if (flags.L2 && filterData.q === `${flags.L3 || ''}`) {
       summary.lastQ = flags.L2;
    } else {
       flags.L2 = null;
@@ -63,69 +60,42 @@ function determineSummary(filterData: any, suppliers: any, flags: any): any {
       summary.lastQ = filterData.q;
    }
 
-   let nearest = [null, null, 0], score = 0;
-   Object.keys(L2L3tree).forEach((key: string) => {
-      const L2 = L2L3tree[key];
-      const L3s = L2L3tree[key].L3;
-      const s00 = doScore(summary.lastQ, L2.en) + 0.03;
-      const s01 = doScore(summary.lastQ, L2.de) + 0.03;
-      if (s00 > score) {
-         nearest[0] = L2.en;
-         nearest[1] = null;
-         score = s00;
-      }
-      if (s01 > score) {
-         nearest[0] = L2.en;
-         nearest[1] = null;
-         score = s01;
-      }
-if (s00 > 0.9) console.log('L2', L2.en, s00);
-if (s01 > 0.9) console.log('L2', L2.de, s01);
-      Object.keys(L3s).forEach((subkey: string) => {
-         const L3 = L3s[subkey];
-         const s1 = doScore(summary.lastQ, L3.en) + 0.02;
-         if (s1 > score) {
-            nearest[0] = L2.en;
-            nearest[1] = L3.en;
-            score = s1;
-         }
-if (s1 > 0.9) console.log('L3', L2.en, L3.en, s1);
-      });
-   });
-   nearest[2] = score;
-   if (score >= 0.5) {
-   summary.title = nearest[0];
-   summary.L2selected = summary.title;
-   }
-   summary.L3selected = nearest[1];
+   const chain = stats.chain;
+   const L2ch = chain?.[0];
+   const L3ch = chain?.[1];
 
-   if (summary.title) {
-      summary.categories = demoData.L2L3[summary.title];
+   if (L2ch) {
+      summary.title = L2ch;
+      summary.L2selected = summary.title;
+      summary.L3selected = L3ch;
+      summary.categories = stats.chainChildren;
    } else {
       summary.title = summary.lastQ;
       summary.categories = null;
    }
-   // TODO: rank suppliers by revenue; currently pick the first 10
+
    let selectedSuppliers;
    if (summary.title) {
-      const matchedtop = summary.title.toLowerCase().split(/[\s/\-]+/).join(' ');
-      selectedSuppliers = L2top.top[matchedtop]?.map((z: any) => ({
-         logo: L2topLogo[L2top.cs[z]] ? `https://cdn-stage.supplybridge.com/images/logos/${L2topLogo[L2top.cs[z]]}` : null,
-         name: L2top.cs[z],
-      }));
+      selectedSuppliers = stats.maj ? stats.maj.slice() : [];
+      summary.suppliersA = stats.maj ? stats.maj.slice() : [];
+      summary.suppliersB = stats.str ? stats.str.slice() : [];
    }
-   if (!selectedSuppliers) selectedSuppliers = suppliers.slice(0, 9);
-   summary.suppliersA = selectedSuppliers.slice(0, 5);
+   //summary.suppliersA = selectedSuppliers.slice(0, 5);
    //summary.suppliersB = selectedSuppliers.slice(3, 6);
    //summary.suppliersC = selectedSuppliers.slice(6, 9);
    return summary;
 }
 
+function transformName(name: any) {
+   if (!name) return name;
+   return name.toUpperCase();
+}
+
 const Supplier = (props: any) => {
    return (
       <SummarySupplierContainer>
-         <NullableImg url={props.logo} />
-         <SummarySupplierTitle>{props.name}</SummarySupplierTitle>
+         <NullableImg url={props.logo || 'https://cdn-stage.supplybridge.com/images/logos/no.png'} />
+         <SummarySupplierTitle>{transformName(props.name)}</SummarySupplierTitle>
       </SummarySupplierContainer>
    );
 };
@@ -177,20 +147,29 @@ const SummaryCategories = (props: any) => {
    // TODO: L3 -> object (innovation -> icon) displayed before L3 name
 }
 
-export default function Summary() {
-  const { suppliers, filterData, setFilterData, flags } = useStore();
+const summaryHiddenList = [
+   'wheel', 'starter battery', 'hv battery', 'recycling, reuse', 'software', 'semiconductor',
+];
+function isHidden(f: any) {
+   const q = f.q && f.q.toLowerCase();
+   if (summaryHiddenList.includes(q)) return '';
+   return 'hidden';
+}
 
-  const [summary, setSummary] = useState(determineSummary(filterData, suppliers, flags) || {});
+export default function Summary() {
+  const { suppliers, filterData, setFilterData, flags, stats } = useStore();
+
+  const [summary, setSummary] = useState(determineSummary(filterData, suppliers, flags, stats) || {});
   useEffect(() => {
      if (filterData.q === summary.lastQ) return;
-     setSummary(determineSummary(filterData, suppliers, flags));
+     setSummary(determineSummary(filterData, suppliers, flags, stats));
   }, [suppliers]);
 
   if (!summary.L2selected) return null;
 
   return (
      <>
-     <SummaryContainer><div>
+     <SummaryContainer className={isHidden(filterData)}><div>
         <SummaryCenterColumn><SummaryCategoryIcon src={`https://stsupplybridgeprod.blob.core.windows.net/images/L2/${
            summary.title.split(/[\s/]+/).join('')
         }.jpeg`} /></SummaryCenterColumn>
@@ -207,10 +186,10 @@ export default function Summary() {
                  flags.L2 = summary.L2selected;
                  if (flags.L3 === name) {
                     flags.L3 = '';
-                    setFilterData({ q: `${summary.L2selected} ` });
+                    setFilterData({ q: `${summary.L2selected}` });
                  } else {
                     flags.L3 = name;
-                    setFilterData({ q: `${summary.L2selected} ${name}` });
+                    setFilterData({ q: `${name}` });
                  }
               }}>{name}</SummaryL3>
            ))}
@@ -218,15 +197,17 @@ export default function Summary() {
         }
         <SummarySpaceColumn space={50}>
         {
-           summary?.L2selected ? (<><SummaryLabel>Top Suppliers</SummaryLabel>
+           summary?.L2selected ? (<>
            <SummaryTopList>
               <SummaryTopListOne>
+                 <SummaryLabel>Top Suppliers</SummaryLabel>
                  <Suppliers data={summary.suppliersA}/>
               </SummaryTopListOne>
-{/*
               <SummaryTopListOne>
+                 <SummaryLabel>Rising Stars</SummaryLabel>
                  <Suppliers data={summary.suppliersB}/>
               </SummaryTopListOne>
+{/*
               <SummaryTopListOne>
                  <Suppliers data={summary.suppliersC}/>
               </SummaryTopListOne>

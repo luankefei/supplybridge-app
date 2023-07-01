@@ -111,6 +111,20 @@ const ResultTableRow = styled(TableRow)`
   }
 `;
 
+const ResultTableRowBlur = styled(TableRow)`
+   border-radius: 10px;
+   background-color: white;
+   filter: blur(3px);
+   user-select: none;
+   > td {
+      text-align: center;
+      border-radius: 0;
+      border-bottom: 5px solid #edf1f3;
+      height: 59px;
+      padding: 10px;
+   }
+`;
+
 const ResultHeadCell = styled(TableCell)`
   background-color: transparancy;
   color: #757575;
@@ -177,24 +191,24 @@ const NextButton = styled("button")`
 `;
 
 export default function BasicTable() {
-  const { suppliers, flags, setFilterData } = useStore();
+  const { allSubRegions, suppliers, flags, setFilterData } = useStore();
   const isSearchForCompanies = flags.type === "Companies" && !flags.selected;
   const data = suppliers?.map((x: any) => ({
     logo:
-      x.logo || `https://cdn.supplybridge.com/images/companylogos/${x.id}.jpeg`,
+      x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
     name: x.name,
     longName: x.longName,
-    headquarter: x.headquarter,
-    supplierCategory: x.supplierCategory?.lvlThreeEnglishName || "",
+    headquarter: x.headquarterId ? allSubRegions.find((z: any) => z.id === x.headquarterId) : null,
     coreCompetence: (x.products || [])
       .map((z: any) => z?.coreCompetency?.name)
       .filter((z: any) => !!z)
       .join(", "),
     isInnovation: x.isInnovation,
-    isBlur: !x.headquarter?.name,
+    isBlur: !x.headquarterId,
+    category: x?.category || [],
   }));
   const onResultClick = (row: any) => {
-    const q = row.supplierCategory || row.coreCompetence;
+    const q = row.category?.[0];
     if (!q) return;
     flags.selected = row;
     flags.back = flags.q;
@@ -210,7 +224,7 @@ export default function BasicTable() {
               <ResultHeadCell>Organization</ResultHeadCell>
               <ResultHeadCell>HQ Location</ResultHeadCell>
               <ResultHeadCell>Global Footprint</ResultHeadCell>
-              <ResultHeadCell>Category</ResultHeadCell>
+              {/*<ResultHeadCell>Category</ResultHeadCell>*/}
               {isSearchForCompanies ? (
                 <ResultHeadCell>Show Similar</ResultHeadCell>
               ) : null}
@@ -218,7 +232,7 @@ export default function BasicTable() {
           </TableHead>
           <TableBody>
             {data.map((row: any, i: number) => (
-              <ResultTableRow key={i}>
+              i >= 10 ? <ResultTableRowBlur key={i}><td colSpan={4}>hidden</td></ResultTableRowBlur> : <ResultTableRow key={i}>
                 <IdCell>{i + 1}</IdCell>
                 <ResultTableCellWithImg
                   sx={{ "min-width": "30%", "padding-right": "30px" }}
@@ -249,7 +263,7 @@ export default function BasicTable() {
                 <TableCell className={row.isBlur ? "blur" : ""}>
                   {regionMap[row.headquarter?.regionId] || "hidden"}
                 </TableCell>
-                <CompetenceCell className={row.isBlur ? "blur" : ""}>
+                {/*<CompetenceCell className={row.isBlur ? "blur" : ""}>
                   <a
                     title={
                       row.isBlur
@@ -259,12 +273,12 @@ export default function BasicTable() {
                   >
                     {row.supplierCategory || row.coreCompetence}
                   </a>
-                </CompetenceCell>
+                </CompetenceCell>*/}
                 {isSearchForCompanies ? (
                   <TableCell>
                     <NextButton
                       className={
-                        !!(row.supplierCategory || row.coreCompetence)
+                        !!(row.category?.length)
                           ? ""
                           : "inactive"
                       }

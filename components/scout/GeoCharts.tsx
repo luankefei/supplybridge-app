@@ -427,10 +427,10 @@ const GoWorld = styled.div`
 
 const LegendContainer = styled.div<any>`
   position: absolute;
-  left: calc(100% - 200px);
+  left: calc(100% - 250px);
   top: ${(props) => `${props.top || 0}px`};
   width: 180px;
-  height: 200px;
+  height: 250px;
   background-color: trasparent;
 `;
 
