@@ -201,14 +201,15 @@ export default function BasicTable() {
     name: x.name,
     longName: x.longName,
     headquarter: x.headquarterId ? allSubRegions.find((z: any) => z.id === x.headquarterId) : null,
-    coreCompetence: (x.products || [])
-      .map((z: any) => z?.coreCompetency?.name)
-      .filter((z: any) => !!z)
-      .join(", "),
     isInnovation: x.isInnovation,
     isBlur: !x.headquarterId,
     category: x?.category || [],
   }));
+  data.forEach((z: any) => {
+     z.meta = {
+       hqlocation: z.headquarter ? (z.headquarter.code || z.headquarter.name).toLowerCase() : ''
+     };
+  });
   const onResultClick = (row: any) => {
     const q = row.category?.[0];
     if (!q) return;
@@ -259,11 +260,11 @@ export default function BasicTable() {
                           : ""
                       }
                     />
-                    <div>{row.headquarter?.name || "hidden"}</div>
+                    <div>{t(`subregion.${row.meta.hqlocation}`, `hidden.${row.meta.hqlocation}`)}</div>
                   </div>
                 </ResultTableCellWithImg>
                 <TableCell className={row.isBlur ? "blur" : ""}>
-                  {regionMap[row.headquarter?.regionId] || "hidden"}
+                  {t(`region.${regionMap[row.headquarter?.regionId]}`, `hidden.${regionMap[row.headquarter?.regionId]}.${row.headquarter?.regionId}`)}
                 </TableCell>
                 {/*<CompetenceCell className={row.isBlur ? "blur" : ""}>
                   <a
@@ -285,7 +286,7 @@ export default function BasicTable() {
                           : "inactive"
                       }
                       onClick={() => onResultClick(row)}
-                      title="Show Similar"
+                      title={t("showSimilar", "Show Similar")}
                     >
                       &gt;
                     </NextButton>
@@ -301,6 +302,7 @@ export default function BasicTable() {
 }
 
 export const ResultSelected = (props: any) => {
+  const { t } = useTranslation();
   const row: any = props?.selected;
   const isBlur = !row.headquarter?.name;
   return (
@@ -317,8 +319,8 @@ export const ResultSelected = (props: any) => {
                 <div>
                   <NullableImg url={row.logo} />
                   <ResultTitleCell>
-                    <a title={row.longName || row.name}>
-                      {row.longName || row.name}
+                    <a title={row.name || row.longName}>
+                      {row.name || row.longName}
                     </a>
                   </ResultTitleCell>
                   <BadgeList data={row} />
@@ -333,17 +335,19 @@ export const ResultSelected = (props: any) => {
                         : ""
                     }
                   />
-                  <div>{row.headquarter?.name || "hidden"}</div>
+                  <div>{t(`subregion.${row.meta.hqlocation}`, "hidden")}</div>
                 </div>
               </ResultTableCellWithImg>
               <TableCell className={row.isBlur ? "blur" : ""}>
-                {regionMap[row.headquarter?.regionId] || "hidden"}
+                {t(`region.${regionMap[row.headquarter?.regionId]}`, "hidden")}
               </TableCell>
+              {/*
               <CompetenceCell className={row.isBlur ? "blur" : ""}>
                 <a title={row.supplierCategory || row.coreCompetence}>
                   {row.supplierCategory || row.coreCompetence}
                 </a>
               </CompetenceCell>
+              */}
             </ResultTableRow>
           </TableBody>
         </ResultTable>

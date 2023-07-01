@@ -108,6 +108,7 @@ const Suppliers = (props: any) => {
 };
 
 const SummaryCategories = (props: any) => {
+   const { t } = useTranslation();
    const { flags, setFilterData } = useStore();
    const { L2, L2selected, L3, L3Selected } = props;
    if (!L2?.length) return null;
@@ -119,7 +120,9 @@ const SummaryCategories = (props: any) => {
 
    function check(name: any, name0: any) {
       if (name === 'Steering System / Steering Gear' && name0 === 'Steering Gear') return true;
-      if (name === 'Battery Cell Module' && name0 === 'HV Battery') return true;
+      if (name === 'Battery' && name0 === 'HV Battery') return true;
+      if (name === 'Battery' && name0 === 'HV Battery') return true;
+      if (name === 'Starter System' && name0 === 'Starter Battery') return true;
       return name === name0;
    }
 

@@ -270,7 +270,7 @@ export default function ScoutByIndex() {
               <Icon src="smart-bridge-ai" width={25} height={25} />
               <IconLabel>
                 <Label>
-                  powered by {isSuppliersNotEmpty && <br />}SmartBridge AI
+                  {t("scout.poweredBy", "powered by")} {isSuppliersNotEmpty && <br />}SmartBridge AI
                 </Label>
               </IconLabel>
             </IconContainer>

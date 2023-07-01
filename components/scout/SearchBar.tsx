@@ -57,29 +57,6 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
-// XXX: in future, we should use i18n component
-//      now we just hardcoded map
-const langWordMap: any = {
-   EN: {
-      Keywords: "Keywords",
-      Companies: "Companies",
-      Search: "Search",
-      Placeholder: {
-         Keywords: "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
-         Companies: "Search for Companies",
-      },
-   },
-   DE: {
-      Keywords: "Schlüsselwörter",
-      Companies: "Lieferanten",
-      Search: "Suchen",
-      Placeholder: {
-         Keywords: "Suchen Sie nach Komponenten oder Schlüsselwörter (z.B. Reifen, NMC-Batterie, Recycling...)",
-         Companies: "Suche nach Lieferanten",
-      },
-   },
-};
-
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const { t, i18n } = useTranslation();
   const {
@@ -227,8 +204,8 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
       <SearchBarContainer width={width}>
         <InputContainer>
           <SearchTypeSelect id="search_type" value={searchType} onChange={handleSearchTypeChange}>
-             <MenuItem value={"Keywords"}>{langWordMap[searchLang]?.Keywords}</MenuItem>
-             <MenuItem value={"Companies"}>{langWordMap[searchLang]?.Companies}</MenuItem>
+             <MenuItem value={"Keywords"}>{t("scout.searchbar.keywords", "Keywords")}</MenuItem>
+             <MenuItem value={"Companies"}>{t("scout.searchbar.companies", "Companies")}</MenuItem>
           </SearchTypeSelect>
           {searchItem === "" ? (
             <Icon src="search2" width={20} height={20} m={"0px"} hover />
@@ -239,7 +216,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           <StyledInput
             onChange={cbOnSearchChange}
             name="search"
-            placeholder={langWordMap[searchLang]?.Placeholder?.[searchType]}
+            placeholder={t(`scout.searchbar${searchType.toLowerCase()}Placeholder`, "...")}
             onKeyPress={onKeyPressHandler}
             value={searchItemDisplay}
             type="text"

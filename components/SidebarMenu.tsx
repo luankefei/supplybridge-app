@@ -155,7 +155,7 @@ export default function SideBarMenu() {
           </Section>
           <Section>
             <UserContainer>
-              <Welcome>Welcome</Welcome>
+              <Welcome>{t("sidebar.welcome", "Welcome")}</Welcome>
               {/*
               <UserName>Baran!</UserName>
               <Avatar>BG</Avatar>
@@ -200,7 +200,7 @@ export default function SideBarMenu() {
             <Right>
               <AccountTitle>BMW</AccountTitle>
               <TextContainer>
-                <AccountType>{t("sidebar,premiumAccount", "Premium Account")} |</AccountType>
+                <AccountType>{t("sidebar.premiumAccount", "Premium Account")} |</AccountType>
                 <Logout onClick={logout}>{t("sidebar.logOut", "Log out")}</Logout>
               </TextContainer>
             </Right>
