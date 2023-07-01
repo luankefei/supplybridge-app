@@ -11,6 +11,8 @@ import Switch from "@mui/material/Switch";
 
 import { useSupplier } from "requests/useSupplier";
 
+import { useTranslation } from "react-i18next";
+
 interface Props {
   onSearch: () => void;
   width?: number;
@@ -79,6 +81,7 @@ const langWordMap: any = {
 };
 
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
+  const { t, i18n } = useTranslation();
   const {
      suppliers,
      filterData,
@@ -86,11 +89,13 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
      setSelectedRegions,
      setFilterData, setSuppliers, setShowBackdrop, flags
   } = useStore();
+  const currentLang = window.localStorage.getItem('i18nextLng');
+  if (currentLang) flags.lang = currentLang === 'de' ? 'DE' : 'EN';
   const { searchAutocomplete } = useSupplier();
   const [searchItem, setSearchItem] = useState("");
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState(flags.type || "Keywords");
-  const [searchLang, setSearchLang] = useState(flags.lang || "EN");
+  const [searchLang, setSearchLang] = useState(flags.lang);
   const [langSwChecked, setLangSwChecked] = useState(flags.lang === 'DE' ? true : false);
 
   const [showAutoComplete, setShowAutoComplete] = useState(false);
@@ -110,13 +115,14 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
      setSearchType(val);
   }
 
-  const handleSearchLangChange = (evt: SelectChangeEvent) => {
+  const handleSearchLangChange = useCallback((evt: SelectChangeEvent) => {
      const checked = !!((evt.target as any).checked);
      setLangSwChecked(checked);
      const val: string = checked ? "DE" : "EN";
      flags.lang = val;
+     i18n?.changeLanguage && i18n.changeLanguage(checked ? 'de' : 'en');
      setSearchLang(val);
-  }
+  }, [i18n]);
 
   const doTransform = () => {
     flags.q = searchItemDisplay;
@@ -212,7 +218,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
         <ControlSpace />
         <ResetAllButton variant="text" onClick={resetFilters}>
           <Icon src="reset" width={12} height={12} m="0px 6px" />
-          Reset
+          {t("scout.searchbar.reset", "Reset")}
         </ResetAllButton>
         <AutocompleteContainer active={showAutoComplete?1:0}>{autocompleteList.map((z:any, i: number) => (
            <AutocompleteItem key={i} onClick={() => autocompleteFill(z)}>{z}</AutocompleteItem>
@@ -240,7 +246,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           />
         </InputContainer>
         <SearchButtonWrapper>
-          <SearchButton onClick={onClickSearch}>{langWordMap[searchLang]?.Search}</SearchButton>
+          <SearchButton onClick={onClickSearch}>{t("scout.searchbar.search", "Search")}</SearchButton>
         </SearchButtonWrapper>
       </SearchBarContainer>
 

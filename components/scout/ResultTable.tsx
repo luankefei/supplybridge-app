@@ -1,4 +1,5 @@
 import * as React from "react";
+import { useTranslation } from 'react-i18next';
 import { styled } from "@mui/system";
 import Icon from "components/Icon";
 import useStore from "hooks/useStore";
@@ -191,6 +192,7 @@ const NextButton = styled("button")`
 `;
 
 export default function BasicTable() {
+  const { t } = useTranslation();
   const { allSubRegions, suppliers, flags, setFilterData } = useStore();
   const isSearchForCompanies = flags.type === "Companies" && !flags.selected;
   const data = suppliers?.map((x: any) => ({
@@ -221,12 +223,12 @@ export default function BasicTable() {
           <TableHead>
             <ResultTableHeadRow>
               <ResultHeadCell sx={{ width: "50px" }}>&nbsp;</ResultHeadCell>
-              <ResultHeadCell>Organization</ResultHeadCell>
-              <ResultHeadCell>HQ Location</ResultHeadCell>
-              <ResultHeadCell>Global Footprint</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.organization", "Organization")}</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.hqLocation", "HQ Location")}</ResultHeadCell>
+              <ResultHeadCell>{t("footprint", "Global Footprint")}</ResultHeadCell>
               {/*<ResultHeadCell>Category</ResultHeadCell>*/}
               {isSearchForCompanies ? (
-                <ResultHeadCell>Show Similar</ResultHeadCell>
+                <ResultHeadCell>{t("showSimilar", "Show Similar")}</ResultHeadCell>
               ) : null}
             </ResultTableHeadRow>
           </TableHead>

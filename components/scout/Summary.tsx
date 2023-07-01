@@ -1,4 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
+import { useTranslation } from 'react-i18next';
 import useStore from "hooks/useStore";
 import {
    NullableImg,
@@ -130,10 +131,10 @@ const SummaryCategories = (props: any) => {
                     className={`cat-L2 ${check(L2selected, name)?'active':''}`}
                     onClick={() => onL2Click(name)}
                     key={i}>
-                 {name}
+                 {t(`scout.summaryCard.demo.${name}`, name)}
                  </span>
               )) }
-            <span className="cat-L2 cat-L2-more">More Categories</span>
+            <span className="cat-L2 cat-L2-more">{t("scout.summaryCard.demo.more", "More Categories")}</span>
          </div>
          {/* (!L3?.length) ? null : (<>
             <div className="cat-L3-title">Categories</div>
@@ -157,6 +158,7 @@ function isHidden(f: any) {
 }
 
 export default function Summary() {
+  const { t } = useTranslation();
   const { suppliers, filterData, setFilterData, flags, stats } = useStore();
 
   const [summary, setSummary] = useState(determineSummary(filterData, suppliers, flags, stats) || {});
@@ -200,11 +202,11 @@ export default function Summary() {
            summary?.L2selected ? (<>
            <SummaryTopList>
               <SummaryTopListOne>
-                 <SummaryLabel>Top Suppliers</SummaryLabel>
+                 <SummaryLabel>{t("scout.summaryCard.topSuppliers", "Top Suppliers")}</SummaryLabel>
                  <Suppliers data={summary.suppliersA}/>
               </SummaryTopListOne>
               <SummaryTopListOne>
-                 <SummaryLabel>Rising Stars</SummaryLabel>
+                 <SummaryLabel>{t("scout.summaryCard.risingStars", "Rising Stars")}</SummaryLabel>
                  <Suppliers data={summary.suppliersB}/>
               </SummaryTopListOne>
 {/*

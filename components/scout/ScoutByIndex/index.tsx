@@ -2,6 +2,7 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import {
   Box,
   Skeleton,
@@ -47,6 +48,7 @@ interface SearchProps {
 }
 
 export default function ScoutByIndex() {
+  const { t } = useTranslation();
   const {
     suppliers,
     page,
@@ -262,7 +264,7 @@ export default function ScoutByIndex() {
         ) : (
           <SearchContainer isrow={isSuppliersNotEmpty}>
             {!isSuppliersNotEmpty && (
-              <Title>Global Scouting, for Automotive professionals.</Title>
+              <Title>{t("scout.title", "Global Scouting, for Automotive professionals.")}</Title>
             )}
             <IconContainer isrow={isSuppliersNotEmpty}>
               <Icon src="smart-bridge-ai" width={25} height={25} />
@@ -299,7 +301,7 @@ export default function ScoutByIndex() {
               {suppliers?.length > 0 ? (
                 <div>
                   <FilterButton onClick={() => setFilterModalVisible(true)}>
-                    Build my Shortlist
+                    {t("scout.buildMyShortlist", "Build my Shortlist")}
                   </FilterButton>
                 </div>
               ) : null}
