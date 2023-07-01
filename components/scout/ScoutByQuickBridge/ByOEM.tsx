@@ -8,8 +8,16 @@ import BrandCardSkeleton from "./BrandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeOEM } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { useTranslation } from 'react-i18next';
+
+const nameKeyMap: any = {
+   "America": "scout.quickbridge.america",
+   "Asia": "scout.quickbridge.asia",
+   "Europe": "scout.quickbridge.europe",
+};
 
 export default function ByOEM() {
+  const { t } = useTranslation();
   const { quickBridgeStore, oemStore } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
     oemStore: state.quickBridgeOEMs,
@@ -92,7 +100,7 @@ export default function ByOEM() {
         {data &&
           data.map((oem: any, oemIndex: any) => (
             <Section key={oemIndex}>
-              <Title>{oem.name ?? ""}</Title>
+              <Title>{t(nameKeyMap[oem.name], oem.name || "") as any}</Title>
               <Brands>
                 {oem.vehicleBrands &&
                   oem.vehicleBrands.map((brand: any, brandIndex: any) => (
@@ -147,145 +155,3 @@ const Brands = styled.span<any>`
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
-/*
-import { useState } from "react";
-import styled from "styled-components";
-import BrandCard from "./BrandCard";
-
-export default function ByOEM() {
-  const [selected, setSelected] = useState("");
-
-  const onClick = (select: any) => {
-    if (selected !== select) {
-      setSelected(select);
-    } else {
-      setSelected("");
-    }
-  };
-
-  const OEMData = {
-    america: [
-      { logo: "ford-logo", title: "Ford" },
-      { logo: "rivian-logo", title: "Rivian" },
-      { logo: "tesla-logo", title: "Tesla" },
-    ],
-    asia: [
-      { logo: "aiways-logo", title: "Aiways" },
-      { logo: "byd-logo", title: "BYD" },
-      { logo: "chery-logo", title: "Chery" },
-      { logo: "hiphi-logo", title: "HiPhi" },
-      { logo: "greatwallmotors-logo", title: "Great Wall" },
-      { logo: "liauto-logo", title: "Li Auto" },
-      { logo: "nio-logo", title: "Nio" },
-      { logo: "nissan-logo", title: "Nissan" },
-      { logo: "honda-logo", title: "Honda" },
-      { logo: "hyundai-logo", title: "Hyundai" },
-    ],
-    europe: [
-      { logo: "astonmartin-logo", title: "Aston Martin" },
-      { logo: "mercedesbenz-logo", title: "Mercedes-Benz" },
-      { logo: "sonomotors-logo", title: "Sono" },
-      { logo: "volkswagen-logo", title: "VW" },
-      { logo: "audi-logo", title: "Audi" },
-      { logo: "koenigsegg-logo", title: "Koenigsegg" },
-    ],
-  };
-
-  return (
-    <>
-      <Container>
-        <Section>
-          <Title>America</Title>
-          <Brands>
-            {OEMData.america.map((item: any, index) => {
-              return (
-                <>
-                  <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard
-                      key={index}
-                      logo={item.logo}
-                      title={item.title}
-                      selected={selected === item.title}
-                    />
-                  </CardWrapper>
-                </>
-              );
-            })}
-          </Brands>
-        </Section>
-        <Section>
-          <Title>Asia</Title>
-          <Brands>
-            {OEMData.asia.map((item: any, index) => {
-              return (
-                <>
-                  <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard
-                      key={index}
-                      logo={item.logo}
-                      title={item.title}
-                      selected={selected === item.title}
-                    />
-                  </CardWrapper>
-                </>
-              );
-            })}
-          </Brands>
-        </Section>
-        <Section>
-          <Title>Europe</Title>
-          <Brands>
-            {OEMData.europe.map((item: any, index) => {
-              return (
-                <>
-                  <CardWrapper onClick={() => onClick(item.title)}>
-                    <BrandCard
-                      key={index}
-                      logo={item.logo}
-                      title={item.title}
-                      selected={selected === item.title}
-                    />
-                  </CardWrapper>
-                </>
-              );
-            })}
-          </Brands>
-        </Section>
-      </Container>
-    </>
-  );
-}
-
-const Container = styled.div`
-  margin-top: 60px;
-  margin-bottom: 30px;
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-`;
-
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  padding-bottom: 30px;
-`;
-
-const Title = styled.span`
-  margin-bottom: 30px;
-`;
-
-const Brands = styled.span<any>`
-  display: grid;
-  grid-template-columns: auto auto auto auto auto;
-  gap: 24px;
-  @media (max-width: 1200px) {
-    grid-template-columns: auto auto auto;
-  }
-`;
-
-const CardWrapper = styled.span`
-  cursor: pointer;
-`;
-*/

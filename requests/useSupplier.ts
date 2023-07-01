@@ -5,7 +5,7 @@ import { request } from "config/axios";
 import useStore from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
 
-export const useSupplier = () => {
+export const useSupplier = (lang: string = 'en') => {
   const { setSuppliers, page, pageSize, setPage, setCount, setShowBackdrop, setStats } =
     useStore();
   const [loading, setLoading] = useState(false);
@@ -13,7 +13,7 @@ export const useSupplier = () => {
   const searchAutocomplete = async (q: string) => {
      if (!q || q.length < 2) return [];
      try {
-        const { data } = await request.get(`configData/categorylevel?a=${encodeURIComponent(q)}&l=en`);
+        const { data } = await request.get(`configData/categorylevel?a=${encodeURIComponent(q)}&l=${lang}`);
         return data.items || [];
      } catch(err: any) {
         console.error(err);

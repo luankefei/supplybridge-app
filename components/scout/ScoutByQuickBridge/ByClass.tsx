@@ -8,8 +8,17 @@ import BrandCardSkeleton from "./BrandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeClass } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { useTranslation } from 'react-i18next';
+
+const nameKeyMap: any = {
+   "Volume": "scout.quickbridge.volume",
+   "EV": "scout.quickbridge.ev",
+   "Premium": "scout.quickbridge.premium",
+   "Sports": "scout.quickbridge.sports",
+}
 
 export default function ByClass() {
+  const { t } = useTranslation();
   const { quickBridgeStore, classStore } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
     classStore: state.quickBridgeClasses,
@@ -92,7 +101,7 @@ export default function ByClass() {
         {data &&
           data.map((_class: any, classIndex: any) => (
             <Section key={classIndex}>
-              <Title>{_class.name ?? ""}</Title>
+              <Title>{t(nameKeyMap[_class.name]) || ""}</Title>
               <Brands>
                 {_class.vehicleBrands &&
                   _class.vehicleBrands.map((brand: any, brandIndex: any) => (
@@ -198,7 +207,7 @@ export default function ByClass() {
     <>
       <Container>
         <Section>
-          <Title>Volume</Title>
+          <Title>{t("scout.quickbridge.volume", "Volume")}</Title>
           <Brands>
             {ClassData.volumn.map((item: any, index) => {
               return (
@@ -217,7 +226,7 @@ export default function ByClass() {
           </Brands>
         </Section>
         <Section>
-          <Title>EV</Title>
+          <Title>{t("scout.quickbridge.ev", "EV")}</Title>
           <Brands>
             {ClassData.ev.map((item: any, index) => {
               return (
@@ -236,7 +245,7 @@ export default function ByClass() {
           </Brands>
         </Section>
         <Section>
-          <Title>Premium</Title>
+          <Title>{t("scout.quickbridge.premium", "Premium")}</Title>
           <Brands>
             {ClassData.premium.map((item: any, index) => {
               return (
@@ -255,7 +264,7 @@ export default function ByClass() {
           </Brands>
         </Section>
         <Section>
-          <Title>Sports</Title>
+          <Title>{t("scout.quickbridge.sports", "Sports")}</Title>
           <Brands>
             {ClassData.sports.map((item: any, index) => {
               return (

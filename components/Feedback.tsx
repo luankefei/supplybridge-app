@@ -3,6 +3,7 @@ import React, { MouseEventHandler, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
 import useBoundStore from "hooks/useBoundStore";
+import { useTranslation } from 'react-i18next';
 
 interface SubmitButtonProps {
   disabled: boolean;
@@ -24,6 +25,7 @@ function SubmitButton(props: SubmitButtonProps) {
 
 
 export default function Feedback() {
+  const { t } = useTranslation();
 
   const [feedback, setFeedback] = useState("");
   const feedbackStore = useBoundStore((props) => props.feedback);
@@ -61,7 +63,7 @@ export default function Feedback() {
       <Mask show={show} onClick={handleFeedbackClose}/>
       <Container className={show ? "shown" : "hidden"} onClick={handleClickContainer}>
         <FeedbackLabelWrapper onClick={handleFeedbackButton}>
-          FEEDBACK
+          {t("scout.feedback", "FEEDBACK")}
         </FeedbackLabelWrapper>
         <form>
           <ContentWrapper>
