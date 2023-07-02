@@ -142,7 +142,7 @@ const FeedbackLabelWrapper = styled.div`
     align-items: center;
     justify-content: center;
     padding: 4px 8px;
-    width: 5.5rem;
+    width: 6.2rem;
     height: 1.875rem;
     position: relative;
     margin-right: -1.8125rem;

@@ -4,12 +4,22 @@ import { styled } from "@mui/system";
 import Icon from "components/Icon";
 import useStore from "hooks/useStore";
 import { NullableImg } from "components/scout/Summary.styled";
+import Tooltip from "../Tooltip";
 
 const regionMap: any = {
   "1": "APAC",
   "2": "AMERICAS",
   "3": "EMEA",
 };
+
+const supBadgeTooltipText = (<div>
+<div><h3>Top</h3></div>
+<p>A few lead performingSuppliers in the particular category / sub-category -usually by Sales Marketshare.</p>
+<div><h3>MAJORM</h3></div>
+<p>High potential suppliers with promising new technology, business model.or other forms of innovations.</p>
+<div><h3>RISING STAR</h3></div>
+<p>Key Suppliers in the particular category / sub-category - can be by a combination of criteria.</p>
+</div>);
 
 const TableCell = styled("td")`
   padding: 15px 10px;
@@ -80,6 +90,14 @@ const ResultTableCellWithImg = styled(TableCell)`
     line-height: 22px;
     display: flex;
   }
+`;
+
+const SupBadge = styled('span')`
+   display: inline-block;
+   padding: 2px 5px;
+   &.top { background-color: #fee; color: #900; }
+   &.maj { background-color: #efe; color: #090; }
+   &.str { background-color: #eef; color: #009; }
 `;
 
 const ResultTableHeadRow = styled(TableRow)`
@@ -204,8 +222,9 @@ export default function BasicTable() {
     isInnovation: x.isInnovation,
     isBlur: !x.headquarterId,
     category: x?.category || [],
+    flags: x?.flags || {},
   }));
-  data.forEach((z: any) => {
+  data && data.forEach((z: any) => {
      z.meta = {
        hqlocation: z.headquarter ? (z.headquarter.code || z.headquarter.name).toLowerCase() : ''
      };
@@ -226,7 +245,8 @@ export default function BasicTable() {
               <ResultHeadCell sx={{ width: "50px" }}>&nbsp;</ResultHeadCell>
               <ResultHeadCell>{t("scout.result.organization", "Organization")}</ResultHeadCell>
               <ResultHeadCell>{t("scout.result.hqLocation", "HQ Location")}</ResultHeadCell>
-              <ResultHeadCell>{t("footprint", "Global Footprint")}</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.footprint", "Global Footprint")}</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.badge", "Badge")} <Tooltip top={-18} left={50} text={supBadgeTooltipText} /></ResultHeadCell>
               {/*<ResultHeadCell>Category</ResultHeadCell>*/}
               {isSearchForCompanies ? (
                 <ResultHeadCell>{t("showSimilar", "Show Similar")}</ResultHeadCell>
@@ -265,6 +285,11 @@ export default function BasicTable() {
                 </ResultTableCellWithImg>
                 <TableCell className={row.isBlur ? "blur" : ""}>
                   {t(`region.${regionMap[row.headquarter?.regionId]}`, `hidden.${regionMap[row.headquarter?.regionId]}.${row.headquarter?.regionId}`)}
+                </TableCell>
+                <TableCell className={row.isBlur ? "blur" : ""}>
+                   {row?.flags.maj ? <SupBadge className={"maj"}>MAJOR</SupBadge> : null}
+                   {row?.flags.top ? <SupBadge className={"top"}>TOP</SupBadge> : null}
+                   {row?.flags.str ? <SupBadge className={"str"}>RISING STAR</SupBadge> : null}
                 </TableCell>
                 {/*<CompetenceCell className={row.isBlur ? "blur" : ""}>
                   <a
@@ -340,6 +365,11 @@ export const ResultSelected = (props: any) => {
               </ResultTableCellWithImg>
               <TableCell className={row.isBlur ? "blur" : ""}>
                 {t(`region.${regionMap[row.headquarter?.regionId]}`, "hidden")}
+              </TableCell>
+              <TableCell className={row.isBlur ? "blur" : ""}>
+                 {row?.flags.maj ? <SupBadge className={"maj"}>MAJOR</SupBadge> : null}
+                 {row?.flags.top ? <SupBadge className={"top"}>TOP</SupBadge> : null}
+                 {row?.flags.str ? <SupBadge className={"str"}>RISING STAR</SupBadge> : null}
               </TableCell>
               {/*
               <CompetenceCell className={row.isBlur ? "blur" : ""}>

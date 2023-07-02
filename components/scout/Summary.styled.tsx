@@ -62,7 +62,7 @@ export const SummaryCenterColumn = styled.div`
 `;
 
 export const SummaryLabel = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #757575;
 `;
 
@@ -75,7 +75,7 @@ export const SummaryTopList = styled.div`
 
 export const SummaryTopListOne = styled.div`
   margin-left: 5px;
-  margin-right: 20px;
+  margin-right: 80px;
 `;
 
 export const SummarySupplierContainer = styled.div`

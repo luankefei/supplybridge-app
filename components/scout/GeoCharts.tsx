@@ -321,7 +321,7 @@ const GeoCharts = () => {
      const el: any = elContainer.current;
      if (!el) return;
      const h = (window.innerHeight - el.parentNode.offsetTop) * 0.8;
-     legendBaseTop.current = h - 200;
+     legendBaseTop.current = h - 250;
      setFitMapHeight(h);
   }, [elContainer]);
 
@@ -429,9 +429,9 @@ const GoWorld = styled.div`
 
 const LegendContainer = styled.div<any>`
   position: absolute;
-  left: calc(100% - 250px);
+  left: calc(100% - 238px);
   top: ${(props) => `${props.top || 0}px`};
-  width: 180px;
+  width: 218px;
   height: 250px;
   background-color: trasparent;
 `;

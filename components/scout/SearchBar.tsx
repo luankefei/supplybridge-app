@@ -216,7 +216,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           <StyledInput
             onChange={cbOnSearchChange}
             name="search"
-            placeholder={t(`scout.searchbar${searchType.toLowerCase()}Placeholder`, "...")}
+            placeholder={t(`scout.searchbar.${searchType.toLowerCase()}Placeholder`, "...")}
             onKeyPress={onKeyPressHandler}
             value={searchItemDisplay}
             type="text"

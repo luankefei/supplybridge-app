@@ -281,7 +281,8 @@
       "result": {
          "organization": "Organization",
          "hqLocation": "HQ Location",
-         "footprint": "Global Footprint"
+         "footprint": "Global Footprint",
+         "badge": "Badge"
       },
       "quickbridge": {
          "vehicle": "Vehicle",

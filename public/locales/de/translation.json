@@ -281,7 +281,8 @@
       "result": {
          "organization": "Unternehmen",
          "hqLocation": "Hauptsitz",
-         "footprint": "Globaler Fußabdruck"
+         "footprint": "Globaler Fußabdruck",
+         "badge": "Badge"
       },
       "quickbridge": {
          "vehicle": "Fahrzeug",
