@@ -5,7 +5,11 @@ import Slide1 from "./source/slides/Slide1";
 const Indicator = ({ className, position, length, onIndicatorClick }: any) => (
   <IndicatorContainer className={className}>
     {Array.from({ length }, (value, index) => (
-      <IndicatorDot key={index} isActive={position === index} onClick={() => onIndicatorClick(index)} />
+      <IndicatorDot
+        key={index}
+        isActive={position === index}
+        onClick={() => onIndicatorClick(index)}
+      />
     ))}
   </IndicatorContainer>
 );
@@ -13,8 +17,8 @@ const Indicator = ({ className, position, length, onIndicatorClick }: any) => (
 const Gallery = ({ children }: any) => {
   const [position, setPosition] = useState(0);
   const directions = {
-    NEXT: 'next',
-    PREV: 'previous',
+    NEXT: "next",
+    PREV: "previous",
   };
 
   const handlePreviousClick = () => {
@@ -29,8 +33,7 @@ const Gallery = ({ children }: any) => {
     let newPosition = 0;
     if (direction === directions.NEXT) {
       newPosition = position === children.length - 1 ? 0 : position + 1;
-    }
-    else {
+    } else {
       newPosition = position === 0 ? children.length - 1 : position - 1;
     }
     handleSlide(newPosition);
@@ -44,7 +47,7 @@ const Gallery = ({ children }: any) => {
     if (e.currentTarget.id !== "carousel-container") return;
     e.preventDefault();
     handleArrowClick(e.wheelDelta < 0 ? directions.NEXT : directions.PREV);
-  }
+  };
 
   return (
     <Wrapper>
@@ -65,9 +68,13 @@ const Gallery = ({ children }: any) => {
           <Icon src="/icons/slider-left-arrow.svg" />
         </IconWrapper>
       </NextButton>
-      <IndicatorStyled length={children.length} position={position} onIndicatorClick={handleSlide} />
+      <IndicatorStyled
+        length={children.length}
+        position={position}
+        onIndicatorClick={handleSlide}
+      />
     </Wrapper>
-  )
+  );
 };
 
 const Wrapper = styled.div`
@@ -76,16 +83,19 @@ const Wrapper = styled.div`
 `;
 
 const CarouselContainer = styled.div<any>`
+  display: flex;
+  justify-content: center;
   overflow: hidden;
 `;
 
 const CarouselImg = styled.div<any>`
   display: flex;
   transition: transform 0.45s ease;
-  transform: ${(props) => (`translateX(${props.position * -100}%)`)};
+  transform: ${(props) => `translateX(${props.position * -100}%)`};
 `;
 
 const CarouselItem = styled.div`
+  display: flex;
   flex: 1 0 100%;
   height: 100%;
 `;
@@ -104,33 +114,31 @@ const ArrowButton = styled.button`
 
 const PreviousButton = styled(ArrowButton)`
   position: absolute;
-  left: -20px;
+  left: 10px;
 `;
 
 const IconWrapper = styled.span`
-  background: #FFFFFF;
+  background: #ffffff;
   width: 60px;
   height: 60px;
   display: flex;
   justify-content: center;
   align-items: center;
   border-radius: 100%;
-  border: 2px solid #08979C;
+  border: 2px solid #08979c;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25), 0px 1px 3px rgba(0, 0, 0, 0.1);
   transform: matrix(-1, 0, 0, 1, 0, 0);
 `;
 
-const Icon = styled.img`
-
-`;
+const Icon = styled.img``;
 
 const NextButton = styled(ArrowButton)`
-position: absolute;
-right: -20px;
+  position: absolute;
+  right: 10px;
 `;
 
 const IndicatorStyled = styled(Indicator)`
-display: flex;
+  display: flex;
 `;
 
 const IndicatorContainer = styled.div`
@@ -143,7 +151,7 @@ const IndicatorContainer = styled.div`
 const IndicatorDot = styled.div<any>`
   height: 16px;
   width: 16px;
-  background-color: ${({ isActive }) => (isActive ? '#08979C;' : '#E6E6E6')};
+  background-color: ${({ isActive }) => (isActive ? "#08979C;" : "#E6E6E6")};
   transition: background 450ms ease;
   border-radius: 50%;
   margin-right: 15px;
@@ -152,28 +160,21 @@ const IndicatorDot = styled.div<any>`
 `;
 
 const Image = styled.img`
-  width: 100%;
+  width: 90%;
   height: 100%;
+  margin 0 auto;
 `;
 
 export default function Carousel({ data, type }: any) {
   return (
     <>
       <Gallery>
-        {type === "image" ? (
-          data.map((item: any, index: any) => (
-            <Image key={index} src={item.src} alt={item.alt} />
-          ))
-        )
-          :
-          (
-            data.map((card: any, index: any) => (
-              card
+        {type === "image"
+          ? data.map((item: any, index: any) => (
+              <Image key={index} src={item.src} alt={item.alt} />
             ))
-
-          )
-        }
+          : data.map((card: any, index: any) => card)}
       </Gallery>
     </>
-  )
+  );
 }
