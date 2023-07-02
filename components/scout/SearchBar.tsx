@@ -57,33 +57,38 @@ const SearchBar = ({ onSearch }: Props) => {
 // XXX: in future, we should use i18n component
 //      now we just hardcoded map
 const langWordMap: any = {
-   EN: {
-      Keywords: "Keywords",
-      Companies: "Companies",
-      Search: "Search",
-      Placeholder: {
-         Keywords: "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
-         Companies: "Search for Companies",
-      },
-   },
-   DE: {
-      Keywords: "Schlüsselwörter",
-      Companies: "Lieferanten",
-      Search: "Suchen",
-      Placeholder: {
-         Keywords: "Suchen Sie nach Komponenten oder Schlüsselwörter (z.B. Reifen, NMC-Batterie, Recycling...)",
-         Companies: "Suche nach Lieferanten",
-      },
-   },
+  EN: {
+    Keywords: "Keywords",
+    Companies: "Companies",
+    Search: "Search",
+    Placeholder: {
+      Keywords:
+        "Search Parts or Keywords (ie. Tire, NMC Battery, Recycling, and more...)",
+      Companies: "Search for Companies",
+    },
+  },
+  DE: {
+    Keywords: "Schlüsselwörter",
+    Companies: "Lieferanten",
+    Search: "Suchen",
+    Placeholder: {
+      Keywords:
+        "Suchen Sie nach Komponenten oder Schlüsselwörter (z.B. Reifen, NMC-Batterie, Recycling...)",
+      Companies: "Suche nach Lieferanten",
+    },
+  },
 };
 
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const {
-     suppliers,
-     filterData,
-     setSelectedCountries,
-     setSelectedRegions,
-     setFilterData, setSuppliers, setShowBackdrop, flags
+    suppliers,
+    filterData,
+    setSelectedCountries,
+    setSelectedRegions,
+    setFilterData,
+    setSuppliers,
+    setShowBackdrop,
+    flags,
   } = useStore();
   const [searchItem, setSearchItem] = useState("");
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
@@ -91,29 +96,42 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const [searchLang, setSearchLang] = useState(flags.lang || "EN");
 
   useEffect(() => {
-     // ensure first enter, no last search showing
-     if (!suppliers?.length && !searchItem) {
-        flags.q = '';
-        filterData.q = '';
-     }
+    // ensure first enter, no last search showing
+    if (!suppliers?.length && !searchItem) {
+      flags.q = "";
+      filterData.q = "";
+    }
   }, [suppliers]);
 
   const handleSearchTypeChange = (evt: SelectChangeEvent) => {
-     const val: string = evt.target.value as string;
-     flags.type = val;
-     setSearchType(val);
-  }
+    const val: string = evt.target.value as string;
+    flags.type = val;
+    setSearchType(val);
+  };
 
   const handleSearchLangChange = (evt: SelectChangeEvent) => {
-     const val: string = (evt.target as any).checked ? "DE" : "EN";
-     flags.lang = val;
-     setSearchLang(val);
-  }
+    const val: string = (evt.target as any).checked ? "DE" : "EN";
+    flags.lang = val;
+    setSearchLang(val);
+  };
+
+  /*
+  useEffect(() => {
+    console.log('searchlang: "', searchLang);
+    if (searchLang == "EN" || searchLang == null || searchLang == "") {
+      setSearchLang("DE");
+      setSearchLang("EN");
+    } else {
+      setSearchLang("EN");
+      setSearchLang("DE");
+    }
+  }, []);
+  */
 
   const doTransform = () => {
     flags.q = searchItemDisplay;
     let transformed = searchItemDisplay;
-/*
+    /*
     const keys = Object.keys(L2L3tree);
     const possible = keys.map((L2: string) => L2L3tree[L2].de);
     const i = possible.indexOf(transformed.toLowerCase());
@@ -158,22 +176,30 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     }
   };
 
-  const cbOnSearchChange = useCallback((evt: any) => {
-     const value: string = evt.target.value;
-     let transformed = value;
-     if (value === 'achsenkomponenten') transformed = 'axle components';
-     setSearchItem(transformed);
-     setSearchItemDisplay(value);
-  }, [setSearchItem, setSearchItemDisplay]);
+  const cbOnSearchChange = useCallback(
+    (evt: any) => {
+      const value: string = evt.target.value;
+      let transformed = value;
+      if (value === "achsenkomponenten") transformed = "axle components";
+      setSearchItem(transformed);
+      setSearchItemDisplay(value);
+    },
+    [setSearchItem, setSearchItemDisplay]
+  );
 
   useEffect(() => {
-     setSearchItemDisplay(flags.q);
+    setSearchItemDisplay(flags.q);
   }, [filterData]);
 
   return (
     <Container>
       <ControlContainer>
-        <SearchLangContainer label={searchLang}><Switch onChange={handleSearchLangChange} /></SearchLangContainer>
+        <SearchLangContainer label={searchLang}>
+          <Switch
+            onChange={handleSearchLangChange}
+            checked={searchLang == "DE"}
+          />
+        </SearchLangContainer>
         <ControlSpace />
         <ResetAllButton variant="text" onClick={resetFilters}>
           <Icon src="reset" width={12} height={12} m="0px 6px" />
@@ -182,9 +208,17 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
       </ControlContainer>
       <SearchBarContainer width={width}>
         <InputContainer>
-          <SearchTypeSelect id="search_type" value={searchType} onChange={handleSearchTypeChange}>
-             <MenuItem value={"Keywords"}>{langWordMap[searchLang]?.Keywords}</MenuItem>
-             <MenuItem value={"Companies"}>{langWordMap[searchLang]?.Companies}</MenuItem>
+          <SearchTypeSelect
+            id="search_type"
+            value={searchType}
+            onChange={handleSearchTypeChange}
+          >
+            <MenuItem value={"Keywords"}>
+              {langWordMap[searchLang]?.Keywords}
+            </MenuItem>
+            <MenuItem value={"Companies"}>
+              {langWordMap[searchLang]?.Companies}
+            </MenuItem>
           </SearchTypeSelect>
           {searchItem === "" ? (
             <Icon src="search2" width={20} height={20} m={"0px"} hover />
@@ -202,7 +236,9 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           />
         </InputContainer>
         <SearchButtonWrapper>
-          <SearchButton onClick={onClickSearch}>{langWordMap[searchLang]?.Search}</SearchButton>
+          <SearchButton onClick={onClickSearch}>
+            {langWordMap[searchLang]?.Search}
+          </SearchButton>
         </SearchButtonWrapper>
       </SearchBarContainer>
 
@@ -421,10 +457,10 @@ const SearchTypeSelect = styled(Select)<any>`
   border: none;
 
   & .MuiSelect-select {
-     padding: 4px 0 5px 0;
+    padding: 4px 0 5px 0;
   }
   & .MuiOutlinedInput-notchedOutline {
-     border: none;
+    border: none;
   }
 `;
 
@@ -470,46 +506,57 @@ const ControlSpace = styled.div`
   flex: 1 0 auto;
 `;
 
-const SearchLangContainer = styled.div<{label: string}>`
+const SearchLangContainer = styled.div<{ label: string }>`
+  width: 200px;
+  position: fixed;
+  top: 40px;
+  right: 2px;
   & .MuiSwitch-root {
-     padding: 0;
-     margin-bottom: 3px;
-     width: 100px;
-     border-radius: 50px;
+    padding: 0;
+    margin-bottom: 3px;
+    width: 100px;
+    border-radius: 50px;
   }
-  & .MuiSwitch-root > span.MuiSwitch-track { background-color: #ccc; }
+  & .MuiSwitch-root > span.MuiSwitch-track {
+    background-color: #ccc;
+  }
   & .MuiSwitch-track:before {
-     content: "EN";
-     color: black;
-     position: absolute;
-     top: 10px;
-     left: 15px;
+    content: url(/flags/gb_with_label.svg);
+    color: black;
+    position: absolute;
+    top: 10px;
+    left: 5px;
   }
   & .MuiSwitch-track:after {
-     content: "DE";
-     color: black;
-     position: absolute;
-     top: 10px;
-     right: 20px;
+    content: url(/flags/de_with_label.svg);
+    color: black;
+    position: absolute;
+    top: 10px;
+    right: 6px;
   }
   & .MuiButtonBase-root {
-     padding: 4px;
+    padding: 4px;
   }
   & .MuiSwitch-thumb {
-     width: 50px;
-     height: 30px;
-     border-radius: 50px;
+    width: 50px;
+    height: 30px;
+    border-radius: 50px;
   }
-  & .MuiTouchRipple-root:before{
-     content: ${(props) => `"${props.label || 'EN'}"`};
-     position: absolute;
-     color: black;
-     top: 10px;
-     left: 18px;
+  & .MuiTouchRipple-root:before {
+    content: ${(props) =>
+      `${
+        props.label == "DE"
+          ? "url(/flags/de_with_label.svg)"
+          : "url(/flags/gb_with_label.svg)"
+      }`};
+    position: absolute;
+    color: black;
+    top: 10px;
+    left: 10px;
   }
   & .MuiButtonBase-root.MuiSwitch-switchBase.Mui-checked {
-     color: white;
-     margin-left: 20px;
+    color: white;
+    margin-left: 20px;
   }
 `;
 
