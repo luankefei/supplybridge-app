@@ -1,3 +1,17 @@
+function fillFlags(data: any) {
+   data.suppliers.forEach((z: any) => { z.flags = { top: false, str: false } });
+   data.stats.maj.forEach((z: any) => {
+      const item = data.suppliers.find((x: any) => x.name === z.name);
+      if (!item) return;
+      item.flags.top = true;
+   });
+   data.stats.str.forEach((z: any) => {
+      const item = data.suppliers.find((x: any) => x.name === z.name);
+      if (!item) return;
+      item.flags.str = true;
+   });
+}
+
 export default async function fakeData(data: any, opt: any) {
    // opt.q, opt.offset, opt.filter, opt.limit, ...
    if (!opt.q) return;
@@ -6,6 +20,7 @@ export default async function fakeData(data: any, opt: any) {
    case 'wheel':
       data.stats.chain = ['Wheel'];
       data.stats.chainChildren = ['Steel Wheel', 'Alloy Wheel', 'Composite Wheel', 'Other Wheels'];
+      data.stats.locationId = {"105":7,"120":4,"128":3,"133":6,"137":2,"184":1,"185":3,"192":2,"212":2,"216":1};
       data.stats.maj = [
       {
          "name": "MAXION",
@@ -235,6 +250,8 @@ export default async function fakeData(data: any, opt: any) {
          "locationId": null
       }
       ];
+      data.stats.count = data.suppliers.length;
+      fillFlags(data);
       break;
    case 'starter battery':
    case 'Starterbatterie':
@@ -2336,10 +2353,13 @@ export default async function fakeData(data: any, opt: any) {
          "locationId": 170
       }
       ];
+      data.stats.count = data.suppliers.length;
+      fillFlags(data);
       break;
    case 'hv battery':
       data.stats.chain = ['Battery', 'HV Battery'];
       data.stats.chainChildren = ['NMC', 'LFP', 'SOLID STATE', 'SILICON ANODE', 'NCA', 'COBALT-FREE', 'NiMH', 'LiPo'];
+      data.stats.locationId = {"105":7,"120":11,"132":1,"133":2,"204":2,"214":1,"216":1};
       data.stats.maj = [
       {
          "name": "CATL",
@@ -2627,6 +2647,8 @@ export default async function fakeData(data: any, opt: any) {
          "locationId": null
       }
       ];
+      data.stats.count = data.suppliers.length;
+      fillFlags(data);
       break;
    case 'software':
       data.stats.chain = ['Software', 'Software'];
@@ -2982,10 +3004,13 @@ export default async function fakeData(data: any, opt: any) {
          "locationId": null
       }
       ];
+      data.stats.count = data.suppliers.length;
+      fillFlags(data);
       break;
    case 'semiconductor':
       data.stats.chain = ['Semiconductor'];
       data.stats.chainChildren = ['IC','ASIC','LSI','Diode','LED','Transistor','CPU','Memory','EEPROM'];
+      data.stats.locationId = {"70":1,"105":23,"120":58,"128":5,"132":3,"133":36,"137":13,"160":4,"166":1,"173":2,"175":1,"184":1,"185":12,"192":1,"202":3,"207":1,"212":3,"214":5,"216":5}
       data.stats.maj = [
       {
          "name": "INFINEON",
@@ -8102,10 +8127,13 @@ export default async function fakeData(data: any, opt: any) {
          "locationId": null
       }
       ];
+      data.stats.count = data.suppliers.length;
+      fillFlags(data);
       break;
    case 'recycling, reuse':
       data.stats.chain = ['Recycling, Reuse'];
       data.stats.chainChildren = ['Recycling (HV Battery)'];
+      data.stats.locationId = {"70":1,"105":7,"204":1,"214":1};
       data.stats.maj = [
       {
          "name": "REDWOOD MATERIALS",
@@ -8185,6 +8213,8 @@ export default async function fakeData(data: any, opt: any) {
          "locationId": 105
       }
       ];
+      data.stats.count = data.suppliers.length;
+      fillFlags(data);
       break;
    case '':
       data.stats.chain = [];

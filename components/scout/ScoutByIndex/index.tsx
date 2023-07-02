@@ -60,6 +60,7 @@ export default function ScoutByIndex() {
     vehicleFuelTypes,
     showBackdrop,
     flags,
+    stats,
   } = useStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
@@ -112,8 +113,8 @@ export default function ScoutByIndex() {
   }, [filterData]);
 
   useEffect(() => {
-    countRef.current = count;
-  }, [count]);
+    countRef.current = stats?.count || count;
+  }, [count, stats]);
 
   const getInitialRequests = () => {
     if (!pageLoaded.current) {
@@ -284,7 +285,7 @@ export default function ScoutByIndex() {
             {flags.selected ? (
               <ResultSelected selected={flags.selected} />
             ) : null}
-            {isSuppliersNotEmpty && <Filters totalCount={count} />}
+            {isSuppliersNotEmpty && <Filters totalCount={stats?.count || count} />}
             {isSuppliersNotEmpty && !flags.selected && <Summary />}
 
             <div

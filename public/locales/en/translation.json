@@ -279,6 +279,7 @@
          }
       },
       "result": {
+         "overview": "Listing <1>{{count}}</1> supplier(s) matching for \"{{q}}\"",
          "organization": "Organization",
          "hqLocation": "HQ Location",
          "footprint": "Global Footprint",

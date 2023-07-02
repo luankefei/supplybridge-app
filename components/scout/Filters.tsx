@@ -4,17 +4,22 @@ import styled from "styled-components";
 import Icon from "components/Icon";
 import { theme } from "config/theme";
 
+import useStore from "hooks/useStore";
+import { Trans } from "react-i18next";
+
 type Props = {
   totalCount: any;
 };
 
 const Filters = ({ totalCount }: Props) => {
+  const { filterData, stats } = useStore();
+  const count = totalCount, q = stats?.chain?.length ? stats.chain[stats.chain.length-1] : filterData.q;
   return (
     <FilterContainer>
       <StaticInformation>
-        <ListingCount>
-          Listing <strong>{totalCount}</strong> Suppliers Matching Your Criteria
-        </ListingCount>
+        <ListingCount><Trans i18nKey="scout.result.overview" count={count}>
+           Listing <strong>{{count} as any}</strong> supplier(s) matching for &#34;{{q} as any}&#34;
+        </Trans></ListingCount>
         {/*<SubText>Use Filters to Narrow Down Results</SubText>*/}
       </StaticInformation>
       {/*

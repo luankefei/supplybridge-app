@@ -384,7 +384,7 @@ const GeoCharts = () => {
             <LegendItemVal>{legendSummary?.CN || 0}</LegendItemVal>
          </LegendItemBContainer>
          <LegendItemGapContainer>
-            <LegendItemKey>{t("scout.map.total", "Total")}</LegendItemKey>
+            <LegendItemKey>{t("scout.map.legend.total", "Total")}</LegendItemKey>
             <LegendItemVal>{legendSummary?.Total || 0}</LegendItemVal>
          </LegendItemGapContainer>
       </LegendContainer>

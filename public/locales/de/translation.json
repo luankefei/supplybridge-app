@@ -279,6 +279,7 @@
          }
       },
       "result": {
+         "overview": "Auflistung von <1>{{count}}</1> lieferanten für \"{{q}}\"",
          "organization": "Unternehmen",
          "hqLocation": "Hauptsitz",
          "footprint": "Globaler Fußabdruck",
