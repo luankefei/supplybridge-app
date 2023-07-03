@@ -86,6 +86,13 @@ export default function SideBarMenu() {
       active: router.asPath.includes("supplier-news"),
       passiveIcon: false,
     },
+    {
+      icon: "supply-chain-transparency",
+      title: t("sidebar.supplyChainTransparency", "Supply Chain Transparency"),
+      path: "/supply-chain-transparency",
+      active: router.asPath.includes("supply-chain-transparency"),
+      passiveIcon: false,
+    },
     /*
     {
       icon: "market-insights",
