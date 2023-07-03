@@ -1,14 +1,25 @@
 import * as React from "react";
+import { useTranslation } from 'react-i18next';
 import { styled } from "@mui/system";
 import Icon from "components/Icon";
 import useStore from "hooks/useStore";
 import { NullableImg } from "components/scout/Summary.styled";
+import Tooltip from "../Tooltip";
 
 const regionMap: any = {
   "1": "APAC",
   "2": "AMERICAS",
   "3": "EMEA",
 };
+
+const supBadgeTooltipText = (<div>
+<div><h3>Top</h3></div>
+<p>A few lead performingSuppliers in the particular category / sub-category -usually by Sales Marketshare.</p>
+<div><h3>MAJORM</h3></div>
+<p>High potential suppliers with promising new technology, business model.or other forms of innovations.</p>
+<div><h3>RISING STAR</h3></div>
+<p>Key Suppliers in the particular category / sub-category - can be by a combination of criteria.</p>
+</div>);
 
 const TableCell = styled("td")`
   padding: 15px 10px;
@@ -81,6 +92,14 @@ const ResultTableCellWithImg = styled(TableCell)`
   }
 `;
 
+const SupBadge = styled('span')`
+   display: inline-block;
+   padding: 2px 5px;
+   &.top { background-color: #fee; color: #900; }
+   &.maj { background-color: #efe; color: #090; }
+   &.str { background-color: #eef; color: #009; }
+`;
+
 const ResultTableHeadRow = styled(TableRow)`
   & > :nth-child(2) {
     left: 0;
@@ -109,6 +128,20 @@ const ResultTableRow = styled(TableRow)`
     border-bottom: 5px solid #edf1f3;
     box-shadow: 0px -3px 0px -2px rgba(0, 0, 0, 0.1) inset;
   }
+`;
+
+const ResultTableRowBlur = styled(TableRow)`
+   border-radius: 10px;
+   background-color: white;
+   filter: blur(3px);
+   user-select: none;
+   > td {
+      text-align: center;
+      border-radius: 0;
+      border-bottom: 5px solid #edf1f3;
+      height: 59px;
+      padding: 10px;
+   }
 `;
 
 const ResultHeadCell = styled(TableCell)`
@@ -177,24 +210,27 @@ const NextButton = styled("button")`
 `;
 
 export default function BasicTable() {
-  const { suppliers, flags, setFilterData } = useStore();
+  const { t } = useTranslation();
+  const { allSubRegions, suppliers, flags, setFilterData } = useStore();
   const isSearchForCompanies = flags.type === "Companies" && !flags.selected;
   const data = suppliers?.map((x: any) => ({
     logo:
-      x.logo || `https://cdn.supplybridge.com/images/companylogos/${x.id}.jpeg`,
+      x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
     name: x.name,
     longName: x.longName,
-    headquarter: x.headquarter,
-    supplierCategory: x.supplierCategory?.lvlThreeEnglishName || "",
-    coreCompetence: (x.products || [])
-      .map((z: any) => z?.coreCompetency?.name)
-      .filter((z: any) => !!z)
-      .join(", "),
+    headquarter: x.headquarterId ? allSubRegions.find((z: any) => z.id === x.headquarterId) : null,
     isInnovation: x.isInnovation,
-    isBlur: !x.headquarter?.name,
+    isBlur: !x.headquarterId,
+    category: x?.category || [],
+    flags: x?.flags || {},
   }));
+  data && data.forEach((z: any) => {
+     z.meta = {
+       hqlocation: z.headquarter ? (z.headquarter.code || z.headquarter.name).toLowerCase() : ''
+     };
+  });
   const onResultClick = (row: any) => {
-    const q = row.supplierCategory || row.coreCompetence;
+    const q = row.category?.[0];
     if (!q) return;
     flags.selected = row;
     flags.back = flags.q;
@@ -207,18 +243,19 @@ export default function BasicTable() {
           <TableHead>
             <ResultTableHeadRow>
               <ResultHeadCell sx={{ width: "50px" }}>&nbsp;</ResultHeadCell>
-              <ResultHeadCell>Organization</ResultHeadCell>
-              <ResultHeadCell>HQ Location</ResultHeadCell>
-              <ResultHeadCell>Global Footprint</ResultHeadCell>
-              <ResultHeadCell>Category</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.organization", "Organization")}</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.hqLocation", "HQ Location")}</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.footprint", "Global Footprint")}</ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.badge", "Badge")} <Tooltip top={-18} left={50} text={supBadgeTooltipText} /></ResultHeadCell>
+              {/*<ResultHeadCell>Category</ResultHeadCell>*/}
               {isSearchForCompanies ? (
-                <ResultHeadCell>Show Similar</ResultHeadCell>
+                <ResultHeadCell>{t("showSimilar", "Show Similar")}</ResultHeadCell>
               ) : null}
             </ResultTableHeadRow>
           </TableHead>
           <TableBody>
             {data.map((row: any, i: number) => (
-              <ResultTableRow key={i}>
+              i >= 10 ? <ResultTableRowBlur key={i}><td colSpan={4}>hidden</td></ResultTableRowBlur> : <ResultTableRow key={i}>
                 <IdCell>{i + 1}</IdCell>
                 <ResultTableCellWithImg
                   sx={{ "min-width": "30%", "padding-right": "30px" }}
@@ -243,13 +280,18 @@ export default function BasicTable() {
                           : ""
                       }
                     />
-                    <div>{row.headquarter?.name || "hidden"}</div>
+                    <div>{t(`subregion.${row.meta.hqlocation}`, `hidden.${row.meta.hqlocation}`)}</div>
                   </div>
                 </ResultTableCellWithImg>
                 <TableCell className={row.isBlur ? "blur" : ""}>
-                  {regionMap[row.headquarter?.regionId] || "hidden"}
+                  {t(`region.${regionMap[row.headquarter?.regionId]}`, `hidden.${regionMap[row.headquarter?.regionId]}.${row.headquarter?.regionId}`)}
                 </TableCell>
-                <CompetenceCell className={row.isBlur ? "blur" : ""}>
+                <TableCell className={row.isBlur ? "blur" : ""}>
+                   {row?.flags.maj ? <SupBadge className={"maj"}>MAJOR</SupBadge> : null}
+                   {row?.flags.top ? <SupBadge className={"top"}>TOP</SupBadge> : null}
+                   {row?.flags.str ? <SupBadge className={"str"}>RISING STAR</SupBadge> : null}
+                </TableCell>
+                {/*<CompetenceCell className={row.isBlur ? "blur" : ""}>
                   <a
                     title={
                       row.isBlur
@@ -259,17 +301,17 @@ export default function BasicTable() {
                   >
                     {row.supplierCategory || row.coreCompetence}
                   </a>
-                </CompetenceCell>
+                </CompetenceCell>*/}
                 {isSearchForCompanies ? (
                   <TableCell>
                     <NextButton
                       className={
-                        !!(row.supplierCategory || row.coreCompetence)
+                        !!(row.category?.length)
                           ? ""
                           : "inactive"
                       }
                       onClick={() => onResultClick(row)}
-                      title="Show Similar"
+                      title={t("showSimilar", "Show Similar")}
                     >
                       &gt;
                     </NextButton>
@@ -285,6 +327,7 @@ export default function BasicTable() {
 }
 
 export const ResultSelected = (props: any) => {
+  const { t } = useTranslation();
   const row: any = props?.selected;
   const isBlur = !row.headquarter?.name;
   return (
@@ -301,8 +344,8 @@ export const ResultSelected = (props: any) => {
                 <div>
                   <NullableImg url={row.logo} />
                   <ResultTitleCell>
-                    <a title={row.longName || row.name}>
-                      {row.longName || row.name}
+                    <a title={row.name || row.longName}>
+                      {row.name || row.longName}
                     </a>
                   </ResultTitleCell>
                   <BadgeList data={row} />
@@ -317,17 +360,24 @@ export const ResultSelected = (props: any) => {
                         : ""
                     }
                   />
-                  <div>{row.headquarter?.name || "hidden"}</div>
+                  <div>{t(`subregion.${row.meta.hqlocation}`, "hidden")}</div>
                 </div>
               </ResultTableCellWithImg>
               <TableCell className={row.isBlur ? "blur" : ""}>
-                {regionMap[row.headquarter?.regionId] || "hidden"}
+                {t(`region.${regionMap[row.headquarter?.regionId]}`, "hidden")}
               </TableCell>
+              <TableCell className={row.isBlur ? "blur" : ""}>
+                 {row?.flags.maj ? <SupBadge className={"maj"}>MAJOR</SupBadge> : null}
+                 {row?.flags.top ? <SupBadge className={"top"}>TOP</SupBadge> : null}
+                 {row?.flags.str ? <SupBadge className={"str"}>RISING STAR</SupBadge> : null}
+              </TableCell>
+              {/*
               <CompetenceCell className={row.isBlur ? "blur" : ""}>
                 <a title={row.supplierCategory || row.coreCompetence}>
                   {row.supplierCategory || row.coreCompetence}
                 </a>
               </CompetenceCell>
+              */}
             </ResultTableRow>
           </TableBody>
         </ResultTable>
