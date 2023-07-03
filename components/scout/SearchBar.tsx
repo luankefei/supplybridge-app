@@ -9,7 +9,9 @@ import { Button, MenuItem, FormControl } from "@mui/material";
 import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Switch from "@mui/material/Switch";
 
-import { L2L3tree } from "components/scout/summaryCategoryData";
+import { useSupplier } from "requests/useSupplier";
+
+import { useTranslation } from "react-i18next";
 
 interface Props {
   onSearch: () => void;
@@ -17,6 +19,7 @@ interface Props {
   placeholder?: string;
 }
 
+const autoEnv: any = { timer: 0, fire: false };
 const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData } = useStore();
@@ -54,6 +57,7 @@ const SearchBar = ({ onSearch }: Props) => {
   );
 };
 
+<<<<<<< HEAD
 // XXX: in future, we should use i18n component
 //      now we just hardcoded map
 const langWordMap: any = {
@@ -79,7 +83,10 @@ const langWordMap: any = {
   },
 };
 
+=======
+>>>>>>> origin/development
 export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
+  const { t, i18n } = useTranslation();
   const {
     suppliers,
     filterData,
@@ -90,10 +97,17 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     setShowBackdrop,
     flags,
   } = useStore();
+  const currentLang = window.localStorage.getItem('i18nextLng') === 'de' ? 'de' : 'en';
+  if (currentLang) flags.lang = currentLang === 'de' ? 'DE' : 'EN';
+  const { searchAutocomplete } = useSupplier(currentLang);
   const [searchItem, setSearchItem] = useState("");
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState(flags.type || "Keywords");
-  const [searchLang, setSearchLang] = useState(flags.lang || "EN");
+  const [searchLang, setSearchLang] = useState(flags.lang);
+  const [langSwChecked, setLangSwChecked] = useState(flags.lang === 'DE' ? true : false);
+
+  const [showAutoComplete, setShowAutoComplete] = useState(false);
+  const [autocompleteList, setAutocompleteList] = useState([]);
 
   useEffect(() => {
     // ensure first enter, no last search showing
@@ -109,6 +123,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     setSearchType(val);
   };
 
+<<<<<<< HEAD
   const handleSearchLangChange = (evt: SelectChangeEvent) => {
     const val: string = (evt.target as any).checked ? "DE" : "EN";
     flags.lang = val;
@@ -127,10 +142,21 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     }
   }, []);
   */
+=======
+  const handleSearchLangChange = useCallback((evt: SelectChangeEvent) => {
+     const checked = !!((evt.target as any).checked);
+     setLangSwChecked(checked);
+     const val: string = checked ? "DE" : "EN";
+     flags.lang = val;
+     i18n?.changeLanguage && i18n.changeLanguage(checked ? 'de' : 'en');
+     setSearchLang(val);
+  }, [i18n]);
+>>>>>>> origin/development
 
   const doTransform = () => {
     flags.q = searchItemDisplay;
     let transformed = searchItemDisplay;
+<<<<<<< HEAD
     /*
     const keys = Object.keys(L2L3tree);
     const possible = keys.map((L2: string) => L2L3tree[L2].de);
@@ -139,6 +165,8 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
        transformed = keys[i];
     }
 */
+=======
+>>>>>>> origin/development
     return transformed;
   };
 
@@ -167,15 +195,21 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     });
     setSelectedCountries([]);
     setSelectedRegions([]);
+    setShowAutoComplete(false);
+    setAutocompleteList([]);
   };
   const onKeyPressHandler = (event: any) => {
     if (event.key === "Enter") {
+      autoEnv.fire = true;
       clearFilters();
       setFilterData({ q: doTransform() });
+      setShowAutoComplete(false);
+      setAutocompleteList([]);
       onSearch();
     }
   };
 
+<<<<<<< HEAD
   const cbOnSearchChange = useCallback(
     (evt: any) => {
       const value: string = evt.target.value;
@@ -186,6 +220,45 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     },
     [setSearchItem, setSearchItemDisplay]
   );
+=======
+  const cbOnSearchChange = useCallback((evt: any) => {
+     const value: string = evt.target.value;
+     let transformed = value;
+     (() => {
+        if (searchType !== 'Keywords') return;
+        if (autoEnv.timer) clearTimeout(autoEnv.timer);
+        if (value.length < 2) {
+           setShowAutoComplete(false);
+           setAutocompleteList([]);
+           return;
+        }
+        autoEnv.timer = setTimeout(async (q) => {
+           autoEnv.timer = 0;
+           if (autoEnv.fire) {
+              setShowAutoComplete(false);
+              setAutocompleteList([]);
+              autoEnv.fire = false;
+              return;
+           }
+           const autolist = await searchAutocomplete(q);
+           if (!autolist || !autolist.length) {
+              setShowAutoComplete(false);
+              return;
+           }
+           setShowAutoComplete(true);
+           setAutocompleteList(autolist);
+        }, 500, value);
+     })();
+     setSearchItem(transformed);
+     setSearchItemDisplay(value);
+  }, [setSearchItem, setSearchItemDisplay]);
+  const autocompleteFill = (z: any) => {
+     setShowAutoComplete(false);
+     setAutocompleteList([]);
+     setSearchItem(z);
+     setSearchItemDisplay(z);
+  };
+>>>>>>> origin/development
 
   useEffect(() => {
     setSearchItemDisplay(flags.q);
@@ -194,20 +267,28 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   return (
     <Container>
       <ControlContainer>
+<<<<<<< HEAD
         <SearchLangContainer label={searchLang}>
           <Switch
             onChange={handleSearchLangChange}
             checked={searchLang == "DE"}
           />
         </SearchLangContainer>
+=======
+        <SearchLangContainer label={searchLang}><Switch checked={langSwChecked} onChange={handleSearchLangChange} /></SearchLangContainer>
+>>>>>>> origin/development
         <ControlSpace />
         <ResetAllButton variant="text" onClick={resetFilters}>
           <Icon src="reset" width={12} height={12} m="0px 6px" />
-          Reset
+          {t("scout.searchbar.reset", "Reset")}
         </ResetAllButton>
+        <AutocompleteContainer active={showAutoComplete?1:0}>{autocompleteList.map((z:any, i: number) => (
+           <AutocompleteItem key={i} onClick={() => autocompleteFill(z)}>{z}</AutocompleteItem>
+        ))}</AutocompleteContainer>
       </ControlContainer>
       <SearchBarContainer width={width}>
         <InputContainer>
+<<<<<<< HEAD
           <SearchTypeSelect
             id="search_type"
             value={searchType}
@@ -219,6 +300,11 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
             <MenuItem value={"Companies"}>
               {langWordMap[searchLang]?.Companies}
             </MenuItem>
+=======
+          <SearchTypeSelect id="search_type" value={searchType} onChange={handleSearchTypeChange}>
+             <MenuItem value={"Keywords"}>{t("scout.searchbar.keywords", "Keywords")}</MenuItem>
+             <MenuItem value={"Companies"}>{t("scout.searchbar.companies", "Companies")}</MenuItem>
+>>>>>>> origin/development
           </SearchTypeSelect>
           {searchItem === "" ? (
             <Icon src="search2" width={20} height={20} m={"0px"} hover />
@@ -229,16 +315,20 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
           <StyledInput
             onChange={cbOnSearchChange}
             name="search"
-            placeholder={langWordMap[searchLang]?.Placeholder?.[searchType]}
+            placeholder={t(`scout.searchbar.${searchType.toLowerCase()}Placeholder`, "...")}
             onKeyPress={onKeyPressHandler}
             value={searchItemDisplay}
             type="text"
           />
         </InputContainer>
         <SearchButtonWrapper>
+<<<<<<< HEAD
           <SearchButton onClick={onClickSearch}>
             {langWordMap[searchLang]?.Search}
           </SearchButton>
+=======
+          <SearchButton onClick={onClickSearch}>{t("scout.searchbar.search", "Search")}</SearchButton>
+>>>>>>> origin/development
         </SearchButtonWrapper>
       </SearchBarContainer>
 
@@ -574,5 +664,29 @@ const ResetAllButton = styled(Button)`
   &:hover {
     cursor: pointer !important;
   }
+`;
+
+const AutocompleteContainer = styled.div<any>`
+   display: ${(props) => props.active ? 'block' : 'none'};
+   position: absolute;
+   width: 300px;
+   z-index: 9000;
+   background-color: rgb(249, 250, 251);
+   margin-top: 87px;
+   margin-left: 200px;
+   padding: 10px;
+   white-space: nowrap;
+   max-height: 400px;
+   overflow-x: hidden;
+   overflow-y: auto
+`;
+const AutocompleteItem = styled.div`
+   user-select: none;
+   curosr: pointer;
+   padding: 5px;
+   :hover {
+      background-color: rgb(8, 151, 156);
+      color: white;
+   }
 `;
 export default SearchBar;

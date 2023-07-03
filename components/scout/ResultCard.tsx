@@ -29,7 +29,7 @@ const ResultCard = ({ data }: { data?: any }) => {
           {data?.id ? (
             <Description>
               <TitleBadge>
-                <Title>{data.longName}</Title>
+                <Title>{data.longName || data.name}</Title>
                 <Badge label={"VERIFIED SUPPLIER"} icon={"verified"} />
                 {data.isInnovation && (
                   <Badge

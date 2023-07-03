@@ -1,6 +1,7 @@
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
+import { useTranslation } from 'react-i18next';
 import useBoundStore from "hooks/useBoundStore";
 import styled from "styled-components";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
@@ -10,6 +11,7 @@ import BidderPart from "./bidder/index";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 
 export default function Switch() {
+  const { t } = useTranslation();
   const { resetAllSelected } = useQuickBridgeSupplier();
   const { quickBridgeStore } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
@@ -58,18 +60,18 @@ export default function Switch() {
               handleSwitchSelected(ScoutSwitchType.index);
             }}
           >
-            Scout by Index
+            {t("scout.tab.byIndex", "Scout by Index")}
           </ByIndex>
           <ByQuickBridge
             selected={selected}
             onClick={() => handleSwitchSelected(ScoutSwitchType.quickBridge)}
           >
-            Scout by QuickBridge
+            {t("scout.tab.byQuickbridge", "Scout by QuickBridge")}
           </ByQuickBridge>
           <ByBidder
             selected={selected}
             onClick={() => handleSwitchSelected(ScoutSwitchType.bidder)}>
-            Bidder List
+            {t("scout.tab.biddersList", "Bidders List")}
           </ByBidder>
         </Switches>
       </SwitchContainer>

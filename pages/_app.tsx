@@ -12,6 +12,8 @@ import "../styles/css_long_loading_animation.css"
 import "../styles/globals.css";
 import 'react-toastify/dist/ReactToastify.css';
 
+import "../utils/i18n";
+
 export default function App({ Component, pageProps }: AppProps) {
   const { push } = useRouter();
   NavigateService.initNavigate(push);

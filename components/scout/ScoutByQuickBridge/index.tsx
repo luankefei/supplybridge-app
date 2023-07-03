@@ -14,6 +14,7 @@ import BySegment from "./BySegment";
 import dynamic from "next/dynamic";
 import ByCommodity from "./ByCommodity";
 import QuickbridgeResult from "./Result";
+import { useTranslation } from 'react-i18next';
 
 const Feedback = dynamic(() => import("components/Feedback"));
 
@@ -124,6 +125,7 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function ScoutByQuickBridge() {
+  const { t } = useTranslation();
   const theme = useTheme();
   const [value, setValue] = useState(0);
   const quickBridge = useBoundStore((state) => state.quickBridge);
@@ -210,14 +212,14 @@ export default function ScoutByQuickBridge() {
                 onChange={handleChange}
                 aria-label="tabs"
               >
-                <StyledTab label="Vehicle" />
-                <StyledTab label="OEM" />
-                <StyledTab label="Class" />
-                <StyledTab label="Segment" />
-                <StyledTab label="Technology" />
-                <StyledTab label="Commodity" />
-                <StyledTab label="Production Tech" />
-                <StyledTab label="3P Services" />
+                <StyledTab label={t("scout.quickbridge.vehicle", "Vehicle")} />
+                <StyledTab label={t("scout.quickbridge.oem", "OEM")} />
+                <StyledTab label={t("scout.quickbridge.class", "Class")} />
+                <StyledTab label={t("scout.quickbridge.segment", "Segment")} />
+                <StyledTab label={t("scout.quickbridge.technology", "Technology")} />
+                <StyledTab label={t("scout.quickbridge.commodity", "Commodity")} />
+                <StyledTab label={t("scout.quickbridge.productionTech", "Production Tech")} />
+                <StyledTab label={t("scout.quickbridge.3pServices", "3P Services")} />
 
                 <StyledTab
                   label={
@@ -228,7 +230,7 @@ export default function ScoutByQuickBridge() {
                         alignItems: "center",
                       }}
                     >
-                      <span style={{ marginRight: "-3px" }}>Pioneer</span>
+                      <span style={{ marginRight: "-3px" }}>{t("scout.quickbridge.pioneers", "Pioneer")}</span>
                       <Icon src={"pioneer"} height={18} />
                     </span>
                   }
@@ -332,7 +334,7 @@ export default function ScoutByQuickBridge() {
                     },
                   }}
                 >
-                  Scout Now
+                  {t("scout.quickbridge.scoutNow", "Scout Now")}
                 </Button>
               </div>
               <Feedback />

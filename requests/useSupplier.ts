@@ -3,11 +3,23 @@ import { toast } from "react-toastify";
 
 import { request } from "config/axios";
 import useStore from "hooks/useStore";
+import fakeData from "requests/hotpatchSearchDemoData";
 
-export const useSupplier = () => {
+export const useSupplier = (lang: string = 'en') => {
   const { setSuppliers, page, pageSize, setPage, setCount, setShowBackdrop, setStats } =
     useStore();
   const [loading, setLoading] = useState(false);
+
+  const searchAutocomplete = async (q: string) => {
+     if (!q || q.length < 2) return [];
+     try {
+        const { data } = await request.get(`configData/categorylevel?a=${encodeURIComponent(q)}&l=${lang}`);
+        return data.items || [];
+     } catch(err: any) {
+        console.error(err);
+        return [];
+     }
+  };
 
   const searchSuppliers = async (
     pageNumber: number = page,
@@ -32,6 +44,7 @@ export const useSupplier = () => {
         entrypoint,
         searchObj
       );
+      await fakeData(data, searchObj);
       setLoading(false);
       setSuppliers(data?.suppliers, reset);
       setCount(data?.count);
@@ -47,5 +60,5 @@ export const useSupplier = () => {
     }
   };
 
-  return { searchSuppliers, loading };
+  return { searchSuppliers, loading, searchAutocomplete };
 };

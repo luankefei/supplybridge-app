@@ -10,6 +10,12 @@ export const SummaryContainer = styled.div`
     padding-right: 20px;
     display: flex;
   }
+
+  &.hidden {
+    filter: blur(6px);
+    user-select: none;
+    pointer-events: none;
+  }
 `;
 
 export const SummaryCategoryIcon = styled.img`
@@ -56,7 +62,7 @@ export const SummaryCenterColumn = styled.div`
 `;
 
 export const SummaryLabel = styled.div`
-  font-size: 12px;
+  font-size: 14px;
   color: #757575;
 `;
 
@@ -69,6 +75,7 @@ export const SummaryTopList = styled.div`
 
 export const SummaryTopListOne = styled.div`
   margin-left: 5px;
+  margin-right: 80px;
 `;
 
 export const SummarySupplierContainer = styled.div`
