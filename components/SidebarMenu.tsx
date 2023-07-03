@@ -5,10 +5,10 @@ import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import cookie from "js-cookie";
 
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const LinkItem = styled(Link)`
-   margin-top: 12px;
+  margin-top: 12px;
 `;
 
 export default function SideBarMenu() {
@@ -22,21 +22,21 @@ export default function SideBarMenu() {
       title: t("sidebar.scouting", "Scouting"),
       path: "/scout",
       active: router.asPath.includes("scout"),
-      passiveIcon: false
+      passiveIcon: false,
     },
     {
       icon: "sourcing",
       title: t("sidebar.sourcing", "Sourcing"),
       path: "/source",
       active: router.asPath.includes("source"),
-      passiveIcon: false
+      passiveIcon: false,
     },
     {
       icon: "evaluate",
       title: t("sidebar.evaluate", "Evaluate"),
       path: "/evaluate",
       active: router.asPath.includes("evaluate"),
-      passiveIcon: true
+      passiveIcon: true,
     },
     {
       icon: "sustainability",
@@ -46,7 +46,7 @@ export default function SideBarMenu() {
       passiveIcon: true,
       extra: "leaf",
     },
-/* REL202306
+    /* REL202306
     {
       icon: "finance",
       title: "Finance",
@@ -72,23 +72,21 @@ export default function SideBarMenu() {
   ];
 
   const marketData: any = [
-/*
     {
       icon: "raw-material",
       title: "Raw Material",
       path: "/raw-material",
       active: router.asPath.includes("raw-material"),
-      passiveIcon: false
+      passiveIcon: false,
     },
-*/
     {
       icon: "supplier-news",
       title: t("sidebar.newsAndInsights", "News & Insights"),
       path: "/supplier-news",
       active: router.asPath.includes("supplier-news"),
-      passiveIcon: true
+      passiveIcon: false,
     },
-/*
+    /*
     {
       icon: "market-insights",
       title: "Market Insights",
@@ -164,28 +162,66 @@ export default function SideBarMenu() {
             <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
             {solutionsData.map((item: any, index: any) => {
               return (
-                <LinkItem key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
-                  <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
-                    <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
-                    <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
+                <LinkItem
+                  key={index}
+                  href={item.passiveIcon ? "" : `${item?.path}`}
+                >
+                  <MenuWrapper
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  >
+                    <MenuIcon
+                      src={`/menu/${item.icon}.svg`}
+                      active={item.active}
+                      passiveIcon={item.passiveIcon}
+                    />
+                    <MenuItemTitle
+                      active={item.active}
+                      passiveIcon={item.passiveIcon}
+                    >
+                      {item.title}
+                    </MenuItemTitle>
                     {item.extra && (
                       <ExtraIcon src={`/menu/${item.extra}.svg`} />
                     )}
-                    {item.passiveIcon && (<ComingSoon>{t("sidebar.comingSoon", "COMING SOON")}</ComingSoon>)}
+                    {item.passiveIcon && (
+                      <ComingSoon>
+                        {t("sidebar.comingSoon", "COMING SOON")}
+                      </ComingSoon>
+                    )}
                   </MenuWrapper>
                 </LinkItem>
               );
             })}
           </Section>
-          <Section >
+          <Section>
             <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
             {marketData.map((item: any, index: any) => {
               return (
-                <LinkItem key={index} href={item.passiveIcon ? '' : `${item?.path}`}>
-                  <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
-                    <MenuIcon src={`/menu/${item.icon}.svg`} active={item.active} passiveIcon={item.passiveIcon} />
-                    <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>{item.title}</MenuItemTitle>
-                    {item.passiveIcon && (<ComingSoon>{t("sidebar.comingSoon", "COMING SOON")}</ComingSoon>)}
+                <LinkItem
+                  key={index}
+                  href={item.passiveIcon ? "" : `${item?.path}`}
+                >
+                  <MenuWrapper
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  >
+                    <MenuIcon
+                      src={`/menu/${item.icon}.svg`}
+                      active={item.active}
+                      passiveIcon={item.passiveIcon}
+                    />
+                    <MenuItemTitle
+                      active={item.active}
+                      passiveIcon={item.passiveIcon}
+                    >
+                      {item.title}
+                    </MenuItemTitle>
+                    {item.passiveIcon && (
+                      <ComingSoon>
+                        {t("sidebar.comingSoon", "COMING SOON")}
+                      </ComingSoon>
+                    )}
                   </MenuWrapper>
                 </LinkItem>
               );
@@ -200,8 +236,12 @@ export default function SideBarMenu() {
             <Right>
               <AccountTitle>BMW</AccountTitle>
               <TextContainer>
-                <AccountType>{t("sidebar.premiumAccount", "Premium Account")} |</AccountType>
-                <Logout onClick={logout}>{t("sidebar.logOut", "Log out")}</Logout>
+                <AccountType>
+                  {t("sidebar.premiumAccount", "Premium Account")} |
+                </AccountType>
+                <Logout onClick={logout}>
+                  {t("sidebar.logOut", "Log out")}
+                </Logout>
               </TextContainer>
             </Right>
           </AccountContainer>
@@ -349,7 +389,9 @@ const MenuTitle = styled.div`
 `;
 
 const MenuIcon = styled.img<any>`
-filter: ${(props) => (props.active && "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)")};
+  filter: ${(props) =>
+    props.active &&
+    "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)"};
 `;
 const ExtraIcon = styled.img``;
 
@@ -357,39 +399,42 @@ const MenuItemTitle = styled.span<any>`
   font-weight: 300;
   font-size: 16px;
   line-height: 22px;
-  color: ${(props) => (props.passiveIcon ? "#B3B3B3" : props.active ? "#08979C" : "#1a1a1a")};
+  color: ${(props) =>
+    props.passiveIcon ? "#B3B3B3" : props.active ? "#08979C" : "#1a1a1a"};
   margin: 0 3px 0 15px;
   white-space: nowrap;
 `;
 
-const ComingSoon = styled('span')`
-   font-family: Ubuntu;
-   font-size: 12px;
-   line-height: 18px;
-   background-color: #fcf1e2;
-   padding: 3px 5px;
-   transform: scale(0.7);
-   margin-left: -9px;
-   border-radius: 5px;
-   color: #b97f24;
-   font-weight: bold;
-   white-space: nowrap;
-   height: 24px;
+const ComingSoon = styled("span")`
+  font-family: Ubuntu;
+  font-size: 12px;
+  line-height: 18px;
+  background-color: #fcf1e2;
+  padding: 3px 5px;
+  transform: scale(0.7);
+  margin-left: -9px;
+  border-radius: 5px;
+  color: #b97f24;
+  font-weight: bold;
+  white-space: nowrap;
+  height: 24px;
 `;
 
 const MenuWrapper = styled.div<any>`
   display: flex;
   border-radius: 8px;
-  background-color: ${(props) => (props.active && "rgb(8, 151, 156, 0.1)")};
+  background-color: ${(props) => props.active && "rgb(8, 151, 156, 0.1)"};
   cursor: ${(props) => (props.passiveIcon ? "not-allowed" : "pointer")};
   padding: 10px;
   &:hover {
-    background: ${(props) => (!props.passiveIcon && "rgb(8, 151, 156, 0.1)")};
+    background: ${(props) => !props.passiveIcon && "rgb(8, 151, 156, 0.1)"};
     ${MenuItemTitle} {
-      color: ${props => !props.passiveIcon && "#08979C"}
+      color: ${(props) => !props.passiveIcon && "#08979C"};
     }
     ${MenuIcon} {
-      filter: ${props => !props.passiveIcon && "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)"}
+      filter: ${(props) =>
+        !props.passiveIcon &&
+        "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)"};
     }
   }
   & > img {
@@ -422,7 +467,7 @@ const AccountTitle = styled.span`
 
 const TextContainer = styled.div`
   display: flex;
-`
+`;
 
 const AccountType = styled.span`
   font-weight: 300;
@@ -432,10 +477,10 @@ const AccountType = styled.span`
 `;
 
 const Logout = styled.span`
-   font-weight: 300;
+  font-weight: 300;
   font-size: 12px;
   line-height: 16px;
   color: #2c71f0;
   margin-left: 3px;
   cursor: pointer;
-`
+`;
