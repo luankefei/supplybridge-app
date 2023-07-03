@@ -204,12 +204,31 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     setSearchItemDisplay(flags.q);
   }, [filterData]);
 
+  /*
+  interface LangSwitchProps {
+  label: string;
+  checked: boolean;
+  onChange: () => void;
+}
+export const LangSwitch = ({ label, checked, onChange }: LangSwitchProps) => {
+  return (
+    <SearchLangContainer label={label}>
+      <Switch checked={checked} onChange={onChange} />
+    </SearchLangContainer>
+  );
+};
+  */
   return (
     <Container>
       <ControlContainer>
-        <SearchLangContainer label={searchLang}>
+        {/* <SearchLangContainer label={searchLang}>
           <Switch checked={langSwChecked} onChange={handleSearchLangChange} />
-        </SearchLangContainer>
+  </SearchLangContainer> */}
+        <LangSwitch
+          label={searchLang}
+          checked={langSwChecked}
+          onChange={handleSearchLangChange}
+        />
         <ControlSpace />
         <ResetAllButton variant="text" onClick={resetFilters}>
           <Icon src="reset" width={12} height={12} m="0px 6px" />
@@ -264,6 +283,19 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
 
       <ResetButtonContainer></ResetButtonContainer>
     </Container>
+  );
+};
+
+interface LangSwitchProps {
+  label: string;
+  checked: boolean;
+  onChange: (evt: SelectChangeEvent) => void;
+}
+export const LangSwitch = ({ label, checked, onChange }: LangSwitchProps) => {
+  return (
+    <SearchLangContainer label={label}>
+      <Switch checked={checked} onChange={onChange} />
+    </SearchLangContainer>
   );
 };
 
@@ -528,7 +560,7 @@ const ControlSpace = styled.div`
 
 const SearchLangContainer = styled.div<{ label: string }>`
   width: 200px;
-  position: fixed;
+  position: absolute;
   top: 40px;
   right: 2px;
   & .MuiSwitch-root {
