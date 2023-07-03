@@ -15,10 +15,10 @@ const regionMap: any = {
 const supBadgeTooltipText = (<div>
 <div><h3>Top</h3></div>
 <p>A few lead performingSuppliers in the particular category / sub-category -usually by Sales Marketshare.</p>
-<div><h3>MAJORM</h3></div>
-<p>High potential suppliers with promising new technology, business model.or other forms of innovations.</p>
-<div><h3>RISING STAR</h3></div>
+<div><h3>MAJOR</h3></div>
 <p>Key Suppliers in the particular category / sub-category - can be by a combination of criteria.</p>
+<div><h3>RISING STAR</h3></div>
+<p>High potential suppliers with promising new technology, business model.or other forms of innovations.</p>
 </div>);
 
 const TableCell = styled("td")`
