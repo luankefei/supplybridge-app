@@ -255,7 +255,7 @@ export default function BasicTable() {
           </TableHead>
           <TableBody>
             {data.map((row: any, i: number) => (
-              i >= 10 ? <ResultTableRowBlur key={i}><td colSpan={4}>hidden</td></ResultTableRowBlur> : <ResultTableRow key={i}>
+              i >= 10 ? <ResultTableRowBlur key={i}><td colSpan={5}>hidden</td></ResultTableRowBlur> : <ResultTableRow key={i}>
                 <IdCell>{i + 1}</IdCell>
                 <ResultTableCellWithImg
                   sx={{ "min-width": "30%", "padding-right": "30px" }}
