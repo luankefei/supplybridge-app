@@ -184,7 +184,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
             setShowAutoComplete(true);
             setAutocompleteList(autolist);
           },
-          500,
+          200,
           value
         );
       })();
