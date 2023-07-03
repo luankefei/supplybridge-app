@@ -2,7 +2,7 @@ import styled from "styled-components";
 import dynamic from "next/dynamic";
 import Image from "next/image";
 import { useEffect, useState, useRef } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import {
   Box,
   Skeleton,
@@ -265,13 +265,19 @@ export default function ScoutByIndex() {
         ) : (
           <SearchContainer isrow={isSuppliersNotEmpty}>
             {!isSuppliersNotEmpty && (
-              <Title>{t("scout.title", "Global Scouting, for Automotive professionals.")}</Title>
+              <Title>
+                {t(
+                  "scout.title",
+                  "Global Scouting, for Automotive professionals."
+                )}
+              </Title>
             )}
             <IconContainer isrow={isSuppliersNotEmpty}>
               <Icon src="smart-bridge-ai" width={25} height={25} />
               <IconLabel>
                 <Label>
-                  {t("scout.poweredBy", "powered by")} {isSuppliersNotEmpty && <br />}SmartBridge AI
+                  {t("scout.poweredBy", "powered by")}{" "}
+                  {isSuppliersNotEmpty && <br />}SmartBridge AI
                 </Label>
               </IconLabel>
             </IconContainer>
@@ -285,7 +291,9 @@ export default function ScoutByIndex() {
             {flags.selected ? (
               <ResultSelected selected={flags.selected} />
             ) : null}
-            {isSuppliersNotEmpty && <Filters totalCount={stats?.count || count} />}
+            {isSuppliersNotEmpty && (
+              <Filters totalCount={stats?.count || count} />
+            )}
             {isSuppliersNotEmpty && !flags.selected && <Summary />}
 
             <div
