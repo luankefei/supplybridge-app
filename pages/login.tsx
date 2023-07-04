@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect, useCallback } from "react";
 import styled from "styled-components";
 import Head from "next/head";
 import IconButton from "@mui/material/IconButton";
@@ -23,14 +23,20 @@ interface State {
   password: string;
 }
 
+const emailLoginSuffix = [
+   'bmw.de', 'bmw.com', 'bmwgroup.com'
+];
+
 export default function Login() {
-  const { login, loading } = useAuth();
+  const { login, loading, sendVerificationEmail } = useAuth();
   const { handleSubmit, control, formState } = useForm({
     mode: "onChange",
   });
   const { isValid } = formState;
 
   const [showPassword, setShowPassword] = useState(false);
+  const [enableEmailLogin, setEnableEmailLogin] = useState(false);
+  const [isEmailButtonOk, setIsEmailButtonOk] = useState(true);
 
   const showPasswordHandler = () => {
     setShowPassword(!showPassword);
@@ -47,6 +53,34 @@ export default function Login() {
       handleSubmit(onSubmit)();
     }
   };
+
+  const onEmailChange = useCallback((evt: any) => {
+     const email0 = evt.target.value;
+     if (!email0) return;
+     const suffix = email0.split('@')[1];
+     if (!suffix) return;
+     if (emailLoginSuffix.includes(suffix) || email0 === 'seven@supplybridge.com') {
+        if (!enableEmailLogin) { setEnableEmailLogin(true); window.localStorage.setItem('emaillogin', email0); };
+     } else {
+        if (enableEmailLogin) setEnableEmailLogin(false);
+     }
+  }, [enableEmailLogin, setEnableEmailLogin]);
+
+  useEffect(() => {
+     const t = setInterval(() => {
+        if (!enableEmailLogin) return;
+        const ts = new Date().getTime();
+        const lastTs = new Date(parseInt(window.localStorage.getItem('emailloginint') || '0')).getTime();
+        if (ts - lastTs < 3600 * 1000 * 60) {
+           if (isEmailButtonOk) setIsEmailButtonOk(false);
+        } else {
+           if (!isEmailButtonOk) setIsEmailButtonOk(true);
+        }
+     }, 1000);
+     return () => {
+        clearInterval(t);
+     };
+  }, [enableEmailLogin, isEmailButtonOk, setIsEmailButtonOk]);
 
   return (
     <BackgroundContainer>
@@ -80,7 +114,10 @@ export default function Login() {
               data-testid="email"
               type="email"
               value={value}
-              onChange={onChange}
+              onChange={(evt: any) => {
+                 onEmailChange(evt);
+                 onChange(evt);
+              }}
               onBlur={onBlur}
               onKeyDown={onKeyDown}
               error={!!error}
@@ -88,6 +125,7 @@ export default function Login() {
             />
           )}
         />
+        {enableEmailLogin ? null : <>
         <Label>Password</Label>
         <Controller
           name="password"
@@ -131,7 +169,7 @@ export default function Login() {
               }
             />
           )}
-        />
+        /></>}
       </Box>
       <div className="check-row">
         <div className="radio-input">
@@ -144,6 +182,7 @@ export default function Login() {
           <Link href="#">forget password?</Link>
         </div>
       </div>
+      {enableEmailLogin? <Button disabled={!isEmailButtonOk || loading} onClick={sendVerificationEmail}>Email Verify to Login</Button> :
       <Button
         disabled={!isValid || loading}
         loading={loading}
@@ -151,7 +190,7 @@ export default function Login() {
         onClick={handleSubmit(onSubmit)}
       >
         Login
-      </Button>
+      </Button>}
       </FormContainer>
       <TermsPrivacyFooter/>
       </InnerContainer>
