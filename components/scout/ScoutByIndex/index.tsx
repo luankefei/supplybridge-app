@@ -11,6 +11,7 @@ import {
 } from "@mui/material";
 import { Carousel, Modal } from "antd";
 import { CarouselRef } from "antd/lib/carousel";
+import LoadingAnimation from "components/LoadingAnimation";
 
 // import { Paper, Button } from '@material-ui/core';
 import styles from "./styles.module.css";
@@ -66,6 +67,8 @@ export default function ScoutByIndex() {
   const { getCommodities, getRegions } = useFilter();
   const { searchSuppliers, loading } = useSupplier();
   const { searchFuelTypes } = useVehicleFuelTypes();
+  const [loadingAnimations, setLoadingAnimations] = useState(false);
+  const [isSearching, setIsSearching] = useState(false);
 
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const onFilterModalCancel = () => setFilterModalVisible(false);
@@ -158,6 +161,9 @@ export default function ScoutByIndex() {
     pageRef.current = 1;
     searchSuppliers(1, true);
     infiniteScrollControl.current = true;
+    // setIsSearching(true);
+    setLoadingAnimations(true);
+    console.log("searching.....");
   };
 
   const clearHandler = () => {
@@ -196,6 +202,12 @@ export default function ScoutByIndex() {
     { src: "filter5_portfolio.png" },
     { src: "filter6_pioneer.png" },
   ];
+
+  useEffect(() => {
+    if (loadingAnimations) {
+      setTimeout(() => setLoadingAnimations(false), 1500);
+    }
+  }, [loadingAnimations]);
 
   return (
     <ScoutContainer ref={thisElementRef}>
@@ -255,92 +267,88 @@ export default function ScoutByIndex() {
         </div>
       </Modal>
 
-      <MainContainer>
-        {flags.selected ? (
-          <SelectedBackButtonContainer>
-            <SelectedBackButton onClick={onSelectedBackClick}>
-              <span>&#x1f860;</span> BACK
-            </SelectedBackButton>
-          </SelectedBackButtonContainer>
-        ) : (
-          <SearchContainer isrow={isSuppliersNotEmpty}>
-            {!isSuppliersNotEmpty && (
-              <Title>
-                {t(
-                  "scout.title",
-                  "Global Scouting, for Automotive professionals."
-                )}
-              </Title>
-            )}
-            <IconContainer isrow={isSuppliersNotEmpty}>
-              <Icon src="smart-bridge-ai" width={25} height={25} />
-              <IconLabel>
-                <Label>
-                  {t("scout.poweredBy", "powered by")}{" "}
-                  {isSuppliersNotEmpty && <br />}SmartBridge AI
-                </Label>
-              </IconLabel>
-            </IconContainer>
-            <SearchBar2 onSearch={searchHandler} />
-          </SearchContainer>
-        )}
-        <ContentsContainer>
-          <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
-          <ContentsWrapper>
-            <GeoCharts />
-            {flags.selected ? (
-              <ResultSelected selected={flags.selected} />
-            ) : null}
-            {isSuppliersNotEmpty && (
-              <Filters totalCount={stats?.count || count} />
-            )}
-            {isSuppliersNotEmpty && !flags.selected && <Summary />}
-
-            <div
-              style={{
-                padding: "12px",
-                width: "100%",
-                margin: "8px",
-                display: "flex",
-                // justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              {/* <ScoutFilter isQuickSearch={false} /> */}
-              {suppliers?.length > 0 ? (
-                <div>
-                  <FilterButton onClick={() => setFilterModalVisible(true)}>
-                    {t("scout.buildMyShortlist", "Build my Shortlist")}
-                  </FilterButton>
-                </div>
+      {loadingAnimations ? (
+        <LoadingAnimationContainer>
+          <LoadingAnimation showType="short" />
+        </LoadingAnimationContainer>
+      ) : (
+        <MainContainer>
+          {flags.selected ? (
+            <SelectedBackButtonContainer>
+              <SelectedBackButton onClick={onSelectedBackClick}>
+                <span>&#x1f860;</span> BACK
+              </SelectedBackButton>
+            </SelectedBackButtonContainer>
+          ) : (
+            <SearchContainer isrow={isSuppliersNotEmpty}>
+              {!isSuppliersNotEmpty && (
+                <Title>
+                  {t(
+                    "scout.title",
+                    "Global Scouting, for Automotive professionals."
+                  )}
+                </Title>
+              )}
+              <IconContainer isrow={isSuppliersNotEmpty}>
+                <Icon src="smart-bridge-ai" width={25} height={25} />
+                <IconLabel>
+                  <Label>
+                    {t("scout.poweredBy", "powered by")}{" "}
+                    {isSuppliersNotEmpty && <br />}SmartBridge AI
+                  </Label>
+                </IconLabel>
+              </IconContainer>
+              <SearchBar2 onSearch={searchHandler} />
+            </SearchContainer>
+          )}
+          <ContentsContainer>
+            <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
+            <ContentsWrapper>
+              <GeoCharts />
+              {flags.selected ? (
+                <ResultSelected selected={flags.selected} />
               ) : null}
-            </div>
+              {isSuppliersNotEmpty && (
+                <Filters totalCount={stats?.count || count} />
+              )}
+              {isSuppliersNotEmpty && !flags.selected && <Summary />}
 
-            <ResultTable />
-            {/*
-            <ResultContainer>
-              {isSuppliersNotEmpty ? (
-                <>
-                  {suppliers.map((supplier: any, index: number) => (
-                    <ResultCard
-                      data={supplier}
-                      key={`${supplier.id}_${index}`}
-                    />
-                  ))}
-                </>
-              ) : null}
-            </ResultContainer>
-            */}
-            {/* {suppliers.length === 0 && !loading && (
-                <NoRecord>No record founds</NoRecord>
-              )} */}
-          </ContentsWrapper>
-        </ContentsContainer>
-      </MainContainer>
+              <div
+                style={{
+                  padding: "12px",
+                  width: "100%",
+                  margin: "8px",
+                  display: "flex",
+                  // justifyContent: "space-between",
+                  alignItems: "center",
+                }}
+              >
+                {suppliers?.length > 0 ? (
+                  <div>
+                    <FilterButton onClick={() => setFilterModalVisible(true)}>
+                      {t("scout.buildMyShortlist", "Build my Shortlist")}
+                    </FilterButton>
+                  </div>
+                ) : null}
+              </div>
+
+              <ResultTable />
+            </ContentsWrapper>
+          </ContentsContainer>
+        </MainContainer>
+      )}
       <Feedback />
     </ScoutContainer>
   );
 }
+
+const LoadingAnimationContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 400px;
+`;
+
 const FilterButton = styled.button`
   width: 180px;
   min-width: 120px;
