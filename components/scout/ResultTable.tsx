@@ -216,7 +216,7 @@ export default function BasicTable() {
   const data = suppliers?.map((x: any) => ({
     logo:
       x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
-    name: x.name,
+    name: x.name && x.name.toUpperCase(),
     longName: x.longName,
     headquarter: x.headquarterId ? allSubRegions.find((z: any) => z.id === x.headquarterId) : null,
     isInnovation: x.isInnovation,
