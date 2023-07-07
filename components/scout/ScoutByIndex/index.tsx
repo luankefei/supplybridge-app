@@ -12,6 +12,7 @@ import {
 import { Carousel, Modal } from "antd";
 import { CarouselRef } from "antd/lib/carousel";
 import LoadingAnimation from "components/LoadingAnimation";
+import Survicate from "components/Survicate";
 
 // import { Paper, Button } from '@material-ui/core';
 import styles from "./styles.module.css";
@@ -72,6 +73,7 @@ export default function ScoutByIndex() {
 
   const [filterModalVisible, setFilterModalVisible] = useState(false);
   const onFilterModalCancel = () => setFilterModalVisible(false);
+  const [surveyOn, setSurveyOn] = useState(false);
 
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
@@ -325,9 +327,10 @@ export default function ScoutByIndex() {
               >
                 {suppliers?.length > 0 ? (
                   <div>
-                    <FilterButton onClick={() => setFilterModalVisible(true)}>
+                    <FilterButton onClick={() => { setFilterModalVisible(true); setSurveyOn(true); }}>
                       {t("scout.buildMyShortlist", "Build my Shortlist")}
                     </FilterButton>
+                    {surveyOn ? <Survicate loadSurvey={surveyOn} onClose={() => {}} /> : null}
                   </div>
                 ) : null}
               </div>
@@ -660,6 +663,7 @@ const Label = styled.span`
   font-size: 12px;
   line-height: 18px;
   color: #89a8b3;
+  white-space: nowrap;
 `;
 
 const Technology = styled.span`

@@ -61,7 +61,7 @@ export const useAuth = () => {
      try {
         const ts = new Date().getTime();
         const lastTs = new Date(parseInt(window.localStorage.getItem('emailloginint') || '0')).getTime();
-        if (ts - lastTs < 3600 * 1000 * 60) return;
+        if (ts - lastTs < 1000 * 60) return;
         window.localStorage.setItem('emailloginint', `${new Date().getTime()}`);
         setLoading(true);
         const email0 = window.localStorage.getItem('emaillogin');

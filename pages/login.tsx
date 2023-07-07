@@ -59,7 +59,7 @@ export default function Login() {
      if (!email0) return;
      const suffix = email0.split('@')[1];
      if (!suffix) return;
-     if (emailLoginSuffix.includes(suffix) || email0 === 'seven@supplybridge.com') {
+     if (emailLoginSuffix.includes(suffix)) {
         if (!enableEmailLogin) { setEnableEmailLogin(true); window.localStorage.setItem('emaillogin', email0); };
      } else {
         if (enableEmailLogin) setEnableEmailLogin(false);
@@ -71,7 +71,7 @@ export default function Login() {
         if (!enableEmailLogin) return;
         const ts = new Date().getTime();
         const lastTs = new Date(parseInt(window.localStorage.getItem('emailloginint') || '0')).getTime();
-        if (ts - lastTs < 3600 * 1000 * 60) {
+        if (ts - lastTs < 1000 * 60) {
            if (isEmailButtonOk) setIsEmailButtonOk(false);
         } else {
            if (!isEmailButtonOk) setIsEmailButtonOk(true);
