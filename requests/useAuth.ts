@@ -65,7 +65,7 @@ export const useAuth = () => {
         window.localStorage.setItem('emailloginint', `${new Date().getTime()}`);
         setLoading(true);
         const email0 = window.localStorage.getItem('emaillogin');
-        window.localStorage.removeItem('emaillogin');
+        //window.localStorage.removeItem('emaillogin');
         if (!email0) return;
         await request.post(`emailLogin?email=${encodeURIComponent(email0)}`, { a: 1, b: 2, c: 3, o: 5 });
         setLoading(false);
