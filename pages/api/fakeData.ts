@@ -9,6 +9,7 @@ export default function handler(req: NextApiRequest, res: NextApiResponse) {
   const query = req.query;
   const commodity = query.commodity;
   const frequency = query.frequency;
+
   res.status(200).json({
     data: [
       {

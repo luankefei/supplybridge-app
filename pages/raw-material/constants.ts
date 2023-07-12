@@ -59,11 +59,6 @@ const rawMaterials: RawMaterial[] = [
     ],
   },
   {
-    category: "Others",
-    icon: "materialCategory/others",
-    subfields: [{ name: "Kraft Pulp" }, { name: "Rubber" }],
-  },
-  {
     category: "ESG",
     icon: "materialCategory/ESG",
     subfields: [
@@ -71,6 +66,11 @@ const rawMaterials: RawMaterial[] = [
       { name: "EU Carbon Permits" },
       { name: "Wind Energy Index" },
     ],
+  },
+  {
+    category: "Others",
+    icon: "materialCategory/others",
+    subfields: [{ name: "Kraft Pulp" }, { name: "Rubber" }],
   },
 ];
 
