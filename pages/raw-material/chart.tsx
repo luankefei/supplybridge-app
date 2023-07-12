@@ -2,10 +2,14 @@ import { useEffect, useState } from "react";
 import Layout from "components/Layout";
 import { useRouter } from "next/router";
 import LoadingAnimation from "components/LoadingAnimation";
-import { Button, Stack, ToggleButton, ToggleButtonGroup } from "@mui/material";
-import Head from "next/head";
+import {
+  Button,
+  Grid,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 import { SpacingVertical } from "components/ui-components/spacer";
-import NewHeader from "components/NewHeader";
 import { ArrowBack } from "@mui/icons-material";
 import styled from "styled-components";
 import {
@@ -18,12 +22,20 @@ import {
   YAxis,
 } from "recharts";
 import { toast } from "react-toastify";
+import { HeaderText, LargeText } from "components/ui-components/text";
+import PoweredBy from "components/ui-components/poweredBy";
+import {
+  RoundedToggleButton,
+  RoundedToggleButtonGroup,
+} from "components/ui-components/roundedToggleGroup";
+import { Segmented } from "antd";
+import { SegmentedValue } from "antd/es/segmented";
 
 interface IChartProps {
   materialList: string[];
 }
 
-const Header = styled.div`
+const ChartHeader = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -42,20 +54,21 @@ const ChartContainer = styled.div`
 `;
 
 enum RangeEnum {
-  hour = "hour",
-  day = "day",
-  week = "week",
-  month = "month",
-  year = "year",
+  Hour = "Hour",
+  Day = "Day",
+  Week = "Week",
+  Month = "Month",
+  Year = "Year",
 }
 const CommodityChart = ({ materialList }: IChartProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [frequency, setFrequency] = useState<RangeEnum>(RangeEnum.day);
+  const [frequency, setFrequency] = useState<RangeEnum>(RangeEnum.Day);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
 
   const [data, setData] = useState<any[]>([]);
-  const handleRangeUpdate = (_: any, newRange: RangeEnum) => {
-    setFrequency(newRange);
+  const handleRangeUpdate = (newRange: SegmentedValue) => {
+    const nr = newRange as RangeEnum;
+    setFrequency(nr);
   };
   const handleSetSelectedMaterials = (_: any, newMaterials: string[]) => {
     setSelectedMaterials(newMaterials);
@@ -89,20 +102,21 @@ const CommodityChart = ({ materialList }: IChartProps) => {
   return (
     <Stack style={{ padding: 24 }}>
       <SpacingVertical space="20px" />
-      <Header>
-        <h3>Raw Material Prices</h3>
-        <ToggleButtonGroup
-          value={frequency}
-          exclusive
+      <ChartHeader>
+        <LargeText>Raw Material Prices</LargeText>
+        <Segmented
+          size="large"
+          defaultValue={frequency}
+          options={[
+            RangeEnum.Hour,
+            RangeEnum.Day,
+            RangeEnum.Week,
+            RangeEnum.Month,
+            RangeEnum.Year,
+          ]}
           onChange={handleRangeUpdate}
-        >
-          <ToggleButton value={RangeEnum.hour}>Hour</ToggleButton>
-          <ToggleButton value={RangeEnum.day}>Day</ToggleButton>
-          <ToggleButton value={RangeEnum.week}>Week</ToggleButton>
-          <ToggleButton value={RangeEnum.month}>Month</ToggleButton>
-          <ToggleButton value={RangeEnum.year}>Year</ToggleButton>
-        </ToggleButtonGroup>
-      </Header>
+        />
+      </ChartHeader>
       <SpacingVertical space="20px" />
       <div>
         <ToggleButtonGroup
@@ -158,37 +172,33 @@ const MyChart = () => {
   }, [materials, router]);
 
   return (
-    <Layout>
-      <Head>
-        <title>Market Data | Supply Bridge</title>
-        <meta name="description" content="Supply Bridge" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
-      <Stack>
-        <SpacingVertical space="150px" />
-        <NewHeader title="Material price checking system, more insights for your decision!" />
-        <div style={{ marginLeft: 48, marginRight: 48 }}>
-          <Button
-            variant="text"
-            startIcon={<ArrowBack />}
-            color="info"
-            onClick={() => router.push("/raw-material")}
-          >
-            back
-          </Button>
-        </div>
-        <SpacingVertical space="20px" />
-        <StyledCard>
-          <CommodityChart materialList={materialList} />
-        </StyledCard>
-      </Stack>
+    <Layout pageTitle={"Charts"} paddingHorizontal={48}>
+      <SpacingVertical space="100px" />
+      <HeaderText>
+        Material price checking system, more insights for your decision!
+      </HeaderText>
+      <PoweredBy />
+      <SpacingVertical space="50px" />
+
+      <Grid container>
+        <Button
+          variant="text"
+          startIcon={<ArrowBack />}
+          color="info"
+          onClick={() => router.push("/raw-material")}
+        >
+          Back
+        </Button>
+      </Grid>
+      <SpacingVertical space="20px" />
+      <StyledCard>
+        <CommodityChart materialList={materialList} />
+      </StyledCard>
     </Layout>
   );
 };
 
 const StyledCard = styled("div")`
-  margin-left: 48px;
-  margin-right: 48px;
   background: white;
   border-radius: 16px;
 `;
