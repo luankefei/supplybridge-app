@@ -1,4 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
+import { useTranslation } from 'react-i18next';
 import styled from "styled-components";
 import Chart from "react-google-charts";
 import { Skeleton } from "@mui/material";
@@ -32,6 +33,7 @@ const debounce = (fn: any, ms: number = 200) => {
 }
 
 const GeoCharts = () => {
+  const { t } = useTranslation();
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
@@ -319,7 +321,7 @@ const GeoCharts = () => {
      const el: any = elContainer.current;
      if (!el) return;
      const h = (window.innerHeight - el.parentNode.offsetTop) * 0.8;
-     legendBaseTop.current = h - 200;
+     legendBaseTop.current = h - 250;
      setFitMapHeight(h);
   }, [elContainer]);
 
@@ -364,25 +366,25 @@ const GeoCharts = () => {
       </Container>
       {showLegend ? (
       <LegendContainer top={legendTop}>
-         Total Results
+         {t("scout.map.legend.totalResults", "Total Results")}
          <LegendItemGapContainer>
-            <LegendItemKey>EMEA</LegendItemKey>
+            <LegendItemKey>{t("scout.map.legend.emea", "EMEA")}</LegendItemKey>
             <LegendItemVal>{legendSummary?.EMEA || 0}</LegendItemVal>
          </LegendItemGapContainer>
          <LegendItemGapContainer>
-            <LegendItemKey>Americas</LegendItemKey>
+            <LegendItemKey>{t("scout.map.legend.americas", "AMERICAS")}</LegendItemKey>
             <LegendItemVal>{legendSummary?.Americas || 0}</LegendItemVal>
          </LegendItemGapContainer>
          <LegendItemGapAContainer>
-            <LegendItemKey>APAC (Total)</LegendItemKey>
+            <LegendItemKey>{t("scout.map.legend.apac", "APAC (Total)")}</LegendItemKey>
             <LegendItemVal>{legendSummary?.APAC || 0}</LegendItemVal>
          </LegendItemGapAContainer>
          <LegendItemBContainer>
-            <LegendItemKey>China</LegendItemKey>
+            <LegendItemKey>{t("scout.map.legend.china", "CHINA")}</LegendItemKey>
             <LegendItemVal>{legendSummary?.CN || 0}</LegendItemVal>
          </LegendItemBContainer>
          <LegendItemGapContainer>
-            <LegendItemKey>Total</LegendItemKey>
+            <LegendItemKey>{t("scout.map.legend.total", "Total")}</LegendItemKey>
             <LegendItemVal>{legendSummary?.Total || 0}</LegendItemVal>
          </LegendItemGapContainer>
       </LegendContainer>
@@ -427,10 +429,10 @@ const GoWorld = styled.div`
 
 const LegendContainer = styled.div<any>`
   position: absolute;
-  left: calc(100% - 200px);
+  left: calc(100% - 238px);
   top: ${(props) => `${props.top || 0}px`};
-  width: 180px;
-  height: 200px;
+  width: 218px;
+  height: 250px;
   background-color: trasparent;
 `;
 

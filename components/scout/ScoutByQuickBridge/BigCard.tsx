@@ -1,7 +1,6 @@
 import styled, { css } from "styled-components";
 import React from "react";
 import Tooltip, { TooltipProps, tooltipClasses } from '@mui/material/Tooltip';
-import _ from "lodash";
 
 interface ContainerProps {
   selected: boolean;
@@ -32,7 +31,7 @@ export default function BigCard({ src, title, selected, width = 82, height = 82,
       <CardContainer selected={selected} disabled={disabled}>
         <IconBackground>
           {
-            _.startsWith(src, "http") ?
+            src && src.startsWith && src.startsWith("http") ?
               <Icon width={width} height={height} src={src} /> :
               <Icon width={width} height={height} src={`/icons/${src}.svg`} />
           }

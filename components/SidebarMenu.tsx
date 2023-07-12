@@ -5,39 +5,42 @@ import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import cookie from "js-cookie";
 
+import { useTranslation } from "react-i18next";
+
 const LinkItem = styled(Link)`
   margin-top: 12px;
 `;
 
 export default function SideBarMenu() {
+  const { t } = useTranslation();
   const router = useRouter();
   const { signOut } = useStore();
 
   const solutionsData = [
     {
       icon: "scouting",
-      title: "Scouting",
+      title: t("sidebar.scouting", "Scouting"),
       path: "/scout",
       active: router.asPath.includes("scout"),
       passiveIcon: false,
     },
     {
       icon: "sourcing",
-      title: "Sourcing",
+      title: t("sidebar.sourcing", "Sourcing"),
       path: "/source",
       active: router.asPath.includes("source"),
       passiveIcon: false,
     },
     {
       icon: "evaluate",
-      title: "Evaluate",
+      title: t("sidebar.evaluate", "Evaluate"),
       path: "/evaluate",
       active: router.asPath.includes("evaluate"),
       passiveIcon: true,
     },
     {
       icon: "sustainability",
-      title: "Sustainability",
+      title: t("sidebar.sustainability", "Sustainability"),
       path: "/sustainability",
       active: router.asPath.includes("sustainability"),
       passiveIcon: true,
@@ -78,10 +81,17 @@ export default function SideBarMenu() {
     },
     {
       icon: "supplier-news",
-      title: "News & Insights",
+      title: t("sidebar.newsAndInsights", "News & Insights"),
       path: "/supplier-news",
       active: router.asPath.includes("supplier-news"),
-      passiveIcon: true,
+      passiveIcon: false,
+    },
+    {
+      icon: "supply-chain-transparency",
+      title: t("sidebar.supplyChainTransparency", "Supply Chain Transparency"),
+      path: "/supply-chain-transparency",
+      active: router.asPath.includes("supply-chain-transparency"),
+      passiveIcon: false,
     },
     /*
     {
@@ -150,13 +160,13 @@ export default function SideBarMenu() {
           </Section>
           <Section>
             <UserContainer>
-              <Welcome>Welcome</Welcome>
+              <Welcome>{t("sidebar.welcome", "Welcome")}</Welcome>
               {/*
               <UserName>Baran!</UserName>
               <Avatar>BG</Avatar>
               */}
             </UserContainer>
-            <MenuTitle>SOLUTIONS</MenuTitle>
+            <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
             {solutionsData.map((item: any, index: any) => {
               return (
                 <LinkItem
@@ -181,14 +191,18 @@ export default function SideBarMenu() {
                     {item.extra && (
                       <ExtraIcon src={`/menu/${item.extra}.svg`} />
                     )}
-                    {item.passiveIcon && <ComingSoon>COMING SOON</ComingSoon>}
+                    {item.passiveIcon && (
+                      <ComingSoon>
+                        {t("sidebar.comingSoon", "COMING SOON")}
+                      </ComingSoon>
+                    )}
                   </MenuWrapper>
                 </LinkItem>
               );
             })}
           </Section>
           <Section>
-            <MenuTitle>MARKET DATA</MenuTitle>
+            <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
             {marketData.map((item: any, index: any) => {
               return (
                 <LinkItem
@@ -210,7 +224,11 @@ export default function SideBarMenu() {
                     >
                       {item.title}
                     </MenuItemTitle>
-                    {item.passiveIcon && <ComingSoon>COMING SOON</ComingSoon>}
+                    {item.passiveIcon && (
+                      <ComingSoon>
+                        {t("sidebar.comingSoon", "COMING SOON")}
+                      </ComingSoon>
+                    )}
                   </MenuWrapper>
                 </LinkItem>
               );
@@ -225,8 +243,12 @@ export default function SideBarMenu() {
             <Right>
               <AccountTitle>BMW</AccountTitle>
               <TextContainer>
-                <AccountType>Premium Account |</AccountType>
-                <Logout onClick={logout}>Log out</Logout>
+                <AccountType>
+                  {t("sidebar.premiumAccount", "Premium Account")} |
+                </AccountType>
+                <Logout onClick={logout}>
+                  {t("sidebar.logOut", "Log out")}
+                </Logout>
               </TextContainer>
             </Right>
           </AccountContainer>

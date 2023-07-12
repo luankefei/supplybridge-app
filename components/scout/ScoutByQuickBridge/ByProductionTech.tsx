@@ -8,8 +8,23 @@ import useBoundStore from "hooks/useBoundStore";
 import _ from "lodash";
 import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { useTranslation } from 'react-i18next';
+
+const nameKeyMap: any = {
+   "Injection Molding": "scout.quickbridge.injectionModling",
+   "Forging": "scout.quickbridge.forging",
+   "Casting": "scout.quickbridge.casting",
+   "Stamping": "scout.quickbridge.stamping",
+   "Composite Part": "scout.quickbridge.compositePart",
+   "Structural Part": "scout.quickbridge.structuralPart",
+   "Additive Manufacturing": "scout.quickbridge.additiveManufacturing",
+   "CNC Machining": "scout.quickbridge.cncMachining",
+   "Tooling & Fixtures": "scout.quickbridge.toolingFixtures",
+   "Others": "scout.quickbridge.others",
+};
 
 export default function ByProductionTech() {
+  const { t } = useTranslation();
   const { quickBridgeStore, productionTechnologyStore } = useBoundStore(
     (state) => ({
       quickBridgeStore: state.quickBridge,
@@ -84,9 +99,9 @@ export default function ByProductionTech() {
             <CardWrapper onClick={() => onClick(id)} key={id}>
               <BigCard
                 src={icon}
-                title={name}
+                title={t(nameKeyMap[name], name)}
                 selected={selected === id}
-                infoContent={InfoContent(description)}
+                infoContent={InfoContent(t(`${nameKeyMap[name]}Desc`, description))}
                 disabled={!isActive}
               />
             </CardWrapper>
@@ -94,7 +109,7 @@ export default function ByProductionTech() {
             <CardWrapper onClick={() => onClick(id)} key={id}>
               <BigCard
                 src={icon}
-                title={name}
+                title={t(nameKeyMap[name], name)}
                 selected={selected === id}
                 disabled={!isActive}
               />
@@ -116,59 +131,3 @@ const CardContainer = styled.div`
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
-/*
-import { useState } from "react";
-import styled from "styled-components";
-import BigCard from "./BigCard";
-
-export default function ByProductionTech() {
-  const [selected, setSelected] = useState("")
-
-
-  const onClick = (select: any) => {
-    if (selected !== select) {
-      setSelected(select)
-    } else {
-      setSelected("")
-    }
-  }
-
-
-  return (
-    <>
-      <CardContainer>
-        <CardWrapper onClick={() => onClick("injection-molding")}>
-          <BigCard src={"injection-molding"} title={"Injection Molding"} selected={selected === "injection-molding"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("forging")}>
-          <BigCard src={"forging"} title={"Forging"} selected={selected === "forging"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("casting")}>
-          <BigCard src={"casting"} title={"Casting"} selected={selected === "casting"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("stamping")}>
-          <BigCard src={"stamping"} title={"Stamping"} selected={selected === "stamping"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("composite-part")}>
-          <BigCard src={"composite-part"} title={"Composite Part"} selected={selected === "composite-part"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("structural-part")}>
-          <BigCard src={"structural-part"} title={"Structural Part"} selected={selected === "structural-part"} />
-        </CardWrapper>
-      </CardContainer>
-    </>
-  )
-}
-
-
-const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: auto auto auto;
-  gap: 24px;
-`;
-
-const CardWrapper = styled.span`
-cursor: pointer;
-`;
-*/

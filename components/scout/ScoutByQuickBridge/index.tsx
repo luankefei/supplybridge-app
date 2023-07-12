@@ -1,5 +1,6 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback } from "react";
 import { keyframes, styled, useTheme } from "@mui/material/styles";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -14,6 +15,10 @@ import BySegment from "./BySegment";
 import dynamic from "next/dynamic";
 import ByCommodity from "./ByCommodity";
 import QuickbridgeResult from "./Result";
+import { useTranslation } from "react-i18next";
+import useStore from "hooks/useStore";
+
+import { LangSwitch } from "../SearchBar";
 
 const Feedback = dynamic(() => import("components/Feedback"));
 
@@ -124,12 +129,19 @@ function TabPanel(props: TabPanelProps) {
 }
 
 export default function ScoutByQuickBridge() {
+  const { t, i18n } = useTranslation();
   const theme = useTheme();
   const [value, setValue] = useState(0);
+  const { flags } = useStore();
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const router = useRouter();
 
   const { tab, setTab, setResult, filter, selectedLabel } = quickBridge;
+  const [searchLang, setSearchLang] = useState(flags.lang);
+
+  const [langSwChecked, setLangSwChecked] = useState(
+    flags.lang === "DE" ? true : false
+  );
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     var tabName = QuickBridgeTabType.vehile;
@@ -199,9 +211,32 @@ export default function ScoutByQuickBridge() {
   }, [windowHeight]);
 
   let scoutDisabled = filter?.[Object.keys(filter)?.toString()]?.length == 0;
+
+  const handleSearchLangChange = useCallback(
+    (evt: SelectChangeEvent) => {
+      const checked = !!(evt.target as any).checked;
+      setLangSwChecked(checked);
+      const val: string = checked ? "DE" : "EN";
+      flags.lang = val;
+      i18n?.changeLanguage && i18n.changeLanguage(checked ? "de" : "en");
+      setSearchLang(val);
+    },
+    [i18n]
+  );
+
+  const currentLang =
+    window.localStorage.getItem("i18nextLng") === "de" ? "de" : "en";
+  if (currentLang) flags.lang = currentLang === "de" ? "DE" : "EN";
+
   return (
     <>
       <div className="Container">
+        <LangSwitch
+          onChange={handleSearchLangChange}
+          checked={langSwChecked}
+          label={searchLang}
+        />
+
         <div className="Content">
           {!tab.isResult ? (
             <>
@@ -210,14 +245,25 @@ export default function ScoutByQuickBridge() {
                 onChange={handleChange}
                 aria-label="tabs"
               >
-                <StyledTab label="Vehicle" />
-                <StyledTab label="OEM" />
-                <StyledTab label="Class" />
-                <StyledTab label="Segment" />
-                <StyledTab label="Technology" />
-                <StyledTab label="Commodity" />
-                <StyledTab label="Production Tech" />
-                <StyledTab label="3P Services" />
+                <StyledTab label={t("scout.quickbridge.vehicle", "Vehicle")} />
+                <StyledTab label={t("scout.quickbridge.oem", "OEM")} />
+                <StyledTab label={t("scout.quickbridge.class", "Class")} />
+                <StyledTab label={t("scout.quickbridge.segment", "Segment")} />
+                <StyledTab
+                  label={t("scout.quickbridge.technology", "Technology")}
+                />
+                <StyledTab
+                  label={t("scout.quickbridge.commodity", "Commodity")}
+                />
+                <StyledTab
+                  label={t(
+                    "scout.quickbridge.productionTech",
+                    "Production Tech"
+                  )}
+                />
+                <StyledTab
+                  label={t("scout.quickbridge.3pServices", "3P Services")}
+                />
 
                 <StyledTab
                   label={
@@ -228,7 +274,9 @@ export default function ScoutByQuickBridge() {
                         alignItems: "center",
                       }}
                     >
-                      <span style={{ marginRight: "-3px" }}>Pioneer</span>
+                      <span style={{ marginRight: "-3px" }}>
+                        {t("scout.quickbridge.pioneers", "Pioneer")}
+                      </span>
                       <Icon src={"pioneer"} height={18} />
                     </span>
                   }
@@ -332,7 +380,7 @@ export default function ScoutByQuickBridge() {
                     },
                   }}
                 >
-                  Scout Now
+                  {t("scout.quickbridge.scoutNow", "Scout Now")}
                 </Button>
               </div>
               <Feedback />

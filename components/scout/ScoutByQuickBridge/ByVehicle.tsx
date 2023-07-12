@@ -7,8 +7,15 @@ import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { useTranslation } from 'react-i18next';
+
+const nameKeyMap: any = {
+   "Commercial Vehicles": "scout.quickbridge.commercialVehicle",
+   "Passenger Vehicles": "scout.quickbridge.passengerVehicle",
+};
 
 export default function ByVehicle() {
+  const { t } = useTranslation();
   const { quickBridgeStore, vehicleStore } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
     vehicleStore: state.quickBridgeVehicles,
@@ -66,7 +73,7 @@ export default function ByVehicle() {
       {data &&
         data.map(({ id, name, icon }: any) => (
           <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} />
+            <BigCard src={icon} title={t(nameKeyMap[name], name)} selected={selected === id} />
           </CardWrapper>
         ))}
     </>
@@ -76,35 +83,3 @@ export default function ByVehicle() {
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
-/*import { useState } from "react";
-import styled from "styled-components";
-import BigCard from "./BigCard";
-
-export default function ByVehicle() {
-  const [selected, setSelected] = useState("")
-
-  const onClick = (select: any) => {
-    if (selected !== select) {
-      setSelected(select)
-    } else {
-      setSelected("")
-    }
-  }
-
-
-  return (
-    <>
-      <CardWrapper onClick={() => onClick("commercial")}>
-        <BigCard src={"commercial-vehicles"} title={"Commercial Vehicles"} selected={selected === "commercial"} />
-      </CardWrapper>
-      <CardWrapper onClick={() => onClick("passenger")}>
-        <BigCard src={"automotive"} title={"Passenger Vehicles"} selected={selected === "passenger"} />
-      </CardWrapper>
-    </>
-  )
-}
-
-const CardWrapper = styled.span`
-cursor: pointer;
-`;*/

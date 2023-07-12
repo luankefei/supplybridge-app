@@ -87,6 +87,8 @@ const Wrapper = styled.div`
 `;
 
 const CarouselContainer = styled.div<any>`
+  display: flex;
+  justify-content: center;
   overflow: hidden;
 `;
 
@@ -97,6 +99,7 @@ const CarouselImg = styled.div<any>`
 `;
 
 const CarouselItem = styled.div`
+  display: flex;
   flex: 1 0 100%;
   height: 100%;
 `;
@@ -115,7 +118,7 @@ const ArrowButton = styled.button`
 
 const PreviousButton = styled(ArrowButton)`
   position: absolute;
-  left: -20px;
+  left: 10px;
 `;
 
 const IconWrapper = styled.span`
@@ -135,7 +138,11 @@ const Icon = styled.img``;
 
 const NextButton = styled(ArrowButton)`
   position: absolute;
+<<<<<<< HEAD
   right: -20px;
+=======
+  right: 10px;
+>>>>>>> stage
 `;
 
 const IndicatorStyled = styled(Indicator)`
@@ -161,8 +168,9 @@ const IndicatorDot = styled.div<any>`
 `;
 
 const Image = styled.img`
-  width: 100%;
+  width: 90%;
   height: 100%;
+  margin 0 auto;
 `;
 
 export default function Carousel({ data, type }: any) {

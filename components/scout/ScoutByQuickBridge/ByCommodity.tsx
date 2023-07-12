@@ -7,8 +7,19 @@ import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeCommodity } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { useTranslation } from 'react-i18next';
+
+const nameKeyMap: any = {
+   'Chassis': 'scout.quickbridge.chassis',
+   'Electronics': 'scout.quickbridge.electronics',
+   'General': 'scout.quickbridge.general',
+   'Interior/Exterior': 'scout.quickbridge.interiorExterior',
+   'Powertrain': 'scout.quickbridge.powertrain',
+   'Raw Materials' :'scout.quickbridge.rawMaterials',
+};
 
 export default function ByCommodity() {
+  const { t } = useTranslation();
   const { quickBridgeStore, commodityStore } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
     commodityStore: state.quickBridgeCommodities,
@@ -69,7 +80,7 @@ export default function ByCommodity() {
       {data &&
         data.map(({ id, name, icon }: any) => (
           <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={name} selected={selected === id} />
+            <BigCard src={icon} title={t(nameKeyMap[name], name)} selected={selected === id} />
           </CardWrapper>
         ))}
     </CardContainer>

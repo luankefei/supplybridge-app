@@ -7,8 +7,17 @@ import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
+import { useTranslation } from 'react-i18next';
+
+const nameKeyMap: any = {
+   "Autonomous": "scout.quickbridge.autonomous",
+   "Electric Vehicle (EV)": "scout.quickbridge.electricVehicle",
+   "Fuel Cell": "scout.quickbridge.fuelCell",
+   "ICE": "scout.quickbridge.ice",
+};
 
 export default function ByTechnology() {
+  const { t } = useTranslation();
   const { quickBridgeStore, technologyStore } = useBoundStore((state) => ({
     quickBridgeStore: state.quickBridge,
     technologyStore: state.quickBridgeTechnologies,
@@ -76,7 +85,7 @@ export default function ByTechnology() {
         {data &&
           data.map(({ id, name, icon }: any) => (
             <CardWrapper onClick={() => onClick(id)} key={id}>
-              <BigCard src={icon} title={name} selected={selected === id} />
+              <BigCard src={icon} title={t(nameKeyMap[name], name)} selected={selected === id} />
             </CardWrapper>
           ))}
       </CardContainer>
@@ -108,66 +117,3 @@ const Text = styled.span`
 const CardWrapper = styled.span`
   cursor: pointer;
 `;
-
-/*
-import { useEffect, useState } from "react";
-import styled from "styled-components";
-import BigCard from "./BigCard";
-
-export default function ByTechnology() {
-  const [selected, setSelected] = useState<any>("")
-
-  const onClick = (select: any) => {
-    if (selected !== select) {
-      setSelected(select)
-    } else {
-      setSelected("")
-    }
-  }
-
-
-  return (
-    <Container>
-      <CardContainer>
-        <CardWrapper onClick={() => onClick("ice")}>
-          <BigCard src={"ice"} title={"ICE"} selected={selected === "ice"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("ev")}>
-          <BigCard src={"ev"} title={"EV"} selected={selected === "ev"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("fuelcell")}>
-          <BigCard src={"fuelcell"} title={"Fuel Cell"} selected={selected === "fuelcell"} />
-        </CardWrapper>
-        <CardWrapper onClick={() => onClick("autonomous")}>
-          <BigCard src={"autonomous"} title={"Autonomous"} selected={selected === "autonomous"} />
-        </CardWrapper>
-      </CardContainer>
-    </Container>
-  )
-}
-
-const Container = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const CardContainer = styled.div`
-  display: grid;
-  grid-template-columns: auto auto;
-  gap: 24px;
-`;
-
-const Text = styled.span`
-font-style: normal;
-font-weight: 400;
-font-size: 14px;
-line-height: 20px;
-color: #4B5563;
-text-align: center;
-margin-bottom: 18px;
-`
-
-const CardWrapper = styled.span`
-cursor: pointer;
-`;
-*/
