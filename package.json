@@ -50,6 +50,21 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/styled-components": "^5.1.26",
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tsc --noEmit"
+    ],
+    "*.tsx": [
+      "tsc --noEmit"
+    ]
   }
 }
