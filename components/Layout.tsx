@@ -2,7 +2,6 @@ import { theme } from "config/theme";
 import React from "react";
 import styled from "styled-components";
 import SideBarMenu from "./SidebarMenu";
-import withAuth from "utils/withAuth";
 import Head from "next/head";
 
 /**
@@ -24,8 +23,8 @@ const Layout = ({
   pageTitle: string;
   row?: boolean;
   children: React.ReactNode;
-  paddingVertical?: string;
-  paddingHorizontal?: string;
+  paddingVertical?: string | number;
+  paddingHorizontal?: string | number;
 }) => {
   return (
     <Container>
@@ -62,4 +61,4 @@ const Container = styled.div`
   flex-direction: row;
 `;
 
-export default withAuth(Layout);
+export default Layout;

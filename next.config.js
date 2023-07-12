@@ -5,15 +5,18 @@ const nextConfig = {
   experimental: {
     scrollRestoration: true,
   },
+  images: {
+    domains: ["cdn-stage.supplybridge.com"],
+  },
   async redirects() {
     return [
       {
-        source: '/',
-        destination: '/dashboard',
+        source: "/",
+        destination: "/dashboard",
         permanent: true,
       },
-    ]
+    ];
   },
-}
+};
 
-module.exports = nextConfig
+module.exports = nextConfig;

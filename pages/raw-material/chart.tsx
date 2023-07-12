@@ -24,10 +24,6 @@ import {
 import { toast } from "react-toastify";
 import { HeaderText, LargeText } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
-import {
-  RoundedToggleButton,
-  RoundedToggleButtonGroup,
-} from "components/ui-components/roundedToggleGroup";
 import { Segmented } from "antd";
 import { SegmentedValue } from "antd/es/segmented";
 
@@ -74,29 +70,31 @@ const CommodityChart = ({ materialList }: IChartProps) => {
     setSelectedMaterials(newMaterials);
   };
 
-  const fetchData = async () => {
-    setIsLoading(true);
-    const res = await fetch(
-      `/api/fakeData?commodity=${selectedMaterials.join(
-        ","
-      )}&frequency=${frequency}`
-    );
-    if (!res.ok) {
-      toast.error("Error fetching data...");
-      setIsLoading(false);
-      return;
-    }
-    const data = await res.json();
-    console.log(data);
-    setIsLoading(false);
-  };
-
   useEffect(() => {
     setSelectedMaterials(materialList);
   }, [materialList]);
 
   useEffect(() => {
-    fetchData();
+    const fetchData = async () => {
+      setIsLoading(true);
+      const res = await fetch(
+        `/api/fakeData?commodity=${selectedMaterials.join(
+          ","
+        )}&frequency=${frequency}`
+      );
+      if (!res.ok) {
+        toast.error("Error fetching data...");
+        setIsLoading(false);
+        return;
+      }
+      const data = await res.json();
+      console.log(data);
+      setIsLoading(false);
+    };
+    // avoid fetching data on first render
+    if (selectedMaterials.length > 0 && frequency) {
+      fetchData();
+    }
   }, [frequency, selectedMaterials]);
 
   return (

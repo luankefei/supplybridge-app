@@ -7,33 +7,7 @@ import Icon from "components/Icon";
 import { useIndustries } from "requests/useIndustries";
 import { useEffect } from "react";
 import useStore from "hooks/useStore";
-import withAuth from "utils/withAuth";
-
-const Layout = dynamic(() => import("components/Layout"));
-
-const lowerMenu = [
-  {
-    title: "AEROSPACE",
-    icon: "aerospace",
-    subtitle: "Coming Soon",
-    path: "/dashboard/aerospace",
-    active: false,
-  },
-  {
-    title: "RAILWAY",
-    icon: "railway",
-    subtitle: "Coming Soon",
-    path: "/dashboard/railway",
-    active: false,
-  },
-  {
-    title: "OTHER",
-    icon: "other",
-    subtitle: "Coming Soon",
-    path: "/dashboard/other",
-    active: false,
-  },
-];
+import Image from "next/image";
 
 function Industry() {
   const { searchIndustries } = useIndustries();
@@ -61,7 +35,12 @@ function Industry() {
                   <Card active={item.isActive}>
                     <HeaderContainer>
                       <IconContainer>
-                        <img src={item.icon} width={65} height={44} />
+                        <Image
+                          src={item.icon}
+                          width={65}
+                          height={44}
+                          alt={item.name}
+                        />
                       </IconContainer>
                     </HeaderContainer>
                     <ContentContainer>
@@ -80,7 +59,12 @@ function Industry() {
                 <Card active={item.isActive} key={index}>
                   <HeaderContainer>
                     <IconContainer>
-                      <img src={item.icon} width={85} height={54} />
+                      <Image
+                        src={item.icon}
+                        width={85}
+                        height={54}
+                        alt={item.name}
+                      />
                     </IconContainer>
                   </HeaderContainer>
                   <ContentContainer>
@@ -96,7 +80,7 @@ function Industry() {
   );
 }
 
-export default withAuth(Industry);
+export default Industry;
 
 const Container = styled.div`
   height: 100vh;

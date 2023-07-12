@@ -23,7 +23,10 @@ const setAuthData = (token: string, refreshToken: string) => {
  * Gets the authentication data from local storage.
  * @returns An object containing the authentication token and refresh token.
  */
-const getAuthData = () => {
+const getAuthData = (): {
+  token: string | null;
+  refreshToken: string | null;
+} => {
   const token = localStorage.getItem("@authToken");
   const refreshToken = localStorage.getItem("@refreshToken");
 
