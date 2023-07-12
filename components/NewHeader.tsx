@@ -9,12 +9,6 @@ const StyledHeader = muiStyled("div")(`
     justify-content: space-between;
     align-items: center;
     height: ${theme.dimension.headerHeight};
-    @media (max-width: ${theme.size.mobileXl}) {
-        padding-left: 16px;
-    }
-    @media (min-width: ${theme.size.mobileXl}) {
-        padding-left: 70px;
-    }
 `);
 
 const Container = muiStyled("div")(`
@@ -40,35 +34,11 @@ const TitleLabel = muiStyled("div")(`
     color: #1A1A1A;
 `);
 
-const SubtitleLabel = muiStyled("div")(`
-font-family: 'Ubuntu';
-font-style: normal;
-font-weight: 400;
-font-size: 13px;
-line-height: 1.5rem;
-
-display: flex;
-align-items: center;
-color: #1A1A1A;
-`);
-
-const Header = function ({
-  title,
-  subtitle,
-  subtitleIcon,
-}: {
-  title?: string;
-  subtitle?: string;
-  subtitleIcon?: string;
-}) {
+const Header = function ({ title }: { title?: string }) {
   return (
     <StyledHeader>
       <Container>
         <TitleLabel>{title}</TitleLabel>
-        <SubtitleLabel>
-          {subtitleIcon && <Icon width={24} src={subtitleIcon} />}
-          <span style={{ marginLeft: 8 }}>{subtitle}</span>
-        </SubtitleLabel>
       </Container>
       <Feedback />
     </StyledHeader>

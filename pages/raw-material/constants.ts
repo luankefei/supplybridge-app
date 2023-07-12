@@ -1,61 +1,76 @@
 type RawMaterial = {
   category: string;
+  icon: string;
   subfields: { name: string }[];
 };
 
 const rawMaterials: RawMaterial[] = [
   {
-    category: "metal",
+    category: "Energy",
+    icon: "materialCategory/energy",
     subfields: [
-      {
-        name: "Gold",
-      },
-      {
-        name: "Silver",
-      },
-      {
-        name: "Steel",
-      },
-      {
-        name: "HRCSteel",
-      },
-      {
-        name: "Copper",
-      },
-      {
-        name: "Plantinum",
-      },
-      {
-        name: "Titanium",
-      },
-      {
-        name: "Lithium",
-      },
-      {
-        name: "IronOre",
-      },
-      {
-        name: "Palladium",
-      },
+      { name: "Brent" },
+      { name: "Natural gas" },
+      { name: "Gasoline" },
+      { name: "Coal" },
+      { name: "UK Gas" },
+      { name: "Ethanol" },
     ],
   },
   {
-    category: "plastic",
+    category: "Metals",
+    icon: "materialCategory/metal",
     subfields: [
-      {
-        name: "Polyethylene",
-      },
-      {
-        name: "Polyvinyl",
-      },
-      {
-        name: "Plypropylene",
-      },
+      { name: "Gold" },
+      { name: "Silver" },
+      { name: "Copper" },
+      { name: "Steel" },
+      { name: "Iron Ore" },
+      { name: "Lithium" },
+      { name: "Platinum" },
+      { name: "Titanium" },
+      { name: "HRC Steel" },
+      { name: "Cobalt" },
+      { name: "Lead" },
+      { name: "Aluminum" },
+      { name: "Tin" },
+      { name: "Zinc" },
+      { name: "Nickel" },
+      { name: "Molybdenum" },
+      { name: "Palladium" },
+      { name: "Rhodium" },
+      { name: "Neodymium" },
+      { name: "Tellurium" },
+      { name: "Iron Ore 62% fe" },
+      { name: "Magnesium" },
+      { name: "Gallium" },
+      { name: "Germanium" },
+      { name: "Manganese" },
+      { name: "Indium" },
     ],
   },
   {
-    category: "other",
-    subfields: [],
+    category: "Plastic",
+    icon: "materialCategory/plastic",
+    subfields: [
+      { name: "Polyethylene" },
+      { name: "Polyvinyl" },
+      { name: "Polypropylene" },
+    ],
+  },
+  {
+    category: "Others",
+    icon: "materialCategory/others",
+    subfields: [{ name: "Kraft Pulp" }, { name: "Rubber" }],
+  },
+  {
+    category: "ESG",
+    icon: "materialCategory/ESG",
+    subfields: [
+      { name: "Solar Energy Index" },
+      { name: "EU Carbon Permits" },
+      { name: "Wind Energy Index" },
+    ],
   },
 ];
 
