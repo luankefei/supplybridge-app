@@ -120,6 +120,7 @@ const CommodityChart = ({ materialList }: IChartProps) => {
       <SpacingVertical space="20px" />
       <div>
         <ToggleButtonGroup
+          style={{ flexWrap: "wrap" }}
           value={selectedMaterials}
           onChange={handleSetSelectedMaterials}
         >

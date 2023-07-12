@@ -4,20 +4,22 @@ import {
   Autocomplete,
   Button,
   Card,
+  Collapse,
+  Divider,
   Grid,
+  IconButton,
   Stack,
   TextField,
   ToggleButton,
   Tooltip,
 } from "@mui/material";
 import rawMaterials, { allRawMaterials } from "./constants";
-import { Info, Replay } from "@mui/icons-material";
+import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
 import { useRouter } from "next/router";
 import {
   SpacingVertical,
   SpacingHorizontal,
 } from "components/ui-components/spacer";
-import Head from "next/head";
 import PoweredBy from "components/ui-components/poweredBy";
 import { HeaderText, TitleText } from "components/ui-components/text";
 import { toast } from "react-toastify";
@@ -39,6 +41,14 @@ export default function RawMaterial() {
       return;
     }
     setSelectedMaterials([...selectedMaterials, material]);
+  };
+  const addAllSubfields = () => {
+    const subfields = rawMaterials.find(
+      (v) => v.category === openedCategory
+    )?.subfields;
+    if (!subfields) return;
+    const toAdd = subfields.filter((v) => !selectedMaterials.includes(v.name));
+    setSelectedMaterials([...selectedMaterials, ...toAdd.map((v) => v.name)]);
   };
 
   const reset = () => {
@@ -93,6 +103,10 @@ export default function RawMaterial() {
                     alignItems: "center",
                     justifyContent: "center",
                     fontSize: "14px",
+                    backgroundColor:
+                      openedCategory === rawMaterial.category
+                        ? "#E5F7F8"
+                        : undefined,
                   }}
                   onClick={() =>
                     setOpenedCategory(
@@ -120,48 +134,59 @@ export default function RawMaterial() {
             ))}
           </Grid>
           <SpacingVertical space="24px" />
-          {openedCategory && (
-            <Grid
-              container
-              columnSpacing={2}
-              rowSpacing={2}
+          <Collapse in={!!openedCategory}>
+            <Stack
               style={{
-                padding: 12,
                 borderRadius: 16,
                 backgroundColor: "#F3F4F6",
               }}
             >
-              {rawMaterials
-                .find((v) => v.category === openedCategory)
-                ?.subfields.map((subfield, idx) => {
-                  const selected = selectedMaterials.includes(subfield.name);
+              <SpacingVertical space="12px" />
+              <Grid container>
+                {rawMaterials
+                  .find((v) => v.category === openedCategory)
+                  ?.subfields.map((subfield, idx) => {
+                    const selected = selectedMaterials.includes(subfield.name);
 
-                  return (
-                    <Grid key={idx} item>
-                      <ToggleButton
-                        value={subfield.name}
-                        selected={selected}
-                        style={{
-                          padding: "8px 16px",
-                          borderRadius: 100,
-                          minWidth: 110,
-                          borderColor: selected ? "#08979C" : "#E5E7EB",
-                          backgroundColor: selected ? "#E6F5F5" : "#FFFFFF",
-                          color: selected ? "#08979C" : "#445B66",
-                        }}
-                        onClick={() => toggleMatieral(subfield.name)}
-                      >
-                        {subfield.name}
-                        <SpacingHorizontal space="10px" />
-                        <Tooltip title={"subfield.description"}>
-                          <Info style={{ width: 14 }} />
-                        </Tooltip>
-                      </ToggleButton>
-                    </Grid>
-                  );
-                })}
-            </Grid>
-          )}
+                    return (
+                      <Grid key={idx} item>
+                        <ToggleButton
+                          value={subfield.name}
+                          selected={selected}
+                          style={{
+                            margin: 8,
+                            padding: "8px 16px",
+                            borderRadius: 100,
+                            minWidth: 110,
+                            borderColor: selected ? "#08979C" : "#E5E7EB",
+                            backgroundColor: selected ? "#E6F5F5" : "#FFFFFF",
+                            color: selected ? "#08979C" : "#445B66",
+                          }}
+                          onClick={() => toggleMatieral(subfield.name)}
+                        >
+                          {subfield.name}
+                          <SpacingHorizontal space="10px" />
+                          <Tooltip title={"subfield.description"}>
+                            <Info style={{ width: 14 }} />
+                          </Tooltip>
+                        </ToggleButton>
+                      </Grid>
+                    );
+                  })}
+              </Grid>
+              <Divider style={{ margin: "12px" }} />
+              <CenteredDiv>
+                <Button
+                  startIcon={<FormatAlignCenter />}
+                  onClick={addAllSubfields}
+                >
+                  <SpacingHorizontal space="10px" />
+                  Select All
+                </Button>
+              </CenteredDiv>
+              <SpacingVertical space="24px" />
+            </Stack>
+          </Collapse>
         </Stack>
       </StyledCard>
       <SpacingVertical space="50px" />
@@ -198,6 +223,11 @@ export default function RawMaterial() {
     </Layout>
   );
 }
+const CenteredDiv = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+`;
 
 // increase the specificity of your styles by using the && trick, which duplicates the class name and therefore increases its specificity without resorting to !important.
 const StyledCard = styled(Card)<{ height?: string }>`
