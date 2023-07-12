@@ -8,13 +8,17 @@ import {
   Button,
   Card,
   Grid,
-  Input,
   Stack,
   TextField,
 } from "@mui/material";
 import rawMaterials, { allRawMaterials } from "./constants";
 import { ReplayCircleFilledOutlined } from "@mui/icons-material";
 import { useRouter } from "next/router";
+import {
+  SpacingVertical,
+  SpacingHorizontal,
+} from "components/ui-components/spacer";
+import Head from "next/head";
 
 export default function RawMaterial() {
   const maxSelection = 5;
@@ -34,6 +38,11 @@ export default function RawMaterial() {
   };
   return (
     <Layout>
+      <Head>
+        <title>Market Data | Supply Bridge</title>
+        <meta name="description" content="Supply Bridge" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       <Stack>
         <SpacingVertical space="150px" />
         <NewHeader
@@ -111,13 +120,6 @@ export default function RawMaterial() {
     </Layout>
   );
 }
-
-const SpacingVertical = styled.div<{ space: string }>`
-  height: ${(props) => props.space};
-`;
-const SpacingHorizontal = styled.div<{ space: string }>`
-  width: ${(props) => props.space};
-`;
 
 const StyledCard = muiStyled(Card)(`
     width: 100%;

@@ -3,36 +3,49 @@ import Layout from "components/Layout";
 import { useRouter } from "next/router";
 import LoadingAnimation from "components/LoadingAnimation";
 import * as echarts from "echarts";
+import { Card } from "@mui/material";
+import Head from "next/head";
 
 interface IChartData {
   data: number[];
 }
 
 const CommodityChart = ({ data }: IChartData) => {
-  const option = {
-    xAxis: {
-      type: "category",
-      data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-    },
-    yAxis: {
-      type: "value",
-    },
-    series: [
-      {
-        data: data,
-        type: "line",
-      },
-    ],
-  };
   const chartRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
     if (chartRef.current) {
+      const option = {
+        xAxis: {
+          type: "category",
+          data: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        },
+        yAxis: {
+          type: "value",
+        },
+        series: [
+          {
+            data: data,
+            type: "line",
+          },
+        ],
+      };
       const myChart = echarts.init(chartRef.current);
       myChart.setOption(option);
     }
-  }, [chartRef]);
+  }, [chartRef, data]);
 
-  return <div ref={chartRef} style={{ width: "100%", height: "400px" }}></div>;
+  return (
+    // <Card
+    //   style={{
+    //     borderRadius: 16,
+    //     boxShadow: "None",
+    //     height: "100%",
+    //     width: 600,
+    //   }}
+    // >
+    <div ref={chartRef} />
+    // </Card>
+  );
 };
 
 const MyChart = () => {
@@ -40,6 +53,17 @@ const MyChart = () => {
   const [loading, setLoading] = useState(true);
   const [materialList, setMaterialList] = useState<string[]>([]);
   const materials = router.query.materials as string;
+
+  const fetchData = async () => {
+    try {
+      const resp = await fetch("/api/fakeData");
+      console.log(await resp.json());
+    } catch (e) {
+      console.log(e);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     if (router.isReady) {
@@ -49,6 +73,7 @@ const MyChart = () => {
         materials.split(",").length > 0
       ) {
         setMaterialList(materials.split(","));
+        fetchData();
       } else {
         // no query string, go back to raw-material page
         router.replace("/raw-material");
@@ -56,14 +81,13 @@ const MyChart = () => {
     }
   }, [materials, router]);
 
-  useEffect(() => {
-    setTimeout(() => {
-      setLoading(false);
-    }, 2000);
-  }, []);
-
   return (
     <Layout>
+      <Head>
+        <title>Market Data | Supply Bridge</title>
+        <meta name="description" content="Supply Bridge" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
       {loading && (
         <div
           style={{
