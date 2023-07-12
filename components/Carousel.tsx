@@ -138,11 +138,7 @@ const Icon = styled.img``;
 
 const NextButton = styled(ArrowButton)`
   position: absolute;
-<<<<<<< HEAD
-  right: -20px;
-=======
   right: 10px;
->>>>>>> stage
 `;
 
 const IndicatorStyled = styled(Indicator)`
