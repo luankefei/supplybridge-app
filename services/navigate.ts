@@ -1,3 +1,15 @@
+/**
+ * TODO: Deprecate this class
+ * -- feels like it's completely unnecessary
+ *  Try this when you have time
+ * ```
+ * import Router from 'next/router';
+ *
+ * const someFunction = () => {
+ *  Router.push('/somepage');
+ * };
+ * ```
+ * */
 class Navigate {
   private _navigate: any;
 

@@ -21,6 +21,7 @@ export type IconNames =
 interface Props {
   width?: number;
   height?: number;
+  color?: string;
   src: IconNames | string;
   onClick?: () => void;
   m?: any;
@@ -32,6 +33,7 @@ interface Props {
 const Icon = ({
   width = 30,
   height = 30,
+  color = undefined,
   src,
   onClick,
   m = "",
@@ -44,6 +46,7 @@ const Icon = ({
       src={`/icons/${src}.svg`}
       width={width}
       height={height}
+      color={color}
       onClick={onClick}
       m={m}
       p={p}
@@ -58,6 +61,7 @@ const StyledIcon = styled.img<{
   p: any;
   width: number;
   height: number;
+  color: string | undefined;
   hover: boolean;
 }>`
   cursor: ${(props) => (props.hover ? "pointer" : "default")};
@@ -65,6 +69,7 @@ const StyledIcon = styled.img<{
   height: ${(props) => `${props.height}px`};
   margin: ${(props) => props.m};
   padding: ${(props) => props.p};
+  color: ${(props) => props.color?.toString()};
   object-fit: contain;
 `;
 

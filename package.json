@@ -6,7 +6,9 @@
     "dev": "next dev -p 3001",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "lint-silent": "next lint --quiet",
+    "prepare": "husky install"
   },
   "dependencies": {
     "@emotion/react": "^11.10.5",
@@ -38,6 +40,7 @@
     "react-slick": "^0.29.0",
     "react-toastify": "^9.1.1",
     "reactjs-popup": "^2.0.5",
+    "recharts": "^2.7.2",
     "styled-components": "^5.3.6",
     "typescript": "4.9.3",
     "yarn": "^1.22.19",
@@ -49,6 +52,21 @@
   "devDependencies": {
     "@types/js-cookie": "^3.0.2",
     "@types/styled-components": "^5.1.26",
-    "gh-pages": "^4.0.0"
+    "gh-pages": "^4.0.0",
+    "husky": "^8.0.3",
+    "lint-staged": "^13.2.3"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.ts": [
+      "tsc --noEmit"
+    ],
+    "*.tsx": [
+      "tsc --noEmit"
+    ]
   }
 }

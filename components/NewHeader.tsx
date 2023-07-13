@@ -1,26 +1,29 @@
 import { styled as muiStyled } from "@mui/material/styles";
 import { theme } from "config/theme";
 import Feedback from "./Feedback";
+import Icon from "./Icon";
 
-const StyledHeader = muiStyled('div')(`
+const StyledHeader = muiStyled("div")(`
     display: flex;
     flex-direction: row;
     justify-content: space-between;
     align-items: center;
     height: ${theme.dimension.headerHeight};
-    @media (max-width: ${theme.size.mobileXl}) {
-        padding-left: 16px;
-    }
-    @media (min-width: ${theme.size.mobileXl}) {
-        padding-left: 70px;
-    }
 `);
 
-const TitleLabel = muiStyled('div')(`
+const Container = muiStyled("div")(`
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    height: 100%;
+`);
+
+const TitleLabel = muiStyled("div")(`
     position: relative;
     left: 0px;
-    
-    font-family: 'Inter';
+
+    font-family: 'Ubuntu';
     font-style: normal;
     font-weight: 600;
     font-size: 1.25rem;
@@ -31,19 +34,15 @@ const TitleLabel = muiStyled('div')(`
     color: #1A1A1A;
 `);
 
-type Props = {
-  title?: string;
-  onClick?: () => void;
-}
-
-const Header = function (props: Props) {
-  const { title, onClick } = props;
+const Header = function ({ title }: { title?: string }) {
   return (
     <StyledHeader>
-      <TitleLabel>{title}</TitleLabel>
+      <Container>
+        <TitleLabel>{title}</TitleLabel>
+      </Container>
       <Feedback />
     </StyledHeader>
   );
-}
+};
 
 export default Header;

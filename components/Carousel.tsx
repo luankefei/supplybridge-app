@@ -58,16 +58,20 @@ const Gallery = ({ children }: any) => {
           ))}
         </CarouselImg>
       </CarouselContainer>
-      <PreviousButton onClick={() => handlePreviousClick()}>
-        <IconWrapper>
-          <Icon src="/icons/slider-right-arrow.svg" />
-        </IconWrapper>
-      </PreviousButton>
-      <NextButton onClick={() => handleNextClick()}>
-        <IconWrapper>
-          <Icon src="/icons/slider-left-arrow.svg" />
-        </IconWrapper>
-      </NextButton>
+      {children.length > 1 && position !== 0 && (
+        <PreviousButton onClick={() => handlePreviousClick()}>
+          <IconWrapper>
+            <Icon src="/icons/slider-right-arrow.svg" />
+          </IconWrapper>
+        </PreviousButton>
+      )}
+      {children.length > 1 && position !== children.length - 1 && (
+        <NextButton onClick={() => handleNextClick()}>
+          <IconWrapper>
+            <Icon src="/icons/slider-left-arrow.svg" />
+          </IconWrapper>
+        </NextButton>
+      )}
       <IndicatorStyled
         length={children.length}
         position={position}

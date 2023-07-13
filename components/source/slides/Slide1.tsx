@@ -1,5 +1,5 @@
 import { Button } from "@mui/material";
-import styled from '@emotion/styled'
+import styled from "@emotion/styled";
 import Box from "../IconBox";
 import SliderCard from "../SliderCard";
 import { useState } from "react";
@@ -37,7 +37,7 @@ const Container = styled.div`
   align-items: center;
   justify-content: center;
   gap: 40px;
-  width: 100%;
+  width: 50%;
   height: 100%;
 `;
 const TextContainer = styled.div`
@@ -79,7 +79,7 @@ const Row = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-  background-color: #08979C;
+  background-color: #08979c;
   border-radius: 100px;
   width: 604px;
   height: 44px;
