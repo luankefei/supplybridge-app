@@ -74,6 +74,13 @@ const rawMaterials: RawMaterial[] = [
   },
 ];
 
+export const filterValidMaterials = (materials: string[]) => {
+  const validMaterials = materials.filter((material) =>
+    allRawMaterials.find((rawMaterial) => rawMaterial.name === material)
+  );
+  return validMaterials;
+};
+
 export const allRawMaterials: { name: string }[] = rawMaterials.reduce(
   (acc: { name: string }[], curr) => {
     return [...acc, ...curr.subfields];

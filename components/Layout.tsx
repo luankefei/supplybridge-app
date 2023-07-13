@@ -33,7 +33,7 @@ const Layout = ({
         <meta name="description" content="Supply Bridge" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <SideBarMenu />
+      <SideBarMenu width={theme.dimension.leftMenuWidth} />
       <div
         style={{
           display: "flex",

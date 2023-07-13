@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import Layout from "components/Layout";
 import {
+  AppBar,
   Autocomplete,
   Button,
   Card,
@@ -67,7 +68,7 @@ export default function RawMaterial() {
     });
   };
   return (
-    <Layout pageTitle={"Market Data"} paddingHorizontal={48}>
+    <Layout pageTitle={"Market Data"}>
       <SpacingVertical space="100px" />
       <HeaderText>
         Material price checking system, more insights for your decision!
@@ -220,6 +221,8 @@ export default function RawMaterial() {
           Reset All
         </Button>
       </div>
+      <SpacingVertical space="100px" />
+      <p>w</p>
     </Layout>
   );
 }

@@ -14,6 +14,8 @@ import { ArrowBack } from "@mui/icons-material";
 import styled from "styled-components";
 import {
   CartesianGrid,
+  Label,
+  Legend,
   Line,
   LineChart,
   ResponsiveContainer,
@@ -26,6 +28,7 @@ import { HeaderText, LargeText } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
 import { Segmented } from "antd";
 import { SegmentedValue } from "antd/es/segmented";
+import { filterValidMaterials } from "./constants";
 
 interface IChartProps {
   materialList: string[];
@@ -50,24 +53,29 @@ const ChartContainer = styled.div`
 `;
 
 enum RangeEnum {
-  Hour = "Hour",
   Day = "Day",
   Week = "Week",
   Month = "Month",
   Year = "Year",
+}
+interface IChartDataPoint {
+  name: string;
+  x: string;
+  y: number;
 }
 const CommodityChart = ({ materialList }: IChartProps) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [frequency, setFrequency] = useState<RangeEnum>(RangeEnum.Day);
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
 
-  const [data, setData] = useState<any[]>([]);
+  const [data, setData] = useState<IChartDataPoint[]>([]);
   const handleRangeUpdate = (newRange: SegmentedValue) => {
     const nr = newRange as RangeEnum;
     setFrequency(nr);
   };
   const handleSetSelectedMaterials = (_: any, newMaterials: string[]) => {
-    setSelectedMaterials(newMaterials);
+    const validatedMaterials = filterValidMaterials(newMaterials);
+    setSelectedMaterials(validatedMaterials);
   };
 
   useEffect(() => {
@@ -87,8 +95,9 @@ const CommodityChart = ({ materialList }: IChartProps) => {
         setIsLoading(false);
         return;
       }
-      const data = await res.json();
-      console.log(data);
+      const resp = await res.json();
+      console.log(resp);
+      setData(resp.data);
       setIsLoading(false);
     };
     // avoid fetching data on first render
@@ -105,13 +114,7 @@ const CommodityChart = ({ materialList }: IChartProps) => {
         <Segmented
           size="large"
           defaultValue={frequency}
-          options={[
-            RangeEnum.Hour,
-            RangeEnum.Day,
-            RangeEnum.Week,
-            RangeEnum.Month,
-            RangeEnum.Year,
-          ]}
+          options={[RangeEnum.Day, RangeEnum.Month, RangeEnum.Year]}
           onChange={handleRangeUpdate}
         />
       </ChartHeader>
@@ -136,10 +139,32 @@ const CommodityChart = ({ materialList }: IChartProps) => {
         ) : (
           <ResponsiveContainer width="100%" height="80%">
             <LineChart width={760} height={300} data={data}>
-              <Line type="monotone" dataKey="uv" stroke="#8884d8" />
+              <Legend verticalAlign="top" height={36} />
               <CartesianGrid stroke="#ccc" />
               <XAxis dataKey="name" />
-              <YAxis dataKey="amt" />
+              <YAxis domain={[0, "dataMax + 100"]}>
+                <Label
+                  value={"USD per Troy Ounce"}
+                  angle={-90}
+                  position="insideLeft"
+                />
+              </YAxis>
+              {selectedMaterials.includes("Gold") && (
+                <Line
+                  name={"Gold Price"}
+                  type="monotone"
+                  dataKey="gold"
+                  stroke="#82ca9d"
+                />
+              )}
+              {selectedMaterials.includes("Silver") && (
+                <Line
+                  name={"Silver Price"}
+                  type="monotone"
+                  dataKey="silver"
+                  stroke="#8884d8"
+                />
+              )}
               <Tooltip />
             </LineChart>
           </ResponsiveContainer>

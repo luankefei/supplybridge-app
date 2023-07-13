@@ -11,7 +11,7 @@ const LinkItem = styled(Link)`
   margin-top: 12px;
 `;
 
-export default function SideBarMenu() {
+export default function SideBarMenu(props: { width: string }) {
   const { t } = useTranslation();
   const router = useRouter();
   const { signOut } = useStore();
@@ -118,146 +118,102 @@ export default function SideBarMenu() {
   };
 
   return (
-    <Container>
-      {/* {!open ? (
-        <IconContainer>
-          <TopSection>
-            <Section>
-              <Logo src="/menu/mini-logo.svg" />
-            </Section>
-            <Section>
-              {solutionsData.map((item: any, index: any) => {
-                return (
-                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
-                    <IconWrapper active={item.active}>
-                      <Icon src={`/menu/${item.icon}.svg`} />
-                    </IconWrapper>
-                  </Link>
-                );
-              })}
-            </Section>
-            <Section>
-              {marketData.map((item: any, index: any) => {
-                return (
-                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
-                    <IconWrapper active={item.active}>
-                      <Icon src={`/menu/${item.icon}.svg`} />
-                    </IconWrapper>
-                  </Link>
-                );
-              })}
-            </Section>
-          </TopSection>
-          <Section>
-            <Logo src="/menu/bmw.svg" />
-          </Section>
-        </IconContainer>
-      ) : ( */}
-      <MenuContainer>
-        <TopSection>
-          <Section>
-            <Logo src="/menu/logo.svg" />
-          </Section>
-          <Section>
-            <UserContainer>
-              <Welcome>{t("sidebar.welcome", "Welcome")}</Welcome>
-              {/*
-              <UserName>Baran!</UserName>
-              <Avatar>BG</Avatar>
-              */}
-            </UserContainer>
-            <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
-            {solutionsData.map((item: any, index: any) => {
-              return (
-                <LinkItem
-                  key={index}
-                  href={item.passiveIcon ? "" : `${item?.path}`}
-                >
-                  <MenuWrapper
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    <MenuIcon
-                      src={`/menu/${item.icon}.svg`}
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    />
-                    <MenuItemTitle
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    >
-                      {item.title}
-                    </MenuItemTitle>
-                    {item.extra && (
-                      <ExtraIcon src={`/menu/${item.extra}.svg`} />
-                    )}
-                    {item.passiveIcon && (
-                      <ComingSoon>
-                        {t("sidebar.comingSoon", "COMING SOON")}
-                      </ComingSoon>
-                    )}
-                  </MenuWrapper>
-                </LinkItem>
-              );
-            })}
-          </Section>
-          <Section>
-            <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
-            {marketData.map((item: any, index: any) => {
-              return (
-                <LinkItem
-                  key={index}
-                  href={item.passiveIcon ? "" : `${item?.path}`}
-                >
-                  <MenuWrapper
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    <MenuIcon
-                      src={`/menu/${item.icon}.svg`}
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    />
-                    <MenuItemTitle
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    >
-                      {item.title}
-                    </MenuItemTitle>
-                    {item.passiveIcon && (
-                      <ComingSoon>
-                        {t("sidebar.comingSoon", "COMING SOON")}
-                      </ComingSoon>
-                    )}
-                  </MenuWrapper>
-                </LinkItem>
-              );
-            })}
-          </Section>
-        </TopSection>
+    <Container style={{ width: props.width }}>
+      <TopSection>
         <Section>
-          <AccountContainer>
-            <Left>
-              <Logo src="/menu/bmw.svg" />
-            </Left>
-            <Right>
-              <AccountTitle>BMW</AccountTitle>
-              <TextContainer>
-                <AccountType>
-                  {t("sidebar.premiumAccount", "Premium Account")} |
-                </AccountType>
-                <Logout onClick={logout}>
-                  {t("sidebar.logOut", "Log out")}
-                </Logout>
-              </TextContainer>
-            </Right>
-          </AccountContainer>
+          <Logo src="/menu/logo.svg" />
         </Section>
-      </MenuContainer>
-      {/* )} */}
-      {/* <ArrowWrapper onClick={() => setOpen(!open)}>
-        <ArrowIcon src={`/menu/${open ? "left" : "right"}-arrow.svg`} />
-      </ArrowWrapper> */}
+        <Section>
+          <UserContainer>
+            <Welcome>{t("sidebar.welcome", "Welcome")}</Welcome>
+            {/*
+            <UserName>Baran!</UserName>
+            <Avatar>BG</Avatar>
+            */}
+          </UserContainer>
+          <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
+          {solutionsData.map((item: any, index: any) => {
+            return (
+              <LinkItem
+                key={index}
+                href={item.passiveIcon ? "" : `${item?.path}`}
+              >
+                <MenuWrapper
+                  active={item.active}
+                  passiveIcon={item.passiveIcon}
+                >
+                  <MenuIcon
+                    src={`/menu/${item.icon}.svg`}
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  />
+                  <MenuItemTitle
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  >
+                    {item.title}
+                  </MenuItemTitle>
+                  {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
+                  {item.passiveIcon && (
+                    <ComingSoon>
+                      {t("sidebar.comingSoon", "COMING SOON")}
+                    </ComingSoon>
+                  )}
+                </MenuWrapper>
+              </LinkItem>
+            );
+          })}
+        </Section>
+        <Section>
+          <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
+          {marketData.map((item: any, index: any) => {
+            return (
+              <LinkItem
+                key={index}
+                href={item.passiveIcon ? "" : `${item?.path}`}
+              >
+                <MenuWrapper
+                  active={item.active}
+                  passiveIcon={item.passiveIcon}
+                >
+                  <MenuIcon
+                    src={`/menu/${item.icon}.svg`}
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  />
+                  <MenuItemTitle
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  >
+                    {item.title}
+                  </MenuItemTitle>
+                  {item.passiveIcon && (
+                    <ComingSoon>
+                      {t("sidebar.comingSoon", "COMING SOON")}
+                    </ComingSoon>
+                  )}
+                </MenuWrapper>
+              </LinkItem>
+            );
+          })}
+        </Section>
+      </TopSection>
+      <Section>
+        <AccountContainer>
+          <Left>
+            <Logo src="/menu/bmw.svg" />
+          </Left>
+          <Right>
+            <AccountTitle>BMW</AccountTitle>
+            <TextContainer>
+              <AccountType>
+                {t("sidebar.premiumAccount", "Premium Account")} |
+              </AccountType>
+              <Logout onClick={logout}>{t("sidebar.logOut", "Log out")}</Logout>
+            </TextContainer>
+          </Right>
+        </AccountContainer>
+      </Section>
     </Container>
   );
 }
@@ -270,11 +226,12 @@ const animation = keyframes`
 const Container = styled.div<any>`
   font-family: Nunito;
   min-height: 100vh;
-  width: ${theme.dimension.leftMenuWidth};
   position: fixed;
   box-sizing: border-box;
   z-index: 1000;
-  /* transition: 1s all 0s; */
+  flex-direction: column;
+  background-color: #ffffff;
+  padding: 34px 24px;
 `;
 
 const IconContainer = styled.div`
@@ -285,21 +242,6 @@ const IconContainer = styled.div`
   align-items: center;
   background-color: #ffffff;
   padding: 34px 0;
-`;
-
-const MenuContainer = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  background-color: #ffffff;
-  position: fixed;
-  transition: 0.9s ease;
-  padding: 34px 24px;
-  /* animation-name: ${animation}; */
-  animation-duration: 0.9s;
-  @media (max-height: 820px) {
-    position: unset;
-  }
 `;
 
 const TopSection = styled.div`
