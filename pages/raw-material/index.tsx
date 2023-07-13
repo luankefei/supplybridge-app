@@ -8,11 +8,12 @@ import {
   Collapse,
   Divider,
   Grid,
-  IconButton,
   Stack,
   TextField,
   ToggleButton,
+  Toolbar,
   Tooltip,
+  Typography,
 } from "@mui/material";
 import rawMaterials, { allRawMaterials } from "./constants";
 import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
@@ -54,18 +55,6 @@ export default function RawMaterial() {
 
   const reset = () => {
     setSelectedMaterials([]);
-  };
-  const goToChart = () => {
-    if (selectedMaterials.length === 0) {
-      toast.error("Please select at least one material");
-      return;
-    }
-    router.push({
-      pathname: "/raw-material/chart",
-      query: {
-        materials: selectedMaterials.join(","),
-      },
-    });
   };
   return (
     <Layout pageTitle={"Market Data"}>
@@ -207,7 +196,6 @@ export default function RawMaterial() {
           color="primary"
           variant="contained"
           disabled={selectedMaterials.length === 0}
-          onClick={goToChart}
         >
           Search
         </Button>
@@ -221,7 +209,7 @@ export default function RawMaterial() {
           Reset All
         </Button>
       </div>
-      <SpacingVertical space="100px" />
+      <SpacingVertical space="700px" />
       <p>w</p>
     </Layout>
   );

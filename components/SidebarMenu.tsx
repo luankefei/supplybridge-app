@@ -11,7 +11,7 @@ const LinkItem = styled(Link)`
   margin-top: 12px;
 `;
 
-export default function SideBarMenu(props: { width: string }) {
+export default function SideBarMenu(props: { width?: string }) {
   const { t } = useTranslation();
   const router = useRouter();
   const { signOut } = useStore();
@@ -118,7 +118,7 @@ export default function SideBarMenu(props: { width: string }) {
   };
 
   return (
-    <Container style={{ width: props.width }}>
+    <Container>
       <TopSection>
         <Section>
           <Logo src="/menu/logo.svg" />
@@ -218,30 +218,14 @@ export default function SideBarMenu(props: { width: string }) {
   );
 }
 
-const animation = keyframes`
-  0% { transform: translateX(-60%) }
-  100% { transform: translateX(0) }
-`;
-
 const Container = styled.div<any>`
   font-family: Nunito;
   min-height: 100vh;
-  position: fixed;
   box-sizing: border-box;
   z-index: 1000;
   flex-direction: column;
   background-color: #ffffff;
   padding: 34px 24px;
-`;
-
-const IconContainer = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 34px 0;
 `;
 
 const TopSection = styled.div`
@@ -261,45 +245,6 @@ const Logo = styled.img`
   /* margin: 34px 0px; */
 `;
 
-const IconWrapper = styled.div<any>`
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  cursor: ${(props) => (props.active ? "pointer" : "not-allowed")};
-  &:hover {
-    background: rgb(8, 151, 156, 0.1);
-    transition: background 0.3s ease;
-  }
-`;
-
-const Icon = styled.img`
-  padding: 10px 12px;
-  &:hover {
-    filter: invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg)
-      brightness(99%) contrast(94%);
-  }
-`;
-
-const ArrowWrapper = styled.div`
-  width: 27px;
-  height: 27px;
-  background: #ffffff;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 90px;
-  right: -13px;
-  cursor: pointer;
-  transition: 0.9s ease;
-`;
-
-const ArrowIcon = styled.img``;
-
 const UserContainer = styled.div`
   display: flex;
   align-items: center;
@@ -314,21 +259,6 @@ const UserContainer = styled.div`
 const Welcome = styled.span`
   color: #808080;
 `;
-const UserName = styled.span`
-  color: #1a1a1a;
-`;
-const Avatar = styled.span`
-  color: #ffffff;
-  border-radius: 100%;
-  background: #6adac2;
-  width: 30px;
-  height: 28px;
-  font-size: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const MenuTitle = styled.div`
   font-weight: 400;
   font-size: 16px;

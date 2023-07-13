@@ -1,6 +1,5 @@
 import Head from "next/head";
 import styled from "styled-components";
-import dynamic from "next/dynamic";
 import { useEffect, useState, useRef } from "react";
 import { Skeleton } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -11,17 +10,15 @@ import useStore from "hooks/useStore";
 import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
-
-const Icon = dynamic(() => import("components/Icon"));
-const Layout = dynamic(() => import("components/Layout"));
-
-const GeoCharts = dynamic(() => import("components/scout/GeoCharts"));
-const ResultCard = dynamic(() => import("components/scout/ResultCard"));
-const Feedback = dynamic(() => import("components/Feedback"));
-const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
-const SearchBar = dynamic(() => import("components/scout/SearchBar"));
-const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
-const Filters = dynamic(() => import("components/scout/Filters"));
+import Layout from "components/Layout";
+import SearchBar from "components/scout/SearchBar";
+import TechnologyBox from "components/scout/TechnologyBox";
+import Icon from "components/Icon";
+import ScoutFilter from "components/scout/ScoutFilter";
+import GeoCharts from "components/scout/GeoCharts";
+import Filters from "components/scout/Filters";
+import ResultCard from "components/scout/ResultCard";
+import Feedback from "components/Feedback";
 
 interface Props {
   commodities: any;
@@ -215,19 +212,12 @@ export default function Industry({}: Props) {
   );
 }
 
-const ScoutContainer = styled.div`
-  width: 1440px;
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    display: block;
-    width: 100%;
-  }
-`;
+const ScoutContainer = styled.div``;
 
 const SearchContainer = styled.div`
   display: flex;
   flex-direction: row;
   width: 100%;
-  max-width: 1440px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     justify-content: space-between;
   }
@@ -371,40 +361,3 @@ const Button = styled.div<{ secondary?: boolean }>`
     display: none;
   }
 `;
-
-// export async function getServerSideProps({ req }: any) {
-//   const token = req.cookies.token;
-//   // const refreshToken = req.cookies.refreshToken;
-//   // TODO: Implement refreshToken logic
-
-//   const [respCommodities, respRegion, respSuppliers]: any = await Promise.all([
-//     axios.get("https://supplyapi.kampp.in/scout/commodities", {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }),
-//     axios.get("https://supplyapi.kampp.in/scout/regions", {
-//       headers: {
-//         "Content-Type": "application/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }),
-//     fetch("https://supplyapi.kampp.in/supplier/search?page=1&pageSize=10", {
-//       method: "POST",
-//       headers: {
-//         "Content-Type": "text/json",
-//         Authorization: `Bearer ${token}`,
-//       },
-//     }).then((res) => res.json()),
-//   ]);
-
-//   return {
-//     props: {
-//       commodities: respCommodities.data.commodities,
-//       regions: respRegion.data.regions,
-//       suppliersData: respSuppliers.suppliers,
-//       supplierCount: respSuppliers.count,
-//     },
-//   };
-// }
