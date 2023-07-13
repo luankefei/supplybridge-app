@@ -26,5 +26,5 @@ export default function SourcePage() {
 }
 
 const SliderContainer = styled.div`
-  height: 100vh !important;
+  height: 100vh;
 `;

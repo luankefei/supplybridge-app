@@ -128,86 +128,77 @@ export default function Industry({}: Props) {
   };
 
   return (
-    <Layout>
-      <>
-        <Head>
-          <title>Choose an Industry | Supply Bridge</title>
-          <meta name="description" content="Supply Bridge" />
-          <link rel="icon" href="/favicon.ico" />
-        </Head>
-        <ScoutContainer>
-          <DuplicateHeaderForPosition scrollPosition={scrollOffset}>
-            <SearchContainer>
-              <IconContainer>
-                <Icon src="smart-bridge-ai" width={40} height={40} />
-                <IconLabel>
-                  <Label>powered by</Label>
-                  <Label>SmartBridge AI</Label>
-                </IconLabel>
-              </IconContainer>
-              <SearchBar onSearch={searchHandler} />
-              <CircleButton onClick={() => setFilterModalVisible(true)}>
-                <Icon src="filter" p={"3px"} m={"12px"} hover />
-              </CircleButton>
-            </SearchContainer>
-          </DuplicateHeaderForPosition>
-          <Technology>
-            <TechnologyHeader>Technology:</TechnologyHeader>
-            <TechnologyContainer>
-              {vehicleFuelTypes.length > 1 ? (
-                vehicleFuelTypes.map((item: any, index: number) => (
-                  <TechnologyBoxContainer key={`${item.name}_${index}`}>
-                    <TechnologyBox
-                      icon={item?.icon}
-                      label={item?.name}
-                      isSelected={filterData.vehicleFuelTypes.includes(
-                        item?.id
-                      )}
-                      onClick={() => setFuelType(item?.id)}
-                    />
-                  </TechnologyBoxContainer>
-                ))
-              ) : (
-                <TechnologySkeletonContainer>
-                  <Skeleton animation="wave" width={242} height={125} />
-                  <Skeleton animation="wave" width={242} height={125} />
-                  <Skeleton animation="wave" width={242} height={125} />
-                </TechnologySkeletonContainer>
-              )}
-            </TechnologyContainer>
-          </Technology>
+    <Layout pageTitle="Choose an Industry">
+      <ScoutContainer>
+        <DuplicateHeaderForPosition scrollPosition={scrollOffset}>
+          <SearchContainer>
+            <IconContainer>
+              <Icon src="smart-bridge-ai" width={40} height={40} />
+              <IconLabel>
+                <Label>powered by</Label>
+                <Label>SmartBridge AI</Label>
+              </IconLabel>
+            </IconContainer>
+            <SearchBar onSearch={searchHandler} />
+            <CircleButton onClick={() => setFilterModalVisible(true)}>
+              <Icon src="filter" p={"3px"} m={"12px"} hover />
+            </CircleButton>
+          </SearchContainer>
+        </DuplicateHeaderForPosition>
+        <Technology>
+          <TechnologyHeader>Technology:</TechnologyHeader>
+          <TechnologyContainer>
+            {vehicleFuelTypes.length > 1 ? (
+              vehicleFuelTypes.map((item: any, index: number) => (
+                <TechnologyBoxContainer key={`${item.name}_${index}`}>
+                  <TechnologyBox
+                    icon={item?.icon}
+                    label={item?.name}
+                    isSelected={filterData.vehicleFuelTypes.includes(item?.id)}
+                    onClick={() => setFuelType(item?.id)}
+                  />
+                </TechnologyBoxContainer>
+              ))
+            ) : (
+              <TechnologySkeletonContainer>
+                <Skeleton animation="wave" width={242} height={125} />
+                <Skeleton animation="wave" width={242} height={125} />
+                <Skeleton animation="wave" width={242} height={125} />
+              </TechnologySkeletonContainer>
+            )}
+          </TechnologyContainer>
+        </Technology>
 
-          <MainContainer>
-            <div>
-              <ScoutFilter isQuickSearch={false} />
-              <Button secondary onClick={clearHandler}>
-                Clear Filter
-              </Button>
-              <Button onClick={() => searchHandler()}>Search</Button>
-            </div>
-            <MapResultContainer>
-              <GeoCharts />
-              <Filters totalCount={count} />
-              <ResultContainer>
-                {suppliers?.length > 0 ? (
-                  <>
-                    {suppliers.map((supplier: any, index: number) => (
-                      <ResultCard
-                        data={supplier}
-                        key={`${supplier.id}_${index}`}
-                      />
-                    ))}
-                  </>
-                ) : null}
-              </ResultContainer>
-              {suppliers.length === 0 && !loading && (
-                <NoRecord>No record founds</NoRecord>
-              )}
-            </MapResultContainer>
-          </MainContainer>
-          <Feedback />
-        </ScoutContainer>
-      </>
+        <MainContainer>
+          <div>
+            <ScoutFilter isQuickSearch={false} />
+            <Button secondary onClick={clearHandler}>
+              Clear Filter
+            </Button>
+            <Button onClick={() => searchHandler()}>Search</Button>
+          </div>
+          <MapResultContainer>
+            <GeoCharts />
+            <Filters totalCount={count} />
+            <ResultContainer>
+              {suppliers?.length > 0 ? (
+                <>
+                  {suppliers.map((supplier: any, index: number) => (
+                    <ResultCard
+                      data={supplier}
+                      key={`${supplier.id}_${index}`}
+                    />
+                  ))}
+                </>
+              ) : null}
+            </ResultContainer>
+            {suppliers.length === 0 && !loading && (
+              <NoRecord>No record founds</NoRecord>
+            )}
+          </MapResultContainer>
+        </MainContainer>
+        <Feedback />
+      </ScoutContainer>
     </Layout>
   );
 }

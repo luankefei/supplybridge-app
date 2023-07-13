@@ -19,6 +19,7 @@ const Layout = ({
   paddingVertical?: string | number;
   paddingHorizontal?: string | number;
 }) => {
+  const leftMenuWidth = theme.dimension.leftMenuWidth;
   return (
     <Box sx={{ display: "flex" }}>
       <Head>
@@ -28,10 +29,10 @@ const Layout = ({
       </Head>
       <Drawer
         sx={{
-          width: theme.dimension.leftMenuWidth,
+          width: leftMenuWidth,
           flexShrink: 0,
           "& .MuiDrawer-paper": {
-            width: theme.dimension.leftMenuWidth,
+            width: leftMenuWidth,
             boxSizing: "border-box",
             border: 0,
           },
@@ -50,7 +51,10 @@ const Layout = ({
         {appBarContent && (
           <AppBar
             position="fixed"
-            sx={{ width: `calc(100% - 312px)`, ml: `321px` }}
+            sx={{
+              width: `calc(100% - ${leftMenuWidth})`,
+              ml: `${leftMenuWidth}`,
+            }}
           >
             {appBarContent}
           </AppBar>

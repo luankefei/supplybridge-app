@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback, useRef } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 import Chart from "react-google-charts";
 import { Skeleton } from "@mui/material";
@@ -28,9 +28,12 @@ const dataHeader = [
 
 const env: any = {};
 const debounce = (fn: any, ms: number = 200) => {
-   if (env.timer) clearTimeout(env.timer);
-   env.timer = setTimeout(() => {env.timer = 0; fn();}, ms);
-}
+  if (env.timer) clearTimeout(env.timer);
+  env.timer = setTimeout(() => {
+    env.timer = 0;
+    fn();
+  }, ms);
+};
 
 const GeoCharts = () => {
   const { t } = useTranslation();
@@ -61,8 +64,9 @@ const GeoCharts = () => {
     }
   }, [allSubRegionsLoaded]);
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
-    return noOfSuppliers >0? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
-    : `<div><b>${name} </b></div>`
+    return noOfSuppliers > 0
+      ? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
+      : `<div><b>${name} </b></div>`;
   };
 
   const [legendSummary, setLegendSummary]: any = useState(null);
@@ -70,33 +74,39 @@ const GeoCharts = () => {
   const [legendTop, setLegendTop] = useState(0);
   const legendBaseTop = useRef(0);
   const buildLegendSummary = () => {
-     const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0, Total: 0, };
-     if (filterData.q) {
-        if (stats.locationId) {
-           allCountry.forEach((regionObj: any) => {
-              regionObj.children.forEach((countryObj: any) => {
-                 const item = allSubRegions.find((z: any) => z.code === countryObj.name);
-                 if (!item || !stats.locationId[item.id]) return;
-                 if (item.code === 'CN') agg.CN = stats.locationId[item.id];
-                 agg[regionObj.category] += stats.locationId[item.id];
-              });
-           });
-        }
-     } else {
+    const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0, Total: 0 };
+    if (filterData.q) {
+      if (stats.locationId) {
         allCountry.forEach((regionObj: any) => {
-           regionObj.children.forEach((countryObj: any) => {
-              const item = allSubRegions.find((z: any) => z.code === countryObj.name);
-              if (!item) return;
-              if (item.code === 'CN') agg.CN = item.countSuppliersInLocation;
-              agg[regionObj.category] += item.countSuppliersInLocation;
-           });
+          regionObj.children.forEach((countryObj: any) => {
+            const item = allSubRegions.find(
+              (z: any) => z.code === countryObj.name
+            );
+            if (!item || !stats.locationId[item.id]) return;
+            if (item.code === "CN") agg.CN = stats.locationId[item.id];
+            agg[regionObj.category] += stats.locationId[item.id];
+          });
         });
-     }
-     agg.Total = agg.EMEA + agg.Americas + agg.APAC;
-     Object.keys(agg).forEach(key => { agg[key] = agg[key].toLocaleString(); });
-     setShowLegend(filterData.regions.length === 0);
-     setLegendTop(legendBaseTop.current);
-     setLegendSummary(agg);
+      }
+    } else {
+      allCountry.forEach((regionObj: any) => {
+        regionObj.children.forEach((countryObj: any) => {
+          const item = allSubRegions.find(
+            (z: any) => z.code === countryObj.name
+          );
+          if (!item) return;
+          if (item.code === "CN") agg.CN = item.countSuppliersInLocation;
+          agg[regionObj.category] += item.countSuppliersInLocation;
+        });
+      });
+    }
+    agg.Total = agg.EMEA + agg.Americas + agg.APAC;
+    Object.keys(agg).forEach((key) => {
+      agg[key] = agg[key].toLocaleString();
+    });
+    setShowLegend(filterData.regions.length === 0);
+    setLegendTop(legendBaseTop.current);
+    setLegendSummary(agg);
   };
   const setInitialData = () => {
     let initialData: any = [];
@@ -123,22 +133,20 @@ const GeoCharts = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-        if(filterData?.subRegions?.includes(item.name))
-        {
-        const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
-        // colorValue: null | 0 | 1
-        // null => default color
-        // 0 => #08979c
-        // 1 =>  #10712B
-        const colorValue = noOfSuppliers ? 0 : null;
-        initialData.push([
-          item.name,
-          colorValue,
-          generateTooltipContent(item.fullName, noOfSuppliers),
-        ]);
-      }
+        if (filterData?.subRegions?.includes(item.name)) {
+          const noOfSuppliers = getNumberOfSuppliersByRegion(item.name);
+          // colorValue: null | 0 | 1
+          // null => default color
+          // 0 => #08979c
+          // 1 =>  #10712B
+          const colorValue = noOfSuppliers ? 0 : null;
+          initialData.push([
+            item.name,
+            colorValue,
+            generateTooltipContent(item.fullName, noOfSuppliers),
+          ]);
+        }
       });
-    
     }
     setAllCountries([dataHeader, ...initialData]);
   };
@@ -147,22 +155,20 @@ const GeoCharts = () => {
     let initialData: any = [];
     for (const key in allCountry) {
       allCountry[key].children.map((item) => {
-        if(filterData?.regions?.includes(allCountry[key]?.categoryId))
-        {
-        const noOfSuppliers=getNumberOfSuppliersByRegion(item.name)
-        // colorValue: null | 0 | 1
-        // null => default color
-        // 0 => #08979c
-        // 1 =>  #10712B
-        const colorValue = noOfSuppliers ? 0 : null;
-        initialData.push([
-          item.name,
-          colorValue,
-          generateTooltipContent(item.fullName, noOfSuppliers),
-        ]);
-      }
+        if (filterData?.regions?.includes(allCountry[key]?.categoryId)) {
+          const noOfSuppliers = getNumberOfSuppliersByRegion(item.name);
+          // colorValue: null | 0 | 1
+          // null => default color
+          // 0 => #08979c
+          // 1 =>  #10712B
+          const colorValue = noOfSuppliers ? 0 : null;
+          initialData.push([
+            item.name,
+            colorValue,
+            generateTooltipContent(item.fullName, noOfSuppliers),
+          ]);
+        }
       });
-    
     }
     setAllCountries([dataHeader, ...initialData]);
   };
@@ -173,20 +179,27 @@ const GeoCharts = () => {
 
   useEffect(() => {
     //if there is no query parameter initilize the map with all the suppliers data
-    if(!stats.q || (filterData?.subRegions?.length<1 && filterData?.regions?.length<1)) {
-    setInitialData();
-    }
-    else if(filterData?.subRegions?.length>=1 && filterData?.regions?.length >=1) {
-    setShowLegend(false);
-    setRegionsAndSubRegionsData();
-    }
-    else if(filterData?.subRegions?.length<1 && filterData?.regions?.length >=1){
-    setShowLegend(false);
-    setRegionsSuppliersData();
+    if (
+      !stats.q ||
+      (filterData?.subRegions?.length < 1 && filterData?.regions?.length < 1)
+    ) {
+      setInitialData();
+    } else if (
+      filterData?.subRegions?.length >= 1 &&
+      filterData?.regions?.length >= 1
+    ) {
+      setShowLegend(false);
+      setRegionsAndSubRegionsData();
+    } else if (
+      filterData?.subRegions?.length < 1 &&
+      filterData?.regions?.length >= 1
+    ) {
+      setShowLegend(false);
+      setRegionsSuppliersData();
     }
 
     setOptions(initialOptions);
-  }, [suppliers,allSubRegions]);
+  }, [suppliers, allSubRegions]);
 
   const mapFilterHandler = (data: any) => {
     let selectedCountry: string[] = [];
@@ -301,37 +314,40 @@ const GeoCharts = () => {
   const getNumberOfSuppliers = (countryCode: string) => {
     const region = allSubRegions.find((s: any) => s.code === countryCode);
     if (!region) return 0;
-    if (!stats || !stats.locationId || !flags.q) return region.countSuppliersInLocation || 0;
+    if (!stats || !stats.locationId || !flags.q)
+      return region.countSuppliersInLocation || 0;
     return stats?.locationId?.[region.id] || 0;
   };
 
-    //Get Number of suppliers for country
-    const getNumberOfSuppliersByRegion = (countryCode: string) => {
-      const region = allSubRegions.find((s: any) => s.code === countryCode);
-      console.log("region",stats[region?.id])
-      console.log("region",region?.id)
-      if(region) console.log("stats",stats?.locationId?.[region?.id]);
-      if (!flags.q) return region.countSuppliersInLocation || 0;
-      return region ? stats?.locationId?.[region?.id] : 0     
-    };
+  //Get Number of suppliers for country
+  const getNumberOfSuppliersByRegion = (countryCode: string) => {
+    const region = allSubRegions.find((s: any) => s.code === countryCode);
+    console.log("region", stats[region?.id]);
+    console.log("region", region?.id);
+    if (region) console.log("stats", stats?.locationId?.[region?.id]);
+    if (!flags.q) return region.countSuppliersInLocation || 0;
+    return region ? stats?.locationId?.[region?.id] : 0;
+  };
 
   const elContainer = useRef(null);
   const [fitMapHeight, setFitMapHeight] = useState(400);
   useEffect(() => {
-     const el: any = elContainer.current;
-     if (!el) return;
-     const h = (window.innerHeight - el.parentNode.offsetTop) * 0.8;
-     legendBaseTop.current = h - 250;
-     setFitMapHeight(h);
+    const el: any = elContainer.current;
+    if (!el) return;
+    const h = (window.innerHeight - el.parentNode.offsetTop) * 0.8;
+    legendBaseTop.current = h - 250;
+    setFitMapHeight(h);
   }, [elContainer]);
 
   return (
     <MapContainer>
       <ButtonContainer>
-        {false && backVisibility && <GoWorld onClick={clearZoom}>Go Back</GoWorld>}
+        {false && backVisibility && (
+          <GoWorld onClick={clearZoom}>Go Back</GoWorld>
+        )}
         {selectedCountries.length >= 1 ? (
           <GoWorld onClick={clearFilter}>Show All</GoWorld>
-        ): null}
+        ) : null}
       </ButtonContainer>
       <Container ref={elContainer}>
         <Chart
@@ -360,34 +376,42 @@ const GeoCharts = () => {
               maxValue: 1,
               colors: ["#08979c", "#10712B"],
             },
-            defaultColor: '#f5f5f5',
+            defaultColor: "#f5f5f5",
           }}
         />
       </Container>
       {showLegend ? (
-      <LegendContainer top={legendTop}>
-         {t("scout.map.legend.totalResults", "Total Results")}
-         <LegendItemGapContainer>
+        <LegendContainer top={legendTop}>
+          {t("scout.map.legend.totalResults", "Total Results")}
+          <LegendItemGapContainer>
             <LegendItemKey>{t("scout.map.legend.emea", "EMEA")}</LegendItemKey>
             <LegendItemVal>{legendSummary?.EMEA || 0}</LegendItemVal>
-         </LegendItemGapContainer>
-         <LegendItemGapContainer>
-            <LegendItemKey>{t("scout.map.legend.americas", "AMERICAS")}</LegendItemKey>
+          </LegendItemGapContainer>
+          <LegendItemGapContainer>
+            <LegendItemKey>
+              {t("scout.map.legend.americas", "AMERICAS")}
+            </LegendItemKey>
             <LegendItemVal>{legendSummary?.Americas || 0}</LegendItemVal>
-         </LegendItemGapContainer>
-         <LegendItemGapAContainer>
-            <LegendItemKey>{t("scout.map.legend.apac", "APAC (Total)")}</LegendItemKey>
+          </LegendItemGapContainer>
+          <LegendItemGapAContainer>
+            <LegendItemKey>
+              {t("scout.map.legend.apac", "APAC (Total)")}
+            </LegendItemKey>
             <LegendItemVal>{legendSummary?.APAC || 0}</LegendItemVal>
-         </LegendItemGapAContainer>
-         <LegendItemBContainer>
-            <LegendItemKey>{t("scout.map.legend.china", "CHINA")}</LegendItemKey>
+          </LegendItemGapAContainer>
+          <LegendItemBContainer>
+            <LegendItemKey>
+              {t("scout.map.legend.china", "CHINA")}
+            </LegendItemKey>
             <LegendItemVal>{legendSummary?.CN || 0}</LegendItemVal>
-         </LegendItemBContainer>
-         <LegendItemGapContainer>
-            <LegendItemKey>{t("scout.map.legend.total", "Total")}</LegendItemKey>
+          </LegendItemBContainer>
+          <LegendItemGapContainer>
+            <LegendItemKey>
+              {t("scout.map.legend.total", "Total")}
+            </LegendItemKey>
             <LegendItemVal>{legendSummary?.Total || 0}</LegendItemVal>
-         </LegendItemGapContainer>
-      </LegendContainer>
+          </LegendItemGapContainer>
+        </LegendContainer>
       ) : null}
       {!mapLoaded ? (
         <Skeleton animation="wave" height={410} width="100%" />
@@ -398,7 +422,7 @@ const GeoCharts = () => {
 
 const MapContainer = styled.div`
   position: relative;
-  width: 100%;
+  width: 80%;
   background-color: #edf1f3;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: none;
@@ -429,7 +453,7 @@ const GoWorld = styled.div`
 
 const LegendContainer = styled.div<any>`
   position: absolute;
-  left: calc(100% - 238px);
+  right: -119px;
   top: ${(props) => `${props.top || 0}px`};
   width: 218px;
   height: 250px;
