@@ -2,20 +2,20 @@ import { theme } from "config/theme";
 import React from "react";
 import SideBarMenu from "./SidebarMenu";
 import Head from "next/head";
-import { AppBar, Box, Drawer, Grid } from "@mui/material";
+import { Box, Drawer } from "@mui/material";
 
 const Layout = ({
   pageTitle,
   children,
   row,
-  appBarContent,
+  appBar,
   paddingVertical,
   paddingHorizontal,
 }: {
   pageTitle?: string;
   row?: boolean;
   children: React.ReactNode;
-  appBarContent?: React.ReactNode;
+  appBar?: React.ReactNode;
   paddingVertical?: string | number;
   paddingHorizontal?: string | number;
 }) => {
@@ -48,22 +48,15 @@ const Layout = ({
           flexGrow: 1,
         }}
       >
-        {appBarContent && (
-          <AppBar
-            position="fixed"
-            sx={{
-              width: `calc(100% - ${leftMenuWidth})`,
-              ml: `${leftMenuWidth}`,
-            }}
-          >
-            {appBarContent}
-          </AppBar>
-        )}
+        {appBar}
         <Box
           sx={{
             flexDirection: row ? "row" : "column",
             backgroundColor: "#ecf0f1",
-            padding: `${paddingVertical || 0} ${paddingHorizontal || 0}`,
+            paddingLeft: paddingHorizontal,
+            paddingRight: paddingHorizontal,
+            paddingTop: paddingVertical,
+            paddingBottom: paddingVertical,
           }}
         >
           {children}

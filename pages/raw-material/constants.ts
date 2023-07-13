@@ -4,6 +4,19 @@ type RawMaterial = {
   subfields: { name: string }[];
 };
 
+export const QuickAddMaterials: RawMaterial[] = [
+  {
+    category: "EV-related",
+    icon: "materialCategory/energy",
+    subfields: [
+      { name: "Cobalt" },
+      { name: "Lithium" },
+      { name: "Nickel" },
+      { name: "Magnesium" },
+    ],
+  },
+];
+
 const rawMaterials: RawMaterial[] = [
   {
     category: "Energy",
