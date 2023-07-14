@@ -148,7 +148,7 @@ export default function RawMaterial() {
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
                           <Tooltip title={"subfield.description"}>
-                            <Info style={{ width: 14 }} />
+                            <Info style={{ width: 14, color: "#9CA3AF" }} />
                           </Tooltip>
                         </ToggleButton>
                       </Grid>

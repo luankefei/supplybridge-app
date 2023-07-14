@@ -102,7 +102,15 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
             width="100%"
             height={window.innerHeight * 0.3 - 80}
           >
-            <LineChart data={data}>
+            <LineChart
+              data={data}
+              margin={{
+                top: 16,
+                right: 32,
+                left: 16,
+                bottom: 16,
+              }}
+            >
               <Legend verticalAlign="top" height={36} />
               <CartesianGrid stroke="#ccc" />
               <XAxis dataKey="name" />
