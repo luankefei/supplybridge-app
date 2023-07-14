@@ -35,6 +35,7 @@ export const useSupplier = (flags: any = null) => {
           offset: ((pageNumber - 1) * pageSize),
           limit: pageSize,
           filter: {
+            _extra: flags,
             ...filterData,
           },
         };
