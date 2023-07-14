@@ -11,7 +11,7 @@ const LinkItem = styled(Link)`
   margin-top: 12px;
 `;
 
-export default function SideBarMenu() {
+export default function SideBarMenu(props: { width?: string }) {
   const { t } = useTranslation();
   const router = useRouter();
   const { signOut } = useStore();
@@ -119,187 +119,113 @@ export default function SideBarMenu() {
 
   return (
     <Container>
-      {/* {!open ? (
-        <IconContainer>
-          <TopSection>
-            <Section>
-              <Logo src="/menu/mini-logo.svg" />
-            </Section>
-            <Section>
-              {solutionsData.map((item: any, index: any) => {
-                return (
-                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
-                    <IconWrapper active={item.active}>
-                      <Icon src={`/menu/${item.icon}.svg`} />
-                    </IconWrapper>
-                  </Link>
-                );
-              })}
-            </Section>
-            <Section>
-              {marketData.map((item: any, index: any) => {
-                return (
-                  <Link key={index} href={item.active ? `${item?.path}` : ""}>
-                    <IconWrapper active={item.active}>
-                      <Icon src={`/menu/${item.icon}.svg`} />
-                    </IconWrapper>
-                  </Link>
-                );
-              })}
-            </Section>
-          </TopSection>
-          <Section>
-            <Logo src="/menu/bmw.svg" />
-          </Section>
-        </IconContainer>
-      ) : ( */}
-      <MenuContainer>
-        <TopSection>
-          <Section>
-            <Logo src="/menu/logo.svg" />
-          </Section>
-          <Section>
-            <UserContainer>
-              <Welcome>{t("sidebar.welcome", "Welcome")}</Welcome>
-              {/*
-              <UserName>Baran!</UserName>
-              <Avatar>BG</Avatar>
-              */}
-            </UserContainer>
-            <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
-            {solutionsData.map((item: any, index: any) => {
-              return (
-                <LinkItem
-                  key={index}
-                  href={item.passiveIcon ? "" : `${item?.path}`}
-                >
-                  <MenuWrapper
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    <MenuIcon
-                      src={`/menu/${item.icon}.svg`}
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    />
-                    <MenuItemTitle
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    >
-                      {item.title}
-                    </MenuItemTitle>
-                    {item.extra && (
-                      <ExtraIcon src={`/menu/${item.extra}.svg`} />
-                    )}
-                    {item.passiveIcon && (
-                      <ComingSoon>
-                        {t("sidebar.comingSoon", "COMING SOON")}
-                      </ComingSoon>
-                    )}
-                  </MenuWrapper>
-                </LinkItem>
-              );
-            })}
-          </Section>
-          <Section>
-            <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
-            {marketData.map((item: any, index: any) => {
-              return (
-                <LinkItem
-                  key={index}
-                  href={item.passiveIcon ? "" : `${item?.path}`}
-                >
-                  <MenuWrapper
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    <MenuIcon
-                      src={`/menu/${item.icon}.svg`}
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    />
-                    <MenuItemTitle
-                      active={item.active}
-                      passiveIcon={item.passiveIcon}
-                    >
-                      {item.title}
-                    </MenuItemTitle>
-                    {item.passiveIcon && (
-                      <ComingSoon>
-                        {t("sidebar.comingSoon", "COMING SOON")}
-                      </ComingSoon>
-                    )}
-                  </MenuWrapper>
-                </LinkItem>
-              );
-            })}
-          </Section>
-        </TopSection>
+      <TopSection>
         <Section>
-          <AccountContainer>
-            <Left>
-              <Logo src="/menu/bmw.svg" />
-            </Left>
-            <Right>
-              <AccountTitle>BMW</AccountTitle>
-              <TextContainer>
-                <AccountType>
-                  {t("sidebar.premiumAccount", "Premium Account")} |
-                </AccountType>
-                <Logout onClick={logout}>
-                  {t("sidebar.logOut", "Log out")}
-                </Logout>
-              </TextContainer>
-            </Right>
-          </AccountContainer>
+          <Logo src="/menu/logo.svg" />
         </Section>
-      </MenuContainer>
-      {/* )} */}
-      {/* <ArrowWrapper onClick={() => setOpen(!open)}>
-        <ArrowIcon src={`/menu/${open ? "left" : "right"}-arrow.svg`} />
-      </ArrowWrapper> */}
+        <Section>
+          <UserContainer>
+            <Welcome>{t("sidebar.welcome", "Welcome")}</Welcome>
+            {/*
+            <UserName>Baran!</UserName>
+            <Avatar>BG</Avatar>
+            */}
+          </UserContainer>
+          <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
+          {solutionsData.map((item: any, index: any) => {
+            return (
+              <LinkItem
+                key={index}
+                href={item.passiveIcon ? "" : `${item?.path}`}
+              >
+                <MenuWrapper
+                  active={item.active}
+                  passiveIcon={item.passiveIcon}
+                >
+                  <MenuIcon
+                    src={`/menu/${item.icon}.svg`}
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  />
+                  <MenuItemTitle
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  >
+                    {item.title}
+                  </MenuItemTitle>
+                  {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
+                  {item.passiveIcon && (
+                    <ComingSoon>
+                      {t("sidebar.comingSoon", "COMING SOON")}
+                    </ComingSoon>
+                  )}
+                </MenuWrapper>
+              </LinkItem>
+            );
+          })}
+        </Section>
+        <Section>
+          <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
+          {marketData.map((item: any, index: any) => {
+            return (
+              <LinkItem
+                key={index}
+                href={item.passiveIcon ? "" : `${item?.path}`}
+              >
+                <MenuWrapper
+                  active={item.active}
+                  passiveIcon={item.passiveIcon}
+                >
+                  <MenuIcon
+                    src={`/menu/${item.icon}.svg`}
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  />
+                  <MenuItemTitle
+                    active={item.active}
+                    passiveIcon={item.passiveIcon}
+                  >
+                    {item.title}
+                  </MenuItemTitle>
+                  {item.passiveIcon && (
+                    <ComingSoon>
+                      {t("sidebar.comingSoon", "COMING SOON")}
+                    </ComingSoon>
+                  )}
+                </MenuWrapper>
+              </LinkItem>
+            );
+          })}
+        </Section>
+      </TopSection>
+      <Section>
+        <AccountContainer>
+          <Left>
+            <Logo src="/menu/bmw.svg" />
+          </Left>
+          <Right>
+            <AccountTitle>BMW</AccountTitle>
+            <TextContainer>
+              <AccountType>
+                {t("sidebar.premiumAccount", "Premium Account")} |
+              </AccountType>
+              <Logout onClick={logout}>{t("sidebar.logOut", "Log out")}</Logout>
+            </TextContainer>
+          </Right>
+        </AccountContainer>
+      </Section>
     </Container>
   );
 }
 
-const animation = keyframes`
-  0% { transform: translateX(-60%) }
-  100% { transform: translateX(0) }
-`;
-
 const Container = styled.div<any>`
   font-family: Nunito;
   min-height: 100vh;
-  width: ${theme.dimension.leftMenuWidth};
-  position: fixed;
   box-sizing: border-box;
   z-index: 1000;
-  /* transition: 1s all 0s; */
-`;
-
-const IconContainer = styled.div`
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  align-items: center;
-  background-color: #ffffff;
-  padding: 34px 0;
-`;
-
-const MenuContainer = styled.div`
-  height: 100%;
-  display: flex;
   flex-direction: column;
   background-color: #ffffff;
-  position: fixed;
-  transition: 0.9s ease;
   padding: 34px 24px;
-  /* animation-name: ${animation}; */
-  animation-duration: 0.9s;
-  @media (max-height: 820px) {
-    position: unset;
-  }
 `;
 
 const TopSection = styled.div`
@@ -319,45 +245,6 @@ const Logo = styled.img`
   /* margin: 34px 0px; */
 `;
 
-const IconWrapper = styled.div<any>`
-  margin-bottom: 20px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 8px;
-  cursor: ${(props) => (props.active ? "pointer" : "not-allowed")};
-  &:hover {
-    background: rgb(8, 151, 156, 0.1);
-    transition: background 0.3s ease;
-  }
-`;
-
-const Icon = styled.img`
-  padding: 10px 12px;
-  &:hover {
-    filter: invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg)
-      brightness(99%) contrast(94%);
-  }
-`;
-
-const ArrowWrapper = styled.div`
-  width: 27px;
-  height: 27px;
-  background: #ffffff;
-  box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-  border-radius: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  position: absolute;
-  bottom: 90px;
-  right: -13px;
-  cursor: pointer;
-  transition: 0.9s ease;
-`;
-
-const ArrowIcon = styled.img``;
-
 const UserContainer = styled.div`
   display: flex;
   align-items: center;
@@ -372,21 +259,6 @@ const UserContainer = styled.div`
 const Welcome = styled.span`
   color: #808080;
 `;
-const UserName = styled.span`
-  color: #1a1a1a;
-`;
-const Avatar = styled.span`
-  color: #ffffff;
-  border-radius: 100%;
-  background: #6adac2;
-  width: 30px;
-  height: 28px;
-  font-size: 12px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 const MenuTitle = styled.div`
   font-weight: 400;
   font-size: 16px;

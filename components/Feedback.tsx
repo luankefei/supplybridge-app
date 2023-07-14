@@ -1,9 +1,8 @@
-
 import React, { MouseEventHandler, useEffect, useState } from "react";
 import styled from "styled-components";
 import { Controller, useForm } from "react-hook-form";
 import useBoundStore from "hooks/useBoundStore";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 interface SubmitButtonProps {
   disabled: boolean;
@@ -12,17 +11,14 @@ interface SubmitButtonProps {
 }
 
 function SubmitButton(props: SubmitButtonProps) {
-
   const { disabled, loading, onClick } = props;
 
   return (
     <StyledButton disabled={loading || disabled} onClick={onClick}>
       {loading ? <Spinner /> : "Submit"}
     </StyledButton>
-  )
-
+  );
 }
-
 
 export default function Feedback() {
   const { t } = useTranslation();
@@ -31,58 +27,69 @@ export default function Feedback() {
   const feedbackStore = useBoundStore((props) => props.feedback);
   const { show, setShow } = feedbackStore;
   const { control, handleSubmit, setValue, watch, reset } = useForm({
-    defaultValues: { feedback }
+    defaultValues: { feedback },
   });
   const watchFeedback = watch("feedback", "");
 
   const handleClickContainer = (e: any) => {
     e.stopPropagation();
-  }
+  };
 
   const handleFeedbackClose = () => {
-     setShow(false);
-  }
+    setShow(false);
+  };
 
   const handleFeedbackButton = (e: any) => {
     e.stopPropagation();
     e.preventDefault();
     setShow(!show);
-  }
+  };
 
   const onSubmit = (data: any) => {
     // Call the api
     setShow(false);
     setFeedback("");
     reset({ feedback });
-  }
+  };
 
   const loading = false;
 
   return (
     <ContainerWrapper>
-      <Mask show={show} onClick={handleFeedbackClose}/>
-      <Container className={show ? "shown" : "hidden"} onClick={handleClickContainer}>
+      <Container
+        className={show ? "shown" : "hidden"}
+        onClick={handleClickContainer}
+      >
         <FeedbackLabelWrapper onClick={handleFeedbackButton}>
           {t("scout.feedback", "FEEDBACK")}
         </FeedbackLabelWrapper>
         <form>
           <ContentWrapper>
-            <FeedbackTitle className="subtitle">How can we do better?</FeedbackTitle>
+            <FeedbackTitle className="subtitle">
+              How can we do better?
+            </FeedbackTitle>
             <Controller
               control={control}
               name="feedback"
-              render={({ field }) =>
-                <FeedbackTextarea className="text" {...field} placeholder="Type your remarks..." />
-              }
+              render={({ field }) => (
+                <FeedbackTextarea
+                  className="text"
+                  {...field}
+                  placeholder="Type your remarks..."
+                />
+              )}
             />
 
-            <SubmitButton onClick={handleSubmit(onSubmit)} loading={loading} disabled={!watchFeedback} />
+            <SubmitButton
+              onClick={handleSubmit(onSubmit)}
+              loading={loading}
+              disabled={!watchFeedback}
+            />
           </ContentWrapper>
         </form>
       </Container>
     </ContainerWrapper>
   );
-
 }
 
 const ContainerWrapper = styled.div`
@@ -106,11 +113,11 @@ const Mask = styled.div<any>`
   background-color: white;
   opacity: 0.3;
   z-index: 3000;
-  display: ${(props) => props.show ? 'block' : 'none'};
+  display: ${(props) => (props.show ? "block" : "none")};
 `;
 
 const Container = styled.div`
-  position: absolute;
+  position: fixed;
   top: 14px;
   right: -492px;
 
@@ -137,36 +144,34 @@ const ContentWrapper = styled.div`
 `;
 
 const FeedbackLabelWrapper = styled.div`
-    display: flex;
-    flex-direction: row;
-    align-items: center;
-    justify-content: center;
-    padding: 4px 8px;
-    width: 6.2rem;
-    height: 1.875rem;
-    position: relative;
-    margin-right: -1.8125rem;
-    margin-top: 3.3125rem;
-    background: #C41D7F;
-    border-radius: 16px 16px 0px 0px;
-    transform: rotate(-90deg);
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  padding: 4px 8px;
+  width: 6.2rem;
+  height: 1.875rem;
+  position: relative;
+  margin-right: -1.8125rem;
+  margin-top: 3.3125rem;
+  background: #c41d7f;
+  border-radius: 16px 16px 0px 0px;
+  transform: rotate(-90deg);
 
-    font-family: 'Ubuntu';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 0.875rem;
-    line-height: 1.375rem;
-    color: #FFFFFF;
-    cursor: pointer;
+  font-family: "Ubuntu";
+  font-style: normal;
+  font-weight: 500;
+  font-size: 0.875rem;
+  line-height: 1.375rem;
+  color: #ffffff;
+  cursor: pointer;
 `;
 
-const FeedbackLabel = styled.div`
-`;
+const FeedbackLabel = styled.div``;
 
 const FeedbackTitle = styled.div`
-  color: #2A3840;
+  color: #2a3840;
 `;
-
 
 const FeedbackTextarea = styled.textarea`
   width: 444px;
@@ -197,7 +202,7 @@ const StyledButton = styled.button`
   display: flex;
   align-items: center;
   justify-content: center;
-  
+
   width: 254px;
   height: 46px;
   margin-top: 24px;
@@ -206,21 +211,29 @@ const StyledButton = styled.button`
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
   border: unset;
 
-  background: ${(props) => props.disabled ? props.theme.colors.secondaryDisabled : props.theme.colors.secondary};
+  background: ${(props) =>
+    props.disabled
+      ? props.theme.colors.secondaryDisabled
+      : props.theme.colors.secondary};
   border-radius: 1000px;
   color: ${(props) => props.theme.colors.neutaral};
-  cursor: ${(props) => props.disabled ? "auto" : "pointer"};
+  cursor: ${(props) => (props.disabled ? "auto" : "pointer")};
 `;
 
 const Spinner = styled.div`
   border: ${(props) => `${props.theme.colors.secondary} 4px solid`};
   border-radius: 50%;
-  border-top: ${(props) => `${props.theme.colors.secondaryDisabled} 4px solid`} ;
+  border-top: ${(props) => `${props.theme.colors.secondaryDisabled} 4px solid`};
   height: 23px;
   width: 23px;
   animation: spin 1s linear infinite;
-  
+
   @keyframes spin {
-    0% { transform: rotate(0deg); }
-    100% { transform: rotate(360deg); }
-  }`;
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+`;

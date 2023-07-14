@@ -1,7 +1,7 @@
 import { theme } from "config/theme";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import styled from "styled-components";
-import Slide1 from "./source/slides/Slide1";
+
 const Indicator = ({ className, position, length, onIndicatorClick }: any) => (
   <IndicatorContainer className={className}>
     {Array.from({ length }, (value, index) => (
@@ -83,11 +83,12 @@ const Gallery = ({ children }: any) => {
 
 const Wrapper = styled.div`
   position: relative;
-  width: ${theme.dimension.cardMaxWidth};
+  width: calc(100% - ${theme.dimension.leftMenuWidth});
 `;
 
 const CarouselContainer = styled.div<any>`
   display: flex;
+  width: 100%;
   justify-content: center;
   overflow: hidden;
 `;

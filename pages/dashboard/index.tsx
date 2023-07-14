@@ -1,9 +1,6 @@
 import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
-import dynamic from "next/dynamic";
-
-import Icon from "components/Icon";
 import { useIndustries } from "requests/useIndustries";
 import { useEffect } from "react";
 import useStore from "hooks/useStore";

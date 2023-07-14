@@ -18,7 +18,7 @@ export const useAuth = () => {
       if (data.id) {
         StorageService.setAuthData(data.token, data.refreshToken);
         StorageService.setSurveyCount(data.surveyPopupCount ?? 0);
-        cookie.set("token", data.token, { expires: 1 / 24 });
+        cookie.set("token", data.token, { expires: 30 });
         toast.success("Success", {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -96,7 +96,7 @@ export const useAuth = () => {
         position: toast.POSITION.TOP_RIGHT,
       });
     }
-  }
+  };
 
   return { login, updateAccount, loading, emailLogin, sendVerificationEmail };
 };

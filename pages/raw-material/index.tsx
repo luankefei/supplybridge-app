@@ -7,30 +7,27 @@ import {
   Collapse,
   Divider,
   Grid,
-  IconButton,
   Stack,
   TextField,
   ToggleButton,
   Tooltip,
 } from "@mui/material";
-import rawMaterials, { allRawMaterials } from "./constants";
+import rawMaterials, {
+  allRawMaterials,
+} from "components/raw-material/constants";
 import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
-import { useRouter } from "next/router";
 import {
   SpacingVertical,
   SpacingHorizontal,
 } from "components/ui-components/spacer";
 import PoweredBy from "components/ui-components/poweredBy";
-import { HeaderText, TitleText } from "components/ui-components/text";
-import { toast } from "react-toastify";
-import Icon from "components/Icon";
+import { HeaderText } from "components/ui-components/text";
 import styled from "styled-components";
-import NewHeader from "components/NewHeader";
-import Tutorial from "components/Tutorial";
-import UnlockBox from "components/UnlockBox";
+import RMTopMenuBar from "components/raw-material/appBar";
+import VerticalIconButton from "components/ui-components/verticalIconButton";
+import RMChart from "components/raw-material/chart";
 
 export default function RawMaterial() {
-  const router = useRouter();
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [openedCategory, setOpenedCategory] = useState<string | undefined>();
 
@@ -45,10 +42,7 @@ export default function RawMaterial() {
     }
     setSelectedMaterials([...selectedMaterials, material]);
   };
-  const addAllSubfields = () => {
-    const subfields = rawMaterials.find(
-      (v) => v.category === openedCategory
-    )?.subfields;
+  const addAllSubfields = (subfields?: { name: string }[]) => {
     if (!subfields) return;
     const toAdd = subfields.filter((v) => !selectedMaterials.includes(v.name));
     setSelectedMaterials([...selectedMaterials, ...toAdd.map((v) => v.name)]);
@@ -57,84 +51,66 @@ export default function RawMaterial() {
   const reset = () => {
     setSelectedMaterials([]);
   };
-  const goToChart = () => {
-    if (selectedMaterials.length === 0) {
-      toast.error("Please select at least one material");
-      return;
-    }
-    router.push({
-      pathname: "/raw-material/chart",
-      query: {
-        materials: selectedMaterials.join(","),
-      },
-    });
-  };
   return (
-    <Layout pageTitle={"Market Data"} paddingHorizontal={48}>
-      <SpacingVertical space="100px" />
-      <HeaderText>
-        Material price checking system, more insights for your decision!
-      </HeaderText>
-      <PoweredBy />
-      <SpacingVertical space="50px" />
-      <StyledCard>
-        <TitleText>Select by adding tags</TitleText>
-        <SpacingVertical space="48px" />
-        <Autocomplete
-          value={selectedMaterials}
-          multiple={true}
-          options={allRawMaterials.map((option) => option.name)}
-          renderInput={(params) => <TextField {...params} />}
-          onChange={(_, value) => {
-            setSelectedMaterials(value);
-          }}
-        />
-      </StyledCard>
+    <Layout
+      pageTitle={"Market Data"}
+      appBar={
+        <RMTopMenuBar>
+          <Autocomplete
+            value={selectedMaterials}
+            multiple={true}
+            options={allRawMaterials.map((option) => option.name)}
+            renderInput={(params) => (
+              <TextField {...params} label="Type to find raw-material" />
+            )}
+            onChange={(_, value) => {
+              setSelectedMaterials(value);
+            }}
+          />
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Button
+              style={{ color: "#445B66" }}
+              variant="text"
+              onClick={reset}
+              startIcon={<Replay />}
+            >
+              Reset All
+            </Button>
+          </div>
+        </RMTopMenuBar>
+      }
+      paddingHorizontal={"48px"}
+    >
       <SpacingVertical space="50px" />
       <StyledCard>
         <HeaderText>Filter by category</HeaderText>
         <SpacingVertical space="24px" />
         <Stack>
           <Grid container>
-            {rawMaterials.map((rawMaterial, idx) => (
-              <Grid key={idx} item>
-                <Button
-                  style={{
-                    minWidth: "156px",
-                    display: "flex",
-                    flexDirection: "column",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    fontSize: "14px",
-                    backgroundColor:
-                      openedCategory === rawMaterial.category
-                        ? "#E5F7F8"
-                        : undefined,
-                  }}
-                  onClick={() =>
-                    setOpenedCategory(
-                      openedCategory === rawMaterial.category
-                        ? undefined
-                        : rawMaterial.category
-                    )
-                  }
-                >
-                  <Icon
-                    hover
-                    width={52}
-                    height={52}
-                    src={rawMaterial.icon}
-                    color={
-                      openedCategory === rawMaterial.category
-                        ? "#08979C"
-                        : "#445B66"
+            {rawMaterials.map((rawMaterial, idx) => {
+              const isOpen = openedCategory === rawMaterial.category;
+              return (
+                <Grid key={idx} item>
+                  <VerticalIconButton
+                    title={rawMaterial.category}
+                    backgroundColor={isOpen ? "#E5F7F8" : undefined}
+                    icon={rawMaterial.icon}
+                    iconColor={isOpen ? "#08979C" : "#445B66"}
+                    onClick={() =>
+                      setOpenedCategory(
+                        isOpen ? undefined : rawMaterial.category
+                      )
                     }
                   />
-                  <SpacingVertical space="10px" />
-                  {rawMaterial.category}
-                </Button>
-              </Grid>
-            ))}
+                </Grid>
+              );
+            })}
           </Grid>
           <SpacingVertical space="24px" />
           <Collapse in={!!openedCategory}>
@@ -181,7 +157,12 @@ export default function RawMaterial() {
               <CenteredDiv>
                 <Button
                   startIcon={<FormatAlignCenter />}
-                  onClick={addAllSubfields}
+                  onClick={() =>
+                    addAllSubfields(
+                      rawMaterials.find((v) => v.category === openedCategory)
+                        ?.subfields
+                    )
+                  }
                 >
                   <SpacingHorizontal space="10px" />
                   Select All
@@ -193,39 +174,19 @@ export default function RawMaterial() {
         </Stack>
       </StyledCard>
       <SpacingVertical space="50px" />
-      <div
-        style={{
-          display: "flex",
-          paddingBottom: 3, // button has box-shaow 3px
-          flexDirection: "row-reverse",
-        }}
-      >
-        <Button
-          style={{
-            borderRadius: "100px",
-            color: "#FFFFFF",
-            minWidth: "200px",
-          }}
-          color="primary"
-          variant="contained"
-          disabled={selectedMaterials.length === 0}
-          onClick={goToChart}
-        >
-          Search
-        </Button>
-        <SpacingHorizontal space="10px" />
-        <Button
-          style={{ color: "#445B66" }}
-          variant="text"
-          onClick={reset}
-          startIcon={<Replay />}
-        >
-          Reset All
-        </Button>
-      </div>
+      <Grid container rowSpacing={2} columnSpacing={2}>
+        {selectedMaterials.map((materialName, idx) => (
+          <Grid key={idx} item xs={6}>
+            <RMChart materialName={materialName} />
+          </Grid>
+        ))}
+      </Grid>
+      <SpacingVertical space="5150px" />
+      <PoweredBy />
     </Layout>
   );
 }
+
 const CenteredDiv = styled.div`
   display: flex;
   justify-content: center;

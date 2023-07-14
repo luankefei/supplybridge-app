@@ -69,8 +69,15 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     setShowBackdrop,
     flags,
   } = useStore();
-  const currentLang =
-    window.localStorage.getItem("i18nextLng") === "de" ? "de" : "en";
+  let currentLang = "en";
+  if (
+    typeof window !== "undefined" &&
+    window !== undefined &&
+    window.localStorage.getItem("i18nextLng")
+  ) {
+    currentLang =
+      window.localStorage.getItem("i18nextLng") === "de" ? "de" : "en";
+  }
   if (currentLang) flags.lang = currentLang === "de" ? "DE" : "EN";
   const { searchAutocomplete } = useSupplier(flags);
   const [searchItem, setSearchItem] = useState("");

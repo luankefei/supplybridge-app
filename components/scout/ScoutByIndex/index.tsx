@@ -64,9 +64,8 @@ export default function ScoutByIndex() {
     flags,
     stats,
   } = useStore();
-  const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
-  const { searchSuppliers, loading } = useSupplier();
+  const { searchSuppliers } = useSupplier();
   const { searchFuelTypes } = useVehicleFuelTypes();
   const [loadingAnimations, setLoadingAnimations] = useState(false);
   const [isSearching, setIsSearching] = useState(false);
@@ -87,8 +86,6 @@ export default function ScoutByIndex() {
   }, []);
 
   useEffect(() => {
-    // XXX: current css layout may lead messy scrollbars, especially 2 scrollbars in one view
-    //      polish scout panel css and use js to find the scrollable element then hook event handler
     let scrollable: any = thisElementRef.current;
     let last = scrollable;
     while (scrollable) {
@@ -184,16 +181,6 @@ export default function ScoutByIndex() {
     setFilterData({ q });
   };
 
-  const contentStyle: React.CSSProperties = {
-    margin: 0,
-    height: "600px",
-    width: "460px",
-    color: "#fff",
-    lineHeight: "160px",
-    textAlign: "center",
-    background: "#364d79",
-  };
-
   const carouselRef = useRef<CarouselRef>(null);
 
   const filerImg = [
@@ -240,25 +227,21 @@ export default function ScoutByIndex() {
             effect="scrollx"
           >
             {filerImg.map((i) => (
-              <div key={i.src} style={contentStyle}>
+              <div
+                key={i.src}
+                style={{
+                  margin: 0,
+                  height: "600px",
+                  width: "460px",
+                  color: "#fff",
+                  lineHeight: "160px",
+                  textAlign: "center",
+                  background: "#364d79",
+                }}
+              >
                 <img src={i.src} width={"640px"} style={{ margin: "0 auto" }} />
               </div>
             ))}
-
-            {/* <div style={contentStyle}>
-              <img
-                src="/filter1_1.png"
-                width={"640px"}
-                style={{ margin: "0 auto" }}
-              />
-            </div>
-            <div style={contentStyle}>
-              <img
-                src="/filter2_2.png"
-                width={"640px"}
-                style={{ margin: "0 auto" }}
-              />
-          </div>*/}
           </Carousel>
           <div
             style={{ position: "absolute", right: "-36px", bottom: "260px" }}
@@ -327,10 +310,17 @@ export default function ScoutByIndex() {
               >
                 {suppliers?.length > 0 ? (
                   <div>
-                    <FilterButton onClick={() => { setFilterModalVisible(true); setSurveyOn(true); }}>
+                    <FilterButton
+                      onClick={() => {
+                        setFilterModalVisible(true);
+                        setSurveyOn(true);
+                      }}
+                    >
                       {t("scout.buildMyShortlist", "Build my Shortlist")}
                     </FilterButton>
-                    {surveyOn ? <Survicate loadSurvey={surveyOn} onClose={() => {}} /> : null}
+                    {surveyOn ? (
+                      <Survicate loadSurvey={surveyOn} onClose={() => {}} />
+                    ) : null}
                   </div>
                 ) : null}
               </div>
@@ -595,12 +585,6 @@ const ScoutContainer = styled.div`
     margin: 10px 10px;
   }
 `;
-const ScoutScrollContainer = styled.div`
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  overflow-y: auto;
-`;
 
 const SearchContainer = styled.div<{ isrow: boolean }>`
   width: 100%;
@@ -618,25 +602,6 @@ const SearchContainer = styled.div<{ isrow: boolean }>`
   @media (max-width: ${(props) => props.theme.size.mobileXl}) {
     flex-direction: column;
   }
-`;
-
-const DuplicateHeaderForPosition = styled.div<SearchProps>`
-  position: ${(props) => (props.scrollPosition > 126 ? "fixed" : "relative")};
-  background-color: ${(props) => (props.scrollPosition > 126 ? "white" : "")};
-  box-shadow: ${(props) =>
-    props.scrollPosition > 126
-      ? "rgba(0, 0, 0, 0.1) 0px 10px 15px -3px, rgba(0, 0, 0, 0.05) 0px 4px 6px -2px"
-      : ""};
-  width: 100%;
-  left: 0;
-  top: 0;
-  z-index: 1000;
-  display: flex;
-  align-items: center;
-  transition: background-color 100ms linear;
-  transition: position 50ms linear;
-  justify-content: center;
-  height: 90px;
 `;
 
 const IconContainer = styled.div<{ isrow: boolean }>`
@@ -657,7 +622,7 @@ const IconLabel = styled.div`
 `;
 
 const Label = styled.span`
-  font-family: "Inter";
+  font-family: "Ubuntu";
   font-style: normal;
   font-weight: 400;
   font-size: 12px;
@@ -666,100 +631,18 @@ const Label = styled.span`
   white-space: nowrap;
 `;
 
-const Technology = styled.span`
-  width: 100%;
-`;
-
-const TechnologyHeader = styled.span`
-  margin-top: 32px;
-  font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
-  display: flex;
-  align-items: flex-end;
-  color: #006d75;
-`;
-
-const TechnologyContainer = styled.div`
-  display: flex;
-  flex-direction: row;
-  padding-top: 12px;
-  padding-bottom: 32px;
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    flex-direction: column;
-  }
-`;
-
-const TechnologySkeletonContainer = styled.div`
-  display: flex;
-  width: 100%;
-  span {
-    margin-right: 12px;
-    margin-bottom: -21px;
-  }
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    flex-direction: column;
-  }
-`;
-
-const TechnologyBoxContainer = styled.div`
-  display: contents;
-`;
-
 const MainContainer = styled.div`
-  width: calc(100%);
   display: flex;
   flex-direction: column;
   align-items: center;
-`;
-
-const NoRecord = styled.div`
-  margin-top: 16px;
-  height: 120px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: white;
-`;
-
-const ResultContainer = styled.div``;
-
-const CircleButton = styled.div`
-  background-color: ${(props) => `${props.theme.colors.secondary}`};
-  display: none;
-  justify-content: center;
-  align-items: center;
-  border-radius: 50%;
-  cursor: pointer;
-  user-select: none;
-  margin-left: 15px;
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    display: flex;
-  }
-`;
-
-const Button = styled.div<{ secondary?: boolean }>`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  border-radius: 60px !important;
-  background-color: ${(props) => (props.secondary ? "#F5F5F5" : "#08979C")};
-  color: ${(props) => (props.secondary ? "#08979C;" : "#F5F5F5")};
-  margin-bottom: 8px;
-  border: 1px solid #08979c;
-  padding: 12px;
-  cursor: pointer;
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    display: none;
-  }
 `;
 
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
   flex-shrink: 0;
-  width: calc(100%);
-  height: calc(100%);
+  width: 100%;
+  height: 100%;
 `;
 
 const ContentsWrapper = styled.div`

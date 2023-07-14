@@ -1,7 +1,7 @@
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import useBoundStore from "hooks/useBoundStore";
 import styled from "styled-components";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
@@ -23,7 +23,7 @@ export default function Switch() {
   const clearFilter = () => {
     setResult(false);
     setTab(0, QuickBridgeTabType.vehile);
-    setFilter("q", '');
+    setFilter("q", "");
     setFilter("vehicleTypes", null);
     setFilter("vehicleBrands", null);
     setFilter("vehicleModels", null);
@@ -41,7 +41,7 @@ export default function Switch() {
   // const { setFilterData, setSuppliers } = useStore();
   const handleSwitchSelected = (val: ScoutSwitchType) => {
     setSelected(val);
-  }
+  };
 
   useEffect(() => {
     clearFilterData();
@@ -70,17 +70,18 @@ export default function Switch() {
           </ByQuickBridge>
           <ByBidder
             selected={selected}
-            onClick={() => handleSwitchSelected(ScoutSwitchType.bidder)}>
+            onClick={() => handleSwitchSelected(ScoutSwitchType.bidder)}
+          >
             {t("scout.tab.biddersList", "Bidders List")}
           </ByBidder>
         </Switches>
       </SwitchContainer>
       {selected === ScoutSwitchType.index ? (
         <ScoutByIndex />
-      ) : (
-       selected === ScoutSwitchType.quickBridge ? (
+      ) : selected === ScoutSwitchType.quickBridge ? (
         <ScoutByQuickBridge />
-      ) : (<BidderPart />)
+      ) : (
+        <BidderPart />
       )}
     </Container>
   );
@@ -117,7 +118,11 @@ const Switches = styled.div`
 
 const Background = styled.div<any>`
   left: ${(props) =>
-    props.selected === ScoutSwitchType.index ? "5px" : (props.selected === ScoutSwitchType.quickBridge ? "169px" : "345px")};
+    props.selected === ScoutSwitchType.index
+      ? "5px"
+      : props.selected === ScoutSwitchType.quickBridge
+      ? "169px"
+      : "345px"};
   top: 5;
   position: absolute;
   width: 174px;
