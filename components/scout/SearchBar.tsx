@@ -72,7 +72,7 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
   const currentLang =
     window.localStorage.getItem("i18nextLng") === "de" ? "de" : "en";
   if (currentLang) flags.lang = currentLang === "de" ? "DE" : "EN";
-  const { searchAutocomplete } = useSupplier(currentLang);
+  const { searchAutocomplete } = useSupplier(flags);
   const [searchItem, setSearchItem] = useState("");
   const [searchItemDisplay, setSearchItemDisplay] = useState("");
   const [searchType, setSearchType] = useState(flags.type || "Keywords");
@@ -170,13 +170,13 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
         autoEnv.timer = setTimeout(
           async (q) => {
             autoEnv.timer = 0;
+            const autolist = await searchAutocomplete(q);
             if (autoEnv.fire) {
               setShowAutoComplete(false);
               setAutocompleteList([]);
               autoEnv.fire = false;
               return;
             }
-            const autolist = await searchAutocomplete(q);
             if (!autolist || !autolist.length) {
               setShowAutoComplete(false);
               return;

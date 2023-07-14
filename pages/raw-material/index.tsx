@@ -25,6 +25,9 @@ import { HeaderText, TitleText } from "components/ui-components/text";
 import { toast } from "react-toastify";
 import Icon from "components/Icon";
 import styled from "styled-components";
+import NewHeader from "components/NewHeader";
+import Tutorial from "components/Tutorial";
+import UnlockBox from "components/UnlockBox";
 
 export default function RawMaterial() {
   const router = useRouter();
