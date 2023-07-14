@@ -20,7 +20,7 @@ const Layout = ({
   paddingVertical,
   paddingHorizontal,
 }: {
-  pageTitle: string;
+  pageTitle?: string;
   row?: boolean;
   children: React.ReactNode;
   paddingVertical?: string | number;
