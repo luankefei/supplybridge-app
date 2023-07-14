@@ -216,7 +216,7 @@ export default function BasicTable() {
   const data = suppliers?.map((x: any) => ({
     logo:
       x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
-    name: x.name,
+    name: x.name && x.name.toUpperCase(),
     longName: x.longName,
     headquarter: x.headquarterId ? allSubRegions.find((z: any) => z.id === x.headquarterId) : null,
     isInnovation: x.isInnovation,
@@ -246,7 +246,7 @@ export default function BasicTable() {
               <ResultHeadCell>{t("scout.result.organization", "Organization")}</ResultHeadCell>
               <ResultHeadCell>{t("scout.result.hqLocation", "HQ Location")}</ResultHeadCell>
               <ResultHeadCell>{t("scout.result.footprint", "Global Footprint")}</ResultHeadCell>
-              <ResultHeadCell>{t("scout.result.badge", "Badge")} <Tooltip top={-18} left={50} text={supBadgeTooltipText} /></ResultHeadCell>
+              <ResultHeadCell>{t("scout.result.badge", "Badge")} <Tooltip top={-18} left={70} text={supBadgeTooltipText} /></ResultHeadCell>
               {/*<ResultHeadCell>Category</ResultHeadCell>*/}
               {isSearchForCompanies ? (
                 <ResultHeadCell>{t("showSimilar", "Show Similar")}</ResultHeadCell>

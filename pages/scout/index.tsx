@@ -32,10 +32,12 @@ export default function Industry() {
 
   return (
     <Layout>
-      <Container onClick={handleSurvicate}>
-        <Survicate loadSurvey={loadSurvey} onClose={handleCloseSurvicate} />
-        <Switch />
-      </Container>
+      <>
+        <Container onClick={handleSurvicate}>
+          {/*<Survicate loadSurvey={loadSurvey} onClose={handleCloseSurvicate} />*/}
+          <Switch />
+        </Container>
+      </>
     </Layout>
   );
 }

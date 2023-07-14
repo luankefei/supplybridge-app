@@ -12,6 +12,24 @@ function fillFlags(data: any) {
    });
 }
 
+function sortSuppliers(data: any) {
+   const sup = data.suppliers;
+   data.suppliers = data.suppliers.map((z: any) => ({
+      o: z,
+      s: scoring(z),
+   })).sort((a: any, b: any) => b.s - a.s).map((z: any) => z.o);
+
+   function scoring(item: any) {
+      if (!item) return 0;
+      let s = 0;
+      if (item.headquarterId) s += 10;
+      if (item.logo) s += 9;
+      if (data.stats.maj.find((z: any) => z.name === item.name)) s += 100;
+      if (data.stats.str.find((z: any) => z.name === item.name)) s += 98;
+      return s;
+   }
+}
+
 export default async function fakeData(data: any, opt: any) {
    // opt.q, opt.offset, opt.filter, opt.limit, ...
    if (!opt.q) return;
@@ -252,6 +270,7 @@ export default async function fakeData(data: any, opt: any) {
       ];
       data.stats.count = data.suppliers.length;
       fillFlags(data);
+      sortSuppliers(data);
       break;
    case 'starter battery':
    case 'Starterbatterie':
@@ -266,10 +285,6 @@ export default async function fakeData(data: any, opt: any) {
       {
          "name": "VARTA",
          "logo": "https://cdn.supplybridge.com/images/logos/logo_31ddf6f0-92f0-11ed-9679-493af85a9ea9.png"
-      },
-      {
-         "name": "GS YUASA",
-         "logo": "https://cdn.supplybridge.com/images/logos/logo_21560270-92ee-11ed-9679-493af85a9ea9.png"
       },
       {
          "name": "CLARIOS",
@@ -2355,6 +2370,7 @@ export default async function fakeData(data: any, opt: any) {
       ];
       data.stats.count = data.suppliers.length;
       fillFlags(data);
+      sortSuppliers(data);
       break;
    case 'hv battery':
       data.stats.chain = ['Battery', 'HV Battery'];
@@ -2629,7 +2645,9 @@ export default async function fakeData(data: any, opt: any) {
       },
       {
          "name": "SAMSUNG SDI",
-         "logo": null
+         "logo": null,
+         "headquarterId": 137,
+         "locationId": 137
       },
       {
          "name": "SES",
@@ -2649,6 +2667,7 @@ export default async function fakeData(data: any, opt: any) {
       ];
       data.stats.count = data.suppliers.length;
       fillFlags(data);
+      sortSuppliers(data);
       break;
    case 'software':
       data.stats.chain = ['Software', 'Software'];
@@ -3006,6 +3025,7 @@ export default async function fakeData(data: any, opt: any) {
       ];
       data.stats.count = data.suppliers.length;
       fillFlags(data);
+      sortSuppliers(data);
       break;
    case 'semiconductor':
       data.stats.chain = ['Semiconductor'];
@@ -8129,6 +8149,7 @@ export default async function fakeData(data: any, opt: any) {
       ];
       data.stats.count = data.suppliers.length;
       fillFlags(data);
+      sortSuppliers(data);
       break;
    case 'recycling, reuse':
       data.stats.chain = ['Recycling, Reuse'];
@@ -8215,6 +8236,7 @@ export default async function fakeData(data: any, opt: any) {
       ];
       data.stats.count = data.suppliers.length;
       fillFlags(data);
+      sortSuppliers(data);
       break;
    case '':
       data.stats.chain = [];

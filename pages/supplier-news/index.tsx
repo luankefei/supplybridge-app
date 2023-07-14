@@ -7,6 +7,7 @@ import useBoundStore from "hooks/useBoundStore";
 import { useSupplierNews } from "requests/useSupplierNews";
 import { theme } from 'config/theme';
 import console from "utils/console";
+import UnlockBox from "components/UnlockBox";
 
 const Layout = dynamic(() => import("components/Layout"));
 const Header = dynamic(() => import("components/NewHeader"));
@@ -28,6 +29,14 @@ const Container = muiStyled('div')(`
         padding-bottom: 70px;
     }
 `);
+
+const Center = muiStyled('div')`
+   position: fixed;
+   z-index: 20;
+   top: calc(50% - 67px);
+   left: calc(50% + 10px);
+   text-align: center;
+`;
 
 export default function SupplierNews() {
     const supplierNewsStore = useBoundStore((state) => state.supplierNews);
@@ -77,6 +86,7 @@ export default function SupplierNews() {
 
     return (
         <Layout>
+            <Center><UnlockBox /></Center>
             <Header />
             <Container id="supplier-news-container">
                 {news && Array.isArray(news) && news.map((item) => <NewsCard key={item.id} {...item} />)}

@@ -20,6 +20,7 @@ const CarouselWrapper = styled(Carousel)`
 
 const SlideContainer = styled.div`
    text-align:center;
+   margin: auto;
    > img {
       height: 710px;
    }

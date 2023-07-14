@@ -74,7 +74,7 @@ export default function SideBarMenu(props: { width?: string }) {
   const marketData: any = [
     {
       icon: "raw-material",
-      title: "Raw Material",
+      title: t("sidebar.rawMaterials", "Raw Material"),
       path: "/raw-material",
       active: router.asPath.includes("raw-material"),
       passiveIcon: false,
