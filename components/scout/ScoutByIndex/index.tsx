@@ -576,7 +576,6 @@ const Title = styled.div`
 `;
 const ScoutContainer = styled.div`
   width: 100%;
-  margin: 0px 5px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: block;
     width: 100%;
