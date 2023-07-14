@@ -188,6 +188,7 @@ export default function RawMaterial() {
           </Grid>
         ))}
       </Grid>
+      <SpacingVertical space="50px" />
     </Layout>
   );
 }

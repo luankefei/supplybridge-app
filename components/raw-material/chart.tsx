@@ -69,7 +69,7 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
   }, [frequency, materialName]);
 
   return (
-    <Card sx={{ height: 400 }}>
+    <Card sx={{ height: "30vh" }}>
       <Grid container justifyContent="end" alignItems="center">
         <Grid item>
           <IconButton onClick={onRemove}>
@@ -98,12 +98,18 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
             <LoadingAnimation />
           </Box>
         ) : (
-          <ResponsiveContainer width="100%" height={300}>
+          <ResponsiveContainer
+            width="100%"
+            height={window.innerHeight * 0.3 - 80}
+          >
             <LineChart data={data}>
               <Legend verticalAlign="top" height={36} />
               <CartesianGrid stroke="#ccc" />
               <XAxis dataKey="name" />
-              <YAxis domain={[0, "dataMax"]} />
+              <YAxis
+                type="number"
+                domain={[0, (dataMax: number) => Math.floor(dataMax * 1.1)]}
+              />
               <Line
                 name={"Gold Price"}
                 type="monotone"
