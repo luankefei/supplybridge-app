@@ -1,6 +1,12 @@
 import { useEffect, useState } from "react";
-import { AppBar, Toolbar } from "@mui/material";
+import { AppBar, Collapse, Grid, Stack, Toolbar } from "@mui/material";
+import { SpacingVertical } from "components/ui-components/spacer";
+import { TitleText } from "components/ui-components/text";
+import PoweredBy from "components/ui-components/poweredBy";
 
+/**
+ * Raw Material's top menu bar -- sticky, and scales down on scroll
+ */
 function RMTopMenuBar({ children }: { children: React.ReactNode }) {
   const [isScrolled, setIsScrolled] = useState(false);
   const checkScroll = () => {
@@ -17,12 +23,34 @@ function RMTopMenuBar({ children }: { children: React.ReactNode }) {
     <AppBar
       position="sticky"
       color="transparent"
-      style={{
-        transition: "0.3s",
-        transform: isScrolled ? "scale(0.9)" : "scale(1)",
-      }}
+      style={
+        {
+          // transition: "0.3s",
+          // transform: isScrolled ? "scale(0.9)" : "scale(1)",
+        }
+      }
     >
-      <Toolbar style={{ backgroundColor: "white" }}>{children}</Toolbar>
+      <Toolbar style={{ backgroundColor: "white" }}>
+        <Grid style={{ padding: "0 48px" }} container>
+          <Grid item xs={6}>
+            <Stack style={{ padding: "0 48px" }}>
+              <Collapse in={!isScrolled}>
+                <SpacingVertical space="36px" />
+                <TitleText>
+                  Material price checking system, more insights for your
+                  decision!
+                </TitleText>
+                <PoweredBy />
+              </Collapse>
+
+              <SpacingVertical space="36px" />
+              {children}
+              <SpacingVertical space="36px" />
+            </Stack>
+          </Grid>
+          <Grid item xs={6}></Grid>
+        </Grid>
+      </Toolbar>
     </AppBar>
   );
 }

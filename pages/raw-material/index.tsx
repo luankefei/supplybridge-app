@@ -12,18 +12,20 @@ import {
   ToggleButton,
   Tooltip,
 } from "@mui/material";
-import rawMaterials, { QuickAddMaterials, allRawMaterials } from "./constants";
-import { FormatAlignCenter, Info, Replay, Title } from "@mui/icons-material";
+import rawMaterials, {
+  allRawMaterials,
+} from "components/raw-material/constants";
+import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
 import {
   SpacingVertical,
   SpacingHorizontal,
 } from "components/ui-components/spacer";
 import PoweredBy from "components/ui-components/poweredBy";
-import { HeaderText, SText, TitleText } from "components/ui-components/text";
-import Icon from "components/Icon";
+import { HeaderText } from "components/ui-components/text";
 import styled from "styled-components";
 import RMTopMenuBar from "components/raw-material/appBar";
 import VerticalIconButton from "components/ui-components/verticalIconButton";
+import RMChart from "components/raw-material/chart";
 
 export default function RawMaterial() {
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
@@ -54,62 +56,33 @@ export default function RawMaterial() {
       pageTitle={"Market Data"}
       appBar={
         <RMTopMenuBar>
-          <Grid style={{ padding: "0 48px" }} container>
-            <Grid item xs={6}>
-              <Stack style={{ padding: "0 48px" }}>
-                <SpacingVertical space="36px" />
-                <TitleText>
-                  Material price checking system, more insights for your
-                  decision!
-                </TitleText>
-                <PoweredBy />
-                <SpacingVertical space="36px" />
-                <Autocomplete
-                  value={selectedMaterials}
-                  multiple={true}
-                  options={allRawMaterials.map((option) => option.name)}
-                  renderInput={(params) => (
-                    <TextField {...params} label="Type to find raw-material" />
-                  )}
-                  onChange={(_, value) => {
-                    setSelectedMaterials(value);
-                  }}
-                />
-                <div
-                  style={{
-                    width: "100%",
-                    display: "flex",
-                    justifyContent: "flex-end",
-                  }}
-                >
-                  <Button
-                    style={{ color: "#445B66" }}
-                    variant="text"
-                    onClick={reset}
-                    startIcon={<Replay />}
-                  >
-                    Reset All
-                  </Button>
-                </div>
-                <SpacingVertical space="36px" />
-              </Stack>
-            </Grid>
-            <Grid item xs={6}>
-              <SpacingVertical space="36px" />
-              <TitleText>Quick Add</TitleText>
-              <Grid container>
-                {QuickAddMaterials.map((rawMaterial, idx) => (
-                  <Grid key={idx} item>
-                    <VerticalIconButton
-                      title={rawMaterial.category}
-                      icon={rawMaterial.icon}
-                      onClick={() => addAllSubfields(rawMaterial.subfields)}
-                    />
-                  </Grid>
-                ))}
-              </Grid>
-            </Grid>
-          </Grid>
+          <Autocomplete
+            value={selectedMaterials}
+            multiple={true}
+            options={allRawMaterials.map((option) => option.name)}
+            renderInput={(params) => (
+              <TextField {...params} label="Type to find raw-material" />
+            )}
+            onChange={(_, value) => {
+              setSelectedMaterials(value);
+            }}
+          />
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              justifyContent: "flex-end",
+            }}
+          >
+            <Button
+              style={{ color: "#445B66" }}
+              variant="text"
+              onClick={reset}
+              startIcon={<Replay />}
+            >
+              Reset All
+            </Button>
+          </div>
         </RMTopMenuBar>
       }
       paddingHorizontal={"48px"}
@@ -120,31 +93,24 @@ export default function RawMaterial() {
         <SpacingVertical space="24px" />
         <Stack>
           <Grid container>
-            {rawMaterials.map((rawMaterial, idx) => (
-              <Grid key={idx} item>
-                <VerticalIconButton
-                  title={rawMaterial.category}
-                  backgroundColor={
-                    openedCategory === rawMaterial.category
-                      ? "#E5F7F8"
-                      : undefined
-                  }
-                  icon={rawMaterial.icon}
-                  iconColor={
-                    openedCategory === rawMaterial.category
-                      ? "#08979C"
-                      : "#445B66"
-                  }
-                  onClick={() =>
-                    setOpenedCategory(
-                      openedCategory === rawMaterial.category
-                        ? undefined
-                        : rawMaterial.category
-                    )
-                  }
-                />
-              </Grid>
-            ))}
+            {rawMaterials.map((rawMaterial, idx) => {
+              const isOpen = openedCategory === rawMaterial.category;
+              return (
+                <Grid key={idx} item>
+                  <VerticalIconButton
+                    title={rawMaterial.category}
+                    backgroundColor={isOpen ? "#E5F7F8" : undefined}
+                    icon={rawMaterial.icon}
+                    iconColor={isOpen ? "#08979C" : "#445B66"}
+                    onClick={() =>
+                      setOpenedCategory(
+                        isOpen ? undefined : rawMaterial.category
+                      )
+                    }
+                  />
+                </Grid>
+              );
+            })}
           </Grid>
           <SpacingVertical space="24px" />
           <Collapse in={!!openedCategory}>
@@ -208,37 +174,15 @@ export default function RawMaterial() {
         </Stack>
       </StyledCard>
       <SpacingVertical space="50px" />
-      <div
-        style={{
-          display: "flex",
-          paddingBottom: 3, // button has box-shaow 3px
-          flexDirection: "row-reverse",
-        }}
-      >
-        <Button
-          style={{
-            borderRadius: "100px",
-            color: "#FFFFFF",
-            minWidth: "200px",
-          }}
-          color="primary"
-          variant="contained"
-          disabled={selectedMaterials.length === 0}
-        >
-          Search
-        </Button>
-        <SpacingHorizontal space="10px" />
-        <Button
-          style={{ color: "#445B66" }}
-          variant="text"
-          onClick={reset}
-          startIcon={<Replay />}
-        >
-          Reset All
-        </Button>
-      </div>
-      <SpacingVertical space="700px" />
-      <p>w</p>
+      <Grid container rowSpacing={2} columnSpacing={2}>
+        {selectedMaterials.map((materialName, idx) => (
+          <Grid key={idx} item xs={6}>
+            <RMChart materialName={materialName} />
+          </Grid>
+        ))}
+      </Grid>
+      <SpacingVertical space="5150px" />
+      <PoweredBy />
     </Layout>
   );
 }
