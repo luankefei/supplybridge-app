@@ -1,0 +1,699 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`RawMaterial matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-k008qs"
+  >
+    <div
+      class="MuiDrawer-root MuiDrawer-docked css-n8sr6d-MuiDrawer-docked"
+    >
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-12i7wg6-MuiPaper-root-MuiDrawer-paper"
+      >
+        <div
+          class="sc-gEvEer jrxsOX"
+        >
+          <div
+            class="sc-eqUAAy dsCYao"
+          >
+            <div
+              class="sc-fqkvVR gqCPJc"
+            >
+              <img
+                class="sc-dcJsrY ia-dhXV"
+                src="/menu/logo.svg"
+              />
+            </div>
+            <div
+              class="sc-fqkvVR gqCPJc"
+            >
+              <div
+                class="sc-iGgWBj hDwgJF"
+              >
+                <span
+                  class="sc-gsFSXq kjpJXT"
+                >
+                  Welcome
+                </span>
+              </div>
+              <div
+                class="sc-kAyceB MILQL"
+              >
+                SOLUTIONS
+              </div>
+              <a
+                class="sc-aXZVg iWlTCU"
+                href="/scout"
+              >
+                <div
+                  class="sc-dAlyuH kfbbaS"
+                >
+                  <img
+                    class="sc-imWYAI fAyvog"
+                    src="/menu/scouting.svg"
+                  />
+                  <span
+                    class="sc-dhKdcB ewicCe"
+                  >
+                    Scouting
+                  </span>
+                </div>
+              </a>
+              <a
+                class="sc-aXZVg iWlTCU"
+                href="/source"
+              >
+                <div
+                  class="sc-dAlyuH kfbbaS"
+                >
+                  <img
+                    class="sc-imWYAI fAyvog"
+                    src="/menu/sourcing.svg"
+                  />
+                  <span
+                    class="sc-dhKdcB ewicCe"
+                  >
+                    Sourcing
+                  </span>
+                </div>
+              </a>
+              <a
+                class="sc-aXZVg iWlTCU"
+                href=""
+              >
+                <div
+                  class="sc-dAlyuH jwyRhG"
+                >
+                  <img
+                    class="sc-imWYAI fAyvog"
+                    src="/menu/evaluate.svg"
+                  />
+                  <span
+                    class="sc-dhKdcB eMJWwD"
+                  >
+                    Evaluate
+                  </span>
+                  <span
+                    class="sc-kpDqfm icCRYr"
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+              </a>
+              <a
+                class="sc-aXZVg iWlTCU"
+                href=""
+              >
+                <div
+                  class="sc-dAlyuH jwyRhG"
+                >
+                  <img
+                    class="sc-imWYAI fAyvog"
+                    src="/menu/sustainability.svg"
+                  />
+                  <span
+                    class="sc-dhKdcB eMJWwD"
+                  >
+                    Sustainability
+                  </span>
+                  <img
+                    class="sc-jXbUNg"
+                    src="/menu/leaf.svg"
+                  />
+                  <span
+                    class="sc-kpDqfm icCRYr"
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+              </a>
+            </div>
+            <div
+              class="sc-fqkvVR gqCPJc"
+            >
+              <div
+                class="sc-kAyceB MILQL"
+              >
+                MARKET DATA
+              </div>
+              <a
+                class="sc-aXZVg iWlTCU"
+                href="/raw-material"
+              >
+                <div
+                  class="sc-dAlyuH kfbbaS"
+                >
+                  <img
+                    class="sc-imWYAI fAyvog"
+                    src="/menu/raw-material.svg"
+                  />
+                  <span
+                    class="sc-dhKdcB ewicCe"
+                  >
+                    Raw Material
+                  </span>
+                </div>
+              </a>
+              <a
+                class="sc-aXZVg iWlTCU"
+                href="/supplier-news"
+              >
+                <div
+                  class="sc-dAlyuH kfbbaS"
+                >
+                  <img
+                    class="sc-imWYAI fAyvog"
+                    src="/menu/supplier-news.svg"
+                  />
+                  <span
+                    class="sc-dhKdcB ewicCe"
+                  >
+                    News & Insights
+                  </span>
+                </div>
+              </a>
+              <a
+                class="sc-aXZVg iWlTCU"
+                href="/supply-chain-transparency"
+              >
+                <div
+                  class="sc-dAlyuH kfbbaS"
+                >
+                  <img
+                    class="sc-imWYAI fAyvog"
+                    src="/menu/supply-chain-transparency.svg"
+                  />
+                  <span
+                    class="sc-dhKdcB ewicCe"
+                  >
+                    Supply Chain Transparency
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div
+            class="sc-fqkvVR gqCPJc"
+          >
+            <div
+              class="sc-jlZhew MGCBa"
+            >
+              <span
+                class="sc-cwHptR iIljdt"
+              >
+                <img
+                  class="sc-dcJsrY ia-dhXV"
+                  src="/menu/bmw.svg"
+                />
+              </span>
+              <span
+                class="sc-jEACwC cjibtn"
+              >
+                <span
+                  class="sc-cPiKLX bZytAT"
+                >
+                  BMW
+                </span>
+                <div
+                  class="sc-dLMFU khXVzW"
+                >
+                  <span
+                    class="sc-eDPEul ewNhUW"
+                  >
+                    Premium Account |
+                  </span>
+                  <span
+                    class="sc-eldPxv kOlunG"
+                  >
+                    Log out
+                  </span>
+                </div>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <main
+      class="MuiBox-root css-i9gxme"
+    >
+      <header
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionSticky css-vimye0-MuiPaper-root-MuiAppBar-root"
+      >
+        <div
+          class="MuiToolbar-root MuiToolbar-gutters MuiToolbar-regular css-hyum1k-MuiToolbar-root"
+          style="background-color: white;"
+        >
+          <div
+            class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            style="padding: 0px 48px;"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+            >
+              <div
+                class="css-nen11g-MuiStack-root"
+                style="padding: 0px 48px;"
+              >
+                <div
+                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+                  style="min-height: 0px;"
+                >
+                  <div
+                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                  >
+                    <div
+                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                    >
+                      <div
+                        class="sc-fPXMVe hoWViE"
+                      />
+                      <div
+                        class="sc-dAbbOL jVNKrn"
+                      >
+                        Material price checking system, more insights for your decision!
+                      </div>
+                      <div
+                        class="css-w7o6is"
+                      >
+                        <img
+                          class="sc-hzhJZQ cbNzDN"
+                          height="30"
+                          src="/icons/smart-bridge-ai.svg"
+                          title=""
+                          width="24"
+                        />
+                        <div
+                          class="sc-gFqAkR bdwSoA"
+                        />
+                        <span
+                          class="css-1bs82r4"
+                        >
+                          Powered by SmartBridge Artificial Intelligence
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  class="sc-fPXMVe hoWViE"
+                />
+                <div
+                  class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1qqsdnr-MuiAutocomplete-root"
+                >
+                  <div
+                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                  >
+                    <label
+                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                      data-shrink="false"
+                      for="raw-material-autocomplete"
+                      id="raw-material-autocomplete-label"
+                    >
+                      Type to find raw-material
+                    </label>
+                    <div
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root"
+                    >
+                      <input
+                        aria-autocomplete="list"
+                        aria-expanded="false"
+                        aria-invalid="false"
+                        autocapitalize="none"
+                        autocomplete="off"
+                        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                        id="raw-material-autocomplete"
+                        role="combobox"
+                        spellcheck="false"
+                        type="text"
+                        value=""
+                      />
+                      <div
+                        class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+                      >
+                        <button
+                          aria-label="Open"
+                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-qzbt6i-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+                          tabindex="-1"
+                          title="Open"
+                          type="button"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="ArrowDropDownIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M7 10l5 5 5-5z"
+                            />
+                          </svg>
+                          <span
+                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                          />
+                        </button>
+                      </div>
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend
+                          class="css-yjsfm1"
+                        >
+                          <span>
+                            Type to find raw-material
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                  </div>
+                </div>
+                <div
+                  style="width: 100%; display: flex; justify-content: flex-end;"
+                >
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                    style="color: rgb(68, 91, 102);"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <span
+                      class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                        data-testid="ReplayIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"
+                        />
+                      </svg>
+                    </span>
+                    Reset All
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="sc-fPXMVe hoWViE"
+                />
+              </div>
+            </div>
+            <div
+              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+            />
+          </div>
+        </div>
+      </header>
+      <div
+        class="MuiBox-root css-1fov2v"
+      >
+        <div
+          class="sc-fPXMVe hnZRwg"
+        />
+        <div
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root sc-hmdomO bzCChY css-bhp9pd-MuiPaper-root-MuiCard-root"
+        >
+          <div
+            class="sc-ikkxIA gecdWH"
+          >
+            Filter by category
+          </div>
+          <div
+            class="sc-fPXMVe hoHodr"
+          />
+          <div
+            class="css-nen11g-MuiStack-root"
+          >
+            <div
+              class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+            >
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
+                  tabindex="0"
+                  type="button"
+                >
+                  <img
+                    class="sc-hzhJZQ bRtFFE"
+                    color="#445B66"
+                    height="52"
+                    src="/icons/materialCategory/energy.svg"
+                    title=""
+                    width="52"
+                  />
+                  <div
+                    class="sc-fPXMVe hnYQnM"
+                  />
+                  EV-related
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
+                  tabindex="0"
+                  type="button"
+                >
+                  <img
+                    class="sc-hzhJZQ bRtFFE"
+                    color="#445B66"
+                    height="52"
+                    src="/icons/materialCategory/energy.svg"
+                    title=""
+                    width="52"
+                  />
+                  <div
+                    class="sc-fPXMVe hnYQnM"
+                  />
+                  Energy
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
+                  tabindex="0"
+                  type="button"
+                >
+                  <img
+                    class="sc-hzhJZQ bRtFFE"
+                    color="#445B66"
+                    height="52"
+                    src="/icons/materialCategory/metal.svg"
+                    title=""
+                    width="52"
+                  />
+                  <div
+                    class="sc-fPXMVe hnYQnM"
+                  />
+                  Metals
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
+                  tabindex="0"
+                  type="button"
+                >
+                  <img
+                    class="sc-hzhJZQ bRtFFE"
+                    color="#445B66"
+                    height="52"
+                    src="/icons/materialCategory/plastic.svg"
+                    title=""
+                    width="52"
+                  />
+                  <div
+                    class="sc-fPXMVe hnYQnM"
+                  />
+                  Plastic
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
+                  tabindex="0"
+                  type="button"
+                >
+                  <img
+                    class="sc-hzhJZQ bRtFFE"
+                    color="#445B66"
+                    height="52"
+                    src="/icons/materialCategory/ESG.svg"
+                    title=""
+                    width="52"
+                  />
+                  <div
+                    class="sc-fPXMVe hnYQnM"
+                  />
+                  ESG
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
+                  tabindex="0"
+                  type="button"
+                >
+                  <img
+                    class="sc-hzhJZQ bRtFFE"
+                    color="#445B66"
+                    height="52"
+                    src="/icons/materialCategory/others.svg"
+                    title=""
+                    width="52"
+                  />
+                  <div
+                    class="sc-fPXMVe hnYQnM"
+                  />
+                  Others
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <div
+                class="MuiGrid-root MuiGrid-item css-13i4rnv-MuiGrid-root"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  disabled=""
+                  style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
+                  tabindex="-1"
+                  type="button"
+                >
+                  <img
+                    class="sc-hzhJZQ bRtFFE"
+                    color="#445B66"
+                    height="52"
+                    src="/icons/materialCategory/others.svg"
+                    title=""
+                    width="52"
+                  />
+                  <div
+                    class="sc-fPXMVe hnYQnM"
+                  />
+                  More
+                </button>
+              </div>
+            </div>
+            <div
+              class="sc-fPXMVe hoHodr"
+            />
+            <div
+              class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+              style="min-height: 0px;"
+            >
+              <div
+                class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+              >
+                <div
+                  class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
+                >
+                  <div
+                    class="css-nen11g-MuiStack-root"
+                    style="border-radius: 16px; background-color: rgb(243, 244, 246);"
+                  >
+                    <div
+                      class="sc-fPXMVe hopHSO"
+                    />
+                    <div
+                      class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
+                    />
+                    <hr
+                      class="MuiDivider-root MuiDivider-fullWidth css-9mgopn-MuiDivider-root"
+                      style="margin: 12px;"
+                    />
+                    <div
+                      class="sc-fHjqPf cQETjP"
+                    >
+                      <button
+                        class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                        tabindex="0"
+                        type="button"
+                      >
+                        <span
+                          class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+                        >
+                          <svg
+                            aria-hidden="true"
+                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                            data-testid="FormatAlignCenterIcon"
+                            focusable="false"
+                            viewBox="0 0 24 24"
+                          >
+                            <path
+                              d="M7 15v2h10v-2H7zm-4 6h18v-2H3v2zm0-8h18v-2H3v2zm4-6v2h10V7H7zM3 3v2h18V3H3z"
+                            />
+                          </svg>
+                        </span>
+                        <div
+                          class="sc-gFqAkR bqCeGl"
+                        />
+                        Select All
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
+                      </button>
+                    </div>
+                    <div
+                      class="sc-fPXMVe hoHodr"
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div
+          class="sc-fPXMVe hnZRwg"
+        />
+        <div
+          class="MuiGrid-root MuiGrid-container css-mhc70k-MuiGrid-root"
+        />
+        <div
+          class="sc-fPXMVe hnZRwg"
+        />
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;

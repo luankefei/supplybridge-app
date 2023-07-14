@@ -13,7 +13,6 @@ import {
   Tooltip,
 } from "@mui/material";
 import rawMaterials, {
-  QuickAddMaterials,
   allRawMaterials,
 } from "components/raw-material/constants";
 import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
@@ -21,7 +20,6 @@ import {
   SpacingVertical,
   SpacingHorizontal,
 } from "components/ui-components/spacer";
-import PoweredBy from "components/ui-components/poweredBy";
 import { HeaderText } from "components/ui-components/text";
 import styled from "styled-components";
 import RMTopMenuBar from "components/raw-material/appBar";
@@ -58,6 +56,7 @@ export default function RawMaterial() {
       appBar={
         <RMTopMenuBar>
           <Autocomplete
+            id="raw-material-autocomplete"
             value={selectedMaterials}
             multiple={true}
             options={allRawMaterials.map((option) => option.name)}
