@@ -13,6 +13,7 @@ import {
   Tooltip,
 } from "@mui/material";
 import rawMaterials, {
+  QuickAddMaterials,
   allRawMaterials,
 } from "components/raw-material/constants";
 import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
@@ -107,6 +108,7 @@ export default function RawMaterial() {
                         isOpen ? undefined : rawMaterial.category
                       )
                     }
+                    disabled={rawMaterial.subfields.length === 0}
                   />
                 </Grid>
               );
@@ -175,14 +177,17 @@ export default function RawMaterial() {
       </StyledCard>
       <SpacingVertical space="50px" />
       <Grid container rowSpacing={2} columnSpacing={2}>
-        {selectedMaterials.map((materialName, idx) => (
-          <Grid key={idx} item xs={6}>
-            <RMChart materialName={materialName} />
+        {selectedMaterials.map((materialName) => (
+          <Grid key={materialName} item xs={6}>
+            <RMChart
+              materialName={materialName}
+              onRemove={() => {
+                toggleMatieral(materialName);
+              }}
+            />
           </Grid>
         ))}
       </Grid>
-      <SpacingVertical space="5150px" />
-      <PoweredBy />
     </Layout>
   );
 }
