@@ -1,7 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import styled, { keyframes } from "styled-components";
-import { theme } from "config/theme";
+import styled from "styled-components";
 import useStore from "hooks/useStore";
 import cookie from "js-cookie";
 

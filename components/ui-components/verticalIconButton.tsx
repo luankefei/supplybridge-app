@@ -16,12 +16,14 @@ const VerticalIconButton = ({
   backgroundColor,
   icon,
   iconColor,
+  disabled,
   onClick,
 }: {
   title: string;
   backgroundColor?: string;
   icon: string;
   iconColor?: string;
+  disabled?: boolean;
   onClick?: () => void;
 }) => {
   return (
@@ -35,6 +37,7 @@ const VerticalIconButton = ({
         fontSize: "14px",
         backgroundColor: backgroundColor,
       }}
+      disabled={disabled}
       onClick={onClick}
     >
       <Icon hover width={52} height={52} src={icon} color={iconColor} />

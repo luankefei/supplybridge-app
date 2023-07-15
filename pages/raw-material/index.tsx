@@ -20,7 +20,6 @@ import {
   SpacingVertical,
   SpacingHorizontal,
 } from "components/ui-components/spacer";
-import PoweredBy from "components/ui-components/poweredBy";
 import { HeaderText } from "components/ui-components/text";
 import styled from "styled-components";
 import RMTopMenuBar from "components/raw-material/appBar";
@@ -57,6 +56,7 @@ export default function RawMaterial() {
       appBar={
         <RMTopMenuBar>
           <Autocomplete
+            id="raw-material-autocomplete"
             value={selectedMaterials}
             multiple={true}
             options={allRawMaterials.map((option) => option.name)}
@@ -107,6 +107,7 @@ export default function RawMaterial() {
                         isOpen ? undefined : rawMaterial.category
                       )
                     }
+                    disabled={rawMaterial.subfields.length === 0}
                   />
                 </Grid>
               );
@@ -146,7 +147,7 @@ export default function RawMaterial() {
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
                           <Tooltip title={"subfield.description"}>
-                            <Info style={{ width: 14 }} />
+                            <Info style={{ width: 14, color: "#9CA3AF" }} />
                           </Tooltip>
                         </ToggleButton>
                       </Grid>
@@ -175,14 +176,18 @@ export default function RawMaterial() {
       </StyledCard>
       <SpacingVertical space="50px" />
       <Grid container rowSpacing={2} columnSpacing={2}>
-        {selectedMaterials.map((materialName, idx) => (
-          <Grid key={idx} item xs={6}>
-            <RMChart materialName={materialName} />
+        {selectedMaterials.map((materialName) => (
+          <Grid key={materialName} item xs={6}>
+            <RMChart
+              materialName={materialName}
+              onRemove={() => {
+                toggleMatieral(materialName);
+              }}
+            />
           </Grid>
         ))}
       </Grid>
-      <SpacingVertical space="5150px" />
-      <PoweredBy />
+      <SpacingVertical space="50px" />
     </Layout>
   );
 }

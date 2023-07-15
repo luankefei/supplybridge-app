@@ -19,6 +19,16 @@ export const QuickAddMaterials: RawMaterial[] = [
 
 const rawMaterials: RawMaterial[] = [
   {
+    category: "EV-related",
+    icon: "materialCategory/energy",
+    subfields: [
+      { name: "Cobalt" },
+      { name: "Lithium" },
+      { name: "Nickel" },
+      { name: "Magnesium" },
+    ],
+  },
+  {
     category: "Energy",
     icon: "materialCategory/energy",
     subfields: [
@@ -84,6 +94,11 @@ const rawMaterials: RawMaterial[] = [
     category: "Others",
     icon: "materialCategory/others",
     subfields: [{ name: "Kraft Pulp" }, { name: "Rubber" }],
+  },
+  {
+    category: "More",
+    icon: "materialCategory/others",
+    subfields: [],
   },
 ];
 
