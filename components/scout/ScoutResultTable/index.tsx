@@ -15,6 +15,7 @@ import {
 } from "@mui/material";
 import ScoutResultTableHead from "./tableHead";
 import { SpacingVertical } from "components/ui-components/spacer";
+import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
 
 const regionMap: any = {
   "1": "APAC",
@@ -90,7 +91,8 @@ export default function ScoutResultTable() {
     setSelected(newSelected);
   };
 
-  const data: ITableData[] = suppliers?.map((x: any) => ({
+  const data: ITableData[] = suppliers?.map((x: any, idx: any) => ({
+    id: x.id || idx,
     logo: x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
     name: x.name && x.name.toUpperCase(),
     longName: x.longName,
@@ -115,78 +117,75 @@ export default function ScoutResultTable() {
     flags.back = flags.q;
     setFilterData({ q: q.split(",")[0] });
   };
+  const columns: GridColDef[] = [
+    { field: "id", headerName: "ID", width: 70 },
+    {
+      field: "name",
+      headerName: "Organization",
+      resizable: true,
+      renderCell: (params) => {
+        // render logo with name
+        const { logo, name } = params.row;
+        return (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <NullableImg url={logo} />
+            <div style={{ marginLeft: 8 }}>{name}</div>
+          </div>
+        );
+      },
+    },
+    { field: "longName", headerName: "Full Name" },
+    {
+      field: "headquarterId",
+      headerName: "HQ location",
+      renderCell: (params) => {
+        const { headquarter, meta } = params.row;
+        return (
+          <>
+            <NullableImg
+              url={
+                headquarter?.code
+                  ? `/flags/${headquarter?.code?.toLowerCase()}.svg`
+                  : ""
+              }
+            />
+            <div>
+              {t(`subregion.${meta.hqlocation}`, `hidden.${meta.hqlocation}`)}
+            </div>
+          </>
+        );
+      },
+    },
+    {
+      field: "footprint",
+      headerName: "Global footprint",
+      width: 160,
+    },
+    {
+      field: "isInnovation",
+      headerName: "Badge",
+      valueGetter: (params: GridValueGetterParams) => {
+        const { isInnovation } = params.row;
+        if (isInnovation) {
+          return <Box sx={{ display: "flex", alignItems: "center" }}></Box>;
+        }
+        return null;
+      },
+    },
+  ];
+
   if (!data || data.length == 0) {
     return null;
   }
+
   return (
     <Box sx={{ width: "100%", p: 2 }}>
-      <TableContainer>
-        <Table stickyHeader>
-          <ScoutResultTableHead
-            order={order}
-            orderBy={orderBy}
-            numSelected={selected.length}
-            rowCount={data.length}
-            onSelectAllClick={handleSelectAllClick}
-            onRequestSort={(property) => {
-              handleRequestSort(property);
-            }}
-          />
-          <TableBody>
-            {data.map((row, index) => {
-              const isItemSelected = selected.indexOf(row.name) !== -1;
-              const labelId = `enhanced-table-checkbox-${index}`;
-
-              return (
-                <TableRow
-                  hover
-                  onClick={(event) => handleClick(event, row.name)}
-                  role="checkbox"
-                  aria-checked={isItemSelected}
-                  tabIndex={-1}
-                  key={index}
-                  selected={isItemSelected}
-                  sx={{ cursor: "pointer", backgroundColor: "#fff" }}
-                >
-                  <TableCell padding="checkbox">
-                    <Checkbox
-                      color="primary"
-                      checked={isItemSelected}
-                      inputProps={{
-                        "aria-labelledby": labelId,
-                      }}
-                    />
-                  </TableCell>
-                  <TableCell
-                    component="th"
-                    id={labelId}
-                    scope="row"
-                    padding="none"
-                  >
-                    {index + 1}
-                  </TableCell>
-
-                  <TableCell
-                    component="th"
-                    id={labelId}
-                    scope="row"
-                    padding="none"
-                  >
-                    {row.longName}
-                  </TableCell>
-                  <TableCell>
-                    <NullableImg src={row.logo} alt={row.name} width="50px" />
-                  </TableCell>
-                  <TableCell>{row.headquarter}</TableCell>
-                  <TableCell>{row.footprint}</TableCell>
-                  <TableCell>{row.isInnovation}</TableCell>
-                  <TableCell>Actions</TableCell>
-                </TableRow>
-              );
-            })}
-          </TableBody>
-        </Table>
-      </TableContainer>
+      <DataGrid
+        sx={{ backgroundColor: "#fff" }}
+        rows={data}
+        columns={columns}
+        checkboxSelection
+      />
       <SpacingVertical space="50px" />
     </Box>
   );
