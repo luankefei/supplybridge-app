@@ -21,7 +21,7 @@ const Layout = ({
 }) => {
   const leftMenuWidth = theme.dimension.leftMenuWidth;
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box sx={{ display: "flex", width: "100%", overflow: "hidden" }}>
       <Head>
         <title>{(pageTitle || "") + " | Supply Bridge"}</title>
         <meta name="description" content="Supply Bridge" />
@@ -45,12 +45,17 @@ const Layout = ({
       <Box
         component="main"
         sx={{
-          flexGrow: 1,
+          flex: "1 0 auto",
+          width: "0",
         }}
       >
         {appBar}
         <Box
           sx={{
+            width: "100%",
+            height: "100%",
+            overflowX: "hidden",
+            overflowY: "auto",
             flexDirection: row ? "row" : "column",
             backgroundColor: "#ecf0f1",
             paddingLeft: paddingHorizontal,

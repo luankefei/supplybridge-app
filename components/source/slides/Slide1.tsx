@@ -41,8 +41,6 @@ const Container = styled.div`
   height: 100%;
 `;
 const TextContainer = styled.div`
-  width: 100%;
-  margin: 20px 0px 0px 80px;
   display: flex;
   flex-direction: column;
 `;

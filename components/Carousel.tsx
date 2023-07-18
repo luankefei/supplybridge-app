@@ -83,7 +83,6 @@ const Gallery = ({ children }: any) => {
 
 const Wrapper = styled.div`
   position: relative;
-  width: calc(100% - ${theme.dimension.leftMenuWidth});
 `;
 
 const CarouselContainer = styled.div<any>`

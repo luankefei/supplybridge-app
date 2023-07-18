@@ -15,7 +15,7 @@ export default function SourcePage() {
   ];
 
   return (
-    <Layout pageTitle="Sourc">
+    <Layout pageTitle="Source">
       <NewHeader />
       <SliderContainer>
         <Carousel type="card" data={data} />
@@ -26,5 +26,4 @@ export default function SourcePage() {
 }
 
 const SliderContainer = styled.div`
-  height: 100vh;
 `;
