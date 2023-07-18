@@ -230,7 +230,6 @@ const StyledButton = styled(Button)<{ bgcolor: string; textcolor: string }>`
 `;
 
 const CardHeader = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
