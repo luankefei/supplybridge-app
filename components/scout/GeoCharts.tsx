@@ -7,7 +7,6 @@ import { Skeleton } from "@mui/material";
 import { allCountry } from "utils/countries";
 import useStore from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
-import Icon from "components/Icon";
 import { useFilter } from "requests/useFilter";
 
 const initialOptions: any = {

@@ -211,26 +211,9 @@ export const SearchBar2 = ({ onSearch, width = 100 }: Props) => {
     setSearchItemDisplay(flags.q);
   }, [filterData]);
 
-  /*
-  interface LangSwitchProps {
-  label: string;
-  checked: boolean;
-  onChange: () => void;
-}
-export const LangSwitch = ({ label, checked, onChange }: LangSwitchProps) => {
-  return (
-    <SearchLangContainer label={label}>
-      <Switch checked={checked} onChange={onChange} />
-    </SearchLangContainer>
-  );
-};
-  */
   return (
     <Container>
       <ControlContainer>
-        {/* <SearchLangContainer label={searchLang}>
-          <Switch checked={langSwChecked} onChange={handleSearchLangChange} />
-  </SearchLangContainer> */}
         <LangSwitch
           label={searchLang}
           checked={langSwChecked}
@@ -376,7 +359,6 @@ const MainContainer = styled.div`
 `;
 
 const Container = styled.div`
-  max-width: 1040px;
   width: 100%;
   padding: 0 30px;
   margin-top: 22px;

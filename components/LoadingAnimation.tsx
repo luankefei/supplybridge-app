@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useRef } from "react";
 import party from "party-js";
+import { Box } from "@mui/material";
 
 type Props = { showType?: string };
 
@@ -49,7 +50,7 @@ const LoadingAnimation = ({ showType }: Props) => {
       const dur = random(5) + 5;
       return `
         background-color: rgba(${r},${g},${b},0.7);
-        color: rgba(${r},${g},${b},0.7); 
+        color: rgba(${r},${g},${b},0.7);
         box-shadow: inset -7px -3px 10px rgba(${r - 10},${g - 10},${
         b - 10
       },0.7);
@@ -242,3 +243,34 @@ const LoadingAnimation = ({ showType }: Props) => {
 };
 
 export default LoadingAnimation;
+
+export const LoadingWithBackgroundOverlay = () => {
+  return (
+    <Box
+      sx={{
+        backgroundColor: "rgba(255, 255, 255, 0.5)",
+        position: "fixed",
+        top: 0,
+        left: 0,
+        width: "100%",
+        height: "100%",
+        zIndex: 9999,
+      }}
+    >
+      <Box
+        sx={{
+          // floating loading
+          alignItems: "center",
+          justifyContent: "center",
+          position: "fixed",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          zIndex: 9999,
+        }}
+      >
+        <LoadingAnimation showType="short" />
+      </Box>
+    </Box>
+  );
+};
