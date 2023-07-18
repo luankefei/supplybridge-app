@@ -4,18 +4,17 @@ import { styled } from "@mui/system";
 import Icon from "components/Icon";
 import useStore from "hooks/useStore";
 import { NullableImg } from "components/scout/Summary.styled";
-import {
-  Box,
-  Table,
-  TableContainer,
-  Checkbox,
-  TableBody,
-  TableCell,
-  TableRow,
-} from "@mui/material";
-import ScoutResultTableHead from "./tableHead";
+import { Box, IconButton, Tooltip } from "@mui/material";
 import { SpacingVertical } from "components/ui-components/spacer";
-import { DataGrid, GridColDef, GridValueGetterParams } from "@mui/x-data-grid";
+import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import {
+  AlignHorizontalCenter,
+  AlignVerticalCenter,
+  DensitySmall,
+  Info,
+} from "@mui/icons-material";
+import { BadgeType, ITableData, supplierModelToTableData } from "./helper";
+import { log } from "console";
 
 const regionMap: any = {
   "1": "APAC",
@@ -49,127 +48,119 @@ const supBadgeTooltipText = (
   </div>
 );
 
+const SupBadge = styled("span")`
+  display: inline-block;
+  padding: 2px 5px;
+  &.top {
+    background-color: #fae3de;
+    color: #551c18;
+  }
+  &.maj {
+    background-color: #deecdc;
+    color: #23372a;
+  }
+  &.str {
+    background-color: #d6e4ee;
+    color: #1f3245;
+  }
+`;
 export default function ScoutResultTable() {
   const { t } = useTranslation();
-  const { allSubRegions, suppliers, flags, setFilterData } = useStore();
+  const { allSubRegions, suppliers } = useStore();
 
-  const [order, setOrder] = React.useState<Order>("asc");
-  const [orderBy, setOrderBy] = React.useState<keyof ITableData>();
-  const [selected, setSelected] = React.useState<readonly string[]>([]);
+  const data: ITableData[] = suppliers?.map((s: any, i: number) =>
+    supplierModelToTableData(s, i, allSubRegions)
+  );
 
-  const handleRequestSort = (property: keyof ITableData) => {
-    const isAsc = orderBy === property && order === "asc";
-    setOrder(isAsc ? "desc" : "asc");
-    setOrderBy(property);
+  const handleRowSelection = (rowSelectionModel: any, details: any) => {
+    // console.log("rowSelectionModel", rowSelectionModel);
+    // console.log("details", details);
+    /**
+     * rowSelectionModel = index of selected rows as a list
+     * details: {
+     *  reason: undefined
+     * }
+     */
   };
 
-  const handleSelectAllClick = (event: React.ChangeEvent<HTMLInputElement>) => {
-    if (event.target.checked) {
-      const newSelected = data.map((n) => n.name);
-      setSelected(newSelected);
-      return;
-    }
-    setSelected([]);
-  };
-  const handleClick = (event: React.MouseEvent<unknown>, name: string) => {
-    const selectedIndex = selected.indexOf(name);
-    let newSelected: readonly string[] = [];
-
-    if (selectedIndex === -1) {
-      newSelected = newSelected.concat(selected, name);
-    } else if (selectedIndex === 0) {
-      newSelected = newSelected.concat(selected.slice(1));
-    } else if (selectedIndex === selected.length - 1) {
-      newSelected = newSelected.concat(selected.slice(0, -1));
-    } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(
-        selected.slice(0, selectedIndex),
-        selected.slice(selectedIndex + 1)
-      );
-    }
-
-    setSelected(newSelected);
-  };
-
-  const data: ITableData[] = suppliers?.map((x: any, idx: any) => ({
-    id: x.id || idx,
-    logo: x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
-    name: x.name && x.name.toUpperCase(),
-    longName: x.longName,
-    headquarter: x.headquarterId
-      ? allSubRegions.find((z: any) => z.id === x.headquarterId)
-      : null,
-    isInnovation: x.isInnovation,
-    isBlur: !x.headquarterId,
-    category: x?.category || [],
-    flags: x?.flags || {},
-    meta: {
-      hqlocation: x.headquarter
-        ? (x.headquarter.code || x.headquarter.name).toLowerCase()
-        : "",
-    },
-  }));
-
-  const onResultClick = (row: any) => {
-    const q = row.category?.[0];
-    if (!q) return;
-    flags.selected = row;
-    flags.back = flags.q;
-    setFilterData({ q: q.split(",")[0] });
-  };
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 70 },
     {
       field: "name",
       headerName: "Organization",
-      resizable: true,
+      width: 340,
       renderCell: (params) => {
         // render logo with name
-        const { logo, name } = params.row;
+        const { logo, name, isInnovation } = params.row;
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             <NullableImg url={logo} />
             <div style={{ marginLeft: 8 }}>{name}</div>
+            {isInnovation && <Icon src="innovation" width={20} height={20} />}
           </div>
         );
       },
     },
-    { field: "longName", headerName: "Full Name" },
     {
-      field: "headquarterId",
+      field: "headquarter",
       headerName: "HQ location",
-      renderCell: (params) => {
-        const { headquarter, meta } = params.row;
+      width: 165,
+    },
+    {
+      field: "location",
+      headerName: "Location",
+      width: 165,
+    },
+    {
+      field: "badge",
+      headerName: "Badge",
+      width: 200,
+      renderHeader: () => {
         return (
-          <>
-            <NullableImg
-              url={
-                headquarter?.code
-                  ? `/flags/${headquarter?.code?.toLowerCase()}.svg`
-                  : ""
-              }
-            />
-            <div>
-              {t(`subregion.${meta.hqlocation}`, `hidden.${meta.hqlocation}`)}
-            </div>
-          </>
+          <div style={{ display: "flex", alignItems: "center" }}>
+            <div style={{ marginLeft: 8 }}>Badge</div>
+            <Tooltip title={supBadgeTooltipText}>
+              <Info />
+            </Tooltip>
+          </div>
+        );
+      },
+      renderCell: (params) => {
+        const { badge } = params.row;
+        if (!badge) {
+          return null;
+        }
+        return (
+          <div style={{ display: "flex", alignItems: "center" }}>
+            {badge[BadgeType.major] ? (
+              <SupBadge className={"maj"}>MAJOR</SupBadge>
+            ) : null}
+            {badge[BadgeType.top] ? (
+              <SupBadge className={"top"}>TOP</SupBadge>
+            ) : null}
+            {badge[BadgeType.risingStar] ? (
+              <SupBadge className={"str"}>RISING STAR</SupBadge>
+            ) : null}
+          </div>
         );
       },
     },
     {
-      field: "footprint",
-      headerName: "Global footprint",
-      width: 160,
-    },
-    {
-      field: "isInnovation",
-      headerName: "Badge",
-      valueGetter: (params: GridValueGetterParams) => {
-        const { isInnovation } = params.row;
-        if (isInnovation) {
-          return <Box sx={{ display: "flex", alignItems: "center" }}></Box>;
-        }
-        return null;
+      field: "actions",
+      headerName: "Show similiar",
+      width: 150,
+      align: "center",
+      headerAlign: "center",
+      renderCell: (params) => {
+        return (
+          <IconButton
+            onClick={() => {
+              console.log("sup");
+            }}
+          >
+            <DensitySmall />
+          </IconButton>
+        );
       },
     },
   ];
@@ -179,12 +170,22 @@ export default function ScoutResultTable() {
   }
 
   return (
-    <Box sx={{ width: "100%", p: 2 }}>
+    <Box sx={{ width: "100%", height: "50vh", p: 3 }}>
       <DataGrid
         sx={{ backgroundColor: "#fff" }}
         rows={data}
         columns={columns}
+        disableRowSelectionOnClick
+        disableColumnSelector
+        onRowSelectionModelChange={handleRowSelection}
         checkboxSelection
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 50,
+            },
+          },
+        }}
       />
       <SpacingVertical space="50px" />
     </Box>

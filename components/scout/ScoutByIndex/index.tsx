@@ -35,6 +35,7 @@ const Feedback = dynamic(() => import("components/Feedback"));
 const TechnologyBox = dynamic(() => import("components/scout/TechnologyBox"));
 import { SearchBar2 } from "components/scout/SearchBar";
 import { theme } from "config/theme";
+import ScoutResultTable from "../ScoutResultTable";
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 const Filters = dynamic(() => import("components/scout/Filters"));
 
@@ -325,7 +326,8 @@ export default function ScoutByIndex() {
                 ) : null}
               </div>
 
-              <ResultTable />
+              <ScoutResultTable />
+              {/* <ResultTable /> */}
             </ContentsWrapper>
           </ContentsContainer>
         </MainContainer>
