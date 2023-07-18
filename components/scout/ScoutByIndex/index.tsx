@@ -17,7 +17,7 @@ import { useSupplier } from "requests/useSupplier";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 import styled from "styled-components";
 import ScoutResultTable from "../ScoutResultTable";
-import { Box, Button, Stack } from "@mui/material";
+import { Box, Button, MenuItem, Select, Stack } from "@mui/material";
 import { ColoredText, SText, TitleText } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
 import { SpacingVertical } from "components/ui-components/spacer";
@@ -108,7 +108,7 @@ export default function ScoutByIndex() {
   return (
     <Stack>
       {loading && <LoadingWithBackgroundOverlay />}
-      <Box>
+      <>
         {flags.selected ? (
           <Box onClick={onSelectedBackClick}>
             <span>&#x1f860;</span> BACK
@@ -149,39 +149,11 @@ export default function ScoutByIndex() {
               <Filters totalCount={stats?.count || count} />
             )}
             {isSuppliersNotEmpty && !flags.selected && <Summary />}
-
-            <div
-              style={{
-                padding: "12px",
-                width: "100%",
-                margin: "8px",
-                display: "flex",
-                // justifyContent: "space-between",
-                alignItems: "center",
-              }}
-            >
-              {suppliers?.length > 0 ? (
-                <div>
-                  <Button
-                    onClick={() => {
-                      setFilterModalVisible(true);
-                      setSurveyOn(true);
-                    }}
-                  >
-                    {t("scout.buildMyShortlist", "Build my Shortlist")}
-                  </Button>
-                  {surveyOn ? (
-                    <Survicate loadSurvey={surveyOn} onClose={() => {}} />
-                  ) : null}
-                </div>
-              ) : null}
-            </div>
-
             <ScoutResultTable />
             {/* <ResultTable /> */}
           </Box>
         </Box>
-      </Box>
+      </>
 
       <Feedback />
     </Stack>

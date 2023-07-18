@@ -9,6 +9,7 @@ import {
   Button,
   ButtonGroup,
   IconButton,
+  Stack,
   Tooltip,
   useTheme,
 } from "@mui/material";
@@ -17,7 +18,7 @@ import {
   SpacingVertical,
 } from "components/ui-components/spacer";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { DensitySmall, Info } from "@mui/icons-material";
+import { DensitySmall, GridView, Info, List } from "@mui/icons-material";
 import {
   BadgeType,
   ITableData,
@@ -78,16 +79,15 @@ export default function ScoutResultTable() {
   const { allSubRegions, suppliers } = useStore();
   const [data, setData] = React.useState<ITableData[]>([]);
   const [tableData, setTableData] = React.useState<ITableData[]>([]);
+  const [selectedRows, setSelectedRows] = React.useState<number[]>([]);
 
-  useEffect(
-    () =>
-      setData(
-        suppliers?.map((s: any, i: number) =>
-          supplierModelToTableData(s, i, allSubRegions)
-        )
-      ),
-    [suppliers, allSubRegions]
-  );
+  useEffect(() => {
+    const initialData = suppliers?.map((s: any, i: number) =>
+      supplierModelToTableData(s, i, allSubRegions)
+    );
+    setData(initialData);
+    setTableData(initialData);
+  }, [suppliers, allSubRegions]);
 
   const handleRowSelection = (rowSelectionModel: any, details: any) => {
     // console.log("rowSelectionModel", rowSelectionModel);
@@ -98,6 +98,7 @@ export default function ScoutResultTable() {
      *  reason: undefined
      * }
      */
+    setSelectedRows(rowSelectionModel);
   };
 
   const onFilterChange = (fv: FilterValue) => {
@@ -113,6 +114,10 @@ export default function ScoutResultTable() {
       );
     });
     setTableData(newData);
+  };
+
+  const compareSuppliers = () => {
+    console.log("selectedRows", selectedRows);
   };
 
   const columns: GridColDef[] = [
@@ -222,41 +227,63 @@ export default function ScoutResultTable() {
   }
 
   return (
-    <Box>
-      <Box sx={{ width: "100%", height: "50vh", p: 3 }}>
+    <Box sx={{ width: "100%", p: 3 }}>
+      <Stack
+        sx={{
+          backgroundColor: "#fff",
+          padding: "20px",
+        }}
+      >
         <Box
           sx={{
-            backgroundColor: "#fff",
             display: "flex",
             justifyContent: "space-between",
-            padding: "20px",
           }}
         >
-          <ButtonGroup variant="outlined">
-            <Button>Build my shortlist</Button>
-            <Button>Bidder List</Button>
-            <Button>Compare</Button>
-          </ButtonGroup>
+          <Stack direction={"row"} spacing={2}>
+            <Button variant="outlined">Build my shortlist</Button>
+            <Button variant="outlined">Bidder List</Button>
+            <Tooltip title="Select at least 2 suppliers to compare">
+              <span style={{ display: "flex" }}>
+                <Button
+                  variant="outlined"
+                  onClick={compareSuppliers}
+                  disabled={selectedRows.length < 2}
+                >
+                  Compare Suppliers
+                </Button>
+              </span>
+            </Tooltip>
+          </Stack>
           <TableFilters data={data} onFilterChange={onFilterChange} />
         </Box>
-        <DataGrid
-          sx={{ backgroundColor: "#fff" }}
-          rows={tableData}
-          columns={columns}
-          disableRowSelectionOnClick
-          disableColumnSelector
-          onRowSelectionModelChange={handleRowSelection}
-          checkboxSelection
-          initialState={{
-            pagination: {
-              paginationModel: {
-                pageSize: 50,
-              },
+        <SpacingVertical space="20px" />
+        <Box sx={{ justifyContent: "end", display: "flex" }}>
+          <IconButton>
+            <List />
+          </IconButton>
+          <IconButton>
+            <GridView />
+          </IconButton>
+        </Box>
+      </Stack>
+      <DataGrid
+        sx={{ backgroundColor: "#fff" }}
+        rows={tableData}
+        columns={columns}
+        disableRowSelectionOnClick
+        disableColumnSelector
+        onRowSelectionModelChange={handleRowSelection}
+        checkboxSelection
+        initialState={{
+          pagination: {
+            paginationModel: {
+              pageSize: 50,
             },
-          }}
-        />
-        <SpacingVertical space="50px" />
-      </Box>
+          },
+        }}
+      />
+      <SpacingVertical space="50px" />
     </Box>
   );
 }
