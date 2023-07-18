@@ -4,6 +4,19 @@ export enum BadgeType {
   risingStar = "risingStar",
 }
 
+export function mapBadgeTypeToString(badge: BadgeType) {
+  switch (badge) {
+    case BadgeType.top:
+      return "Top";
+    case BadgeType.major:
+      return "Major";
+    case BadgeType.risingStar:
+      return "Rising Star";
+    default:
+      return "";
+  }
+}
+
 export interface SubRegion {
   id: string;
   regionId: string;
@@ -19,7 +32,7 @@ export interface ITableData {
   headquarter: string;
   hqCode: string;
   globalFootprint: string[];
-  badge: Record<BadgeType, boolean>;
+  badges: BadgeType[];
 }
 
 const noImageUrl = "https://cdn-stage.supplybridge.com/images/logos/no.png";
@@ -35,6 +48,9 @@ export function supplierModelToTableData(
   const matchedLocation = allSubRegions.find(
     (x) => x.id === supplier.headquarterId
   );
+  const badges = Object.keys(supplier.flags || {}).filter(
+    (x) => supplier.flags[x]
+  );
   return {
     id: supplier.id || idx,
     logo: supplier.logo || noImageUrl,
@@ -43,10 +59,17 @@ export function supplierModelToTableData(
     headquarter: matchedLocation?.name,
     hqCode: matchedLocation?.code,
     globalFootprint: [],
-    badge: {
-      [BadgeType.major]: supplier.flags?.maj ?? false,
-      [BadgeType.top]: supplier.flags?.top ?? false,
-      [BadgeType.risingStar]: supplier.flags?.str ?? false,
-    },
+    badges: badges.map((x) => {
+      switch (x) {
+        case "top":
+          return BadgeType.top;
+        case "maj":
+          return BadgeType.major;
+        case "str":
+          return BadgeType.risingStar;
+        default:
+          return BadgeType.top;
+      }
+    }),
   };
 }
