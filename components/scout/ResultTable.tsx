@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 import { styled } from "@mui/system";
 import Icon from "components/Icon";
 import useStore from "hooks/useStore";
@@ -12,14 +12,31 @@ const regionMap: any = {
   "3": "EMEA",
 };
 
-const supBadgeTooltipText = (<div>
-<div><h3>Top</h3></div>
-<p>A few lead performingSuppliers in the particular category / sub-category -usually by Sales Marketshare.</p>
-<div><h3>MAJOR</h3></div>
-<p>Key Suppliers in the particular category / sub-category - can be by a combination of criteria.</p>
-<div><h3>RISING STAR</h3></div>
-<p>High potential suppliers with promising new technology, business model.or other forms of innovations.</p>
-</div>);
+const supBadgeTooltipText = (
+  <div>
+    <div>
+      <h3>Top</h3>
+    </div>
+    <p>
+      A few lead performingSuppliers in the particular category / sub-category
+      -usually by Sales Marketshare.
+    </p>
+    <div>
+      <h3>MAJOR</h3>
+    </div>
+    <p>
+      Key Suppliers in the particular category / sub-category - can be by a
+      combination of criteria.
+    </p>
+    <div>
+      <h3>RISING STAR</h3>
+    </div>
+    <p>
+      High potential suppliers with promising new technology, business model.or
+      other forms of innovations.
+    </p>
+  </div>
+);
 
 const TableCell = styled("td")`
   padding: 15px 10px;
@@ -92,12 +109,21 @@ const ResultTableCellWithImg = styled(TableCell)`
   }
 `;
 
-const SupBadge = styled('span')`
-   display: inline-block;
-   padding: 2px 5px;
-   &.top { background-color: #fee; color: #900; }
-   &.maj { background-color: #efe; color: #090; }
-   &.str { background-color: #eef; color: #009; }
+const SupBadge = styled("span")`
+  display: inline-block;
+  padding: 2px 5px;
+  &.top {
+    background-color: #fae3de;
+    color: #551c18;
+  }
+  &.maj {
+    background-color: #deecdc;
+    color: #23372a;
+  }
+  &.str {
+    background-color: #d6e4ee;
+    color: #1f3245;
+  }
 `;
 
 const ResultTableHeadRow = styled(TableRow)`
@@ -131,17 +157,17 @@ const ResultTableRow = styled(TableRow)`
 `;
 
 const ResultTableRowBlur = styled(TableRow)`
-   border-radius: 10px;
-   background-color: white;
-   filter: blur(3px);
-   user-select: none;
-   > td {
-      text-align: center;
-      border-radius: 0;
-      border-bottom: 5px solid #edf1f3;
-      height: 59px;
-      padding: 10px;
-   }
+  border-radius: 10px;
+  background-color: white;
+  filter: blur(3px);
+  user-select: none;
+  > td {
+    text-align: center;
+    border-radius: 0;
+    border-bottom: 5px solid #edf1f3;
+    height: 59px;
+    padding: 10px;
+  }
 `;
 
 const ResultHeadCell = styled(TableCell)`
@@ -214,21 +240,25 @@ export default function BasicTable() {
   const { allSubRegions, suppliers, flags, setFilterData } = useStore();
   const isSearchForCompanies = flags.type === "Companies" && !flags.selected;
   const data = suppliers?.map((x: any) => ({
-    logo:
-      x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
+    logo: x.logo || `https://cdn-stage.supplybridge.com/images/logos/no.png`,
     name: x.name && x.name.toUpperCase(),
     longName: x.longName,
-    headquarter: x.headquarterId ? allSubRegions.find((z: any) => z.id === x.headquarterId) : null,
+    headquarter: x.headquarterId
+      ? allSubRegions.find((z: any) => z.id === x.headquarterId)
+      : null,
     isInnovation: x.isInnovation,
     isBlur: !x.headquarterId,
     category: x?.category || [],
     flags: x?.flags || {},
   }));
-  data && data.forEach((z: any) => {
-     z.meta = {
-       hqlocation: z.headquarter ? (z.headquarter.code || z.headquarter.name).toLowerCase() : ''
-     };
-  });
+  data &&
+    data.forEach((z: any) => {
+      z.meta = {
+        hqlocation: z.headquarter
+          ? (z.headquarter.code || z.headquarter.name).toLowerCase()
+          : "",
+      };
+    });
   const onResultClick = (row: any) => {
     const q = row.category?.[0];
     if (!q) return;
@@ -243,55 +273,87 @@ export default function BasicTable() {
           <TableHead>
             <ResultTableHeadRow>
               <ResultHeadCell sx={{ width: "50px" }}>&nbsp;</ResultHeadCell>
-              <ResultHeadCell>{t("scout.result.organization", "Organization")}</ResultHeadCell>
-              <ResultHeadCell>{t("scout.result.hqLocation", "HQ Location")}</ResultHeadCell>
-              <ResultHeadCell>{t("scout.result.footprint", "Global Footprint")}</ResultHeadCell>
-              <ResultHeadCell>{t("scout.result.badge", "Badge")} <Tooltip top={-18} left={70} text={supBadgeTooltipText} /></ResultHeadCell>
+              <ResultHeadCell>
+                {t("scout.result.organization", "Organization")}
+              </ResultHeadCell>
+              <ResultHeadCell>
+                {t("scout.result.hqLocation", "HQ Location")}
+              </ResultHeadCell>
+              <ResultHeadCell>
+                {t("scout.result.footprint", "Global Footprint")}
+              </ResultHeadCell>
+              <ResultHeadCell>
+                {t("scout.result.badge", "Badge")}{" "}
+                <Tooltip top={-18} left={70} text={supBadgeTooltipText} />
+              </ResultHeadCell>
               {/*<ResultHeadCell>Category</ResultHeadCell>*/}
               {isSearchForCompanies ? (
-                <ResultHeadCell>{t("showSimilar", "Show Similar")}</ResultHeadCell>
+                <ResultHeadCell>
+                  {t("showSimilar", "Show Similar")}
+                </ResultHeadCell>
               ) : null}
             </ResultTableHeadRow>
           </TableHead>
           <TableBody>
-            {data.map((row: any, i: number) => (
-              i >= 10 ? <ResultTableRowBlur key={i}><td colSpan={5}>hidden</td></ResultTableRowBlur> : <ResultTableRow key={i}>
-                <IdCell>{i + 1}</IdCell>
-                <ResultTableCellWithImg
-                  sx={{ "min-width": "30%", "padding-right": "30px" }}
-                  className={row.isBlur ? "blur-lock" : ""}
-                >
-                  <div>
-                    <NullableImg url={row.logo} />
-                    <ResultTitleCell>
-                      <a title={row.name || row.longName}>
-                        {row.name || row.longName}
-                      </a>
-                    </ResultTitleCell>
-                    <BadgeList data={row} />
-                  </div>
-                </ResultTableCellWithImg>
-                <ResultTableCellWithImg className={row.isBlur ? "blur" : ""}>
-                  <div>
-                    <NullableImg
-                      url={
-                        row.headquarter?.code
-                          ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg`
-                          : ""
-                      }
-                    />
-                    <div>{t(`subregion.${row.meta.hqlocation}`, `hidden.${row.meta.hqlocation}`)}</div>
-                  </div>
-                </ResultTableCellWithImg>
-                <TableCell className={row.isBlur ? "blur" : ""}>
-                  {t(`region.${regionMap[row.headquarter?.regionId]}`, `hidden.${regionMap[row.headquarter?.regionId]}.${row.headquarter?.regionId}`)}
-                </TableCell>
-                <TableCell className={row.isBlur ? "blur" : ""}>
-                   {row?.flags.maj ? <SupBadge className={"maj"}>MAJOR</SupBadge> : null}
-                   {row?.flags.top ? <SupBadge className={"top"}>TOP</SupBadge> : null}
-                   {row?.flags.str ? <SupBadge className={"str"}>RISING STAR</SupBadge> : null}
-                </TableCell>
-                {/*<CompetenceCell className={row.isBlur ? "blur" : ""}>
+            {data.map((row: any, i: number) =>
+              i >= 10 ? (
+                <ResultTableRowBlur key={i}>
+                  <td colSpan={5}>hidden</td>
+                </ResultTableRowBlur>
+              ) : (
+                <ResultTableRow key={i}>
+                  <IdCell>{i + 1}</IdCell>
+                  <ResultTableCellWithImg
+                    sx={{ "min-width": "30%", "padding-right": "30px" }}
+                    className={row.isBlur ? "blur-lock" : ""}
+                  >
+                    <div>
+                      <NullableImg url={row.logo} />
+                      <ResultTitleCell>
+                        <a title={row.name || row.longName}>
+                          {row.name || row.longName}
+                        </a>
+                      </ResultTitleCell>
+                      <BadgeList data={row} />
+                    </div>
+                  </ResultTableCellWithImg>
+                  <ResultTableCellWithImg className={row.isBlur ? "blur" : ""}>
+                    <div>
+                      <NullableImg
+                        url={
+                          row.headquarter?.code
+                            ? `/flags/${row.headquarter?.code?.toLowerCase()}.svg`
+                            : ""
+                        }
+                      />
+                      <div>
+                        {t(
+                          `subregion.${row.meta.hqlocation}`,
+                          `hidden.${row.meta.hqlocation}`
+                        )}
+                      </div>
+                    </div>
+                  </ResultTableCellWithImg>
+                  <TableCell className={row.isBlur ? "blur" : ""}>
+                    {t(
+                      `region.${regionMap[row.headquarter?.regionId]}`,
+                      `hidden.${regionMap[row.headquarter?.regionId]}.${
+                        row.headquarter?.regionId
+                      }`
+                    )}
+                  </TableCell>
+                  <TableCell className={row.isBlur ? "blur" : ""}>
+                    {row?.flags.maj ? (
+                      <SupBadge className={"maj"}>MAJOR</SupBadge>
+                    ) : null}
+                    {row?.flags.top ? (
+                      <SupBadge className={"top"}>TOP</SupBadge>
+                    ) : null}
+                    {row?.flags.str ? (
+                      <SupBadge className={"str"}>RISING STAR</SupBadge>
+                    ) : null}
+                  </TableCell>
+                  {/*<CompetenceCell className={row.isBlur ? "blur" : ""}>
                   <a
                     title={
                       row.isBlur
@@ -302,23 +364,20 @@ export default function BasicTable() {
                     {row.supplierCategory || row.coreCompetence}
                   </a>
                 </CompetenceCell>*/}
-                {isSearchForCompanies ? (
-                  <TableCell>
-                    <NextButton
-                      className={
-                        !!(row.category?.length)
-                          ? ""
-                          : "inactive"
-                      }
-                      onClick={() => onResultClick(row)}
-                      title={t("showSimilar", "Show Similar")}
-                    >
-                      &gt;
-                    </NextButton>
-                  </TableCell>
-                ) : null}
-              </ResultTableRow>
-            ))}
+                  {isSearchForCompanies ? (
+                    <TableCell>
+                      <NextButton
+                        className={!!row.category?.length ? "" : "inactive"}
+                        onClick={() => onResultClick(row)}
+                        title={t("showSimilar", "Show Similar")}
+                      >
+                        &gt;
+                      </NextButton>
+                    </TableCell>
+                  ) : null}
+                </ResultTableRow>
+              )
+            )}
           </TableBody>
         </ResultTable>
       </ResultTableContainer>
@@ -367,9 +426,15 @@ export const ResultSelected = (props: any) => {
                 {t(`region.${regionMap[row.headquarter?.regionId]}`, "hidden")}
               </TableCell>
               <TableCell className={row.isBlur ? "blur" : ""}>
-                 {row?.flags.maj ? <SupBadge className={"maj"}>MAJOR</SupBadge> : null}
-                 {row?.flags.top ? <SupBadge className={"top"}>TOP</SupBadge> : null}
-                 {row?.flags.str ? <SupBadge className={"str"}>RISING STAR</SupBadge> : null}
+                {row?.flags.maj ? (
+                  <SupBadge className={"maj"}>MAJOR</SupBadge>
+                ) : null}
+                {row?.flags.top ? (
+                  <SupBadge className={"top"}>TOP</SupBadge>
+                ) : null}
+                {row?.flags.str ? (
+                  <SupBadge className={"str"}>RISING STAR</SupBadge>
+                ) : null}
               </TableCell>
               {/*
               <CompetenceCell className={row.isBlur ? "blur" : ""}>
