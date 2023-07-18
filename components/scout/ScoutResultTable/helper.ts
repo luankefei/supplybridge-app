@@ -1,7 +1,7 @@
 export enum BadgeType {
-  top,
-  major,
-  risingStar,
+  top = "top",
+  major = "major",
+  risingStar = "risingStar",
 }
 
 export interface SubRegion {
@@ -16,9 +16,9 @@ export interface ITableData {
   logo: string;
   name: string;
   isInnovation?: boolean;
-  longName?: string;
   headquarter: string;
-  location: string;
+  hqCode: string;
+  globalFootprint: string[];
   badge: Record<BadgeType, boolean>;
 }
 
@@ -32,19 +32,21 @@ export function supplierModelToTableData(
   idx: number,
   allSubRegions: any[]
 ): ITableData {
+  const matchedLocation = allSubRegions.find(
+    (x) => x.id === supplier.headquarterId
+  );
   return {
     id: supplier.id || idx,
     logo: supplier.logo || noImageUrl,
-    name: supplier.name && supplier.name.toUpperCase(),
-    // longName: supplier.longName,
-    // isInnovation: supplier.isInnovation,
-    headquarter: allSubRegions.find((x) => x.id === supplier.headquarterId)
-      ?.name,
-    location: allSubRegions.find((x) => x.id === supplier.locationId)?.name,
+    name: supplier.name || supplier.longName,
+    isInnovation: supplier.isInnovation,
+    headquarter: matchedLocation?.name,
+    hqCode: matchedLocation?.code,
+    globalFootprint: [],
     badge: {
-      [BadgeType.major]: supplier.flags.maj ?? false,
-      [BadgeType.top]: supplier.flags.top ?? false,
-      [BadgeType.risingStar]: supplier.flags.str ?? false,
+      [BadgeType.major]: supplier.flags?.maj ?? false,
+      [BadgeType.top]: supplier.flags?.top ?? false,
+      [BadgeType.risingStar]: supplier.flags?.str ?? false,
     },
   };
 }

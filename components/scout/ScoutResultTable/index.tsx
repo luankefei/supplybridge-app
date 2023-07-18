@@ -4,8 +4,11 @@ import { styled } from "@mui/system";
 import Icon from "components/Icon";
 import useStore from "hooks/useStore";
 import { NullableImg } from "components/scout/Summary.styled";
-import { Box, IconButton, Tooltip } from "@mui/material";
-import { SpacingVertical } from "components/ui-components/spacer";
+import { Box, IconButton, Select, Tooltip } from "@mui/material";
+import {
+  SpacingHorizontal,
+  SpacingVertical,
+} from "components/ui-components/spacer";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
 import {
   AlignHorizontalCenter,
@@ -15,6 +18,8 @@ import {
 } from "@mui/icons-material";
 import { BadgeType, ITableData, supplierModelToTableData } from "./helper";
 import { log } from "console";
+import { SText } from "components/ui-components/text";
+import TableFilters from "./tableFilters";
 
 const regionMap: any = {
   "1": "APAC",
@@ -50,6 +55,7 @@ const supBadgeTooltipText = (
 
 const SupBadge = styled("span")`
   display: inline-block;
+  border-radius: 4px;
   padding: 2px 5px;
   &.top {
     background-color: #fae3de;
@@ -93,23 +99,39 @@ export default function ScoutResultTable() {
         // render logo with name
         const { logo, name, isInnovation } = params.row;
         return (
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
             <NullableImg url={logo} />
-            <div style={{ marginLeft: 8 }}>{name}</div>
-            {isInnovation && <Icon src="innovation" width={20} height={20} />}
-          </div>
+            <SpacingHorizontal space="8px" />
+            <SText fontSize="16px" fontWeight="normal">
+              {name}
+            </SText>
+            <SpacingHorizontal space="8px" />
+            {isInnovation && <Icon src="innovations" width={20} height={20} />}
+          </Box>
         );
       },
     },
     {
       field: "headquarter",
       headerName: "HQ location",
-      width: 165,
+      renderCell: (params) => {
+        const { headquarter, hqCode } = params.row;
+        return (
+          <Box sx={{ display: "flex" }}>
+            <NullableImg
+              url={hqCode ? `/flags/${hqCode?.toLowerCase()}.svg` : ""}
+            />
+            <SpacingHorizontal space="8px" />
+            <SText fontSize="16px" fontWeight="normal">
+              {headquarter}
+            </SText>
+          </Box>
+        );
+      },
     },
     {
-      field: "location",
-      headerName: "Location",
-      width: 165,
+      field: "globalFootprint",
+      headerName: "Global footprint",
     },
     {
       field: "badge",
@@ -147,19 +169,23 @@ export default function ScoutResultTable() {
     },
     {
       field: "actions",
-      headerName: "Show similiar",
+      headerName: "Actions",
       width: 150,
       align: "center",
       headerAlign: "center",
+      sortable: false,
+      filterable: false,
       renderCell: (params) => {
         return (
-          <IconButton
-            onClick={() => {
-              console.log("sup");
-            }}
-          >
-            <DensitySmall />
-          </IconButton>
+          <Tooltip title="show more details">
+            <IconButton
+              onClick={() => {
+                console.log(params);
+              }}
+            >
+              <DensitySmall />
+            </IconButton>
+          </Tooltip>
         );
       },
     },
@@ -171,6 +197,9 @@ export default function ScoutResultTable() {
 
   return (
     <Box sx={{ width: "100%", height: "50vh", p: 3 }}>
+      <Box sx={{ display: "flex", justifyContent: "space-between" }}>
+        <TableFilters data={data} />
+      </Box>
       <DataGrid
         sx={{ backgroundColor: "#fff" }}
         rows={data}

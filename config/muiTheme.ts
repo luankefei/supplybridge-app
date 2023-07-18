@@ -22,7 +22,11 @@ export const muiTheme = createTheme({
       main: "#08979C",
     },
     secondary: {
-      main: "#F2F2F2",
+      main: "#E6F5F5",
+    },
+    text: {
+      primary: "#434343",
+      secondary: "#9ca3af",
     },
     grey: {
       100: "#F2F2F2",
