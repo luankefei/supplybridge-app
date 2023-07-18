@@ -25,7 +25,9 @@ import {
   supplierModelToTableData,
 } from "./helper";
 import { SText } from "components/ui-components/text";
-import TableFilters from "./tableFilters";
+import TableFilters, { FilterValue } from "./tableFilters";
+import { hasIntersection } from "utils/array";
+import { useEffect } from "react";
 
 const supBadgeTooltipText = (
   <div>
@@ -74,9 +76,17 @@ export default function ScoutResultTable() {
   const { t } = useTranslation();
   const theme = useTheme();
   const { allSubRegions, suppliers } = useStore();
+  const [data, setData] = React.useState<ITableData[]>([]);
+  const [tableData, setTableData] = React.useState<ITableData[]>([]);
 
-  const data: ITableData[] = suppliers?.map((s: any, i: number) =>
-    supplierModelToTableData(s, i, allSubRegions)
+  useEffect(
+    () =>
+      setData(
+        suppliers?.map((s: any, i: number) =>
+          supplierModelToTableData(s, i, allSubRegions)
+        )
+      ),
+    [suppliers, allSubRegions]
   );
 
   const handleRowSelection = (rowSelectionModel: any, details: any) => {
@@ -90,7 +100,20 @@ export default function ScoutResultTable() {
      */
   };
 
-  const onFilterChange = (e: any) => {};
+  const onFilterChange = (fv: FilterValue) => {
+    const newData = data.filter((d) => {
+      const { name, headquarter, globalFootprint, badges } = d;
+      const { names, headquarters, globalFootprints, badges: fvBadges } = fv;
+      return (
+        (names.length === 0 || names.includes(name)) &&
+        (headquarters.length === 0 || headquarters.includes(headquarter)) &&
+        (globalFootprints.length === 0 ||
+          hasIntersection(globalFootprint, globalFootprints)) &&
+        (fvBadges.length === 0 || fvBadges.some((fvb) => badges.includes(fvb)))
+      );
+    });
+    setTableData(newData);
+  };
 
   const columns: GridColDef[] = [
     { field: "id", headerName: "ID", width: 70 },
@@ -218,7 +241,7 @@ export default function ScoutResultTable() {
         </Box>
         <DataGrid
           sx={{ backgroundColor: "#fff" }}
-          rows={data}
+          rows={tableData}
           columns={columns}
           disableRowSelectionOnClick
           disableColumnSelector

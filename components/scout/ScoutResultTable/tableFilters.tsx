@@ -10,14 +10,14 @@ import { BadgeType, ITableData } from "./helper";
 import { useEffect, useState } from "react";
 import { Clear } from "@mui/icons-material";
 
-interface FilterValue {
+export interface FilterValue {
   names: string[];
   headquarters: string[];
   globalFootprints: string[];
   badges: BadgeType[];
 }
 
-interface FilterDataset {
+export interface FilterDataset {
   names: Set<string>;
   headquarters: Set<string>;
   globalFootprints: Set<string>;
@@ -77,6 +77,10 @@ const TableFilters = (props: Props) => {
     globalFootprints: [],
     badges: [],
   });
+  useEffect(() => {
+    props.onFilterChange(filter);
+  }, [filter]);
+
   useEffect(() => {
     const { data } = props;
     const name: Set<string> = new Set();
