@@ -10,7 +10,6 @@ import console from "utils/console";
 import UnlockBox from "components/UnlockBox";
 
 const Layout = dynamic(() => import("components/Layout"));
-const Header = dynamic(() => import("components/NewHeader"));
 
 const Container = muiStyled('div')(`
     display: flex;
@@ -38,58 +37,45 @@ const Center = muiStyled('div')`
    text-align: center;
 `;
 
+const NewsTabContainer = muiStyled('div')`
+   border-radius: 8px;
+   background-color: white;
+   padding: 10px;
+   width: fit-content;
+   margin: 10px auto;
+`;
+const NewsTab = muiStyled('a')<any>`
+   cursor: pointer;
+   margin: 0 25px;
+   padding: 8px;
+   border-radius: 8px;
+   background-color: ${(props) => props.active ? '#08979c': 'transparent'};
+   color: ${(props) => props.active ? 'white': 'black'};
+`;
+
 export default function SupplierNews() {
     const supplierNewsStore = useBoundStore((state) => state.supplierNews);
-    const { news, page, pageSize, count, setPage } = supplierNewsStore;
+    const [ news, setNews ] = useState([]);
     const { getSupplierNews, loading } = useSupplierNews();
     const [pageLoaded, setPageLoaded] = useState(false);
-    const infiniteScrollControl = useRef(true);
-    const pageRef = useRef(page);
-    pageRef.current = page;
-    const didCancel = useRef(false);
-    didCancel.current = false;
-
-    if (pageLoaded) {
-        console.log(`count:${count} > page: ${page} * pageSize: ${pageSize}`);
-        const needed = count > page * pageSize;
-        infiniteScrollControl.current = needed;
-    }
+    const [typeI, setTypeI] = useState(0);
 
     useEffect(() => {
-        if (pageLoaded) return;
-        setPageLoaded(true);
-
-        const handleScroll = async () => {
-            var isAtBottom = document.documentElement.scrollHeight -
-                document.documentElement.scrollTop <=
-                document.documentElement.clientHeight;
-            if (isAtBottom && infiniteScrollControl.current) {
-                infiniteScrollControl.current = false;
-                setPage(pageRef.current + 1);
-            }
-        };
-
-        window.addEventListener("scroll", handleScroll);
-        return () => {
-            window.removeEventListener("scroll", handleScroll);
-        }
-    }, [setPage]);
-
-    useEffect(() => {
-        let didCancel = false;
-        const getSupplierNewsHandler = async (didCancel: boolean) => {
-            await getSupplierNews(page, didCancel);
-        };
-        getSupplierNewsHandler(didCancel);
-        return () => { didCancel = true; };
-    }, [page])
+        (async () => {
+            const rs = await getSupplierNews(typeI, 0);
+            setNews(rs.news);
+        })();
+    }, [typeI]);
 
     return (
         <Layout>
-            <Center><UnlockBox /></Center>
-            <Header />
+            <NewsTabContainer>
+               <NewsTab active={typeI===0} onClick={() => setTypeI(0)}>Trending</NewsTab>
+               <NewsTab active={typeI===1} onClick={() => setTypeI(1)}>Supplier</NewsTab>
+               <NewsTab active={typeI===2} onClick={() => setTypeI(2)}>Risk</NewsTab>
+            </NewsTabContainer>
             <Container id="supplier-news-container">
-                {news && Array.isArray(news) && news.map((item) => <NewsCard key={item.id} {...item} />)}
+                {news && Array.isArray(news) && news.map((item: any) => <NewsCard key={item.id} {...item} />)}
                 {loading && [1, 2, 3].map((value) => <NewsCardSkeleton key={value} />)}
                 {/* {!loading && !infiniteScrollControl.current && <span>No more news</span>} */}
             </Container>

@@ -49,12 +49,22 @@ const prepareDummyData = (offset: number, limit: number) => {
     return { supplyerNews: dummyData, count: Math.min(4, dummyData.length + offset + 1) }
 }
 
-export const useSupplierNews = () => {
+const getNewsData = async (name: string) => {
+    try {
+       const { data } = await request.get(`data/news?name=${encodeURIComponent(name)}`);
+       return data || [];
+    } catch(err: any) {
+       console.error(err);
+       return [];
+    }
+};
+
+export const useSupplierNews = (): any => {
     const [loading, setLoading] = useState(false);
     const supplierNews = useBoundStore((state) => state.supplierNews);
     const { page, pageSize, setCount, setNews } = supplierNews;
 
-    const getSupplierNews = async (currentPage: number = page, didCancel?: boolean) => {
+    const getSupplierNews = async (typeI: number = 0, currentPage: number = page, didCancel?: boolean) => {
         try {
             if (loading) return;
             console.log("getSupplierNews - called");
@@ -64,15 +74,25 @@ export const useSupplierNews = () => {
                 limit: pageSize,
             }
 
-            // TODO: Request to get supplier news with search param.
-            const response = prepareDummyData(searchParam.offest, searchParam.limit);
+            let rs;
+            switch(typeI) {
+            case 0: rs = await getNewsData('trend'); break;
+            case 1: rs = await getNewsData('supplier'); break;
+            case 2: rs = await getNewsData('risk'); break;
+            }
 
             if (!didCancel) {
+                const response = {
+                   count: rs ? (rs.length || 0) : 0,
+                   news: rs,
+                };
                 // Update state
-                setNews(response.supplyerNews);
+                setNews(response.news);
                 setCount(response.count);
                 setLoading(false);
+                return response;
             }
+            return {};
 
         } catch (err: any) {
             if (!didCancel) {
@@ -81,6 +101,7 @@ export const useSupplierNews = () => {
             toast.error(err, {
                 position: toast.POSITION.TOP_RIGHT,
             });
+            return {};
         }
     }
 

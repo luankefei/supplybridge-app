@@ -3,17 +3,6 @@ import { styled as muiStyled } from "@mui/material/styles";
 import { theme } from "config/theme";
 import Image from "next/image";
 
-export type NewsCardProps = {
-    id?: any;
-    date?: string | null;
-    title?: string | null;
-    tags?: [string] | null;
-    summary?: string | null;
-    image?: string | null;
-    onClick?: (id: any) => void;
-}
-
-
 const Container = muiStyled(Box)(`
     width: min(calc(100%), 64.375rem);
     display: flex;
@@ -33,7 +22,7 @@ const Container = muiStyled(Box)(`
     background-color: #FFFFFF;
 `);
 
-const StyledImage = muiStyled(Image)(`
+const StyledImage = muiStyled('img')(`
     flex-shrink: 0;
     overflow: hidden;
     @media (max-width: ${theme.size.mobileXl}) {
@@ -117,40 +106,44 @@ const SummaryLabel = muiStyled('span')(`
 `);
 
 const StyledReadMore = muiStyled(`div`)(`
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 500;
-    font-size: 0.75rem;
-    line-height: 1.375rem;
-    
-    display: flex;
-    flex-direction: row;
-    align-items: flex-end;
-    color: #08979C;
+    > a {
+       font-family: 'Inter';
+       font-style: normal;
+       font-weight: 500;
+       font-size: 0.75rem;
+       line-height: 1.375rem;
+       text-decoration: none;
+       
+       display: flex;
+       flex-direction: row;
+       align-items: flex-end;
+       color: #08979C;
+    }
 `);
 
 
-const NewsCard = function (props: NewsCardProps) {
-    const { id, date, title, tags, summary, image } = props;
+const NewsCard = function (props: any) {
+    const { id, publish_date, title, tags, url, text, image } = props;
+    const summary = text && (text.substring(0, 300) + (text.length > 300 ? ' ...' : ''));
 
     return (
         <Container>
-            <StyledImage src={image as string} alt={`${title}-image`} width={158} height={118}></StyledImage>
+            <StyledImage src={image} alt={``} width={158} height={118}></StyledImage>
             <Contents>
-                <DateLabel>{date}</DateLabel>
+                <DateLabel>{publish_date}</DateLabel>
                 <TitleLabel>{title}</TitleLabel>
                 <Tags>
-                    {tags && tags.map((tag, index) => {
+                    {tags && tags.map((tag: any, index: number) => {
                         return (
                             <TagLabel key={`${tag}-${index}`}>#{tag}</TagLabel>
                         );
                     })}
                 </Tags>
                 <SummaryLabel>{summary}</SummaryLabel>
-                <StyledReadMore>
+                <StyledReadMore><a href={url} target="_blank" rel="noreferrer">
                     <span>Read More</span>
                     <Image src="/icons/right-arrow.svg" alt="->" width={24} height={24} />
-                </StyledReadMore>
+                </a></StyledReadMore>
             </Contents>
         </Container>
     );
