@@ -18,16 +18,17 @@ const Container = muiStyled('div')(`
     gap: 1.25rem;
     background-color: #edf1f3;
     @media (max-width: ${theme.size.mobileXl}) {
-        margin-left: 16px;
-        margin-right: 16px;
     }
     @media (min-width: ${theme.size.mobileXl}) {
-        margin-left: 70px;
-        margin-right: 70px;
         margin-top: 20px;
         padding-bottom: 70px;
     }
 `);
+
+const NewsContainer = muiStyled('div')`
+   max-width: 680px;
+   margin: 0 auto;
+`;
 
 const Center = muiStyled('div')`
    position: fixed;
@@ -38,17 +39,16 @@ const Center = muiStyled('div')`
 `;
 
 const NewsTabContainer = muiStyled('div')`
-   border-radius: 8px;
+   border-radius: 50px;
    background-color: white;
    padding: 10px;
    width: fit-content;
-   margin: 10px auto;
+   margin: 10px 0;
 `;
 const NewsTab = muiStyled('a')<any>`
    cursor: pointer;
-   margin: 0 25px;
    padding: 8px;
-   border-radius: 8px;
+   border-radius: 50px;
    background-color: ${(props) => props.active ? '#08979c': 'transparent'};
    color: ${(props) => props.active ? 'white': 'black'};
 `;
@@ -68,9 +68,9 @@ export default function SupplierNews() {
     }, [typeI]);
 
     return (
-        <Layout>
+        <Layout><NewsContainer>
             <NewsTabContainer>
-               <NewsTab active={typeI===0} onClick={() => setTypeI(0)}>Trending</NewsTab>
+               <NewsTab active={typeI===0} onClick={() => setTypeI(0)}>Industry & Trend</NewsTab>
                <NewsTab active={typeI===1} onClick={() => setTypeI(1)}>Supplier</NewsTab>
                <NewsTab active={typeI===2} onClick={() => setTypeI(2)}>Risk</NewsTab>
             </NewsTabContainer>
@@ -79,6 +79,6 @@ export default function SupplierNews() {
                 {loading && [1, 2, 3].map((value) => <NewsCardSkeleton key={value} />)}
                 {/* {!loading && !infiniteScrollControl.current && <span>No more news</span>} */}
             </Container>
-        </Layout>
+        </NewsContainer></Layout>
     );
 }

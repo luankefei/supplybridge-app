@@ -3,6 +3,8 @@ import { styled as muiStyled } from "@mui/material/styles";
 import { theme } from "config/theme";
 import Image from "next/image";
 
+import { allCountry } from "utils/countries";
+
 const Container = muiStyled(Box)(`
     width: min(calc(100%), 64.375rem);
     display: flex;
@@ -39,6 +41,7 @@ const StyledImage = muiStyled('img')(`
 
 const Contents = muiStyled('div')(`
     flex-shrink: 10;
+    width: 100%;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -48,12 +51,20 @@ const Contents = muiStyled('div')(`
 `);
 
 const DateLabel = muiStyled('span')(`
+    display: block;
+    width: 100%;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
     font-size: 0.75rem;
     line-height: 1.25rem;
-    color: #8C8C8C;
+
+    .author {
+       float: right;
+    }
+    .author:after {
+       clear: both;
+    }
 `);
 
 const TitleLabel = muiStyled('span')(`
@@ -70,6 +81,9 @@ const TitleLabel = muiStyled('span')(`
         display:inline-block;
         text-overflow:ellipsis;
     };
+    > a {
+       text-decoration: none;
+    }
 `);
 
 const Tags = muiStyled('div')(`
@@ -106,32 +120,46 @@ const SummaryLabel = muiStyled('span')(`
 `);
 
 const StyledReadMore = muiStyled(`div`)(`
-    > a {
-       font-family: 'Inter';
-       font-style: normal;
-       font-weight: 500;
-       font-size: 0.75rem;
-       line-height: 1.375rem;
-       text-decoration: none;
-       
-       display: flex;
-       flex-direction: row;
-       align-items: flex-end;
-       color: #08979C;
-    }
 `);
 
+function formatDate(dateString: string) {
+    const date = new Date(dateString)
+    const now = new Date()
+    const diffInSeconds = Math.abs((now.getTime() - date.getTime()) / 1000)
+    const diffInHours = diffInSeconds / 3600
+
+    if (diffInHours < 24) {
+        if (diffInSeconds < 60)
+            return `${Math.round(diffInSeconds)} seconds ago`
+        else if (diffInSeconds < 3600)
+            return `${Math.round(diffInSeconds / 60)} minutes ago`
+        else return `${Math.round(diffInHours)} hours ago`
+    } else {
+        return date.toLocaleString();
+    }
+}
 
 const NewsCard = function (props: any) {
-    const { id, publish_date, title, tags, url, text, image } = props;
+    const { id, publishDate, title, k1, url, text, image, country, author } = props;
+    const tags = [k1];
     const summary = text && (text.substring(0, 300) + (text.length > 300 ? ' ...' : ''));
+    const displayedCountry = country ?
+       allCountry.map(
+          (z: any) => z.children.find((x: any) => x.name === country.toUpperCase())
+       ).filter(
+          (x: any) => !!x
+       )[0] :
+       '';
 
     return (
         <Container>
-            <StyledImage src={image} alt={``} width={158} height={118}></StyledImage>
+            {/*<StyledImage src={image} alt={``} width={158} height={118}></StyledImage>*/}
             <Contents>
-                <DateLabel>{publish_date}</DateLabel>
-                <TitleLabel>{title}</TitleLabel>
+                <DateLabel>
+                   <span>{formatDate(publishDate)}</span>
+                   {displayedCountry ? <span>@ {displayedCountry?.fullName}</span>:null}
+                   {author ? <span className="author">Source: {author}</span>:null}</DateLabel>
+                <TitleLabel><a href={url} target="_blank" rel="noreferrer">{title}</a></TitleLabel>
                 <Tags>
                     {tags && tags.map((tag: any, index: number) => {
                         return (
@@ -139,11 +167,11 @@ const NewsCard = function (props: any) {
                         );
                     })}
                 </Tags>
-                <SummaryLabel>{summary}</SummaryLabel>
-                <StyledReadMore><a href={url} target="_blank" rel="noreferrer">
+                {/*<SummaryLabel>{summary}</SummaryLabel>*/}
+                {/*<StyledReadMore>
                     <span>Read More</span>
                     <Image src="/icons/right-arrow.svg" alt="->" width={24} height={24} />
-                </a></StyledReadMore>
+                </StyledReadMore>*/}
             </Contents>
         </Container>
     );
