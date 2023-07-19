@@ -24,6 +24,7 @@ import {
 import { hasIntersection } from "utils/array";
 import SearchBar from "./searchBar";
 import LanguageSelector from "components/languageSelector";
+import EmptyResult from "./emptyResult";
 
 /**
  * Scout by index page
@@ -34,7 +35,7 @@ import LanguageSelector from "components/languageSelector";
 export default function ScoutByIndex() {
   const { t } = useTranslation();
   const { allSubRegions, suppliers, stats } = useStore();
-  const { searchSuppliers, loading } = useSupplier();
+  const { querySupplierListByName, loading } = useSupplier();
 
   /******************
    * Component states
@@ -53,6 +54,8 @@ export default function ScoutByIndex() {
   // table data == filtered data
   const [tableData, setTableData] = useState<ITableData[]>([]);
 
+  const [searched, setSearched] = useState(false);
+
   /********************
    * Component Effects
    * *******************
@@ -63,6 +66,7 @@ export default function ScoutByIndex() {
     );
     const initialFilterData: FilterDataset =
       helperTableDataToFilterDataset(initialData);
+    setSearched(true);
     setinitialFilterValue(initialFilterData);
     setData(initialData);
     setTableData(initialData);
@@ -85,13 +89,14 @@ export default function ScoutByIndex() {
     });
     setTableData(newData);
   };
-
-  const searchHandler = () => {
-    searchSuppliers(1, true);
-    console.log("searching.....");
+  const searchHandler = (queryString: string) => {
+    setSearched(false);
+    // woulda put this in SearchBar but then loading wouldnt work that way.
+    querySupplierListByName(queryString);
   };
-
-  const onSelectedBackClick = () => {};
+  const resetView = () => {
+    setSearched(false);
+  };
 
   const hasData: boolean = data.length > 0;
   return (
@@ -113,7 +118,7 @@ export default function ScoutByIndex() {
             </Box>
           )}
 
-          <SearchBar />
+          <SearchBar onSearch={searchHandler} onReset={resetView} />
 
           {hasData && (
             <Box margin={"auto"}>
@@ -122,33 +127,36 @@ export default function ScoutByIndex() {
             </Box>
           )}
         </Stack>
-        <Box>
-          <SpacingVertical space="40px" />
+        {!loading && searched && !hasData && <EmptyResult />}
+        {(!searched || hasData) && (
           <Box>
-            <GeoCharts />
-            {hasData && <Summary />}
-            <ActionFilterAndView
-              filterInitialData={initialFilterDataset}
-              resultCount={stats?.count || data.length}
-              resultType={
-                stats?.chain?.length
-                  ? stats.chain[stats.chain.length - 1]
-                  : "all"
-              }
-              onClickBuildMyShortList={() => {
-                console.log("onClickBuildMyShortList");
-              }}
-              onClickBidderList={() => {
-                console.log("onClickBidderList");
-              }}
-              onFilterChange={onFilterChange}
-              onViewChange={function (view: ViewType): void {
-                throw new Error("Function not implemented.");
-              }}
-            />
-            <ScoutResultTable tableData={tableData} />
+            <SpacingVertical space="40px" />
+            <Box>
+              <GeoCharts />
+              {hasData && <Summary />}
+              <ActionFilterAndView
+                filterInitialData={initialFilterDataset}
+                resultCount={stats?.count || data?.length || 0}
+                resultType={
+                  stats?.chain?.length
+                    ? stats.chain[stats.chain.length - 1]
+                    : "all"
+                }
+                onClickBuildMyShortList={() => {
+                  console.log("onClickBuildMyShortList");
+                }}
+                onClickBidderList={() => {
+                  console.log("onClickBidderList");
+                }}
+                onFilterChange={onFilterChange}
+                onViewChange={function (view: ViewType): void {
+                  throw new Error("Function not implemented.");
+                }}
+              />
+              <ScoutResultTable tableData={tableData} />
+            </Box>
           </Box>
-        </Box>
+        )}
       </>
 
       <Feedback />

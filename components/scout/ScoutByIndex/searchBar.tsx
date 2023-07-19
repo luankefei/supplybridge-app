@@ -15,7 +15,10 @@ import { debounce } from "utils/util";
 import styled from "styled-components";
 import { SpacingHorizontal } from "components/ui-components/spacer";
 
-interface SearchBarProps {}
+interface SearchBarProps {
+  onSearch: (queryString: string) => void;
+  onReset: () => void;
+}
 
 export enum SearchType {
   Keywords = "Keywords",
@@ -23,7 +26,7 @@ export enum SearchType {
 }
 
 const SearchBar = (props: SearchBarProps) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const { searchAutocomplete } = useSupplier();
 
   const [queryString, setQueryString] = useState("");
@@ -37,17 +40,18 @@ const SearchBar = (props: SearchBarProps) => {
   const resetFilters = () => {
     setQueryString("");
     setSearchType(SearchType.Keywords);
+    props.onReset();
   };
   const onInputChange = (event: any, value: string) => {
-    if (event.type !== "change") {
+    if (!event?.type || event.type !== "change") {
       // click events dont trigger get autoComplete
       return;
     }
     setQueryString(value);
-    debounce(() => handleSearch(value), 500);
+    debounce(() => getAutoComplete(value), 500);
   };
 
-  const handleSearch = async (value: string) => {
+  const getAutoComplete = async (value: string) => {
     if (value === "" || value.length < 2) {
       setOptions([]);
       return;
@@ -57,10 +61,8 @@ const SearchBar = (props: SearchBarProps) => {
     // const suggestedItems = await searchAutocomplete(queryString);
     // setOptions(suggestedItems);
   };
-
   const onClickSearch = () => {
-    console.log("searchType", searchType);
-    console.log("queryString", queryString);
+    props.onSearch(queryString);
   };
   return (
     <Stack sx={{ width: "80%", margin: "auto" }}>
@@ -121,9 +123,11 @@ const SearchBar = (props: SearchBarProps) => {
 const StyledAutocomplete = styled(Autocomplete)`
   flex-grow: 1;
   .MuiInputBase-root {
-    border: none;
     border-top-right-radius: 24px;
     border-bottom-right-radius: 24px;
+  }
+  .MuiOutlinedInput-root {
+    border: none;
   }
 `;
 
