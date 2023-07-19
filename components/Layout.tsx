@@ -21,7 +21,7 @@ const Layout = ({
 }) => {
   const leftMenuWidth = theme.dimension.leftMenuWidth;
   return (
-    <Box sx={{ display: "flex", width: "100%", overflow: "hidden" }}>
+    <Box sx={{ display: "flex", width: "100%" }}>
       <Head>
         <title>{(pageTitle || "") + " | Supply Bridge"}</title>
         <meta name="description" content="Supply Bridge" />

@@ -126,7 +126,7 @@ const StyledAutocomplete = styled(Autocomplete)`
     border-top-right-radius: 24px;
     border-bottom-right-radius: 24px;
   }
-  .MuiOutlinedInput-root {
+  .MuiOutlinedInput-notchedOutline {
     border: none;
   }
 `;

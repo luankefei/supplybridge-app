@@ -187,7 +187,7 @@ export default function Summary() {
 
   return (
     <>
-      <SummaryContainer className={isHidden(filterData)}>
+      <SummaryContainer>
         <div>
           <SummaryCenterColumn>
             <SummaryCategoryIcon

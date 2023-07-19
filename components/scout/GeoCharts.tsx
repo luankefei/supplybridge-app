@@ -39,7 +39,6 @@ const GeoCharts = () => {
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
-  const allSubRegionsLoaded = useRef(false);
   const { searchSuppliers, loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
   const {
@@ -56,12 +55,6 @@ const GeoCharts = () => {
     flags,
   } = useStore();
 
-  useEffect(() => {
-    if (!allSubRegionsLoaded.current) {
-      getAllSubRegions();
-      allSubRegionsLoaded.current = true;
-    }
-  }, [allSubRegionsLoaded]);
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
     return noOfSuppliers > 0
       ? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`

@@ -25,17 +25,19 @@ import { hasIntersection } from "utils/array";
 import SearchBar from "./searchBar";
 import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
+import { useFilter } from "requests/useFilter";
 
 /**
  * Scout by index page
  * - searchBox
  * - GeoChart
- * - searchResult
+ * - searchResultTable
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
   const { allSubRegions, suppliers, stats } = useStore();
   const { querySupplierListByName, loading } = useSupplier();
+  const { getAllSubRegions } = useFilter();
 
   /******************
    * Component states
@@ -53,7 +55,7 @@ export default function ScoutByIndex() {
   const [data, setData] = useState<ITableData[]>([]);
   // table data == filtered data
   const [tableData, setTableData] = useState<ITableData[]>([]);
-
+  const [queryString, setQueryString] = useState<string>("");
   const [searched, setSearched] = useState(false);
 
   /********************
@@ -61,12 +63,16 @@ export default function ScoutByIndex() {
    * *******************
    */
   useEffect(() => {
+    // component did mount, get all subregions
+    getAllSubRegions();
+  }, []);
+
+  useEffect(() => {
     const initialData: ITableData[] = suppliers?.map((s: any, i: number) =>
       supplierModelToTableData(s, i, allSubRegions)
     );
     const initialFilterData: FilterDataset =
       helperTableDataToFilterDataset(initialData);
-    setSearched(true);
     setinitialFilterValue(initialFilterData);
     setData(initialData);
     setTableData(initialData);
@@ -90,9 +96,10 @@ export default function ScoutByIndex() {
     setTableData(newData);
   };
   const searchHandler = (queryString: string) => {
-    setSearched(false);
+    setQueryString(queryString);
     // woulda put this in SearchBar but then loading wouldnt work that way.
     querySupplierListByName(queryString);
+    setSearched(true);
   };
   const resetView = () => {
     setSearched(false);
@@ -128,7 +135,7 @@ export default function ScoutByIndex() {
           )}
         </Stack>
         {!loading && searched && !hasData && <EmptyResult />}
-        {(!searched || hasData) && (
+        {((!loading && !searched) || loading || hasData) && (
           <Box>
             <SpacingVertical space="40px" />
             <Box>
@@ -137,11 +144,7 @@ export default function ScoutByIndex() {
               <ActionFilterAndView
                 filterInitialData={initialFilterDataset}
                 resultCount={stats?.count || data?.length || 0}
-                resultType={
-                  stats?.chain?.length
-                    ? stats.chain[stats.chain.length - 1]
-                    : "all"
-                }
+                resultType={queryString}
                 onClickBuildMyShortList={() => {
                   console.log("onClickBuildMyShortList");
                 }}

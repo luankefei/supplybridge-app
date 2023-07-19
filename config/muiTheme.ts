@@ -36,5 +36,9 @@ export const muiTheme = createTheme({
       500: "#4F4F4F",
       600: "#333333",
     },
+    background: {
+      default: "#fff",
+      paper: "#F9FAFB",
+    },
   },
 });
