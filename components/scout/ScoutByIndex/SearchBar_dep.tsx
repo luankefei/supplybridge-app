@@ -20,6 +20,7 @@ interface Props {
 }
 
 const autoEnv: any = { timer: 0, fire: false };
+
 const SearchBar = ({ onSearch }: Props) => {
   const [searchItem, setSearchItem] = useState("");
   const { setFilterData } = useStore();

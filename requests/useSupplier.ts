@@ -17,13 +17,11 @@ export const useSupplier = (flags: any = null) => {
   } = useStore();
   const [loading, setLoading] = useState(false);
 
-  const searchAutocomplete = async (q: string) => {
+  const searchAutocomplete = async (q: string, lang: "en" | "de") => {
     if (!q || q.length < 2) return [];
     try {
       const { data } = await request.get(
-        `configData/categorylevel?a=${encodeURIComponent(q)}&l=${
-          flags?.lang || "en"
-        }`
+        `configData/categorylevel?a=${encodeURIComponent(q)}&l=${lang || "en"}`
       );
       return data.items || [];
     } catch (err: any) {

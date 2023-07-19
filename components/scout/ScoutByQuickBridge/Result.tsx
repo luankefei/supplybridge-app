@@ -17,12 +17,11 @@ import { useRouter } from "next/router";
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 
-import { SearchBarForFilter } from "components/scout/SearchBar";
 import { GoBackIcon } from "components/Button";
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import { QuickBridgeTabType } from "utils/constants";
-import LoadingAnimation from "components/LoadingAnimation";
+import LoadingAnimation from "components/ui-components/loadingAnimation";
 
 let randomDuration = () => {
   let r = Math.floor(Math.random() * 10); // 0 ~ 9
@@ -259,12 +258,6 @@ export default function QuickbridgeResult() {
           </BreadcrumbsContainer>
           <MainContainer>
             <GoBackIcon goBack={setTabResult}></GoBackIcon>
-            <SearchContainer>
-              <SearchBarForFilter
-                onSearch={searchHandler}
-                placeholder={searchPlaceholder}
-              />
-            </SearchContainer>
             <FilterContainer>
               <ScoutFilter isQuickSearch={true} />
             </FilterContainer>

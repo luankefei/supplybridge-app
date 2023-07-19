@@ -11,7 +11,7 @@ import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 import Layout from "components/Layout";
-import SearchBar from "components/scout/SearchBar";
+import SearchBar from "components/scout/scoutByIndex/searchBar";
 import TechnologyBox from "components/scout/TechnologyBox";
 import Icon from "components/Icon";
 import ScoutFilter from "components/scout/ScoutFilter";

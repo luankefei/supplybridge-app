@@ -6,7 +6,7 @@ import {
   Select,
   Stack,
 } from "@mui/material";
-import { BadgeType, ITableData } from "./helper";
+import { BadgeType, ITableData } from "../scoutResultTable/helper";
 import { useEffect, useState } from "react";
 import { Clear } from "@mui/icons-material";
 
@@ -25,10 +25,13 @@ export interface FilterDataset {
 }
 
 interface Props {
-  data: ITableData[];
+  initialValue: FilterDataset;
   onFilterChange: (filter: FilterValue) => void;
 }
 
+/**
+ * Util component for table filters, drop down selector
+ */
 const MySelector = (props: {
   label: string;
   data: Set<string>;
@@ -69,6 +72,9 @@ const MySelector = (props: {
   );
 };
 
+/**
+ * The table filters
+ */
 const TableFilters = (props: Props) => {
   const [data, setData] = useState<FilterDataset>();
   const [filter, setFilter] = useState<FilterValue>({
@@ -82,36 +88,8 @@ const TableFilters = (props: Props) => {
   }, [filter]);
 
   useEffect(() => {
-    const { data } = props;
-    const name: Set<string> = new Set();
-    const hqLocations: Set<string> = new Set();
-    const footprints: Set<string> = new Set();
-    const badges: Set<BadgeType> = new Set();
-    data.forEach((item) => {
-      if (item.name) {
-        name.add(item.name);
-      }
-      if (item.headquarter) {
-        hqLocations.add(item.headquarter);
-      }
-      if (item.globalFootprint) {
-        Object.values(item.globalFootprint).forEach((footprint) => {
-          footprints.add(footprint);
-        });
-      }
-      if (item.badges) {
-        for (const badge of item.badges) {
-          badges.add(badge);
-        }
-      }
-    });
-    setData({
-      names: name,
-      headquarters: hqLocations,
-      globalFootprints: footprints,
-      badges,
-    });
-  }, [props.data]);
+    setData(props.initialValue);
+  }, [props.initialValue]);
 
   return (
     <Stack direction={"row"}>
@@ -169,6 +147,39 @@ const TableFilters = (props: Props) => {
       )}
     </Stack>
   );
+};
+
+export const helperTableDataToFilterDataset = (
+  data: ITableData[]
+): FilterDataset => {
+  const name: Set<string> = new Set();
+  const hqLocations: Set<string> = new Set();
+  const footprints: Set<string> = new Set();
+  const badges: Set<BadgeType> = new Set();
+  data.forEach((item) => {
+    if (item.name) {
+      name.add(item.name);
+    }
+    if (item.headquarter) {
+      hqLocations.add(item.headquarter);
+    }
+    if (item.globalFootprint) {
+      Object.values(item.globalFootprint).forEach((footprint) => {
+        footprints.add(footprint);
+      });
+    }
+    if (item.badges) {
+      for (const badge of item.badges) {
+        badges.add(badge);
+      }
+    }
+  });
+  return {
+    names: name,
+    headquarters: hqLocations,
+    globalFootprints: footprints,
+    badges,
+  };
 };
 
 export default TableFilters;

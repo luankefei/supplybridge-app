@@ -1,5 +1,4 @@
 import React, { useEffect, useState, useRef } from "react";
-import party from "party-js";
 import { Box } from "@mui/material";
 
 type Props = { showType?: string };

@@ -1,7 +1,6 @@
+import { IconNames } from "components/Icon";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-
-import { IconNames } from "components";
 
 interface Props {
   isSelected?: boolean;

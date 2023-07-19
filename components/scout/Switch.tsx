@@ -1,3 +1,4 @@
+import * as React from "react";
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
@@ -5,10 +6,11 @@ import { useTranslation } from "react-i18next";
 import useBoundStore from "hooks/useBoundStore";
 import styled from "styled-components";
 import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
-import ScoutByIndex from "./ScoutByIndex";
+import ScoutByIndex from "./scoutByIndex";
 import ScoutByQuickBridge from "./ScoutByQuickBridge";
 import BidderPart from "../bidder/index";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
+import { Box } from "@mui/material";
 
 export default function Switch() {
   const { t } = useTranslation();
@@ -49,7 +51,7 @@ export default function Switch() {
   }, [selected]);
 
   return (
-    <Container>
+    <Box>
       <SwitchContainer>
         <Switches>
           <Background selected={selected}></Background>
@@ -76,6 +78,7 @@ export default function Switch() {
           </ByBidder>
         </Switches>
       </SwitchContainer>
+
       {selected === ScoutSwitchType.index ? (
         <ScoutByIndex />
       ) : selected === ScoutSwitchType.quickBridge ? (
@@ -83,7 +86,7 @@ export default function Switch() {
       ) : (
         <BidderPart />
       )}
-    </Container>
+    </Box>
   );
 }
 

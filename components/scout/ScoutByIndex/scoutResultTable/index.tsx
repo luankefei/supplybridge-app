@@ -1,34 +1,16 @@
 import * as React from "react";
-import { useTranslation } from "react-i18next";
 import { styled } from "@mui/system";
 import Icon from "components/Icon";
-import useStore from "hooks/useStore";
 import { NullableImg } from "components/scout/Summary.styled";
-import {
-  Box,
-  Button,
-  ButtonGroup,
-  IconButton,
-  Stack,
-  Tooltip,
-  useTheme,
-} from "@mui/material";
+import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
 import {
   SpacingHorizontal,
   SpacingVertical,
 } from "components/ui-components/spacer";
 import { DataGrid, GridColDef } from "@mui/x-data-grid";
-import { DensitySmall, GridView, Info, List } from "@mui/icons-material";
-import {
-  BadgeType,
-  ITableData,
-  mapBadgeTypeToString,
-  supplierModelToTableData,
-} from "./helper";
+import { DensitySmall, Info } from "@mui/icons-material";
+import { BadgeType, ITableData, mapBadgeTypeToString } from "./helper";
 import { SText } from "components/ui-components/text";
-import TableFilters, { FilterValue } from "./tableFilters";
-import { hasIntersection } from "utils/array";
-import { useEffect } from "react";
 
 const supBadgeTooltipText = (
   <div>
@@ -73,25 +55,15 @@ const SupBadge = styled("span")`
     color: #1f3245;
   }
 `;
-export default function ScoutResultTable() {
-  const { t } = useTranslation();
+export default function ScoutResultTable({
+  tableData,
+}: {
+  tableData?: ITableData[];
+}) {
   const theme = useTheme();
-  const { allSubRegions, suppliers } = useStore();
-  const [data, setData] = React.useState<ITableData[]>([]);
-  const [tableData, setTableData] = React.useState<ITableData[]>([]);
   const [selectedRows, setSelectedRows] = React.useState<number[]>([]);
 
-  useEffect(() => {
-    const initialData = suppliers?.map((s: any, i: number) =>
-      supplierModelToTableData(s, i, allSubRegions)
-    );
-    setData(initialData);
-    setTableData(initialData);
-  }, [suppliers, allSubRegions]);
-
   const handleRowSelection = (rowSelectionModel: any, details: any) => {
-    // console.log("rowSelectionModel", rowSelectionModel);
-    // console.log("details", details);
     /**
      * rowSelectionModel = index of selected rows as a list
      * details: {
@@ -99,21 +71,6 @@ export default function ScoutResultTable() {
      * }
      */
     setSelectedRows(rowSelectionModel);
-  };
-
-  const onFilterChange = (fv: FilterValue) => {
-    const newData = data.filter((d) => {
-      const { name, headquarter, globalFootprint, badges } = d;
-      const { names, headquarters, globalFootprints, badges: fvBadges } = fv;
-      return (
-        (names.length === 0 || names.includes(name)) &&
-        (headquarters.length === 0 || headquarters.includes(headquarter)) &&
-        (globalFootprints.length === 0 ||
-          hasIntersection(globalFootprint, globalFootprints)) &&
-        (fvBadges.length === 0 || fvBadges.some((fvb) => badges.includes(fvb)))
-      );
-    });
-    setTableData(newData);
   };
 
   const compareSuppliers = () => {
@@ -222,51 +179,12 @@ export default function ScoutResultTable() {
     },
   ];
 
-  if (!data || data.length == 0) {
+  if (!tableData || tableData.length == 0) {
     return null;
   }
 
   return (
     <Box sx={{ width: "100%", p: 3 }}>
-      <Stack
-        sx={{
-          backgroundColor: "#fff",
-          padding: "20px",
-        }}
-      >
-        <Box
-          sx={{
-            display: "flex",
-            justifyContent: "space-between",
-          }}
-        >
-          <Stack direction={"row"} spacing={2}>
-            <Button variant="outlined">Build my shortlist</Button>
-            <Button variant="outlined">Bidder List</Button>
-            <Tooltip title="Select at least 2 suppliers to compare">
-              <span style={{ display: "flex" }}>
-                <Button
-                  variant="outlined"
-                  onClick={compareSuppliers}
-                  disabled={selectedRows.length < 2}
-                >
-                  Compare Suppliers
-                </Button>
-              </span>
-            </Tooltip>
-          </Stack>
-          <TableFilters data={data} onFilterChange={onFilterChange} />
-        </Box>
-        <SpacingVertical space="20px" />
-        <Box sx={{ justifyContent: "end", display: "flex" }}>
-          <IconButton>
-            <List />
-          </IconButton>
-          <IconButton>
-            <GridView />
-          </IconButton>
-        </Box>
-      </Stack>
       <DataGrid
         sx={{ backgroundColor: "#fff" }}
         rows={tableData}

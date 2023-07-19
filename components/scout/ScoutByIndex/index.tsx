@@ -1,26 +1,28 @@
 import Feedback from "components/Feedback";
-import LoadingAnimation, {
-  LoadingWithBackgroundOverlay,
-} from "components/LoadingAnimation";
-import Survicate from "components/Survicate";
-import BackDrop from "components/scout/BackDrop";
-import Filters from "components/scout/Filters";
+import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
 import GeoCharts from "components/scout/GeoCharts";
-import { ResultSelected } from "components/scout/ResultTable";
-import { SearchBar2 } from "components/scout/SearchBar";
 import Summary from "components/scout/Summary";
 import useStore from "hooks/useStore";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useFilter } from "requests/useFilter";
 import { useSupplier } from "requests/useSupplier";
-import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
-import styled from "styled-components";
-import ScoutResultTable from "../ScoutResultTable";
-import { Box, Button, MenuItem, Select, Stack } from "@mui/material";
-import { ColoredText, SText, TitleText } from "components/ui-components/text";
+import ScoutResultTable from "./scoutResultTable";
+import { Box, Stack } from "@mui/material";
+import { ColoredText } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
 import { SpacingVertical } from "components/ui-components/spacer";
+import ActionFilterAndView, { ViewType } from "./actionFilterAndView";
+import {
+  ITableData,
+  supplierModelToTableData,
+} from "./scoutResultTable/helper";
+import {
+  FilterDataset,
+  FilterValue,
+  helperTableDataToFilterDataset,
+} from "./actionFilterAndView/tableFilters";
+import { hasIntersection } from "utils/array";
+import SearchBar from "./searchBar";
 
 /**
  * Scout by index page
@@ -30,63 +32,57 @@ import { SpacingVertical } from "components/ui-components/spacer";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
-  const {
-    suppliers,
-    count,
-    setFilterData,
-    filterData,
-    clearFilterData,
-    showBackdrop,
-    flags,
-    stats,
-  } = useStore();
-  const { getCommodities, getRegions } = useFilter();
+  const { allSubRegions, suppliers, stats } = useStore();
   const { searchSuppliers, loading } = useSupplier();
-  const { searchFuelTypes } = useVehicleFuelTypes();
 
-  const [filterModalVisible, setFilterModalVisible] = useState(false);
-  const onFilterModalCancel = () => setFilterModalVisible(false);
-  const [surveyOn, setSurveyOn] = useState(false);
-
-  const infiniteScrollControl = useRef(true);
-  const countRef = useRef(count);
-  const pageRef = useRef(1);
-  const pageLoaded = useRef(false);
-  const searchString = useRef(filterData.q);
-
-  useEffect(() => {
-    getInitialRequests();
-  }, []);
-
-  useEffect(() => {
-    if (!flags.q) {
-      searchString.current = "";
-      return;
+  /******************
+   * Component states
+   * ****************
+   */
+  const [initialFilterDataset, setinitialFilterValue] = useState<FilterDataset>(
+    {
+      names: new Set(),
+      headquarters: new Set(),
+      globalFootprints: new Set(),
+      badges: new Set(),
     }
-    searchString.current = filterData.q;
-  }, [filterData]);
+  );
+  // initial data == all data
+  const [data, setData] = useState<ITableData[]>([]);
+  // table data == filtered data
+  const [tableData, setTableData] = useState<ITableData[]>([]);
 
+  /********************
+   * Component Effects
+   * *******************
+   */
   useEffect(() => {
-    countRef.current = stats?.count || count;
-  }, [count, stats]);
+    const initialData: ITableData[] = suppliers?.map((s: any, i: number) =>
+      supplierModelToTableData(s, i, allSubRegions)
+    );
+    const initialFilterData: FilterDataset =
+      helperTableDataToFilterDataset(initialData);
+    setinitialFilterValue(initialFilterData);
+    setData(initialData);
+    setTableData(initialData);
+  }, [suppliers, allSubRegions]);
 
-  const getInitialRequests = () => {
-    if (!pageLoaded.current) {
-      pageLoaded.current = true;
-      getCommodities();
-      getRegions();
-      searchSuppliers(1, true);
-      searchFuelTypes();
-    }
-  };
-
-  const searchSupplierHandler = async () => {
-    const currentPage = pageRef.current;
-    if (currentPage * 10 < countRef.current) {
-      await searchSuppliers(currentPage + 1, false, searchString.current);
-      pageRef.current = currentPage + 1;
-      infiniteScrollControl.current = true;
-    }
+  /********************
+   * Component Fnctions
+   *********************/
+  const onFilterChange = (fv: FilterValue) => {
+    const newData = data.filter((s: any) => {
+      const { name, headquarter, globalFootprint, badges } = s;
+      const { names, headquarters, globalFootprints, badges: fvBadges } = fv;
+      return (
+        (names.length === 0 || names.includes(name)) &&
+        (headquarters.length === 0 || headquarters.includes(headquarter)) &&
+        (globalFootprints.length === 0 ||
+          hasIntersection(globalFootprint, globalFootprints)) &&
+        (fvBadges.length === 0 || fvBadges.some((fvb) => badges.includes(fvb)))
+      );
+    });
+    setTableData(newData);
   };
 
   const searchHandler = () => {
@@ -94,63 +90,59 @@ export default function ScoutByIndex() {
     console.log("searching.....");
   };
 
-  const isSuppliersNotEmpty: boolean =
-    suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
+  const onSelectedBackClick = () => {};
 
-  const onSelectedBackClick = () => {
-    flags.selected = null;
-    const q = flags.back;
-    flags.back = "";
-    flags.type = "Companies";
-    clearFilterData();
-    setFilterData({ q });
-  };
+  const hasData: boolean = data.length > 0;
   return (
     <Stack>
       {loading && <LoadingWithBackgroundOverlay />}
       <>
-        {flags.selected ? (
-          <Box onClick={onSelectedBackClick}>
-            <span>&#x1f860;</span> BACK
-          </Box>
-        ) : (
-          <Stack sx={{ justifyContent: "center" }}>
-            {!isSuppliersNotEmpty && (
-              <Box margin={"auto"}>
-                <SpacingVertical space="100px" />
-                <ColoredText>
-                  {t(
-                    "scout.title",
-                    "Global Scouting, for Automotive professionals."
-                  )}
-                </ColoredText>
-
-                <PoweredBy center />
-              </Box>
-            )}
-            <SearchBar2 onSearch={searchHandler} />
-            {isSuppliersNotEmpty && (
-              <Box margin={"auto"}>
-                <SpacingVertical space="16px" />
-                <PoweredBy />
-              </Box>
-            )}
-          </Stack>
-        )}
+        <Stack sx={{ justifyContent: "center" }}>
+          {!hasData && (
+            <Box margin={"auto"}>
+              <SpacingVertical space="100px" />
+              <ColoredText>
+                {t(
+                  "scout.title",
+                  "Global Scouting, for Automotive professionals."
+                )}
+              </ColoredText>
+              <PoweredBy center />
+            </Box>
+          )}
+          <SearchBar />
+          {hasData && (
+            <Box margin={"auto"}>
+              <SpacingVertical space="16px" />
+              <PoweredBy />
+            </Box>
+          )}
+        </Stack>
         <Box>
           <SpacingVertical space="40px" />
-          <BackDrop isOpen={!isSuppliersNotEmpty && showBackdrop} />
           <Box>
             <GeoCharts />
-            {flags.selected ? (
-              <ResultSelected selected={flags.selected} />
-            ) : null}
-            {isSuppliersNotEmpty && (
-              <Filters totalCount={stats?.count || count} />
-            )}
-            {isSuppliersNotEmpty && !flags.selected && <Summary />}
-            <ScoutResultTable />
-            {/* <ResultTable /> */}
+            {hasData && <Summary />}
+            <ActionFilterAndView
+              filterInitialData={initialFilterDataset}
+              resultCount={stats?.count || data.length}
+              resultType={
+                stats?.chain?.length
+                  ? stats.chain[stats.chain.length - 1]
+                  : "all"
+              }
+              onClickBuildMyShortList={() => {
+                console.log("onClickBuildMyShortList");
+              }}
+              onClickBidderList={() => {
+                console.log("onClickBidderList");
+              }}
+              onFilterChange={onFilterChange}
+              onViewChange={function (view: ViewType): void {
+                throw new Error("Function not implemented.");
+              }}
+            />
+            <ScoutResultTable tableData={tableData} />
           </Box>
         </Box>
       </>
