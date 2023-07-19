@@ -10,6 +10,7 @@
     "test": "jest --watch",
     "coverage": "jest --coverage",
     "lint-silent": "next lint --quiet",
+    "tsc-lint": "tsc --noEmit -p . --excludeDirectories node_modules",
     "prepare": "husky install"
   },
   "dependencies": {

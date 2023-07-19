@@ -6,15 +6,15 @@ import BigCard from "./BigCard";
 import BigCardSkeleton from "./BigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
+import { QuickBridgeTabType, ScoutSwitchType } from "../types";
 import { useQuickBridgeService } from "requests/useScoutByScoutBridge";
 import _ from "lodash";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Engineering": "scout.quickbridge.engineering",
-   "Quality": "scout.quickbridge.quality",
-   "Logistics": "scout.quickbridge.logistics",
+  Engineering: "scout.quickbridge.engineering",
+  Quality: "scout.quickbridge.quality",
+  Logistics: "scout.quickbridge.logistics",
 };
 
 export default function ServicesP() {
@@ -97,7 +97,9 @@ export default function ServicesP() {
                   src={icon}
                   title={t(nameKeyMap[name], name)}
                   selected={selected === id}
-                  infoContent={InfoContent(t(`${nameKeyMap[name]}Desc`, description))}
+                  infoContent={InfoContent(
+                    t(`${nameKeyMap[name]}Desc`, description)
+                  )}
                 />
               </CardWrapper>
             ))}

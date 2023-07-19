@@ -4,9 +4,8 @@ import Head from "next/head";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
-import Link from 'next/link';
+import Link from "next/link";
 import dynamic from "next/dynamic";
-
 
 import { emailPattern } from "utils/validator";
 import { useAuth } from "requests/useAuth";
@@ -15,7 +14,7 @@ import Introduction from "components/Introduction";
 import TermsPrivacyFooter from "components/TermsPrivacyFooter";
 import Icon from "components/Icon";
 import TextField from "components/TextField";
-const Box = dynamic(() => import("components/Box"));
+const Box = dynamic(() => import("components/box"));
 const Button = dynamic(() => import("components/Button"));
 
 interface State {
@@ -23,9 +22,7 @@ interface State {
   password: string;
 }
 
-const emailLoginSuffix = [
-   'bmw.de', 'bmw.com', 'bmwgroup.com'
-];
+const emailLoginSuffix = ["bmw.de", "bmw.com", "bmwgroup.com"];
 
 export default function Login() {
   const { login, loading, sendVerificationEmail } = useAuth();
@@ -54,148 +51,180 @@ export default function Login() {
     }
   };
 
-  const onEmailChange = useCallback((evt: any) => {
-     const email0 = evt.target.value;
-     if (!email0) return;
-     const suffix = email0.split('@')[1];
-     if (!suffix) return;
-     if (emailLoginSuffix.includes(suffix)) {
-        if (!enableEmailLogin) { setEnableEmailLogin(true); window.localStorage.setItem('emaillogin', email0); };
-     } else {
+  const onEmailChange = useCallback(
+    (evt: any) => {
+      const email0 = evt.target.value;
+      if (!email0) return;
+      const suffix = email0.split("@")[1];
+      if (!suffix) return;
+      if (emailLoginSuffix.includes(suffix)) {
+        if (!enableEmailLogin) {
+          setEnableEmailLogin(true);
+          window.localStorage.setItem("emaillogin", email0);
+        }
+      } else {
         if (enableEmailLogin) setEnableEmailLogin(false);
-     }
-  }, [enableEmailLogin, setEnableEmailLogin]);
+      }
+    },
+    [enableEmailLogin, setEnableEmailLogin]
+  );
 
   useEffect(() => {
-     const t = setInterval(() => {
-        if (!enableEmailLogin) return;
-        const ts = new Date().getTime();
-        const lastTs = new Date(parseInt(window.localStorage.getItem('emailloginint') || '0')).getTime();
-        if (ts - lastTs < 1000 * 60) {
-           if (isEmailButtonOk) setIsEmailButtonOk(false);
-        } else {
-           if (!isEmailButtonOk) setIsEmailButtonOk(true);
-        }
-     }, 1000);
-     return () => {
-        clearInterval(t);
-     };
+    const t = setInterval(() => {
+      if (!enableEmailLogin) return;
+      const ts = new Date().getTime();
+      const lastTs = new Date(
+        parseInt(window.localStorage.getItem("emailloginint") || "0")
+      ).getTime();
+      if (ts - lastTs < 1000 * 60) {
+        if (isEmailButtonOk) setIsEmailButtonOk(false);
+      } else {
+        if (!isEmailButtonOk) setIsEmailButtonOk(true);
+      }
+    }, 1000);
+    return () => {
+      clearInterval(t);
+    };
   }, [enableEmailLogin, isEmailButtonOk, setIsEmailButtonOk]);
 
   return (
     <BackgroundContainer>
-    <Container>
-      <InnerContainer>
-      <FormContainer>
-      <Head>
-        <title>Login | Supply Bridge</title>
-        <meta name="description" content="Login page of the Supply Bridge" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
+      <Container>
+        <InnerContainer>
+          <FormContainer>
+            <Head>
+              <title>Login | Supply Bridge</title>
+              <meta
+                name="description"
+                content="Login page of the Supply Bridge"
+              />
+              <link rel="icon" href="/favicon.ico" />
+            </Head>
 
-      <Link href="/">
-        <Icon src="logo" width={350} height={40} m={'0px 0px 24px'} hover />
-      </Link>
-      <Box>
-        <FormTitle>Experience our<br/>Next-Generation platform</FormTitle>
-        <Label>Email</Label>
-        <Controller
-          name="email"
-          control={control}
-          defaultValue=""
-          rules={{ required: true, pattern: emailPattern }}
-          render={({
-            field: { onChange, onBlur, value },
-            fieldState: { error },
-          }) => (
-            <TextFieldForLogin
-              id="email-input"
-              variant="filled"
-              data-testid="email"
-              type="email"
-              value={value}
-              onChange={(evt: any) => {
-                 onEmailChange(evt);
-                 onChange(evt);
-              }}
-              onBlur={onBlur}
-              onKeyDown={onKeyDown}
-              error={!!error}
-              helperText={error ? error.message : null}
-            />
-          )}
-        />
-        {enableEmailLogin ? null : <>
-        <Label>Password</Label>
-        <Controller
-          name="password"
-          control={control}
-          defaultValue=""
-          rules={{
-            required: true,
-            minLength: {
-              value: 6,
-              message: "Password must have at least 6 characters",
-            },
-          }}
-          render={({
-            field: { onChange, onBlur, value },
-            fieldState: { error },
-          }) => (
-            <TextFieldForLogin
-              id="filled-basic"
-              variant="filled"
-              data-testid="password"
-              value={value}
-              type={showPassword ? "email" : "password"}
-              onChange={onChange}
-              onBlur={onBlur}
-              onKeyDown={onKeyDown}
-              error={!!error}
-              helperText={error ? error.message : null}
-              endAdornment={
-                <InputAdornment position="end">
-                  <IconButton
-                    aria-label="toggle password visibility"
-                    onClick={showPasswordHandler}
-                  >
-                    {showPassword ? (
-                      <Icon src="show-eye" hover={true} />
-                    ) : (
-                      <Icon src="hide-eye" hover={true} />
+            <Link href="/">
+              <Icon
+                src="logo"
+                width={350}
+                height={40}
+                m={"0px 0px 24px"}
+                hover
+              />
+            </Link>
+            <Box>
+              <FormTitle>
+                Experience our
+                <br />
+                Next-Generation platform
+              </FormTitle>
+              <Label>Email</Label>
+              <Controller
+                name="email"
+                control={control}
+                defaultValue=""
+                rules={{ required: true, pattern: emailPattern }}
+                render={({
+                  field: { onChange, onBlur, value },
+                  fieldState: { error },
+                }) => (
+                  <TextFieldForLogin
+                    id="email-input"
+                    variant="filled"
+                    data-testid="email"
+                    type="email"
+                    value={value}
+                    onChange={(evt: any) => {
+                      onEmailChange(evt);
+                      onChange(evt);
+                    }}
+                    onBlur={onBlur}
+                    onKeyDown={onKeyDown}
+                    error={!!error}
+                    helperText={error ? error.message : null}
+                  />
+                )}
+              />
+              {enableEmailLogin ? null : (
+                <>
+                  <Label>Password</Label>
+                  <Controller
+                    name="password"
+                    control={control}
+                    defaultValue=""
+                    rules={{
+                      required: true,
+                      minLength: {
+                        value: 6,
+                        message: "Password must have at least 6 characters",
+                      },
+                    }}
+                    render={({
+                      field: { onChange, onBlur, value },
+                      fieldState: { error },
+                    }) => (
+                      <TextFieldForLogin
+                        id="filled-basic"
+                        variant="filled"
+                        data-testid="password"
+                        value={value}
+                        type={showPassword ? "email" : "password"}
+                        onChange={onChange}
+                        onBlur={onBlur}
+                        onKeyDown={onKeyDown}
+                        error={!!error}
+                        helperText={error ? error.message : null}
+                        endAdornment={
+                          <InputAdornment position="end">
+                            <IconButton
+                              aria-label="toggle password visibility"
+                              onClick={showPasswordHandler}
+                            >
+                              {showPassword ? (
+                                <Icon src="show-eye" hover={true} />
+                              ) : (
+                                <Icon src="hide-eye" hover={true} />
+                              )}
+                            </IconButton>
+                          </InputAdornment>
+                        }
+                      />
                     )}
-                  </IconButton>
-                </InputAdornment>
-              }
-            />
-          )}
-        /></>}
-      </Box>
-      <div className="check-row">
-        <div className="radio-input">
-          <input type="checkbox" id="radio" name="radio" />
-          <label htmlFor="radio" className="remember-me">
-            Remember me
-          </label>
-        </div>
-        <div className="forgot-text">
-          <Link href="#">forget password?</Link>
-        </div>
-      </div>
-      {enableEmailLogin? <Button disabled={!isEmailButtonOk || loading} onClick={sendVerificationEmail}>Email Verify to Login</Button> :
-      <Button
-        disabled={!isValid || loading}
-        loading={loading}
-        type="submit"
-        onClick={handleSubmit(onSubmit)}
-      >
-        Login
-      </Button>}
-      </FormContainer>
-      <TermsPrivacyFooter/>
-      </InnerContainer>
-    </Container>
-    <Introduction/>
+                  />
+                </>
+              )}
+            </Box>
+            <div className="check-row">
+              <div className="radio-input">
+                <input type="checkbox" id="radio" name="radio" />
+                <label htmlFor="radio" className="remember-me">
+                  Remember me
+                </label>
+              </div>
+              <div className="forgot-text">
+                <Link href="#">forget password?</Link>
+              </div>
+            </div>
+            {enableEmailLogin ? (
+              <Button
+                disabled={!isEmailButtonOk || loading}
+                onClick={sendVerificationEmail}
+              >
+                Email Verify to Login
+              </Button>
+            ) : (
+              <Button
+                disabled={!isValid || loading}
+                loading={loading}
+                type="submit"
+                onClick={handleSubmit(onSubmit)}
+              >
+                Login
+              </Button>
+            )}
+          </FormContainer>
+          <TermsPrivacyFooter />
+        </InnerContainer>
+      </Container>
+      <Introduction />
     </BackgroundContainer>
   );
 }
@@ -259,19 +288,19 @@ const InnerContainer = styled.div`
     margin: 0 2px;
     font-weight: 600;
   }
-`
+`;
 
-const Label = styled.span `
+const Label = styled.span`
   color: #6c757d;
   margin-top: 48px;
   font-size: 16px;
-`
+`;
 
 const FormContainer = styled.div`
   flex: 1 0 auto;
   margin-top: 25%;
   > a > img {
-     margin-left: -16px;
+    margin-left: -16px;
   }
 `;
 
