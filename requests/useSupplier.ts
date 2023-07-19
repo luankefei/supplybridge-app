@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { request } from "config/axios";
 import useStore from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
+import { useTranslation } from "react-i18next";
 
 export const useSupplier = (flags: any = null) => {
   const {
@@ -16,12 +17,13 @@ export const useSupplier = (flags: any = null) => {
     setStats,
   } = useStore();
   const [loading, setLoading] = useState(false);
+  const { i18n } = useTranslation();
 
-  const searchAutocomplete = async (q: string, lang: "en" | "de") => {
+  const searchAutocomplete = async (q: string) => {
     if (!q || q.length < 2) return [];
     try {
       const { data } = await request.get(
-        `configData/categorylevel?a=${encodeURIComponent(q)}&l=${lang || "en"}`
+        `configData/categorylevel?a=${encodeURIComponent(q)}&l=${i18n.language}`
       );
       return data.items || [];
     } catch (err: any) {

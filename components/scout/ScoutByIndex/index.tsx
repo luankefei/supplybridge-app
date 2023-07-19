@@ -112,7 +112,9 @@ export default function ScoutByIndex() {
               <PoweredBy center />
             </Box>
           )}
+
           <SearchBar />
+
           {hasData && (
             <Box margin={"auto"}>
               <SpacingVertical space="16px" />
