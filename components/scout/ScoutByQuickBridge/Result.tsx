@@ -3,7 +3,6 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import _, { capitalize } from "lodash";
 
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
@@ -20,8 +19,8 @@ const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 import { GoBackIcon } from "components/Button";
 import { theme } from "config/theme";
 import useStore from "hooks/useStore";
-import { QuickBridgeTabType } from "utils/constants";
 import LoadingAnimation from "components/ui-components/loadingAnimation";
+import { QuickBridgeTabType } from "../types";
 
 let randomDuration = () => {
   let r = Math.floor(Math.random() * 10); // 0 ~ 9

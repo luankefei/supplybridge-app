@@ -18,10 +18,10 @@ import { useTranslation } from "react-i18next";
 import useStore from "hooks/useStore";
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType } from "utils/constants";
 import ServicesP from "./ServicesP";
 import { Button } from "@mui/material";
 import Feedback from "components/Feedback";
+import { QuickBridgeTabType } from "../types";
 
 interface StyledTabsProps {
   children?: React.ReactNode;

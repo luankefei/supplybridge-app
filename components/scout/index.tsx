@@ -1,54 +1,20 @@
 import * as React from "react";
+import { useState } from "react";
 import { theme } from "config/theme";
-import useStore from "hooks/useStore";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import useBoundStore from "hooks/useBoundStore";
-import styled from "styled-components";
-import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 import ScoutByIndex from "./scoutByIndex";
 import ScoutByQuickBridge from "./ScoutByQuickBridge";
 import BidderPart from "../bidder/index";
-import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
+import styled from "styled-components";
 import { Box } from "@mui/material";
+import { ScoutSwitchType } from "./types";
+import { useTranslation } from "react-i18next";
 
-export default function Switch() {
+export default function ScoutingMain() {
   const { t } = useTranslation();
-  const { resetAllSelected } = useQuickBridgeSupplier();
-  const { quickBridgeStore } = useBoundStore((state) => ({
-    quickBridgeStore: state.quickBridge,
-  }));
-  const { setResult, setTab, setFilter, setSelectedLabel } = quickBridgeStore;
-  // const [selected, setSelected] = useState("byIndex");
-  const { setFilterData, clearFilterData, setSuppliers } = useStore();
-
-  const clearFilter = () => {
-    setResult(false);
-    setTab(0, QuickBridgeTabType.vehile);
-    setFilter("q", "");
-    setFilter("vehicleTypes", null);
-    setFilter("vehicleBrands", null);
-    setFilter("vehicleModels", null);
-    setFilter("vehicleFuelTypes", null);
-    setFilter("commodities", null);
-    setFilter("productionTechnologies", null);
-    setFilter("pioneers", null);
-    setFilter("servicesType", null);
-    clearFilterData();
-    resetAllSelected();
-    setSelectedLabel("");
-  };
-
   const [selected, setSelected] = useState(ScoutSwitchType.index);
-  // const { setFilterData, setSuppliers } = useStore();
   const handleSwitchSelected = (val: ScoutSwitchType) => {
     setSelected(val);
   };
-
-  useEffect(() => {
-    clearFilterData();
-    setSuppliers([], true);
-  }, [selected]);
 
   return (
     <Box>
@@ -58,7 +24,6 @@ export default function Switch() {
           <ByIndex
             selected={selected}
             onClick={() => {
-              clearFilter();
               handleSwitchSelected(ScoutSwitchType.index);
             }}
           >
@@ -79,22 +44,12 @@ export default function Switch() {
         </Switches>
       </SwitchContainer>
 
-      {selected === ScoutSwitchType.index ? (
-        <ScoutByIndex />
-      ) : selected === ScoutSwitchType.quickBridge ? (
-        <ScoutByQuickBridge />
-      ) : (
-        <BidderPart />
-      )}
+      {selected === ScoutSwitchType.index && <ScoutByIndex />}
+      {selected === ScoutSwitchType.quickBridge && <ScoutByQuickBridge />}
+      {selected === ScoutSwitchType.bidder && <BidderPart />}
     </Box>
   );
 }
-
-const Container = styled.div`
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-`;
 
 const SwitchContainer = styled.div`
   @media (min-width: ${theme.dimension.cardMaxWidth}) {
@@ -107,7 +62,6 @@ const SwitchContainer = styled.div`
 `;
 
 const Switches = styled.div`
-  //width: 348px;
   width: 522px;
   height: 56px;
   background: #f9fafb;
@@ -134,7 +88,6 @@ const Background = styled.div<any>`
   border-radius: 16px;
   transition: 0.5s;
 `;
-
 const ByIndex = styled.span<any>`
   width: 50%;
   padding: 6px 10px;
