@@ -23,6 +23,7 @@ import {
 } from "./actionFilterAndView/tableFilters";
 import { hasIntersection } from "utils/array";
 import SearchBar from "./searchBar";
+import LanguageSelector from "components/languageSelector";
 
 /**
  * Scout by index page
@@ -95,6 +96,7 @@ export default function ScoutByIndex() {
   const hasData: boolean = data.length > 0;
   return (
     <Stack>
+      <LanguageSelector />
       {loading && <LoadingWithBackgroundOverlay />}
       <>
         <Stack sx={{ justifyContent: "center" }}>
