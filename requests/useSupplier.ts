@@ -19,6 +19,11 @@ export const useSupplier = (flags: any = null) => {
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
 
+  /**
+   * Search for autocomplete suggestions based on a query string
+   * @param q - search string
+   * @returns an array of autocomplete suggestions, or an empty array
+   */
   const searchAutocomplete = async (q: string) => {
     if (!q || q.length < 2) return [];
     try {
@@ -26,12 +31,20 @@ export const useSupplier = (flags: any = null) => {
         `configData/categorylevel?a=${encodeURIComponent(q)}&l=${i18n.language}`
       );
       return data.items || [];
-    } catch (err: any) {
+    } catch (err) {
       console.error(err);
       return [];
     }
   };
-
+  /**
+   * Query supplier list by string
+   *
+   * sets [suppliers], [count], [stats] at store
+   *
+   * sets loading
+   * @param queryString -- search string
+   * @returns the data from the request
+   */
   const querySupplierListByName = async (queryString: string) => {
     try {
       setLoading(true);

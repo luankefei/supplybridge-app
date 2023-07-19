@@ -1,7 +1,7 @@
 import * as React from "react";
 import { styled } from "@mui/system";
 import Icon from "components/Icon";
-import { NullableImg } from "components/scout/Summary.styled";
+import { NullableImg } from "components/scout/scoutByIndex/summary.styled";
 import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
 import {
   SpacingHorizontal,

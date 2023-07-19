@@ -1,7 +1,7 @@
 import Feedback from "components/Feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
-import GeoCharts from "components/scout/GeoCharts";
-import Summary from "components/scout/Summary";
+import GeoCharts from "./geoCharts";
+import Summary from "./summary";
 import useStore from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -96,6 +96,9 @@ export default function ScoutByIndex() {
     setTableData(newData);
   };
   const searchHandler = (queryString: string) => {
+    if (queryString === "") {
+      return;
+    }
     setQueryString(queryString);
     // woulda put this in SearchBar but then loading wouldnt work that way.
     querySupplierListByName(queryString);
@@ -103,6 +106,9 @@ export default function ScoutByIndex() {
   };
   const resetView = () => {
     setSearched(false);
+    setQueryString("");
+    setData([]);
+    setTableData([]);
   };
 
   const hasData: boolean = data.length > 0;
@@ -139,24 +145,28 @@ export default function ScoutByIndex() {
           <Box>
             <SpacingVertical space="40px" />
             <Box>
-              <GeoCharts />
-              {hasData && <Summary />}
-              <ActionFilterAndView
-                filterInitialData={initialFilterDataset}
-                resultCount={stats?.count || data?.length || 0}
-                resultType={queryString}
-                onClickBuildMyShortList={() => {
-                  console.log("onClickBuildMyShortList");
-                }}
-                onClickBidderList={() => {
-                  console.log("onClickBidderList");
-                }}
-                onFilterChange={onFilterChange}
-                onViewChange={function (view: ViewType): void {
-                  throw new Error("Function not implemented.");
-                }}
-              />
-              <ScoutResultTable tableData={tableData} />
+              {((!loading && !searched) || loading || hasData) && <GeoCharts />}
+              {hasData && (
+                <>
+                  <Summary queryString={queryString} />
+                  <ActionFilterAndView
+                    filterInitialData={initialFilterDataset}
+                    resultCount={data?.length || 0}
+                    resultType={queryString}
+                    onClickBuildMyShortList={() => {
+                      console.log("onClickBuildMyShortList");
+                    }}
+                    onClickBidderList={() => {
+                      console.log("onClickBidderList");
+                    }}
+                    onFilterChange={onFilterChange}
+                    onViewChange={function (view: ViewType): void {
+                      console.log("onViewChange", view);
+                    }}
+                  />
+                  <ScoutResultTable tableData={tableData} />
+                </>
+              )}
             </Box>
           </Box>
         )}

@@ -15,7 +15,7 @@ import SearchBar from "components/scout/scoutByIndex/searchBar";
 import TechnologyBox from "components/scout/TechnologyBox";
 import Icon from "components/Icon";
 import ScoutFilter from "components/scout/ScoutFilter";
-import GeoCharts from "components/scout/GeoCharts";
+import GeoCharts from "components/scout/scoutByIndex/geoCharts";
 import Filters from "components/scout/Filters";
 import ResultCard from "components/scout/ResultCard";
 import Feedback from "components/Feedback";
@@ -139,7 +139,7 @@ export default function Industry({}: Props) {
                 <Label>SmartBridge AI</Label>
               </IconLabel>
             </IconContainer>
-            <SearchBar onSearch={searchHandler} />
+            <SearchBar onSearch={searchHandler} onReset={() => {}} />
             <CircleButton onClick={() => setFilterModalVisible(true)}>
               <Icon src="filter" p={"3px"} m={"12px"} hover />
             </CircleButton>

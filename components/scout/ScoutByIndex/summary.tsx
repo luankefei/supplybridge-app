@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import useStore from "hooks/useStore";
 import {
@@ -18,52 +18,18 @@ import {
   SummarySupplierTitle,
   SummaryCategoriesContainer,
   SummaryL3,
-} from "components/scout/Summary.styled";
-
+} from "components/scout/scoutByIndex/summary.styled";
 import demoData from "components/scout/summaryCategoryData";
 
-function demoRandomPick(obj: any): any {
-  if (!obj) return null;
-  if (Array.isArray(obj)) {
-    if (!obj.length) return null;
-    return obj[Math.floor(Math.random() * obj.length)];
-  } else {
-    return demoRandomPick(Object.keys(obj));
-  }
-}
-
-function selectNearestL2(L2: string[], q: string) {
-  const L2lowercases = L2.map((x: string) => x.toLowerCase());
-  const i = L2lowercases.indexOf(q.toLowerCase());
-  if (i < 0) return null;
-  return L2[i];
-}
-
-function doScore(q: any, q0: any) {
-  if (q.length < 3) return 0;
-  if (!q || !q0) return 0;
-  q = q.toLowerCase();
-  q0 = q0.toLowerCase();
-  if (q0.indexOf(q) >= 0) {
-    return q.length / q0.length;
-  }
-  return 0;
-}
-
-function determineSummary(
-  filterData: any,
-  suppliers: any,
-  flags: any,
-  stats: any
-): any {
+function determineSummary(queryString: string, flags: any, stats: any): any {
   const summary: any = {};
   // TODO: determine summary title by filterData.q
-  if (flags.L2 && filterData.q === `${flags.L3 || ""}`) {
+  if (flags.L2 && queryString === `${flags.L3 || ""}`) {
     summary.lastQ = flags.L2;
   } else {
     flags.L2 = null;
     flags.L3 = null;
-    summary.lastQ = filterData.q;
+    summary.lastQ = queryString;
   }
 
   const chain = stats.chain;
@@ -171,17 +137,21 @@ function isHidden(f: any) {
   return "hidden";
 }
 
-export default function Summary() {
+interface ISummaryProps {
+  queryString: string;
+}
+
+export default function Summary({ queryString }: ISummaryProps) {
   const { t } = useTranslation();
   const { suppliers, filterData, setFilterData, flags, stats } = useStore();
 
   const [summary, setSummary] = useState(
-    determineSummary(filterData, suppliers, flags, stats) || {}
+    determineSummary(filterData, flags, stats) || {}
   );
   useEffect(() => {
     if (filterData.q === summary.lastQ) return;
-    setSummary(determineSummary(filterData, suppliers, flags, stats));
-  }, [suppliers]);
+    setSummary(determineSummary(filterData, flags, stats));
+  }, []);
 
   if (!summary.L2selected) return null;
 
