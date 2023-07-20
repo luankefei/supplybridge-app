@@ -5,9 +5,8 @@ import Chart from "react-google-charts";
 import { Skeleton } from "@mui/material";
 
 import { allCountry } from "utils/countries";
-import useStore from "hooks/useStore";
+import { usePersistentStore, useNonPersistentStore } from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
-import Icon from "components/Icon";
 import { useFilter } from "requests/useFilter";
 
 const initialOptions: any = {
@@ -40,9 +39,9 @@ const GeoCharts = () => {
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
-  const allSubRegionsLoaded = useRef(false);
   const { searchSuppliers, loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
+  const { suppliers, stats } = useNonPersistentStore();
   const {
     allCountries,
     setAllCountries,
@@ -50,19 +49,12 @@ const GeoCharts = () => {
     setSelectedCountries,
     selectedCountries,
     filterData,
-    suppliers,
-    stats,
+
     setFilterData,
     allSubRegions,
     flags,
-  } = useStore();
+  } = usePersistentStore();
 
-  useEffect(() => {
-    if (!allSubRegionsLoaded.current) {
-      getAllSubRegions();
-      allSubRegionsLoaded.current = true;
-    }
-  }, [allSubRegionsLoaded]);
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
     return noOfSuppliers > 0
       ? `<div><b>${name} </b><p> Suppliers: ${noOfSuppliers}</p></div>`
@@ -351,6 +343,7 @@ const GeoCharts = () => {
       </ButtonContainer>
       <Container ref={elContainer}>
         <Chart
+          mapsApiKey="AIzaSyCK82K3LYt7jcFYYdpi0kyjIKdfdc8TjRI"
           chartEvents={[
             {
               eventName: "select",

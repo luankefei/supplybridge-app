@@ -1,6 +1,6 @@
-import { useEffect, useRef, useState, useCallback } from "react";
-import { keyframes, styled, useTheme } from "@mui/material/styles";
-import Select, { SelectChangeEvent } from "@mui/material/Select";
+import { useEffect, useState, useCallback } from "react";
+import { styled, useTheme } from "@mui/material/styles";
+import { SelectChangeEvent } from "@mui/material/Select";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -12,21 +12,16 @@ import ByProductionTech from "./ByProductionTech";
 import Icon from "components/Icon";
 import ByPioneer from "./ByPioneer";
 import BySegment from "./BySegment";
-import dynamic from "next/dynamic";
 import ByCommodity from "./ByCommodity";
 import QuickbridgeResult from "./Result";
 import { useTranslation } from "react-i18next";
-import useStore from "hooks/useStore";
-
-import { LangSwitch } from "../SearchBar";
-
-const Feedback = dynamic(() => import("components/Feedback"));
-
+import { usePersistentStore } from "hooks/useStore";
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType, ScoutSwitchType } from "utils/constants";
 import ServicesP from "./ServicesP";
 import { Button } from "@mui/material";
+import Feedback from "components/Feedback";
+import { QuickBridgeTabType } from "../types";
 
 interface StyledTabsProps {
   children?: React.ReactNode;
@@ -132,7 +127,7 @@ export default function ScoutByQuickBridge() {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const { flags } = useStore();
+  const { flags } = usePersistentStore();
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const router = useRouter();
 
@@ -231,12 +226,6 @@ export default function ScoutByQuickBridge() {
   return (
     <>
       <div className="Container">
-        <LangSwitch
-          onChange={handleSearchLangChange}
-          checked={langSwChecked}
-          label={searchLang}
-        />
-
         <div className="Content">
           {!tab.isResult ? (
             <>

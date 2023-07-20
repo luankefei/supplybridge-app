@@ -32,23 +32,19 @@ function RMTopMenuBar({ children }: { children: React.ReactNode }) {
     >
       <Toolbar style={{ backgroundColor: "white" }}>
         <Grid style={{ padding: "0 48px" }} container>
-          <Grid item xs={6}>
-            <Stack style={{ padding: "0 48px" }}>
-              <Collapse in={!isScrolled}>
-                <SpacingVertical space="36px" />
-                <TitleText>
-                  Material price checking system, more insights for your
-                  decision!
-                </TitleText>
-                <PoweredBy />
-              </Collapse>
+          <Stack style={{ padding: "0 48px" }}>
+            <Collapse in={!isScrolled}>
+              <SpacingVertical space="36px" />
+              <TitleText>
+                Material price checking system, more insights for your decision!
+              </TitleText>
+              <PoweredBy />
+            </Collapse>
 
-              <SpacingVertical space="36px" />
-              {children}
-              <SpacingVertical space="36px" />
-            </Stack>
-          </Grid>
-          <Grid item xs={6}></Grid>
+            <SpacingVertical space="36px" />
+            {children}
+            <SpacingVertical space="36px" />
+          </Stack>
         </Grid>
       </Toolbar>
     </AppBar>

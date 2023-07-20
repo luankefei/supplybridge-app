@@ -100,29 +100,19 @@ const ContainerWrapper = styled.div`
 
   .hidden {
     right: -495px;
+    height: 100px;
     transition: right 1s ease 0s;
   }
 `;
 
-const Mask = styled.div<any>`
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: white;
-  opacity: 0.3;
-  z-index: 3000;
-  display: ${(props) => (props.show ? "block" : "none")};
-`;
-
+/// Z-index is 1100 to be above the header, but below drawers
 const Container = styled.div`
   position: fixed;
   top: 14px;
   right: -492px;
 
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
-  z-index: 3001;
+  z-index: 1100;
 
   display: flex;
   flex-direction: row;
@@ -166,8 +156,6 @@ const FeedbackLabelWrapper = styled.div`
   color: #ffffff;
   cursor: pointer;
 `;
-
-const FeedbackLabel = styled.div``;
 
 const FeedbackTitle = styled.div`
   color: #2a3840;

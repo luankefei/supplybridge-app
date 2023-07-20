@@ -1,10 +1,10 @@
-import Switch from "components/Switch";
+import ScoutingMain from "components/scout";
 import Layout from "components/Layout";
 
 export default function Scout() {
   return (
     <Layout>
-      <Switch />
+      <ScoutingMain />
     </Layout>
   );
 }

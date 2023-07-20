@@ -1,8 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import { IconNames } from "components";
-import Icon from "components/Icon";
+import Icon, { IconNames } from "components/Icon";
 
 type Props = {
   icon?: IconNames;

@@ -6,16 +6,16 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 import { useSupplier } from "requests/useSupplier";
-import useStore from "hooks/useStore";
+import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
 import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
 import Layout from "components/Layout";
-import SearchBar from "components/scout/SearchBar";
+import SearchBar from "components/scout/scoutByIndex/searchBar";
 import TechnologyBox from "components/scout/TechnologyBox";
 import Icon from "components/Icon";
 import ScoutFilter from "components/scout/ScoutFilter";
-import GeoCharts from "components/scout/GeoCharts";
+import GeoCharts from "components/scout/scoutByIndex/geoCharts";
 import Filters from "components/scout/Filters";
 import ResultCard from "components/scout/ResultCard";
 import Feedback from "components/Feedback";
@@ -32,16 +32,15 @@ interface SearchProps {
 }
 
 export default function Industry({}: Props) {
+  const { suppliers, count } = useNonPersistentStore();
   const {
-    suppliers,
     page,
     setPage,
-    count,
     setFilterData,
     filterData,
     clearFilterData,
     vehicleFuelTypes,
-  } = useStore();
+  } = usePersistentStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
   const { searchSuppliers, loading } = useSupplier();
@@ -139,7 +138,7 @@ export default function Industry({}: Props) {
                 <Label>SmartBridge AI</Label>
               </IconLabel>
             </IconContainer>
-            <SearchBar onSearch={searchHandler} />
+            <SearchBar onSearch={searchHandler} onReset={() => {}} />
             <CircleButton onClick={() => setFilterModalVisible(true)}>
               <Icon src="filter" p={"3px"} m={"12px"} hover />
             </CircleButton>

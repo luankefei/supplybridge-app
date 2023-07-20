@@ -22,7 +22,11 @@ export const muiTheme = createTheme({
       main: "#08979C",
     },
     secondary: {
-      main: "#F2F2F2",
+      main: "#E6F5F5",
+    },
+    text: {
+      primary: "#434343",
+      secondary: "#9ca3af",
     },
     grey: {
       100: "#F2F2F2",
@@ -31,6 +35,10 @@ export const muiTheme = createTheme({
       400: "#828282",
       500: "#4F4F4F",
       600: "#333333",
+    },
+    background: {
+      default: "#fff",
+      paper: "#F9FAFB",
     },
   },
 });

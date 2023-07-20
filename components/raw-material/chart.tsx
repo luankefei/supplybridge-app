@@ -4,7 +4,7 @@ import { Close } from "@mui/icons-material";
 import { LargeText, SText } from "components/ui-components/text";
 import { Segmented } from "antd";
 import { SegmentedValue } from "antd/es/segmented";
-import LoadingAnimation from "components/LoadingAnimation";
+import LoadingAnimation from "components/ui-components/loadingAnimation";
 import {
   CartesianGrid,
   Label,

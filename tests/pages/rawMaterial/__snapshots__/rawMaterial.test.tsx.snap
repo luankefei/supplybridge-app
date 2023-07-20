@@ -3,7 +3,7 @@
 exports[`RawMaterial matches snapshot 1`] = `
 <DocumentFragment>
   <div
-    class="MuiBox-root css-k008qs"
+    class="MuiBox-root css-hboir5"
   >
     <div
       class="MuiDrawer-root MuiDrawer-docked css-n8sr6d-MuiDrawer-docked"
@@ -236,7 +236,7 @@ exports[`RawMaterial matches snapshot 1`] = `
       </div>
     </div>
     <main
-      class="MuiBox-root css-i9gxme"
+      class="MuiBox-root css-deuk67"
     >
       <header
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation4 MuiAppBar-root MuiAppBar-colorTransparent MuiAppBar-positionSticky css-vimye0-MuiPaper-root-MuiAppBar-root"
@@ -250,175 +250,171 @@ exports[`RawMaterial matches snapshot 1`] = `
             style="padding: 0px 48px;"
           >
             <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
+              class="css-nen11g-MuiStack-root"
+              style="padding: 0px 48px;"
             >
               <div
-                class="css-nen11g-MuiStack-root"
-                style="padding: 0px 48px;"
+                class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
+                style="min-height: 0px;"
               >
                 <div
-                  class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-entered css-pwcg7p-MuiCollapse-root"
-                  style="min-height: 0px;"
+                  class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
                 >
                   <div
-                    class="MuiCollapse-wrapper MuiCollapse-vertical css-smkl36-MuiCollapse-wrapper"
+                    class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
                   >
                     <div
-                      class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
-                    >
-                      <div
-                        class="sc-fPXMVe hoWViE"
-                      />
-                      <div
-                        class="sc-dAbbOL jVNKrn"
-                      >
-                        Material price checking system, more insights for your decision!
-                      </div>
-                      <div
-                        class="css-w7o6is"
-                      >
-                        <img
-                          class="sc-hzhJZQ cbNzDN"
-                          height="30"
-                          src="/icons/smart-bridge-ai.svg"
-                          title=""
-                          width="24"
-                        />
-                        <div
-                          class="sc-gFqAkR bdwSoA"
-                        />
-                        <span
-                          class="css-1bs82r4"
-                        >
-                          Powered by SmartBridge Artificial Intelligence
-                        </span>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  class="sc-fPXMVe hoWViE"
-                />
-                <div
-                  class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1qqsdnr-MuiAutocomplete-root"
-                >
-                  <div
-                    class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
-                  >
-                    <label
-                      class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
-                      data-shrink="false"
-                      for="raw-material-autocomplete"
-                      id="raw-material-autocomplete-label"
-                    >
-                      Type to find raw-material
-                    </label>
-                    <div
-                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root"
-                    >
-                      <input
-                        aria-autocomplete="list"
-                        aria-expanded="false"
-                        aria-invalid="false"
-                        autocapitalize="none"
-                        autocomplete="off"
-                        class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
-                        id="raw-material-autocomplete"
-                        role="combobox"
-                        spellcheck="false"
-                        type="text"
-                        value=""
-                      />
-                      <div
-                        class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
-                      >
-                        <button
-                          aria-label="Open"
-                          class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-qzbt6i-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
-                          tabindex="-1"
-                          title="Open"
-                          type="button"
-                        >
-                          <svg
-                            aria-hidden="true"
-                            class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                            data-testid="ArrowDropDownIcon"
-                            focusable="false"
-                            viewBox="0 0 24 24"
-                          >
-                            <path
-                              d="M7 10l5 5 5-5z"
-                            />
-                          </svg>
-                          <span
-                            class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                          />
-                        </button>
-                      </div>
-                      <fieldset
-                        aria-hidden="true"
-                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
-                      >
-                        <legend
-                          class="css-yjsfm1"
-                        >
-                          <span>
-                            Type to find raw-material
-                          </span>
-                        </legend>
-                      </fieldset>
-                    </div>
-                  </div>
-                </div>
-                <div
-                  style="width: 100%; display: flex; justify-content: flex-end;"
-                >
-                  <button
-                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-                    style="color: rgb(68, 91, 102);"
-                    tabindex="0"
-                    type="button"
-                  >
-                    <span
-                      class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
-                    >
-                      <svg
-                        aria-hidden="true"
-                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
-                        data-testid="ReplayIcon"
-                        focusable="false"
-                        viewBox="0 0 24 24"
-                      >
-                        <path
-                          d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"
-                        />
-                      </svg>
-                    </span>
-                    Reset All
-                    <span
-                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      class="sc-fPXMVe hoWViE"
                     />
-                  </button>
+                    <div
+                      class="sc-dAbbOL jVNKrn"
+                    >
+                      Material price checking system, more insights for your decision!
+                    </div>
+                    <div
+                      class="css-bimbu8"
+                    >
+                      <img
+                        class="sc-fHjqPf iKEfXF"
+                        height="30"
+                        src="/icons/smart-bridge-ai.svg"
+                        title=""
+                        width="24"
+                      />
+                      <div
+                        class="sc-gFqAkR bdwSoA"
+                      />
+                      <div
+                        class="sc-hzhJZQ pHbZv"
+                        color="#89A8B3"
+                        font-size="13px"
+                        font-weight="400"
+                      >
+                        Powered by SmartBridge Artificial Intelligence
+                      </div>
+                    </div>
+                  </div>
                 </div>
-                <div
-                  class="sc-fPXMVe hoWViE"
-                />
               </div>
+              <div
+                class="sc-fPXMVe hoWViE"
+              />
+              <div
+                class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1qqsdnr-MuiAutocomplete-root"
+              >
+                <div
+                  class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                >
+                  <label
+                    class="MuiFormLabel-root MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined MuiFormLabel-colorPrimary MuiInputLabel-root MuiInputLabel-formControl MuiInputLabel-animated MuiInputLabel-outlined css-14s5rfu-MuiFormLabel-root-MuiInputLabel-root"
+                    data-shrink="false"
+                    for="raw-material-autocomplete"
+                    id="raw-material-autocomplete-label"
+                  >
+                    Type to find raw-material
+                  </label>
+                  <div
+                    class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-154xyx0-MuiInputBase-root-MuiOutlinedInput-root"
+                  >
+                    <input
+                      aria-autocomplete="list"
+                      aria-expanded="false"
+                      aria-invalid="false"
+                      autocapitalize="none"
+                      autocomplete="off"
+                      class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-nxo287-MuiInputBase-input-MuiOutlinedInput-input"
+                      id="raw-material-autocomplete"
+                      role="combobox"
+                      spellcheck="false"
+                      type="text"
+                      value=""
+                    />
+                    <div
+                      class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+                    >
+                      <button
+                        aria-label="Open"
+                        class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-popupIndicator css-qzbt6i-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-popupIndicator"
+                        tabindex="-1"
+                        title="Open"
+                        type="button"
+                      >
+                        <svg
+                          aria-hidden="true"
+                          class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                          data-testid="ArrowDropDownIcon"
+                          focusable="false"
+                          viewBox="0 0 24 24"
+                        >
+                          <path
+                            d="M7 10l5 5 5-5z"
+                          />
+                        </svg>
+                        <span
+                          class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                        />
+                      </button>
+                    </div>
+                    <fieldset
+                      aria-hidden="true"
+                      class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                    >
+                      <legend
+                        class="css-yjsfm1"
+                      >
+                        <span>
+                          Type to find raw-material
+                        </span>
+                      </legend>
+                    </fieldset>
+                  </div>
+                </div>
+              </div>
+              <div
+                style="width: 100%; display: flex; justify-content: flex-end;"
+              >
+                <button
+                  class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  style="color: rgb(68, 91, 102);"
+                  tabindex="0"
+                  type="button"
+                >
+                  <span
+                    class="MuiButton-startIcon MuiButton-iconSizeMedium css-1d6wzja-MuiButton-startIcon"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      data-testid="ReplayIcon"
+                      focusable="false"
+                      viewBox="0 0 24 24"
+                    >
+                      <path
+                        d="M12 5V1L7 6l5 5V7c3.31 0 6 2.69 6 6s-2.69 6-6 6-6-2.69-6-6H4c0 4.42 3.58 8 8 8s8-3.58 8-8-3.58-8-8-8z"
+                      />
+                    </svg>
+                  </span>
+                  Reset All
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </button>
+              </div>
+              <div
+                class="sc-fPXMVe hoWViE"
+              />
             </div>
-            <div
-              class="MuiGrid-root MuiGrid-item MuiGrid-grid-xs-6 css-1osj8n2-MuiGrid-root"
-            />
           </div>
         </div>
       </header>
       <div
-        class="MuiBox-root css-1fov2v"
+        class="MuiBox-root css-1jvvr9v"
       >
         <div
           class="sc-fPXMVe hnZRwg"
         />
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root sc-hmdomO bzCChY css-bhp9pd-MuiPaper-root-MuiCard-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root sc-bXCLTC ehvkxe css-bhp9pd-MuiPaper-root-MuiCard-root"
         >
           <div
             class="sc-ikkxIA gecdWH"
@@ -444,7 +440,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-hzhJZQ bRtFFE"
+                    class="sc-fHjqPf fCcNEA"
                     color="#445B66"
                     height="52"
                     src="/icons/materialCategory/energy.svg"
@@ -470,7 +466,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-hzhJZQ bRtFFE"
+                    class="sc-fHjqPf fCcNEA"
                     color="#445B66"
                     height="52"
                     src="/icons/materialCategory/energy.svg"
@@ -496,7 +492,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-hzhJZQ bRtFFE"
+                    class="sc-fHjqPf fCcNEA"
                     color="#445B66"
                     height="52"
                     src="/icons/materialCategory/metal.svg"
@@ -522,7 +518,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-hzhJZQ bRtFFE"
+                    class="sc-fHjqPf fCcNEA"
                     color="#445B66"
                     height="52"
                     src="/icons/materialCategory/plastic.svg"
@@ -548,7 +544,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-hzhJZQ bRtFFE"
+                    class="sc-fHjqPf fCcNEA"
                     color="#445B66"
                     height="52"
                     src="/icons/materialCategory/ESG.svg"
@@ -574,7 +570,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-hzhJZQ bRtFFE"
+                    class="sc-fHjqPf fCcNEA"
                     color="#445B66"
                     height="52"
                     src="/icons/materialCategory/others.svg"
@@ -601,7 +597,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-hzhJZQ bRtFFE"
+                    class="sc-fHjqPf fCcNEA"
                     color="#445B66"
                     height="52"
                     src="/icons/materialCategory/others.svg"
@@ -643,7 +639,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                       style="margin: 12px;"
                     />
                     <div
-                      class="sc-fHjqPf cQETjP"
+                      class="sc-hmdomO dtTMiI"
                     >
                       <button
                         class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"

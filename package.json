@@ -10,6 +10,7 @@
     "test": "jest --watch",
     "coverage": "jest --coverage",
     "lint-silent": "next lint --quiet",
+    "tsc-lint": "tsc --noEmit -p . --excludeDirectories node_modules",
     "prepare": "husky install"
   },
   "dependencies": {
@@ -17,6 +18,7 @@
     "@emotion/styled": "^11.10.5",
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.10.15",
+    "@mui/x-data-grid": "^6.10.0",
     "@types/lodash": "^4.14.191",
     "@types/node": "18.11.9",
     "@types/react": "18.0.25",

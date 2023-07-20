@@ -1,6 +1,6 @@
-import MuiBox from '@mui/material/Box';
-import React from 'react';
-import styled from 'styled-components';
+import MuiBox from "@mui/material/Box";
+import React from "react";
+import styled from "styled-components";
 
 interface Props {
   children: React.ReactNode;
@@ -13,7 +13,7 @@ const Box = ({ children, onSubmit }: Props) => {
       component="form"
       onSubmit={onSubmit}
       sx={{
-        '& .MuiTextField-root': { mb: 1, width: '100%' },
+        "& .MuiTextField-root": { mb: 1, width: "100%" },
       }}
     >
       {children}

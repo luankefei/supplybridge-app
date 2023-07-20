@@ -3,7 +3,6 @@
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
-import _, { capitalize } from "lodash";
 
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
@@ -17,12 +16,11 @@ import { useRouter } from "next/router";
 const ResultCard = dynamic(() => import("components/scout/ResultCard"));
 const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
 
-import { SearchBarForFilter } from "components/scout/SearchBar";
 import { GoBackIcon } from "components/Button";
 import { theme } from "config/theme";
-import useStore from "hooks/useStore";
-import { QuickBridgeTabType } from "utils/constants";
-import LoadingAnimation from "components/LoadingAnimation";
+import { usePersistentStore } from "hooks/useStore";
+import LoadingAnimation from "components/ui-components/loadingAnimation";
+import { QuickBridgeTabType } from "../types";
 
 let randomDuration = () => {
   let r = Math.floor(Math.random() * 10); // 0 ~ 9
@@ -62,7 +60,7 @@ export default function QuickbridgeResult() {
   const [isLocked, setIsLocked] = useState(false);
   const router = useRouter();
 
-  const { filterData, setFilterData, clearFilterData } = useStore();
+  const { filterData, setFilterData, clearFilterData } = usePersistentStore();
 
   useEffect(() => {
     setTimeout(
@@ -259,12 +257,6 @@ export default function QuickbridgeResult() {
           </BreadcrumbsContainer>
           <MainContainer>
             <GoBackIcon goBack={setTabResult}></GoBackIcon>
-            <SearchContainer>
-              <SearchBarForFilter
-                onSearch={searchHandler}
-                placeholder={searchPlaceholder}
-              />
-            </SearchContainer>
             <FilterContainer>
               <ScoutFilter isQuickSearch={true} />
             </FilterContainer>
