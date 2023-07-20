@@ -1,9 +1,8 @@
 import { Box, Drawer, IconButton, Stack } from "@mui/material";
-import { ITableData } from "../scoutResultTable/helper";
 import { Close } from "@mui/icons-material";
-import Image from "next/image";
-import useStore from "hooks/useStore";
+import { useNonPersistentStore } from "hooks/useStore";
 import { NullableImg } from "../summary.styled";
+import { TSupplierModel } from "models/supplier";
 
 interface IDetailPanelProps {
   open: boolean;
@@ -18,11 +17,13 @@ interface IDetailPanelProps {
  *
  */
 const DeatilsPanel = ({ open, supplierId, onClose }: IDetailPanelProps) => {
-  const { suppliers } = useStore();
+  const { suppliers } = useNonPersistentStore();
   if (supplierId === undefined) {
     return null;
   }
-  const data = suppliers.find((s: any) => s.id === supplierId);
+  const data: TSupplierModel | undefined = suppliers.find(
+    (s: any) => s.id === supplierId
+  );
   if (!data) {
     return null;
   }
@@ -34,11 +35,10 @@ const DeatilsPanel = ({ open, supplierId, onClose }: IDetailPanelProps) => {
             <Close />
           </IconButton>
         </Box>
-        <Box sx={{ height: "140px" }}>MAP place holder</Box>
+        <Box sx={{ width: "557px", height: "174px" }}>MAP place holder</Box>
         <Stack direction={"row"}>
           <NullableImg url={data.logo} />
           {data.name}
-          {data.isInnovation}
         </Stack>
       </Stack>
     </Drawer>

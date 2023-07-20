@@ -2,10 +2,10 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 import { request } from "config/axios";
-import useStore from "hooks/useStore";
+import { usePersistentStore } from "hooks/useStore";
 
 export const useVehicleFuelTypes = () => {
-  const { setVehicleFuelTypes } = useStore();
+  const { setVehicleFuelTypes } = usePersistentStore();
   const [loading, setLoading] = useState(false);
 
   const searchFuelTypes = async () => {

@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import useStore from "hooks/useStore";
+import { usePersistentStore, useNonPersistentStore } from "hooks/useStore";
 import {
   NullableImg,
   SummaryContainer,
@@ -84,7 +84,7 @@ const Suppliers = (props: any) => {
 
 const SummaryCategories = (props: any) => {
   const { t } = useTranslation();
-  const { flags, setFilterData } = useStore();
+  const { flags, setFilterData } = usePersistentStore();
   const { L2, L2selected, L3, L3Selected } = props;
   if (!L2?.length) return null;
 
@@ -143,7 +143,8 @@ interface ISummaryProps {
 
 export default function Summary({ queryString }: ISummaryProps) {
   const { t } = useTranslation();
-  const { suppliers, filterData, setFilterData, flags, stats } = useStore();
+  const { suppliers, stats } = useNonPersistentStore();
+  const { filterData, setFilterData, flags } = usePersistentStore();
 
   const [summary, setSummary] = useState(
     determineSummary(filterData, flags, stats) || {}

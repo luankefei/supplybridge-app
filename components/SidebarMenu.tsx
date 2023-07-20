@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import useStore from "hooks/useStore";
+import { usePersistentStore } from "hooks/useStore";
 import cookie from "js-cookie";
 
 import { useTranslation } from "react-i18next";
@@ -13,7 +13,7 @@ const LinkItem = styled(Link)`
 export default function SideBarMenu(props: { width?: string }) {
   const { t } = useTranslation();
   const router = useRouter();
-  const { signOut } = useStore();
+  const { signOut } = usePersistentStore();
 
   const solutionsData = [
     {

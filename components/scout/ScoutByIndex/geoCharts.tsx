@@ -5,7 +5,7 @@ import Chart from "react-google-charts";
 import { Skeleton } from "@mui/material";
 
 import { allCountry } from "utils/countries";
-import useStore from "hooks/useStore";
+import { usePersistentStore, useNonPersistentStore } from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
 import { useFilter } from "requests/useFilter";
 
@@ -41,6 +41,7 @@ const GeoCharts = () => {
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
   const { searchSuppliers, loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
+  const { suppliers, stats } = useNonPersistentStore();
   const {
     allCountries,
     setAllCountries,
@@ -48,12 +49,11 @@ const GeoCharts = () => {
     setSelectedCountries,
     selectedCountries,
     filterData,
-    suppliers,
-    stats,
+
     setFilterData,
     allSubRegions,
     flags,
-  } = useStore();
+  } = usePersistentStore();
 
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
     return noOfSuppliers > 0

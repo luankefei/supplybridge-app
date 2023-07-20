@@ -6,7 +6,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 
 import { useSupplier } from "requests/useSupplier";
-import useStore from "hooks/useStore";
+import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
 import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
@@ -32,16 +32,15 @@ interface SearchProps {
 }
 
 export default function Industry({}: Props) {
+  const { suppliers, count } = useNonPersistentStore();
   const {
-    suppliers,
     page,
     setPage,
-    count,
     setFilterData,
     filterData,
     clearFilterData,
     vehicleFuelTypes,
-  } = useStore();
+  } = usePersistentStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
   const { searchSuppliers, loading } = useSupplier();

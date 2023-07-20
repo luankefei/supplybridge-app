@@ -1,21 +1,14 @@
-import { useCallback, useState } from "react";
+import { useState } from "react";
 import { toast } from "react-toastify";
 
 import { request } from "config/axios";
-import useStore from "hooks/useStore";
+import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
 import { useTranslation } from "react-i18next";
 
 export const useSupplier = (flags: any = null) => {
-  const {
-    setSuppliers,
-    page,
-    pageSize,
-    setPage,
-    setCount,
-    setShowBackdrop,
-    setStats,
-  } = useStore();
+  const { setSuppliers, setCount, setStats } = useNonPersistentStore();
+  const { page, pageSize } = usePersistentStore();
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
 
@@ -75,7 +68,7 @@ export const useSupplier = (flags: any = null) => {
     searchString?: string
   ) => {
     try {
-      const { flags, filterData } = useStore.getState();
+      const { flags, filterData } = usePersistentStore.getState();
       if (
         filterData.q ||
         filterData.regions.length > 0 ||
@@ -102,7 +95,6 @@ export const useSupplier = (flags: any = null) => {
         setSuppliers(data?.suppliers, reset);
         setCount(data?.count);
         setStats(data?.stats);
-        setShowBackdrop(data?.suppliers.length === 0);
       }
     } catch (err: any) {
       console.log(err);

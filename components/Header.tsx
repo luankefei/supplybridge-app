@@ -6,13 +6,13 @@ import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import cookie from "js-cookie";
 
-import useStore from "hooks/useStore";
+import { usePersistentStore } from "hooks/useStore";
 
-import Icon from 'components/Icon'
+import Icon from "components/Icon";
 
 const Header = () => {
   const { pathname, push } = useRouter();
-  const { signOut } = useStore();
+  const { signOut } = usePersistentStore();
 
   const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
   const open = Boolean(anchorEl);
@@ -31,19 +31,34 @@ const Header = () => {
   };
 
   const mainHeaderItems = [
-    { title: "AUTOMOTIVE", path: "automotive", parentPath: '', lock: false },
-    { title: "AEROSPACE", path: "aerospace", parentPath: '', lock: true },
-    { title: "RAILWAY", path: "railway", parentPath: '', lock: true },
-    { title: "OTHER", path: "other", parentPath: '', lock: true },
+    { title: "AUTOMOTIVE", path: "automotive", parentPath: "", lock: false },
+    { title: "AEROSPACE", path: "aerospace", parentPath: "", lock: true },
+    { title: "RAILWAY", path: "railway", parentPath: "", lock: true },
+    { title: "OTHER", path: "other", parentPath: "", lock: true },
   ];
 
   const automotiveHeaderItems = [
-    { title: "SCOUT", path: "scout", parentPath: 'automotive/', lock: false },
-    { title: "SOURCE", path: "source", parentPath: 'automotive/', lock: false },
-    { title: "EVALUATE", path: "evaluate", parentPath: 'automotive/', lock: true },
-    { title: "TRACE", path: "trace", parentPath: 'automotive/', lock: true },
-    { title: "FINANCE", path: "finance", parentPath: 'automotive/', lock: true },
-    { title: "TRANSPORT", path: "transport", parentPath: 'automotive/', lock: true },
+    { title: "SCOUT", path: "scout", parentPath: "automotive/", lock: false },
+    { title: "SOURCE", path: "source", parentPath: "automotive/", lock: false },
+    {
+      title: "EVALUATE",
+      path: "evaluate",
+      parentPath: "automotive/",
+      lock: true,
+    },
+    { title: "TRACE", path: "trace", parentPath: "automotive/", lock: true },
+    {
+      title: "FINANCE",
+      path: "finance",
+      parentPath: "automotive/",
+      lock: true,
+    },
+    {
+      title: "TRANSPORT",
+      path: "transport",
+      parentPath: "automotive/",
+      lock: true,
+    },
   ];
 
   const chooseMenuItems = () => {

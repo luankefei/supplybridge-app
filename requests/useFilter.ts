@@ -1,10 +1,16 @@
 import { toast } from "react-toastify";
 
-import { request } from 'config/axios';
-import useStore from 'hooks/useStore';
+import { request } from "config/axios";
+import { usePersistentStore } from "hooks/useStore";
 
 export const useFilter = () => {
-  const { setCommodities, setRegions, setComponents, setSubRegions,setAllSubRegions } = useStore();
+  const {
+    setCommodities,
+    setRegions,
+    setComponents,
+    setSubRegions,
+    setAllSubRegions,
+  } = usePersistentStore();
 
   const getCommodities = async () => {
     try {
@@ -20,10 +26,12 @@ export const useFilter = () => {
   const getComponents = async (commodityIds: number[]) => {
     try {
       if (commodityIds.length) {
-        const { data } = await request.get(`components?commodities=${commodityIds.toString()}`);
+        const { data } = await request.get(
+          `components?commodities=${commodityIds.toString()}`
+        );
         setComponents(data?.components);
       } else {
-        setComponents([])
+        setComponents([]);
       }
     } catch (err: any) {
       toast.error(err.response.data.message, {
@@ -46,12 +54,13 @@ export const useFilter = () => {
   const getSubRegions = async (regionIds: number[]) => {
     try {
       if (regionIds.length) {
-        const { data } = await request.get(`sub_regions?regions=${regionIds.toString()}`);
+        const { data } = await request.get(
+          `sub_regions?regions=${regionIds.toString()}`
+        );
         setSubRegions(data.subRegions);
       } else {
         setSubRegions([]);
       }
-      
     } catch (err: any) {
       toast.error(err.response.data.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -60,9 +69,9 @@ export const useFilter = () => {
   };
   const getAllSubRegions = async () => {
     try {
-        const { data } = await request.get(`sub_regions`);
-        setAllSubRegions(data.subRegions);
-        return data.subRegions;
+      const { data } = await request.get(`sub_regions`);
+      setAllSubRegions(data.subRegions);
+      return data.subRegions;
     } catch (err: any) {
       toast.error(err.response.data.message, {
         position: toast.POSITION.TOP_RIGHT,
@@ -71,5 +80,11 @@ export const useFilter = () => {
     }
   };
 
-  return { getCommodities, getComponents, getRegions, getSubRegions,getAllSubRegions };
+  return {
+    getCommodities,
+    getComponents,
+    getRegions,
+    getSubRegions,
+    getAllSubRegions,
+  };
 };

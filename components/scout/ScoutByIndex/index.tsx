@@ -2,7 +2,7 @@ import Feedback from "components/Feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
 import GeoCharts from "./geoCharts";
 import Summary from "./summary";
-import useStore from "hooks/useStore";
+import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
@@ -35,7 +35,8 @@ import { useFilter } from "requests/useFilter";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
-  const { allSubRegions, suppliers } = useStore();
+  const { allSubRegions } = usePersistentStore();
+  const { suppliers, setSuppliers, setStats } = useNonPersistentStore();
   const { querySupplierListByName, loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
 
@@ -111,6 +112,8 @@ export default function ScoutByIndex() {
     setQueryString("");
     setData([]);
     setTableData([]);
+    setSuppliers([], true);
+    setStats({});
   };
   const handleRowSelect = (selectedRows: number[]) => {
     console.log("handleRowSelect", selectedRows);

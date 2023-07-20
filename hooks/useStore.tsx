@@ -2,6 +2,7 @@ import create from "zustand";
 import { persist } from "zustand/middleware";
 
 import StorageService from "services/storage";
+import { TSupplierModel } from "models/supplier";
 
 interface Store {
   user: any;
@@ -37,7 +38,31 @@ interface Store {
   flags: any;
 }
 
-const useStore = create<Store | any>(
+interface INonPersistentStore {
+  count: number;
+  setCount: (value: number) => void;
+  stats: any;
+  setStats: (value: any) => void;
+  suppliers: TSupplierModel[];
+  setSuppliers: (value: TSupplierModel[], reset: boolean) => void;
+}
+
+const useNonPersistentStore = create<INonPersistentStore>((set, get) => ({
+  count: 0,
+  setCount: (count: number) => set(() => ({ count })),
+  stats: {},
+  setStats: (stats: number) => set(() => ({ stats })),
+  suppliers: [],
+  setSuppliers: (suppliers: TSupplierModel[], reset: boolean) =>
+    set(() => {
+      if (reset) {
+        return { suppliers };
+      }
+      return { suppliers: [...get().suppliers, ...suppliers] };
+    }),
+}));
+
+const usePersistentStore = create<Store | any>(
   persist(
     (set, get) => ({
       token: "",
@@ -64,11 +89,6 @@ const useStore = create<Store | any>(
 
       pageSize: 10,
       setPageSize: (pageSize: any) => set(() => ({ pageSize })),
-
-      count: 0,
-      setCount: (count: number) => set(() => ({ count })),
-      stats: {},
-      setStats: (stats: number) => set(() => ({ stats })),
 
       filterData: {
         commodities: [],
@@ -167,4 +187,4 @@ const useStore = create<Store | any>(
   )
 );
 
-export default useStore;
+export { usePersistentStore, useNonPersistentStore };

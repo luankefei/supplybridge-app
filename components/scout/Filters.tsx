@@ -4,7 +4,7 @@ import styled from "styled-components";
 import Icon from "components/Icon";
 import { theme } from "config/theme";
 
-import useStore from "hooks/useStore";
+import { usePersistentStore } from "hooks/useStore";
 import { Trans } from "react-i18next";
 
 type Props = {
@@ -12,7 +12,7 @@ type Props = {
 };
 
 const Filters = ({ totalCount }: Props) => {
-  const { filterData, stats } = useStore();
+  const { filterData, stats } = usePersistentStore();
   const count = totalCount,
     q = stats?.chain?.length
       ? stats.chain[stats.chain.length - 1]

@@ -15,7 +15,7 @@ import BySegment from "./BySegment";
 import ByCommodity from "./ByCommodity";
 import QuickbridgeResult from "./Result";
 import { useTranslation } from "react-i18next";
-import useStore from "hooks/useStore";
+import { usePersistentStore } from "hooks/useStore";
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
 import ServicesP from "./ServicesP";
@@ -127,7 +127,7 @@ export default function ScoutByQuickBridge() {
   const { t, i18n } = useTranslation();
   const theme = useTheme();
   const [value, setValue] = useState(0);
-  const { flags } = useStore();
+  const { flags } = usePersistentStore();
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const router = useRouter();
 

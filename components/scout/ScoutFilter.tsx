@@ -8,7 +8,7 @@ import styled from "styled-components";
 
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
-import useStore from "hooks/useStore";
+import { usePersistentStore } from "hooks/useStore";
 import { useFilter } from "requests/useFilter";
 import Icon from "components/Icon";
 
@@ -39,7 +39,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
     selectedRegions,
     selectedCountries,
     suppliers,
-  } = useStore();
+  } = usePersistentStore();
   const { getComponents, getSubRegions } = useFilter();
 
   const data = [
