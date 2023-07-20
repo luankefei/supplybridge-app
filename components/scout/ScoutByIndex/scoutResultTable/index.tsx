@@ -7,10 +7,17 @@ import {
   SpacingHorizontal,
   SpacingVertical,
 } from "components/ui-components/spacer";
-import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
+import {
+  DataGrid,
+  GridColDef,
+  GridRowSelectionModel,
+  GridRowSpacingParams,
+  gridClasses,
+} from "@mui/x-data-grid";
 import { DensitySmall, Info } from "@mui/icons-material";
 import { BadgeType, ITableData, mapBadgeTypeToString } from "./helper";
 import { SText } from "components/ui-components/text";
+import { useCallback } from "react";
 
 const supBadgeTooltipText = (
   <div>
@@ -80,7 +87,7 @@ export default function ScoutResultTable({
   };
 
   const columns: GridColDef[] = [
-    { field: "id", headerName: "ID", width: 70 },
+    // { field: "id", headerName: "ID", width: 70 },
     {
       field: "name",
       headerName: "Organization",
@@ -105,6 +112,7 @@ export default function ScoutResultTable({
       field: "headquarter",
       headerName: "HQ location",
       minWidth: 200,
+      flex: 1,
       renderCell: (params) => {
         const { headquarter, hqCode } = params.row;
         return (
@@ -181,6 +189,13 @@ export default function ScoutResultTable({
     },
   ];
 
+  const getRowSpacing = useCallback((params: GridRowSpacingParams) => {
+    return {
+      top: params.isFirstVisible ? 0 : 5,
+      bottom: params.isLastVisible ? 0 : 5,
+    };
+  }, []);
+
   if (!tableData || tableData.length == 0) {
     return null;
   }
@@ -188,8 +203,22 @@ export default function ScoutResultTable({
   return (
     <Box sx={{ width: "100%" }}>
       <DataGrid
-        sx={{ backgroundColor: "#fff" }}
+        sx={{
+          border: "none",
+          [`& .${gridClasses.withBorderColor}`]: {
+            border: "none",
+          },
+          [`& .${gridClasses.row}`]: {
+            bgcolor: "#fff",
+            borderRadius: "16px",
+          },
+          [`& .${gridClasses.cell}`]: {
+            border: "none",
+          },
+        }}
         rows={tableData}
+        getRowSpacing={getRowSpacing}
+        rowSpacingType="margin"
         columns={columns}
         disableRowSelectionOnClick
         disableColumnSelector
