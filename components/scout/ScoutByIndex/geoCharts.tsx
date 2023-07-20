@@ -343,6 +343,7 @@ const GeoCharts = () => {
       </ButtonContainer>
       <Container ref={elContainer}>
         <Chart
+          mapsApiKey="AIzaSyCK82K3LYt7jcFYYdpi0kyjIKdfdc8TjRI"
           chartEvents={[
             {
               eventName: "select",

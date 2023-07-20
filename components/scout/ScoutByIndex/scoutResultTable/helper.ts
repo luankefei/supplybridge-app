@@ -1,3 +1,6 @@
+import { TSubRegion } from "models/subRegion";
+import { TSupplierModel } from "models/supplier";
+
 export enum BadgeType {
   top = "top",
   major = "major",
@@ -17,15 +20,8 @@ export function mapBadgeTypeToString(badge: BadgeType) {
   }
 }
 
-export interface SubRegion {
-  id: string;
-  regionId: string;
-  code: string;
-  name: string;
-}
-
 export interface ITableData {
-  id: string;
+  id: number;
   logo: string;
   name: string;
   isInnovation?: boolean;
@@ -41,24 +37,34 @@ const noImageUrl = "https://cdn-stage.supplybridge.com/images/logos/no.png";
  * @param supplier A supplier model
  */
 export function supplierModelToTableData(
-  supplier: any,
+  supplier: TSupplierModel,
   idx: number,
-  allSubRegions: any[]
+  allSubRegions: TSubRegion[]
 ): ITableData {
   const matchedLocation = allSubRegions.find(
     (x) => x.id === supplier.headquarterId
   );
   const badges = Object.keys(supplier.flags || {}).filter(
-    (x) => supplier.flags[x]
+    (x) => supplier.flags[x as keyof typeof supplier.flags]
   );
+  // use key map to avoid duplicate
+  const globalFootprint = {} as { [key: number]: string };
+  supplier.locationId?.forEach((lid: number) => {
+    const foundRegions = allSubRegions.find((x) => x.id === lid);
+    if (foundRegions) {
+      globalFootprint[lid] = foundRegions.name;
+    }
+    console.error(`Location ${lid} not found`);
+    return "";
+  });
   return {
     id: supplier.id || idx,
     logo: supplier.logo || noImageUrl,
-    name: supplier.name || supplier.longName,
-    isInnovation: supplier.isInnovation,
-    headquarter: matchedLocation?.name,
-    hqCode: matchedLocation?.code,
-    globalFootprint: [],
+    name: supplier.name || "",
+    isInnovation: false, // TODO: add this field
+    headquarter: matchedLocation?.name || "",
+    hqCode: matchedLocation?.code || "",
+    globalFootprint: Object.values(globalFootprint),
     badges: badges.map((x) => {
       switch (x) {
         case "top":

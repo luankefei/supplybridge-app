@@ -105,13 +105,14 @@ const ContainerWrapper = styled.div`
   }
 `;
 
+/// Z-index is 1100 to be above the header, but below drawers
 const Container = styled.div`
   position: fixed;
   top: 14px;
   right: -492px;
 
   filter: drop-shadow(0px 1px 3px rgba(0, 0, 0, 0.1));
-  z-index: 3001;
+  z-index: 1100;
 
   display: flex;
   flex-direction: row;

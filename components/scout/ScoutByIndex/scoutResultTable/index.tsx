@@ -18,6 +18,7 @@ import { DensitySmall, Info } from "@mui/icons-material";
 import { BadgeType, ITableData, mapBadgeTypeToString } from "./helper";
 import { SText } from "components/ui-components/text";
 import { useCallback } from "react";
+import DeatilsPanel from "../detailPanel";
 
 const supBadgeTooltipText = (
   <div>
@@ -69,6 +70,10 @@ export default function ScoutResultTable({
   tableData?: ITableData[];
   onRowSelect?: (selectedRows: number[]) => void;
 }) {
+  const [detailPanelSupplierId, setDetailPanelSupplierId] =
+    React.useState<number>();
+  const [detailPanelOpen, setDetailPanelOpen] = React.useState(false);
+
   const theme = useTheme();
 
   const handleRowSelection = (
@@ -132,6 +137,7 @@ export default function ScoutResultTable({
       field: "globalFootprint",
       headerName: "Global footprint",
       minWidth: 160,
+      flex: 1,
     },
     {
       field: "badges",
@@ -178,7 +184,8 @@ export default function ScoutResultTable({
           <Tooltip title="show more details">
             <IconButton
               onClick={() => {
-                console.log(params);
+                setDetailPanelSupplierId(params.row.id);
+                setDetailPanelOpen(true);
               }}
             >
               <DensitySmall />
@@ -202,6 +209,14 @@ export default function ScoutResultTable({
 
   return (
     <Box sx={{ width: "100%" }}>
+      <DeatilsPanel
+        open={detailPanelOpen}
+        supplierId={detailPanelSupplierId}
+        onClose={() => {
+          setDetailPanelSupplierId(undefined);
+          setDetailPanelOpen(false);
+        }}
+      />
       <DataGrid
         sx={{
           border: "none",

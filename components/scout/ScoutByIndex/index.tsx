@@ -35,7 +35,7 @@ import { useFilter } from "requests/useFilter";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
-  const { allSubRegions, suppliers, stats } = useStore();
+  const { allSubRegions, suppliers } = useStore();
   const { querySupplierListByName, loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
 
