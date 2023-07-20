@@ -51,11 +51,13 @@ export default function ScoutByIndex() {
       badges: new Set(),
     }
   );
+  const [queryString, setQueryString] = useState<string>("");
   // initial data == all data
   const [data, setData] = useState<ITableData[]>([]);
   // table data == filtered data
   const [tableData, setTableData] = useState<ITableData[]>([]);
-  const [queryString, setQueryString] = useState<string>("");
+  // selected rows == GridRowId[] == number[], could be string but we dont use it
+  const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [searched, setSearched] = useState(false);
 
   /********************
@@ -110,7 +112,15 @@ export default function ScoutByIndex() {
     setData([]);
     setTableData([]);
   };
+  const handleRowSelect = (selectedRows: number[]) => {
+    console.log("handleRowSelect", selectedRows);
+    setSelectedRows(selectedRows);
+  };
 
+  /**************
+   * Render
+   * ************
+   */
   const hasData: boolean = data.length > 0;
   return (
     <Stack>
@@ -149,22 +159,34 @@ export default function ScoutByIndex() {
               {hasData && (
                 <>
                   <Summary queryString={queryString} />
-                  <ActionFilterAndView
-                    filterInitialData={initialFilterDataset}
-                    resultCount={data?.length || 0}
-                    resultType={queryString}
-                    onClickBuildMyShortList={() => {
-                      console.log("onClickBuildMyShortList");
-                    }}
-                    onClickBidderList={() => {
-                      console.log("onClickBidderList");
-                    }}
-                    onFilterChange={onFilterChange}
-                    onViewChange={function (view: ViewType): void {
-                      console.log("onViewChange", view);
-                    }}
-                  />
-                  <ScoutResultTable tableData={tableData} />
+                  <Box sx={{ p: 3 }}>
+                    <ActionFilterAndView
+                      filterInitialData={initialFilterDataset}
+                      resultCount={data?.length || 0}
+                      resultType={queryString}
+                      onClickBuildMyShortList={() => {
+                        console.log("onClickBuildMyShortList");
+                      }}
+                      onClickBidderList={() => {
+                        console.log("onClickBidderList");
+                      }}
+                      onFilterChange={onFilterChange}
+                      onViewChange={function (view: ViewType): void {
+                        console.log("onViewChange", view);
+                      }}
+                      onClickCompare={
+                        selectedRows.length > 1
+                          ? () => {
+                              console.log("onClickCompare", selectedRows);
+                            }
+                          : undefined
+                      }
+                    />
+                    <ScoutResultTable
+                      tableData={tableData}
+                      onRowSelect={handleRowSelect}
+                    />
+                  </Box>
                 </>
               )}
             </Box>

@@ -280,7 +280,7 @@
       }
     },
     "result": {
-      "overview": "Listing <1>{{count}}</1> supplier(s) matching for \"{{resultType}}\"",
+      "overview": "Listing <1>{{resultCount}}</1> supplier(s) matching for <1>{{resultType}}</1>",
       "organization": "Organization",
       "hqLocation": "HQ Location",
       "footprint": "Global Footprint",

@@ -7,7 +7,7 @@ import {
   SpacingHorizontal,
   SpacingVertical,
 } from "components/ui-components/spacer";
-import { DataGrid, GridColDef } from "@mui/x-data-grid";
+import { DataGrid, GridColDef, GridRowSelectionModel } from "@mui/x-data-grid";
 import { DensitySmall, Info } from "@mui/icons-material";
 import { BadgeType, ITableData, mapBadgeTypeToString } from "./helper";
 import { SText } from "components/ui-components/text";
@@ -57,24 +57,26 @@ const SupBadge = styled("span")`
 `;
 export default function ScoutResultTable({
   tableData,
+  onRowSelect,
 }: {
   tableData?: ITableData[];
+  onRowSelect?: (selectedRows: number[]) => void;
 }) {
   const theme = useTheme();
-  const [selectedRows, setSelectedRows] = React.useState<number[]>([]);
 
-  const handleRowSelection = (rowSelectionModel: any, details: any) => {
+  const handleRowSelection = (
+    rowSelectionModel: GridRowSelectionModel,
+    details: any
+  ) => {
     /**
-     * rowSelectionModel = index of selected rows as a list
+     * rowSelectionModel = GridRowId (string | number ) of selected rows as a list
      * details: {
      *  reason: undefined
      * }
      */
-    setSelectedRows(rowSelectionModel);
-  };
-
-  const compareSuppliers = () => {
-    console.log("selectedRows", selectedRows);
+    if (onRowSelect) {
+      onRowSelect(rowSelectionModel as number[]);
+    }
   };
 
   const columns: GridColDef[] = [
@@ -184,7 +186,7 @@ export default function ScoutResultTable({
   }
 
   return (
-    <Box sx={{ width: "100%", p: 3 }}>
+    <Box sx={{ width: "100%" }}>
       <DataGrid
         sx={{ backgroundColor: "#fff" }}
         rows={tableData}

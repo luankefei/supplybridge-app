@@ -43,7 +43,11 @@ const MySelector = (props: {
     onChange([]);
   };
   return (
-    <FormControl fullWidth sx={{ width: "200px", marginRight: "8px" }}>
+    <FormControl
+      size="small"
+      fullWidth
+      sx={{ width: "200px", marginRight: "8px" }}
+    >
       <InputLabel>{label}</InputLabel>
       <Select
         multiple
@@ -52,7 +56,12 @@ const MySelector = (props: {
         onChange={(event) => {
           onChange(event.target.value as string[]);
         }}
-        input={<OutlinedInput label={label} sx={{ borderRadius: 16 }} />}
+        input={
+          <OutlinedInput
+            label={label}
+            sx={{ borderRadius: 16, backgroundColor: "#fff" }}
+          />
+        }
         endAdornment={
           value.length > 0 && (
             <Clear

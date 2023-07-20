@@ -1,16 +1,38 @@
 import TableFilters, { FilterDataset, FilterValue } from "./tableFilters";
-import { Box, Button, IconButton, List, Stack, Tooltip } from "@mui/material";
-import { GridView } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Stack,
+  ToggleButton,
+  ToggleButtonGroup,
+  Tooltip,
+  styled,
+} from "@mui/material";
+import { FormatAlignLeft, GridView } from "@mui/icons-material";
 import { Trans } from "react-i18next";
 import { SText } from "components/ui-components/text";
+import { SpacingVertical } from "components/ui-components/spacer";
+import { useState } from "react";
 
 interface ActionFilterAndViewProps {
+  /**
+   * Number of results, Use for rendering the string
+   * Listing x supplier(s) matching for y
+   */
   resultCount: number;
+  /**
+   * To be used in conjunction with resultCount
+   */
   resultType: string;
+  /**
+   * Initial filter data, use for rendering the filter chips
+   */
   filterInitialData: FilterDataset;
   onClickBuildMyShortList: () => void;
   onClickBidderList: () => void;
-  // use undefined to disable the button
+  /**
+   * Compare button function, use undefined to disable the button
+   * */
   onClickCompare?: () => void;
   onFilterChange: (fv: FilterValue) => void;
   onViewChange: (view: ViewType) => void;
@@ -21,6 +43,20 @@ export enum ViewType {
   GRID = "grid",
 }
 
+const WhiteBgRoundCornerButton = styled(Button)`
+  background-color: #ffffff;
+  border-radius: 24px;
+  border: 1px solid transparent;
+  color: #1f2937;
+`;
+
+/**
+ * Actions == build my shortlist, bidder list, compare suppliers
+ *
+ * Filters == filter by available filters
+ *
+ * View == toggle between list and grid view
+ */
 const ActionFilterAndView = ({
   resultCount,
   resultType,
@@ -31,6 +67,11 @@ const ActionFilterAndView = ({
   onFilterChange,
   onViewChange,
 }: ActionFilterAndViewProps) => {
+  const [view, setView] = useState<ViewType>(ViewType.LIST);
+  const hanldeViewChange = (e: any, v: ViewType) => {
+    setView(v);
+    onViewChange(v);
+  };
   if (resultCount === 0) {
     return null;
   }
@@ -38,7 +79,7 @@ const ActionFilterAndView = ({
     <Stack>
       <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
         <Box>
-          <Trans i18nKey="scout.result.overview" count={resultCount}>
+          <Trans i18nKey="scout.result.overview">
             Listing
             <SText fontWeight="700" fontSize="32px">
               {{ resultCount } as any}
@@ -54,36 +95,54 @@ const ActionFilterAndView = ({
           onFilterChange={onFilterChange}
         />
       </Stack>
+      <SpacingVertical space="24px" />
       <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
         <Stack direction={"row"} spacing={2}>
-          <Button onClick={onClickBuildMyShortList} variant="outlined">
+          <WhiteBgRoundCornerButton
+            onClick={onClickBuildMyShortList}
+            variant="outlined"
+          >
             Build my shortlist
-          </Button>
-          <Button onClick={onClickBidderList} variant="outlined">
+          </WhiteBgRoundCornerButton>
+          <WhiteBgRoundCornerButton
+            onClick={onClickBidderList}
+            variant="outlined"
+          >
             Bidder List
-          </Button>
+          </WhiteBgRoundCornerButton>
           <Tooltip title="Select at least 2 suppliers to compare">
             <span style={{ display: "flex" }}>
-              <Button
+              <WhiteBgRoundCornerButton
                 variant="outlined"
                 onClick={onClickCompare}
                 disabled={onClickCompare === undefined}
               >
                 Compare Suppliers
-              </Button>
+              </WhiteBgRoundCornerButton>
             </span>
           </Tooltip>
         </Stack>
 
-        <Box sx={{ justifyContent: "end", display: "flex" }}>
-          <IconButton onClick={() => onViewChange(ViewType.LIST)}>
-            <List />
-          </IconButton>
-          <IconButton onClick={() => onViewChange(ViewType.GRID)}>
+        <ToggleButtonGroup exclusive value={view} onChange={hanldeViewChange}>
+          <ToggleButton
+            sx={{
+              borderRadius: "16px",
+            }}
+            value={ViewType.LIST}
+          >
+            <FormatAlignLeft />
+          </ToggleButton>
+          <ToggleButton
+            sx={{
+              borderRadius: "16px",
+            }}
+            value={ViewType.GRID}
+          >
             <GridView />
-          </IconButton>
-        </Box>
+          </ToggleButton>
+        </ToggleButtonGroup>
       </Stack>
+      <SpacingVertical space="24px" />
     </Stack>
   );
 };
