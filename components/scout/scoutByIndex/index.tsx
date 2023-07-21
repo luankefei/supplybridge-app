@@ -1,4 +1,4 @@
-import Feedback from "components/Feedback";
+import Feedback from "components/feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
 import GeoCharts from "./geoCharts";
 import Summary from "./summary";

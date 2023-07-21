@@ -3,17 +3,17 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { Skeleton } from "@mui/material";
-import BrandCard from "./BrandCard";
-import BrandCardSkeleton from "./BrandCardSkeleton";
+import BrandCard from "./brandCard";
+import BrandCardSkeleton from "./brandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeOEM } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "America": "scout.quickbridge.america",
-   "Asia": "scout.quickbridge.asia",
-   "Europe": "scout.quickbridge.europe",
+  America: "scout.quickbridge.america",
+  Asia: "scout.quickbridge.asia",
+  Europe: "scout.quickbridge.europe",
 };
 
 export default function ByOEM() {

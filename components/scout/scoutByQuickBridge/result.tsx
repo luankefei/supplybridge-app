@@ -7,16 +7,16 @@ import { useEffect, useRef, useState } from "react";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
 import { useViewport } from "hooks/useViewport";
-import UnlockBackDrop from "../UnlockBackDrop";
-import LockedResultCard from "../LockedResultCard";
+import UnlockBackDrop from "../unlockBackDrop";
+import LockedResultCard from "../lockedResultCard";
 import { Breadcrumbs, Link } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useRouter } from "next/router";
 
-const ResultCard = dynamic(() => import("components/scout/ResultCard"));
-const ScoutFilter = dynamic(() => import("components/scout/ScoutFilter"));
+const ResultCard = dynamic(() => import("components/scout/resultCard"));
+const ScoutFilter = dynamic(() => import("components/scout/scoutFilter"));
 
-import { GoBackIcon } from "components/Button";
+import { GoBackIcon } from "components/button";
 import { theme } from "config/theme";
 import { usePersistentStore } from "hooks/useStore";
 import LoadingAnimation from "components/ui-components/loadingAnimation";

@@ -2,21 +2,21 @@
 
 import { useEffect } from "react";
 import styled from "styled-components";
-import BigCard from "./BigCard";
-import BigCardSkeleton from "./BigCardSkeleton";
+import BigCard from "./bigCard";
+import BigCardSkeleton from "./bigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgePioneer } from "requests/useScoutByScoutBridge";
 import _ from "lodash";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Startups": "scout.quickbridge.startups",
-   "Innovations": "scout.quickbridge.innovations",
-   "Diversity, Equity, and Inclusion (DEI)": "scout.quickbridge.dei",
-   "Recyclers": "scout.quickbridge.recyclers",
-   "Sustainable Production": "scout.quickbridge.sustainableProduction",
-   "Low Volume": "scout.quickbridge.lowVolume",
+  Startups: "scout.quickbridge.startups",
+  Innovations: "scout.quickbridge.innovations",
+  "Diversity, Equity, and Inclusion (DEI)": "scout.quickbridge.dei",
+  Recyclers: "scout.quickbridge.recyclers",
+  "Sustainable Production": "scout.quickbridge.sustainableProduction",
+  "Low Volume": "scout.quickbridge.lowVolume",
 };
 
 export default function ByPioneer() {
@@ -98,7 +98,9 @@ export default function ByPioneer() {
                 src={icon}
                 title={t(nameKeyMap[name], name)}
                 selected={selected === id}
-                infoContent={InfoContent(t(`${nameKeyMap[name]}Desc`, description))}
+                infoContent={InfoContent(
+                  t(`${nameKeyMap[name]}Desc`, description)
+                )}
                 disabled={!isActive}
               />
             </CardWrapper>

@@ -2,25 +2,25 @@
 
 import { useEffect } from "react";
 import styled from "styled-components";
-import BigCard from "./BigCard";
-import BigCardSkeleton from "./BigCardSkeleton";
+import BigCard from "./bigCard";
+import BigCardSkeleton from "./bigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import _ from "lodash";
 import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Injection Molding": "scout.quickbridge.injectionModling",
-   "Forging": "scout.quickbridge.forging",
-   "Casting": "scout.quickbridge.casting",
-   "Stamping": "scout.quickbridge.stamping",
-   "Composite Part": "scout.quickbridge.compositePart",
-   "Structural Part": "scout.quickbridge.structuralPart",
-   "Additive Manufacturing": "scout.quickbridge.additiveManufacturing",
-   "CNC Machining": "scout.quickbridge.cncMachining",
-   "Tooling & Fixtures": "scout.quickbridge.toolingFixtures",
-   "Others": "scout.quickbridge.others",
+  "Injection Molding": "scout.quickbridge.injectionModling",
+  Forging: "scout.quickbridge.forging",
+  Casting: "scout.quickbridge.casting",
+  Stamping: "scout.quickbridge.stamping",
+  "Composite Part": "scout.quickbridge.compositePart",
+  "Structural Part": "scout.quickbridge.structuralPart",
+  "Additive Manufacturing": "scout.quickbridge.additiveManufacturing",
+  "CNC Machining": "scout.quickbridge.cncMachining",
+  "Tooling & Fixtures": "scout.quickbridge.toolingFixtures",
+  Others: "scout.quickbridge.others",
 };
 
 export default function ByProductionTech() {
@@ -101,7 +101,9 @@ export default function ByProductionTech() {
                 src={icon}
                 title={t(nameKeyMap[name], name)}
                 selected={selected === id}
-                infoContent={InfoContent(t(`${nameKeyMap[name]}Desc`, description))}
+                infoContent={InfoContent(
+                  t(`${nameKeyMap[name]}Desc`, description)
+                )}
                 disabled={!isActive}
               />
             </CardWrapper>
