@@ -18,7 +18,7 @@ import GeoCharts from "components/scout/scoutByIndex/geoCharts";
 import Filters from "components/scout/filters";
 import ResultCard from "components/scout/resultCard";
 import Feedback from "components/feedback";
-import TechnologyBox from "components/scout/rechnologyBox";
+import TechnologyBox from "components/scout/technologyBox";
 
 interface Props {
   commodities: any;

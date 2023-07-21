@@ -3,7 +3,7 @@ import styled, { css } from "styled-components";
 import Icon from "components/icon";
 import Layout from "components/layout";
 import Header from "components/newHeader";
-import BigCard from "components/scout/ScoutByQuickBridge/bigCard";
+import BigCard from "components/scout/scoutByQuickBridge/bigCard";
 interface IconProps {
   title: string;
   iconSrc: string;
