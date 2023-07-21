@@ -15,7 +15,12 @@ import {
 import rawMaterials, {
   allRawMaterials,
 } from "components/raw-material/constants";
-import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
+import {
+  DialerSip,
+  FormatAlignCenter,
+  Info,
+  Replay,
+} from "@mui/icons-material";
 import {
   SpacingVertical,
   SpacingHorizontal,
@@ -127,26 +132,31 @@ export default function RawMaterial() {
                   .find((v) => v.category === openedCategory)
                   ?.subfields.map((subfield, idx) => {
                     const selected = selectedMaterials.includes(subfield.name);
-
+                    const disabled = subfield.apiName === "";
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
                           value={subfield.name}
                           selected={selected}
+                          disabled={disabled}
                           style={{
                             margin: 8,
                             padding: "8px 16px",
                             borderRadius: 100,
                             minWidth: 110,
                             borderColor: selected ? "#08979C" : "#E5E7EB",
-                            backgroundColor: selected ? "#E6F5F5" : "#FFFFFF",
+                            backgroundColor: disabled
+                              ? "#E5E7EB"
+                              : selected
+                              ? "#E6F5F5"
+                              : "#FFFFFF",
                             color: selected ? "#08979C" : "#445B66",
                           }}
                           onClick={() => toggleMatieral(subfield.name)}
                         >
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
-                          <Tooltip title={"subfield.description"}>
+                          <Tooltip title={subfield.description}>
                             <Info style={{ width: 14, color: "#9CA3AF" }} />
                           </Tooltip>
                         </ToggleButton>

@@ -7,7 +7,6 @@ import { SegmentedValue } from "antd/es/segmented";
 import LoadingAnimation from "components/ui-components/loadingAnimation";
 import {
   CartesianGrid,
-  Label,
   Legend,
   Line,
   LineChart,
@@ -18,6 +17,8 @@ import {
 } from "recharts";
 import { toast } from "react-toastify";
 import { SpacingHorizontal } from "components/ui-components/spacer";
+import { request } from "config/axios";
+import { apiNamesMap } from "./constants";
 
 enum RangeEnum {
   Day = "Day",
@@ -46,20 +47,43 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
     setFrequency(nr);
   };
 
+  const validateData = (toBeValidated: any): boolean => {
+    if (typeof toBeValidated !== "object") {
+      return false;
+    }
+    if (!Array.isArray(toBeValidated)) {
+      return false;
+    }
+    if (toBeValidated.length === 0) {
+      return true;
+    }
+    if (
+      !(
+        toBeValidated[0].hasOwnProperty("price") &&
+        toBeValidated[0].hasOwnProperty("ts")
+      )
+    ) {
+      return false;
+    }
+    return true;
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const res = await fetch(
-        `/api/fakeData?commodity=${materialName}&frequency=${frequency}`
+      const today = new Date();
+      const endTime = today.toISOString().split("T")[0];
+      const startTime = "2022-01-01";
+      const apiName = apiNamesMap[materialName];
+      const res = await request.get(
+        `/data/materialpricing?name=${apiName}&st=${startTime}&ed=${endTime}`
       );
-      if (!res.ok) {
+      if (res.status !== 200 || !validateData(res.data)) {
         toast.error("Error fetching data...");
         setIsLoading(false);
         return;
       }
-      const resp = await res.json();
-      console.log(resp);
-      setData(resp.data);
+      setData(res.data);
       setIsLoading(false);
     };
     // avoid fetching data on first render
@@ -113,15 +137,15 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
             >
               <Legend verticalAlign="top" height={36} />
               <CartesianGrid stroke="#ccc" />
-              <XAxis dataKey="name" />
+              <XAxis dataKey="ts" />
               <YAxis
                 type="number"
                 domain={[0, (dataMax: number) => Math.floor(dataMax * 1.1)]}
               />
               <Line
-                name={"Gold Price"}
+                name={`${materialName} Price`}
                 type="monotone"
-                dataKey="gold"
+                dataKey="price"
                 stroke="#82ca9d"
               />
               <Tooltip />
