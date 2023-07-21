@@ -2,7 +2,6 @@ import { Box } from "@mui/material";
 import { styled as muiStyled } from "@mui/material/styles";
 import { theme } from "config/theme";
 import Image from "next/image";
-
 import { allCountry } from "utils/countries";
 
 const Container = muiStyled(Box)(`
@@ -24,7 +23,7 @@ const Container = muiStyled(Box)(`
     background-color: #FFFFFF;
 `);
 
-const StyledImage = muiStyled('img')(`
+const StyledImage = muiStyled("img")(`
     flex-shrink: 0;
     overflow: hidden;
     @media (max-width: ${theme.size.mobileXl}) {
@@ -39,7 +38,7 @@ const StyledImage = muiStyled('img')(`
     object-fit: cover;
 `);
 
-const Contents = muiStyled('div')(`
+const Contents = muiStyled("div")(`
     flex-shrink: 10;
     width: 100%;
     display: flex;
@@ -50,8 +49,10 @@ const Contents = muiStyled('div')(`
     overflow: hidden;
 `);
 
-const DateLabel = muiStyled('span')(`
-    display: block;
+const DateLabel = muiStyled("div")(`
+    display: flex;
+    justify-content: space-between;
+    aligne-items: center;
     width: 100%;
     font-family: 'Inter';
     font-style: normal;
@@ -67,7 +68,8 @@ const DateLabel = muiStyled('span')(`
     }
 `);
 
-const TitleLabel = muiStyled('span')(`
+const TitleLabel = muiStyled("span")(`
+    margin: 8px 0;
     font-family: 'Inter';
     font-style: normal;
     font-weight: 600;
@@ -86,7 +88,7 @@ const TitleLabel = muiStyled('span')(`
     }
 `);
 
-const Tags = muiStyled('div')(`
+const Tags = muiStyled("div")(`
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -94,7 +96,7 @@ const Tags = muiStyled('div')(`
     gap: 0.75rem;
 `);
 
-const TagLabel = muiStyled('span')(`
+const TagLabel = muiStyled("span")(`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
@@ -103,7 +105,7 @@ const TagLabel = muiStyled('span')(`
     color: #08979C;
 `);
 
-const SummaryLabel = muiStyled('span')(`
+const SummaryLabel = muiStyled("span")(`
     font-family: 'Inter';
     font-style: normal;
     font-weight: 400;
@@ -123,58 +125,89 @@ const StyledReadMore = muiStyled(`div`)(`
 `);
 
 function formatDate(dateString: string) {
-    const date = new Date(dateString)
-    const now = new Date()
-    const diffInSeconds = Math.abs((now.getTime() - date.getTime()) / 1000)
-    const diffInHours = diffInSeconds / 3600
+  const date = new Date(dateString);
+  const now = new Date();
+  const diffInSeconds = Math.abs((now.getTime() - date.getTime()) / 1000);
+  const diffInHours = diffInSeconds / 3600;
 
-    if (diffInHours < 24) {
-        if (diffInSeconds < 60)
-            return `${Math.round(diffInSeconds)} seconds ago`
-        else if (diffInSeconds < 3600)
-            return `${Math.round(diffInSeconds / 60)} minutes ago`
-        else return `${Math.round(diffInHours)} hours ago`
-    } else {
-        return date.toLocaleString();
-    }
+  if (diffInHours < 24) {
+    if (diffInSeconds < 60) return `${Math.round(diffInSeconds)} seconds ago`;
+    else if (diffInSeconds < 3600)
+      return `${Math.round(diffInSeconds / 60)} minutes ago`;
+    else return `${Math.round(diffInHours)} hours ago`;
+  } else {
+    return date.toLocaleString();
+  }
 }
 
 const NewsCard = function (props: any) {
-    const { id, publishDate, title, k1, url, text, image, country, author } = props;
-    const tags = [k1];
-    const summary = text && (text.substring(0, 300) + (text.length > 300 ? ' ...' : ''));
-    const displayedCountry = country ?
-       allCountry.map(
-          (z: any) => z.children.find((x: any) => x.name === country.toUpperCase())
-       ).filter(
-          (x: any) => !!x
-       )[0] :
-       '';
+  const { id, publishDate, title, k1, url, text, image, country, author } =
+    props;
+  const tags = [k1];
+  const summary =
+    text && text.substring(0, 300) + (text.length > 300 ? " ..." : "");
+  const displayedCountry = country
+    ? allCountry
+        .map((z: any) =>
+          z.children.find((x: any) => x.name === country.toUpperCase())
+        )
+        .filter((x: any) => !!x)[0]
+    : "";
 
-    return (
-        <Container>
-            {/*<StyledImage src={image} alt={``} width={158} height={118}></StyledImage>*/}
-            <Contents>
-                <DateLabel>
-                   <span>{formatDate(publishDate)}</span>
-                   {displayedCountry ? <span>@ {displayedCountry?.fullName}</span>:null}
-                   {author ? <span className="author">Source: {author}</span>:null}</DateLabel>
-                <TitleLabel><a href={url} target="_blank" rel="noreferrer">{title}</a></TitleLabel>
-                <Tags>
-                    {tags && tags.map((tag: any, index: number) => {
-                        return (
-                            <TagLabel key={`${tag}-${index}`}>#{tag}</TagLabel>
-                        );
-                    })}
-                </Tags>
-                {/*<SummaryLabel>{summary}</SummaryLabel>*/}
-                {/*<StyledReadMore>
+  return (
+    <Container>
+      {/*<StyledImage src={image} alt={``} width={158} height={118}></StyledImage>*/}
+      <Contents>
+        <DateLabel>
+          <div style={{ display: "flex", justifyContent: "space-between" }}>
+            <div style={{ display: "flex" }}>
+              <div style={{ color: "#9CA3AF" }}>{formatDate(publishDate)}</div>
+              <div>&nbsp;&nbsp;&#183;&nbsp;</div>
+            </div>
+
+            {displayedCountry ? (
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
+              >
+                <Image
+                  src="/icons/location2.svg"
+                  alt="news_source-location"
+                  width={16}
+                  height={16}
+                />
+                <span style={{ color: "#445B66" }}>
+                  {displayedCountry?.fullName}{" "}
+                </span>
+              </div>
+            ) : null}
+          </div>
+          <div style={{ color: "#445B66" }}>
+            {author ? <span className="author">Source: {author}</span> : null}
+          </div>
+        </DateLabel>
+        <TitleLabel>
+          <a href={url} target="_blank" rel="noreferrer">
+            {title}
+          </a>
+        </TitleLabel>
+        <Tags>
+          {tags &&
+            tags.map((tag: any, index: number) => {
+              return <TagLabel key={`${tag}-${index}`}>#{tag}</TagLabel>;
+            })}
+        </Tags>
+        {/*<SummaryLabel>{summary}</SummaryLabel>*/}
+        {/*<StyledReadMore>
                     <span>Read More</span>
                     <Image src="/icons/right-arrow.svg" alt="->" width={24} height={24} />
                 </StyledReadMore>*/}
-            </Contents>
-        </Container>
-    );
-}
+      </Contents>
+    </Container>
+  );
+};
 
 export default NewsCard;
