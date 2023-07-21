@@ -1,11 +1,9 @@
-import Box from "@mui/material/Box";
-import Icon from "components/Icon";
-import Typography from "@mui/material/Typography";
+import Icon from "components/icon";
 
 export default function UnlockBox() {
   return (
     <div>
-    <Icon src="unlock-features" width={300} height={200} />
+      <Icon src="unlock-features" width={300} height={200} />
     </div>
   );
 }

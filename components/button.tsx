@@ -7,7 +7,7 @@ import { styled as muiStyled } from "@mui/system";
 import clsx from "clsx";
 import { theme } from "config/theme";
 
-import Icon from "components/Icon";
+import Icon from "components/icon";
 
 const CustomCircularProgress = muiStyled(CircularProgress)`
   margin-left: 10px;
