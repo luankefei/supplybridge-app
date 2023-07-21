@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Skeleton } from "@mui/material";
 import _ from "lodash";
 import { SupplierModal } from "./supplierModal";
-import Badge from "components/Badge";
-import Icon from "components/Icon";
+import Badge from "components/badge";
+import Icon from "components/icon";
 import { theme } from "config/theme";
 
 const ResultCard = ({ data }: { data?: any }) => {
