@@ -100,13 +100,16 @@ export default function RawMaterial() {
           <Grid container>
             {rawMaterials.map((rawMaterial, idx) => {
               const isOpen = openedCategory === rawMaterial.category;
+              let iconName = rawMaterial.icon;
+              if (isOpen) {
+                iconName += "-selected";
+              }
               return (
                 <Grid key={idx} item>
                   <VerticalIconButton
                     title={rawMaterial.category}
                     backgroundColor={isOpen ? "#E5F7F8" : undefined}
-                    icon={rawMaterial.icon}
-                    iconColor={isOpen ? "#08979C" : "#445B66"}
+                    icon={iconName}
                     onClick={() =>
                       setOpenedCategory(
                         isOpen ? undefined : rawMaterial.category
