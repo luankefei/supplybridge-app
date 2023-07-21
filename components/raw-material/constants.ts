@@ -17,40 +17,100 @@ type RawMaterial = {
 //   },
 // ];
 
+// const getRawMaterialsMap = () => {
+//   const map: Record<string, string> = {};
+//   rawMaterials.forEach((category) => {
+//     category.subfields.forEach((subfield) => {
+//       map[subfield.name] = subfield.apiName;
+//     });
+//   });
+//   return map;
+// };
 export const apiNamesMap: Record<string, string> = {
-  Copper: "copper",
-  "Iron Ore": "iron_ore",
-  Aluminum: "aluminum",
-  Zinc: "zinc",
-  Tin: "tin",
-  Nickel: "nickel",
-  Titanium: "titanium",
   Brent: "brent",
-  Ethanol: "ethanol",
-  Polyethylene: "polyethylene",
-  Manganese: "manganese",
-  "HRC Steel": "hrc_steel",
-  Steel: "steel",
-  Gold: "gold",
-  Silver: "silver",
-  Platinum: "platinum",
-  Lithium: "lithium",
-  Cobalt: "cobalt",
-  Lead: "lead",
-  Polyvinyl: "polyvinyl",
-  Germanium: "germanium",
-  Rhodium: "rhodium",
-  Molybdenum: "molybdenum",
-  Palladium: "palladium",
-  Neodymium: "neodymium",
-  Tellurium: "tellurium",
-  Gallium: "gallium",
   "Natural gas": "natural_gas",
-  "UK Gas": "uk_gas",
   Gasoline: "gasoline",
   Coal: "coal",
+  "UK Gas": "uk_gas",
+  Ethanol: "ethanol",
+  "Crude Oil": "crude_oil",
+  Propane: "propane",
+  "Heating Oil": "heating_oil",
+  "Urals Oil": "urals_oil",
+  Naphtha: "naphtha",
+  Methanol: "methanol",
+  "TTF Gas": "ttf_gas",
+  Gold: "gold",
+  Silver: "silver",
+  Copper: "copper",
+  Steel: "steel",
+  "Iron Ore": "iron_ore",
+  Lithium: "lithium",
+  Platinum: "platinum",
+  Titanium: "titanium",
+  "HRC Steel": "hrc_steel",
+  Cobalt: "cobalt",
+  Lead: "lead",
+  Aluminum: "aluminum",
+  Tin: "tin",
+  Zinc: "zinc",
+  Nickel: "nickel",
+  Molybdenum: "molybdenum",
+  Palladium: "palladium",
+  Rhodium: "rhodium",
+  Neodymium: "neodymium",
+  Tellurium: "tellurium",
+  "Iron Ore 62% fe": "",
   Magnesium: "magnesium",
+  Gallium: "gallium",
+  Germanium: "germanium",
+  Manganese: "manganese",
+  Indium: "",
+  Uranium: "uranium",
+  Polyethylene: "polyethylene",
+  Polyvinyl: "polyvinyl",
+  Polypropylene: "polypropylene",
+  "Solar Energy Index": "",
+  "EU Carbon Permits": "",
+  "Wind Energy Index": "",
+  "Kraft Pulp": "",
+  Rubber: "",
+  Bitumen: "bitumen",
+  "Soda Ash": "soda_ash",
+  "Di-ammonium": "di-ammonium",
 };
+
+/**
+ * Pulled some out of the rawMaterials
+ * reusables are used in multiple categories
+ */
+const reusuables = {
+  cobalt: {
+    name: "Cobalt",
+    description:
+      "Cobalt is a hard, lustrous, grey metal with a high melting point (1493°C). Cobalt is used mainly in the production of chemicals (58 percent), superalloys for gas turbine blades and jet aircraft engines, special steel, carbides, diamond tools, and magnets. By far, the biggest producer of cobalt is DR Congo (more than 50%) followed by Russia (4%), Australia, the Philippines, and Cuba. Cobalt futures are available for trading on The London Metal Exchange (LME). The standard contact has a size of 1 tonne. Futures contracts for Cobalt are financial instruments that allow producers, large consumers, and speculators, to offset or assume the risk of a price change of holding a quantity of Cobalt over time.",
+    apiName: "cobalt",
+  },
+  lithium: {
+    name: "Lithium",
+    description:
+      "Lithium is a silver-white light metal. Lithium hydroxide is used in batteries for electrical vehicles and mobile phones. Lithium hydroxide is produced from a chemical reaction between lithium carbonate and calcium hydroxide. The biggest lithium producers are Chile, China, Australia and Argentina. The largest lithium importers are China, Japan, South Korea and the United States.",
+    apiName: "lithium",
+  },
+  nickel: {
+    name: "Nickel",
+    description:
+      "Nickel is mainly used in the production of stainless steel and other alloys and can be found in food preparation equipment, mobile phones, medical equipment, transport, buildings, power generation. The biggest producers of nickel are Indonesia, the Philippines, Russia, New Caledonia, Australia and Canada. Nickel futures are available for trading in The London Metal Exchange (LME). The standard contact has a weight of 6 tonnes.",
+    apiName: "nickel",
+  },
+  magnesium: {
+    name: "Magnesium",
+    description:
+      "The biggest Magnesium producer is China, accounting for about 87% of the total production. Magnesium is a critical material for hardening aluminum alloys and is used in everything from power tools to laptops. Major consumers are China (39%), followed by Europe and North America (each around 19%) and Japan (4%).",
+    apiName: "magnesium",
+  },
+};
+
 const rawMaterials: RawMaterial[] = [
   {
     category: "Energy",
@@ -92,6 +152,48 @@ const rawMaterials: RawMaterial[] = [
           "The ethanol market is growing rapidly, particularly due to the governments mandate for renewable fuels. Ethanol is largely produced through fermenting starch or sugar-based feedstocks. In the United States, corn is the principal raw material; in Brazil, the world's leading ethanol producer, sugar cane is widely used. In the United States, Ethanol Futures are available for Trading in The Chicago Board of Trade (CBOT® ).",
         apiName: "ethanol",
       },
+      {
+        name: "Crude Oil",
+        description:
+          "The West Texas Intermediate (WTI) benchmark for US crude is the world's most actively traded commodity.",
+        apiName: "crude_oil",
+      },
+      {
+        name: "Propane",
+        description:
+          "Mont Belvieu Propane is a gas that can be compressed to a liquid. It is listed as a clean fuel on the 1990 Clean Air Act and has numerous applications. The contract size is 42,000 gallons and takes its name from the city of Mont Belvieu,TX due to it's massive gas storage facility.",
+        apiName: "propane",
+      },
+      {
+        name: "Heating Oil",
+        description:
+          'Heating oil, also known as No. 2 fuel oil, accounts for about 25% of the yield of a barrel of crude, the second largest "cut" after gasoline. The heating oil futures contract trades in units of 42,000 gallons (1,000 barrels) and is based on delivery in New York harbor, the principal cash market trading center. The heating oil futures contract is also used to hedge diesel fuel and jet fuel, both of which trade in the cash market at an often stable premium to NYMEX Divis...',
+        apiName: "heating_oil",
+      },
+      {
+        name: "Urals Oil",
+        description:
+          "Urals oil is the reference oil brand used as the price benchmark for Russian oil exports. It is a blend of the heavy and sour oil from the Urals and Volga regions with the lighter oil from Western Siberia. It is transported to Europe through the Druzhba pipeline and to Baku through the Novorossiysk pipeline, while main seaborne importers are China and India since 2022. Futures contracts of 1,000 barrels are traded in the St. Petersburg International Mercantile Exchange (...",
+        apiName: "urals_oil",
+      },
+      {
+        name: "Naphtha",
+        description:
+          "Naphtha is a flammable liquid that can be used as fuel, metal cleaner, high-octane gas and as petrochemical in production of plastics. Naphtha prices are highly correlated with crude oil as it is generally produced during the refining of crude oil. Each contract represents 1,000 metric tons.",
+        apiName: "naphtha",
+      },
+      {
+        name: "Methanol",
+        description:
+          "Methanol is a light, colourless, and flammable liquid. Industrially, it is used as a solvent and as an alternative fuel source for vehicles. It is also used as a chemical component for the production of plastic, paint, car parts, and construction materials.",
+        apiName: "methanol",
+      },
+      {
+        name: "TTF Gas",
+        description:
+          "Dutch TTF Gas is a leading European benchmark price as the volumes traded represent more than 14 times the amount of gas used by the Netherlands for domestic purposes. Contracts are for physical delivery through the transfer of rights in respect of Natural Gas at the Title Transfer Facility (TTF) Virtual Trading Point, operated by Gasunie Transport Services (GTS), the transmission system operator in the Netherlands. Delivery is made equally each hour throughout the deliver...",
+        apiName: "ttf_gas",
+      },
     ],
   },
   {
@@ -128,12 +230,7 @@ const rawMaterials: RawMaterial[] = [
           "Iron ore prices refer to Iron Ore Fine China Import 63.5 percent grade Spot Cost and Freight for the delivery at the Chinese port of Tianjin. Is used to make steel for infrastructure and other construction projects. The biggest producers of iron ore are China, Australia and Brazil. Others include India, Russia, Ukraine and South Africa.",
         apiName: "iron_ore",
       },
-      {
-        name: "Lithium",
-        description:
-          "Lithium is a silver-white light metal. Lithium hydroxide is used in batteries for electrical vehicles and mobile phones. Lithium hydroxide is produced from a chemical reaction between lithium carbonate and calcium hydroxide. The biggest lithium producers are Chile, China, Australia and Argentina. The largest lithium importers are China, Japan, South Korea and the United States.",
-        apiName: "lithium",
-      },
+      reusuables.lithium,
       {
         name: "Platinum",
         description:
@@ -152,12 +249,7 @@ const rawMaterials: RawMaterial[] = [
           "US Midwest Domestic Hot-Rolled Coil Steel Futures are widely traded on the New York Mercantile Exchange (NYMEX). Futures contracts for hot-rolled coil steel are financial instruments that allow producers, large consumers, and speculators to offset or assume the risk of a price change of holding a quantity of hot-rolled coil steel over time. Hot rolling, the process used to make hot rolled steel, involves rolling steel at high temperatures. Hot rolled steel is used in various applications such as agricultural equipment, automobile parts, construction materials, and railroad equipment.",
         apiName: "hrc_steel",
       },
-      {
-        name: "Cobalt",
-        description:
-          "Cobalt is a hard, lustrous, grey metal with a high melting point (1493°C). Cobalt is used mainly in the production of chemicals (58 percent), superalloys for gas turbine blades and jet aircraft engines, special steel, carbides, diamond tools, and magnets. By far, the biggest producer of cobalt is DR Congo (more than 50%) followed by Russia (4%), Australia, the Philippines, and Cuba. Cobalt futures are available for trading on The London Metal Exchange (LME). The standard contact has a size of 1 tonne. Futures contracts for Cobalt are financial instruments that allow producers, large consumers, and speculators, to offset or assume the risk of a price change of holding a quantity of Cobalt over time.",
-        apiName: "cobalt",
-      },
+      reusuables.cobalt,
       {
         name: "Lead",
         description:
@@ -182,12 +274,7 @@ const rawMaterials: RawMaterial[] = [
           "Zinc Futures are available for trading in The London Metal Exchange (LME). The standard contract size it 25 tonnes. Zinc is often used in die-casting alloys, castings, brass products, sheeting products, chemicals, medicine, paints and batteries. The biggest producers of zinc are. China, Peru, Australia, United States, Canada, India and Kazakhstan.",
         apiName: "zinc",
       },
-      {
-        name: "Nickel",
-        description:
-          "Nickel is mainly used in the production of stainless steel and other alloys and can be found in food preparation equipment, mobile phones, medical equipment, transport, buildings, power generation. The biggest producers of nickel are Indonesia, the Philippines, Russia, New Caledonia, Australia and Canada. Nickel futures are available for trading in The London Metal Exchange (LME). The standard contact has a weight of 6 tonnes.",
-        apiName: "nickel",
-      },
+      reusuables.nickel,
       {
         name: "Molybdenum",
         description:
@@ -224,12 +311,7 @@ const rawMaterials: RawMaterial[] = [
           "Iron ore prices refer to Iron Ore Fine China Import 62 percent grade Spot Cost and Freight for the delivery at the Chinese port of Tianjin. Is used to make steel for infrastructure and other construction projects. The biggest producers of iron ore are China, Australia and Brazil. Others include India, Russia, Ukraine and South Africa.",
         apiName: "",
       },
-      {
-        name: "Magnesium",
-        description:
-          "The biggest Magnesium producer is China, accounting for about 87% of the total production. Magnesium is a critical material for hardening aluminum alloys and is used in everything from power tools to laptops. Major consumers are China (39%), followed by Europe and North America (each around 19%) and Japan (4%).",
-        apiName: "magnesium",
-      },
+      reusuables.magnesium,
       {
         name: "Gallium",
         description:
@@ -310,6 +392,17 @@ const rawMaterials: RawMaterial[] = [
       },
     ],
   },
+
+  {
+    category: "EV-related",
+    icon: "materialCategory/energy",
+    subfields: [
+      reusuables.cobalt,
+      reusuables.lithium,
+      reusuables.nickel,
+      reusuables.magnesium,
+    ],
+  },
   {
     category: "Others",
     icon: "materialCategory/others",
@@ -326,9 +419,27 @@ const rawMaterials: RawMaterial[] = [
           "Natural rubber is high resilience, extremely waterproof, and stretchable material. Is used extensively in many applications and products, either alone or in combination with other materials. The biggest producers of rubber are China, Indonesia, Malaysia and Thailand. Others include Papua New Guinea, Philippines, Singapore, Sri Lanka, Thailand, Vietnam, Cambodia, and India. Rubber Futures are available for trading on several exchanges including Osaka Exchange, Singapore Exchange (SGX), the Malaysian Rubber Exchange and the Shanghai International Energy Exchange.",
         apiName: "",
       },
+      {
+        name: "Bitumen",
+        description:
+          "Bitumen, also known as asphalt is a black, sticky, and highly viscous liquid or semi-solid form of petroleum. The most common use is in the road construction and waterproofing products. The contract size is 10 tons/lot. The 70# Class-A road bitumen is widely traded on the Shanghai Futures Exchange.",
+        apiName: "bitumen",
+      },
+      {
+        name: "Soda Ash",
+        description:
+          "Soda ash, also known as sodium carbonate, is an alkali chemical which is mostly produced from sodium chloride and limestone. The compound has a number of uses including manufacturing of glass, paper, rayon, soaps, and detergents. Soda ash also is used to clean the air and soften water. The spot market for soda ash exists mostly in China and Europe.",
+        apiName: "soda_ash",
+      },
+      {
+        name: "Di-ammonium",
+        description:
+          "Di-ammonium Phosphate futures are primarily traded on the Chicago Board of Trade (CBOT). Di-ammonium Phosphate is the most widely used phosphorus fertiliser on the planet. It is composed of two common fertiliser constituents, and its relatively high nutrient content and excellent physical properties make it a popular choice in farming and other industries. Futures contracts for Di-ammonium are financial instruments that allow producers, large consumers, and speculators...",
+        apiName: "di-ammonium",
+      },
     ],
   },
-  { category: "More", icon: "materialCategory/others", subfields: [] },
+  { category: "More", icon: "materialCategory/lock", subfields: [] },
 ];
 
 export const filterValidMaterials = (materials: string[]) => {

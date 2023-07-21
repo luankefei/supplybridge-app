@@ -138,21 +138,22 @@ export default function RawMaterial() {
                         <ToggleButton
                           value={subfield.name}
                           selected={selected}
-                          disabled={disabled}
+                          // disabled={disabled}
                           style={{
                             margin: 8,
                             padding: "8px 16px",
                             borderRadius: 100,
                             minWidth: 110,
                             borderColor: selected ? "#08979C" : "#E5E7EB",
-                            backgroundColor: disabled
-                              ? "#E5E7EB"
-                              : selected
-                              ? "#E6F5F5"
-                              : "#FFFFFF",
+                            backgroundColor:
+                              disabled || selected ? "#E5E7EB" : "#FFFFFF",
                             color: selected ? "#08979C" : "#445B66",
                           }}
-                          onClick={() => toggleMatieral(subfield.name)}
+                          onClick={
+                            disabled
+                              ? undefined
+                              : () => toggleMatieral(subfield.name)
+                          }
                         >
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
