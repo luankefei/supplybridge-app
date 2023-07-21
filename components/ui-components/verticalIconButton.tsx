@@ -1,6 +1,6 @@
 import { Button } from "@mui/material";
 import { SpacingVertical } from "./spacer";
-import Icon from "components/Icon";
+import Icon from "components/icon";
 
 /**
  * vertical icon button

@@ -10,15 +10,15 @@ import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
 import { useViewport } from "hooks/useViewport";
 import { useFilter } from "requests/useFilter";
 import { useVehicleFuelTypes } from "requests/useVehicleFuelTypes";
-import Layout from "components/Layout";
+import Layout from "components/layout";
 import SearchBar from "components/scout/scoutByIndex/searchBar";
-import TechnologyBox from "components/scout/TechnologyBox";
-import Icon from "components/Icon";
-import ScoutFilter from "components/scout/ScoutFilter";
+import Icon from "components/icon";
+import ScoutFilter from "components/scout/scoutFilter";
 import GeoCharts from "components/scout/scoutByIndex/geoCharts";
-import Filters from "components/scout/Filters";
-import ResultCard from "components/scout/ResultCard";
-import Feedback from "components/Feedback";
+import Filters from "components/scout/filters";
+import ResultCard from "components/scout/resultCard";
+import Feedback from "components/feedback";
+import TechnologyBox from "components/scout/technologyBox";
 
 interface Props {
   commodities: any;

@@ -1,11 +1,11 @@
-import Carousel from "components/Carousel";
-import Layout from "components/Layout";
+import Carousel from "components/carousel";
+import Layout from "components/layout";
 import styled from "styled-components";
-import NewHeader from "components/NewHeader";
-import Slide1 from "components/source/slides/Slide1";
-import Slide2 from "components/source/slides/Slide2";
-import Slide3 from "components/source/slides/Slide3";
-import Tutorial from "components/Tutorial";
+import NewHeader from "components/newHeader";
+import Slide1 from "components/source/slides/slide1";
+import Slide2 from "components/source/slides/slide2";
+import Slide3 from "components/source/slides/slide3";
+import Tutorial from "components/tutorial";
 
 export default function SourcePage() {
   const data: React.ReactElement[] = [
@@ -25,5 +25,4 @@ export default function SourcePage() {
   );
 }
 
-const SliderContainer = styled.div`
-`;
+const SliderContainer = styled.div``;

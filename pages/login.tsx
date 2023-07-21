@@ -10,12 +10,12 @@ import dynamic from "next/dynamic";
 import { emailPattern } from "utils/validator";
 import { useAuth } from "requests/useAuth";
 
-import Introduction from "components/Introduction";
-import TermsPrivacyFooter from "components/TermsPrivacyFooter";
-import Icon from "components/Icon";
-import TextField from "components/TextField";
+import Introduction from "components/introduction";
+import TermsPrivacyFooter from "components/termsPrivacyFooter";
+import Icon from "components/icon";
+import TextField from "components/textField";
 const Box = dynamic(() => import("components/box"));
-const Button = dynamic(() => import("components/Button"));
+const Button = dynamic(() => import("components/button"));
 
 interface State {
   email: string;
