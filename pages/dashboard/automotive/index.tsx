@@ -3,9 +3,8 @@ import Link from "next/link";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
 
-
-import Icon from 'components/Icon'
-const Layout = dynamic(() => import('components/Layout'));
+import Icon from "components/icon";
+const Layout = dynamic(() => import("components/layout"));
 
 const upperMenu = [
   {
@@ -66,7 +65,11 @@ export default function Automotive() {
           </SubTitle>
           <CardContainer>
             {upperMenu.map((uprMenu, index) => (
-              <Link href={uprMenu.active ? uprMenu.path : '#'} passHref key={`upper_${index}`}>
+              <Link
+                href={uprMenu.active ? uprMenu.path : "#"}
+                passHref
+                key={`upper_${index}`}
+              >
                 <Card active={uprMenu.active}>
                   <IconContainer>
                     <Icon src={uprMenu.icon} width={60} height={37} />
@@ -78,7 +81,11 @@ export default function Automotive() {
           </CardContainer>
           <CardContainer>
             {lowerMenu.map((lwrMenu, index) => (
-              <Link href={lwrMenu.active ? lwrMenu.path : '#'} passHref key={`upper_${index}`}>
+              <Link
+                href={lwrMenu.active ? lwrMenu.path : "#"}
+                passHref
+                key={`upper_${index}`}
+              >
                 <Card active={lwrMenu.active}>
                   <IconContainer>
                     <Icon src={lwrMenu.icon} width={60} height={37} />
@@ -155,7 +162,7 @@ const Card = styled.div<{ active: boolean }>`
   background: #f5f5f5;
   box-shadow: 0px 2px 8px rgba(0, 0, 0, 0.15);
   border-radius: 16px;
-  opacity: ${(props) => props.active ? 1 : 0.5};
+  opacity: ${(props) => (props.active ? 1 : 0.5)};
 `;
 
 const IconContainer = styled.div`

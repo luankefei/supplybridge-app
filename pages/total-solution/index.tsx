@@ -1,5 +1,5 @@
-import Layout from "components/Layout";
-import Header from "components/NewHeader";
+import Layout from "components/layout";
+import Header from "components/newHeader";
 import Image from "next/image";
 import styled from "styled-components";
 

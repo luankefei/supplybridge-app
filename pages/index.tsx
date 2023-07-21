@@ -3,7 +3,7 @@ import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
 
-import Button from "components/Button";
+import Button from "components/button";
 
 export default function Home() {
   const [openMobileMenu, setOpenMobileMenu] = useState(false);
