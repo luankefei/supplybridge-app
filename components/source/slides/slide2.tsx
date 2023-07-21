@@ -1,6 +1,6 @@
-import Icon from "components/Icon";
-import styled from '@emotion/styled'
-import SliderCard from "../SliderCard";
+import Icon from "components/icon";
+import styled from "@emotion/styled";
+import SliderCard from "../sliderCard";
 import { Button } from "@mui/material";
 
 export default function Slide2() {
@@ -60,7 +60,7 @@ const Paragraph = styled.p`
 `;
 
 const StyledButton = styled(Button)`
-  background-color: #08979C;
+  background-color: #08979c;
   border-radius: 100px;
   width: 240px;
   height: 44px;

@@ -1,9 +1,9 @@
 import { Button } from "@mui/material";
 import styled from "@emotion/styled";
-import Box from "../IconBox";
-import SliderCard from "../SliderCard";
+import Box from "../iconBox";
+import SliderCard from "../sliderCard";
 import { useState } from "react";
-import BigCard from "components/scout/ScoutByQuickBridge/BigCard";
+import BigCard from "components/scout/scoutByQuickBridge/bigCard";
 
 export default function Slide1() {
   const [isChecked, setChecked] = useState(0);

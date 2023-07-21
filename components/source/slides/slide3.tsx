@@ -1,7 +1,7 @@
-import styled from '@emotion/styled'
-import SliderCard from "../SliderCard";
+import styled from "@emotion/styled";
+import SliderCard from "../sliderCard";
 import { Button, ButtonGroup } from "@mui/material";
-import Icon from "components/Icon";
+import Icon from "components/icon";
 import Image from "next/image";
 
 import Radio from "@mui/material/Radio";
@@ -71,7 +71,7 @@ export default function Slide3() {
                     value="mm"
                     control={<StyledRadio />}
                     label="mm"
-                   disabled
+                    disabled
                   />
                   <FormControlLabel
                     value="in"
@@ -83,16 +83,16 @@ export default function Slide3() {
               </ItemFeature>
             </Column>
             <Column width={20} justifycontent="end">
-              <StyledButton bgcolor="#08979C" textcolor="#FFFFFF" >
+              <StyledButton bgcolor="#08979C" textcolor="#FFFFFF">
                 VIEW ANALYSIS
               </StyledButton>
-              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75" >
+              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75">
                 CONFIGURE PART
               </StyledButton>
-              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75" >
+              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75">
                 UPLOAD REVISION
               </StyledButton>
-              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75" >
+              <StyledButton bgcolor="#FAFAFA" textcolor="#006D75">
                 PART OPTIONS
               </StyledButton>
             </Column>
@@ -108,7 +108,7 @@ export default function Slide3() {
             <RadioCardContainer>
               <RadioButtonCard isselected={selectedValue === "a"}>
                 <StyledRadio
-                  checked={selectedValue === "a"}                 
+                  checked={selectedValue === "a"}
                   value="a"
                   disabled
                 />
@@ -120,7 +120,7 @@ export default function Slide3() {
 
               <RadioButtonCard isselected={selectedValue === "b"}>
                 <StyledRadio
-                  checked={selectedValue === "b"}                 
+                  checked={selectedValue === "b"}
                   value="b"
                   disabled
                 />
@@ -132,7 +132,7 @@ export default function Slide3() {
 
               <RadioButtonCard isselected={selectedValue === "c"}>
                 <StyledRadio
-                  checked={selectedValue === "c"}                 
+                  checked={selectedValue === "c"}
                   value="c"
                   disabled
                 />
@@ -173,7 +173,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   gap: 20px;
-  padding-bottom: 34px
+  padding-bottom: 34px;
 `;
 
 const Title = styled.div`
@@ -216,7 +216,7 @@ const ButtonContainer = styled.div`
   gap: 30px;
 `;
 const StyledButton = styled(Button)<{ bgcolor: string; textcolor: string }>`
-  background-color: ${(props) => props.bgcolor} ;
+  background-color: ${(props) => props.bgcolor};
   border-radius: 100px;
   width: 166px;
   height: 44px;
@@ -224,7 +224,7 @@ const StyledButton = styled(Button)<{ bgcolor: string; textcolor: string }>`
   font-weight: 500;
   font-size: 14px;
   line-height: 22px;
-  text-transform: capitalize; 
+  text-transform: capitalize;
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
   pointer-events: none;
 `;
@@ -306,7 +306,7 @@ const StyledRadio = styled(Radio)`
   margin-left: 10px;
   padding: 0px 9px !important;
   &.Mui-checked {
-    color: #08979C;
+    color: #08979c;
   }
 `;
 const DateDetail = styled.div`
@@ -379,9 +379,8 @@ const AmountLabel = styled.h4`
 `;
 
 const Line = styled.hr`
-  border: 1px solid #E5E7EB;
+  border: 1px solid #e5e7eb;
   width: 94%;
-  margin-left:20px;
+  margin-left: 20px;
   margin-right: 20px;
- 
 `;
