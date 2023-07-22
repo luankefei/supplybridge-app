@@ -17,8 +17,8 @@ const refreshRequest = axios.create({
 
 request.interceptors.request.use(
   (requestConfig: any) => {
-    // const { token } = StorageService.getAuthData();
-    const token = Cookies.get("token");
+    const { token } = StorageService.getAuthData();
+    // const token = Cookies.get("token");
 
     if (token && token !== null && token !== "") {
       if (!isExpiredToken(token)) {

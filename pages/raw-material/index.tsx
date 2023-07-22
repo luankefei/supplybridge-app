@@ -136,6 +136,10 @@ export default function RawMaterial() {
                   ?.subfields.map((subfield, idx) => {
                     const selected = selectedMaterials.includes(subfield.name);
                     const disabled = subfield.apiName === "";
+                    let description = subfield.description || "";
+                    if (disabled) {
+                      description += "We are working on this data";
+                    }
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
@@ -160,7 +164,7 @@ export default function RawMaterial() {
                         >
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
-                          <Tooltip title={subfield.description}>
+                          <Tooltip title={description} arrow>
                             <Info style={{ width: 14, color: "#9CA3AF" }} />
                           </Tooltip>
                         </ToggleButton>
