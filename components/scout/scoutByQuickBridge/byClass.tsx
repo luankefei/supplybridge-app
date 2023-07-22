@@ -3,19 +3,19 @@
 import { useEffect } from "react";
 import styled from "styled-components";
 import { Skeleton } from "@mui/material";
-import BrandCard from "./BrandCard";
-import BrandCardSkeleton from "./BrandCardSkeleton";
+import BrandCard from "./brandCard";
+import BrandCardSkeleton from "./brandCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeClass } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Volume": "scout.quickbridge.volume",
-   "EV": "scout.quickbridge.ev",
-   "Premium": "scout.quickbridge.premium",
-   "Sports": "scout.quickbridge.sports",
-}
+  Volume: "scout.quickbridge.volume",
+  EV: "scout.quickbridge.ev",
+  Premium: "scout.quickbridge.premium",
+  Sports: "scout.quickbridge.sports",
+};
 
 export default function ByClass() {
   const { t } = useTranslation();

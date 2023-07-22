@@ -2,8 +2,8 @@
 
 import { useEffect } from "react";
 import styled from "styled-components";
-import BigCard from "./BigCard";
-import BigCardSkeleton from "./BigCardSkeleton";
+import BigCard from "./bigCard";
+import BigCardSkeleton from "./bigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
 import { QuickBridgeTabType, ScoutSwitchType } from "../types";

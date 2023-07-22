@@ -1,9 +1,9 @@
-import Carousel from "components/Carousel";
-import Layout from "components/Layout";
+import Carousel from "components/carousel";
+import Layout from "components/layout";
 import styled from "styled-components";
-import NewHeader from "components/NewHeader";
-import Tutorial from "components/Tutorial";
-import UnlockBox from "components/UnlockBox";
+import NewHeader from "components/newHeader";
+import Tutorial from "components/tutorial";
+import UnlockBox from "components/unlockBox";
 
 export default function SupplyChainTransparency() {
   const imageData = [
@@ -16,7 +16,9 @@ export default function SupplyChainTransparency() {
   return (
     <Layout>
       <SliderContainer>
-        <Center><UnlockBox /></Center>
+        <Center>
+          <UnlockBox />
+        </Center>
         <Container>
           <Carousel type="image" data={imageData} />
         </Container>
@@ -27,11 +29,11 @@ export default function SupplyChainTransparency() {
 }
 
 const Center = styled.div`
-   position: fixed;
-   z-index: 20;
-   top: calc(50% - 67px);
-   left: calc(50% + 10px);
-   text-align: center;
+  position: fixed;
+  z-index: 20;
+  top: calc(50% - 67px);
+  left: calc(50% + 10px);
+  text-align: center;
 `;
 
 const SliderContainer = styled.div`

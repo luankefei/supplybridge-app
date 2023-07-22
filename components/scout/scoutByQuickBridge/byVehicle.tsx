@@ -2,16 +2,16 @@
 
 import { useEffect } from "react";
 import styled from "styled-components";
-import BigCard from "./BigCard";
-import BigCardSkeleton from "./BigCardSkeleton";
+import BigCard from "./bigCard";
+import BigCardSkeleton from "./bigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeVihicle } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Commercial Vehicles": "scout.quickbridge.commercialVehicle",
-   "Passenger Vehicles": "scout.quickbridge.passengerVehicle",
+  "Commercial Vehicles": "scout.quickbridge.commercialVehicle",
+  "Passenger Vehicles": "scout.quickbridge.passengerVehicle",
 };
 
 export default function ByVehicle() {
@@ -73,7 +73,11 @@ export default function ByVehicle() {
       {data &&
         data.map(({ id, name, icon }: any) => (
           <CardWrapper onClick={() => onClick(id)} key={id}>
-            <BigCard src={icon} title={t(nameKeyMap[name], name)} selected={selected === id} />
+            <BigCard
+              src={icon}
+              title={t(nameKeyMap[name], name)}
+              selected={selected === id}
+            />
           </CardWrapper>
         ))}
     </>

@@ -2,7 +2,7 @@ import * as React from "react";
 import { useState } from "react";
 import { theme } from "config/theme";
 import ScoutByIndex from "./scoutByIndex";
-import ScoutByQuickBridge from "./ScoutByQuickBridge";
+import ScoutByQuickBridge from "./scoutByQuickBridge";
 import BidderPart from "../bidder/index";
 import styled from "styled-components";
 import { Box } from "@mui/material";

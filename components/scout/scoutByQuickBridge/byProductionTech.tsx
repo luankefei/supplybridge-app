@@ -2,32 +2,39 @@
 
 import { useEffect } from "react";
 import styled from "styled-components";
-import BigCard from "./BigCard";
-import BigCardSkeleton from "./BigCardSkeleton";
+import BigCard from "./bigCard";
+import BigCardSkeleton from "./bigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
-import { useQuickBridgePioneer } from "requests/useScoutByScoutBridge";
 import _ from "lodash";
+import { useQuickBridgeProductionTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Startups": "scout.quickbridge.startups",
-   "Innovations": "scout.quickbridge.innovations",
-   "Diversity, Equity, and Inclusion (DEI)": "scout.quickbridge.dei",
-   "Recyclers": "scout.quickbridge.recyclers",
-   "Sustainable Production": "scout.quickbridge.sustainableProduction",
-   "Low Volume": "scout.quickbridge.lowVolume",
+  "Injection Molding": "scout.quickbridge.injectionModling",
+  Forging: "scout.quickbridge.forging",
+  Casting: "scout.quickbridge.casting",
+  Stamping: "scout.quickbridge.stamping",
+  "Composite Part": "scout.quickbridge.compositePart",
+  "Structural Part": "scout.quickbridge.structuralPart",
+  "Additive Manufacturing": "scout.quickbridge.additiveManufacturing",
+  "CNC Machining": "scout.quickbridge.cncMachining",
+  "Tooling & Fixtures": "scout.quickbridge.toolingFixtures",
+  Others: "scout.quickbridge.others",
 };
 
-export default function ByPioneer() {
+export default function ByProductionTech() {
   const { t } = useTranslation();
-  const { quickBridgeStore, pioneerStore } = useBoundStore((state) => ({
-    quickBridgeStore: state.quickBridge,
-    pioneerStore: state.quickBridgePioneers,
-  }));
+  const { quickBridgeStore, productionTechnologyStore } = useBoundStore(
+    (state) => ({
+      quickBridgeStore: state.quickBridge,
+      productionTechnologyStore: state.quickBridgeProductionTechnologies,
+    })
+  );
   const { setFilter, setSelectedLabel, tab } = quickBridgeStore;
-  const { selected, setSelected, data } = pioneerStore;
-  const { getPioneers, loading } = useQuickBridgePioneer();
+  const { selected, setSelected, data } = productionTechnologyStore;
+  const { getProductionTechnologies, loading } =
+    useQuickBridgeProductionTechnology();
   const router = useRouter();
 
   const onClick = (select: any) => {
@@ -35,30 +42,30 @@ export default function ByPioneer() {
       setSelected(select);
       let label = data.find((d: any) => d.id == select).name;
       setSelectedLabel(label);
-      setFilter("pioneers", select);
+      setFilter("productionTechnologies", select);
     } else {
       setSelected(null);
-      setFilter("pioneers", select);
+      setFilter("productionTechnologies", null);
       setSelectedLabel("");
     }
   };
 
   useEffect(() => {
     if (!data) {
-      getPioneers();
+      getProductionTechnologies();
     }
-  }, [data, getPioneers]);
+  }, [data, getProductionTechnologies]);
 
   /*
   useEffect(() => {
-    setFilter("pioneers", null);
+    setFilter("productionTechnologies", null);
   }, []);
   */
 
   useEffect(() => {
     // when this is the active tab, clear the selection/filter
-    if (tab.activeTab == 8) {
-      setFilter("pioneers", null);
+    if (tab.activeTab == 6) {
+      setFilter("productionTechnologies", null);
       setSelectedLabel("");
       setSelected(null);
     }
@@ -68,7 +75,7 @@ export default function ByPioneer() {
     return (
       <CardContainer>
         {[1, 2, 3, 4, 5, 6].map((index) => (
-          <CardWrapper key={index} disabled={false}>
+          <CardWrapper key={index}>
             <BigCardSkeleton />
           </CardWrapper>
         ))}
@@ -89,25 +96,19 @@ export default function ByPioneer() {
       {data &&
         data.map(({ id, name, icon, description, isActive }: any) =>
           description ? (
-            <CardWrapper
-              onClick={() => onClick(id)}
-              key={id}
-              disabled={!isActive}
-            >
+            <CardWrapper onClick={() => onClick(id)} key={id}>
               <BigCard
                 src={icon}
                 title={t(nameKeyMap[name], name)}
                 selected={selected === id}
-                infoContent={InfoContent(t(`${nameKeyMap[name]}Desc`, description))}
+                infoContent={InfoContent(
+                  t(`${nameKeyMap[name]}Desc`, description)
+                )}
                 disabled={!isActive}
               />
             </CardWrapper>
           ) : (
-            <CardWrapper
-              onClick={() => onClick(id)}
-              key={id}
-              disabled={!isActive}
-            >
+            <CardWrapper onClick={() => onClick(id)} key={id}>
               <BigCard
                 src={icon}
                 title={t(nameKeyMap[name], name)}
@@ -129,8 +130,6 @@ const CardContainer = styled.div`
   margin-bottom: 86px;
 `;
 
-const CardWrapper = styled.span<{ disabled: boolean }>`
-  cursor: ${(props) => (props.disabled ? "default" : "pointer")};
-  filter: ${(props) => (props.disabled ? "grayscale(100%)" : "none")};
+const CardWrapper = styled.span`
+  cursor: pointer;
 `;
-//*/

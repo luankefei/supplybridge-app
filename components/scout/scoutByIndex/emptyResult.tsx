@@ -1,5 +1,5 @@
 import { Box, Stack } from "@mui/material";
-import Icon from "components/Icon";
+import Icon from "components/icon";
 import { SpacingVertical } from "components/ui-components/spacer";
 import { SText } from "components/ui-components/text";
 import { theme } from "config/theme";

@@ -1,6 +1,6 @@
 import { theme } from "config/theme";
 import React from "react";
-import SideBarMenu from "./SidebarMenu";
+import SideBarMenu from "./sidebarMenu";
 import Head from "next/head";
 import { Box, Drawer } from "@mui/material";
 

@@ -2,23 +2,23 @@ import { useState } from "react";
 import Head from "next/head";
 import styled from "styled-components";
 import dynamic from "next/dynamic";
-import MenuItem from '@mui/material/MenuItem';
-import Select, { SelectChangeEvent } from '@mui/material/Select';
+import MenuItem from "@mui/material/MenuItem";
+import Select, { SelectChangeEvent } from "@mui/material/Select";
 import { FormControl } from "@mui/material";
 import Link from "next/link";
 
-const Icon = dynamic(() => import("components/Icon"));
-const Header = dynamic(() => import("components/Header"));
+const Icon = dynamic(() => import("components/icon"));
+const Header = dynamic(() => import("components/header"));
 
 export default function RawMaterial() {
-  const [optionPrimary, setOptionPrimary] = useState('option1')
-  const [optionSecondary, setOptionSecondary] = useState('option1')
+  const [optionPrimary, setOptionPrimary] = useState("option1");
+  const [optionSecondary, setOptionSecondary] = useState("option1");
 
   const handleChangePrimary = (event: SelectChangeEvent) => {
-    setOptionPrimary(event.target.value)
+    setOptionPrimary(event.target.value);
   };
   const handleChangeSecondary = (event: SelectChangeEvent) => {
-    setOptionSecondary(event.target.value)
+    setOptionSecondary(event.target.value);
   };
 
   return (
@@ -49,10 +49,10 @@ export default function RawMaterial() {
               height: 88,
               color: "#2A3840",
               backgroundColor: "#fff",
-              fontFamily: 'Ubuntu',
+              fontFamily: "Ubuntu",
               fontSize: 20,
               fontWeight: 500,
-              paddingLeft: 4
+              paddingLeft: 4,
             }}
           >
             <MenuItem value={"option1"}>Primary Material</MenuItem>
@@ -71,10 +71,10 @@ export default function RawMaterial() {
               height: 88,
               color: "#2A3840",
               backgroundColor: "#fff",
-              fontFamily: 'Ubuntu',
+              fontFamily: "Ubuntu",
               fontSize: 20,
               fontWeight: 500,
-              paddingLeft: 4
+              paddingLeft: 4,
             }}
           >
             <MenuItem value={"option1"}>Secondary Material</MenuItem>
@@ -82,10 +82,9 @@ export default function RawMaterial() {
             <MenuItem value={"option3"}>Option 3</MenuItem> */}
           </Select>
         </FormControl>
-
       </Container>
     </>
-  )
+  );
 }
 
 const Container = styled.div`
@@ -98,31 +97,31 @@ const Container = styled.div`
 `;
 
 const Title = styled.h3`
-font-style: normal;
-font-weight: 500;
-font-size: 24px;
-line-height: 32px;
-text-align: center;
-color: #2A3840;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 32px;
+  text-align: center;
+  color: #2a3840;
 `;
 
 const SubTitle = styled.h4`
-font-style: normal;
-font-weight: 500;
-font-size: 20px;
-line-height: 28px;
-text-align: center;
-color: #65808C;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 20px;
+  line-height: 28px;
+  text-align: center;
+  color: #65808c;
 `;
 
 const BackButton = styled.div`
-position: absolute;
-display: flex;
-top: 0;
-left: 10%;
-&:hover {
-  cursor: pointer;
-}
+  position: absolute;
+  display: flex;
+  top: 0;
+  left: 10%;
+  &:hover {
+    cursor: pointer;
+  }
 `;
 
 const BackButtonIcon = styled.img`
@@ -131,8 +130,8 @@ const BackButtonIcon = styled.img`
 `;
 
 const BackButtonText = styled.h4`
-font-weight: 500;
-font-size: 14px;
-line-height: 22px;
-color: #08979C;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 22px;
+  color: #08979c;
 `;

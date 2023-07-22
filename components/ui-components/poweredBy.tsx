@@ -1,5 +1,5 @@
 import { styled as muiStyled } from "@mui/material/styles";
-import Icon from "../Icon";
+import Icon from "../icon";
 import { SpacingHorizontal } from "./spacer";
 import { useTranslation } from "react-i18next";
 import { SText } from "./text";
