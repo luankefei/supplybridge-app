@@ -4,7 +4,7 @@ import { SText } from "components/ui-components/text";
 const CustomTooltip = (props: {
   active?: boolean;
   payload?: any[];
-  label?: Date;
+  label?: string;
   viewBox?: { width: number; height: number };
   coordinate?: { x: number; y: number };
 }) => {
@@ -17,7 +17,7 @@ const CustomTooltip = (props: {
       <Box>
         <Stack borderRadius={"8px"} bgcolor={"#374151"} p={1}>
           <SText color="white" fontSize="14px">
-            {label?.toDateString()}
+            {label}
           </SText>
           <SText color="white" fontSize="14px">
             ${payload[0].value}

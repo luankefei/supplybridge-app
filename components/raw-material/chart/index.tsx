@@ -23,15 +23,15 @@ import styled from "styled-components";
 import {
   FrequencyEnum,
   calculateDayRange,
+  calculateMonthlyAverages as calculateOvertimeAverages,
   getPriceConverter,
 } from "./calculate";
 import { MaterialUnits, Unit } from "../units";
 import CustomTooltip from "./tooltip";
 
 interface IChartDataPoint {
-  name: string;
-  x: string;
-  y: number;
+  time: Date | string;
+  value: number;
 }
 
 interface IChart {
@@ -72,7 +72,7 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
   /**
    * Use this to prevent frontend crashing
    */
-  const validateDataAndTransform = (toBeValidated: any): boolean => {
+  const validateData = (toBeValidated: any): boolean => {
     if (typeof toBeValidated !== "object") {
       return false;
     }
@@ -90,17 +90,59 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
     ) {
       return false;
     }
-    let c = (a: number) => a;
-    if (unit && unit.measuredIn === "ton") {
-      const { unit, converter } = getPriceConverter(toBeValidated[0].price);
+    return true;
+  };
+
+  const transformData = (
+    toBeTransformed: { price: number; ts: string }[]
+  ): IChartDataPoint[] => {
+    const materialUnit = MaterialUnits[materialName];
+    let c = (p: number) => p;
+    if (materialUnit && materialUnit.measuredIn === "ton") {
+      const { unit, converter } = getPriceConverter(toBeTransformed[0].price);
       setUnit(unit);
       c = converter;
     }
-    toBeValidated.forEach((v: any) => {
-      v.price = c(v.price);
-      v.ts = new Date(v.ts);
+    const transformed = toBeTransformed.map((v) => {
+      return {
+        time: new Date(v.ts),
+        value: c(v.price),
+      };
     });
-    return true;
+    let finalResult: IChartDataPoint[] = [];
+    if (frequency === FrequencyEnum.Day) {
+      finalResult = transformed.map((v) => {
+        return {
+          // format time as MM/DD/YYYY
+          time: `${
+            v.time.getMonth() + 1
+          }/${v.time.getDate()}/${v.time.getFullYear()}`,
+          value: v.value,
+        };
+      });
+    }
+    if (frequency === FrequencyEnum.Month) {
+      const monthly = calculateOvertimeAverages(
+        transformed,
+        FrequencyEnum.Month
+      );
+      finalResult = monthly.map((v) => {
+        return {
+          time: v.timeStr,
+          value: v.averagePrice,
+        };
+      });
+    }
+    if (frequency === FrequencyEnum.Year) {
+      const yearly = calculateOvertimeAverages(transformed, FrequencyEnum.Year);
+      finalResult = yearly.map((v) => {
+        return {
+          time: v.timeStr,
+          value: v.averagePrice,
+        };
+      });
+    }
+    return finalResult;
   };
 
   useEffect(() => {
@@ -108,16 +150,22 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
       setIsLoading(true);
       const { st, ed } = calculateDayRange(frequency);
       const apiName = apiNamesMap[materialName];
-      const res = await request.get(
-        `/data/materialpricing?name=${apiName}&st=${st}&ed=${ed}`
-      );
-      if (res.status !== 200 || !validateDataAndTransform(res.data)) {
-        toast.error("Error fetching data...");
+      try {
+        const res = await request.get(
+          `/data/materialpricing?name=${apiName}&st=${st}&ed=${ed}`
+        );
+        if (res.status !== 200 || !validateData(res.data)) {
+          toast.error("Error fetching data...");
+          setIsLoading(false);
+          return;
+        }
+        const transformedData = transformData(res.data);
+        setData(transformedData);
+      } catch (err: any) {
+        toast.error("Error fetching data...", err?.message);
+      } finally {
         setIsLoading(false);
-        return;
       }
-      setData(res.data);
-      setIsLoading(false);
     };
     // avoid fetching data on first render
     if (frequency) {
@@ -172,13 +220,15 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
               <Legend verticalAlign="bottom" height={36} />
               <CartesianGrid stroke={chartColors.grey} />
               <XAxis
-                dataKey="ts"
-                tickFormatter={(tick) => {
-                  return `${tick.getMonth() + 1}/${tick.getDate()}`;
-                }}
+                dataKey="time"
                 padding={{ left: 20, right: 20 }}
-                scale={"time"}
                 axisLine={false}
+                tickFormatter={(tick) => {
+                  if (frequency === FrequencyEnum.Day) {
+                    return tick.slice(0, 4);
+                  }
+                  return tick;
+                }}
               />
               <YAxis
                 type="number"
@@ -196,7 +246,7 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
               <Line
                 name={`${materialName} Price`}
                 type="monotone"
-                dataKey="price"
+                dataKey="value"
                 stroke={chartColors.purple}
                 dot={<PurpleDot />}
               />

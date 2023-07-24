@@ -70,4 +70,57 @@ const calculateDayRange = (frequency: FrequencyEnum) => {
   return { st, ed };
 };
 
-export { getPriceConverter, calculateDayRange };
+interface ITimedAverage {
+  timeStr: string;
+  averagePrice: number;
+}
+
+const calculateMonthlyAverages = (
+  data: {
+    value: number;
+    time: Date;
+  }[],
+  timePeriod: FrequencyEnum
+): ITimedAverage[] => {
+  let keyFn = (ts: Date) => {
+    return ts.toISOString().split("T")[0];
+  };
+  if (timePeriod === FrequencyEnum.Month) {
+    keyFn = (ts: Date) => {
+      return `${ts.getMonth() + 1}/${ts.getFullYear()}`;
+    };
+  } else if (timePeriod === FrequencyEnum.Year) {
+    keyFn = (ts: Date) => {
+      return `${ts.getFullYear()}`;
+    };
+  }
+  const averages: ITimedAverage[] = [];
+
+  // Create a dictionary to hold the total price and count of data points for each month
+  const aggregateDate: {
+    [key: string]: { totalPrice: number; count: number };
+  } = {};
+
+  // Iterate through the data and aggregate the total price and count for each month
+  for (const { value: price, time: ts } of data) {
+    const key = keyFn(ts);
+
+    if (!aggregateDate[key]) {
+      aggregateDate[key] = { totalPrice: 0, count: 0 };
+    }
+
+    aggregateDate[key].totalPrice += price;
+    aggregateDate[key].count++;
+  }
+
+  // Calculate the average price for each month
+  for (const key in aggregateDate) {
+    const { totalPrice, count } = aggregateDate[key];
+    const averagePrice = totalPrice / count;
+    averages.push({ timeStr: key, averagePrice });
+  }
+
+  return averages;
+};
+
+export { getPriceConverter, calculateDayRange, calculateMonthlyAverages };
