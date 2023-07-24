@@ -95,13 +95,16 @@ export default function RawMaterial() {
           <Grid container>
             {rawMaterials.map((rawMaterial, idx) => {
               const isOpen = openedCategory === rawMaterial.category;
+              let iconName = rawMaterial.icon;
+              if (isOpen) {
+                iconName += "-selected";
+              }
               return (
                 <Grid key={idx} item>
                   <VerticalIconButton
                     title={rawMaterial.category}
                     backgroundColor={isOpen ? "#E5F7F8" : undefined}
-                    icon={rawMaterial.icon}
-                    iconColor={isOpen ? "#08979C" : "#445B66"}
+                    icon={iconName}
                     onClick={() =>
                       setOpenedCategory(
                         isOpen ? undefined : rawMaterial.category
@@ -127,26 +130,36 @@ export default function RawMaterial() {
                   .find((v) => v.category === openedCategory)
                   ?.subfields.map((subfield, idx) => {
                     const selected = selectedMaterials.includes(subfield.name);
-
+                    const disabled = subfield.apiName === "";
+                    let description = subfield.description || "";
+                    if (disabled) {
+                      description += "We are working on this data";
+                    }
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
                           value={subfield.name}
                           selected={selected}
+                          // disabled={disabled}
                           style={{
                             margin: 8,
                             padding: "8px 16px",
                             borderRadius: 100,
                             minWidth: 110,
                             borderColor: selected ? "#08979C" : "#E5E7EB",
-                            backgroundColor: selected ? "#E6F5F5" : "#FFFFFF",
+                            backgroundColor:
+                              disabled || selected ? "#E5E7EB" : "#FFFFFF",
                             color: selected ? "#08979C" : "#445B66",
                           }}
-                          onClick={() => toggleMatieral(subfield.name)}
+                          onClick={
+                            disabled
+                              ? undefined
+                              : () => toggleMatieral(subfield.name)
+                          }
                         >
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
-                          <Tooltip title={"subfield.description"}>
+                          <Tooltip title={description} arrow>
                             <Info style={{ width: 14, color: "#9CA3AF" }} />
                           </Tooltip>
                         </ToggleButton>
