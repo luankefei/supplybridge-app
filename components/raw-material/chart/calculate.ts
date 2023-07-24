@@ -1,14 +1,5 @@
-export type Unit = {
-  /**
-   * The currency of the price
-   */
-  currency: string;
-  /**
-   * The unit in which the price is measured
-   * @example "ton"
-   */
-  measuredIn: string;
-};
+import { Unit } from "../units";
+
 const weightMeasures = ["g", "kg", "ton", "kiloton", "megaton", "gigaton"];
 export const initialWeightUnit: Unit = {
   currency: "USD",

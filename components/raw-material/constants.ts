@@ -1,21 +1,73 @@
+type TSubfield = {
+  name: RawMaterialName;
+  description?: string;
+  apiName: string;
+};
 type RawMaterial = {
   category: string;
   icon: string;
-  subfields: { name: string; description?: string; apiName: string }[];
+  subfields: TSubfield[];
 };
 
-// export const QuickAddMaterials: RawMaterial[] = [
-//   {
-//     category: "EV-related",
-//     icon: "materialCategory/energy",
-//     subfields: [
-//       { name: "Cobalt" },
-//       { name: "Lithium" },
-//       { name: "Nickel" },
-//       { name: "Magnesium" },
-//     ],
-//   },
-// ];
+/**
+ * Exhausive list of all raw materials we support
+ * TODO: Move this to backend
+ */
+export const RAW_MATEIRALS_NAME_LIST: string[] = [
+  "Brent",
+  "Natural gas",
+  "Gasoline",
+  "Coal",
+  "UK Gas",
+  "Ethanol",
+  "Crude Oil",
+  "Propane",
+  "Heating Oil",
+  "Urals Oil",
+  "Naphtha",
+  "Methanol",
+  "TTF Gas",
+  "Gold",
+  "Silver",
+  "Copper",
+  "Steel",
+  "Iron Ore",
+  "Lithium",
+  "Platinum",
+  "Titanium",
+  "HRC Steel",
+  "Cobalt",
+  "Lead",
+  "Aluminum",
+  "Tin",
+  "Zinc",
+  "Nickel",
+  "Molybdenum",
+  "Palladium",
+  "Rhodium",
+  "Neodymium",
+  "Tellurium",
+  "Iron Ore 62% fe",
+  "Magnesium",
+  "Gallium",
+  "Germanium",
+  "Manganese",
+  "Indium",
+  "Uranium",
+  "Polyethylene",
+  "Polyvinyl",
+  "Polypropylene",
+  "Solar Energy Index",
+  "EU Carbon Permits",
+  "Wind Energy Index",
+  "Kraft Pulp",
+  "Rubber",
+  "Bitumen",
+  "Soda Ash",
+  "Di-ammonium",
+];
+
+export type RawMaterialName = (typeof RAW_MATEIRALS_NAME_LIST)[number];
 
 // const getRawMaterialsMap = () => {
 //   const map: Record<string, string> = {};
@@ -26,7 +78,7 @@ type RawMaterial = {
 //   });
 //   return map;
 // };
-export const apiNamesMap: Record<string, string> = {
+export const apiNamesMap: Record<RawMaterialName, string> = {
   Brent: "brent",
   "Natural gas": "natural_gas",
   Gasoline: "gasoline",
@@ -84,7 +136,7 @@ export const apiNamesMap: Record<string, string> = {
  * Pulled some out of the rawMaterials
  * reusables are used in multiple categories
  */
-const reusuables = {
+const reusuables: Record<Partial<RawMaterialName>, TSubfield> = {
   cobalt: {
     name: "Cobalt",
     description:

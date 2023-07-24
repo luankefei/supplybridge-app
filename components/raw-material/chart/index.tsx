@@ -17,10 +17,11 @@ import {
 } from "recharts";
 import { toast } from "react-toastify";
 import { request } from "config/axios";
-import { apiNamesMap } from "../constants";
+import { RawMaterialName as TRawMaterialName, apiNamesMap } from "../constants";
 import PurpleDot from "./dot";
 import styled from "styled-components";
-import { Unit, getPriceConverter, initialWeightUnit } from "./calculate";
+import { getPriceConverter } from "./calculate";
+import { MaterialUnits, Unit } from "../units";
 
 enum RangeEnum {
   Day = "Day",
@@ -35,7 +36,7 @@ interface IChartDataPoint {
 }
 
 interface IChart {
-  materialName: string;
+  materialName: TRawMaterialName;
   onRemove: () => void;
 }
 
@@ -87,8 +88,9 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [frequency, setFrequency] = useState<RangeEnum>(RangeEnum.Day);
   const [data, setData] = useState<IChartDataPoint[]>([]);
-  const [unit, setUnit] = useState<Unit>(initialWeightUnit);
-  const [converter, setConverter] = useState<Function>(() => (v: number) => v);
+  const [unit, setUnit] = useState<Unit | undefined>(
+    MaterialUnits[materialName]
+  );
 
   const handleRangeUpdate = (newRange: SegmentedValue) => {
     const nr = newRange as RangeEnum;
@@ -116,10 +118,14 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
     ) {
       return false;
     }
-    const { unit, converter } = getPriceConverter(toBeValidated[0].price);
-    setUnit(unit);
+    let c = (a: number) => a;
+    if (unit && unit.measuredIn === "ton") {
+      const { unit, converter } = getPriceConverter(toBeValidated[0].price);
+      setUnit(unit);
+      c = converter;
+    }
     toBeValidated.forEach((v: any) => {
-      v.price = converter(v.price);
+      v.price = c(v.price);
       v.ts = new Date(v.ts);
     });
     return true;
@@ -154,9 +160,11 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
       <Grid container justifyContent="space-between" alignItems="center" p={2}>
         <Grid item display={"flex"} flexDirection={"column"}>
           <LargeText> {materialName} </LargeText>
-          <SText>
-            Unit: {unit.currency} / {unit.measuredIn}
-          </SText>
+          {unit && (
+            <SText>
+              Unit: {unit.currency} / {unit.measuredIn}
+            </SText>
+          )}
         </Grid>
         <Grid item>
           <Segmented
