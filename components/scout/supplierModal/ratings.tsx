@@ -148,3 +148,4 @@ const ScoreDescription = styled.span`
   line-height: 17px;
   color: ${theme.colors.text};
 `;
+ No newline at end of file
