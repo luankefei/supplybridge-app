@@ -7,7 +7,7 @@ import {
   Stack,
   TextField,
 } from "@mui/material";
-import Icon from "components/Icon";
+import Icon from "components/icon";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";

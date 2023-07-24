@@ -3,10 +3,10 @@
 import { useEffect } from "react";
 import { Divider, Skeleton } from "@mui/material";
 import styled from "styled-components";
-import BrandCard from "./BrandCard";
-import BrandCardSkeleton from "./BrandCardSkeleton";
-import ModelCard, { ModelBlankCard } from "./ModelCard";
-import ModelCardSkeleton from "./ModelCardSkeleton";
+import BrandCard from "./brandCard";
+import BrandCardSkeleton from "./brandCardSkeleton";
+import ModelCard, { ModelBlankCard } from "./modelCard";
+import ModelCardSkeleton from "./modelCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeSegment } from "requests/useScoutByScoutBridge";
 import {
@@ -15,24 +15,24 @@ import {
   VehicleSegment,
 } from "hooks/quick-bridge/segmentSlice";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Microcar": "scout.quickbridge.microcar",
-   "A-segment": "scout.quickbridge.segmenta",
-   "B-segment": "scout.quickbridge.segmentb",
-   "C-segment": "scout.quickbridge.segmentc",
-   "D-segment": "scout.quickbridge.segmentd",
-   "E-segment": "scout.quickbridge.segmente",
-   "3 Series": "scout.quickbridge.series3",
-   "5 Series": "scout.quickbridge.series5",
-   "7 Series": "scout.quickbridge.series7",
-   "C-Class": "scout.quickbridge.classc",
-   "E-Class": "scout.quickbridge.classe",
-   "S-Class": "scout.quickbridge.classs",
-   "A4": "scout.quickbridge.a4",
-   "A6": "scout.quickbridge.a4",
-   "A8": "scout.quickbridge.a4",
+  Microcar: "scout.quickbridge.microcar",
+  "A-segment": "scout.quickbridge.segmenta",
+  "B-segment": "scout.quickbridge.segmentb",
+  "C-segment": "scout.quickbridge.segmentc",
+  "D-segment": "scout.quickbridge.segmentd",
+  "E-segment": "scout.quickbridge.segmente",
+  "3 Series": "scout.quickbridge.series3",
+  "5 Series": "scout.quickbridge.series5",
+  "7 Series": "scout.quickbridge.series7",
+  "C-Class": "scout.quickbridge.classc",
+  "E-Class": "scout.quickbridge.classe",
+  "S-Class": "scout.quickbridge.classs",
+  A4: "scout.quickbridge.a4",
+  A6: "scout.quickbridge.a4",
+  A8: "scout.quickbridge.a4",
 };
 
 export default function BySegment() {
@@ -128,7 +128,9 @@ export default function BySegment() {
       <Segments>
         {segments &&
           segments.map((segment: VehicleSegment) => (
-            <SegmentButton key={segment.id}>{t(nameKeyMap[segment.name], segment.name)}</SegmentButton>
+            <SegmentButton key={segment.id}>
+              {t(nameKeyMap[segment.name], segment.name)}
+            </SegmentButton>
           ))}
       </Segments>
 

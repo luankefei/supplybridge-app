@@ -10,7 +10,7 @@ import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
 import { usePersistentStore } from "hooks/useStore";
 import { useFilter } from "requests/useFilter";
-import Icon from "components/Icon";
+import Icon from "components/icon";
 
 import { ClickAwayListener } from "@mui/material";
 const ITEM_HEIGHT = 48;

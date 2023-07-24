@@ -2,18 +2,18 @@
 
 import { useEffect } from "react";
 import styled from "styled-components";
-import BigCard from "./BigCard";
-import BigCardSkeleton from "./BigCardSkeleton";
+import BigCard from "./bigCard";
+import BigCardSkeleton from "./bigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useQuickBridgeTechnology } from "requests/useScoutByScoutBridge";
 import { useRouter } from "next/router";
-import { useTranslation } from 'react-i18next';
+import { useTranslation } from "react-i18next";
 
 const nameKeyMap: any = {
-   "Autonomous": "scout.quickbridge.autonomous",
-   "Electric Vehicle (EV)": "scout.quickbridge.electricVehicle",
-   "Fuel Cell": "scout.quickbridge.fuelCell",
-   "ICE": "scout.quickbridge.ice",
+  Autonomous: "scout.quickbridge.autonomous",
+  "Electric Vehicle (EV)": "scout.quickbridge.electricVehicle",
+  "Fuel Cell": "scout.quickbridge.fuelCell",
+  ICE: "scout.quickbridge.ice",
 };
 
 export default function ByTechnology() {
@@ -85,7 +85,11 @@ export default function ByTechnology() {
         {data &&
           data.map(({ id, name, icon }: any) => (
             <CardWrapper onClick={() => onClick(id)} key={id}>
-              <BigCard src={icon} title={t(nameKeyMap[name], name)} selected={selected === id} />
+              <BigCard
+                src={icon}
+                title={t(nameKeyMap[name], name)}
+                selected={selected === id}
+              />
             </CardWrapper>
           ))}
       </CardContainer>

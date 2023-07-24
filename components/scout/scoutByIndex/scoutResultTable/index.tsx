@@ -1,6 +1,6 @@
 import * as React from "react";
 import { styled } from "@mui/system";
-import Icon from "components/Icon";
+import Icon from "components/icon";
 import { NullableImg } from "components/scout/scoutByIndex/summary.styled";
 import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
 import {

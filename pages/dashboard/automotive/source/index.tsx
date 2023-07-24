@@ -2,7 +2,7 @@ import Head from "next/head";
 import styled from "styled-components";
 import Link from "next/link";
 
-import Icon from 'components/Icon'
+import Icon from "components/icon";
 
 const Menus = [
   {
@@ -64,7 +64,11 @@ export default function Sourcing() {
         <Title>Choose a Segment to Start Sourcing</Title>
         <CardContainer>
           {Menus.map((lwrMenu, index) => (
-            <Link href={lwrMenu.active ? lwrMenu.path : '#'} passHref key={`upper_${index}`}>
+            <Link
+              href={lwrMenu.active ? lwrMenu.path : "#"}
+              passHref
+              key={`upper_${index}`}
+            >
               <Card active={lwrMenu.active}>
                 <HeaderContainer>
                   <IconContainer>
@@ -73,17 +77,13 @@ export default function Sourcing() {
                 </HeaderContainer>
                 <ContentContainer>
                   <SubTitle>{lwrMenu.title}</SubTitle>
-                  {lwrMenu.subtitle ? (
-                    <Label>{lwrMenu.subtitle}</Label>
-                  ) : null}
+                  {lwrMenu.subtitle ? <Label>{lwrMenu.subtitle}</Label> : null}
                 </ContentContainer>
               </Card>
             </Link>
           ))}
         </CardContainer>
       </Container>
-
-
     </>
   );
 }
@@ -129,7 +129,7 @@ const CardContainer = styled.div`
   display: grid;
   justify-content: space-between;
   grid-template-columns: auto auto auto;
-  gap:32px;
+  gap: 32px;
 `;
 
 const Card = styled.div<{ active: boolean }>`
@@ -139,7 +139,7 @@ const Card = styled.div<{ active: boolean }>`
   height: 212px;
   border-radius: 8px;
   background-color: ${(props) => props.theme.colors.secondary};
-  opacity: ${(props) => props.active ? 1 : 0.5};
+  opacity: ${(props) => (props.active ? 1 : 0.5)};
   filter: drop-shadow(0px 2px 8px rgba(0, 0, 0, 0.15));
 `;
 
@@ -165,4 +165,3 @@ const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
 `;
-

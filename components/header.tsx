@@ -8,7 +8,7 @@ import cookie from "js-cookie";
 
 import { usePersistentStore } from "hooks/useStore";
 
-import Icon from "components/Icon";
+import Icon from "components/icon";
 
 const Header = () => {
   const { pathname, push } = useRouter();

@@ -1,7 +1,6 @@
 import { styled as muiStyled } from "@mui/material/styles";
 import { theme } from "config/theme";
-import Feedback from "./Feedback";
-import Icon from "./Icon";
+import Feedback from "./feedback";
 
 const StyledHeader = muiStyled("div")(`
     display: flex;

@@ -3,8 +3,8 @@ import styled from "styled-components";
 import { Skeleton } from "@mui/material";
 import _ from "lodash";
 import { SupplierModal } from "./supplierModal";
-import Badge from "components/Badge";
-import Icon from "components/Icon";
+import Badge from "components/badge";
+import Icon from "components/icon";
 import { theme } from "config/theme";
 
 const ResultCard = ({ data }: { data?: any }) => {
@@ -14,7 +14,7 @@ const ResultCard = ({ data }: { data?: any }) => {
     <>
       <ResultCardContainer onClick={() => setSupplierModalVisible(true)}>
         <BrandContainer>
-          {data.id ? (
+          {data?.id ? (
             <ImageContainer>
               {data.logo && <BrandImage src={data.logo} alt="Logo" />}
             </ImageContainer>
@@ -26,10 +26,10 @@ const ResultCard = ({ data }: { data?: any }) => {
               height={118}
             />
           )}
-          {data.id ? (
+          {data?.id ? (
             <Description>
               <TitleBadge>
-                <Title>{data.longName}</Title>
+                <Title>{data.longName || data.name}</Title>
                 <Badge label={"VERIFIED SUPPLIER"} icon={"verified"} />
                 {data.isInnovation && (
                   <Badge
@@ -52,7 +52,7 @@ const ResultCard = ({ data }: { data?: any }) => {
         </BrandContainer>
         <PropertyContainer>
           <PropertySide>
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Commodity</PropertyTitle>
                 <PropertyDescription>
@@ -71,19 +71,17 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Core Competence</PropertyTitle>
-                <PropertyDescription>
-                  <span>
-                    {_.join(_.map(data.products, "coreCompetency.name"))}
-                  </span>
-                </PropertyDescription>
+                <PropertyLongDescription>
+                  {_.join(_.map(data.products, "coreCompetency.name"), ", ")}
+                </PropertyLongDescription>
               </Property>
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Customers Served</PropertyTitle>
                 <PropertyDescription color={"#08979c"}>
@@ -93,7 +91,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Supplier Type</PropertyTitle>
                 <PropertyDescription>
@@ -103,7 +101,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Headquarter</PropertyTitle>
                 <PropertyDescription>
@@ -111,7 +109,7 @@ const ResultCard = ({ data }: { data?: any }) => {
                   <CountryFlag
                     src={
                       data.headquarter
-                        ? `/flags/${data.headquarter.code.toLowerCase()}.png`
+                        ? `/flags/${data.headquarter.code.toLowerCase()}.svg`
                         : ""
                     }
                   />
@@ -122,7 +120,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             )}
           </PropertySide>
           <PropertySide>
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Founded</PropertyTitle>
                 <PropertyDescription>
@@ -133,7 +131,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Revenue</PropertyTitle>
                 <PropertyDescription>
@@ -143,7 +141,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>Capacity Availability</PropertyTitle>
                 <PropertyDescription>High Open / Med Open</PropertyDescription>
@@ -151,7 +149,7 @@ const ResultCard = ({ data }: { data?: any }) => {
             ) : (
               <Skeleton animation="wave" height={20} width="100%" />
             )}
-            {data.id ? (
+            {data?.id ? (
               <Property>
                 <PropertyTitle>
                   Insights (Financial, ESG, Ratings)
@@ -177,7 +175,6 @@ const ResultCard = ({ data }: { data?: any }) => {
 };
 
 const ResultCardContainer = styled.div`
-z-index: -1;
   width: ${theme.dimension.cardMaxWidth};
   display: flex;
   flex-direction: column;
@@ -199,7 +196,6 @@ const CountryFlag = styled.img`
   width: 16px;
   height: 16px;
   margin-left: 5px;
-  border-radius: 50%;
   object-fit: cover;
 `;
 
@@ -242,7 +238,7 @@ const Description = styled.div`
   margin-left: 24px;
 `;
 const TitleBadge = styled.div`
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -278,6 +274,7 @@ const PropertySide = styled.div`
 const Property = styled.div`
   display: flex;
   flex-direction: row;
+  gap-column: 8px;
   justify-content: space-between;
 `;
 const PropertyTitle = styled.span`
@@ -286,15 +283,30 @@ const PropertyTitle = styled.span`
   font-size: 16px;
   line-height: 24px;
   color: #8c8c8c;
+  flex-shrink: 0;
 `;
 const PropertyDescription = styled.span<{ color?: string }>`
-  font-family: "Inter";
+  font-family: "Inter", sans-serif;
   display: flex;
   justify-content: center;
   align-items: center;
   font-weight: 500;
-  font-size: 16px;
-  line-height: 24px;
+  font-size: 1rem;
+  line-height: 1.5rem;
+  color: ${(props) => (props.color ? props.color : "#1f1f1f")};
+`;
+
+const PropertyLongDescription = styled.span<{ color?: string }>`
+  font-family: "Inter", sans-serif;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  overflow: hidden;
+  text-align: right;
+  margin-left: 2rem;
+  font-weight: 500;
+  font-size: 1rem;
+  line-height: 1.5rem;
   color: ${(props) => (props.color ? props.color : "#1f1f1f")};
 `;
 

@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Icon from "components/Icon";
+import Icon from "components/icon";
 import { theme } from "config/theme";
 
 import { usePersistentStore } from "hooks/useStore";

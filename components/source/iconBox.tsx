@@ -1,6 +1,6 @@
 import { useState } from "react";
 import styled from "styled-components";
-import Icon from "../Icon";
+import Icon from "../icon";
 interface Props {
   title: string;
   iconSrc: string;
@@ -8,7 +8,7 @@ interface Props {
   iconHeight?: number;
   padding?: string;
   margin?: string;
-   ischecked:boolean;
+  ischecked: boolean;
   // onClick: React.MouseEventHandler
 }
 
@@ -20,15 +20,11 @@ const IconBox = ({
   padding = "0px",
   margin = "0px",
   ischecked,
-  //onClick
-}: Props) => {
- 
-
+}: //onClick
+Props) => {
   return (
     <StyledBox
-     
       padding={padding}
-     
       margin={margin}
       ischecked={ischecked}
       // onClick={onClick}
@@ -53,15 +49,15 @@ const StyledBox = styled.div<{
   align-items: center;
   padding: ${(props) => `${props.padding}`};
   margin: ${(props) => `${props.margin}`};
-  background-color: #FFFFFF;
+  background-color: #ffffff;
   border-radius: 16px;
- // cursor: pointer;
+  // cursor: pointer;
   box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
-z-index: 1;
+  z-index: 1;
   border: ${(props) =>
     props.ischecked ? "4px solid #08979c" : "1px solid #E5E7EB"};
 
-/* &:hover {
+  /* &:hover {
     box-shadow: 0px 1px 8px rgba(0, 0, 0, 0.18);
   }
   &:active{
