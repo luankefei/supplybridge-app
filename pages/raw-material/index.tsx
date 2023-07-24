@@ -15,12 +15,7 @@ import {
 import rawMaterials, {
   allRawMaterials,
 } from "components/raw-material/constants";
-import {
-  DialerSip,
-  FormatAlignCenter,
-  Info,
-  Replay,
-} from "@mui/icons-material";
+import { FormatAlignCenter, Info, Replay } from "@mui/icons-material";
 import {
   SpacingVertical,
   SpacingHorizontal,

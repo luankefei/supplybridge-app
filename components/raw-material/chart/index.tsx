@@ -162,7 +162,9 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
         const transformedData = transformData(res.data);
         setData(transformedData);
       } catch (err: any) {
-        toast.error("Error fetching data...", err?.message);
+        toast.error(
+          `Error when fetching data for ${apiName} err=${err?.message}`
+        );
       } finally {
         setIsLoading(false);
       }

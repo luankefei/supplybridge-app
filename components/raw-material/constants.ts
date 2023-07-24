@@ -501,11 +501,12 @@ export const filterValidMaterials = (materials: string[]) => {
   return validMaterials;
 };
 
-export const allRawMaterials: { name: string }[] = rawMaterials.reduce(
-  (acc: { name: string }[], curr) => {
-    return [...acc, ...curr.subfields];
-  },
-  []
-);
+export const allRawMaterials: { name: string }[] = Array.from(
+  new Set(
+    rawMaterials.reduce((acc: string[], curr) => {
+      return [...acc, ...curr.subfields.map((subfield) => subfield.name)];
+    }, [])
+  )
+).map((name) => ({ name }));
 
 export default rawMaterials;
