@@ -1,16 +1,18 @@
 import { Box, Stack } from "@mui/material";
 import { SText } from "components/ui-components/text";
 
-const CustomTooltip = ({
-  active,
-  payload,
-  label,
-}: {
+const CustomTooltip = (props: {
   active?: boolean;
   payload?: any[];
   label?: Date;
+  viewBox?: { width: number; height: number };
+  coordinate?: { x: number; y: number };
 }) => {
+  const { active, payload, label, viewBox, coordinate } = props;
   if (active && payload && payload.length) {
+    if (coordinate && isNaN(coordinate.x) && viewBox) {
+      coordinate.x = viewBox.width / 2;
+    }
     return (
       <Box>
         <Stack borderRadius={"8px"} bgcolor={"#374151"} p={1}>
