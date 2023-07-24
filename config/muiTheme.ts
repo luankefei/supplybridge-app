@@ -1,5 +1,16 @@
 import { createTheme } from "@mui/material";
 
+/**
+ * @description MUI theme
+ * @usage
+ * ```tsx
+ * import { useTheme } from "@mui/material/styles";
+ * ...
+ * const theme = useTheme();
+ * ...
+ * <Button color={theme.palette.primary.main} />
+ * ```
+ */
 export const muiTheme = createTheme({
   components: {
     MuiToggleButton: {
@@ -23,6 +34,7 @@ export const muiTheme = createTheme({
     },
     secondary: {
       main: "#E6F5F5",
+      contrastText: "#08979C",
     },
     text: {
       primary: "#434343",

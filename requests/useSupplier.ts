@@ -2,13 +2,12 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 import { request } from "config/axios";
-import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
+import { useStore } from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
 import { useTranslation } from "react-i18next";
 
 export const useSupplier = (flags: any = null) => {
-  const { setSuppliers, setCount, setStats } = useNonPersistentStore();
-  const { page, pageSize } = usePersistentStore();
+  const { setSuppliers, setCount, setStats, page, pageSize } = useStore();
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
 
@@ -68,7 +67,7 @@ export const useSupplier = (flags: any = null) => {
     searchString?: string
   ) => {
     try {
-      const { flags, filterData } = usePersistentStore.getState();
+      const { flags, filterData } = useStore.getState();
       if (
         filterData.q ||
         filterData.regions.length > 0 ||

@@ -6,9 +6,10 @@ import {
   Select,
   Stack,
 } from "@mui/material";
-import { BadgeType, ITableData } from "../scoutResultTable/helper";
+import { ITableData } from "../scoutResultTable/helper";
 import { useEffect, useState } from "react";
 import { Clear } from "@mui/icons-material";
+import { BadgeType } from "components/ui-components/supBadge";
 
 export interface FilterValue {
   names: string[];

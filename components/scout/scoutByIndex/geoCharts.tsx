@@ -5,7 +5,7 @@ import Chart from "react-google-charts";
 import { Skeleton } from "@mui/material";
 
 import { allCountry } from "utils/countries";
-import { usePersistentStore, useNonPersistentStore } from "hooks/useStore";
+import { useStore } from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
 import { useFilter } from "requests/useFilter";
 
@@ -41,7 +41,7 @@ const GeoCharts = () => {
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
   const { searchSuppliers, loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
-  const { suppliers, stats } = useNonPersistentStore();
+  const { suppliers, stats } = useStore();
   const {
     allCountries,
     setAllCountries,
@@ -53,7 +53,7 @@ const GeoCharts = () => {
     setFilterData,
     allSubRegions,
     flags,
-  } = usePersistentStore();
+  } = useStore();
 
   const generateTooltipContent = (name: string, noOfSuppliers: number) => {
     return noOfSuppliers > 0
@@ -71,7 +71,7 @@ const GeoCharts = () => {
       if (stats.locationId) {
         allCountry.forEach((regionObj: any) => {
           regionObj.children.forEach((countryObj: any) => {
-            const item = allSubRegions.find(
+            const item = Object.values(allSubRegions).find(
               (z: any) => z.code === countryObj.name
             );
             if (!item || !stats.locationId[item.id]) return;
@@ -83,7 +83,7 @@ const GeoCharts = () => {
     } else {
       allCountry.forEach((regionObj: any) => {
         regionObj.children.forEach((countryObj: any) => {
-          const item = allSubRegions.find(
+          const item = Object.values(allSubRegions).find(
             (z: any) => z.code === countryObj.name
           );
           if (!item) return;
@@ -304,7 +304,9 @@ const GeoCharts = () => {
 
   //Get Number of suppliers for country
   const getNumberOfSuppliers = (countryCode: string) => {
-    const region = allSubRegions.find((s: any) => s.code === countryCode);
+    const region = Object.values(allSubRegions).find(
+      (s: any) => s.code === countryCode
+    );
     if (!region) return 0;
     if (!stats || !stats.locationId || !flags.q)
       return region.countSuppliersInLocation || 0;
@@ -313,7 +315,10 @@ const GeoCharts = () => {
 
   //Get Number of suppliers for country
   const getNumberOfSuppliersByRegion = (countryCode: string) => {
-    const region = allSubRegions.find((s: any) => s.code === countryCode);
+    const region = Object.values(allSubRegions).find(
+      (s: any) => s.code === countryCode
+    );
+    if (!region) return 0;
     console.log("region", stats[region?.id]);
     console.log("region", region?.id);
     if (region) console.log("stats", stats?.locationId?.[region?.id]);

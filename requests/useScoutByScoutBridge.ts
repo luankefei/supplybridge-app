@@ -10,7 +10,7 @@ import {
   VehicleSegment,
   VehicleModel,
 } from "hooks/quick-bridge/segmentSlice";
-import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
+import { useStore } from "hooks/useStore";
 
 export const useQuickBridgeSupplier = () => {
   const [loading, setLoading] = useState(false);
@@ -40,8 +40,8 @@ export const useQuickBridgeSupplier = () => {
   }));
   const { page, pageSize, setCount, setSuppliers, filter, q, setExtraFilter } =
     quickBridge;
-  const { setSuppliers: setSuppliersStore } = useNonPersistentStore();
-  const { filterData } = usePersistentStore(); //I added this to use the filter on quickbridge
+  const { setSuppliers: setSuppliersStore } = useStore();
+  const { filterData } = useStore(); //I added this to use the filter on quickbridge
 
   const searchSuppliers = async (
     pageNumber: number = page,

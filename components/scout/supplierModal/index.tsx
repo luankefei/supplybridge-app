@@ -2,11 +2,11 @@ import { Box, Button, Modal, Tab, Tabs, Typography } from "@mui/material";
 import { theme } from "config/theme";
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import { InnovationTabPanel } from "./Innovation";
-import { GeneralTabPanel } from "./General";
-import { PortfolioTabPanel } from "./Portfolio";
-import { Ratings } from "./Ratings";
-import { CertificationsTabPanel } from "./Certifications";
+import { InnovationTabPanel } from "./innovation";
+import { GeneralTabPanel } from "./general";
+import { PortfolioTabPanel } from "./portfolio";
+import { Ratings } from "./ratings";
+import { CertificationsTabPanel } from "./certifications";
 
 interface TabPanelProps {
   children?: React.ReactNode;
@@ -62,9 +62,9 @@ export const SupplierModal = ({ ...props }: any) => {
         setIsMemberUnlock(true);
       }, 3000);
 
-      return (() => {
+      return () => {
         clearTimeout(timeout);
-      });
+      };
     } else {
       setIsMemberUnlock(false);
     }
@@ -103,7 +103,10 @@ export const SupplierModal = ({ ...props }: any) => {
                       minHeight: "40px",
                       maxHeight: "40px",
                     },
-                    "& .MuiTabs-scrollButtons": { width: "0px", visibility: "hidden" },
+                    "& .MuiTabs-scrollButtons": {
+                      width: "0px",
+                      visibility: "hidden",
+                    },
                     "& button": {
                       color: "#9CA3AF",
                       height: "40px",
@@ -145,10 +148,12 @@ export const SupplierModal = ({ ...props }: any) => {
           <Bottom isMemberUnlock={isMemberUnlock}>
             <ModalButton>Send RFQ</ModalButton>
           </Bottom>
-          {false && <UnlockMemberContainer isMemberUnlock={isMemberUnlock}>
-            <UnlockIcon src="/icons/unlock-member.svg"></UnlockIcon>
-            <UnlockText>Unlock With Membership</UnlockText>
-          </UnlockMemberContainer>}
+          {false && (
+            <UnlockMemberContainer isMemberUnlock={isMemberUnlock}>
+              <UnlockIcon src="/icons/unlock-member.svg"></UnlockIcon>
+              <UnlockText>Unlock With Membership</UnlockText>
+            </UnlockMemberContainer>
+          )}
         </Box>
       </Modal>
     </>
@@ -176,7 +181,7 @@ const HeadInfo = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  gap:12px;
+  gap: 12px;
   margin-left: 20px;
 `;
 
@@ -196,7 +201,7 @@ const CloseIcon = styled.img`
 const Title = styled.div`
   font-weight: 600;
   font-size: 1.25rem;
-  color: ${theme.colors.text}
+  color: ${theme.colors.text};
 `;
 
 const HeadInfoBottom = styled.div`

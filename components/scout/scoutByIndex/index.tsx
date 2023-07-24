@@ -2,7 +2,7 @@ import Feedback from "components/feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
 import GeoCharts from "./geoCharts";
 import Summary from "./summary";
-import { useNonPersistentStore, usePersistentStore } from "hooks/useStore";
+import { useStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
@@ -35,8 +35,7 @@ import { useFilter } from "requests/useFilter";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
-  const { allSubRegions } = usePersistentStore();
-  const { suppliers, setSuppliers, setStats } = useNonPersistentStore();
+  const { allSubRegions, suppliers, setSuppliers, setStats } = useStore();
   const { querySupplierListByName, loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
 
