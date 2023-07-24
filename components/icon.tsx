@@ -69,7 +69,7 @@ const StyledIcon = styled.img<{
   height: ${(props) => `${props.height}px`};
   margin: ${(props) => props.m};
   padding: ${(props) => props.p};
-  color: ${(props) => props.color?.toString()};
+  color: ${(props) => props.color};
   object-fit: contain;
 `;
 

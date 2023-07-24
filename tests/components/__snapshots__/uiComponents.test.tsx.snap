@@ -1,0 +1,44 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ui-Components poweredBy ok -- matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="css-bimbu8"
+  >
+    <img
+      class="sc-aXZVg jPhcGY"
+      height="30"
+      src="/icons/smart-bridge-ai.svg"
+      title=""
+      width="24"
+    />
+    <div
+      class="sc-eqUAAy falwWc"
+    />
+    <div
+      class="sc-kAyceB eqrkPz"
+      color="#89A8B3"
+      font-size="13px"
+      font-weight="400"
+    >
+      Powered by SmartBridge Artificial Intelligence
+    </div>
+  </div>
+</DocumentFragment>
+`;
+
+exports[`ui-Components spacerH ok -- matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-eqUAAy haKPhF"
+  />
+</DocumentFragment>
+`;
+
+exports[`ui-Components spacerV ok -- matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="sc-gEvEer lajBMu"
+  />
+</DocumentFragment>
+`;

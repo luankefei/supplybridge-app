@@ -84,10 +84,15 @@ export const ColoredText = styled.span<{
 /**
  * Medium text
  * font-family: Ubuntu;
+ *
  * font-style: normal;
+ *
  * font-weight: 500;
+ *
  * font-size: 20px;
+ *
  * line-height: 2rem;
+ *
  * color: #1A1A1A;
  */
 export const SText = styled.div<{
