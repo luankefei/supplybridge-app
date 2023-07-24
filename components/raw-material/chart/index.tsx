@@ -20,15 +20,14 @@ import { request } from "config/axios";
 import { RawMaterialName as TRawMaterialName, apiNamesMap } from "../constants";
 import PurpleDot from "./dot";
 import styled from "styled-components";
-import { getPriceConverter } from "./calculate";
+import {
+  FrequencyEnum,
+  calculateDayRange,
+  getPriceConverter,
+} from "./calculate";
 import { MaterialUnits, Unit } from "../units";
+import CustomTooltip from "./tooltip";
 
-enum RangeEnum {
-  Day = "Day",
-  Week = "Week",
-  Month = "Month",
-  Year = "Year",
-}
 interface IChartDataPoint {
   name: string;
   x: string;
@@ -39,33 +38,6 @@ interface IChart {
   materialName: TRawMaterialName;
   onRemove: () => void;
 }
-
-const CustomTooltip = ({
-  active,
-  payload,
-  label,
-}: {
-  active?: boolean;
-  payload?: any[];
-  label?: Date;
-}) => {
-  if (active && payload && payload.length) {
-    return (
-      <Box bgcolor={"#374151"} borderRadius={"8px"} p={1}>
-        <Stack>
-          <SText color="white" fontSize="14px">
-            {label?.toDateString()}
-          </SText>
-          <SText color="white" fontSize="14px">
-            ${payload[0].value}
-          </SText>
-        </Stack>
-      </Box>
-    );
-  }
-
-  return null;
-};
 
 const StyledLineChart = styled(LineChart)`
   text {
@@ -86,14 +58,14 @@ const chartColors = {
 
 const RMChart = ({ materialName, onRemove }: IChart) => {
   const [isLoading, setIsLoading] = useState<boolean>(true);
-  const [frequency, setFrequency] = useState<RangeEnum>(RangeEnum.Day);
+  const [frequency, setFrequency] = useState<FrequencyEnum>(FrequencyEnum.Day);
   const [data, setData] = useState<IChartDataPoint[]>([]);
   const [unit, setUnit] = useState<Unit | undefined>(
     MaterialUnits[materialName]
   );
 
   const handleRangeUpdate = (newRange: SegmentedValue) => {
-    const nr = newRange as RangeEnum;
+    const nr = newRange as FrequencyEnum;
     setFrequency(nr);
   };
 
@@ -134,12 +106,10 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
   useEffect(() => {
     const fetchData = async () => {
       setIsLoading(true);
-      const today = new Date();
-      const endTime = today.toISOString().split("T")[0];
-      const startTime = "2022-01-01";
+      const { st, ed } = calculateDayRange(frequency);
       const apiName = apiNamesMap[materialName];
       const res = await request.get(
-        `/data/materialpricing?name=${apiName}&st=${startTime}&ed=${endTime}`
+        `/data/materialpricing?name=${apiName}&st=${st}&ed=${ed}`
       );
       if (res.status !== 200 || !validateDataAndTransform(res.data)) {
         toast.error("Error fetching data...");
@@ -170,7 +140,11 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
           <Segmented
             size="large"
             defaultValue={frequency}
-            options={[RangeEnum.Day, RangeEnum.Month, RangeEnum.Year]}
+            options={[
+              FrequencyEnum.Day,
+              FrequencyEnum.Month,
+              FrequencyEnum.Year,
+            ]}
             onChange={handleRangeUpdate}
           />
           <IconButton onClick={onRemove}>

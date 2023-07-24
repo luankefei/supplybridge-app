@@ -36,4 +36,38 @@ function getPriceConverter(
   return { unit, converter };
 }
 
-export { getPriceConverter };
+export enum FrequencyEnum {
+  Day = "Day",
+  Month = "Month",
+  Year = "Year",
+}
+
+/**
+ * Given a frequency,
+ * day => today as ed, today - 30 as st
+ * month => today as ed, today - 12 months as st
+ * year => today as ed, today - 10 years as st
+ * @param frequency
+ * @returns {
+ *  st: Date,
+ *  ed: Date,
+ * }
+ */
+const calculateDayRange = (frequency: FrequencyEnum) => {
+  const ed = new Date();
+  let st = new Date();
+  switch (frequency) {
+    case FrequencyEnum.Day:
+      st.setDate(ed.getDate() - 30);
+      break;
+    case FrequencyEnum.Month:
+      st.setMonth(ed.getMonth() - 12);
+      break;
+    case FrequencyEnum.Year:
+      st.setFullYear(ed.getFullYear() - 10);
+      break;
+  }
+  return { st, ed };
+};
+
+export { getPriceConverter, calculateDayRange };
