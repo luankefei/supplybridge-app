@@ -20,7 +20,7 @@ const CustomTooltip = (props: {
             {label}
           </SText>
           <SText color="white" fontSize="14px">
-            ${payload[0].value}
+            ${payload[0].value.toFixed(2)}
           </SText>
         </Stack>
       </Box>

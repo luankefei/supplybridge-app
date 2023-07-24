@@ -47,8 +47,29 @@ const StyledLineChart = styled(LineChart)`
   .xAsix .recharts-cartesian-axis-ticks {
     margin-top: 10px;
   }
-`;
 
+  .recharts-cartesian-axis-tick-line {
+    display: none;
+  }
+`;
+/**
+ * This border radius only works on static elements
+ * when this segmentd is clicked, the border radius is gone during transition
+ */
+const StyledSegmented = styled(Segmented)`
+  &&& {
+    background-color: #e5e7eb;
+    // border-radius: 32px;
+    // padding: 4px;
+  }
+  &&& .ant-radio-wrapper {
+    // border-radius: 32px;
+  }
+
+  &&& .ant-segmented-item {
+    // border-radius: 32px;
+  }
+`;
 // https://www.figma.com/file/d8mRsss3DDeAHwiVLAuZ30/SupplyBridge---Raw-Material-Pricing?node-id=1%3A6596&mode=dev
 // TODO: Use theme
 const chartColors = {
@@ -175,19 +196,46 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
     }
   }, [frequency, materialName]);
 
+  const renderLegend = (props: any) => {
+    const payload: any[] = props.payload;
+    if (!payload) return null;
+    return (
+      <Box justifyContent={"center"} display={"flex"}>
+        {payload.map((entry, index) => (
+          <Stack
+            color={"#445B66"}
+            key={`item-${index}`}
+            direction={"row"}
+            alignItems={"center"}
+          >
+            <Box
+              width={8}
+              height={8}
+              bgcolor={chartColors.purple}
+              borderRadius={1}
+              marginRight={1}
+            ></Box>
+            <SText color="#445B66" fontSize="12px" fontWeight="400">
+              {entry.value}
+            </SText>
+          </Stack>
+        ))}
+      </Box>
+    );
+  };
   return (
-    <Card sx={{ height: "500px", borderRadius: "16px" }}>
-      <Grid container justifyContent="space-between" alignItems="center" p={2}>
+    <Card sx={{ height: "455px", borderRadius: "16px" }}>
+      <Grid container justifyContent="space-between" p={"24px 24px 24px 48px"}>
         <Grid item display={"flex"} flexDirection={"column"}>
           <LargeText> {materialName} </LargeText>
           {unit && (
-            <SText>
+            <SText fontSize="12px" fontWeight="400">
               Unit: {unit.currency} / {unit.measuredIn}
             </SText>
           )}
         </Grid>
         <Grid item>
-          <Segmented
+          <StyledSegmented
             size="large"
             defaultValue={frequency}
             options={[
@@ -208,7 +256,7 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
             <LoadingAnimation />
           </Box>
         ) : (
-          <ResponsiveContainer width="100%" height={400 - 80}>
+          <ResponsiveContainer width="100%" height={320}>
             <StyledLineChart
               data={data}
               style={{
@@ -219,7 +267,12 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
                 left: 32,
               }}
             >
-              <Legend verticalAlign="bottom" height={36} />
+              <Legend
+                verticalAlign="bottom"
+                height={40}
+                iconType="circle"
+                content={renderLegend}
+              />
               <CartesianGrid stroke={chartColors.grey} />
               <XAxis
                 dataKey="time"
