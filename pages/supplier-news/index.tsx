@@ -43,14 +43,25 @@ const NewsTabContainer = muiStyled("div")`
    padding: 10px;
    width: fit-content;
    margin: 10px 0;
+   position: relative;
 `;
 const NewsTab = muiStyled("a")<any>`
    cursor: pointer;
    padding: 8px;
    border-radius: 50px;
-   background-color: ${(props) => (props.active ? "#08979c" : "transparent")};
-   color: ${(props) => (props.active ? "white" : "black")};
+   position: relative;
+   z-index: 100;
+   color: ${(props) => (props.active ? "white" : "#808080")};
 `;
+// background-color: ${(props) => (props.active ? "#08979c" : "transparent")};
+//    color: ${(props) => (props.active ? "white" : "black")};
+
+//
+//margin-left: ${(props) => (props.activeId == 0 ? "-7px" : "unset")};
+// margin-right: ${(props) => (props.activeId == 2 ? "-7px" : "unset")};
+
+const newsTabWidth = ["148px", "80px", "56px"];
+const newsTabLeft = ["4px", "150px", "226px"];
 
 export default function SupplierNews() {
   const supplierNewsStore = useBoundStore((state) => state.supplierNews);
@@ -70,13 +81,40 @@ export default function SupplierNews() {
     <Layout>
       <NewsContainer>
         <NewsTabContainer>
-          <NewsTab active={typeI === 0} onClick={() => setTypeI(0)}>
+          <div
+            style={{
+              height: "32px",
+              width: newsTabWidth[typeI],
+              left: newsTabLeft[typeI],
+              background: "#08979c",
+              top: "4px",
+              position: "absolute",
+              borderRadius: "50px",
+              zIndex: 50,
+              transition: "all 0.2s",
+            }}
+          >
+            {" "}
+          </div>
+          <NewsTab
+            active={typeI === 0}
+            activeId={typeI}
+            onClick={() => setTypeI(0)}
+          >
             Industry & Trend
           </NewsTab>
-          <NewsTab active={typeI === 1} onClick={() => setTypeI(1)}>
+          <NewsTab
+            active={typeI === 1}
+            activeId={typeI}
+            onClick={() => setTypeI(1)}
+          >
             Supplier
           </NewsTab>
-          <NewsTab active={typeI === 2} onClick={() => setTypeI(2)}>
+          <NewsTab
+            active={typeI === 2}
+            activeId={typeI}
+            onClick={() => setTypeI(2)}
+          >
             Risk
           </NewsTab>
         </NewsTabContainer>
