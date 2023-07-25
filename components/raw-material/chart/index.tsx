@@ -1,3 +1,5 @@
+"use client";
+
 import React, { useEffect, useState } from "react";
 import { Grid, Card, IconButton, Stack, Box } from "@mui/material";
 import { Close } from "@mui/icons-material";
@@ -171,6 +173,11 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
       setIsLoading(true);
       const { st, ed } = calculateDayRange(frequency);
       const apiName = apiNamesMap[materialName];
+      if (!apiName) {
+        toast.error(`No data for ${materialName}`);
+        setIsLoading(false);
+        return;
+      }
       try {
         const res = await request.get(
           `/data/materialpricing?name=${apiName}&st=${st}&ed=${ed}`
@@ -191,7 +198,7 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
       }
     };
     // avoid fetching data on first render
-    if (frequency) {
+    if (frequency && materialName) {
       fetchData();
     }
   }, [frequency, materialName]);
