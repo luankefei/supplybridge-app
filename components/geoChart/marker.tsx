@@ -1,7 +1,8 @@
 import { Marker } from "react-simple-maps";
+import { EnumRegion, EnumRegionAndSubRegion } from "./geoUtils";
 
 export interface IMarker {
-  name: string;
+  name: EnumRegionAndSubRegion;
   coordinates: [number, number];
   r: number;
   subMarkers?: IMarker[];
@@ -9,10 +10,18 @@ export interface IMarker {
 
 interface IMapMarker {
   marker: IMarker;
-  onMarkerClick: (name: string, coordinates: [number, number]) => void;
+  count?: number;
+  onMarkerClick: (
+    name: EnumRegionAndSubRegion,
+    coordinates: [number, number]
+  ) => void;
 }
 
-export default function MapMarker({ marker, onMarkerClick }: IMapMarker) {
+export default function MapMarker({
+  marker,
+  count,
+  onMarkerClick,
+}: IMapMarker) {
   const { name, coordinates, r } = marker;
   return (
     <Marker
@@ -32,6 +41,9 @@ export default function MapMarker({ marker, onMarkerClick }: IMapMarker) {
       </g>
       <text textAnchor="middle" y={-20} style={{ fill: "white" }}>
         {name}
+      </text>
+      <text textAnchor="middle" y={10} style={{ fill: "white" }}>
+        {count}
       </text>
     </Marker>
   );

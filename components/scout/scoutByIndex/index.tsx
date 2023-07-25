@@ -1,6 +1,5 @@
 import Feedback from "components/feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
-import GeoCharts from "./geoCharts";
 import Summary from "./summary";
 import { useStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
@@ -103,7 +102,6 @@ export default function ScoutByIndex() {
       return;
     }
     setQueryString(queryString);
-    // woulda put this in SearchBar but then loading wouldnt work that way.
     querySupplierListByName(queryString);
     setSearched(true);
   };
@@ -116,7 +114,6 @@ export default function ScoutByIndex() {
     setStats({});
   };
   const handleRowSelect = (selectedRows: number[]) => {
-    console.log("handleRowSelect", selectedRows);
     setSelectedRows(selectedRows);
   };
 
@@ -158,7 +155,13 @@ export default function ScoutByIndex() {
           <Box>
             <SpacingVertical space="40px" />
             <Box>
-              {((!loading && !searched) || loading || hasData) && <MapChart />}
+              {((!loading && !searched) || loading || hasData) && (
+                <MapChart
+                  onSelectCountryFilter={(c) => {
+                    console.log("onSelectCountryFilter", c);
+                  }}
+                />
+              )}
               {hasData && (
                 <>
                   <Summary queryString={queryString} />

@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, Tooltip } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   ComposableMap,
@@ -7,8 +7,19 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import geo from "./features.json";
-import { EnumRegion, EnumSubRegion, MapRegionToColor } from "./geoUtils";
-import CountryToRegionMap from "./geoIdMap";
+import {
+  EnumRegion,
+  EnumRegionAndSubRegion,
+  EnumSubRegion,
+  MapRegionToColor,
+  isSubRegion,
+} from "./geoUtils";
+import {
+  CountryToRegionMap,
+  CountryToSubRegionMap,
+  CountryToTwoLetterCodeMap,
+  TwoLetterCodeToCountryCodeMap,
+} from "./geoIdMap";
 import { useStore } from "hooks/useStore";
 import MapMarker, { IMarker } from "./marker";
 
@@ -81,11 +92,39 @@ const preDefinedProjectionConfig = {
 };
 //#endregion
 
-interface IMapChart {}
-export default function MapChart({}) {
+type TSupplierCountByMap = {
+  [key in EnumRegionAndSubRegion]: number;
+};
+
+const initialSupplierCountByMap: TSupplierCountByMap = {
+  [EnumRegion.Americas]: 0,
+  [EnumRegion.EMEA]: 0,
+  [EnumRegion.APAC]: 0,
+  [EnumSubRegion.NorthNCentralAmerica]: 0,
+  [EnumSubRegion.SouthAmerica]: 0,
+  [EnumSubRegion.Europe]: 0,
+  [EnumSubRegion.Africa]: 0,
+  [EnumSubRegion.Asia]: 0,
+  [EnumSubRegion.MiddleEast]: 0,
+  [EnumSubRegion.Oceania]: 0,
+};
+
+interface IMapChart {
+  onSelectCountryFilter: (countryCode: string) => void;
+}
+export default function MapChart({ onSelectCountryFilter }: IMapChart) {
   const [center, setCenter] = useState<[number, number]>([0, 0]); // [longitude, latitude
   const [zoom, setZoom] = useState<number>(1);
   const [markers, setMarkers] = useState<IMarker[]>(preDefinedMarkers);
+  const [selectedRegion, setSelectedRegion] =
+    useState<EnumRegionAndSubRegion | null>(null);
+
+  const [supplierCountByMap, setSupplierCountByMap] =
+    useState<TSupplierCountByMap>({ ...initialSupplierCountByMap });
+  const [supplierCountByCountryMap, setSupplierCountByCountryMap] = useState<
+    Record<string, number>
+  >({});
+
   const {
     suppliers,
     stats,
@@ -104,31 +143,44 @@ export default function MapChart({}) {
    * Component lifecycle
    * *****************
    */
+
   useEffect(() => {
-    //if there is no query parameter initilize the map with all the suppliers data
-    if (
-      !stats.q ||
-      (filterData?.subRegions?.length < 1 && filterData?.regions?.length < 1)
-    ) {
-      setInitialData();
-    } else if (
-      filterData?.subRegions?.length >= 1 &&
-      filterData?.regions?.length >= 1
-    ) {
-      // setRegionsAndSubRegionsData();
-    } else if (
-      filterData?.subRegions?.length < 1 &&
-      filterData?.regions?.length >= 1
-    ) {
-      // setRegionsSuppliersData();
+    const newMap = { ...initialSupplierCountByMap };
+    const newSupplierCountByCountryMap: Record<string, number> = {};
+    const keys = Object.keys(allSubRegions);
+    for (let i = 0; i < keys.length; i++) {
+      const item = allSubRegions[keys[i] as any];
+      const threeLetterCode = TwoLetterCodeToCountryCodeMap[item.code];
+      if (!threeLetterCode) {
+        console.log("no threeLetterCode for", item);
+        continue;
+      }
+      const region = CountryToRegionMap[threeLetterCode];
+      const subRegion = CountryToSubRegionMap[threeLetterCode];
+      if (!region || !subRegion) {
+        console.log("no region or subRegion for", threeLetterCode);
+        continue;
+      }
+      newMap[region] += item.countSuppliersInLocation;
+      newMap[subRegion] += item.countSuppliersInLocation;
+      newSupplierCountByCountryMap[threeLetterCode] =
+        item.countSuppliersInLocation;
     }
-  }, [suppliers, allSubRegions]);
+    console.log("newMap", newMap);
+    console.log("newSupplierCountByCountryMap", newSupplierCountByCountryMap);
+    setSupplierCountByMap(newMap);
+    setSupplierCountByCountryMap(newSupplierCountByCountryMap);
+  }, [allSubRegions]);
 
   /****************
    *  Map Controls
    * **************
    */
-  const zoomToRegion = (name: string, coordinates: [number, number]) => {
+  const zoomToRegion = (
+    name: EnumRegionAndSubRegion,
+    coordinates: [number, number]
+  ) => {
+    setSelectedRegion(name);
     setCenter(coordinates);
     setZoom(zoom + 0.5);
     console.log(name, coordinates, zoom);
@@ -161,27 +213,6 @@ export default function MapChart({}) {
    * **************
    */
 
-  const setInitialData = () => {
-    // let initialData: any = [];
-    // for (const key in allCountry) {
-    //   allCountry[key].children.map((item) => {
-    //     const noOfSuppliers = getNumberOfSuppliers(item.name);
-    //     // colorValue: null | 0 | 1
-    //     // null => default color
-    //     // 0 => #08979c
-    //     // 1 =>  #10712B
-    //     const colorValue = noOfSuppliers ? 0 : null;
-    //     initialData.push([
-    //       item.name,
-    //       colorValue,
-    //       generateTooltipContent(item.fullName, noOfSuppliers),
-    //     ]);
-    //   });
-    // }
-    // buildLegendSummary();
-    // setAllCountries([dataHeader, ...initialData]);
-  };
-
   const getNumberOfSuppliers = (countryCode: string) => {
     const region = Object.values(allSubRegions).find(
       (s: any) => s.code === countryCode
@@ -205,6 +236,49 @@ export default function MapChart({}) {
     return region ? stats?.locationId?.[region?.id] : 0;
   };
 
+  const checkZoomLevelEnough = () => {
+    return selectedRegion !== null && isSubRegion(selectedRegion);
+  };
+
+  const selectCountry = (countryCode: string) => {
+    if (checkZoomLevelEnough()) {
+      onSelectCountryFilter(countryCode);
+    }
+  };
+
+  const styleCalucator = (geo: {
+    // got this from debug console. prob form features.json
+    id: string; // 3 letter code
+    geometry: { type: "Polygon" | "MultiPolygon"; coordinates: number[][][] };
+    properties: { name: string };
+    rsmKey: string;
+  }) => {
+    let fill = MapRegionToColor[CountryToRegionMap[geo.id]];
+    let hoverFill = MapRegionToColor[CountryToRegionMap[geo.id]];
+    let stroke = "none";
+    const zoomLevelEnough = checkZoomLevelEnough();
+    if (zoomLevelEnough) {
+      stroke = "#FFDA44";
+    }
+    return {
+      geographiesStyle: {
+        default: {
+          fill: fill,
+          outline: "none",
+        },
+        hover: {
+          outline: "none",
+          fill: hoverFill,
+          stroke: stroke,
+          strokeWidth: 1,
+        },
+        pressed: { outline: "none" },
+      },
+      tooltip: zoomLevelEnough
+        ? geo.properties.name + supplierCountByCountryMap[geo.id]
+        : "",
+    };
+  };
   return (
     <Box
       width={"100%"}
@@ -221,30 +295,30 @@ export default function MapChart({}) {
           <Geographies geography={geo}>
             {({ geographies }) =>
               geographies.map((geo) => {
+                const { geographiesStyle, tooltip } = styleCalucator(geo);
                 return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    onClick={() => {}}
-                    style={{
-                      default: {
-                        fill: MapRegionToColor[CountryToRegionMap[geo.id]],
-                        outline: "none",
-                      },
-                      hover: {
-                        outline: "none",
-                        fill: MapRegionToColor[CountryToRegionMap[geo.id]],
-                      },
-                      pressed: { outline: "none" },
-                    }}
-                  />
+                  <Tooltip key={geo.rsmKey} title={tooltip} followCursor>
+                    <Geography
+                      key={geo.rsmKey}
+                      geography={geo}
+                      onClick={() => {
+                        selectCountry(geo.id);
+                      }}
+                      style={geographiesStyle}
+                    />
+                  </Tooltip>
                 );
               })
             }
           </Geographies>
 
           {markers.map((e) => (
-            <MapMarker key={e.name} marker={e} onMarkerClick={zoomToRegion} />
+            <MapMarker
+              key={e.name}
+              marker={e}
+              onMarkerClick={zoomToRegion}
+              count={supplierCountByMap[e.name]}
+            />
           ))}
         </ZoomableGroup>
       </ComposableMap>

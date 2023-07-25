@@ -19,6 +19,20 @@ export enum EnumSubRegion {
   Africa = "Africa",
 }
 
+export type EnumRegionAndSubRegion = EnumRegion | EnumSubRegion;
+
+export const isRegion = (region: EnumRegionAndSubRegion): boolean => {
+  return (
+    region === EnumRegion.Americas ||
+    region === EnumRegion.APAC ||
+    region === EnumRegion.EMEA
+  );
+};
+
+export const isSubRegion = (region: EnumRegionAndSubRegion): boolean => {
+  return !isRegion(region);
+};
+
 export const MapRegionToSubRegion: Record<EnumRegion, EnumSubRegion[]> = {
   [EnumRegion.Americas]: [
     EnumSubRegion.NorthNCentralAmerica,
