@@ -3,6 +3,11 @@ export enum EnumRegion {
   APAC = "APAC",
   EMEA = "EMEA",
 }
+export const MapRegionToColor: Record<EnumRegion, string> = {
+  [EnumRegion.Americas]: "#8B89B9",
+  [EnumRegion.APAC]: "#636464",
+  [EnumRegion.EMEA]: "#B5A6C9",
+};
 
 export enum EnumSubRegion {
   NorthNCentralAmerica = "North America & Central America",

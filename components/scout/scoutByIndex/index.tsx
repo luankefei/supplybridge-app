@@ -26,6 +26,7 @@ import SearchBar from "./searchBar";
 import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
 import { useFilter } from "requests/useFilter";
+import MapChart from "components/geoChart";
 
 /**
  * Scout by index page
@@ -157,7 +158,7 @@ export default function ScoutByIndex() {
           <Box>
             <SpacingVertical space="40px" />
             <Box>
-              {((!loading && !searched) || loading || hasData) && <GeoCharts />}
+              {((!loading && !searched) || loading || hasData) && <MapChart />}
               {hasData && (
                 <>
                   <Summary queryString={queryString} />
