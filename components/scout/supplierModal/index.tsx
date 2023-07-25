@@ -5,7 +5,7 @@ import styled from "styled-components";
 import { InnovationTabPanel } from "./innovation";
 import { GeneralTabPanel } from "./general";
 import { PortfolioTabPanel } from "./portfolio";
-import { Ratings } from "./Ratings";
+import { Ratings } from "./ratings";
 import { CertificationsTabPanel } from "./certifications";
 
 interface TabPanelProps {

@@ -1,15 +1,14 @@
 import { Input, TextField } from "@mui/material";
 import { theme } from "config/theme";
 import { useState } from "react";
-import styled, { keyframes } from "styled-components"
+import styled, { keyframes } from "styled-components";
 
 export const Ratings = () => {
-  const [value, setValue] = useState<any>(93.4)
+  const [value, setValue] = useState<any>(93.4);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setValue(Number(event?.target.value) * 20)
-
-  }
+    setValue(Number(event?.target.value) * 20);
+  };
 
   return (
     <RatingsContainer>
@@ -49,19 +48,19 @@ export const Ratings = () => {
         </ScoreInfo>
       </ScoreList>
     </RatingsContainer>
-  )
-}
+  );
+};
 
 const RatingsContainer = styled.div`
   font-family: "Inter", sans-serif;
-`
+`;
 
 const Title = styled.div`
   margin-bottom: 24px;
   font-weight: 600;
   font-size: 1rem;
   color: ${theme.colors.text};
-`
+`;
 
 const breatheAnimation = keyframes`
   0% { --percentage: 0; };
@@ -77,8 +76,8 @@ const ProgressBarContainer = styled.div`
 const ProgressBar = styled.div<any>`
   --value: ${(props) => props.value};
   --percentage: ${(props) => props.value};
-  --primary: #24A3A7;
-  --secondary: #F3F4F6;
+  --primary: #24a3a7;
+  --secondary: #f3f4f6;
   /* animation: ${breatheAnimation} 2s 0.5s forwards; */
   width: 200px;
   aspect-ratio: 2 / 1;
@@ -95,7 +94,11 @@ const ProgressBar = styled.div<any>`
     left: 0;
     width: 100%;
     height: 100%;
-    background: conic-gradient(from 0.75turn at 50% 100%, var(--primary) calc(var(--percentage) * 1% / 2), var(--secondary) calc(var(--percentage) * 1% / 2 + 0.1%));
+    background: conic-gradient(
+      from 0.75turn at 50% 100%,
+      var(--primary) calc(var(--percentage) * 1% / 2),
+      var(--secondary) calc(var(--percentage) * 1% / 2 + 0.1%)
+    );
     mask: radial-gradient(at 50% 100%, white 65%, transparent 65.5%);
     mask-mode: alpha;
     -webkit-mask: radial-gradient(at 50% 100%, #0000 65%, #000 65.5%);
@@ -110,20 +113,19 @@ const Score = styled.span`
 `;
 
 const ScoreValue = styled.span`
-  color: #24A3A7;
+  color: #24a3a7;
   font-weight: 400;
   font-size: 32px;
 `;
 
-const ScoreMaxValue = styled.span`
-`;
+const ScoreMaxValue = styled.span``;
 
 const ScoreText = styled.span`
   position: absolute;
   bottom: 0;
   font-size: 16px;
   line-height: 19px;
-  color: #9CA3AF;
+  color: #9ca3af;
 `;
 
 const ScoreList = styled.div`
@@ -140,7 +142,7 @@ const ScoreInfo = styled.div`
 const ScoreTitle = styled.span`
   font-size: 14px;
   line-height: 17px;
-  color: #9CA3AF;
+  color: #9ca3af;
 `;
 
 const ScoreDescription = styled.span`
@@ -148,4 +150,3 @@ const ScoreDescription = styled.span`
   line-height: 17px;
   color: ${theme.colors.text};
 `;
- No newline at end of file
