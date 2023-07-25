@@ -1,5 +1,3 @@
-"use client";
-
 import React, { useEffect, useState } from "react";
 import { Grid, Card, IconButton, Stack, Box } from "@mui/material";
 import { Close } from "@mui/icons-material";
