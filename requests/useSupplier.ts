@@ -49,6 +49,17 @@ export const useSupplier = (flags: any = null) => {
       const { data } = await request.post(endpoint, searchObj);
       await fakeData(data, searchObj);
       setLoading(false);
+
+      if (data.suppliers[0]?.id === undefined) {
+        // supplier id is missing, somethings this happens,
+        // right now use idx on frontend as a hack,
+        // TODO: Fix this, return id from backend
+        data.suppliers = data.suppliers.map((supplier: any, idx: number) => {
+          supplier.id = idx;
+          return supplier;
+        });
+      }
+
       setSuppliers(data?.suppliers, true);
       setCount(data?.count);
       setStats(data?.stats);
