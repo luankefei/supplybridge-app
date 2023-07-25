@@ -51,7 +51,7 @@ const NewsTab = muiStyled("a")<any>`
    border-radius: 50px;
    position: relative;
    z-index: 100;
-   color: ${(props) => (props.active ? "white" : "black")};
+   color: ${(props) => (props.active ? "white" : "#808080")};
 `;
 // background-color: ${(props) => (props.active ? "#08979c" : "transparent")};
 //    color: ${(props) => (props.active ? "white" : "black")};
