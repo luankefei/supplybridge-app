@@ -60,8 +60,8 @@ const NewsTab = muiStyled("a")<any>`
 //margin-left: ${(props) => (props.activeId == 0 ? "-7px" : "unset")};
 // margin-right: ${(props) => (props.activeId == 2 ? "-7px" : "unset")};
 
-const newsTabWidth = ["148px", "80px", "50px"];
-const newsTabLeft = ["4px", "150px", "228px"];
+const newsTabWidth = ["148px", "80px", "56px"];
+const newsTabLeft = ["4px", "150px", "226px"];
 
 export default function SupplierNews() {
   const supplierNewsStore = useBoundStore((state) => state.supplierNews);
