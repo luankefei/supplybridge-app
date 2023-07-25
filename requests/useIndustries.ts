@@ -2,10 +2,10 @@ import { useState } from "react";
 import { toast } from "react-toastify";
 
 import { request } from "config/axios";
-import { usePersistentStore } from "hooks/useStore";
+import { useStore } from "hooks/useStore";
 
 export const useIndustries = () => {
-  const { setIndustries } = usePersistentStore();
+  const { setIndustries } = useStore();
   const [loading, setLoading] = useState(false);
 
   const searchIndustries = async () => {
