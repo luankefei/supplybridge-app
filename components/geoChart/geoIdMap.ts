@@ -867,6 +867,7 @@ const TwoLetterCodeToCounryCoordinatesMap: Record<
   ES: { longitude: -3.74922, latitude: 40.463667 },
   ET: { longitude: 40.489673, latitude: 9.145 },
   FI: { longitude: 25.748151, latitude: 61.92411 },
+  FIN: { longitude: 25.748151, latitude: 61.92411 }, // outlier FIN
   FJ: { longitude: 179.414413, latitude: -16.578193 },
   FK: { longitude: -59.523613, latitude: -51.796253 },
   FM: { longitude: 150.550812, latitude: 7.425554 },
@@ -941,6 +942,7 @@ const TwoLetterCodeToCounryCoordinatesMap: Record<
   MG: { longitude: 46.869107, latitude: -18.766947 },
   MH: { longitude: 171.184478, latitude: 7.131474 },
   MK: { longitude: 21.745275, latitude: 41.608635 },
+  NMK: { longitude: 21.745275, latitude: 41.608635 }, // outlier NMK = MK
   ML: { longitude: -3.996166, latitude: 17.570692 },
   MM: { longitude: 95.956223, latitude: 21.913965 },
   MN: { longitude: 103.846656, latitude: 46.862496 },
@@ -956,7 +958,6 @@ const TwoLetterCodeToCounryCoordinatesMap: Record<
   MX: { longitude: -102.552784, latitude: 23.634501 },
   MY: { longitude: 101.975766, latitude: 4.210484 },
   MZ: { longitude: 35.529562, latitude: -18.665695 },
-  nan: { longitude: 18.49041, latitude: -22.95764 },
   NC: { longitude: 165.618042, latitude: -20.904305 },
   NE: { longitude: 8.081666, latitude: 17.607789 },
   NF: { longitude: 167.954712, latitude: -29.040835 },
