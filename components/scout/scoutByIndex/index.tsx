@@ -256,7 +256,8 @@ export default function ScoutByIndex() {
       </>
       <ShortListModal
         open={shortListModalOpen}
-        onClose={() => {
+        onClose={(tags?: string[]) => {
+          console.log("tags", tags);
           setShortListModalOpen(false);
         }}
       />

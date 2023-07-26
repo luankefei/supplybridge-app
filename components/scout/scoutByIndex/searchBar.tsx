@@ -14,6 +14,7 @@ import { useSupplier } from "requests/useSupplier";
 import { debounce } from "utils/util";
 import styled from "styled-components";
 import { SpacingHorizontal } from "components/ui-components/spacer";
+import { ResetIconTextButton } from "components/ui-components/iconTextButton";
 
 interface SearchBarProps {
   onSearch: (queryString: string) => void;
@@ -67,10 +68,7 @@ const SearchBar = (props: SearchBarProps) => {
   return (
     <Stack sx={{ width: "80%", margin: "auto" }}>
       <Box sx={{ display: "flex", justifyContent: "end" }}>
-        <Button variant="text" onClick={resetFilters}>
-          <Icon src="reset" width={12} height={12} m="0px 6px" />
-          {t("scout.searchbar.reset", "Reset")}
-        </Button>
+        <ResetIconTextButton onClick={resetFilters} />
       </Box>
 
       <SearchBarContainer width={100}>
