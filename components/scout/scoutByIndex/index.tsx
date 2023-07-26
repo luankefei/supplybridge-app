@@ -29,6 +29,7 @@ import MapChart from "components/geoChart";
 import { toast } from "react-toastify";
 import ShortListModal from "./shortlistModal";
 import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
+import { useRouter } from "next/router";
 
 /**
  * Scout by index page
@@ -38,6 +39,7 @@ import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { allSubRegions, suppliers, setSuppliers, setStats } = useStore();
   const { querySupplierListByName } = useSupplier();
   const { getAllSubRegions } = useFilter();
@@ -239,6 +241,12 @@ export default function ScoutByIndex() {
                         selectedRows.length > 1
                           ? () => {
                               console.log("onClickCompare", selectedRows);
+                              router.push({
+                                pathname: "/scout/compare",
+                                query: {
+                                  suppliers: selectedRows.join(","),
+                                },
+                              });
                             }
                           : undefined
                       }
