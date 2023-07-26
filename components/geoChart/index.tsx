@@ -114,12 +114,16 @@ const initialSupplierCountByMap: TSupplierCountByMap = {
 };
 
 interface IMapChart {
-  onSelectCountryFilter: (threeLetterCode: string) => void;
+  selectedCountry?: string;
+  onSelectCountryFilter: (threeLetterCode?: string) => void;
 }
 /**
  * This is the map chart component
  */
-export default function MapChart({ onSelectCountryFilter }: IMapChart) {
+export default function MapChart({
+  selectedCountry,
+  onSelectCountryFilter,
+}: IMapChart) {
   const [center, setCenter] = useState<[number, number]>([0, 0]); // [longitude, latitude
   const [zoom, setZoom] = useState<number>(1);
   const [markers, setMarkers] = useState<IMarker[]>(preDefinedMarkers);
@@ -221,6 +225,7 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
     setCenter([0, 0]);
     setSelectedRegion(null);
     setHoveredCountry(null);
+    onSelectCountryFilter(undefined);
   };
 
   const onMoveEnd = (position: {
@@ -261,6 +266,11 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
     if (zoomLevelEnough) {
       stroke = "#FFDA44";
     }
+    if (geo.id === selectedCountry) {
+      fill = "#FFDA44";
+      hoverFill = "#FFDA44";
+    }
+
     return {
       default: {
         fill: fill,
@@ -282,6 +292,8 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
     }
     const tlc = CountryToTwoLetterCodeMap[hoveredCountry];
     const coor = TwoLetterCodeToCounryCoordinatesMap[tlc];
+    const threeL = TwoLetterCodeToCountryCodeMap[tlc];
+    const subRegion = CountryToSubRegionMap[threeL];
     const label = labels[tlc];
     // Why do we need 2 ifs?
     // becuase I want to distinguish between no coor and no label
@@ -293,6 +305,9 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
       console.log("no data for", hoveredCountry);
       return null;
     }
+    if (subRegion !== selectedRegion) {
+      return null;
+    }
     return (
       <Marker coordinates={[coor.longitude, coor.latitude]}>
         <text
@@ -300,6 +315,7 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
           textAnchor="middle"
           alignmentBaseline="middle"
           fill="white"
+          pointerEvents="none"
         >
           {hoveredCountry}
         </text>
@@ -309,6 +325,7 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
           y={10}
           alignmentBaseline="middle"
           fill="white"
+          pointerEvents="none"
         >
           {label}
         </text>

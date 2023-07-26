@@ -10,6 +10,11 @@ export interface ITableData {
   headquarter: string;
   hqCode: string;
   globalFootprint: string[];
+  /**
+   * Add on field to help with geoChart filtering,
+   * Not used by table's filter
+   */
+  globalFootprintIds: string[];
   badges: BadgeType[];
 }
 
@@ -47,6 +52,7 @@ export function supplierModelToTableData(
     headquarter: hqLocation?.name || "",
     hqCode: hqLocation?.code || "",
     globalFootprint: Object.values(globalFootprint),
+    globalFootprintIds: Object.keys(globalFootprint),
     badges: badges.map((x) => {
       switch (x) {
         case "top":
