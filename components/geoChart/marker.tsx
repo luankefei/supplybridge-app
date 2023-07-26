@@ -23,6 +23,9 @@ export default function MapCircleMarker({
   onMarkerClick,
 }: IMapMarker) {
   const { name, coordinates, r } = marker;
+  if (!count) {
+    return null;
+  }
   return (
     <Marker
       key={name}

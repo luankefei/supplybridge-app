@@ -177,8 +177,8 @@ export default function ScoutByIndex() {
             <Box>
               {((!loading && !searched) || loading || hasData) && (
                 <MapChart
-                  onSelectCountryFilter={(c) => {
-                    console.log("onSelectCountryFilter", c);
+                  onSelectCountryFilter={(threeLC) => {
+                    console.log("onSelectCountryFilter", threeLC);
                   }}
                 />
               )}

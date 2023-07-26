@@ -26,6 +26,7 @@ import { useStore } from "hooks/useStore";
 import MapCircleMarker, { IMarker } from "./marker";
 import styled from "styled-components";
 import { debounce } from "utils/util";
+import { addToDict } from "utils/dict";
 
 //#region map Constants
 const RADIUS_SIZE = [180, 120, 80];
@@ -142,19 +143,7 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
   // Key = 2 letter code, value = number of suppliers
   const [labels, setLabels] = useState<Record<string, number>>({});
 
-  const {
-    suppliers,
-    stats,
-    allCountries,
-    setAllCountries,
-    setSelectedRegions,
-    setSelectedCountries,
-    selectedCountries,
-    filterData,
-    setFilterData,
-    allSubRegions,
-    flags,
-  } = useStore();
+  const { suppliers, stats, allSubRegions, flags } = useStore();
 
   /*** ***************
    * Component lifecycle
@@ -162,36 +151,74 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
    */
 
   useEffect(() => {
+    // Initiallize with empty data.
     const newMap = { ...initialSupplierCountByMap };
     const newSupplierCountByCountryMap: Record<string, number> = {};
     const newLabels: Record<string, number> = {};
-    const keys = Object.keys(allSubRegions);
-    for (let i = 0; i < keys.length; i++) {
-      const item = allSubRegions[keys[i] as any];
-      const threeLetterCode = TwoLetterCodeToCountryCodeMap[item.code];
-      if (!threeLetterCode) {
-        console.log("no threeLetterCode for", item);
-        continue;
+
+    if (suppliers.length === 0) {
+      /**
+       * This logic sets default data when there's no suppliers
+       * allSubRegions contains all the regional counts, so
+       * all we need to do is aggregate this data
+       */
+      const keys = Object.keys(allSubRegions);
+      for (let i = 0; i < keys.length; i++) {
+        const item = allSubRegions[keys[i] as any];
+        const threeLetterCode = TwoLetterCodeToCountryCodeMap[item.code];
+        if (!threeLetterCode) {
+          console.log("no threeLetterCode for", item);
+          continue;
+        }
+        const region = CountryToRegionMap[threeLetterCode];
+        const subRegion = CountryToSubRegionMap[threeLetterCode];
+        if (!region || !subRegion) {
+          console.log("no region or subRegion for", threeLetterCode);
+          continue;
+        }
+        newMap[region] += item.countSuppliersInLocation;
+        newMap[subRegion] += item.countSuppliersInLocation;
+        newSupplierCountByCountryMap[threeLetterCode] =
+          item.countSuppliersInLocation;
+        newLabels[item.code] = item.countSuppliersInLocation;
       }
-      const region = CountryToRegionMap[threeLetterCode];
-      const subRegion = CountryToSubRegionMap[threeLetterCode];
-      if (!region || !subRegion) {
-        console.log("no region or subRegion for", threeLetterCode);
-        continue;
+    } else {
+      /**
+       * When users does some query, we have suppliers in our store.
+       * The object itself is a list of suppliers, and each supplier
+       * has a headquarter locationId. And locationId as a list of
+       * all of its locations. So here we aggregate the data by suppliers.
+       */
+      for (let i = 0; i < suppliers.length; i++) {
+        const supplier = suppliers[i];
+        if (Array.isArray(supplier.locationId)) {
+          supplier.locationId.forEach((lid) => {
+            const twoLetterCode = allSubRegions[lid];
+            if (!twoLetterCode) {
+              console.log("no twoLetterCode for", lid);
+              return;
+            }
+            const threeLetterCode =
+              TwoLetterCodeToCountryCodeMap[twoLetterCode.code];
+            const region = CountryToRegionMap[threeLetterCode];
+            const subRegion = CountryToSubRegionMap[threeLetterCode];
+
+            newMap[region] += 1;
+            newMap[subRegion] += 1;
+            addToDict(newSupplierCountByCountryMap, threeLetterCode, 1);
+            addToDict(newLabels, twoLetterCode.code, 1);
+          });
+        }
       }
-      newMap[region] += item.countSuppliersInLocation;
-      newMap[subRegion] += item.countSuppliersInLocation;
-      newSupplierCountByCountryMap[threeLetterCode] =
-        item.countSuppliersInLocation;
-      newLabels[item.code] = item.countSuppliersInLocation;
     }
+
     console.log("newMap", newMap);
     console.log("newSupplierCountByCountryMap", newSupplierCountByCountryMap);
     console.log("newLabels", newLabels);
     setSupplierCountByMap(newMap);
     setSupplierCountByCountryMap(newSupplierCountByCountryMap);
     setLabels(newLabels);
-  }, [allSubRegions]);
+  }, [suppliers, allSubRegions]);
 
   /****************
    *  Map Controls
@@ -235,30 +262,6 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
    *  Data Controls
    * **************
    */
-
-  const getNumberOfSuppliers = (countryCode: string) => {
-    const region = Object.values(allSubRegions).find(
-      (s: any) => s.code === countryCode
-    );
-    if (!region) return 0;
-    if (!stats || !stats.locationId || !flags.q)
-      return region.countSuppliersInLocation || 0;
-    return stats?.locationId?.[region.id] || 0;
-  };
-
-  //Get Number of suppliers for country
-  const getNumberOfSuppliersByRegion = (countryCode: string) => {
-    const region = Object.values(allSubRegions).find(
-      (s: any) => s.code === countryCode
-    );
-    if (!region) return 0;
-    console.log("region", stats[region?.id]);
-    console.log("region", region?.id);
-    if (region) console.log("stats", stats?.locationId?.[region?.id]);
-    if (!flags.q) return region.countSuppliersInLocation || 0;
-    return region ? stats?.locationId?.[region?.id] : 0;
-  };
-
   const checkZoomLevelEnough = () => {
     return selectedRegion !== null && isSubRegion(selectedRegion);
   };
@@ -319,11 +322,20 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
       <Marker coordinates={[coor.longitude, coor.latitude]}>
         <text
           fontSize={8}
-          textAnchor="center"
+          textAnchor="middle"
           alignmentBaseline="middle"
           fill="white"
         >
-          {hoveredCountry} / {label}
+          {hoveredCountry}
+        </text>
+        <text
+          fontSize={8}
+          textAnchor="middle"
+          y={10}
+          alignmentBaseline="middle"
+          fill="white"
+        >
+          {label}
         </text>
       </Marker>
     );
