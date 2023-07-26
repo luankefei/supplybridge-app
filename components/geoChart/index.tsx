@@ -24,12 +24,11 @@ import {
 } from "./geoIdMap";
 import { useStore } from "hooks/useStore";
 import MapCircleMarker, { IMarker } from "./marker";
-import styled from "styled-components";
-import { debounce } from "utils/util";
 import { addToDict } from "utils/dict";
 
 //#region map Constants
-const RADIUS_SIZE = [180, 120, 80];
+const RADIUS_SIZE = [90, 60, 40];
+const SCALE_SIZE = 135;
 // These numbers are tied to the scale of the map
 // i have no idea how to translate them, this is tried out by hand
 const preDefinedMarkers: IMarker[] = [
@@ -93,7 +92,7 @@ const preDefinedMarkers: IMarker[] = [
 const preDefinedProjectionConfig = {
   rotate: [0, 0, 0],
   center: [0, 35],
-  scale: 250,
+  scale: SCALE_SIZE,
 };
 //#endregion
 
@@ -157,31 +156,7 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
     const newLabels: Record<string, number> = {};
 
     if (suppliers.length === 0) {
-      /**
-       * This logic sets default data when there's no suppliers
-       * allSubRegions contains all the regional counts, so
-       * all we need to do is aggregate this data
-       */
-      const keys = Object.keys(allSubRegions);
-      for (let i = 0; i < keys.length; i++) {
-        const item = allSubRegions[keys[i] as any];
-        const threeLetterCode = TwoLetterCodeToCountryCodeMap[item.code];
-        if (!threeLetterCode) {
-          console.log("no threeLetterCode for", item);
-          continue;
-        }
-        const region = CountryToRegionMap[threeLetterCode];
-        const subRegion = CountryToSubRegionMap[threeLetterCode];
-        if (!region || !subRegion) {
-          console.log("no region or subRegion for", threeLetterCode);
-          continue;
-        }
-        newMap[region] += item.countSuppliersInLocation;
-        newMap[subRegion] += item.countSuppliersInLocation;
-        newSupplierCountByCountryMap[threeLetterCode] =
-          item.countSuppliersInLocation;
-        newLabels[item.code] = item.countSuppliersInLocation;
-      }
+      // skip
     } else {
       /**
        * When users does some query, we have suppliers in our store.

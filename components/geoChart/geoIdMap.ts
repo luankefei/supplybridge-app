@@ -213,6 +213,9 @@ const CountryToRegionMap: Record<string, EnumRegion> = {
   HKG: EnumRegion.APAC,
 };
 
+/**
+ * 3 letter country code to sub region
+ */
 const CountryToSubRegionMap: Record<string, EnumSubRegion> = {
   AFG: EnumSubRegion.Asia,
   AGO: EnumSubRegion.Africa,
