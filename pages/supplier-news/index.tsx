@@ -6,7 +6,6 @@ import NewsCardSkeleton from "components/supplier-news/newsCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useSupplierNews } from "requests/useSupplierNews";
 import { theme } from "config/theme";
-import console from "utils/console";
 
 const Layout = dynamic(() => import("components/layout"));
 
@@ -42,7 +41,7 @@ const NewsTabContainer = muiStyled("div")`
    background-color: white;
    padding: 10px;
    width: fit-content;
-   margin: 10px 0;
+   margin: 20px 0 0 0;
    position: relative;
 `;
 const NewsTab = muiStyled("a")<any>`
@@ -80,44 +79,48 @@ export default function SupplierNews() {
   return (
     <Layout>
       <NewsContainer>
-        <NewsTabContainer>
-          <div
-            style={{
-              height: "32px",
-              width: newsTabWidth[typeI],
-              left: newsTabLeft[typeI],
-              background: "#08979c",
-              top: "4px",
-              position: "absolute",
-              borderRadius: "50px",
-              zIndex: 50,
-              transition: "all 0.2s",
-            }}
-          >
-            {" "}
-          </div>
-          <NewsTab
-            active={typeI === 0}
-            activeId={typeI}
-            onClick={() => setTypeI(0)}
-          >
-            Industry & Trend
-          </NewsTab>
-          <NewsTab
-            active={typeI === 1}
-            activeId={typeI}
-            onClick={() => setTypeI(1)}
-          >
-            Supplier
-          </NewsTab>
-          <NewsTab
-            active={typeI === 2}
-            activeId={typeI}
-            onClick={() => setTypeI(2)}
-          >
-            Risk
-          </NewsTab>
-        </NewsTabContainer>
+        <div style={{ width: "70.375rem", display: "flex", margin: "0 32px" }}>
+          {/* 70.375rem: this is the same as newsCard container width, so the news list and newsTab are left-aligned */}
+          <NewsTabContainer>
+            <div
+              style={{
+                height: "32px",
+                width: newsTabWidth[typeI],
+                left: newsTabLeft[typeI],
+                background: "#08979c",
+                top: "4px",
+                position: "absolute",
+                borderRadius: "50px",
+                zIndex: 50,
+                transition: "all 0.2s",
+              }}
+            >
+              {" "}
+            </div>
+            <NewsTab
+              active={typeI === 0}
+              activeId={typeI}
+              onClick={() => setTypeI(0)}
+            >
+              Industry & Trend
+            </NewsTab>
+            <NewsTab
+              active={typeI === 1}
+              activeId={typeI}
+              onClick={() => setTypeI(1)}
+            >
+              Supplier
+            </NewsTab>
+            <NewsTab
+              active={typeI === 2}
+              activeId={typeI}
+              onClick={() => setTypeI(2)}
+            >
+              Risk
+            </NewsTab>
+          </NewsTabContainer>
+        </div>
+
         <Container id="supplier-news-container">
           {news &&
             Array.isArray(news) &&

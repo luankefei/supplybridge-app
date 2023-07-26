@@ -5,7 +5,8 @@ import Image from "next/image";
 import { allCountry } from "utils/countries";
 
 const Container = muiStyled(Box)(`
-    width: min(calc(100%), 64.375rem);
+    width: min(calc(100%), 70.375rem);
+    max-width: 1000px;
     display: flex;
     @media (max-width: ${theme.size.mobileXl}) {
         flex-direction: column;
