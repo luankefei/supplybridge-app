@@ -14,7 +14,7 @@ export const Ratings = () => {
     <RatingsContainer>
       <Title>Score</Title>
       <ProgressBarContainer>
-        <ProgressBar value={value}></ProgressBar>
+        <ProgressBar value={90}></ProgressBar>
         <Score>
           <ScoreValue>{value / 20}</ScoreValue>
           <ScoreMaxValue> / 5</ScoreMaxValue>

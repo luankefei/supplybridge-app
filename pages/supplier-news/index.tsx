@@ -1,4 +1,3 @@
-import dynamic from "next/dynamic";
 import { styled as muiStyled } from "@mui/material/styles";
 import { useEffect, useState, useRef } from "react";
 import NewsCard from "components/supplier-news/newsCard";
@@ -6,8 +5,7 @@ import NewsCardSkeleton from "components/supplier-news/newsCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useSupplierNews } from "requests/useSupplierNews";
 import { theme } from "config/theme";
-
-const Layout = dynamic(() => import("components/layout"));
+import Layout from "components/layout";
 
 const Container = muiStyled("div")(`
     display: flex;

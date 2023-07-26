@@ -1,5 +1,4 @@
-import * as React from "react";
-import { styled } from "@mui/system";
+import React, { useCallback, useState } from "react";
 import Icon from "components/icon";
 import { NullableImg } from "components/scout/scoutByIndex/summary.styled";
 import { Box, IconButton, Tooltip, useTheme } from "@mui/material";
@@ -15,10 +14,10 @@ import {
   gridClasses,
 } from "@mui/x-data-grid";
 import { DensitySmall, Info } from "@mui/icons-material";
-import { BadgeType, ITableData, mapBadgeTypeToString } from "./helper";
+import { ITableData } from "./helper";
 import { SText } from "components/ui-components/text";
-import { useCallback } from "react";
 import DeatilsPanel from "../detailPanel";
+import { BadgeType, SupBadge } from "components/ui-components/supBadge";
 
 const supBadgeTooltipText = (
   <div>
@@ -46,23 +45,6 @@ const supBadgeTooltipText = (
   </div>
 );
 
-const SupBadge = styled("span")`
-  display: inline-block;
-  border-radius: 4px;
-  padding: 2px 5px;
-  &.top {
-    background-color: #fae3de;
-    color: #551c18;
-  }
-  &.major {
-    background-color: #deecdc;
-    color: #23372a;
-  }
-  &.risingStar {
-    background-color: #d6e4ee;
-    color: #1f3245;
-  }
-`;
 export default function ScoutResultTable({
   tableData,
   onRowSelect,
@@ -70,9 +52,30 @@ export default function ScoutResultTable({
   tableData?: ITableData[];
   onRowSelect?: (selectedRows: number[]) => void;
 }) {
-  const [detailPanelSupplierId, setDetailPanelSupplierId] =
-    React.useState<number>();
-  const [detailPanelOpen, setDetailPanelOpen] = React.useState(false);
+  const [drawerStack, setDrawerStack] = useState<JSX.Element[]>([]);
+  const pushDrawer = (sid: number) => {
+    const newDrawerContent = (
+      <DeatilsPanel
+        open={true}
+        supplierId={sid}
+        stackCount={drawerStack.length + 1}
+        onPushMoreDetails={pushDrawer}
+        onPopMoreDetails={popDrawer}
+        onClose={clearDrawerStack}
+      />
+    );
+    setDrawerStack((prevStack) => [...prevStack, newDrawerContent]);
+  };
+  const popDrawer = () => {
+    setDrawerStack((prevStack) => {
+      const newStack = [...prevStack];
+      newStack.pop();
+      return newStack;
+    });
+  };
+  const clearDrawerStack = () => {
+    setDrawerStack([]);
+  };
 
   const theme = useTheme();
 
@@ -163,9 +166,7 @@ export default function ScoutResultTable({
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
             {badges.map((badge: BadgeType, i: number) => (
-              <SupBadge key={i} className={badge}>
-                {mapBadgeTypeToString(badge)}
-              </SupBadge>
+              <SupBadge key={i} badge={badge} />
             ))}
           </div>
         );
@@ -184,8 +185,7 @@ export default function ScoutResultTable({
           <Tooltip title="show more details">
             <IconButton
               onClick={() => {
-                setDetailPanelSupplierId(params.row.id);
-                setDetailPanelOpen(true);
+                pushDrawer(params.row.id);
               }}
             >
               <DensitySmall />
@@ -209,14 +209,7 @@ export default function ScoutResultTable({
 
   return (
     <Box sx={{ width: "100%" }}>
-      <DeatilsPanel
-        open={detailPanelOpen}
-        supplierId={detailPanelSupplierId}
-        onClose={() => {
-          setDetailPanelSupplierId(undefined);
-          setDetailPanelOpen(false);
-        }}
-      />
+      {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
       <DataGrid
         sx={{
           border: "none",

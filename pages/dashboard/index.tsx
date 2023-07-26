@@ -3,12 +3,12 @@ import Link from "next/link";
 import styled from "styled-components";
 import { useIndustries } from "requests/useIndustries";
 import { useEffect } from "react";
-import { usePersistentStore } from "hooks/useStore";
+import { useStore } from "hooks/useStore";
 import Image from "next/image";
 
 function Industry() {
   const { searchIndustries } = useIndustries();
-  const { industries } = usePersistentStore();
+  const { industries } = useStore();
   useEffect(() => {
     searchIndustries();
   }, []);

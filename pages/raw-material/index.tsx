@@ -2,6 +2,7 @@ import React, { useState } from "react";
 import Layout from "components/layout";
 import {
   Autocomplete,
+  Box,
   Button,
   Card,
   Collapse,
@@ -168,7 +169,11 @@ export default function RawMaterial() {
                   })}
               </Grid>
               <Divider style={{ margin: "12px" }} />
-              <CenteredDiv>
+              <Box
+                display={"flex"}
+                justifyContent={"center"}
+                alignItems={"center"}
+              >
                 <Button
                   startIcon={<FormatAlignCenter />}
                   onClick={() =>
@@ -181,7 +186,7 @@ export default function RawMaterial() {
                   <SpacingHorizontal space="10px" />
                   Select All
                 </Button>
-              </CenteredDiv>
+              </Box>
               <SpacingVertical space="24px" />
             </Stack>
           </Collapse>
@@ -205,17 +210,10 @@ export default function RawMaterial() {
   );
 }
 
-const CenteredDiv = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-`;
-
 // increase the specificity of your styles by using the && trick, which duplicates the class name and therefore increases its specificity without resorting to !important.
-const StyledCard = styled(Card)<{ height?: string }>`
+const StyledCard = styled(Card)`
   && {
     width: 100%;
-    height: ${({ height }) => height || "auto"};
     padding: 24px;
     box-sizing: border-box;
     border-radius: 16px;

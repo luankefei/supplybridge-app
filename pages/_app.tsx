@@ -16,17 +16,30 @@ import "react-toastify/dist/ReactToastify.css";
 
 import "../utils/i18n";
 
+interface SafeHydrateProps {
+  children: React.ReactNode;
+}
+
+function SafeHydrate({ children }: SafeHydrateProps) {
+  return (
+    <div suppressHydrationWarning>
+      {typeof window === "undefined" ? null : children}
+    </div>
+  );
+}
 export default function App({ Component, pageProps }: AppProps) {
   const { push } = useRouter();
   NavigateService.initNavigate(push);
 
   return (
-    <ThemeProvider theme={theme}>
-      <MuiThemeProvider theme={muiTheme}>
-        <NextNProgress color={"#08979C"} />
-        <ToastContainer />
-        <Component {...pageProps} />
-      </MuiThemeProvider>
-    </ThemeProvider>
+    <SafeHydrate>
+      <ThemeProvider theme={theme}>
+        <MuiThemeProvider theme={muiTheme}>
+          <NextNProgress color={"#08979C"} />
+          <ToastContainer />
+          <Component {...pageProps} />
+        </MuiThemeProvider>
+      </ThemeProvider>
+    </SafeHydrate>
   );
 }

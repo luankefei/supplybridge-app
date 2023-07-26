@@ -48,7 +48,7 @@ const SearchBar = (props: SearchBarProps) => {
       return;
     }
     setQueryString(value);
-    debounce(() => getAutoComplete(value), 500);
+    debounce(() => getAutoComplete(value), 50);
   };
 
   const getAutoComplete = async (value: string) => {
@@ -58,8 +58,8 @@ const SearchBar = (props: SearchBarProps) => {
     }
     console.log("getting autoComplete for", value);
     // TODO: enable this when API is ready
-    // const suggestedItems = await searchAutocomplete(queryString);
-    // setOptions(suggestedItems);
+    const suggestedItems = await searchAutocomplete(queryString);
+    setOptions(suggestedItems);
   };
   const onClickSearch = () => {
     props.onSearch(queryString);
@@ -98,6 +98,11 @@ const SearchBar = (props: SearchBarProps) => {
             options={options}
             value={queryString}
             onInputChange={onInputChange}
+            onChange={(event: any, value: unknown) => {
+              setQueryString(value as string);
+            }}
+            noOptionsText="No matching results"
+            filterOptions={(x) => x}
             renderInput={(params) => (
               <TextField
                 {...params}

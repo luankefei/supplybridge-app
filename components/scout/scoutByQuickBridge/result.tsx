@@ -18,7 +18,7 @@ const ScoutFilter = dynamic(() => import("components/scout/scoutFilter"));
 
 import { GoBackIcon } from "components/button";
 import { theme } from "config/theme";
-import { usePersistentStore } from "hooks/useStore";
+import { useStore } from "hooks/useStore";
 import LoadingAnimation from "components/ui-components/loadingAnimation";
 import { QuickBridgeTabType } from "../types";
 
@@ -60,7 +60,7 @@ export default function QuickbridgeResult() {
   const [isLocked, setIsLocked] = useState(false);
   const router = useRouter();
 
-  const { filterData, setFilterData, clearFilterData } = usePersistentStore();
+  const { filterData, setFilterData, clearFilterData } = useStore();
 
   useEffect(() => {
     setTimeout(
