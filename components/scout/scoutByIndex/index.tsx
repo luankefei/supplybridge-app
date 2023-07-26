@@ -26,6 +26,7 @@ import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
 import { useFilter } from "requests/useFilter";
 import MapChart from "components/geoChart";
+import { toast } from "react-toastify";
 
 /**
  * Scout by index page
@@ -36,7 +37,7 @@ import MapChart from "components/geoChart";
 export default function ScoutByIndex() {
   const { t } = useTranslation();
   const { allSubRegions, suppliers, setSuppliers, setStats } = useStore();
-  const { querySupplierListByName, loading } = useSupplier();
+  const { querySupplierListByName } = useSupplier();
   const { getAllSubRegions } = useFilter();
 
   /******************
@@ -59,14 +60,31 @@ export default function ScoutByIndex() {
   // selected rows == GridRowId[] == number[], could be string but we dont use it
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
 
   /********************
    * Component Effects
    * *******************
    */
   useEffect(() => {
-    // component did mount, get all subregions
-    getAllSubRegions();
+    // component did mount, get all subregions if not already fetched
+    if (Object.keys(allSubRegions).length === 0) {
+      setLoading(true);
+      getAllSubRegions()
+        .then((res) => {
+          if (res === null) {
+            toast.error(
+              "Failed to get all subregions. Please try again later."
+            );
+          }
+        })
+        .catch((err) => {
+          toast.error("Failed to get all subregions. Please try again later.");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -97,12 +115,14 @@ export default function ScoutByIndex() {
     });
     setTableData(newData);
   };
-  const searchHandler = (queryString: string) => {
+  const searchHandler = async (queryString: string) => {
     if (queryString === "") {
       return;
     }
     setQueryString(queryString);
-    querySupplierListByName(queryString);
+    setLoading(true);
+    await querySupplierListByName(queryString);
+    setLoading(false);
     setSearched(true);
   };
   const resetView = () => {
