@@ -1,5 +1,5 @@
 import { Marker } from "react-simple-maps";
-import { EnumRegion, EnumRegionAndSubRegion } from "./geoUtils";
+import { EnumRegionAndSubRegion } from "./geoUtils";
 
 export interface IMarker {
   name: EnumRegionAndSubRegion;
@@ -17,7 +17,7 @@ interface IMapMarker {
   ) => void;
 }
 
-export default function MapMarker({
+export default function MapCircleMarker({
   marker,
   count,
   onMarkerClick,

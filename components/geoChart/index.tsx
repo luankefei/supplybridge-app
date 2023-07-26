@@ -1,9 +1,10 @@
-import { Box, Tooltip } from "@mui/material";
+import { Box } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   ComposableMap,
   Geographies,
   Geography,
+  Marker,
   ZoomableGroup,
 } from "react-simple-maps";
 import geo from "./features.json";
@@ -18,10 +19,13 @@ import {
   CountryToRegionMap,
   CountryToSubRegionMap,
   CountryToTwoLetterCodeMap,
+  TwoLetterCodeToCounryCoordinatesMap,
   TwoLetterCodeToCountryCodeMap,
 } from "./geoIdMap";
 import { useStore } from "hooks/useStore";
-import MapMarker, { IMarker } from "./marker";
+import MapCircleMarker, { IMarker } from "./marker";
+import styled from "styled-components";
+import { debounce } from "utils/util";
 
 //#region map Constants
 const RADIUS_SIZE = [180, 120, 80];
@@ -110,8 +114,11 @@ const initialSupplierCountByMap: TSupplierCountByMap = {
 };
 
 interface IMapChart {
-  onSelectCountryFilter: (countryCode: string) => void;
+  onSelectCountryFilter: (threeLetterCode: string) => void;
 }
+/**
+ * This is the map chart component
+ */
 export default function MapChart({ onSelectCountryFilter }: IMapChart) {
   const [center, setCenter] = useState<[number, number]>([0, 0]); // [longitude, latitude
   const [zoom, setZoom] = useState<number>(1);
@@ -119,11 +126,21 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
   const [selectedRegion, setSelectedRegion] =
     useState<EnumRegionAndSubRegion | null>(null);
 
+  // threeLetterCodes are used when we get data from features.json
+  // twoLetterCodes are used when we get data from backend.
+  // there's 2 maps to convert between them
+  // this uses 3 LetterCodes
+  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
+  /**
+   * One time data for the map
+   */
   const [supplierCountByMap, setSupplierCountByMap] =
     useState<TSupplierCountByMap>({ ...initialSupplierCountByMap });
   const [supplierCountByCountryMap, setSupplierCountByCountryMap] = useState<
     Record<string, number>
   >({});
+  // Key = 2 letter code, value = number of suppliers
+  const [labels, setLabels] = useState<Record<string, number>>({});
 
   const {
     suppliers,
@@ -147,6 +164,7 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
   useEffect(() => {
     const newMap = { ...initialSupplierCountByMap };
     const newSupplierCountByCountryMap: Record<string, number> = {};
+    const newLabels: Record<string, number> = {};
     const keys = Object.keys(allSubRegions);
     for (let i = 0; i < keys.length; i++) {
       const item = allSubRegions[keys[i] as any];
@@ -165,11 +183,14 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
       newMap[subRegion] += item.countSuppliersInLocation;
       newSupplierCountByCountryMap[threeLetterCode] =
         item.countSuppliersInLocation;
+      newLabels[item.code] = item.countSuppliersInLocation;
     }
     console.log("newMap", newMap);
     console.log("newSupplierCountByCountryMap", newSupplierCountByCountryMap);
+    console.log("newLabels", newLabels);
     setSupplierCountByMap(newMap);
     setSupplierCountByCountryMap(newSupplierCountByCountryMap);
+    setLabels(newLabels);
   }, [allSubRegions]);
 
   /****************
@@ -183,7 +204,7 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
     setSelectedRegion(name);
     setCenter(coordinates);
     setZoom(zoom + 0.5);
-    console.log(name, coordinates, zoom);
+    console.log("zooming into", name, coordinates, zoom);
     const regionMarker = preDefinedMarkers.find((x) => x.name === name);
     if (regionMarker?.subMarkers !== undefined) {
       setMarkers(regionMarker.subMarkers);
@@ -196,6 +217,8 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
     setZoom(1);
     setMarkers(preDefinedMarkers);
     setCenter([0, 0]);
+    setSelectedRegion(null);
+    setHoveredCountry(null);
   };
 
   const onMoveEnd = (position: {
@@ -240,9 +263,9 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
     return selectedRegion !== null && isSubRegion(selectedRegion);
   };
 
-  const selectCountry = (countryCode: string) => {
+  const selectCountry = (threeLetterCode: string) => {
     if (checkZoomLevelEnough()) {
-      onSelectCountryFilter(countryCode);
+      onSelectCountryFilter(threeLetterCode);
     }
   };
 
@@ -261,24 +284,51 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
       stroke = "#FFDA44";
     }
     return {
-      geographiesStyle: {
-        default: {
-          fill: fill,
-          outline: "none",
-        },
-        hover: {
-          outline: "none",
-          fill: hoverFill,
-          stroke: stroke,
-          strokeWidth: 1,
-        },
-        pressed: { outline: "none" },
+      default: {
+        fill: fill,
+        outline: "none",
       },
-      tooltip: zoomLevelEnough
-        ? geo.properties.name + supplierCountByCountryMap[geo.id]
-        : "",
+      hover: {
+        outline: "none",
+        fill: hoverFill,
+        stroke: stroke,
+        strokeWidth: 1,
+      },
+      pressed: { outline: "none" },
     };
   };
+
+  const renderHoveredCountry = () => {
+    if (!checkZoomLevelEnough() || !hoveredCountry) {
+      return null;
+    }
+    const tlc = CountryToTwoLetterCodeMap[hoveredCountry];
+    const coor = TwoLetterCodeToCounryCoordinatesMap[tlc];
+    const label = labels[tlc];
+    // Why do we need 2 ifs?
+    // becuase I want to distinguish between no coor and no label
+    if (!coor) {
+      console.log("no coor for", hoveredCountry);
+      return null;
+    }
+    if (!label) {
+      console.log("no data for", hoveredCountry);
+      return null;
+    }
+    return (
+      <Marker coordinates={[coor.longitude, coor.latitude]}>
+        <text
+          fontSize={8}
+          textAnchor="center"
+          alignmentBaseline="middle"
+          fill="white"
+        >
+          {hoveredCountry} / {label}
+        </text>
+      </Marker>
+    );
+  };
+
   return (
     <Box
       width={"100%"}
@@ -295,25 +345,27 @@ export default function MapChart({ onSelectCountryFilter }: IMapChart) {
           <Geographies geography={geo}>
             {({ geographies }) =>
               geographies.map((geo) => {
-                const { geographiesStyle, tooltip } = styleCalucator(geo);
+                const geographiesStyle = styleCalucator(geo);
                 return (
-                  <Tooltip key={geo.rsmKey} title={tooltip} followCursor>
-                    <Geography
-                      key={geo.rsmKey}
-                      geography={geo}
-                      onClick={() => {
-                        selectCountry(geo.id);
-                      }}
-                      style={geographiesStyle}
-                    />
-                  </Tooltip>
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    onMouseEnter={() => {
+                      setHoveredCountry(geo.id);
+                    }}
+                    onMouseLeave={() => {}}
+                    onClick={() => {
+                      selectCountry(geo.id);
+                    }}
+                    style={geographiesStyle}
+                  />
                 );
               })
             }
           </Geographies>
-
+          {renderHoveredCountry()}
           {markers.map((e) => (
-            <MapMarker
+            <MapCircleMarker
               key={e.name}
               marker={e}
               onMarkerClick={zoomToRegion}
