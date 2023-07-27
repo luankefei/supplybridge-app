@@ -28,7 +28,7 @@ import { addToDict } from "utils/dict";
 
 //#region map Constants
 const RADIUS_SIZE = [90, 60, 40];
-const SCALE_SIZE = 135;
+const SCALE_SIZE = 235;
 // These numbers are tied to the scale of the map
 // i have no idea how to translate them, this is tried out by hand
 const preDefinedMarkers: IMarker[] = [
@@ -341,7 +341,7 @@ export default function MapChart({
       justifyContent={"center"}
     >
       <ComposableMap
-        width={window.screen.width * 0.6}
+        width={window.screen.width}
         projection="geoMercator"
         projectionConfig={preDefinedProjectionConfig as any}
       >
