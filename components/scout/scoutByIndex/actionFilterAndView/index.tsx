@@ -28,6 +28,7 @@ interface ActionFilterAndViewProps {
    * Initial filter data, use for rendering the filter chips
    */
   filterInitialData: FilterDataset;
+  view: ViewType;
   onClickBuildMyShortList: () => void;
   onClickBidderList: () => void;
   /**
@@ -61,19 +62,19 @@ const ActionFilterAndView = ({
   resultCount,
   resultType,
   filterInitialData,
+  view,
   onClickBuildMyShortList,
   onClickBidderList,
   onClickCompare,
   onFilterChange,
   onViewChange,
 }: ActionFilterAndViewProps) => {
-  const [view, setView] = useState<ViewType>(ViewType.LIST);
   const hanldeViewChange = (e: any, v: ViewType | null) => {
     if (v === null) {
       // enforce
       return;
     }
-    setView(v);
+
     onViewChange(v);
   };
   if (resultCount === 0) {

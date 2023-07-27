@@ -71,7 +71,7 @@ export default function ScoutByIndex() {
   const [searched, setSearched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shortListModalOpen, setShortListModalOpen] = useState(false);
-  const [viewType, setView] = useState<ViewType>(ViewType.GRID);
+  const [viewType, setView] = useState<ViewType>(ViewType.LIST);
 
   /********************
    * Component Effects
@@ -236,6 +236,7 @@ export default function ScoutByIndex() {
                         console.log("onClickBidderList");
                       }}
                       onFilterChange={onFilterChange}
+                      view={viewType}
                       onViewChange={setView}
                       onClickCompare={
                         selectedRows.length > 1

@@ -257,6 +257,7 @@ export default function ScoutResultTable({
         rows={tableData}
         selectedRows={selectedRows}
         onRowSelect={onRowSelect}
+        pushDrawer={pushDrawer}
       />
       <SpacingVertical space="50px" />
     </Box>
