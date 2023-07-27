@@ -22,7 +22,7 @@ import {
   TwoLetterCodeToCounryCoordinatesMap,
   TwoLetterCodeToCountryCodeMap,
 } from "./geoIdMap";
-import { useStore } from "hooks/useStore";
+import { usePersistentStore, useStore } from "hooks/useStore";
 import MapCircleMarker, { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
 
@@ -146,8 +146,8 @@ export default function MapChart({
   // Key = 2 letter code, value = number of suppliers
   const [labels, setLabels] = useState<Record<string, number>>({});
 
-  const { suppliers, stats, allSubRegions, flags } = useStore();
-
+  const { suppliers, stats, flags } = useStore();
+  const { allSubRegions } = usePersistentStore();
   /*** ***************
    * Component lifecycle
    * *****************
