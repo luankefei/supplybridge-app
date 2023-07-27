@@ -254,6 +254,7 @@ export default function ScoutByIndex() {
                     <ScoutResultTable
                       viewType={viewType}
                       tableData={tableData}
+                      selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
                     />
                   </Box>

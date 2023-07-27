@@ -18,6 +18,8 @@ import { ITableData } from "./helper";
 import { SText } from "components/ui-components/text";
 import DeatilsPanel from "../detailPanel";
 import { BadgeType, SupBadge } from "components/ui-components/supBadge";
+import { ViewType } from "../actionFilterAndView";
+import ScoutResultCardView from "./cardView";
 
 const supBadgeTooltipText = (
   <div>
@@ -45,13 +47,19 @@ const supBadgeTooltipText = (
   </div>
 );
 
-export default function ScoutResultTable({
-  tableData,
-  onRowSelect,
-}: {
+interface IScoutResultTable {
+  viewType: ViewType;
   tableData?: ITableData[];
-  onRowSelect?: (selectedRows: number[]) => void;
-}) {
+  selectedRows: number[];
+  onRowSelect: (selectedRows: number[]) => void;
+}
+
+export default function ScoutResultTable({
+  viewType,
+  tableData,
+  selectedRows,
+  onRowSelect,
+}: IScoutResultTable) {
   const [drawerStack, setDrawerStack] = useState<JSX.Element[]>([]);
   const pushDrawer = (sid: number) => {
     const newDrawerContent = (
@@ -212,6 +220,7 @@ export default function ScoutResultTable({
       {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
       <DataGrid
         sx={{
+          display: viewType === ViewType.GRID ? "none" : "block",
           border: "none",
           [`& .${gridClasses.withBorderColor}`]: {
             border: "none",
@@ -230,6 +239,7 @@ export default function ScoutResultTable({
         columns={columns}
         disableRowSelectionOnClick
         disableColumnSelector
+        rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleRowSelection}
         checkboxSelection
         initialState={{
@@ -239,6 +249,14 @@ export default function ScoutResultTable({
             },
           },
         }}
+      />
+      <ScoutResultCardView
+        sx={{
+          display: viewType === ViewType.GRID ? "block" : "none",
+        }}
+        rows={tableData}
+        selectedRows={selectedRows}
+        onRowSelect={onRowSelect}
       />
       <SpacingVertical space="50px" />
     </Box>
