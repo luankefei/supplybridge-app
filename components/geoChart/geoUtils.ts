@@ -38,10 +38,10 @@ export const MapRegionToSubRegion: Record<EnumRegion, EnumSubRegion[]> = {
     EnumSubRegion.NorthNCentralAmerica,
     EnumSubRegion.SouthAmerica,
   ],
-  [EnumRegion.APAC]: [EnumSubRegion.Asia, EnumSubRegion.Oceania],
-  [EnumRegion.EMEA]: [
-    EnumSubRegion.Europe,
+  [EnumRegion.APAC]: [
+    EnumSubRegion.Asia,
+    EnumSubRegion.Oceania,
     EnumSubRegion.MiddleEast,
-    EnumSubRegion.Africa,
   ],
+  [EnumRegion.EMEA]: [EnumSubRegion.Europe, EnumSubRegion.Africa],
 };
