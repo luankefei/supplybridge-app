@@ -68,7 +68,11 @@ const ActionFilterAndView = ({
   onViewChange,
 }: ActionFilterAndViewProps) => {
   const [view, setView] = useState<ViewType>(ViewType.LIST);
-  const hanldeViewChange = (e: any, v: ViewType) => {
+  const hanldeViewChange = (e: any, v: ViewType | null) => {
+    if (v === null) {
+      // enforce
+      return;
+    }
     setView(v);
     onViewChange(v);
   };
