@@ -19,6 +19,12 @@ export enum EnumSubRegion {
   Africa = "Africa",
 }
 
+export const MapRegionToMarkerColor: Record<EnumRegion, string> = {
+  [EnumRegion.Americas]: "rgba(139, 137, 185, 0.40)",
+  [EnumRegion.APAC]: "rgba(99, 100, 100, 0.40)",
+  [EnumRegion.EMEA]: "rgba(110, 75, 157, 0.40)",
+};
+
 export type EnumRegionAndSubRegion = EnumRegion | EnumSubRegion;
 
 export const isRegion = (region: EnumRegionAndSubRegion): boolean => {
