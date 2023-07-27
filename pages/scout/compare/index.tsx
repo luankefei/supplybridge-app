@@ -105,19 +105,19 @@ export default function Compare() {
                 <SupBadge badge={BadgeType.major} />
               </Stack>
               <SpacingVertical space="24px" />
-              <Box flex={1}>
+              <Box height={"50vh"}>
                 <General data={supplier} />
               </Box>
-              <Box flex={1}>
+              <Box height={"20vh"}>
                 <Portfolio data={supplier} />
               </Box>
-              <Box flex={1}>
+              <Box height={"30vh"}>
                 <Innovation data={supplier} />
               </Box>
-              <Box flex={1}>
+              <Box height={"20vh"}>
                 <Certificaiton data={supplier} />
               </Box>
-              <Box flex={1}>
+              <Box height={"20vh"}>
                 <Ratings data={supplier} />
               </Box>
             </Stack>
