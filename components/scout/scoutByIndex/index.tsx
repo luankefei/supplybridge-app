@@ -1,6 +1,5 @@
 import Feedback from "components/feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
-import GeoCharts from "./geoCharts";
 import Summary from "./summary";
 import { useStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
@@ -26,6 +25,11 @@ import SearchBar from "./searchBar";
 import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
 import { useFilter } from "requests/useFilter";
+import MapChart from "components/geoChart";
+import { toast } from "react-toastify";
+import ShortListModal from "./shortlistModal";
+import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
+import { useRouter } from "next/router";
 
 /**
  * Scout by index page
@@ -35,8 +39,9 @@ import { useFilter } from "requests/useFilter";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
+  const router = useRouter();
   const { allSubRegions, suppliers, setSuppliers, setStats } = useStore();
-  const { querySupplierListByName, loading } = useSupplier();
+  const { querySupplierListByName } = useSupplier();
   const { getAllSubRegions } = useFilter();
 
   /******************
@@ -58,15 +63,37 @@ export default function ScoutByIndex() {
   const [tableData, setTableData] = useState<ITableData[]>([]);
   // selected rows == GridRowId[] == number[], could be string but we dont use it
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
+  // A 3 letter country code, set when user clicks on a country in the map
+  const [mapSelectedCountry, setMapSelectedCountry] = useState<string>();
+  const [filterValue, setFilterValue] = useState<FilterValue>();
+
   const [searched, setSearched] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [shortListModalOpen, setShortListModalOpen] = useState(false);
 
   /********************
    * Component Effects
    * *******************
    */
   useEffect(() => {
-    // component did mount, get all subregions
-    getAllSubRegions();
+    // component did mount, get all subregions if not already fetched
+    if (Object.keys(allSubRegions).length === 0) {
+      setLoading(true);
+      getAllSubRegions()
+        .then((res) => {
+          if (res === null) {
+            toast.error(
+              "Failed to get all subregions. Please try again later."
+            );
+          }
+        })
+        .catch((err) => {
+          toast.error("Failed to get all subregions. Please try again later.");
+        })
+        .finally(() => {
+          setLoading(false);
+        });
+    }
   }, []);
 
   useEffect(() => {
@@ -76,34 +103,61 @@ export default function ScoutByIndex() {
     const initialFilterData: FilterDataset =
       helperTableDataToFilterDataset(initialData);
     setinitialFilterValue(initialFilterData);
+
     setData(initialData);
     setTableData(initialData);
   }, [suppliers, allSubRegions]);
 
+  useEffect(() => {
+    reCalTableData(filterValue, mapSelectedCountry);
+  }, [mapSelectedCountry]);
+
   /********************
-   * Component Fnctions
+   * Component Functions
    *********************/
-  const onFilterChange = (fv: FilterValue) => {
-    const newData = data.filter((s: any) => {
-      const { name, headquarter, globalFootprint, badges } = s;
-      const { names, headquarters, globalFootprints, badges: fvBadges } = fv;
-      return (
-        (names.length === 0 || names.includes(name)) &&
-        (headquarters.length === 0 || headquarters.includes(headquarter)) &&
-        (globalFootprints.length === 0 ||
-          hasIntersection(globalFootprint, globalFootprints)) &&
-        (fvBadges.length === 0 || fvBadges.some((fvb) => badges.includes(fvb)))
-      );
-    });
+  const reCalTableData = (fv?: FilterValue, sc?: string) => {
+    let fvFilter = (s: any) => true;
+    if (fv !== undefined) {
+      const { names, headquarters, globalFootprints, badges } = fv;
+      fvFilter = (s: any) => {
+        const { name, headquarter, globalFootprint, badges: sbadges } = s;
+        return (
+          (names.length === 0 || names.includes(name)) &&
+          (headquarters.length === 0 || headquarters.includes(headquarter)) &&
+          (globalFootprints.length === 0 ||
+            hasIntersection(globalFootprint, globalFootprints)) &&
+          (badges.length === 0 || badges.some((b) => sbadges.includes(b)))
+        );
+      };
+    }
+    let scFilter = (s: any) => true;
+    if (sc !== undefined) {
+      scFilter = (s: any) => {
+        const { globalFootprintIds } = s;
+        return globalFootprintIds.find((gfi: number) => {
+          const twoLC = allSubRegions[gfi]?.code;
+          const threeLC = TwoLetterCodeToCountryCodeMap[twoLC];
+          return threeLC === mapSelectedCountry;
+        });
+      };
+    }
+    const newData = data.filter(fvFilter).filter(scFilter);
     setTableData(newData);
   };
-  const searchHandler = (queryString: string) => {
+
+  const onFilterChange = (fv: FilterValue) => {
+    setFilterValue(fv);
+    reCalTableData(fv, mapSelectedCountry);
+  };
+
+  const searchHandler = async (queryString: string) => {
     if (queryString === "") {
       return;
     }
     setQueryString(queryString);
-    // woulda put this in SearchBar but then loading wouldnt work that way.
-    querySupplierListByName(queryString);
+    setLoading(true);
+    await querySupplierListByName(queryString);
+    setLoading(false);
     setSearched(true);
   };
   const resetView = () => {
@@ -113,9 +167,9 @@ export default function ScoutByIndex() {
     setTableData([]);
     setSuppliers([], true);
     setStats({});
+    setMapSelectedCountry(undefined);
   };
   const handleRowSelect = (selectedRows: number[]) => {
-    console.log("handleRowSelect", selectedRows);
     setSelectedRows(selectedRows);
   };
 
@@ -157,7 +211,14 @@ export default function ScoutByIndex() {
           <Box>
             <SpacingVertical space="40px" />
             <Box>
-              {((!loading && !searched) || loading || hasData) && <GeoCharts />}
+              {((!loading && !searched) || loading || hasData) && (
+                <MapChart
+                  selectedCountry={mapSelectedCountry}
+                  onSelectCountryFilter={(threeLC) => {
+                    setMapSelectedCountry(threeLC);
+                  }}
+                />
+              )}
               {hasData && (
                 <>
                   <Summary queryString={queryString} />
@@ -167,7 +228,7 @@ export default function ScoutByIndex() {
                       resultCount={data?.length || 0}
                       resultType={queryString}
                       onClickBuildMyShortList={() => {
-                        console.log("onClickBuildMyShortList");
+                        setShortListModalOpen(true);
                       }}
                       onClickBidderList={() => {
                         console.log("onClickBidderList");
@@ -180,6 +241,12 @@ export default function ScoutByIndex() {
                         selectedRows.length > 1
                           ? () => {
                               console.log("onClickCompare", selectedRows);
+                              router.push({
+                                pathname: "/scout/compare",
+                                query: {
+                                  suppliers: selectedRows.join(","),
+                                },
+                              });
                             }
                           : undefined
                       }
@@ -195,7 +262,13 @@ export default function ScoutByIndex() {
           </Box>
         )}
       </>
-
+      <ShortListModal
+        open={shortListModalOpen}
+        onClose={(tags?: string[]) => {
+          console.log("tags", tags);
+          setShortListModalOpen(false);
+        }}
+      />
       <Feedback />
     </Stack>
   );
