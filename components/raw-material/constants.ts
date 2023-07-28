@@ -112,21 +112,20 @@ export const apiNamesMap: Record<RawMaterialName, string> = {
   Rhodium: "rhodium",
   Neodymium: "neodymium",
   Tellurium: "tellurium",
-  "Iron Ore 62% fe": "",
   Magnesium: "magnesium",
   Gallium: "gallium",
   Germanium: "germanium",
   Manganese: "manganese",
-  Indium: "",
+  Indium: "indium",
   Uranium: "uranium",
   Polyethylene: "polyethylene",
   Polyvinyl: "polyvinyl",
   Polypropylene: "polypropylene",
-  "Solar Energy Index": "",
-  "EU Carbon Permits": "",
-  "Wind Energy Index": "",
-  "Kraft Pulp": "",
-  Rubber: "",
+  "Solar Energy Index": "solarenergyindex",
+  "EU Carbon Permits": "eucarbonpermits",
+  "Wind Energy Index": "windenergyindex",
+  "Kraft Pulp": "kraftpulp",
+  Rubber: "rubber",
   Bitumen: "bitumen",
   "Soda Ash": "soda_ash",
   "Di-ammonium": "di-ammonium",
@@ -392,7 +391,7 @@ const rawMaterials: RawMaterial[] = [
         name: "Indium",
         description:
           "Indium is a soft, silvery metal that is stable in air and water. Most indium is used to make indium tin oxide (ITO), which is an important part of touch screens, flatscreen TVs and solar panels. It conducts electricity, bonds strongly to glass and is transparent. Indium is one of the least abundant minerals on Earth. It has been found uncombined in nature, but typically it is found associated with zinc minerals and iron, lead and copper ores. It is commercially produced as a by-product of zinc refining. Futures are available for trading in the Shanghai Metal Market (SMM). Futures contracts for Indium are financial instruments that allow producers, large consumers, and speculators, to offset or assume the risk of a price change of holding a quantity of Indium over time.",
-        apiName: "",
+        apiName: "indium",
       },
       // {
       //   name: "Uranium",
@@ -434,19 +433,19 @@ const rawMaterials: RawMaterial[] = [
         name: "Solar Energy Index",
         description:
           "The Solar Energy Index CFD tracks the performance of publicly traded companies in the solar energy sector as well as those businesses that do not produce energy but make most of their revenues by providing goods and services to the solar energy industry.",
-        apiName: "",
+        apiName: "solarenergyindex",
       },
       {
         name: "EU Carbon Permits",
         description:
           "Allowances for carbon emissions are first allocated considering EU directives for the maximum amount of greenhouse gases that can be emitted. Allowances for carbon emissions are then auctioned and traded.",
-        apiName: "",
+        apiName: "eucarbonpermits",
       },
       {
         name: "Wind Energy Index",
         description:
           "The Wind Energy Index CFD tracks the performance of publicly traded companies in the wind energy sector as well as those businesses that do not produce energy but make most of their revenues by providing goods and services to the wind energy industry.",
-        apiName: "",
+        apiName: "windenergyindex",
       },
     ],
   },
@@ -469,13 +468,13 @@ const rawMaterials: RawMaterial[] = [
         name: "Kraft Pulp",
         description:
           "Bleached Softwood Kraft Pulp futures are widely traded on the Shanghai Stock Exchange (SSEC), and the standard contract is 10 tonnes. Kraft pulping is the most common form of chemical pulping, at 80% of the total chemical pulping industry.",
-        apiName: "",
+        apiName: "kraftpulp",
       },
       {
         name: "Rubber",
         description:
           "Natural rubber is high resilience, extremely waterproof, and stretchable material. Is used extensively in many applications and products, either alone or in combination with other materials. The biggest producers of rubber are China, Indonesia, Malaysia and Thailand. Others include Papua New Guinea, Philippines, Singapore, Sri Lanka, Thailand, Vietnam, Cambodia, and India. Rubber Futures are available for trading on several exchanges including Osaka Exchange, Singapore Exchange (SGX), the Malaysian Rubber Exchange and the Shanghai International Energy Exchange.",
-        apiName: "",
+        apiName: "rubber",
       },
       // {
       //   name: "Bitumen",
