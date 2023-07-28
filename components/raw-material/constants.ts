@@ -363,12 +363,12 @@ const rawMaterials: RawMaterial[] = [
           "Tellurium is used in alloys, mostly with copper and stainless steel, to improve their machinability. Globally, the primary producers of tellurium are Sweden, Japan, Russia, China, the United States, and Peru. Futures are available for trading in the Shanghai Metal Market (SMM).",
         apiName: "tellurium",
       },
-      {
-        name: "Iron Ore 62% fe",
-        description:
-          "Iron ore prices refer to Iron Ore Fine China Import 62 percent grade Spot Cost and Freight for the delivery at the Chinese port of Tianjin. Is used to make steel for infrastructure and other construction projects. The biggest producers of iron ore are China, Australia and Brazil. Others include India, Russia, Ukraine and South Africa.",
-        apiName: "",
-      },
+      // {
+      //   name: "Iron Ore 62% fe",
+      //   description:
+      //     "Iron ore prices refer to Iron Ore Fine China Import 62 percent grade Spot Cost and Freight for the delivery at the Chinese port of Tianjin. Is used to make steel for infrastructure and other construction projects. The biggest producers of iron ore are China, Australia and Brazil. Others include India, Russia, Ukraine and South Africa.",
+      //   apiName: "",
+      // },
       reusuables.manganese,
       {
         name: "Gallium",
