@@ -1,7 +1,6 @@
 import {
   Autocomplete,
   Box,
-  Button,
   MenuItem,
   Select,
   Stack,
@@ -34,6 +33,13 @@ const SearchBar = (props: SearchBarProps) => {
   const [searchType, setSearchType] = useState<SearchType>(SearchType.Keywords);
   const [options, setOptions] = useState([]);
 
+  const [optionsLoading, setOptionsLoading] = useState(false);
+  /**
+   * This is a hack to prevent the search from triggering when the user
+   * selects an option from the autocomplete with the keyboard.
+   */
+  const [enterTriggerSearch, setEnterTriggerSearch] = useState(true);
+
   const handleSearchTypeChange = (event: any) => {
     setSearchType(event.target.value);
     setQueryString("");
@@ -57,10 +63,12 @@ const SearchBar = (props: SearchBarProps) => {
       setOptions([]);
       return;
     }
+    setOptionsLoading(true);
     console.log("getting autoComplete for", value);
     // TODO: enable this when API is ready
     const suggestedItems = await searchAutocomplete(queryString);
     setOptions(suggestedItems);
+    setOptionsLoading(false);
   };
   const onClickSearch = () => {
     props.onSearch(queryString);
@@ -96,8 +104,21 @@ const SearchBar = (props: SearchBarProps) => {
             options={options}
             value={queryString}
             onInputChange={onInputChange}
+            loading={optionsLoading}
+            onKeyDown={(event: any) => {
+              if (event.key === "Enter" && enterTriggerSearch) {
+                onClickSearch();
+              }
+            }}
+            onHighlightChange={(event: any, value: unknown) => {
+              console.log("onHighlightChange", event, value);
+              if (value !== null) {
+                setEnterTriggerSearch(false);
+              }
+            }}
             onChange={(event: any, value: unknown) => {
               setQueryString(value as string);
+              setEnterTriggerSearch(true);
             }}
             noOptionsText="No matching results"
             filterOptions={(x) => x}
@@ -219,40 +240,6 @@ const SearchTypeSelect = styled(Select)<any>`
   }
   & .MuiOutlinedInput-notchedOutline {
     border: none;
-  }
-`;
-
-const StyledInput = styled.input`
-  flex: 1 0;
-  height: 46px;
-  background-color: #f9fafb !important;
-  padding-left: 13.34px;
-  border: 0;
-  font-family: "Inter";
-  font-style: normal;
-  font-weight: 400;
-  font-size: 14px;
-  line-height: 22px;
-  border-radius: 50px;
-  color: #1a1a1a;
-  ::placeholder {
-    font-family: "Inter";
-    font-style: normal;
-    font-weight: 400;
-    font-size: 14px;
-    line-height: 22px;
-    color: #b3b3b3;
-  }
-  &:focus {
-    outline: none !important;
-  }
-
-  &:-webkit-autofill,
-  &:-webkit-autofill:hover,
-  &:-webkit-autofill:focus,
-  &:-webkit-autofill:active {
-    -webkit-transition: "color 9999s ease-out, background-color 9999s ease-out";
-    -webkit-transition-delay: 9999s;
   }
 `;
 

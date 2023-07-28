@@ -22,32 +22,24 @@ const SlideContainer = styled.div`
   text-align: center;
   margin: auto;
   > img {
-    height: 710px;
+    width: 90%;
   }
 `;
 
+// https://mvp.supplybridge.com/cdn-stage/images/preview/bidder6.jpg
 const Slide1 = () => (
   <SlideContainer>
-    <img src="https://cdn-stage.supplybridge.com/images/preview/bidder1.jpg" />
+    <img src="https://mvp.supplybridge.com/cdn-stage/images/preview/bidder6.jpg" />
   </SlideContainer>
 );
 const Slide2 = () => (
   <SlideContainer>
-    <img src="https://cdn-stage.supplybridge.com/images/preview/bidder2.jpg" />
-  </SlideContainer>
-);
-const Slide3 = () => (
-  <SlideContainer>
-    <img src="https://cdn-stage.supplybridge.com/images/preview/bidder3.jpg" />
+    <img src="https://mvp.supplybridge.com/cdn-stage/images/preview/bidder7.jpg" />
   </SlideContainer>
 );
 
 export default function BidderPart() {
-  const data: any = [
-    <Slide1 key={0} />,
-    <Slide2 key={1} />,
-    <Slide3 key={2} />,
-  ];
+  const data: any = [<Slide1 key={0} />, <Slide2 key={1} />];
   return (
     <Container>
       <CarouselContainer>

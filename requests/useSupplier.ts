@@ -20,7 +20,9 @@ export const useSupplier = (flags: any = null) => {
     if (!q || q.length < 2) return [];
     try {
       const { data } = await request.get(
-        `configData/categorylevel?a=${encodeURIComponent(q)}&l=${i18n.language}`
+        `configData/categorylevel?a=${encodeURIComponent(q)}&l=${
+          i18n.languages[0]
+        }`
       );
       return data.items || [];
     } catch (err) {

@@ -242,7 +242,8 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
           <LargeText> {materialName} </LargeText>
           {unit && (
             <SText fontSize="12px" fontWeight="400">
-              Unit: {unit.currency} / {unit.measuredIn}
+              Unit: {unit.currency}{" "}
+              {unit.measuredIn === "" ? "" : `/ ${unit.measuredIn}`}
             </SText>
           )}
         </Grid>
@@ -301,7 +302,7 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
                 type="number"
                 domain={[
                   (dataMin: number) => dataMin * 0.99,
-                  (dataMax: number) => Math.floor(dataMax * 1.05),
+                  (dataMax: number) => dataMax * 1.05,
                 ]}
                 /// commented out because scale = "linear" sets tickFormat = fixed 0
                 // tickFormatter={(tick) => {
