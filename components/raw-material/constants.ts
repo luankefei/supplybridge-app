@@ -328,6 +328,12 @@ const rawMaterials: RawMaterial[] = [
       },
       reusuables.nickel,
       {
+        name: "Magnesium",
+        description:
+          "The biggest Magnesium producer is China, accounting for about 87% of the total production. Magnesium is a critical material for hardening aluminum alloys and is used in everything from power tools to laptops. Major consumers are China (39%), followed by Europe and North America (each around 19%) and Japan (4%).",
+        apiName: "magnesium",
+      },
+      {
         name: "Molybdenum",
         description:
           "Molybdenum is a silvery metal with the sixth-highest melting point of any element, it can withstand extremely high temperatures and is highly resistant to corrosion. Molybdenum is mainly used as an alloying agent in stainless steel, and also in the manufacture of aircraft parts and industrial motors. The biggest producers of the metal are: China, United States, Chile, Peru and Mexico. Molybdenum Futures are available for trading in The London Metal Exchange (LME). The standard contact has a weight of 6 tonnes.",
