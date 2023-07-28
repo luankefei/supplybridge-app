@@ -100,6 +100,7 @@ export const SText = styled.div<{
   fontWeight?: string;
   color?: string;
   textAlign?: string;
+  lineHeight?: string;
 }>`
   display: inline-block;
   font-family: Ubuntu;
@@ -107,6 +108,6 @@ export const SText = styled.div<{
   font-weight: ${(props) => props.fontWeight || "500"};
   font-size: ${(props) => props.fontSize || "12px"};
   text-align: ${(props) => props.textAlign || "left"};
-  line-height: 2rem;
+  line-height: ${(props) => props.lineHeight || "2rem"};
   color: ${(props) => props.color || "#1a1a1a"};
 `;
