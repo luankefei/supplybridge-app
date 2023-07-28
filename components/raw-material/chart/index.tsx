@@ -242,7 +242,8 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
           <LargeText> {materialName} </LargeText>
           {unit && (
             <SText fontSize="12px" fontWeight="400">
-              Unit: {unit.currency} / {unit.measuredIn}
+              Unit: {unit.currency}{" "}
+              {unit.measuredIn === "" ? "" : `/ ${unit.measuredIn}`}
             </SText>
           )}
         </Grid>
