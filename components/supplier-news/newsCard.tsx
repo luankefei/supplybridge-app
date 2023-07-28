@@ -4,9 +4,12 @@ import { theme } from "config/theme";
 import Image from "next/image";
 import { allCountry } from "utils/countries";
 
+// width: min(calc(100%), 70.375rem);
+// max-width: 1000px;
 const Container = muiStyled(Box)(`
-    width: min(calc(100%), 70.375rem);
-    max-width: 1000px;
+    
+    width: 100%;
+    
     display: flex;
     @media (max-width: ${theme.size.mobileXl}) {
         flex-direction: column;

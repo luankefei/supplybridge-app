@@ -8,9 +8,12 @@ import { theme } from "config/theme";
 import Layout from "components/layout";
 
 const Container = muiStyled("div")(`
+  width: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
+    padding-left: 32px;
+    padding-right: 32px;
     gap: 1.25rem;
     background-color: #edf1f3;
     @media (max-width: ${theme.size.mobileXl}) {
@@ -22,8 +25,9 @@ const Container = muiStyled("div")(`
 `);
 
 const NewsContainer = muiStyled("div")`
-   max-width: 680px;
+   max-width: 1280px;
    margin: 0 auto;
+   padding: 0 32px;
 `;
 
 const Center = muiStyled("div")`
@@ -77,7 +81,7 @@ export default function SupplierNews() {
   return (
     <Layout>
       <NewsContainer>
-        <div style={{ width: "70.375rem", display: "flex", margin: "0 32px" }}>
+        <div style={{ width: "100%", display: "flex", padding: "0 32px" }}>
           {/* 70.375rem: this is the same as newsCard container width, so the news list and newsTab are left-aligned */}
           <NewsTabContainer>
             <div
