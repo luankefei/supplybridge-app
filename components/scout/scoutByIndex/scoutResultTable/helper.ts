@@ -10,6 +10,11 @@ export interface ITableData {
   headquarter: string;
   hqCode: string;
   globalFootprint: string[];
+  /**
+   * Add on field to help with geoChart filtering,
+   * Not used by table's filter
+   */
+  globalFootprintIds: string[];
   badges: BadgeType[];
 }
 
@@ -29,7 +34,7 @@ export function supplierModelToTableData(
   );
   // use key map to avoid duplicate
   const globalFootprint = {} as { [key: number]: string };
-  supplier.locationId &&
+  Array.isArray(supplier.locationId) &&
     supplier.locationId.forEach((lid: number) => {
       const foundRegions = allSubRegions[lid];
       if (foundRegions) {
@@ -47,6 +52,7 @@ export function supplierModelToTableData(
     headquarter: hqLocation?.name || "",
     hqCode: hqLocation?.code || "",
     globalFootprint: Object.values(globalFootprint),
+    globalFootprintIds: Object.keys(globalFootprint),
     badges: badges.map((x) => {
       switch (x) {
         case "top":

@@ -36,7 +36,8 @@ function RMTopMenuBar({ children }: { children: React.ReactNode }) {
             <Collapse in={!isScrolled}>
               <SpacingVertical space="36px" />
               <TitleText>
-                Material price checking system, more insights for your decision!
+                Make better data-driven decisions with the Latest Trends in
+                Commodity and Material Prices
               </TitleText>
               <PoweredBy />
             </Collapse>
