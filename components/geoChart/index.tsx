@@ -29,7 +29,7 @@ import { addToDict } from "utils/dict";
 
 //#region map Constants
 const RADIUS_SIZE = [155, 100, 50, 60];
-const SCALE_SIZE = 235;
+const SCALE_SIZE = 150;
 // These numbers are tied to the scale of the map
 // i have no idea how to translate them, this is tried out by hand
 const preDefinedMarkers: IMarker[] = [
@@ -347,7 +347,7 @@ export default function MapChart({
   return (
     <Box
       width={"100%"}
-      height={"38vh"}
+      height={"50vh"}
       display={"flex"}
       justifyContent={"center"}
     >
