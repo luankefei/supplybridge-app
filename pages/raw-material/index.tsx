@@ -31,6 +31,12 @@ import RMChart from "components/raw-material/chart";
 import { RawMaterialDescriptions } from "components/raw-material/descriptions";
 import MaterialTooltip from "components/raw-material/materialTooltip";
 
+/**
+ * The Raw Material page
+ * -- input search bar
+ * -- categories
+ * -- charts
+ */
 export default function RawMaterial() {
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [openedCategory, setOpenedCategory] = useState<string | undefined>();
