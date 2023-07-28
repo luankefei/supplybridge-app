@@ -135,7 +135,6 @@ export default function RawMaterial() {
                   .find((v) => v.category === openedCategory)
                   ?.subfields.map((subfield, idx) => {
                     const selected = selectedMaterials.includes(subfield.name);
-                    const disabled = subfield.apiName === "";
                     const upatedDescription =
                       RawMaterialDescriptions[subfield.name];
                     if (!upatedDescription) {
@@ -146,9 +145,7 @@ export default function RawMaterial() {
                       upatedDescription.Description ||
                       subfield.description ||
                       "";
-                    if (disabled) {
-                      description += "We are working on this data";
-                    }
+
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
@@ -161,15 +158,10 @@ export default function RawMaterial() {
                             borderRadius: 100,
                             minWidth: 110,
                             borderColor: selected ? "#08979C" : "#E5E7EB",
-                            backgroundColor:
-                              disabled || selected ? "#E5E7EB" : "#FFFFFF",
+                            backgroundColor: selected ? "#E5E7EB" : "#FFFFFF",
                             color: selected ? "#08979C" : "#445B66",
                           }}
-                          onClick={
-                            disabled
-                              ? undefined
-                              : () => toggleMatieral(subfield.name)
-                          }
+                          onClick={() => toggleMatieral(subfield.name)}
                         >
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
