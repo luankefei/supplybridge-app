@@ -30,14 +30,17 @@ import VerticalIconButton from "components/ui-components/verticalIconButton";
 import RMChart from "components/raw-material/chart";
 import { RawMaterialDescriptions } from "components/raw-material/descriptions";
 import MaterialTooltip from "components/raw-material/materialTooltip";
+import { useTranslation } from "react-i18next";
 
 /**
  * The Raw Material page
  * -- input search bar
  * -- categories
  * -- charts
+ *
  */
 export default function RawMaterial() {
+  const { t } = useTranslation();
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [openedCategory, setOpenedCategory] = useState<string | undefined>();
 
@@ -63,7 +66,7 @@ export default function RawMaterial() {
   };
   return (
     <Layout
-      pageTitle={"Market Data"}
+      pageTitle={t("sidebar.marketData", "Market Data")}
       appBar={
         <RMTopMenuBar>
           <Autocomplete

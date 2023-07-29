@@ -265,8 +265,13 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
       </Grid>
       <Stack p={1}>
         {isLoading ? (
-          <Box display="flex" justifyContent="center">
-            <LoadingAnimation />
+          <Box
+            display="flex"
+            justifyContent="center"
+            alignItems={"center"}
+            height={320}
+          >
+            <CircularProgress color="info" />
           </Box>
         ) : (
           <ResponsiveContainer width="100%" height={320}>
