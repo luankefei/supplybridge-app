@@ -16,6 +16,7 @@ export interface ITableData {
    */
   globalFootprintIds: string[];
   badges: BadgeType[];
+  category?: string[];
 }
 
 const noImageUrl = "https://cdn-stage.supplybridge.com/images/logos/no.png";
@@ -65,5 +66,6 @@ export function supplierModelToTableData(
           return BadgeType.top;
       }
     }),
+    category: supplier.category,
   };
 }

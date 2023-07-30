@@ -70,7 +70,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   page: 1,
   setPage: (page: any) => set(() => ({ page })),
 
-  pageSize: 10,
+  pageSize: 100,
   setPageSize: (pageSize: any) => set(() => ({ pageSize })),
 
   filterData: {
@@ -92,7 +92,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   clearFilterData: () =>
     set(() => ({
       page: 1,
-      pageSize: 10,
+      pageSize: 100,
       components: [],
       subRegions: [],
       selectedRegions: [],
@@ -134,7 +134,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
       user: {},
       token: "",
       page: 1,
-      pageSize: 10,
+      pageSize: 100,
       count: 0,
       filterData: {
         commodities: [],

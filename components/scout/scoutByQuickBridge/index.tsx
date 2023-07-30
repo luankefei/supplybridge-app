@@ -363,9 +363,10 @@ export default function ScoutByQuickBridge() {
                       background: "#006D75",
                     },
                     "&:disabled": {
-                      color: "#ddd",
+                      color: "#F1F1F1",
                       // cursor: "not-allowed",
                       pointerEvents: "auto",
+                      background: "#D9D9D9",
                     },
                   }}
                 >

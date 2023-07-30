@@ -14,7 +14,7 @@ export type TSupplierModel = {
   };
   headquarterId: number;
   locationId: number[];
-  catergory: string[];
+  category: string[];
   logo: string;
   name: string;
 };

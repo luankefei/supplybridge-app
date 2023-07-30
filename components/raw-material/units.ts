@@ -213,11 +213,26 @@ export const MaterialUnits: Record<RawMaterialName, Unit> = {
     currency: "USD",
     measuredIn: "ton",
   },
-  // "Solar Energy Index": {},
-  // "EU Carbon Permits": {},
-  // "Wind Energy Index": {},
-  // "Kraft Pulp": {},
-  // Rubber: {}
+  "Solar Energy Index": {
+    currency: "USD",
+    measuredIn: "",
+  },
+  "EU Carbon Permits": {
+    currency: "USD",
+    measuredIn: "",
+  },
+  "Wind Energy Index": {
+    currency: "USD",
+    measuredIn: "",
+  },
+  "Kraft Pulp": {
+    currency: "USD",
+    measuredIn: "ton",
+  },
+  Rubber: {
+    currency: "USD",
+    measuredIn: "ton",
+  },
   //
 } as const;
 

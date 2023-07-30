@@ -21,6 +21,10 @@ interface ActionFilterAndViewProps {
    */
   resultCount: number;
   /**
+   * Number of results displayed
+   */
+  displayCount: number;
+  /**
    * To be used in conjunction with resultCount
    */
   resultType: string;
@@ -60,6 +64,7 @@ const WhiteBgRoundCornerButton = styled(Button)`
  */
 const ActionFilterAndView = ({
   resultCount,
+  displayCount,
   resultType,
   filterInitialData,
   view,
@@ -85,15 +90,16 @@ const ActionFilterAndView = ({
       <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
         <Box>
           <Trans i18nKey="scout.result.overview">
-            Listing
             <SText fontWeight="700" fontSize="32px">
               {{ resultCount } as any}
             </SText>
-            supplier(s) matching for
             <SText fontWeight="700" fontSize="32px">
               {{ resultType } as any}
             </SText>
           </Trans>
+          <SText>
+            Displaying <SText fontWeight="700">{displayCount}</SText>
+          </SText>
         </Box>
         <TableFilters
           initialValue={filterInitialData}

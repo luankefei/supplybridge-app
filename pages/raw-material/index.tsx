@@ -12,6 +12,8 @@ import {
   TextField,
   ToggleButton,
   Tooltip,
+  TooltipProps,
+  tooltipClasses,
 } from "@mui/material";
 import rawMaterials, {
   allRawMaterials,
@@ -26,8 +28,19 @@ import styled from "styled-components";
 import RMTopMenuBar from "components/raw-material/appBar";
 import VerticalIconButton from "components/ui-components/verticalIconButton";
 import RMChart from "components/raw-material/chart";
+import { RawMaterialDescriptions } from "components/raw-material/descriptions";
+import MaterialTooltip from "components/raw-material/materialTooltip";
+import { useTranslation } from "react-i18next";
 
+/**
+ * The Raw Material page
+ * -- input search bar
+ * -- categories
+ * -- charts
+ *
+ */
 export default function RawMaterial() {
+  const { t } = useTranslation();
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [openedCategory, setOpenedCategory] = useState<string | undefined>();
 
@@ -53,7 +66,7 @@ export default function RawMaterial() {
   };
   return (
     <Layout
-      pageTitle={"Market Data"}
+      pageTitle={t("sidebar.marketData", "Market Data")}
       appBar={
         <RMTopMenuBar>
           <Autocomplete
@@ -131,11 +144,17 @@ export default function RawMaterial() {
                   .find((v) => v.category === openedCategory)
                   ?.subfields.map((subfield, idx) => {
                     const selected = selectedMaterials.includes(subfield.name);
-                    const disabled = subfield.apiName === "";
-                    let description = subfield.description || "";
-                    if (disabled) {
-                      description += "We are working on this data";
+                    const upatedDescription =
+                      RawMaterialDescriptions[subfield.name];
+                    if (!upatedDescription) {
+                      // debug usage
+                      console.debug("Debug: No description for", subfield.name);
                     }
+                    let description =
+                      upatedDescription.Description ||
+                      subfield.description ||
+                      "";
+
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
@@ -148,21 +167,27 @@ export default function RawMaterial() {
                             borderRadius: 100,
                             minWidth: 110,
                             borderColor: selected ? "#08979C" : "#E5E7EB",
-                            backgroundColor:
-                              disabled || selected ? "#E5E7EB" : "#FFFFFF",
+                            backgroundColor: selected ? "#E5E7EB" : "#FFFFFF",
                             color: selected ? "#08979C" : "#445B66",
                           }}
-                          onClick={
-                            disabled
-                              ? undefined
-                              : () => toggleMatieral(subfield.name)
-                          }
+                          onClick={() => toggleMatieral(subfield.name)}
                         >
                           {subfield.name}
                           <SpacingHorizontal space="10px" />
-                          <Tooltip title={description} arrow>
+                          <StyledTooltip
+                            placement="top"
+                            title={
+                              <MaterialTooltip
+                                content={description}
+                                automotiveUsage={
+                                  upatedDescription.AutomotiveUse
+                                }
+                              />
+                            }
+                            arrow
+                          >
                             <Info style={{ width: 14, color: "#9CA3AF" }} />
-                          </Tooltip>
+                          </StyledTooltip>
                         </ToggleButton>
                       </Grid>
                     );
@@ -209,6 +234,16 @@ export default function RawMaterial() {
     </Layout>
   );
 }
+
+// https://material-ui.com/components/tooltips/#customized-tooltips
+const StyledTooltip = styled(({ className, ...props }: TooltipProps) => (
+  <Tooltip {...props} classes={{ popper: className }} />
+))(({ theme }) => ({
+  [`& .${tooltipClasses.tooltip}`]: {
+    padding: 0,
+    borderRadius: 16,
+  },
+}));
 
 // increase the specificity of your styles by using the && trick, which duplicates the class name and therefore increases its specificity without resorting to !important.
 const StyledCard = styled(Card)`

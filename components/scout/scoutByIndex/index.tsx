@@ -21,7 +21,7 @@ import {
   helperTableDataToFilterDataset,
 } from "./actionFilterAndView/tableFilters";
 import { hasIntersection } from "utils/array";
-import SearchBar from "./searchBar";
+import SearchBar, { EnumSearchType } from "./searchBar";
 import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
 import { useFilter } from "requests/useFilter";
@@ -41,8 +41,9 @@ export default function ScoutByIndex() {
   const { t } = useTranslation();
   const router = useRouter();
   const { allSubRegions } = usePersistentStore();
-  const { suppliers, setSuppliers, setStats } = useStore();
-  const { querySupplierListByName } = useSupplier();
+  const { suppliers, stats, setSuppliers, setStats } = useStore();
+  const { querySupplierListByKeyword, querySupplieListByCompany } =
+    useSupplier();
   const { getAllSubRegions } = useFilter();
 
   /******************
@@ -58,6 +59,11 @@ export default function ScoutByIndex() {
     }
   );
   const [queryString, setQueryString] = useState<string>("");
+  // We are going to keep an individual copy of searchType
+  // as to indicate the searchType of the current search
+  // updating searchType inside the searchBar will not trigger a re-render
+  // i.e does not change table displays (that showSimilar only shown at searchType === "company")
+  const [resultSearchType, setResultSearchType] = useState<EnumSearchType>();
   // initial data == all data
   const [data, setData] = useState<ITableData[]>([]);
   // table data == filtered data
@@ -152,13 +158,21 @@ export default function ScoutByIndex() {
     reCalTableData(fv, mapSelectedCountry);
   };
 
-  const searchHandler = async (queryString: string) => {
+  const searchHandler = async (
+    queryString: string,
+    searchType: EnumSearchType
+  ) => {
     if (queryString === "") {
       return;
     }
     setQueryString(queryString);
     setLoading(true);
-    await querySupplierListByName(queryString);
+    setResultSearchType(searchType);
+    if (searchType === EnumSearchType.Keywords) {
+      await querySupplierListByKeyword(queryString);
+    } else {
+      await querySupplieListByCompany(queryString);
+    }
     setLoading(false);
     setSearched(true);
   };
@@ -173,6 +187,10 @@ export default function ScoutByIndex() {
   };
   const handleRowSelect = (selectedRows: number[]) => {
     setSelectedRows(selectedRows);
+  };
+
+  const handleShowSimilarCompanies = async (query: string) => {
+    searchHandler(query, EnumSearchType.Companies);
   };
 
   /**************
@@ -227,7 +245,8 @@ export default function ScoutByIndex() {
                   <Box sx={{ p: 3 }}>
                     <ActionFilterAndView
                       filterInitialData={initialFilterDataset}
-                      resultCount={data?.length || 0}
+                      resultCount={stats.count || 0}
+                      displayCount={data?.length || 0}
                       resultType={queryString}
                       onClickBuildMyShortList={() => {
                         setShortListModalOpen(true);
@@ -254,9 +273,11 @@ export default function ScoutByIndex() {
                     />
                     <ScoutResultTable
                       viewType={viewType}
+                      searchType={resultSearchType || EnumSearchType.Keywords}
                       tableData={tableData}
                       selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
+                      onShowSimilarCompanies={handleShowSimilarCompanies}
                     />
                   </Box>
                 </>

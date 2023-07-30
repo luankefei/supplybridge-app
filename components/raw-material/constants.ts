@@ -112,21 +112,20 @@ export const apiNamesMap: Record<RawMaterialName, string> = {
   Rhodium: "rhodium",
   Neodymium: "neodymium",
   Tellurium: "tellurium",
-  "Iron Ore 62% fe": "",
   Magnesium: "magnesium",
   Gallium: "gallium",
   Germanium: "germanium",
   Manganese: "manganese",
-  Indium: "",
+  Indium: "indium",
   Uranium: "uranium",
   Polyethylene: "polyethylene",
   Polyvinyl: "polyvinyl",
   Polypropylene: "polypropylene",
-  "Solar Energy Index": "",
-  "EU Carbon Permits": "",
-  "Wind Energy Index": "",
-  "Kraft Pulp": "",
-  Rubber: "",
+  "Solar Energy Index": "solarenergyindex",
+  "EU Carbon Permits": "eucarbonpermits",
+  "Wind Energy Index": "windenergyindex",
+  "Kraft Pulp": "kraftpulp",
+  Rubber: "rubber",
   Bitumen: "bitumen",
   "Soda Ash": "soda_ash",
   "Di-ammonium": "di-ammonium",
@@ -155,11 +154,11 @@ const reusuables: Record<Partial<RawMaterialName>, TSubfield> = {
       "Nickel is mainly used in the production of stainless steel and other alloys and can be found in food preparation equipment, mobile phones, medical equipment, transport, buildings, power generation. The biggest producers of nickel are Indonesia, the Philippines, Russia, New Caledonia, Australia and Canada. Nickel futures are available for trading in The London Metal Exchange (LME). The standard contact has a weight of 6 tonnes.",
     apiName: "nickel",
   },
-  magnesium: {
-    name: "Magnesium",
+  manganese: {
+    name: "Manganese",
     description:
-      "The biggest Magnesium producer is China, accounting for about 87% of the total production. Magnesium is a critical material for hardening aluminum alloys and is used in everything from power tools to laptops. Major consumers are China (39%), followed by Europe and North America (each around 19%) and Japan (4%).",
-    apiName: "magnesium",
+      "Manganese Ore is primarily used in steel and iron production among other uses like as an additive in unleaded gasoline and as pigments for the coloring of ceramics and glass. This page refers to the Manganese Ore with 32% manganese, and 20% iron in North China, Tianjin port from South Africa.",
+    apiName: "manganese",
   },
 };
 
@@ -204,48 +203,48 @@ const rawMaterials: RawMaterial[] = [
           "The ethanol market is growing rapidly, particularly due to the governments mandate for renewable fuels. Ethanol is largely produced through fermenting starch or sugar-based feedstocks. In the United States, corn is the principal raw material; in Brazil, the world's leading ethanol producer, sugar cane is widely used. In the United States, Ethanol Futures are available for Trading in The Chicago Board of Trade (CBOT® ).",
         apiName: "ethanol",
       },
-      {
-        name: "Crude Oil",
-        description:
-          "The West Texas Intermediate (WTI) benchmark for US crude is the world's most actively traded commodity.",
-        apiName: "crude_oil",
-      },
-      {
-        name: "Propane",
-        description:
-          "Mont Belvieu Propane is a gas that can be compressed to a liquid. It is listed as a clean fuel on the 1990 Clean Air Act and has numerous applications. The contract size is 42,000 gallons and takes its name from the city of Mont Belvieu,TX due to it's massive gas storage facility.",
-        apiName: "propane",
-      },
-      {
-        name: "Heating Oil",
-        description:
-          'Heating oil, also known as No. 2 fuel oil, accounts for about 25% of the yield of a barrel of crude, the second largest "cut" after gasoline. The heating oil futures contract trades in units of 42,000 gallons (1,000 barrels) and is based on delivery in New York harbor, the principal cash market trading center. The heating oil futures contract is also used to hedge diesel fuel and jet fuel, both of which trade in the cash market at an often stable premium to NYMEX Divis...',
-        apiName: "heating_oil",
-      },
-      {
-        name: "Urals Oil",
-        description:
-          "Urals oil is the reference oil brand used as the price benchmark for Russian oil exports. It is a blend of the heavy and sour oil from the Urals and Volga regions with the lighter oil from Western Siberia. It is transported to Europe through the Druzhba pipeline and to Baku through the Novorossiysk pipeline, while main seaborne importers are China and India since 2022. Futures contracts of 1,000 barrels are traded in the St. Petersburg International Mercantile Exchange (...",
-        apiName: "urals_oil",
-      },
-      {
-        name: "Naphtha",
-        description:
-          "Naphtha is a flammable liquid that can be used as fuel, metal cleaner, high-octane gas and as petrochemical in production of plastics. Naphtha prices are highly correlated with crude oil as it is generally produced during the refining of crude oil. Each contract represents 1,000 metric tons.",
-        apiName: "naphtha",
-      },
-      {
-        name: "Methanol",
-        description:
-          "Methanol is a light, colourless, and flammable liquid. Industrially, it is used as a solvent and as an alternative fuel source for vehicles. It is also used as a chemical component for the production of plastic, paint, car parts, and construction materials.",
-        apiName: "methanol",
-      },
-      {
-        name: "TTF Gas",
-        description:
-          "Dutch TTF Gas is a leading European benchmark price as the volumes traded represent more than 14 times the amount of gas used by the Netherlands for domestic purposes. Contracts are for physical delivery through the transfer of rights in respect of Natural Gas at the Title Transfer Facility (TTF) Virtual Trading Point, operated by Gasunie Transport Services (GTS), the transmission system operator in the Netherlands. Delivery is made equally each hour throughout the deliver...",
-        apiName: "ttf_gas",
-      },
+      // {
+      //   name: "Crude Oil",
+      //   description:
+      //     "The West Texas Intermediate (WTI) benchmark for US crude is the world's most actively traded commodity.",
+      //   apiName: "crude_oil",
+      // },
+      // {
+      //   name: "Propane",
+      //   description:
+      //     "Mont Belvieu Propane is a gas that can be compressed to a liquid. It is listed as a clean fuel on the 1990 Clean Air Act and has numerous applications. The contract size is 42,000 gallons and takes its name from the city of Mont Belvieu,TX due to it's massive gas storage facility.",
+      //   apiName: "propane",
+      // },
+      // {
+      //   name: "Heating Oil",
+      //   description:
+      //     'Heating oil, also known as No. 2 fuel oil, accounts for about 25% of the yield of a barrel of crude, the second largest "cut" after gasoline. The heating oil futures contract trades in units of 42,000 gallons (1,000 barrels) and is based on delivery in New York harbor, the principal cash market trading center. The heating oil futures contract is also used to hedge diesel fuel and jet fuel, both of which trade in the cash market at an often stable premium to NYMEX Divis...',
+      //   apiName: "heating_oil",
+      // },
+      // {
+      //   name: "Urals Oil",
+      //   description:
+      //     "Urals oil is the reference oil brand used as the price benchmark for Russian oil exports. It is a blend of the heavy and sour oil from the Urals and Volga regions with the lighter oil from Western Siberia. It is transported to Europe through the Druzhba pipeline and to Baku through the Novorossiysk pipeline, while main seaborne importers are China and India since 2022. Futures contracts of 1,000 barrels are traded in the St. Petersburg International Mercantile Exchange (...",
+      //   apiName: "urals_oil",
+      // },
+      // {
+      //   name: "Naphtha",
+      //   description:
+      //     "Naphtha is a flammable liquid that can be used as fuel, metal cleaner, high-octane gas and as petrochemical in production of plastics. Naphtha prices are highly correlated with crude oil as it is generally produced during the refining of crude oil. Each contract represents 1,000 metric tons.",
+      //   apiName: "naphtha",
+      // },
+      // {
+      //   name: "Methanol",
+      //   description:
+      //     "Methanol is a light, colourless, and flammable liquid. Industrially, it is used as a solvent and as an alternative fuel source for vehicles. It is also used as a chemical component for the production of plastic, paint, car parts, and construction materials.",
+      //   apiName: "methanol",
+      // },
+      // {
+      //   name: "TTF Gas",
+      //   description:
+      //     "Dutch TTF Gas is a leading European benchmark price as the volumes traded represent more than 14 times the amount of gas used by the Netherlands for domestic purposes. Contracts are for physical delivery through the transfer of rights in respect of Natural Gas at the Title Transfer Facility (TTF) Virtual Trading Point, operated by Gasunie Transport Services (GTS), the transmission system operator in the Netherlands. Delivery is made equally each hour throughout the deliver...",
+      //   apiName: "ttf_gas",
+      // },
     ],
   },
   {
@@ -328,6 +327,12 @@ const rawMaterials: RawMaterial[] = [
       },
       reusuables.nickel,
       {
+        name: "Magnesium",
+        description:
+          "The biggest Magnesium producer is China, accounting for about 87% of the total production. Magnesium is a critical material for hardening aluminum alloys and is used in everything from power tools to laptops. Major consumers are China (39%), followed by Europe and North America (each around 19%) and Japan (4%).",
+        apiName: "magnesium",
+      },
+      {
         name: "Molybdenum",
         description:
           "Molybdenum is a silvery metal with the sixth-highest melting point of any element, it can withstand extremely high temperatures and is highly resistant to corrosion. Molybdenum is mainly used as an alloying agent in stainless steel, and also in the manufacture of aircraft parts and industrial motors. The biggest producers of the metal are: China, United States, Chile, Peru and Mexico. Molybdenum Futures are available for trading in The London Metal Exchange (LME). The standard contact has a weight of 6 tonnes.",
@@ -357,13 +362,13 @@ const rawMaterials: RawMaterial[] = [
           "Tellurium is used in alloys, mostly with copper and stainless steel, to improve their machinability. Globally, the primary producers of tellurium are Sweden, Japan, Russia, China, the United States, and Peru. Futures are available for trading in the Shanghai Metal Market (SMM).",
         apiName: "tellurium",
       },
-      {
-        name: "Iron Ore 62% fe",
-        description:
-          "Iron ore prices refer to Iron Ore Fine China Import 62 percent grade Spot Cost and Freight for the delivery at the Chinese port of Tianjin. Is used to make steel for infrastructure and other construction projects. The biggest producers of iron ore are China, Australia and Brazil. Others include India, Russia, Ukraine and South Africa.",
-        apiName: "",
-      },
-      reusuables.magnesium,
+      // {
+      //   name: "Iron Ore 62% fe",
+      //   description:
+      //     "Iron ore prices refer to Iron Ore Fine China Import 62 percent grade Spot Cost and Freight for the delivery at the Chinese port of Tianjin. Is used to make steel for infrastructure and other construction projects. The biggest producers of iron ore are China, Australia and Brazil. Others include India, Russia, Ukraine and South Africa.",
+      //   apiName: "",
+      // },
+      reusuables.manganese,
       {
         name: "Gallium",
         description:
@@ -386,14 +391,14 @@ const rawMaterials: RawMaterial[] = [
         name: "Indium",
         description:
           "Indium is a soft, silvery metal that is stable in air and water. Most indium is used to make indium tin oxide (ITO), which is an important part of touch screens, flatscreen TVs and solar panels. It conducts electricity, bonds strongly to glass and is transparent. Indium is one of the least abundant minerals on Earth. It has been found uncombined in nature, but typically it is found associated with zinc minerals and iron, lead and copper ores. It is commercially produced as a by-product of zinc refining. Futures are available for trading in the Shanghai Metal Market (SMM). Futures contracts for Indium are financial instruments that allow producers, large consumers, and speculators, to offset or assume the risk of a price change of holding a quantity of Indium over time.",
-        apiName: "",
+        apiName: "indium",
       },
-      {
-        name: "Uranium",
-        description:
-          "Uranium is a highly dense metal which occurs in most rocks and is mostly used as a fuel in nuclear power plants. The standard contract unit is 250 pounds of U3O8 and is traded on New York Mercantile Exchange. Top uranium producers are Kazakhstan, Canada and Australia.",
-        apiName: "uranium",
-      },
+      // {
+      //   name: "Uranium",
+      //   description:
+      //     "Uranium is a highly dense metal which occurs in most rocks and is mostly used as a fuel in nuclear power plants. The standard contract unit is 250 pounds of U3O8 and is traded on New York Mercantile Exchange. Top uranium producers are Kazakhstan, Canada and Australia.",
+      //   apiName: "uranium",
+      // },
     ],
   },
   {
@@ -428,31 +433,31 @@ const rawMaterials: RawMaterial[] = [
         name: "Solar Energy Index",
         description:
           "The Solar Energy Index CFD tracks the performance of publicly traded companies in the solar energy sector as well as those businesses that do not produce energy but make most of their revenues by providing goods and services to the solar energy industry.",
-        apiName: "",
+        apiName: "solarenergyindex",
       },
       {
         name: "EU Carbon Permits",
         description:
           "Allowances for carbon emissions are first allocated considering EU directives for the maximum amount of greenhouse gases that can be emitted. Allowances for carbon emissions are then auctioned and traded.",
-        apiName: "",
+        apiName: "eucarbonpermits",
       },
       {
         name: "Wind Energy Index",
         description:
           "The Wind Energy Index CFD tracks the performance of publicly traded companies in the wind energy sector as well as those businesses that do not produce energy but make most of their revenues by providing goods and services to the wind energy industry.",
-        apiName: "",
+        apiName: "windenergyindex",
       },
     ],
   },
 
   {
     category: "EV-related",
-    icon: "materialCategory/energy",
+    icon: "materialCategory/ev-related",
     subfields: [
       reusuables.cobalt,
       reusuables.lithium,
       reusuables.nickel,
-      reusuables.magnesium,
+      reusuables.manganese,
     ],
   },
   {
@@ -463,32 +468,32 @@ const rawMaterials: RawMaterial[] = [
         name: "Kraft Pulp",
         description:
           "Bleached Softwood Kraft Pulp futures are widely traded on the Shanghai Stock Exchange (SSEC), and the standard contract is 10 tonnes. Kraft pulping is the most common form of chemical pulping, at 80% of the total chemical pulping industry.",
-        apiName: "",
+        apiName: "kraftpulp",
       },
       {
         name: "Rubber",
         description:
           "Natural rubber is high resilience, extremely waterproof, and stretchable material. Is used extensively in many applications and products, either alone or in combination with other materials. The biggest producers of rubber are China, Indonesia, Malaysia and Thailand. Others include Papua New Guinea, Philippines, Singapore, Sri Lanka, Thailand, Vietnam, Cambodia, and India. Rubber Futures are available for trading on several exchanges including Osaka Exchange, Singapore Exchange (SGX), the Malaysian Rubber Exchange and the Shanghai International Energy Exchange.",
-        apiName: "",
+        apiName: "rubber",
       },
-      {
-        name: "Bitumen",
-        description:
-          "Bitumen, also known as asphalt is a black, sticky, and highly viscous liquid or semi-solid form of petroleum. The most common use is in the road construction and waterproofing products. The contract size is 10 tons/lot. The 70# Class-A road bitumen is widely traded on the Shanghai Futures Exchange.",
-        apiName: "bitumen",
-      },
+      // {
+      //   name: "Bitumen",
+      //   description:
+      //     "Bitumen, also known as asphalt is a black, sticky, and highly viscous liquid or semi-solid form of petroleum. The most common use is in the road construction and waterproofing products. The contract size is 10 tons/lot. The 70# Class-A road bitumen is widely traded on the Shanghai Futures Exchange.",
+      //   apiName: "bitumen",
+      // },
       {
         name: "Soda Ash",
         description:
           "Soda ash, also known as sodium carbonate, is an alkali chemical which is mostly produced from sodium chloride and limestone. The compound has a number of uses including manufacturing of glass, paper, rayon, soaps, and detergents. Soda ash also is used to clean the air and soften water. The spot market for soda ash exists mostly in China and Europe.",
         apiName: "soda_ash",
       },
-      {
-        name: "Di-ammonium",
-        description:
-          "Di-ammonium Phosphate futures are primarily traded on the Chicago Board of Trade (CBOT). Di-ammonium Phosphate is the most widely used phosphorus fertiliser on the planet. It is composed of two common fertiliser constituents, and its relatively high nutrient content and excellent physical properties make it a popular choice in farming and other industries. Futures contracts for Di-ammonium are financial instruments that allow producers, large consumers, and speculators...",
-        apiName: "di-ammonium",
-      },
+      // {
+      //   name: "Di-ammonium",
+      //   description:
+      //     "Di-ammonium Phosphate futures are primarily traded on the Chicago Board of Trade (CBOT). Di-ammonium Phosphate is the most widely used phosphorus fertiliser on the planet. It is composed of two common fertiliser constituents, and its relatively high nutrient content and excellent physical properties make it a popular choice in farming and other industries. Futures contracts for Di-ammonium are financial instruments that allow producers, large consumers, and speculators...",
+      //   apiName: "di-ammonium",
+      // },
     ],
   },
   { category: "More", icon: "materialCategory/lock", subfields: [] },

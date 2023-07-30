@@ -13,13 +13,14 @@ import {
   GridRowSpacingParams,
   gridClasses,
 } from "@mui/x-data-grid";
-import { DensitySmall, Info } from "@mui/icons-material";
+import { ChevronRight, DensitySmall, Info } from "@mui/icons-material";
 import { ITableData } from "./helper";
 import { SText } from "components/ui-components/text";
 import DeatilsPanel from "../detailPanel";
 import { BadgeType, SupBadge } from "components/ui-components/supBadge";
 import { ViewType } from "../actionFilterAndView";
 import ScoutResultCardView from "./cardView";
+import { EnumSearchType } from "../searchBar";
 
 const supBadgeTooltipText = (
   <div>
@@ -47,19 +48,23 @@ const supBadgeTooltipText = (
   </div>
 );
 
-interface IScoutResultTable {
+interface IScoutResultTableProps {
   viewType: ViewType;
+  searchType: EnumSearchType;
   tableData?: ITableData[];
   selectedRows: number[];
   onRowSelect: (selectedRows: number[]) => void;
+  onShowSimilarCompanies?: (similarCompanyName: string) => void;
 }
 
 export default function ScoutResultTable({
   viewType,
+  searchType,
   tableData,
   selectedRows,
   onRowSelect,
-}: IScoutResultTable) {
+  onShowSimilarCompanies,
+}: IScoutResultTableProps) {
   const [drawerStack, setDrawerStack] = useState<JSX.Element[]>([]);
   const pushDrawer = (sid: number) => {
     const newDrawerContent = (
@@ -189,17 +194,34 @@ export default function ScoutResultTable({
       sortable: false,
       filterable: false,
       renderCell: (params) => {
-        return (
-          <Tooltip title="show more details">
-            <IconButton
-              onClick={() => {
-                pushDrawer(params.row.id);
-              }}
-            >
-              <DensitySmall />
-            </IconButton>
-          </Tooltip>
-        );
+        if (searchType === EnumSearchType.Companies) {
+          return (
+            <Tooltip title="show similar companies">
+              <IconButton
+                onClick={() => {
+                  if (onShowSimilarCompanies) {
+                    onShowSimilarCompanies(params.row.category?.[0]);
+                  }
+                }}
+              >
+                <ChevronRight />
+              </IconButton>
+            </Tooltip>
+          );
+        }
+
+        // Disable showMoreDeatils temporarily
+        // return (
+        //   <Tooltip title="show more details">
+        //     <IconButton
+        //       onClick={() => {
+        //         pushDrawer(params.row.id);
+        //       }}
+        //     >
+        //       <DensitySmall />
+        //     </IconButton>
+        //   </Tooltip>
+        // );
       },
     },
   ];
