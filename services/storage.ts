@@ -1,3 +1,5 @@
+import Cookies from "js-cookie";
+
 /**
  * Removes all user data from local storage.
  */
@@ -7,6 +9,7 @@ const clearUserData = () => {
   localStorage.removeItem("@userData");
   localStorage.removeItem("@surveyCount");
   localStorage.removeItem("@surveyDisplayed");
+  Cookies.remove("token");
 };
 
 /**

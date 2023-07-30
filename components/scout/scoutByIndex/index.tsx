@@ -185,6 +185,10 @@ export default function ScoutByIndex() {
     setMapSelectedCountry(undefined);
   };
   const handleRowSelect = (selectedRows: number[]) => {
+    if (selectedRows.length > 3) {
+      toast.error("You can only select up to 3 companies.");
+      return;
+    }
     setSelectedRows(selectedRows);
   };
 

@@ -17,9 +17,6 @@ export const useIndustries = () => {
       setIndustries(data.industries);
     } catch (err: any) {
       setLoading(false);
-      toast.error(err.response.data.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
     }
   };
 

@@ -33,6 +33,29 @@ request.interceptors.request.use(
   }
 );
 
+request.interceptors.response.use(
+  (response) => {
+    return response;
+  },
+  (error) => {
+    const originalRequest = error.config;
+    const { status } = error.response;
+    if (error.response.data?.error === "AuthTokenRequired") {
+      // If the response status is 401 (unauthorized) and it's not a retry
+      originalRequest._retry = true; // Add a property to prevent infinite retry loops
+      return resetTokenAndReattemptRequest(originalRequest);
+    }
+
+    if (status === 401 && !originalRequest._retry) {
+      // If the response status is 401 (unauthorized) and it's not a retry
+      originalRequest._retry = true; // Add a property to prevent infinite retry loops
+      return resetTokenAndReattemptRequest(originalRequest);
+    }
+
+    return Promise.reject(error);
+  }
+);
+
 const isExpiredToken = (token: string = "") => {
   try {
     /* in case the call succeeds at the end of timeout,
@@ -54,12 +77,11 @@ const resetTokenAndReattemptRequest = async (
   requestConfig: AxiosRequestConfig,
   requestType: "req" | "res" = "req"
 ): Promise<AxiosRequestConfig> => {
-  console.log("--- WARNING: JWT Timeout - Refreshing! ---");
+  console.log("--- Refreshing AUTH TOKEN ---");
   const { refreshToken: resetToken = "" } = StorageService.getAuthData();
   try {
     if (!resetToken) {
-      const reason = `Couldn't find refresh token!`;
-      return Promise.reject(reason);
+      throw new Error("No refresh token available");
     }
 
     const retryOriginalRequest = new Promise<AxiosRequestConfig>(
@@ -89,8 +111,8 @@ const resetTokenAndReattemptRequest = async (
     // make sure we don't lock any upcoming request in case of a refresh error
     isAlreadyFetchingAccessToken = false;
     StorageService.clearUserData();
-    NavigateService.navigate("/");
-    return Promise.reject(err);
+    NavigateService.navigate("/login");
+    return Promise.reject("RE-AUTH");
   }
 };
 

@@ -116,7 +116,7 @@ const ActionFilterAndView = ({
           >
             Bidder List
           </WhiteBgRoundCornerButton>
-          <Tooltip title="Select at least 2 suppliers to compare">
+          <Tooltip title="Select at least 2 suppliers to compare, at most 3">
             <span style={{ display: "flex" }}>
               <WhiteBgRoundCornerButton
                 variant="outlined"
