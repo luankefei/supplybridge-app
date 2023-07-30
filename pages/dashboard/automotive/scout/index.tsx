@@ -81,7 +81,7 @@ export default function Industry({}: Props) {
       pageLoaded.current = true;
       getCommodities();
       getRegions();
-      searchSuppliers(1, true);
+      searchSuppliers(1, true, filterData.q);
       searchFuelTypes();
     }
   };
@@ -118,7 +118,7 @@ export default function Industry({}: Props) {
 
   const searchHandler = () => {
     pageRef.current = 1;
-    searchSuppliers(1, true);
+    searchSuppliers(1, true, filterData.q);
     infiniteScrollControl.current = true;
   };
 

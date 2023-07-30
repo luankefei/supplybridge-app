@@ -74,8 +74,16 @@ interface ITimedAverage {
   timeStr: string;
   averagePrice: number;
 }
-
-const calculateMonthlyAverages = (
+/**
+ * Given a list of data points and a frequency, calculate the average price for each time period
+ *
+ * if the frequency is day, then the average price for each day
+ * if the frequency is month, then the average price for each month
+ * if the frequency is year, then the average price for each year
+ * The algorithm is simple, uses a dictionary with keys which same time period's datapoints should generate the same key.
+ *
+ */
+const calculateOvertimeAverages = (
   data: {
     value: number;
     time: Date;
@@ -123,4 +131,4 @@ const calculateMonthlyAverages = (
   return averages;
 };
 
-export { getPriceConverter, calculateDayRange, calculateMonthlyAverages };
+export { getPriceConverter, calculateDayRange, calculateOvertimeAverages };

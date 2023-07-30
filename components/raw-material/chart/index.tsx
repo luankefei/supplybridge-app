@@ -29,7 +29,7 @@ import styled from "styled-components";
 import {
   FrequencyEnum,
   calculateDayRange,
-  calculateMonthlyAverages as calculateOvertimeAverages,
+  calculateOvertimeAverages,
   getPriceConverter,
 } from "./calculate";
 import { MaterialUnits, Unit } from "../units";

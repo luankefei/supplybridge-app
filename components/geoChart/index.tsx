@@ -129,7 +129,10 @@ interface IMapChart {
   onSelectCountryFilter: (threeLetterCode?: string) => void;
 }
 /**
- * This is the map chart component
+ * This is the map chart component. It's mostly self-contained
+ *
+ * @param selectedCountry - the selected country, this is passed in because we want to highlight the selected country, use this country as a filter, so we use its parent to control this state
+ * @param onSelectCountryFilter - callback to select a country
  */
 export default function MapChart({
   selectedCountry,
@@ -151,6 +154,9 @@ export default function MapChart({
    */
   const [supplierCountByMap, setSupplierCountByMap] =
     useState<TSupplierCountByMap>({ ...initialSupplierCountByMap });
+
+  // Key = 3 letter code, value = number of suppliers
+  // This is not used for now, but we might need it later.
   const [supplierCountByCountryMap, setSupplierCountByCountryMap] = useState<
     Record<string, number>
   >({});
@@ -163,7 +169,6 @@ export default function MapChart({
    * Component lifecycle
    * *****************
    */
-
   useEffect(() => {
     // Initiallize with empty data.
     const newMap = { ...initialSupplierCountByMap };
@@ -174,9 +179,9 @@ export default function MapChart({
       // skip
     } else {
       /**
-       * When users does some query, we have suppliers in our store.
+       * When a user does some query, we have suppliers in our store.
        * The object itself is a list of suppliers, and each supplier
-       * has a headquarter locationId. And locationId as a list of
+       * has a headquarterId, locationId. And locationId is a list of
        * all of its locations. So here we aggregate the data by suppliers.
        */
       for (let i = 0; i < suppliers.length; i++) {
@@ -202,9 +207,9 @@ export default function MapChart({
       }
     }
 
-    console.log("newMap", newMap);
-    console.log("newSupplierCountByCountryMap", newSupplierCountByCountryMap);
-    console.log("newLabels", newLabels);
+    console.debug("newMap", newMap);
+    console.debug("newSupplierCountByCountryMap", newSupplierCountByCountryMap);
+    console.debug("newLabels", newLabels);
     setSupplierCountByMap(newMap);
     setSupplierCountByCountryMap(newSupplierCountByCountryMap);
     setLabels(newLabels);
@@ -221,7 +226,7 @@ export default function MapChart({
     setSelectedRegion(name);
     setCenter(coordinates);
     setZoom(zoom + 0.5);
-    console.log("zooming into", name, coordinates, zoom);
+    console.debug("zooming into", name, coordinates, zoom);
     const regionMarker = preDefinedMarkers.find((x) => x.name === name);
     if (regionMarker?.subMarkers !== undefined) {
       setMarkers(regionMarker.subMarkers);

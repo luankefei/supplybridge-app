@@ -285,7 +285,11 @@
       "organization": "Organization",
       "hqLocation": "HQ Location",
       "footprint": "Global Footprint",
-      "badge": "Badge"
+      "badge": "Badge",
+      "empty": {
+        "title": "No results matching to this search",
+        "subtitle": "Our SmartBridge AI will process the request"
+      }
     },
     "quickbridge": {
       "vehicle": "Vehicle",

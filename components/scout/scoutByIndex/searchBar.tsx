@@ -39,7 +39,7 @@ const SearchBar = (props: SearchBarProps) => {
     EnumSearchType.Keywords
   );
   // autocomplete options
-  const [options, setOptions] = useState([]);
+  const [options, setOptions] = useState<string[]>([]);
   const [optionsLoading, setOptionsLoading] = useState(false);
   /**
    * This is a hack to prevent the search from triggering when the user

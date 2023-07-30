@@ -22,6 +22,7 @@ export interface ITableData {
 const noImageUrl = "https://cdn-stage.supplybridge.com/images/logos/no.png";
 /**
  * Converts supplier to [ITableData]
+ *
  * @param supplier A supplier model
  */
 export function supplierModelToTableData(
@@ -46,7 +47,10 @@ export function supplierModelToTableData(
       if (foundRegions) {
         globalFootprint[lid] = foundRegions.name;
       } else {
-        console.error(`Location ${lid} not found`, allSubRegions);
+        console.error(
+          `Location ${lid} not found in allSubregions`,
+          allSubRegions
+        );
       }
       return "";
     });

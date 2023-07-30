@@ -3,8 +3,10 @@ import Icon from "components/icon";
 import { SpacingVertical } from "components/ui-components/spacer";
 import { SText } from "components/ui-components/text";
 import { theme } from "config/theme";
+import { useTranslation } from "react-i18next";
 
 const EmptyResult = () => {
+  const { t } = useTranslation();
   return (
     <Stack
       sx={{
@@ -20,9 +22,12 @@ const EmptyResult = () => {
         color={theme.colors.secondary}
         textAlign={"center"}
       >
-        No results matching to this search
+        {t("scout.result.empty.title", "No results matching to this search")}
         <br />
-        Our SmartBridge AI will process the request
+        {t(
+          "scout.result.empty.subtitle",
+          "Our SmartBridge AI will process the request"
+        )}
       </SText>
     </Stack>
   );

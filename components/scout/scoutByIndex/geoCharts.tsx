@@ -165,7 +165,9 @@ const GeoCharts = () => {
   };
 
   const searchHandler = () => {
-    searchSuppliers(1, true);
+    // TODO: FIX THIS
+    console.error("TODO: FIX THIS");
+    searchSuppliers(1, true, filterData.q);
   };
 
   useEffect(() => {

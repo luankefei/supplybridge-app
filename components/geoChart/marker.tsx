@@ -17,7 +17,13 @@ interface IMapMarker {
     coordinates: [number, number]
   ) => void;
 }
-
+/**
+ * MapCircleMarker
+ * -- draws a circle marker on the map
+ *
+ * @param marker -- the marker to be rendered, need name, coordinates, color, r (radius)
+ * @param count -- count, will be rendered as second line of text
+ */
 export default function MapCircleMarker({
   marker,
   count,
