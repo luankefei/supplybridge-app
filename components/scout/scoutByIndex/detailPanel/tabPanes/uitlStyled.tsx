@@ -16,12 +16,17 @@ export const TabPaneTextPrimary = styled(SText)`
   max-width: 250px;
 `;
 
-export const GridContainer = styled.div`
+export const GridContainer = styled.div<{
+  width?: string;
+  alignItems?: string;
+}>`
   display: grid;
   grid-template-columns: 250px auto; /* Adjust the width of the first column as needed */
   grid-gap: 16px; /* Adjust the gap between columns as needed */
   font-family: Ubuntu;
   font-style: normal;
+  align-items: ${(props) => props.alignItems};
+  width: ${(props) => props.width};
 `;
 
 export const FirstColumn = styled.div`

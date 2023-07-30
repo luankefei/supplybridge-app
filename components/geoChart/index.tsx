@@ -13,6 +13,7 @@ import {
   EnumRegionAndSubRegion,
   EnumSubRegion,
   MapRegionToColor,
+  MapRegionToMarkerColor,
   isSubRegion,
 } from "./geoUtils";
 import {
@@ -22,13 +23,13 @@ import {
   TwoLetterCodeToCounryCoordinatesMap,
   TwoLetterCodeToCountryCodeMap,
 } from "./geoIdMap";
-import { useStore } from "hooks/useStore";
+import { usePersistentStore, useStore } from "hooks/useStore";
 import MapCircleMarker, { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
 
 //#region map Constants
-const RADIUS_SIZE = [90, 60, 40];
-const SCALE_SIZE = 135;
+const RADIUS_SIZE = [155, 100, 50, 60];
+const SCALE_SIZE = 150;
 // These numbers are tied to the scale of the map
 // i have no idea how to translate them, this is tried out by hand
 const preDefinedMarkers: IMarker[] = [
@@ -36,16 +37,19 @@ const preDefinedMarkers: IMarker[] = [
     name: EnumRegion.Americas,
     coordinates: [-108, 34],
     r: RADIUS_SIZE[0],
+    color: MapRegionToMarkerColor[EnumRegion.Americas],
     subMarkers: [
       {
         name: EnumSubRegion.NorthNCentralAmerica,
         coordinates: [-108, 34],
-        r: RADIUS_SIZE[2],
+        color: MapRegionToMarkerColor[EnumRegion.Americas],
+        r: RADIUS_SIZE[0],
       },
       {
         name: EnumSubRegion.SouthAmerica,
-        coordinates: [-65, -14],
-        r: RADIUS_SIZE[2],
+        coordinates: [-65, -25],
+        r: RADIUS_SIZE[1],
+        color: MapRegionToMarkerColor[EnumRegion.Americas],
       },
     ],
   },
@@ -53,16 +57,25 @@ const preDefinedMarkers: IMarker[] = [
     name: EnumRegion.EMEA,
     coordinates: [18, 10],
     r: RADIUS_SIZE[1],
+    color: MapRegionToMarkerColor[EnumRegion.EMEA],
     subMarkers: [
       {
         name: EnumSubRegion.Europe,
-        coordinates: [18, 45],
+        coordinates: [10, 45],
         r: RADIUS_SIZE[2],
+        color: MapRegionToMarkerColor[EnumRegion.EMEA],
       },
       {
         name: EnumSubRegion.Africa,
-        coordinates: [18, 0],
+        coordinates: [15, -3],
+        r: RADIUS_SIZE[1],
+        color: MapRegionToMarkerColor[EnumRegion.EMEA],
+      },
+      {
+        name: EnumSubRegion.MiddleEast,
+        coordinates: [45, 26],
         r: RADIUS_SIZE[2],
+        color: MapRegionToMarkerColor[EnumRegion.APAC],
       },
     ],
   },
@@ -70,21 +83,19 @@ const preDefinedMarkers: IMarker[] = [
     name: EnumRegion.APAC,
     coordinates: [108, 34],
     r: RADIUS_SIZE[1],
+    color: MapRegionToMarkerColor[EnumRegion.APAC],
     subMarkers: [
       {
         name: EnumSubRegion.Asia,
-        coordinates: [110, 34],
-        r: RADIUS_SIZE[2],
-      },
-      {
-        name: EnumSubRegion.MiddleEast,
-        coordinates: [70, 34],
-        r: RADIUS_SIZE[2],
+        coordinates: [102, 36],
+        r: RADIUS_SIZE[1],
+        color: MapRegionToMarkerColor[EnumRegion.APAC],
       },
       {
         name: EnumSubRegion.Oceania,
-        coordinates: [140, -24],
-        r: RADIUS_SIZE[2],
+        coordinates: [140, -30],
+        r: RADIUS_SIZE[3],
+        color: MapRegionToMarkerColor[EnumRegion.APAC],
       },
     ],
   },
@@ -146,8 +157,8 @@ export default function MapChart({
   // Key = 2 letter code, value = number of suppliers
   const [labels, setLabels] = useState<Record<string, number>>({});
 
-  const { suppliers, stats, allSubRegions, flags } = useStore();
-
+  const { suppliers, stats, flags } = useStore();
+  const { allSubRegions } = usePersistentStore();
   /*** ***************
    * Component lifecycle
    * *****************
@@ -336,12 +347,12 @@ export default function MapChart({
   return (
     <Box
       width={"100%"}
-      height={"38vh"}
+      height={"50vh"}
       display={"flex"}
       justifyContent={"center"}
     >
       <ComposableMap
-        width={window.screen.width * 0.6}
+        width={window.screen.width}
         projection="geoMercator"
         projectionConfig={preDefinedProjectionConfig as any}
       >

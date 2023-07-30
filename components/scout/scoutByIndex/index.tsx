@@ -1,7 +1,7 @@
 import Feedback from "components/feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
 import Summary from "./summary";
-import { useStore } from "hooks/useStore";
+import { usePersistentStore, useStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
@@ -40,8 +40,8 @@ import { useRouter } from "next/router";
 export default function ScoutByIndex() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { allSubRegions, suppliers, stats, setSuppliers, setStats } =
-    useStore();
+  const { allSubRegions } = usePersistentStore();
+  const { suppliers, stats, setSuppliers, setStats } = useStore();
   const { querySupplierListByKeyword, querySupplieListByCompany } =
     useSupplier();
   const { getAllSubRegions } = useFilter();
@@ -77,6 +77,7 @@ export default function ScoutByIndex() {
   const [searched, setSearched] = useState(false);
   const [loading, setLoading] = useState(false);
   const [shortListModalOpen, setShortListModalOpen] = useState(false);
+  const [viewType, setView] = useState<ViewType>(ViewType.LIST);
 
   /********************
    * Component Effects
@@ -254,9 +255,8 @@ export default function ScoutByIndex() {
                         console.log("onClickBidderList");
                       }}
                       onFilterChange={onFilterChange}
-                      onViewChange={function (view: ViewType): void {
-                        console.log("onViewChange", view);
-                      }}
+                      view={viewType}
+                      onViewChange={setView}
                       onClickCompare={
                         selectedRows.length > 1
                           ? () => {
@@ -272,8 +272,10 @@ export default function ScoutByIndex() {
                       }
                     />
                     <ScoutResultTable
+                      viewType={viewType}
                       searchType={resultSearchType || EnumSearchType.Keywords}
                       tableData={tableData}
+                      selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
                       onShowSimilarCompanies={handleShowSimilarCompanies}
                     />

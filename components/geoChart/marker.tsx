@@ -4,6 +4,7 @@ import { EnumRegionAndSubRegion } from "./geoUtils";
 export interface IMarker {
   name: EnumRegionAndSubRegion;
   coordinates: [number, number];
+  color: string;
   r: number;
   subMarkers?: IMarker[];
 }
@@ -22,7 +23,7 @@ export default function MapCircleMarker({
   count,
   onMarkerClick,
 }: IMapMarker) {
-  const { name, coordinates, r } = marker;
+  const { name, coordinates, r, color } = marker;
   if (!count) {
     return null;
   }
@@ -33,7 +34,7 @@ export default function MapCircleMarker({
       onClick={() => onMarkerClick(name, coordinates)}
     >
       <g
-        fill="rgba(139, 137, 185, 0.40)"
+        fill={color}
         stroke="white"
         strokeWidth="1"
         strokeLinecap="round"

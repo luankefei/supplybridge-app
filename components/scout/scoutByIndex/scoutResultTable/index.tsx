@@ -18,6 +18,8 @@ import { ITableData } from "./helper";
 import { SText } from "components/ui-components/text";
 import DeatilsPanel from "../detailPanel";
 import { BadgeType, SupBadge } from "components/ui-components/supBadge";
+import { ViewType } from "../actionFilterAndView";
+import ScoutResultCardView from "./cardView";
 import { EnumSearchType } from "../searchBar";
 
 const supBadgeTooltipText = (
@@ -47,15 +49,19 @@ const supBadgeTooltipText = (
 );
 
 interface IScoutResultTableProps {
+  viewType: ViewType;
   searchType: EnumSearchType;
   tableData?: ITableData[];
-  onRowSelect?: (selectedRows: number[]) => void;
+  selectedRows: number[];
+  onRowSelect: (selectedRows: number[]) => void;
   onShowSimilarCompanies?: (similarCompanyName: string) => void;
 }
 
 export default function ScoutResultTable({
+  viewType,
   searchType,
   tableData,
+  selectedRows,
   onRowSelect,
   onShowSimilarCompanies,
 }: IScoutResultTableProps) {
@@ -236,6 +242,7 @@ export default function ScoutResultTable({
       {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
       <DataGrid
         sx={{
+          display: viewType === ViewType.GRID ? "none" : "block",
           border: "none",
           [`& .${gridClasses.withBorderColor}`]: {
             border: "none",
@@ -254,6 +261,7 @@ export default function ScoutResultTable({
         columns={columns}
         disableRowSelectionOnClick
         disableColumnSelector
+        rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleRowSelection}
         checkboxSelection
         initialState={{
@@ -263,6 +271,15 @@ export default function ScoutResultTable({
             },
           },
         }}
+      />
+      <ScoutResultCardView
+        sx={{
+          display: viewType === ViewType.GRID ? "block" : "none",
+        }}
+        rows={tableData}
+        selectedRows={selectedRows}
+        onRowSelect={onRowSelect}
+        pushDrawer={pushDrawer}
       />
       <SpacingVertical space="50px" />
     </Box>
