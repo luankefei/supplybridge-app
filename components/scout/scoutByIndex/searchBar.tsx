@@ -25,6 +25,11 @@ export enum EnumSearchType {
   Companies = "Companies",
 }
 
+/**
+ * The search bar component for the scout page.
+ * -- this component controls its own SearchType and queryString state
+ * -- all results are passed back to the parent component by calling the onSearch callback
+ */
 const SearchBar = (props: SearchBarProps) => {
   const { t } = useTranslation();
   const { searchAutocomplete } = useSupplier();
@@ -33,8 +38,8 @@ const SearchBar = (props: SearchBarProps) => {
   const [searchType, setSearchType] = useState<EnumSearchType>(
     EnumSearchType.Keywords
   );
+  // autocomplete options
   const [options, setOptions] = useState([]);
-
   const [optionsLoading, setOptionsLoading] = useState(false);
   /**
    * This is a hack to prevent the search from triggering when the user
@@ -66,7 +71,7 @@ const SearchBar = (props: SearchBarProps) => {
       return;
     }
     setOptionsLoading(true);
-    console.log("getting autoComplete for", value);
+    console.debug("getting autoComplete for", value);
     // TODO: enable this when API is ready
     const suggestedItems = await searchAutocomplete(queryString);
     setOptions(suggestedItems);
@@ -113,10 +118,15 @@ const SearchBar = (props: SearchBarProps) => {
               }
             }}
             onHighlightChange={(event: any, value: unknown) => {
-              console.log("onHighlightChange", event, value);
               if (value !== null) {
+                console.debug("user may select an open: ", value);
                 setEnterTriggerSearch(false);
               }
+            }}
+            onBlur={() => {
+              // This handles a case where user tabs, or clicks out of the autocomplete
+              // we then want to trigger the search by hitting enter
+              setEnterTriggerSearch(true);
             }}
             onChange={(event: any, value: unknown) => {
               setQueryString(value as string);

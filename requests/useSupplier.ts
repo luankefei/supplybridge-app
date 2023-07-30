@@ -6,7 +6,19 @@ import { useStore } from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
 import { useTranslation } from "react-i18next";
 
-export const useSupplier = (flags: any = null) => {
+interface IUseSupplierReturned {
+  querySupplierListByKeyword: (queryString: string) => Promise<void>;
+  searchAutocomplete: (queryString: string) => Promise<string[]>;
+  loading: boolean;
+  querySupplieListByCompany: (queryString: string) => Promise<void>;
+  searchSuppliers: (
+    pageNumber: number,
+    reset: boolean,
+    searchString: string
+  ) => Promise<void>;
+}
+
+export const useSupplier = (): IUseSupplierReturned => {
   const { setSuppliers, setCount, setStats, page, pageSize } = useStore();
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();

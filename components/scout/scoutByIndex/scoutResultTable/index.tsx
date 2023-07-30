@@ -57,6 +57,24 @@ interface IScoutResultTableProps {
   onShowSimilarCompanies?: (similarCompanyName: string) => void;
 }
 
+/**
+ * Only for rendering the table of results from the scout page.
+ * -- this component does not control its own state,
+ * -- except for 1 local state for the drawer stack
+ * requries the following props:
+ * @props
+ * -- viewType: ViewType (GRID (for card view) or LIST (fro table view))
+ *
+ * -- searchType: EnumSearchType (Keywords or Companies), use this to alternatively show "similar companies" button
+ *
+ * -- tableData: ITableData[] (the data to be rendered in the table)
+ *
+ * -- selectedRows: number[] (the list of selected rows)
+ *
+ * -- onRowSelect: (selectedRows: number[]) => void (callback to parent component when a row is selected)
+ *
+ * -- onShowSimilarCompanies?: (similarCompanyName: string) => void (callback to parent component when "similar companies" button is clicked)
+ */
 export default function ScoutResultTable({
   viewType,
   searchType,
