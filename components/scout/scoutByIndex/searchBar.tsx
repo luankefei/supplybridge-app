@@ -16,11 +16,11 @@ import { SpacingHorizontal } from "components/ui-components/spacer";
 import { ResetIconTextButton } from "components/ui-components/iconTextButton";
 
 interface SearchBarProps {
-  onSearch: (queryString: string, searchType: SearchType) => void;
+  onSearch: (queryString: string, searchType: EnumSearchType) => void;
   onReset: () => void;
 }
 
-export enum SearchType {
+export enum EnumSearchType {
   Keywords = "Keywords",
   Companies = "Companies",
 }
@@ -30,7 +30,9 @@ const SearchBar = (props: SearchBarProps) => {
   const { searchAutocomplete } = useSupplier();
 
   const [queryString, setQueryString] = useState("");
-  const [searchType, setSearchType] = useState<SearchType>(SearchType.Keywords);
+  const [searchType, setSearchType] = useState<EnumSearchType>(
+    EnumSearchType.Keywords
+  );
   const [options, setOptions] = useState([]);
 
   const [optionsLoading, setOptionsLoading] = useState(false);
@@ -46,7 +48,7 @@ const SearchBar = (props: SearchBarProps) => {
   };
   const resetFilters = () => {
     setQueryString("");
-    setSearchType(SearchType.Keywords);
+    setSearchType(EnumSearchType.Keywords);
     props.onReset();
   };
   const onInputChange = (event: any, value: string) => {
