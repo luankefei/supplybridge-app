@@ -29,7 +29,12 @@ export function supplierModelToTableData(
   idx: number,
   allSubRegions: Record<number, TSubRegion>
 ): ITableData {
-  const hqLocation = allSubRegions[supplier.headquarterId];
+  let hqLocation;
+  if (supplier.headquarterId === undefined) {
+    hqLocation = {};
+  } else {
+    hqLocation = allSubRegions[supplier.headquarterId];
+  }
   const badges = Object.keys(supplier.flags || {}).filter(
     (x) => supplier.flags[x as keyof typeof supplier.flags]
   );
@@ -50,7 +55,7 @@ export function supplierModelToTableData(
     logo: supplier.logo || noImageUrl,
     name: supplier.name || "",
     isInnovation: false, // TODO: add this field
-    headquarter: hqLocation?.name || "",
+    headquarter: hqLocation?.name || "N/A",
     hqCode: hqLocation?.code || "",
     globalFootprint: Object.values(globalFootprint),
     globalFootprintIds: Object.keys(globalFootprint),
