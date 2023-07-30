@@ -16,7 +16,7 @@ import { SpacingHorizontal } from "components/ui-components/spacer";
 import { ResetIconTextButton } from "components/ui-components/iconTextButton";
 
 interface SearchBarProps {
-  onSearch: (queryString: string) => void;
+  onSearch: (queryString: string, searchType: SearchType) => void;
   onReset: () => void;
 }
 
@@ -71,7 +71,7 @@ const SearchBar = (props: SearchBarProps) => {
     setOptionsLoading(false);
   };
   const onClickSearch = () => {
-    props.onSearch(queryString);
+    props.onSearch(queryString, searchType);
   };
   return (
     <Stack sx={{ width: "80%", margin: "auto" }}>

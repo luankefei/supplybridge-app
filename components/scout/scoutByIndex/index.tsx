@@ -21,7 +21,7 @@ import {
   helperTableDataToFilterDataset,
 } from "./actionFilterAndView/tableFilters";
 import { hasIntersection } from "utils/array";
-import SearchBar from "./searchBar";
+import SearchBar, { SearchType as TSearchType } from "./searchBar";
 import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
 import { useFilter } from "requests/useFilter";
@@ -41,7 +41,8 @@ export default function ScoutByIndex() {
   const { t } = useTranslation();
   const router = useRouter();
   const { allSubRegions, suppliers, setSuppliers, setStats } = useStore();
-  const { querySupplierListByName } = useSupplier();
+  const { querySupplierListByKeyword, querySupplieListByCompany } =
+    useSupplier();
   const { getAllSubRegions } = useFilter();
 
   /******************
@@ -150,13 +151,20 @@ export default function ScoutByIndex() {
     reCalTableData(fv, mapSelectedCountry);
   };
 
-  const searchHandler = async (queryString: string) => {
+  const searchHandler = async (
+    queryString: string,
+    searchType: TSearchType
+  ) => {
     if (queryString === "") {
       return;
     }
     setQueryString(queryString);
     setLoading(true);
-    await querySupplierListByName(queryString);
+    if (searchType === TSearchType.Keywords) {
+      await querySupplierListByKeyword(queryString);
+    } else {
+      await querySupplieListByCompany(queryString);
+    }
     setLoading(false);
     setSearched(true);
   };

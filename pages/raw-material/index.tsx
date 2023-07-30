@@ -148,7 +148,7 @@ export default function RawMaterial() {
                       RawMaterialDescriptions[subfield.name];
                     if (!upatedDescription) {
                       // debug usage
-                      console.log("No description for", subfield.name);
+                      console.debug("Debug: No description for", subfield.name);
                     }
                     let description =
                       upatedDescription.Description ||

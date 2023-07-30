@@ -31,7 +31,7 @@ export const useSupplier = (flags: any = null) => {
     }
   };
   /**
-   * Query supplier list by string
+   * Query supplier list by keyword string
    *
    * sets [suppliers], [count], [stats] at store
    *
@@ -39,19 +39,57 @@ export const useSupplier = (flags: any = null) => {
    * @param queryString -- search string
    * @returns the data from the request
    */
-  const querySupplierListByName = async (queryString: string) => {
+  const querySupplierListByKeyword = async (queryString: string) => {
+    const searchObj = {
+      q: queryString,
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+      filter: {
+        _extras: {
+          // This is not hardcoded into the backend, just need a different
+          // value for `type`
+          type: "Keywords",
+          lang: i18n.languages[0],
+        },
+      },
+    };
+    await _querySupplierList(searchObj);
+  };
+
+  /**
+   * Query supplier list by company name
+   *
+   * sets [suppliers], [count], [stats] at store
+   *
+   * sets loading
+   * @param queryString -- search string
+   * @returns the data from the request
+   */
+  const querySupplieListByCompany = async (queryString: string) => {
+    const searchObj = {
+      q: queryString,
+      offset: (page - 1) * pageSize,
+      limit: pageSize,
+      filter: {
+        _extra: {
+          // This is hardcoded into the backend, so we need to send it
+          // supplybridge-backend @ src/services/localSearch.ts
+          // if (filter?._extra?.type === 'Companies') {
+          type: "Companies",
+          lang: i18n.languages[0],
+        },
+      },
+    };
+    await _querySupplierList(searchObj);
+  };
+
+  const _querySupplierList = async (searchObj: object) => {
     try {
       setLoading(true);
-      const searchObj = {
-        q: queryString,
-        offset: (page - 1) * pageSize,
-        limit: pageSize,
-      };
       const endpoint = "suppliers/search_full_text";
       const { data } = await request.post(endpoint, searchObj);
       await fakeData(data, searchObj);
       setLoading(false);
-
       if (data.suppliers[0]?.id === undefined) {
         // supplier id is missing, somethings this happens,
         // right now use idx on frontend as a hack,
@@ -118,7 +156,8 @@ export const useSupplier = (flags: any = null) => {
   };
 
   return {
-    querySupplierListByName,
+    querySupplierListByKeyword,
+    querySupplieListByCompany,
     searchSuppliers,
     loading,
     searchAutocomplete,

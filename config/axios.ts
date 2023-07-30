@@ -4,7 +4,6 @@ import NavigateService from "services/navigate";
 import StorageService from "services/storage";
 
 import { API_URL } from "./";
-import Cookies from "js-cookie";
 
 const request = axios.create({
   baseURL: API_URL,
