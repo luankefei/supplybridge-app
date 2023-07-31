@@ -12,42 +12,41 @@ exports[`RawMaterial matches snapshot 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-12i7wg6-MuiPaper-root-MuiDrawer-paper"
       >
         <div
-          class="sc-gEvEer jrxsOX"
+          class="css-in3uv0-MuiStack-root"
         >
           <div
-            class="sc-eqUAAy dsCYao"
+            class="css-yg8aj0-MuiStack-root"
           >
-            <div
-              class="sc-fqkvVR gqCPJc"
-            >
+            <picture>
               <img
-                class="sc-dcJsrY ia-dhXV"
+                alt="logo"
                 src="/menu/logo.svg"
               />
-            </div>
+            </picture>
             <div
-              class="sc-fqkvVR gqCPJc"
+              class="MuiBox-root css-0"
             >
               <div
-                class="sc-iGgWBj hDwgJF"
+                class="sc-gsFSXq jqxsqU"
+                color="#808080"
+                font-size="16px"
+                font-weight="400"
               >
-                <span
-                  class="sc-gsFSXq kjpJXT"
-                >
-                  Welcome
-                </span>
+                Welcome
               </div>
+              <div
+                class="sc-aXZVg iqDiuF"
+              />
               <div
                 class="sc-kAyceB MILQL"
               >
                 SOLUTIONS
               </div>
               <a
-                class="sc-aXZVg iWlTCU"
                 href="/scout"
               >
                 <div
-                  class="sc-dAlyuH kfbbaS"
+                  class="sc-dAlyuH fvjWec"
                 >
                   <img
                     class="sc-imWYAI fAyvog"
@@ -61,11 +60,10 @@ exports[`RawMaterial matches snapshot 1`] = `
                 </div>
               </a>
               <a
-                class="sc-aXZVg iWlTCU"
                 href="/source"
               >
                 <div
-                  class="sc-dAlyuH kfbbaS"
+                  class="sc-dAlyuH fvjWec"
                 >
                   <img
                     class="sc-imWYAI fAyvog"
@@ -79,11 +77,10 @@ exports[`RawMaterial matches snapshot 1`] = `
                 </div>
               </a>
               <a
-                class="sc-aXZVg iWlTCU"
                 href=""
               >
                 <div
-                  class="sc-dAlyuH jwyRhG"
+                  class="sc-dAlyuH cSPuuI"
                 >
                   <img
                     class="sc-imWYAI fAyvog"
@@ -102,11 +99,10 @@ exports[`RawMaterial matches snapshot 1`] = `
                 </div>
               </a>
               <a
-                class="sc-aXZVg iWlTCU"
                 href=""
               >
                 <div
-                  class="sc-dAlyuH jwyRhG"
+                  class="sc-dAlyuH cSPuuI"
                 >
                   <img
                     class="sc-imWYAI fAyvog"
@@ -130,7 +126,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               </a>
             </div>
             <div
-              class="sc-fqkvVR gqCPJc"
+              class="MuiBox-root css-0"
             >
               <div
                 class="sc-kAyceB MILQL"
@@ -138,11 +134,10 @@ exports[`RawMaterial matches snapshot 1`] = `
                 MARKET DATA
               </div>
               <a
-                class="sc-aXZVg iWlTCU"
                 href="/raw-material"
               >
                 <div
-                  class="sc-dAlyuH kfbbaS"
+                  class="sc-dAlyuH fvjWec"
                 >
                   <img
                     class="sc-imWYAI fAyvog"
@@ -156,11 +151,10 @@ exports[`RawMaterial matches snapshot 1`] = `
                 </div>
               </a>
               <a
-                class="sc-aXZVg iWlTCU"
                 href="/supplier-news"
               >
                 <div
-                  class="sc-dAlyuH kfbbaS"
+                  class="sc-dAlyuH fvjWec"
                 >
                   <img
                     class="sc-imWYAI fAyvog"
@@ -174,11 +168,10 @@ exports[`RawMaterial matches snapshot 1`] = `
                 </div>
               </a>
               <a
-                class="sc-aXZVg iWlTCU"
                 href="/supply-chain-transparency"
               >
                 <div
-                  class="sc-dAlyuH kfbbaS"
+                  class="sc-dAlyuH fvjWec"
                 >
                   <img
                     class="sc-imWYAI fAyvog"
@@ -194,42 +187,62 @@ exports[`RawMaterial matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="sc-fqkvVR gqCPJc"
+            class="css-1rx3pq-MuiStack-root"
           >
             <div
-              class="sc-jlZhew MGCBa"
+              class="css-1d9cypr-MuiStack-root"
             >
-              <span
-                class="sc-cwHptR iIljdt"
-              >
+              <picture>
                 <img
-                  class="sc-dcJsrY ia-dhXV"
+                  alt="logo"
                   src="/menu/bmw.svg"
                 />
-              </span>
-              <span
-                class="sc-jEACwC cjibtn"
+              </picture>
+              <div
+                class="sc-gEvEer dufIhW"
+              />
+              <div
+                class="css-nen11g-MuiStack-root"
               >
-                <span
-                  class="sc-cPiKLX bZytAT"
+                <div
+                  class="sc-gsFSXq gQllPY"
+                  color="#1a1a1a"
+                  font-size="16px"
+                  font-weight="400"
                 >
                   BMW
-                </span>
+                </div>
                 <div
-                  class="sc-dLMFU khXVzW"
+                  class="css-m69qwo-MuiStack-root"
                 >
-                  <span
-                    class="sc-eDPEul ewNhUW"
+                  <div
+                    class="sc-gsFSXq bXjFDZ"
+                    color="#2c71f0"
+                    font-size="12px"
+                    font-weight="300"
                   >
-                    Premium Account |
-                  </span>
-                  <span
-                    class="sc-eldPxv kOlunG"
+                    Premium Account
+                  </div>
+                  <div
+                    class="sc-gEvEer dufIhW"
+                  />
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                  />
+                  <div
+                    class="sc-gEvEer dufIhW"
+                  />
+                  <div
+                    class="sc-gsFSXq bXjFDZ"
+                    color="#2c71f0"
+                    font-size="12px"
+                    font-weight="300"
+                    style="cursor: pointer;"
                   >
                     Log out
-                  </span>
+                  </div>
                 </div>
-              </span>
+              </div>
             </div>
           </div>
         </div>
@@ -264,10 +277,10 @@ exports[`RawMaterial matches snapshot 1`] = `
                     class="MuiCollapse-wrapperInner MuiCollapse-vertical css-9l5vo-MuiCollapse-wrapperInner"
                   >
                     <div
-                      class="sc-fPXMVe hoWViE"
+                      class="sc-aXZVg iqobTy"
                     />
                     <div
-                      class="sc-dAbbOL jVNKrn"
+                      class="sc-fqkvVR KPeIb"
                     >
                       Make better data-driven decisions with the Latest Trends in Commodity and Material Prices
                     </div>
@@ -275,17 +288,17 @@ exports[`RawMaterial matches snapshot 1`] = `
                       class="css-bimbu8"
                     >
                       <img
-                        class="sc-fHjqPf iKEfXF"
+                        class="sc-jlZhew fbtIoU"
                         height="30"
                         src="/icons/smart-bridge-ai.svg"
                         title=""
                         width="24"
                       />
                       <div
-                        class="sc-gFqAkR bdwSoA"
+                        class="sc-gEvEer dufIhW"
                       />
                       <div
-                        class="sc-hzhJZQ dfWPCz"
+                        class="sc-gsFSXq fPhlqA"
                         color="#89A8B3"
                         font-size="13px"
                         font-weight="400"
@@ -297,7 +310,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                 </div>
               </div>
               <div
-                class="sc-fPXMVe hoWViE"
+                class="sc-aXZVg iqobTy"
               />
               <div
                 class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1qqsdnr-MuiAutocomplete-root"
@@ -401,7 +414,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                 </button>
               </div>
               <div
-                class="sc-fPXMVe hoWViE"
+                class="sc-aXZVg iqobTy"
               />
             </div>
           </div>
@@ -411,18 +424,18 @@ exports[`RawMaterial matches snapshot 1`] = `
         class="MuiBox-root css-1jvvr9v"
       >
         <div
-          class="sc-fPXMVe hnZRwg"
+          class="sc-aXZVg ipXJpq"
         />
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root sc-eeDRCY gPIFrI css-bhp9pd-MuiPaper-root-MuiCard-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root sc-dLMFU feStdq css-bhp9pd-MuiPaper-root-MuiCard-root"
         >
           <div
-            class="sc-ikkxIA gecdWH"
+            class="sc-eqUAAy jgpQLS"
           >
             Filter by category
           </div>
           <div
-            class="sc-fPXMVe hoHodr"
+            class="sc-aXZVg iqDiuF"
           />
           <div
             class="css-nen11g-MuiStack-root"
@@ -440,14 +453,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fHjqPf cmZHOM"
+                    class="sc-jlZhew tzsvV"
                     height="52"
                     src="/icons/materialCategory/energy.svg"
                     title=""
                     width="52"
                   />
                   <div
-                    class="sc-fPXMVe hnYQnM"
+                    class="sc-aXZVg ipWIgW"
                   />
                   Energy
                   <span
@@ -465,14 +478,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fHjqPf cmZHOM"
+                    class="sc-jlZhew tzsvV"
                     height="52"
                     src="/icons/materialCategory/metal.svg"
                     title=""
                     width="52"
                   />
                   <div
-                    class="sc-fPXMVe hnYQnM"
+                    class="sc-aXZVg ipWIgW"
                   />
                   Metals
                   <span
@@ -490,14 +503,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fHjqPf cmZHOM"
+                    class="sc-jlZhew tzsvV"
                     height="52"
                     src="/icons/materialCategory/plastic.svg"
                     title=""
                     width="52"
                   />
                   <div
-                    class="sc-fPXMVe hnYQnM"
+                    class="sc-aXZVg ipWIgW"
                   />
                   Plastic
                   <span
@@ -515,14 +528,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fHjqPf cmZHOM"
+                    class="sc-jlZhew tzsvV"
                     height="52"
                     src="/icons/materialCategory/ESG.svg"
                     title=""
                     width="52"
                   />
                   <div
-                    class="sc-fPXMVe hnYQnM"
+                    class="sc-aXZVg ipWIgW"
                   />
                   ESG
                   <span
@@ -540,14 +553,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fHjqPf cmZHOM"
+                    class="sc-jlZhew tzsvV"
                     height="52"
                     src="/icons/materialCategory/ev-related.svg"
                     title=""
                     width="52"
                   />
                   <div
-                    class="sc-fPXMVe hnYQnM"
+                    class="sc-aXZVg ipWIgW"
                   />
                   EV-related
                   <span
@@ -565,14 +578,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fHjqPf cmZHOM"
+                    class="sc-jlZhew tzsvV"
                     height="52"
                     src="/icons/materialCategory/others.svg"
                     title=""
                     width="52"
                   />
                   <div
-                    class="sc-fPXMVe hnYQnM"
+                    class="sc-aXZVg ipWIgW"
                   />
                   Others
                   <span
@@ -591,21 +604,21 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fHjqPf cmZHOM"
+                    class="sc-jlZhew tzsvV"
                     height="52"
                     src="/icons/materialCategory/lock.svg"
                     title=""
                     width="52"
                   />
                   <div
-                    class="sc-fPXMVe hnYQnM"
+                    class="sc-aXZVg ipWIgW"
                   />
                   More
                 </button>
               </div>
             </div>
             <div
-              class="sc-fPXMVe hoHodr"
+              class="sc-aXZVg iqDiuF"
             />
             <div
               class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
@@ -622,7 +635,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                     style="border-radius: 16px; background-color: rgb(243, 244, 246);"
                   >
                     <div
-                      class="sc-fPXMVe hopHSO"
+                      class="sc-aXZVg ipFQBU"
                     />
                     <div
                       class="MuiGrid-root MuiGrid-container css-11lq3yg-MuiGrid-root"
@@ -655,7 +668,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                           </svg>
                         </span>
                         <div
-                          class="sc-gFqAkR bqCeGl"
+                          class="sc-gEvEer kdCKNz"
                         />
                         Select All
                         <span
@@ -664,7 +677,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                       </button>
                     </div>
                     <div
-                      class="sc-fPXMVe hoHodr"
+                      class="sc-aXZVg iqDiuF"
                     />
                   </div>
                 </div>
@@ -673,13 +686,13 @@ exports[`RawMaterial matches snapshot 1`] = `
           </div>
         </div>
         <div
-          class="sc-fPXMVe hnZRwg"
+          class="sc-aXZVg ipXJpq"
         />
         <div
           class="MuiGrid-root MuiGrid-container css-mhc70k-MuiGrid-root"
         />
         <div
-          class="sc-fPXMVe hnZRwg"
+          class="sc-aXZVg ipXJpq"
         />
       </div>
     </main>
