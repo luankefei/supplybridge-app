@@ -155,7 +155,7 @@ export default function ScoutResultTable({
       renderCell: (params) => {
         const { headquarter, hqCode } = params.row;
         return (
-          <Box sx={{ display: "flex" }}>
+          <Box sx={{ display: "flex" }} alignItems={"center"}>
             <NullableImg
               url={hqCode ? `/flags/${hqCode?.toLowerCase()}.svg` : ""}
             />
