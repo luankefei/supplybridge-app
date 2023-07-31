@@ -117,8 +117,8 @@ const ArrowButton = styled.button`
 `;
 
 const PreviousButton = styled(ArrowButton)`
-  position: absolute;
-  left: 10px;
+  position: fixed;
+  top: 50vh;
 `;
 
 const IconWrapper = styled.span`
@@ -137,8 +137,9 @@ const IconWrapper = styled.span`
 const Icon = styled.img``;
 
 const NextButton = styled(ArrowButton)`
-  position: absolute;
-  right: 10px;
+  position: fixed;
+  right: 0;
+  top: 50vh;
 `;
 
 const IndicatorStyled = styled(Indicator)`

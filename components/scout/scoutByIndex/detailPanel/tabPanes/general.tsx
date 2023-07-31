@@ -8,7 +8,7 @@ import {
 } from "./uitlStyled";
 import { SpacingVertical } from "components/ui-components/spacer";
 import Icon from "components/icon";
-import { useStore } from "hooks/useStore";
+import { usePersistentStore, useStore } from "hooks/useStore";
 
 /**
  * 2 sections,
@@ -18,7 +18,7 @@ import { useStore } from "hooks/useStore";
  * a list of highlights with buillent points
  */
 const General = ({ data }: { data: TSupplierModel }) => {
-  const { allSubRegions } = useStore.getState();
+  const { allSubRegions } = usePersistentStore.getState();
   const MyFirstColumnComponent = ({
     icon,
     text,

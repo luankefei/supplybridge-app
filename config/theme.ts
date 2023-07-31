@@ -21,7 +21,6 @@ export const theme = {
     surface: "#FFFFFF", // Used for a component background such as card, button and so on
     blue: "#2C71F0",
     red: "#AF0000",
-
   },
   constants: {
     s: "8px",
@@ -49,5 +48,5 @@ export const theme = {
     headerHeight: "120px",
     leftMenuWidth: "312px",
     cardMaxWidth: "100%",
-  }
+  },
 };

@@ -1,16 +1,12 @@
 import { toast } from "react-toastify";
 
 import { request } from "config/axios";
-import { useStore } from "hooks/useStore";
+import { usePersistentStore, useStore } from "hooks/useStore";
 
 export const useFilter = () => {
-  const {
-    setCommodities,
-    setRegions,
-    setComponents,
-    setSubRegions,
-    setAllSubRegions,
-  } = useStore();
+  const { setCommodities, setRegions, setComponents, setSubRegions } =
+    useStore();
+  const { setAllSubRegions } = usePersistentStore();
 
   const getCommodities = async () => {
     try {

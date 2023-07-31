@@ -29,11 +29,6 @@ interface INonPersistentStore {
   setSelectedRegions: (value: any) => void;
   subRegions: any;
   setSubRegions: (value: any) => void;
-  /**
-   * All subregions is now a dictionary with key =id, value=subregion
-   */
-  allSubRegions: Record<number, TSubRegionWithCount>;
-  setAllSubRegions: (value: TSubRegionWithCount[]) => void;
   selectedCountries: any;
   setSelectedCountries: (value: any) => void;
   showBackdrop: boolean;
@@ -71,18 +66,11 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
 
   subRegions: [],
   setSubRegions: (subRegions: any) => set(() => ({ subRegions })),
-  allSubRegions: {},
-  setAllSubRegions: (regions: TSubRegionWithCount[]) => {
-    const newAllSubRegions: Record<number, TSubRegionWithCount> = {};
-    regions.forEach((subRegion) => {
-      newAllSubRegions[subRegion.id] = subRegion;
-    });
-    set(() => ({ allSubRegions: newAllSubRegions }));
-  },
+
   page: 1,
   setPage: (page: any) => set(() => ({ page })),
 
-  pageSize: 10,
+  pageSize: 100,
   setPageSize: (pageSize: any) => set(() => ({ pageSize })),
 
   filterData: {
@@ -104,7 +92,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   clearFilterData: () =>
     set(() => ({
       page: 1,
-      pageSize: 10,
+      pageSize: 100,
       components: [],
       subRegions: [],
       selectedRegions: [],
@@ -146,7 +134,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
       user: {},
       token: "",
       page: 1,
-      pageSize: 10,
+      pageSize: 100,
       count: 0,
       filterData: {
         commodities: [],
@@ -169,6 +157,11 @@ interface IPersistentStore {
   user: any;
   setUser: (value: any) => void;
   signOut: () => void;
+  /**
+   * All subregions is now a dictionary with key =id, value=subregion
+   */
+  allSubRegions: Record<number, TSubRegionWithCount>;
+  setAllSubRegions: (value: TSubRegionWithCount[]) => void;
 }
 const usePersistentStore = create<IPersistentStore>()(
   persist<IPersistentStore>(
@@ -184,7 +177,16 @@ const usePersistentStore = create<IPersistentStore>()(
           token: "",
         }));
       },
+      allSubRegions: {},
+      setAllSubRegions: (regions: TSubRegionWithCount[]) => {
+        const newAllSubRegions: Record<number, TSubRegionWithCount> = {};
+        regions.forEach((subRegion) => {
+          newAllSubRegions[subRegion.id] = subRegion;
+        });
+        set(() => ({ allSubRegions: newAllSubRegions }));
+      },
     }),
+
     {
       name: "supply-storage",
       getStorage: () => localStorage,

@@ -30,8 +30,17 @@ import VerticalIconButton from "components/ui-components/verticalIconButton";
 import RMChart from "components/raw-material/chart";
 import { RawMaterialDescriptions } from "components/raw-material/descriptions";
 import MaterialTooltip from "components/raw-material/materialTooltip";
+import { useTranslation } from "react-i18next";
 
+/**
+ * The Raw Material page
+ * -- input search bar
+ * -- categories
+ * -- charts
+ *
+ */
 export default function RawMaterial() {
+  const { t } = useTranslation();
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [openedCategory, setOpenedCategory] = useState<string | undefined>();
 
@@ -57,7 +66,7 @@ export default function RawMaterial() {
   };
   return (
     <Layout
-      pageTitle={"Market Data"}
+      pageTitle={t("sidebar.marketData", "Market Data")}
       appBar={
         <RMTopMenuBar>
           <Autocomplete
@@ -135,20 +144,17 @@ export default function RawMaterial() {
                   .find((v) => v.category === openedCategory)
                   ?.subfields.map((subfield, idx) => {
                     const selected = selectedMaterials.includes(subfield.name);
-                    const disabled = subfield.apiName === "";
                     const upatedDescription =
                       RawMaterialDescriptions[subfield.name];
                     if (!upatedDescription) {
                       // debug usage
-                      console.log("No description for", subfield.name);
+                      console.debug("Debug: No description for", subfield.name);
                     }
                     let description =
                       upatedDescription.Description ||
                       subfield.description ||
                       "";
-                    if (disabled) {
-                      description += "We are working on this data";
-                    }
+
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
@@ -161,15 +167,10 @@ export default function RawMaterial() {
                             borderRadius: 100,
                             minWidth: 110,
                             borderColor: selected ? "#08979C" : "#E5E7EB",
-                            backgroundColor:
-                              disabled || selected ? "#E5E7EB" : "#FFFFFF",
+                            backgroundColor: selected ? "#E5E7EB" : "#FFFFFF",
                             color: selected ? "#08979C" : "#445B66",
                           }}
-                          onClick={
-                            disabled
-                              ? undefined
-                              : () => toggleMatieral(subfield.name)
-                          }
+                          onClick={() => toggleMatieral(subfield.name)}
                         >
                           {subfield.name}
                           <SpacingHorizontal space="10px" />

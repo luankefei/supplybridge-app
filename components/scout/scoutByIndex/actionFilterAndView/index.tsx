@@ -21,6 +21,10 @@ interface ActionFilterAndViewProps {
    */
   resultCount: number;
   /**
+   * Number of results displayed
+   */
+  displayCount: number;
+  /**
    * To be used in conjunction with resultCount
    */
   resultType: string;
@@ -28,6 +32,7 @@ interface ActionFilterAndViewProps {
    * Initial filter data, use for rendering the filter chips
    */
   filterInitialData: FilterDataset;
+  view: ViewType;
   onClickBuildMyShortList: () => void;
   onClickBidderList: () => void;
   /**
@@ -59,17 +64,22 @@ const WhiteBgRoundCornerButton = styled(Button)`
  */
 const ActionFilterAndView = ({
   resultCount,
+  displayCount,
   resultType,
   filterInitialData,
+  view,
   onClickBuildMyShortList,
   onClickBidderList,
   onClickCompare,
   onFilterChange,
   onViewChange,
 }: ActionFilterAndViewProps) => {
-  const [view, setView] = useState<ViewType>(ViewType.LIST);
-  const hanldeViewChange = (e: any, v: ViewType) => {
-    setView(v);
+  const hanldeViewChange = (e: any, v: ViewType | null) => {
+    if (v === null) {
+      // enforce
+      return;
+    }
+
     onViewChange(v);
   };
   if (resultCount === 0) {
@@ -80,15 +90,16 @@ const ActionFilterAndView = ({
       <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
         <Box>
           <Trans i18nKey="scout.result.overview">
-            Listing
             <SText fontWeight="700" fontSize="32px">
               {{ resultCount } as any}
             </SText>
-            supplier(s) matching for
             <SText fontWeight="700" fontSize="32px">
               {{ resultType } as any}
             </SText>
           </Trans>
+          <SText>
+            Displaying <SText fontWeight="700">{displayCount}</SText>
+          </SText>
         </Box>
         <TableFilters
           initialValue={filterInitialData}
