@@ -16,10 +16,13 @@ const CustomTooltip = (props: {
     return (
       <Box>
         <Stack borderRadius={"8px"} bgcolor={"#374151"} p={1}>
-          <SText color="white" fontSize="14px">
+          <SText color="#9CA3AF" fontSize="12px" lineHeight="20px">
+            mm/dd/yyyy
+          </SText>
+          <SText color="white" fontSize="14px" lineHeight="20px">
             {label}
           </SText>
-          <SText color="white" fontSize="14px">
+          <SText color="white" fontSize="14px" lineHeight="20px">
             ${payload[0].value.toFixed(2)}
           </SText>
         </Stack>

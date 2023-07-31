@@ -197,7 +197,8 @@ export default function ScoutByIndex() {
    * Render
    * ************
    */
-  /// temp hack to add empty rows for blur
+  // temp hack to add empty rows for blur
+  // TODO: Remove this.
   const emptyRows = new Array(10);
   for (let i = 0; i < 10; i++) {
     emptyRows[i] = { id: i + data.length };
