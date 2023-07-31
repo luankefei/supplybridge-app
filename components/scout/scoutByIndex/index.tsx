@@ -79,6 +79,8 @@ export default function ScoutByIndex() {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   // A 3 letter country code, set when user clicks on a country in the map
   const [mapSelectedCountry, setMapSelectedCountry] = useState<string>();
+  const [mapSelectedCountrySupplierCount, setMapSelectedCountrySupplierCount] =
+    useState<number>();
   // reset map when user clicks on the reset button, the value is not important
   const [resetMap, setResetMap] = useState(false);
   const [filterValue, setFilterValue] = useState<FilterValue>();
@@ -190,7 +192,9 @@ export default function ScoutByIndex() {
     setTableData([]);
     setSuppliers([], true);
     setStats({});
-    setMapSelectedCountry(undefined);
+    // This 2 lines are not needed, because the map will be reset them
+    // setMapSelectedCountry(undefined);
+    // setMapSelectedCountrySupplierCount(undefined);
     setResetMap(!resetMap);
   };
   const handleRowSelect = (selectedRows: number[]) => {
@@ -253,8 +257,9 @@ export default function ScoutByIndex() {
                 <MapChart
                   parentTriggeredReset={resetMap}
                   selectedCountry={mapSelectedCountry}
-                  onSelectCountryFilter={(threeLC) => {
+                  onSelectCountryFilter={(threeLC, count) => {
                     setMapSelectedCountry(threeLC);
+                    setMapSelectedCountrySupplierCount(count);
                   }}
                 />
               )}
@@ -264,7 +269,9 @@ export default function ScoutByIndex() {
                   <Box sx={{ p: 3 }}>
                     <ActionFilterAndView
                       filterInitialData={initialFilterDataset}
-                      resultCount={stats.count || 0}
+                      resultCount={
+                        mapSelectedCountrySupplierCount || stats.count || 0
+                      }
                       displayCount={data?.length || 0}
                       resultType={queryString}
                       onClickBuildMyShortList={() => {
@@ -279,7 +286,6 @@ export default function ScoutByIndex() {
                       onClickCompare={
                         selectedRows.length > 1
                           ? () => {
-                              console.log("onClickCompare", selectedRows);
                               router.push({
                                 pathname: "/scout/compare",
                                 query: {

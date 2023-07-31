@@ -131,7 +131,7 @@ const initialSupplierCountByMap: TSupplierCountByMap = {
 interface IMapChart {
   parentTriggeredReset: boolean;
   selectedCountry?: string;
-  onSelectCountryFilter: (threeLetterCode?: string) => void;
+  onSelectCountryFilter: (threeLetterCode?: string, count?: number) => void;
 }
 /**
  * This is the map chart component. It's mostly self-contained
@@ -250,7 +250,7 @@ export default function MapChart({
     setCenter([0, 0]);
     setSelectedRegion(null);
     setHoveredCountry(null);
-    onSelectCountryFilter(undefined);
+    onSelectCountryFilter(undefined, undefined);
   };
 
   const onMoveEnd = (position: {
@@ -291,7 +291,7 @@ export default function MapChart({
       labels[tlc] !== undefined &&
       labels[tlc] > 0
     ) {
-      onSelectCountryFilter(threeLetterCode);
+      onSelectCountryFilter(threeLetterCode, labels[tlc]);
     }
   };
 
