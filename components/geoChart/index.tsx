@@ -29,6 +29,7 @@ import MapCircleMarker, { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
 import { Add, Remove } from "@mui/icons-material";
 import { SpacingVertical } from "components/ui-components/spacer";
+import { debug } from "console";
 
 //#region map Constants
 const RADIUS_SIZE = [155, 100, 50, 60];
@@ -193,14 +194,13 @@ export default function MapChart({
           supplier.locationId.forEach((lid) => {
             const twoLetterCode = allSubRegions[lid];
             if (!twoLetterCode) {
-              console.log("no twoLetterCode for", lid);
+              console.error("no twoLetterCode for", lid);
               return;
             }
             const threeLetterCode =
               TwoLetterCodeToCountryCodeMap[twoLetterCode.code];
             const region = CountryToRegionMap[threeLetterCode];
             const subRegion = CountryToSubRegionMap[threeLetterCode];
-
             newMap[region] += 1;
             newMap[subRegion] += 1;
             addToDict(newSupplierCountByCountryMap, threeLetterCode, 1);

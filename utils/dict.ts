@@ -11,6 +11,7 @@ export function addToDict<T extends string | number | symbol>(
 ) {
   if (dict[key] === undefined) {
     dict[key] = valueToAdd;
+  } else {
+    dict[key] += valueToAdd;
   }
-  dict[key] += valueToAdd;
 }

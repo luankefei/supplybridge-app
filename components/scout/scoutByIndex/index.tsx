@@ -41,7 +41,14 @@ export default function ScoutByIndex() {
   const { t } = useTranslation();
   const router = useRouter();
   const { allSubRegions } = usePersistentStore();
-  const { suppliers, stats, setSuppliers, setStats } = useStore();
+  const {
+    queryString,
+    suppliers,
+    stats,
+    setQueryString,
+    setSuppliers,
+    setStats,
+  } = useStore();
   const { querySupplierListByKeyword, querySupplieListByCompany } =
     useSupplier();
   const { getAllSubRegions } = useFilter();
@@ -58,7 +65,7 @@ export default function ScoutByIndex() {
       badges: new Set(),
     }
   );
-  const [queryString, setQueryString] = useState<string>("");
+
   // We are going to keep an individual copy of searchType
   // as to indicate the searchType of the current search
   // updating searchType inside the searchBar will not trigger a re-render
@@ -138,11 +145,13 @@ export default function ScoutByIndex() {
     if (sc !== undefined) {
       scFilter = (s: any) => {
         const { globalFootprintIds } = s;
-        return globalFootprintIds.find((gfi: number) => {
+        const found = globalFootprintIds.find((gfi: number) => {
           const twoLC = allSubRegions[gfi]?.code;
           const threeLC = TwoLetterCodeToCountryCodeMap[twoLC];
           return threeLC === mapSelectedCountry;
         });
+        console.log(s, found);
+        return found;
       };
     }
     const newData = data.filter(fvFilter).filter(scFilter);
