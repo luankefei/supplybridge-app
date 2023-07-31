@@ -205,7 +205,6 @@ export default function ScoutByIndex() {
   return (
     <Stack>
       <LanguageSelector />
-      {loading && <LoadingWithBackgroundOverlay />}
       <>
         <Stack sx={{ justifyContent: "center" }}>
           {!hasData && (
