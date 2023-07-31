@@ -45,8 +45,8 @@ const NewsTabContainer = muiStyled("div")`
    border-radius: 50px;
    background-color: white;
    padding: 10px;
-   width: 444px;
-   height: 40px;
+   width: 480px;
+   height: 48px;
    margin: 20px 0 0 0;
    position: relative;
 `;
@@ -55,12 +55,12 @@ display: flex;
 align-items: center;
 justify-content: center;
    cursor: pointer;
-   width: 148px;
-   padding: 8px;
+   width: 160px;
+   padding: 12px;
    border-radius: 50px;
    position: relative;
    z-index: 100;
-   color: ${(props) => (props.active ? "white" : "#808080")};
+   color: ${(props) => (props.active ? "white" : "#9CA3AF")};
 `;
 // background-color: ${(props) => (props.active ? "#08979c" : "transparent")};
 //    color: ${(props) => (props.active ? "white" : "black")};
@@ -69,8 +69,7 @@ justify-content: center;
 //margin-left: ${(props) => (props.activeId == 0 ? "-7px" : "unset")};
 // margin-right: ${(props) => (props.activeId == 2 ? "-7px" : "unset")};
 
-const newsTabWidth = ["152px", "152px", "152px"];
-const newsTabLeft = ["4px", "156px", "292px"];
+const newsTabLeft = ["4px", "160px", "316px"];
 
 export default function SupplierNews() {
   const supplierNewsStore = useBoundStore((state) => state.supplierNews);
@@ -94,8 +93,8 @@ export default function SupplierNews() {
           <NewsTabContainer>
             <div
               style={{
-                height: "32px",
-                width: "148px", // newsTabWidth[typeI],
+                height: "40px",
+                width: "160px", // newsTabWidth[typeI],
                 left: newsTabLeft[typeI],
                 background: "#08979c",
                 // top: "4px",
