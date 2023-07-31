@@ -280,7 +280,7 @@
       }
     },
     "result": {
-      "overview": "Auflistung von <1>{{count}}</1> lieferanten für \"{{q}}\"",
+      "overview": "Auflistung von <1>{{resultCount}}</1> lieferanten für \"{{resultType}}\"",
       "organization": "Unternehmen",
       "hqLocation": "Hauptsitz",
       "footprint": "Globaler Fußabdruck",
