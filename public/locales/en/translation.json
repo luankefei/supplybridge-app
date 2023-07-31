@@ -1,4 +1,7 @@
 {
+  "common": {
+    "verifiedSupplier": "Verified Supplier"
+  },
   "region": {
     "APAC": "APAC",
     "AMERICAS": "AMERICAS",

@@ -80,6 +80,7 @@ const SearchBar = (props: SearchBarProps) => {
   const onClickSearch = () => {
     props.onSearch(queryString, searchType);
   };
+
   return (
     <Stack sx={{ width: "80%", margin: "auto" }}>
       <Box sx={{ display: "flex", justifyContent: "end" }}>
