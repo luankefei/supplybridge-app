@@ -79,6 +79,8 @@ export default function ScoutByIndex() {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   // A 3 letter country code, set when user clicks on a country in the map
   const [mapSelectedCountry, setMapSelectedCountry] = useState<string>();
+  // reset map when user clicks on the reset button, the value is not important
+  const [resetMap, setResetMap] = useState(false);
   const [filterValue, setFilterValue] = useState<FilterValue>();
 
   const [searched, setSearched] = useState(false);
@@ -189,6 +191,7 @@ export default function ScoutByIndex() {
     setSuppliers([], true);
     setStats({});
     setMapSelectedCountry(undefined);
+    setResetMap(!resetMap);
   };
   const handleRowSelect = (selectedRows: number[]) => {
     if (selectedRows.length > 3) {
@@ -248,6 +251,7 @@ export default function ScoutByIndex() {
             <Box>
               {((!loading && !searched) || loading || hasData) && (
                 <MapChart
+                  parentTriggeredReset={resetMap}
                   selectedCountry={mapSelectedCountry}
                   onSelectCountryFilter={(threeLC) => {
                     setMapSelectedCountry(threeLC);

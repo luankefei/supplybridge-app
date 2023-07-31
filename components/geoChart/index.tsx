@@ -129,6 +129,7 @@ const initialSupplierCountByMap: TSupplierCountByMap = {
 };
 
 interface IMapChart {
+  parentTriggeredReset: boolean;
   selectedCountry?: string;
   onSelectCountryFilter: (threeLetterCode?: string) => void;
 }
@@ -139,6 +140,7 @@ interface IMapChart {
  * @param onSelectCountryFilter - callback to select a country
  */
 export default function MapChart({
+  parentTriggeredReset,
   selectedCountry,
   onSelectCountryFilter,
 }: IMapChart) {
@@ -217,6 +219,10 @@ export default function MapChart({
     setSupplierCountByCountryMap(newSupplierCountByCountryMap);
     setLabels(newLabels);
   }, [suppliers, allSubRegions]);
+
+  useEffect(() => {
+    reset();
+  }, [parentTriggeredReset]);
 
   /****************
    *  Map Controls
