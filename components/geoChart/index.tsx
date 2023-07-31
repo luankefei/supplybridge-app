@@ -29,7 +29,6 @@ import MapCircleMarker, { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
 import { Add, Remove } from "@mui/icons-material";
 import { SpacingVertical } from "components/ui-components/spacer";
-import { debug } from "console";
 
 //#region map Constants
 const RADIUS_SIZE = [155, 100, 50, 60];
