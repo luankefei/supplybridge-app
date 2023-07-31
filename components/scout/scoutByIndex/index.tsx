@@ -86,7 +86,6 @@ export default function ScoutByIndex() {
   useEffect(() => {
     // component did mount, get all subregions if not already fetched
     if (Object.keys(allSubRegions).length === 0) {
-      setLoading(true);
       getAllSubRegions()
         .then((res) => {
           if (res === null) {
@@ -97,9 +96,6 @@ export default function ScoutByIndex() {
         })
         .catch((err) => {
           toast.error("Failed to get all subregions. Please try again later.");
-        })
-        .finally(() => {
-          setLoading(false);
         });
     }
   }, []);
@@ -205,6 +201,7 @@ export default function ScoutByIndex() {
   return (
     <Stack>
       <LanguageSelector />
+      {loading && <LoadingWithBackgroundOverlay />}
       <>
         <Stack sx={{ justifyContent: "center" }}>
           {!hasData && (
