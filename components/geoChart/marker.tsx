@@ -46,13 +46,22 @@ export default function MapCircleMarker({
         strokeLinecap="round"
         strokeLinejoin="round"
         transform="translate(-12, -24)"
+        style={{ cursor: "pointer" }}
       >
         <circle cx="12" cy="10" r={r} />
       </g>
-      <text textAnchor="middle" y={-20} style={{ fill: "white" }}>
+      <text
+        textAnchor="middle"
+        y={-20}
+        style={{ fill: "white", cursor: "pointer" }}
+      >
         {name}
       </text>
-      <text textAnchor="middle" y={10} style={{ fill: "white" }}>
+      <text
+        textAnchor="middle"
+        y={10}
+        style={{ fill: "white", cursor: "pointer" }}
+      >
         {count}
       </text>
     </Marker>

@@ -7,11 +7,7 @@ import cookie from "js-cookie";
 import { useTranslation } from "react-i18next";
 import { Box, Divider, Stack } from "@mui/material";
 import { SpacingHorizontal, SpacingVertical } from "./ui-components/spacer";
-import { ColoredText, SText } from "./ui-components/text";
-
-const LinkItem = styled(Link)`
-  margin-top: 12px;
-`;
+import { SText } from "./ui-components/text";
 
 export default function SideBarMenu(props: { width?: string }) {
   const { t } = useTranslation();
@@ -143,10 +139,7 @@ export default function SideBarMenu(props: { width?: string }) {
           <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
           {solutionsData.map((item: any, index: any) => {
             return (
-              <LinkItem
-                key={index}
-                href={item.passiveIcon ? "" : `${item?.path}`}
-              >
+              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
                 <MenuWrapper
                   active={item.active}
                   passiveIcon={item.passiveIcon}
@@ -169,7 +162,7 @@ export default function SideBarMenu(props: { width?: string }) {
                     </ComingSoon>
                   )}
                 </MenuWrapper>
-              </LinkItem>
+              </Link>
             );
           })}
         </Box>
@@ -177,10 +170,7 @@ export default function SideBarMenu(props: { width?: string }) {
           <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
           {marketData.map((item: any, index: any) => {
             return (
-              <LinkItem
-                key={index}
-                href={item.passiveIcon ? "" : `${item?.path}`}
-              >
+              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
                 <MenuWrapper
                   active={item.active}
                   passiveIcon={item.passiveIcon}
@@ -202,7 +192,7 @@ export default function SideBarMenu(props: { width?: string }) {
                     </ComingSoon>
                   )}
                 </MenuWrapper>
-              </LinkItem>
+              </Link>
             );
           })}
         </Box>
@@ -297,9 +287,12 @@ const ComingSoon = styled("span")`
 const MenuWrapper = styled.div<any>`
   display: flex;
   border-radius: 8px;
+  color: ${(props) => (props.active ? "#08979C" : "#1a1a1a")};
   background-color: ${(props) => props.active && "rgb(8, 151, 156, 0.1)"};
   cursor: ${(props) => (props.passiveIcon ? "not-allowed" : "pointer")};
   padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   &:hover {
     background: ${(props) => !props.passiveIcon && "rgb(8, 151, 156, 0.1)"};
     ${MenuItemTitle} {
