@@ -5,6 +5,7 @@ import { request } from "config/axios";
 import { useStore } from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
 import { useTranslation } from "react-i18next";
+import { appStatus } from "hooks/appStatus";
 
 interface IUseSupplierReturned {
   querySupplierListByKeyword: (queryString: string) => Promise<void>;
@@ -99,6 +100,7 @@ export const useSupplier = (): IUseSupplierReturned => {
     try {
       setLoading(true);
       const endpoint = "suppliers/search_full_text";
+      await appStatus.ready("getAllSubRegions");
       const { data } = await request.post(endpoint, searchObj);
       await fakeData(data, searchObj);
       setLoading(false);
