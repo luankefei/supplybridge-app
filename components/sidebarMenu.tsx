@@ -120,7 +120,12 @@ export default function SideBarMenu(props: { width?: string }) {
   };
 
   return (
-    <Stack p="34px 24px" height={"100vh"} justifyContent={"space-between"}>
+    <Stack
+      p="34px 24px"
+      height={"100vh"}
+      justifyContent={"space-between"}
+      bgcolor={"white"}
+    >
       <Stack gap={"46px"}>
         <picture>
           <img src="/menu/logo.svg" alt="logo" />
