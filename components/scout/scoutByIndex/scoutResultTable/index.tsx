@@ -9,6 +9,7 @@ import {
 import {
   DataGrid,
   GridColDef,
+  GridRowClassNameParams,
   GridRowSelectionModel,
   GridRowSpacingParams,
   gridClasses,
@@ -125,12 +126,13 @@ export default function ScoutResultTable({
     }
   };
 
-  const columns: GridColDef[] = [
+  const columns: GridColDef<ITableData>[] = [
     // { field: "id", headerName: "ID", width: 70 },
     {
       field: "name",
       headerName: "Organization",
       width: 300,
+      sortable: false,
       renderCell: (params) => {
         // render logo with name
         const { logo, name, isInnovation } = params.row;
@@ -150,10 +152,14 @@ export default function ScoutResultTable({
     {
       field: "headquarter",
       headerName: "HQ location",
+      sortable: false,
       minWidth: 200,
       flex: 1,
       renderCell: (params) => {
         const { headquarter, hqCode } = params.row;
+        if (!headquarter) {
+          return null;
+        }
         return (
           <Box sx={{ display: "flex" }} alignItems={"center"}>
             <NullableImg
@@ -171,11 +177,34 @@ export default function ScoutResultTable({
       field: "globalFootprint",
       headerName: "Global footprint",
       minWidth: 160,
+      sortable: false,
       flex: 1,
+      renderCell: (params) => {
+        const { globalFootprintRegion } = params.row;
+        if (!globalFootprintRegion) {
+          return null;
+        }
+        const arrayValue = Array.from(globalFootprintRegion.values());
+        // console.log(arrayValue);
+        return (
+          <Box sx={{ display: "flex" }} alignItems={"center"}>
+            {arrayValue.map((subRegion: string, i: number) => {
+              return (
+                <SText key={i} fontSize="16px" fontWeight="normal">
+                  {subRegion}
+                  {i !== arrayValue.length - 1 ? "," : null}
+                  {i !== arrayValue.length - 1 ? <span>&nbsp;</span> : null}
+                </SText>
+              );
+            })}
+          </Box>
+        );
+      },
     },
     {
       field: "badges",
       headerName: "Badge",
+      sortable: false,
       width: 200,
       renderHeader: () => {
         return (
@@ -217,7 +246,7 @@ export default function ScoutResultTable({
             <Tooltip title="show similar companies">
               <IconButton
                 onClick={() => {
-                  if (onShowSimilarCompanies) {
+                  if (onShowSimilarCompanies && params.row.category?.[0]) {
                     onShowSimilarCompanies(params.row.category?.[0]);
                   }
                 }}
@@ -251,6 +280,12 @@ export default function ScoutResultTable({
     };
   }, []);
 
+  const getRowClassName = useCallback((params: GridRowClassNameParams) => {
+    const { name } = params.row;
+
+    return name === undefined ? "emptyRow" : "";
+  }, []);
+
   if (!tableData || tableData.length == 0) {
     return null;
   }
@@ -272,9 +307,28 @@ export default function ScoutResultTable({
           [`& .${gridClasses.cell}`]: {
             border: "none",
           },
+          [`& .emptyRow`]: {
+            backdropFilter: "blur(100px)",
+            backgroundColor: "rgba(255, 255, 255, 0.5)",
+            cursor: "not-allowed",
+            ":after": {
+              content: '"LOCKED"',
+              color: "#000",
+              position: "absolute",
+              left: "50%",
+              top: "50%",
+              transform: "translate(-50%, -50%)",
+            },
+            ":hover": {
+              backgroundColor: "rgba(255, 255, 255, 0.5)",
+            },
+          },
         }}
         rows={tableData}
+        disableColumnMenu
         getRowSpacing={getRowSpacing}
+        isRowSelectable={(params) => params.row.name !== undefined}
+        getRowClassName={getRowClassName}
         rowSpacingType="margin"
         columns={columns}
         disableRowSelectionOnClick

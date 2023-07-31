@@ -197,6 +197,11 @@ export default function ScoutByIndex() {
    * Render
    * ************
    */
+  /// temp hack to add empty rows for blur
+  const emptyRows = new Array(10);
+  for (let i = 0; i < 10; i++) {
+    emptyRows[i] = { id: i + data.length };
+  }
   const hasData: boolean = data.length > 0;
   return (
     <Stack>
@@ -274,7 +279,7 @@ export default function ScoutByIndex() {
                     <ScoutResultTable
                       viewType={viewType}
                       searchType={resultSearchType || EnumSearchType.Keywords}
-                      tableData={tableData}
+                      tableData={tableData.concat(emptyRows)}
                       selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
                       onShowSimilarCompanies={handleShowSimilarCompanies}

@@ -145,7 +145,7 @@ export default function ScoutResultCardView({
 
                 <FirstColumn> Global Footprints </FirstColumn>
                 <SecondColumn>
-                  <Box width={250}>{row.globalFootprint.join(", ")}</Box>
+                  <Box width={250}>{row.globalFootprint?.join(", ")}</Box>
                 </SecondColumn>
               </GridContainer>
             </Stack>

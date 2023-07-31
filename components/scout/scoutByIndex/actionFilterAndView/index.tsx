@@ -97,9 +97,6 @@ const ActionFilterAndView = ({
               {{ resultType } as any}
             </SText>
           </Trans>
-          <SText>
-            Displaying <SText fontWeight="700">{displayCount}</SText>
-          </SText>
         </Box>
         <TableFilters
           initialValue={filterInitialData}

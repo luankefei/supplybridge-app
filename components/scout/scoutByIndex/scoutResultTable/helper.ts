@@ -1,3 +1,9 @@
+import {
+  CountryToRegionMap,
+  CountryToSubRegionMap,
+  TwoLetterCodeToCountryCodeMap,
+} from "components/geoChart/geoIdMap";
+import { EnumRegionAndSubRegion } from "components/geoChart/geoUtils";
 import { BadgeType } from "components/ui-components/supBadge";
 import { TSubRegion } from "models/subRegion";
 import { TSupplierModel } from "models/supplier";
@@ -9,12 +15,19 @@ export interface ITableData {
   isInnovation?: boolean;
   headquarter: string;
   hqCode: string;
+  /**
+   * Global footprint of the supplier, in a list of string (name of country)
+   */
   globalFootprint: string[];
   /**
    * Add on field to help with geoChart filtering,
    * Not used by table's filter
    */
   globalFootprintIds: string[];
+  /**
+   * Alternative to globalFootprint, a list of EnumRegionAndSubRegion
+   **/
+  globalFootprintRegion: Set<EnumRegionAndSubRegion>;
   badges: BadgeType[];
   category?: string[];
 }
@@ -41,11 +54,16 @@ export function supplierModelToTableData(
   );
   // use key map to avoid duplicate
   const globalFootprint = {} as { [key: number]: string };
+  const globalFootprintSubRegion: Set<EnumRegionAndSubRegion> = new Set();
   Array.isArray(supplier.locationId) &&
     supplier.locationId.forEach((lid: number) => {
       const foundRegions = allSubRegions[lid];
       if (foundRegions) {
         globalFootprint[lid] = foundRegions.name;
+        const twoLc = foundRegions.code;
+        const threeLc = TwoLetterCodeToCountryCodeMap[twoLc];
+        const region = CountryToRegionMap[threeLc];
+        globalFootprintSubRegion.add(region);
       } else {
         console.error(
           `Location ${lid} not found in allSubregions`,
@@ -63,6 +81,7 @@ export function supplierModelToTableData(
     hqCode: hqLocation?.code || "",
     globalFootprint: Object.values(globalFootprint),
     globalFootprintIds: Object.keys(globalFootprint),
+    globalFootprintRegion: globalFootprintSubRegion,
     badges: badges.map((x) => {
       switch (x) {
         case "top":
