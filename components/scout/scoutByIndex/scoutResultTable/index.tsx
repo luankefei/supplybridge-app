@@ -153,7 +153,7 @@ export default function ScoutResultTable({
       field: "headquarter",
       headerName: "HQ location",
       sortable: false,
-      minWidth: 200,
+      width: 200,
       flex: 1,
       renderCell: (params) => {
         const { headquarter, hqCode } = params.row;
@@ -308,7 +308,8 @@ export default function ScoutResultTable({
             border: "none",
           },
           [`& .emptyRow`]: {
-            backdropFilter: "blur(100px)",
+            backdropFilter: "blur(4px)",
+            opacity: 0.5,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             cursor: "not-allowed",
             ":after": {
