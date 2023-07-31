@@ -34,7 +34,7 @@ export const HeaderText = styled.div`
  *
  * font-size: 20px;
  *
- * line-height: 2rem;
+ * line-height: normal;
  *
  * color: #1A1A1A;
  */
@@ -44,8 +44,8 @@ export const TitleText = styled.div`
   font-style: normal;
   font-weight: 500;
   font-size: 20px;
-  line-height: 2rem;
-  color: #1a1a1a;
+  line-height: normal;
+  color: #445b66;
 `;
 
 /**

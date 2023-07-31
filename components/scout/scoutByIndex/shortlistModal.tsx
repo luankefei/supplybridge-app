@@ -23,7 +23,7 @@ import {
   SpacingHorizontal,
   SpacingVertical,
 } from "components/ui-components/spacer";
-import { SText, TitleText } from "components/ui-components/text";
+import { SText } from "components/ui-components/text";
 import { useState } from "react";
 import styled from "styled-components";
 
