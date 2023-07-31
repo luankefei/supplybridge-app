@@ -22,10 +22,11 @@ const Container = muiStyled(Box)(`
     align-items: center;
     box-shadow: 0px 1px 3px rgba(0, 0, 0, 0.1), 0px 1px 2px rgba(0, 0, 0, 0.06);
     border-radius: 1rem;
-    padding: 2rem 1.375rem;
+    padding: 24px;
     cursor: pointer;
     background-color: #FFFFFF;
 `);
+// padding: 2rem 1.375rem;
 
 const StyledImage = muiStyled("img")(`
     flex-shrink: 0;
