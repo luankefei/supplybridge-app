@@ -17,7 +17,7 @@ a {
 }
 
 .title {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 1.5rem; /*40px*/
@@ -25,7 +25,7 @@ a {
 }
 
 .subtitle {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 1.125rem; /*18px*/
@@ -33,7 +33,7 @@ a {
 }
 
 .text {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 500;
   font-size: 0.875rem; /*14px*/
@@ -41,7 +41,7 @@ a {
 }
 
 .text-bold {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 0.875rem; /*14px*/
@@ -49,7 +49,7 @@ a {
 }
 
 .text-small {
-  font-family: 'Inter', sans-serif;
+  font-family: "Inter", sans-serif;
   font-style: normal;
   font-weight: 400;
   font-size: 0.75rem; /*12px*/
@@ -64,3 +64,8 @@ a {
     background: black;
   }
 } */
+
+@font-face {
+  font-family: "Ubuntu";
+  src: url(/fonts/Ubuntu-Regular) format("ttf");
+}
