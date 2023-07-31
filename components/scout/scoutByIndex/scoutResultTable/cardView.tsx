@@ -55,18 +55,23 @@ export default function ScoutResultCardView({
   return (
     <Stack>
       {rows.map((row, index) => {
+        const rowBlocked = row.name === undefined;
         return (
           <Card
             key={index}
             sx={{
               ...sx,
-              cursor: "pointer",
+              cursor: rowBlocked ? "not-allowed" : "pointer",
               padding: "48px 24px",
               position: "relative",
               marginBottom: "24px",
               border: `1px solid white`,
+              filter: rowBlocked ? "blur(4px)" : "none",
+              opacity: rowBlocked ? 0.7 : 1, // Reduce opacity for blurred effect
               [`&:hover`]: {
-                border: `1px solid ${theme.palette.primary.main}`,
+                border: rowBlocked
+                  ? null
+                  : `1px solid ${theme.palette.primary.main}`,
               },
             }}
             onClick={() => {
@@ -145,7 +150,7 @@ export default function ScoutResultCardView({
 
                 <FirstColumn> Global Footprints </FirstColumn>
                 <SecondColumn>
-                  <Box width={250}>{row.globalFootprint.join(", ")}</Box>
+                  <Box width={250}>{row.globalFootprint?.join(", ")}</Box>
                 </SecondColumn>
               </GridContainer>
             </Stack>

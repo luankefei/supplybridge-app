@@ -9,6 +9,15 @@ export const MapRegionToColor: Record<EnumRegion, string> = {
   [EnumRegion.EMEA]: "#B5A6C9",
 };
 
+export const MapColors: Record<string, string> = {
+  hoveredBg: "rgba(255, 218, 68, 0.30)",
+  selectedBg: "#F7DE74",
+  strokeColor: "#FFDA44",
+  textColor: "#434343",
+  textShadowColor: "rgba(229, 231, 235, 0.8)",
+  greyColor: "#E5E7EB",
+};
+
 export enum EnumSubRegion {
   NorthNCentralAmerica = "North America & Central America",
   SouthAmerica = "South America",

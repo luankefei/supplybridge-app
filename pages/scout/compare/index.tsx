@@ -20,6 +20,22 @@ import Innovation from "components/scout/scoutByIndex/detailPanel/tabPanes/innov
 import Certificaiton from "components/scout/scoutByIndex/detailPanel/tabPanes/certification";
 import Ratings from "components/scout/scoutByIndex/detailPanel/tabPanes/ratings";
 
+/**
+ * If I dont have this function, this page renders without query, and the redirect is
+ * called.
+ * If I use 'use client' direction, this page is rendered twice, once without query, and
+ * once with query. But the redirect is still called.
+ */
+export async function getServerSideProps(context: { query: any }) {
+  const { query } = context;
+  const suppliersToCompare = query.suppliers;
+  return {
+    props: {
+      suppliersToCompare: suppliersToCompare || "",
+    },
+  };
+}
+
 export default function Compare() {
   const router = useRouter();
   const { query } = router;
@@ -36,8 +52,8 @@ export default function Compare() {
       return;
     }
     const suppliersToCompareArray = Array.isArray(suppliersToCompare)
-      ? suppliersToCompare
-      : suppliersToCompare.split(",");
+      ? suppliersToCompare.slice(0, 3)
+      : suppliersToCompare.split(",").slice(0, 3);
 
     const result: TSupplierModel[] = [];
     suppliers.forEach((supplier) => {
@@ -46,7 +62,7 @@ export default function Compare() {
       }
     });
 
-    console.log(suppliersToCompare);
+    console.debug(suppliersToCompare);
     setSuppliersToCompare(result);
   }, [query, router, suppliers]);
 

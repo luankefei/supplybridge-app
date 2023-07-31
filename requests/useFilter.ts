@@ -2,6 +2,7 @@ import { toast } from "react-toastify";
 
 import { request } from "config/axios";
 import { usePersistentStore, useStore } from "hooks/useStore";
+import { appStatus } from "hooks/appStatus";
 
 export const useFilter = () => {
   const { setCommodities, setRegions, setComponents, setSubRegions } =
@@ -65,7 +66,10 @@ export const useFilter = () => {
   };
   const getAllSubRegions = async () => {
     try {
-      const { data } = await request.get(`sub_regions`);
+      const promise = request.get(`sub_regions`);
+      appStatus.addPromise("getAllSubRegions", promise);
+
+      const { data } = await promise;
       setAllSubRegions(data.subRegions);
       return data.subRegions;
     } catch (err: any) {

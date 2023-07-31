@@ -12,7 +12,7 @@ export type TSupplierModel = {
     maj: boolean;
     str: boolean;
   };
-  headquarterId: number;
+  headquarterId?: number;
   locationId: number[];
   category: string[];
   logo: string;

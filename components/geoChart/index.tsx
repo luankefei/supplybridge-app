@@ -1,4 +1,4 @@
-import { Box } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   ComposableMap,
@@ -12,6 +12,7 @@ import {
   EnumRegion,
   EnumRegionAndSubRegion,
   EnumSubRegion,
+  MapColors,
   MapRegionToColor,
   MapRegionToMarkerColor,
   isSubRegion,
@@ -26,10 +27,12 @@ import {
 import { usePersistentStore, useStore } from "hooks/useStore";
 import MapCircleMarker, { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
+import { Add, Remove } from "@mui/icons-material";
+import { SpacingVertical } from "components/ui-components/spacer";
 
 //#region map Constants
 const RADIUS_SIZE = [155, 100, 50, 60];
-const SCALE_SIZE = 150;
+const SCALE_SIZE = 200;
 // These numbers are tied to the scale of the map
 // i have no idea how to translate them, this is tried out by hand
 const preDefinedMarkers: IMarker[] = [
@@ -129,7 +132,10 @@ interface IMapChart {
   onSelectCountryFilter: (threeLetterCode?: string) => void;
 }
 /**
- * This is the map chart component
+ * This is the map chart component. It's mostly self-contained
+ *
+ * @param selectedCountry - the selected country, this is passed in because we want to highlight the selected country, use this country as a filter, so we use its parent to control this state
+ * @param onSelectCountryFilter - callback to select a country
  */
 export default function MapChart({
   selectedCountry,
@@ -151,6 +157,9 @@ export default function MapChart({
    */
   const [supplierCountByMap, setSupplierCountByMap] =
     useState<TSupplierCountByMap>({ ...initialSupplierCountByMap });
+
+  // Key = 3 letter code, value = number of suppliers
+  // This is not used for now, but we might need it later.
   const [supplierCountByCountryMap, setSupplierCountByCountryMap] = useState<
     Record<string, number>
   >({});
@@ -163,7 +172,6 @@ export default function MapChart({
    * Component lifecycle
    * *****************
    */
-
   useEffect(() => {
     // Initiallize with empty data.
     const newMap = { ...initialSupplierCountByMap };
@@ -174,9 +182,9 @@ export default function MapChart({
       // skip
     } else {
       /**
-       * When users does some query, we have suppliers in our store.
+       * When a user does some query, we have suppliers in our store.
        * The object itself is a list of suppliers, and each supplier
-       * has a headquarter locationId. And locationId as a list of
+       * has a headquarterId, locationId. And locationId is a list of
        * all of its locations. So here we aggregate the data by suppliers.
        */
       for (let i = 0; i < suppliers.length; i++) {
@@ -202,9 +210,9 @@ export default function MapChart({
       }
     }
 
-    console.log("newMap", newMap);
-    console.log("newSupplierCountByCountryMap", newSupplierCountByCountryMap);
-    console.log("newLabels", newLabels);
+    console.debug("newMap", newMap);
+    console.debug("newSupplierCountByCountryMap", newSupplierCountByCountryMap);
+    console.debug("newLabels", newLabels);
     setSupplierCountByMap(newMap);
     setSupplierCountByCountryMap(newSupplierCountByCountryMap);
     setLabels(newLabels);
@@ -221,7 +229,7 @@ export default function MapChart({
     setSelectedRegion(name);
     setCenter(coordinates);
     setZoom(zoom + 0.5);
-    console.log("zooming into", name, coordinates, zoom);
+    console.debug("zooming into", name, coordinates, zoom);
     const regionMarker = preDefinedMarkers.find((x) => x.name === name);
     if (regionMarker?.subMarkers !== undefined) {
       setMarkers(regionMarker.subMarkers);
@@ -247,6 +255,19 @@ export default function MapChart({
       // reset
       reset();
     }
+    setCenter(position.coordinates);
+    setZoom(position.zoom);
+  };
+
+  const zoomIn = () => {
+    if (zoom < 10) {
+      setZoom(zoom + 0.5);
+    }
+  };
+  const zoomOut = () => {
+    if (zoom > 1) {
+      setZoom(zoom - 0.5);
+    }
   };
 
   /****************
@@ -258,7 +279,12 @@ export default function MapChart({
   };
 
   const selectCountry = (threeLetterCode: string) => {
-    if (checkZoomLevelEnough()) {
+    const tlc = CountryToTwoLetterCodeMap[threeLetterCode];
+    if (
+      checkZoomLevelEnough() &&
+      labels[tlc] !== undefined &&
+      labels[tlc] > 0
+    ) {
       onSelectCountryFilter(threeLetterCode);
     }
   };
@@ -274,12 +300,19 @@ export default function MapChart({
     let hoverFill = MapRegionToColor[CountryToRegionMap[geo.id]];
     let stroke = "none";
     const zoomLevelEnough = checkZoomLevelEnough();
+
     if (zoomLevelEnough) {
-      stroke = "#FFDA44";
+      stroke = MapColors.strokeColor;
+      hoverFill = MapColors.hoveredBg;
+      const tlc = CountryToTwoLetterCodeMap[geo.id];
+      if (labels[tlc] === undefined || labels[tlc] === 0) {
+        fill = MapColors.greyColor;
+        hoverFill = MapColors.greyColor;
+      }
     }
     if (geo.id === selectedCountry) {
-      fill = "#FFDA44";
-      hoverFill = "#FFDA44";
+      fill = MapColors.selectedBg;
+      hoverFill = MapColors.selectedBg;
     }
 
     return {
@@ -292,19 +325,33 @@ export default function MapChart({
         fill: hoverFill,
         stroke: stroke,
         strokeWidth: 1,
+        cursor: "pointer",
       },
       pressed: { outline: "none" },
     };
   };
-
-  const renderHoveredCountry = () => {
+  const renderMarkerSelectedCountry = () => {
+    if (!checkZoomLevelEnough() || !selectedCountry) {
+      return null;
+    }
+    const tlc = CountryToTwoLetterCodeMap[selectedCountry];
+    const coor = TwoLetterCodeToCounryCoordinatesMap[tlc];
+    const label = labels[tlc];
+    return _renderMarker(
+      coor.longitude,
+      coor.latitude,
+      selectedCountry,
+      label.toString()
+    );
+  };
+  const renderMarkerHoveredCountry = () => {
     if (!checkZoomLevelEnough() || !hoveredCountry) {
       return null;
     }
     const tlc = CountryToTwoLetterCodeMap[hoveredCountry];
     const coor = TwoLetterCodeToCounryCoordinatesMap[tlc];
     const threeL = TwoLetterCodeToCountryCodeMap[tlc];
-    const subRegion = CountryToSubRegionMap[threeL];
+    // const subRegion = CountryToSubRegionMap[threeL];
     const label = labels[tlc];
     // Why do we need 2 ifs?
     // becuase I want to distinguish between no coor and no label
@@ -313,39 +360,75 @@ export default function MapChart({
       return null;
     }
     if (!label) {
-      console.log("no data for", hoveredCountry);
+      console.log("no label/count data for", hoveredCountry);
       return null;
     }
-    if (subRegion !== selectedRegion) {
-      return null;
-    }
+    // if (subRegion !== selectedRegion) {
+    //   return null;
+    // }
+    return _renderMarker(
+      coor.longitude,
+      coor.latitude,
+      hoveredCountry,
+      label.toString()
+    );
+  };
+  const _renderMarker = (
+    longitude: number,
+    latitude: number,
+    line1: string,
+    line2: string
+  ) => {
     return (
-      <Marker coordinates={[coor.longitude, coor.latitude]}>
+      <Marker coordinates={[longitude, latitude]}>
         <text
-          fontSize={8}
+          fontSize={12}
           textAnchor="middle"
+          x={0.5}
+          y={0.5}
           alignmentBaseline="middle"
-          fill="white"
+          fill={MapColors.textShadowColor}
           pointerEvents="none"
         >
-          {hoveredCountry}
+          {line1}
         </text>
         <text
-          fontSize={8}
+          fontSize={12}
+          textAnchor="middle"
+          alignmentBaseline="middle"
+          fill={MapColors.textColor}
+          pointerEvents="none"
+        >
+          {line1}
+        </text>
+
+        <text
+          fontSize={12}
+          textAnchor="middle"
+          x={0.5}
+          y={10.5}
+          alignmentBaseline="middle"
+          fill={MapColors.textShadowColor}
+          pointerEvents="none"
+        >
+          {line2}
+        </text>
+        <text
+          fontSize={12}
           textAnchor="middle"
           y={10}
           alignmentBaseline="middle"
-          fill="white"
+          fill={MapColors.textColor}
           pointerEvents="none"
         >
-          {label}
+          {line2}
         </text>
       </Marker>
     );
   };
-
   return (
     <Box
+      position={"relative"}
       width={"100%"}
       height={"50vh"}
       display={"flex"}
@@ -368,7 +451,9 @@ export default function MapChart({
                     onMouseEnter={() => {
                       setHoveredCountry(geo.id);
                     }}
-                    onMouseLeave={() => {}}
+                    onMouseLeave={() => {
+                      setHoveredCountry(null);
+                    }}
                     onClick={() => {
                       selectCountry(geo.id);
                     }}
@@ -378,7 +463,8 @@ export default function MapChart({
               })
             }
           </Geographies>
-          {renderHoveredCountry()}
+          {renderMarkerHoveredCountry()}
+          {renderMarkerSelectedCountry()}
           {markers.map((e) => (
             <MapCircleMarker
               key={e.name}
@@ -389,6 +475,31 @@ export default function MapChart({
           ))}
         </ZoomableGroup>
       </ComposableMap>
+      <Stack
+        sx={{
+          position: "absolute",
+          bottom: 24,
+          right: 24,
+        }}
+      >
+        <IconButton
+          onClick={zoomIn}
+          sx={{
+            bgcolor: "white",
+          }}
+        >
+          <Add />
+        </IconButton>
+        <SpacingVertical space="8px" />
+        <IconButton
+          onClick={zoomOut}
+          sx={{
+            bgcolor: "white",
+          }}
+        >
+          <Remove />
+        </IconButton>
+      </Stack>
     </Box>
   );
 }

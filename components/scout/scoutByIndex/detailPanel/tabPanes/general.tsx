@@ -43,7 +43,11 @@ const General = ({ data }: { data: TSupplierModel }) => {
           <FirstColumn>
             <MyFirstColumnComponent icon="building" text="Headquarters" />
           </FirstColumn>
-          <SecondColumn>{allSubRegions[data.headquarterId].name}</SecondColumn>
+          <SecondColumn>
+            {data.headquarterId === undefined
+              ? "N/A"
+              : allSubRegions[data.headquarterId]?.name}
+          </SecondColumn>
 
           <FirstColumn>
             <MyFirstColumnComponent icon="location" text="Global Footprints" />

@@ -5,10 +5,9 @@ import { usePersistentStore } from "hooks/useStore";
 import cookie from "js-cookie";
 
 import { useTranslation } from "react-i18next";
-
-const LinkItem = styled(Link)`
-  margin-top: 12px;
-`;
+import { Box, Divider, Stack } from "@mui/material";
+import { SpacingHorizontal, SpacingVertical } from "./ui-components/spacer";
+import { SText } from "./ui-components/text";
 
 export default function SideBarMenu(props: { width?: string }) {
   const { t } = useTranslation();
@@ -117,26 +116,30 @@ export default function SideBarMenu(props: { width?: string }) {
   };
 
   return (
-    <Container>
-      <TopSection>
-        <Section>
-          <Logo src="/menu/logo.svg" />
-        </Section>
-        <Section>
-          <UserContainer>
-            <Welcome>{t("sidebar.welcome", "Welcome")}</Welcome>
-            {/*
-            <UserName>Baran!</UserName>
-            <Avatar>BG</Avatar>
-            */}
-          </UserContainer>
+    <Stack
+      p="34px 24px"
+      height={"100vh"}
+      justifyContent={"space-between"}
+      bgcolor={"white"}
+    >
+      <Stack gap={"46px"}>
+        <picture>
+          <img src="/menu/logo.svg" alt="logo" />
+        </picture>
+        <Box>
+          <SText
+            color="#808080"
+            fontSize="16px"
+            fontWeight="400"
+            lineHeight="22px"
+          >
+            {t("sidebar.welcome", "Welcome")}
+          </SText>
+          <SpacingVertical space="24px" />
           <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
           {solutionsData.map((item: any, index: any) => {
             return (
-              <LinkItem
-                key={index}
-                href={item.passiveIcon ? "" : `${item?.path}`}
-              >
+              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
                 <MenuWrapper
                   active={item.active}
                   passiveIcon={item.passiveIcon}
@@ -159,18 +162,15 @@ export default function SideBarMenu(props: { width?: string }) {
                     </ComingSoon>
                   )}
                 </MenuWrapper>
-              </LinkItem>
+              </Link>
             );
           })}
-        </Section>
-        <Section>
+        </Box>
+        <Box>
           <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
           {marketData.map((item: any, index: any) => {
             return (
-              <LinkItem
-                key={index}
-                href={item.passiveIcon ? "" : `${item?.path}`}
-              >
+              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
                 <MenuWrapper
                   active={item.active}
                   passiveIcon={item.passiveIcon}
@@ -192,72 +192,58 @@ export default function SideBarMenu(props: { width?: string }) {
                     </ComingSoon>
                   )}
                 </MenuWrapper>
-              </LinkItem>
+              </Link>
             );
           })}
-        </Section>
-      </TopSection>
-      <Section>
-        <AccountContainer>
-          <Left>
-            <Logo src="/menu/bmw.svg" />
-          </Left>
-          <Right>
-            <AccountTitle>BMW</AccountTitle>
-            <TextContainer>
-              <AccountType>
-                {t("sidebar.premiumAccount", "Premium Account")} |
-              </AccountType>
-              <Logout onClick={logout}>{t("sidebar.logOut", "Log out")}</Logout>
-            </TextContainer>
-          </Right>
-        </AccountContainer>
-      </Section>
-    </Container>
+        </Box>
+      </Stack>
+      <Stack justifySelf={"flex-end"}>
+        <Stack direction={"row"} alignItems={"center"}>
+          <picture>
+            <img src="/menu/bmw.svg" alt="logo" />
+          </picture>
+          <SpacingHorizontal space={"8px"} />
+          <Stack>
+            <SText
+              fontWeight="400"
+              fontSize="16px"
+              lineHeight="22px"
+              color="#1a1a1a"
+            >
+              BMW
+            </SText>
+            <Stack direction={"row"}>
+              <SText
+                fontWeight="300"
+                fontSize="12px"
+                color="#2c71f0"
+                lineHeight="1rem"
+              >
+                {t("sidebar.premiumAccount", "Premium Account")}
+              </SText>
+              <SpacingHorizontal space={"8px"} />
+              <Divider orientation="vertical" flexItem />
+              <SpacingHorizontal space={"8px"} />
+              <SText
+                fontWeight="300"
+                fontSize="12px"
+                color="#2c71f0"
+                lineHeight="1rem"
+                style={{
+                  cursor: "pointer",
+                }}
+                onClick={logout}
+              >
+                {t("sidebar.logOut", "Log out")}
+              </SText>
+            </Stack>
+          </Stack>
+        </Stack>
+      </Stack>
+    </Stack>
   );
 }
 
-const Container = styled.div<any>`
-  font-family: Nunito;
-  min-height: 100vh;
-  box-sizing: border-box;
-  z-index: 1000;
-  flex-direction: column;
-  background-color: #ffffff;
-  padding: 34px 24px;
-`;
-
-const TopSection = styled.div`
-  min-height: 700px;
-  display: flex;
-  flex-direction: column;
-  flex-grow: 1;
-  gap: 46px;
-`;
-
-const Section = styled.div`
-  display: flex;
-  flex-direction: column;
-`;
-
-const Logo = styled.img`
-  /* margin: 34px 0px; */
-`;
-
-const UserContainer = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 5px;
-  font-style: normal;
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
-  margin-bottom: 24px;
-`;
-
-const Welcome = styled.span`
-  color: #808080;
-`;
 const MenuTitle = styled.div`
   font-weight: 400;
   font-size: 16px;
@@ -301,9 +287,12 @@ const ComingSoon = styled("span")`
 const MenuWrapper = styled.div<any>`
   display: flex;
   border-radius: 8px;
+  color: ${(props) => (props.active ? "#08979C" : "#1a1a1a")};
   background-color: ${(props) => props.active && "rgb(8, 151, 156, 0.1)"};
   cursor: ${(props) => (props.passiveIcon ? "not-allowed" : "pointer")};
   padding: 10px;
+  margin-bottom: 10px;
+  margin-top: 10px;
   &:hover {
     background: ${(props) => !props.passiveIcon && "rgb(8, 151, 156, 0.1)"};
     ${MenuItemTitle} {
@@ -318,47 +307,4 @@ const MenuWrapper = styled.div<any>`
   & > img {
     opacity: ${(props) => (!props.passiveIcon ? 1 : 0.4)};
   }
-`;
-
-const AccountContainer = styled.div`
-  display: flex;
-  align-items: center;
-  margin-top: 27px;
-`;
-
-const Left = styled.span`
-  display: flex;
-  align-items: center;
-  margin-right: 10px;
-`;
-const Right = styled.span`
-  display: flex;
-  flex-direction: column;
-`;
-
-const AccountTitle = styled.span`
-  font-weight: 400;
-  font-size: 16px;
-  line-height: 22px;
-  color: #1a1a1a;
-`;
-
-const TextContainer = styled.div`
-  display: flex;
-`;
-
-const AccountType = styled.span`
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 16px;
-  color: #2c71f0;
-`;
-
-const Logout = styled.span`
-  font-weight: 300;
-  font-size: 12px;
-  line-height: 16px;
-  color: #2c71f0;
-  margin-left: 3px;
-  cursor: pointer;
 `;

@@ -5,8 +5,21 @@ import { request } from "config/axios";
 import { useStore } from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
 import { useTranslation } from "react-i18next";
+import { appStatus } from "hooks/appStatus";
 
-export const useSupplier = (flags: any = null) => {
+interface IUseSupplierReturned {
+  querySupplierListByKeyword: (queryString: string) => Promise<void>;
+  searchAutocomplete: (queryString: string) => Promise<string[]>;
+  loading: boolean;
+  querySupplieListByCompany: (queryString: string) => Promise<void>;
+  searchSuppliers: (
+    pageNumber: number,
+    reset: boolean,
+    searchString: string
+  ) => Promise<void>;
+}
+
+export const useSupplier = (): IUseSupplierReturned => {
   const { setSuppliers, setCount, setStats, page, pageSize } = useStore();
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
@@ -87,6 +100,7 @@ export const useSupplier = (flags: any = null) => {
     try {
       setLoading(true);
       const endpoint = "suppliers/search_full_text";
+      await appStatus.ready("getAllSubRegions");
       const { data } = await request.post(endpoint, searchObj);
       await fakeData(data, searchObj);
       setLoading(false);

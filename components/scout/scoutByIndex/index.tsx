@@ -86,7 +86,6 @@ export default function ScoutByIndex() {
   useEffect(() => {
     // component did mount, get all subregions if not already fetched
     if (Object.keys(allSubRegions).length === 0) {
-      setLoading(true);
       getAllSubRegions()
         .then((res) => {
           if (res === null) {
@@ -97,9 +96,6 @@ export default function ScoutByIndex() {
         })
         .catch((err) => {
           toast.error("Failed to get all subregions. Please try again later.");
-        })
-        .finally(() => {
-          setLoading(false);
         });
     }
   }, []);
@@ -186,6 +182,10 @@ export default function ScoutByIndex() {
     setMapSelectedCountry(undefined);
   };
   const handleRowSelect = (selectedRows: number[]) => {
+    if (selectedRows.length > 3) {
+      toast.error("You can only select up to 3 companies.");
+      return;
+    }
     setSelectedRows(selectedRows);
   };
 
@@ -197,6 +197,12 @@ export default function ScoutByIndex() {
    * Render
    * ************
    */
+  // temp hack to add empty rows for blur
+  // TODO: Remove this.
+  const emptyRows = new Array(10);
+  for (let i = 0; i < 10; i++) {
+    emptyRows[i] = { id: i + data.length };
+  }
   const hasData: boolean = data.length > 0;
   return (
     <Stack>
@@ -274,7 +280,7 @@ export default function ScoutByIndex() {
                     <ScoutResultTable
                       viewType={viewType}
                       searchType={resultSearchType || EnumSearchType.Keywords}
-                      tableData={tableData}
+                      tableData={tableData.concat(emptyRows)}
                       selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
                       onShowSimilarCompanies={handleShowSimilarCompanies}
