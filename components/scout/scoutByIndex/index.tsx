@@ -41,7 +41,14 @@ export default function ScoutByIndex() {
   const { t } = useTranslation();
   const router = useRouter();
   const { allSubRegions } = usePersistentStore();
-  const { suppliers, stats, setSuppliers, setStats } = useStore();
+  const {
+    queryString,
+    suppliers,
+    stats,
+    setQueryString,
+    setSuppliers,
+    setStats,
+  } = useStore();
   const { querySupplierListByKeyword, querySupplieListByCompany } =
     useSupplier();
   const { getAllSubRegions } = useFilter();
@@ -58,7 +65,7 @@ export default function ScoutByIndex() {
       badges: new Set(),
     }
   );
-  const [queryString, setQueryString] = useState<string>("");
+
   // We are going to keep an individual copy of searchType
   // as to indicate the searchType of the current search
   // updating searchType inside the searchBar will not trigger a re-render
@@ -72,6 +79,10 @@ export default function ScoutByIndex() {
   const [selectedRows, setSelectedRows] = useState<number[]>([]);
   // A 3 letter country code, set when user clicks on a country in the map
   const [mapSelectedCountry, setMapSelectedCountry] = useState<string>();
+  const [mapSelectedCountrySupplierCount, setMapSelectedCountrySupplierCount] =
+    useState<number>();
+  // reset map when user clicks on the reset button, the value is not important
+  const [resetMap, setResetMap] = useState(false);
   const [filterValue, setFilterValue] = useState<FilterValue>();
 
   const [searched, setSearched] = useState(false);
@@ -138,11 +149,13 @@ export default function ScoutByIndex() {
     if (sc !== undefined) {
       scFilter = (s: any) => {
         const { globalFootprintIds } = s;
-        return globalFootprintIds.find((gfi: number) => {
+        const found = globalFootprintIds.find((gfi: number) => {
           const twoLC = allSubRegions[gfi]?.code;
           const threeLC = TwoLetterCodeToCountryCodeMap[twoLC];
           return threeLC === mapSelectedCountry;
         });
+        console.log(s, found);
+        return found;
       };
     }
     const newData = data.filter(fvFilter).filter(scFilter);
@@ -179,7 +192,10 @@ export default function ScoutByIndex() {
     setTableData([]);
     setSuppliers([], true);
     setStats({});
-    setMapSelectedCountry(undefined);
+    // This 2 lines are not needed, because the map will be reset them
+    // setMapSelectedCountry(undefined);
+    // setMapSelectedCountrySupplierCount(undefined);
+    setResetMap(!resetMap);
   };
   const handleRowSelect = (selectedRows: number[]) => {
     if (selectedRows.length > 3) {
@@ -239,9 +255,11 @@ export default function ScoutByIndex() {
             <Box>
               {((!loading && !searched) || loading || hasData) && (
                 <MapChart
+                  parentTriggeredReset={resetMap}
                   selectedCountry={mapSelectedCountry}
-                  onSelectCountryFilter={(threeLC) => {
+                  onSelectCountryFilter={(threeLC, count) => {
                     setMapSelectedCountry(threeLC);
+                    setMapSelectedCountrySupplierCount(count);
                   }}
                 />
               )}
@@ -251,7 +269,9 @@ export default function ScoutByIndex() {
                   <Box sx={{ p: 3 }}>
                     <ActionFilterAndView
                       filterInitialData={initialFilterDataset}
-                      resultCount={stats.count || 0}
+                      resultCount={
+                        mapSelectedCountrySupplierCount || stats.count || 0
+                      }
                       displayCount={data?.length || 0}
                       resultType={queryString}
                       onClickBuildMyShortList={() => {
@@ -266,7 +286,6 @@ export default function ScoutByIndex() {
                       onClickCompare={
                         selectedRows.length > 1
                           ? () => {
-                              console.log("onClickCompare", selectedRows);
                               router.push({
                                 pathname: "/scout/compare",
                                 query: {

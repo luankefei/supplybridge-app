@@ -36,6 +36,9 @@ interface INonPersistentStore {
   flags: any;
   count: number;
   setCount: (value: number) => void;
+  queryString: string;
+  setQueryString: (value: string) => void;
+
   stats: any;
   setStats: (value: any) => void;
   suppliers: TSupplierModel[];
@@ -47,6 +50,8 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   setCount: (count: number) => set(() => ({ count })),
   stats: {},
   setStats: (stats: number) => set(() => ({ stats })),
+  queryString: "",
+  setQueryString: (queryString: string) => set(() => ({ queryString })),
   suppliers: [],
   setSuppliers: (suppliers: TSupplierModel[], reset: boolean) =>
     set(() => {

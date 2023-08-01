@@ -70,6 +70,11 @@ export default function RawMaterial() {
       appBar={
         <RMTopMenuBar>
           <Autocomplete
+            sx={{
+              ["& .MuiInputBase-root"]: {
+                borderRadius: "16px",
+              },
+            }}
             id="raw-material-autocomplete"
             value={selectedMaterials}
             multiple={true}
@@ -89,10 +94,20 @@ export default function RawMaterial() {
             }}
           >
             <Button
-              style={{ color: "#445B66" }}
+              style={{
+                fontFamily: "Ubuntu",
+                color: "#434343",
+                fontWeight: "400",
+              }}
               variant="text"
               onClick={reset}
-              startIcon={<Replay />}
+              startIcon={
+                <Replay
+                  sx={{
+                    color: "#434343",
+                  }}
+                />
+              }
             >
               Reset All
             </Button>

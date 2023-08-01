@@ -128,8 +128,9 @@ const initialSupplierCountByMap: TSupplierCountByMap = {
 };
 
 interface IMapChart {
+  parentTriggeredReset: boolean;
   selectedCountry?: string;
-  onSelectCountryFilter: (threeLetterCode?: string) => void;
+  onSelectCountryFilter: (threeLetterCode?: string, count?: number) => void;
 }
 /**
  * This is the map chart component. It's mostly self-contained
@@ -138,6 +139,7 @@ interface IMapChart {
  * @param onSelectCountryFilter - callback to select a country
  */
 export default function MapChart({
+  parentTriggeredReset,
   selectedCountry,
   onSelectCountryFilter,
 }: IMapChart) {
@@ -193,14 +195,13 @@ export default function MapChart({
           supplier.locationId.forEach((lid) => {
             const twoLetterCode = allSubRegions[lid];
             if (!twoLetterCode) {
-              console.log("no twoLetterCode for", lid);
+              console.error("no twoLetterCode for", lid);
               return;
             }
             const threeLetterCode =
               TwoLetterCodeToCountryCodeMap[twoLetterCode.code];
             const region = CountryToRegionMap[threeLetterCode];
             const subRegion = CountryToSubRegionMap[threeLetterCode];
-
             newMap[region] += 1;
             newMap[subRegion] += 1;
             addToDict(newSupplierCountByCountryMap, threeLetterCode, 1);
@@ -217,6 +218,10 @@ export default function MapChart({
     setSupplierCountByCountryMap(newSupplierCountByCountryMap);
     setLabels(newLabels);
   }, [suppliers, allSubRegions]);
+
+  useEffect(() => {
+    reset();
+  }, [parentTriggeredReset]);
 
   /****************
    *  Map Controls
@@ -244,7 +249,7 @@ export default function MapChart({
     setCenter([0, 0]);
     setSelectedRegion(null);
     setHoveredCountry(null);
-    onSelectCountryFilter(undefined);
+    onSelectCountryFilter(undefined, undefined);
   };
 
   const onMoveEnd = (position: {
@@ -285,7 +290,7 @@ export default function MapChart({
       labels[tlc] !== undefined &&
       labels[tlc] > 0
     ) {
-      onSelectCountryFilter(threeLetterCode);
+      onSelectCountryFilter(threeLetterCode, labels[tlc]);
     }
   };
 
