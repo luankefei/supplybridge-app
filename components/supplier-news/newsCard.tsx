@@ -59,14 +59,16 @@ const DateLabel = muiStyled("div")(`
     justify-content: space-between;
     aligne-items: center;
     width: 100%;
-    font-family: 'Inter';
+    font-family: Ubuntu;
     font-style: normal;
     font-weight: 400;
-    font-size: 0.75rem;
+    font-size: 13px;
     line-height: 1.25rem;
 
     .author {
        float: right;
+       font-family: Ubuntu;
+       font-size: 13px;
     }
     .author:after {
        clear: both;
@@ -75,12 +77,12 @@ const DateLabel = muiStyled("div")(`
 
 const TitleLabel = muiStyled("span")(`
     margin: 8px 0;
-    font-family: 'Inter';
+    font-family: Ubuntu;
+    font-size: 24px;
     font-style: normal;
-    font-weight: 600;
-    font-size: 1.25rem;
+    font-weight: 500;
     line-height: 1.5rem;
-    color: #1F1F1F;
+    color: #434343;
     @media (min-width: ${theme.size.mobileXl}) {
         width: calc(100%);
         overflow:hidden;
@@ -102,10 +104,10 @@ const Tags = muiStyled("div")(`
 `);
 
 const TagLabel = muiStyled("span")(`
-    font-family: 'Inter';
+    font-family: Ubuntu;
     font-style: normal;
     font-weight: 400;
-    font-size: 0.75rem;
+    font-size: 13px;
     line-height: 1rem;
     color: #08979C;
 `);
