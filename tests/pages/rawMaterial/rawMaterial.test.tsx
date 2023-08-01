@@ -1,6 +1,7 @@
 import React from "react";
 import { render, screen } from "@testing-library/react";
 import RawMaterial from "pages/raw-material";
+
 // This has to be mocked before running the test
 jest.mock("next/router", () => require("next-router-mock"));
 

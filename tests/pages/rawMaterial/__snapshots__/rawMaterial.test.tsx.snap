@@ -280,7 +280,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                       class="sc-aXZVg iqobTy"
                     />
                     <div
-                      class="sc-fqkvVR KPeIb"
+                      class="sc-fqkvVR dDnqrb"
                     >
                       Make better data-driven decisions with the Latest Trends in Commodity and Material Prices
                     </div>
@@ -313,7 +313,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                 class="sc-aXZVg iqobTy"
               />
               <div
-                class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-1qqsdnr-MuiAutocomplete-root"
+                class="MuiAutocomplete-root MuiAutocomplete-hasPopupIcon css-z078ln-MuiAutocomplete-root"
               >
                 <div
                   class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
@@ -388,7 +388,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
-                  style="color: rgb(68, 91, 102);"
+                  style="font-family: Ubuntu; color: rgb(67, 67, 67); font-weight: 400;"
                   tabindex="0"
                   type="button"
                 >
@@ -397,7 +397,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   >
                     <svg
                       aria-hidden="true"
-                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                      class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-1e9q3gw-MuiSvgIcon-root"
                       data-testid="ReplayIcon"
                       focusable="false"
                       viewBox="0 0 24 24"
