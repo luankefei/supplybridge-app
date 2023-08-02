@@ -1,6 +1,5 @@
 import { useEffect, useState, useCallback } from "react";
 import { styled, useTheme } from "@mui/material/styles";
-import { SelectChangeEvent } from "@mui/material/Select";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
@@ -17,7 +16,6 @@ import QuickbridgeResult from "./result";
 import { useTranslation } from "react-i18next";
 import { useStore } from "hooks/useStore";
 import useBoundStore from "hooks/useBoundStore";
-import { useRouter } from "next/router";
 import ServicesP from "./servicesP";
 import { Button } from "@mui/material";
 import Feedback from "components/feedback";
@@ -129,14 +127,8 @@ export default function ScoutByQuickBridge() {
   const [value, setValue] = useState(0);
   const { flags } = useStore();
   const quickBridge = useBoundStore((state) => state.quickBridge);
-  const router = useRouter();
 
-  const { tab, setTab, setResult, filter, selectedLabel } = quickBridge;
-  const [searchLang, setSearchLang] = useState(flags.lang);
-
-  const [langSwChecked, setLangSwChecked] = useState(
-    flags.lang === "DE" ? true : false
-  );
+  const { tab, setTab, setResult, filter } = quickBridge;
 
   const handleChange = (event: React.SyntheticEvent, newValue: number) => {
     var tabName = QuickBridgeTabType.vehile;
@@ -206,18 +198,6 @@ export default function ScoutByQuickBridge() {
   }, [windowHeight]);
 
   let scoutDisabled = filter?.[Object.keys(filter)?.toString()]?.length == 0;
-
-  const handleSearchLangChange = useCallback(
-    (evt: SelectChangeEvent) => {
-      const checked = !!(evt.target as any).checked;
-      setLangSwChecked(checked);
-      const val: string = checked ? "DE" : "EN";
-      flags.lang = val;
-      i18n?.changeLanguage && i18n.changeLanguage(checked ? "de" : "en");
-      setSearchLang(val);
-    },
-    [i18n]
-  );
 
   const currentLang =
     window.localStorage.getItem("i18nextLng") === "de" ? "de" : "en";

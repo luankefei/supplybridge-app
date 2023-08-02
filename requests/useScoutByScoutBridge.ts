@@ -38,9 +38,17 @@ export const useQuickBridgeSupplier = () => {
     quickBridgeProductionTechnologies: state.quickBridgeProductionTechnologies,
     quickBridgePioneers: state.quickBridgePioneers,
   }));
-  const { page, pageSize, setCount, setSuppliers, filter, q, setExtraFilter } =
-    quickBridge;
-  const { setSuppliers: setSuppliersStore } = useStore();
+  const {
+    page,
+    pageSize,
+    setCount,
+    suppliers,
+    setSuppliers,
+    filter,
+    q,
+    setExtraFilter,
+  } = quickBridge;
+  // const { setSuppliers: setSuppliersStore } = useStore();
   const { filterData } = useStore(); //I added this to use the filter on quickbridge
 
   const searchSuppliers = async (
@@ -77,7 +85,7 @@ export const useQuickBridgeSupplier = () => {
       console.log("quick bridge result", data);
       setLoading(false);
       setSuppliers(data?.suppliers, reset);
-      setSuppliersStore(data?.suppliers, reset);
+      // setSuppliersStore(data?.suppliers, reset);
       setCount(data.count);
     } catch (err: any) {
       setLoading(false);
@@ -113,7 +121,7 @@ export const useQuickBridgeSupplier = () => {
       const { data } = await request.post(`suppliers/by-3p-service`, searchObj);
       setLoading(false);
       setSuppliers(data?.suppliers, reset);
-      setSuppliersStore(data?.suppliers, reset);
+      // setSuppliersStore(data?.suppliers, reset);
       setCount(data.count);
     } catch (err: any) {
       setLoading(false);
@@ -145,7 +153,13 @@ export const useQuickBridgeSupplier = () => {
     setSelectedProductionTechnology(null);
     setSelectedPioneer(null);
   };
-  return { searchSuppliers, searchSuppliersThreeP, resetAllSelected, loading };
+  return {
+    suppliers,
+    searchSuppliers,
+    searchSuppliersThreeP,
+    resetAllSelected,
+    loading,
+  };
 };
 
 export const useQuickBridgeVihicle = () => {

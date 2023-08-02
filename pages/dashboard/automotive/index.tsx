@@ -1,10 +1,9 @@
 import Head from "next/head";
 import Link from "next/link";
 import styled from "styled-components";
-import dynamic from "next/dynamic";
 
 import Icon from "components/icon";
-const Layout = dynamic(() => import("components/layout"));
+import Layout from "components/layout";
 
 const upperMenu = [
   {

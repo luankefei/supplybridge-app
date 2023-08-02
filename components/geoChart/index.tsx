@@ -171,7 +171,7 @@ export default function MapChart({
   // Key = 2 letter code, value = number of suppliers
   const [labels, setLabels] = useState<Record<string, number>>({});
 
-  const { suppliers, stats, flags } = useStore();
+  const { suppliers } = useStore();
   const { allSubRegions } = usePersistentStore();
   /*** ***************
    * Component lifecycle

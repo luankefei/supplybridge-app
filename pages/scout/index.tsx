@@ -3,7 +3,7 @@ import Layout from "components/layout";
 
 export default function Scout() {
   return (
-    <Layout>
+    <Layout pageTitle="Main">
       <ScoutingMain />
     </Layout>
   );

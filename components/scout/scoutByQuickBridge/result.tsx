@@ -1,7 +1,6 @@
 "use client";
 
 import styled from "styled-components";
-import dynamic from "next/dynamic";
 import { useEffect, useRef, useState } from "react";
 
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
@@ -13,8 +12,8 @@ import { Breadcrumbs, Link } from "@mui/material";
 import { Stack } from "@mui/system";
 import { useRouter } from "next/router";
 
-const ResultCard = dynamic(() => import("components/scout/resultCard"));
-const ScoutFilter = dynamic(() => import("components/scout/scoutFilter"));
+import ResultCard from "components/scout/resultCard";
+import ScoutFilter from "components/scout/scoutFilter";
 
 import { GoBackIcon } from "components/button";
 import { theme } from "config/theme";
@@ -44,7 +43,6 @@ export default function QuickbridgeResult() {
     setTab,
     tab,
   } = quickBridge;
-  const { scrollOffset } = useViewport();
   const { searchSuppliers, searchSuppliersThreeP, resetAllSelected, loading } =
     useQuickBridgeSupplier();
 
@@ -57,8 +55,6 @@ export default function QuickbridgeResult() {
   const pageRef = useRef(1);
   const clearRef = useRef(false);
   const pageLoaded = useRef(false);
-  const [isLocked, setIsLocked] = useState(false);
-  const router = useRouter();
 
   const { filterData, setFilterData, clearFilterData } = useStore();
 
@@ -237,8 +233,6 @@ export default function QuickbridgeResult() {
     searchPlaceholder += " in " + selectedLabel;
   }
 
-  console.log("duration new: ", aniDuration);
-
   return (
     <ScoutContainer>
       {loadingAnimations ? (
@@ -376,23 +370,6 @@ const Button = styled.div`
 
 const LockedContainer = styled.div`
   position: relative !important;
-`;
-const SearchContainer = styled.div`
-  width: 40%;
-  @media (min-width: ${theme.dimension.cardMaxWidth}) {
-    width: ${theme.dimension.cardMaxWidth};
-  }
-  margin: 25px 0px 0px 0px;
-  display: flex;
-  align-items: center;
-  flex-direction: row;
-  gap: 15px;
-  @media (max-width: ${(props) => props.theme.size.laptop}) {
-    justify-content: space-between;
-  }
-  @media (max-width: ${(props) => props.theme.size.mobileXl}) {
-    flex-direction: column;
-  }
 `;
 
 const FilterContainer = styled.div`

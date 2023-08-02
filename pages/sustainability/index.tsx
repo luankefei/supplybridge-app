@@ -1,9 +1,8 @@
 import styled from "styled-components";
-import dynamic from "next/dynamic";
 import Carousel from "components/carousel";
 import Tutorial from "components/tutorial";
-const Layout = dynamic(() => import("components/layout"));
-const Header = dynamic(() => import("components/newHeader"));
+import Layout from "components/layout";
+import Header from "components/header";
 
 export default function SliderPage() {
   const imageData = [

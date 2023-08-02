@@ -5,7 +5,6 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Controller, useForm } from "react-hook-form";
 import Link from "next/link";
-import dynamic from "next/dynamic";
 
 import { emailPattern } from "utils/validator";
 import { useAuth } from "requests/useAuth";
@@ -14,8 +13,8 @@ import Introduction from "components/introduction";
 import TermsPrivacyFooter from "components/termsPrivacyFooter";
 import Icon from "components/icon";
 import TextField from "components/textField";
-const Box = dynamic(() => import("components/box"));
-const Button = dynamic(() => import("components/button"));
+import Box from "components/box";
+import Button from "components/button";
 
 interface State {
   email: string;

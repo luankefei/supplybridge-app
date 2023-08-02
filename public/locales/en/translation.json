@@ -364,7 +364,8 @@
       "sustainableProductionDesc": "Production that utilize Green/Renewable Energy (ie. Green Steel) or LEED Certified Facilities, or met EU Taxonomy Regulations",
       "lowVolume": "Low Volume",
       "lowVolumeDesc": "Production facilities that are boutique and agile, can accommodate lower quantity orders, or special customized orders with low production run. Quality standards meet series production level. (not pre-production prototyping). Great for special edition one-offs, lower volume models, or rare spare parts)",
-      "scoutNow": "Scout Now"
+      "scoutNow": "Scout Now",
+      "productionTech": "Production Tech"
     },
     "feedback": "Feedback"
   },

@@ -1,6 +1,4 @@
 import {
-  Box,
-  Checkbox,
   Divider,
   List,
   ListItemButton,
@@ -11,7 +9,7 @@ import {
 import SortListItem, { IItem } from "./listItem";
 import { useState } from "react";
 import { DragDropContext, DropResult, Droppable } from "react-beautiful-dnd";
-import { Done, Home } from "@mui/icons-material";
+import { Done } from "@mui/icons-material";
 
 interface ISortableList {
   items: IItem[];

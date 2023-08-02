@@ -31,14 +31,20 @@ export const muiTheme = createTheme({
   palette: {
     primary: {
       main: "#08979C",
+      // light:
+      // dark:
+      contrastText: "#E6F5F5",
     },
     secondary: {
       main: "#E6F5F5",
+      // light:
+      // dark:
       contrastText: "#08979C",
     },
     text: {
       primary: "#434343",
       secondary: "#9ca3af",
+      disabled: "#F0F0F0",
     },
     grey: {
       100: "#F2F2F2",

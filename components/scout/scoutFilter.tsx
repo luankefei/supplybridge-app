@@ -28,7 +28,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const { setExtraFilter } = quickBridge;
 
-  const { searchSuppliers, loading } = useQuickBridgeSupplier();
+  const { searchSuppliers, suppliers, loading } = useQuickBridgeSupplier();
   const {
     commodities,
     components,
@@ -38,7 +38,6 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
     filterData,
     selectedRegions,
     selectedCountries,
-    suppliers,
   } = useStore();
   const { getComponents, getSubRegions } = useFilter();
 
@@ -252,8 +251,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
 
   // in Scout by index, if search result is empty, ScoutFilter won't show up.
   // but in QuickSearch, it's better to be there all the time for users to fine-tune the filter setting to narrow down or widen up the result set.
-  return isQuickSearch ||
-    (suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0) ? (
+  return (
     <ClickAwayListener onClickAway={() => expanded && setExpanded(false)}>
       <Container>
         <FilterContainer>
@@ -359,7 +357,7 @@ const ScoutFilter = ({ isQuickSearch }: { isQuickSearch: boolean }) => {
         </FilterContainer>
       </Container>
     </ClickAwayListener>
-  ) : null;
+  );
 };
 const Container = styled.div`
   width: 100%;

@@ -1,9 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import Icon from "components/icon";
 import { theme } from "config/theme";
-
 import { useStore } from "hooks/useStore";
 import { Trans } from "react-i18next";
 

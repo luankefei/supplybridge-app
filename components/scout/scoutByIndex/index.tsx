@@ -124,8 +124,9 @@ export default function ScoutByIndex() {
   }, [suppliers, allSubRegions]);
 
   useEffect(() => {
+    if (data.length === 0) return;
     reCalTableData(filterValue, mapSelectedCountry);
-  }, [mapSelectedCountry]);
+  }, [data, mapSelectedCountry]);
 
   /********************
    * Component Functions
