@@ -154,7 +154,6 @@ export default function ScoutByIndex() {
           const threeLC = TwoLetterCodeToCountryCodeMap[twoLC];
           return threeLC === mapSelectedCountry;
         });
-        console.log(s, found);
         return found;
       };
     }

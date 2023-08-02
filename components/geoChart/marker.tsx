@@ -12,6 +12,7 @@ export interface IMarker {
 interface IMapMarker {
   marker: IMarker;
   count?: number;
+  fontSize?: number;
   onMarkerClick: (
     name: EnumRegionAndSubRegion,
     coordinates: [number, number]
@@ -27,6 +28,7 @@ interface IMapMarker {
 export default function MapCircleMarker({
   marker,
   count,
+  fontSize,
   onMarkerClick,
 }: IMapMarker) {
   const { name, coordinates, r, color } = marker;
@@ -51,6 +53,7 @@ export default function MapCircleMarker({
         <circle cx="12" cy="10" r={r} />
       </g>
       <text
+        fontSize={fontSize || 12}
         textAnchor="middle"
         y={-20}
         style={{ fill: "white", cursor: "pointer" }}
@@ -58,6 +61,7 @@ export default function MapCircleMarker({
         {name}
       </text>
       <text
+        fontSize={fontSize || 12}
         textAnchor="middle"
         y={10}
         style={{ fill: "white", cursor: "pointer" }}

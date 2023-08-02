@@ -9,10 +9,9 @@ import {
   styled,
 } from "@mui/material";
 import { FormatAlignLeft, GridView } from "@mui/icons-material";
-import { Trans } from "react-i18next";
+import { Trans, useTranslation } from "react-i18next";
 import { SText } from "components/ui-components/text";
 import { SpacingVertical } from "components/ui-components/spacer";
-import { useState } from "react";
 
 interface ActionFilterAndViewProps {
   /**
@@ -74,6 +73,7 @@ const ActionFilterAndView = ({
   onFilterChange,
   onViewChange,
 }: ActionFilterAndViewProps) => {
+  const { t } = useTranslation();
   const hanldeViewChange = (e: any, v: ViewType | null) => {
     if (v === null) {
       // enforce
@@ -110,13 +110,13 @@ const ActionFilterAndView = ({
             onClick={onClickBuildMyShortList}
             variant="outlined"
           >
-            Build my shortlist
+            {t("scout.buildMyShortlist", "Build My Shortlist")}
           </WhiteBgRoundCornerButton>
           <WhiteBgRoundCornerButton
             onClick={onClickBidderList}
             variant="outlined"
           >
-            Bidder List
+            {t("scout.bidderList", "Bidder List")}
           </WhiteBgRoundCornerButton>
           <Tooltip title="Select at least 2 suppliers to compare, at most 3">
             <span style={{ display: "flex" }}>
@@ -125,7 +125,7 @@ const ActionFilterAndView = ({
                 onClick={onClickCompare}
                 disabled={onClickCompare === undefined}
               >
-                Compare Suppliers
+                {t("scout.compareSuppliers", "Compare Suppliers")}
               </WhiteBgRoundCornerButton>
             </span>
           </Tooltip>

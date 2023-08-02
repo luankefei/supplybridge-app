@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { AppBar, Collapse, Grid, Stack, Toolbar } from "@mui/material";
 import { SpacingVertical } from "components/ui-components/spacer";
-import { TitleText } from "components/ui-components/text";
+import { STextBody16, STextH2 } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
 
 /**
@@ -23,26 +23,29 @@ function RMTopMenuBar({ children }: { children: React.ReactNode }) {
     <AppBar
       position="sticky"
       color="transparent"
-      style={
-        {
-          // transition: "0.3s",
-          // transform: isScrolled ? "scale(0.9)" : "scale(1)",
-        }
-      }
+      style={{
+        // transition: "0.3s",
+        // transform: isScrolled ? "scale(0.9)" : "scale(1)",
+        boxShadow: "none",
+        borderBottom: "1px solid #F0F0F0",
+        borderLeft: "1px solid #F0F0F0",
+      }}
     >
       <Toolbar style={{ backgroundColor: "white" }}>
         <Grid style={{ padding: "0 48px" }} container>
           <Stack style={{ padding: "0 48px" }}>
             <Collapse in={!isScrolled}>
               <SpacingVertical space="36px" />
-              <TitleText>
-                Make better data-driven decisions with the Latest Trends in
-                Commodity and Material Prices
-              </TitleText>
+              <STextH2 color="#445B66">Raw Material Price Trends</STextH2>
+              <SpacingVertical space="8px" />
+              <STextBody16 color="#445B66">
+                Leverage the latest data insights for smarter decision-making
+              </STextBody16>
+              <SpacingVertical space="12px" />
               <PoweredBy />
             </Collapse>
 
-            <SpacingVertical space="36px" />
+            <SpacingVertical space="16px" />
             {children}
             <SpacingVertical space="36px" />
           </Stack>

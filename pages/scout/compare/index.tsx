@@ -121,10 +121,10 @@ export default function Compare() {
                 <SupBadge badge={BadgeType.major} />
               </Stack>
               <SpacingVertical space="24px" />
-              <Box height={"50vh"}>
+              <Box height={"60vh"}>
                 <General data={supplier} />
               </Box>
-              <Box height={"20vh"}>
+              <Box height={"30vh"}>
                 <Portfolio data={supplier} />
               </Box>
               <Box height={"30vh"}>

@@ -1,4 +1,7 @@
 {
+  "common": {
+    "verifiedSupplier": "Geprüfter Lieferant"
+  },
   "region": {
     "APAC": "APAC",
     "AMERICAS": "AMERIKA",
@@ -230,6 +233,7 @@
     "sourcing": "Beschaffung",
     "evaluate": "Bewertung",
     "sustainability": "Nachhaltigkeit",
+    "rawMaterials": "Rohmaterial",
     "marketData": "MARKTDATEN",
     "newsAndInsights": "News & Einblicke",
     "supplyChainTransparency": "Lieferkette Nachhaltigkeit",
@@ -246,6 +250,8 @@
       "biddersList": "Bieterliste"
     },
     "buildMyShortlist": "Meine Auswahlliste",
+    "bidderList": "Bieterliste",
+    "compareSuppliers": "Lieferanten vergleichen",
     "searchbar": {
       "keywords": "Suchwörter",
       "companies": "Lieferanten",
@@ -284,7 +290,13 @@
       "organization": "Unternehmen",
       "hqLocation": "Hauptsitz",
       "footprint": "Globaler Fußabdruck",
-      "badge": "Merkmal"
+      "badge": "Merkmal",
+      "actions": "Aktionen",
+      "addColumnTooltip": "Zum Hinzufügen/Entfernen von Spalten auswählen, zum Umsortieren ziehen",
+      "empty": {
+        "title": "Keine Ergebnisse für diese Suche",
+        "subtitle": "Unser SmartBridge-KI verarbeitet die Anfrage"
+      }
     },
     "quickbridge": {
       "vehicle": "Fahrzeug",

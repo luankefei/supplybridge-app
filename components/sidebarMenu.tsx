@@ -121,6 +121,9 @@ export default function SideBarMenu(props: { width?: string }) {
       height={"100vh"}
       justifyContent={"space-between"}
       bgcolor={"white"}
+      sx={{
+        fontFamily: "Nunito !important",
+      }}
     >
       <Stack gap={"46px"}>
         <picture>

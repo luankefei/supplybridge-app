@@ -250,6 +250,8 @@
       "biddersList": "Bidders List"
     },
     "buildMyShortlist": "Build my Shortlist",
+    "bidderList": "Bidder List",
+    "compareSuppliers": "Compare Suppliers",
     "searchbar": {
       "keywords": "Keywords",
       "companies": "Companies",
@@ -289,6 +291,8 @@
       "hqLocation": "HQ Location",
       "footprint": "Global Footprint",
       "badge": "Badge",
+      "actions": "Actions",
+      "addColumnTooltip": "Select to add/remove column, drag to reorder",
       "empty": {
         "title": "No results matching to this search",
         "subtitle": "Our SmartBridge AI will process the request"

@@ -33,6 +33,9 @@ import { SpacingVertical } from "components/ui-components/spacer";
 //#region map Constants
 const RADIUS_SIZE = [155, 100, 50, 60];
 const SCALE_SIZE = 200;
+const FONT_SIZE = 18;
+const INITIAL_ZOOM = 1.717;
+const INITIAL_CENTER: [number, number] = [1.96, 47.224];
 // These numbers are tied to the scale of the map
 // i have no idea how to translate them, this is tried out by hand
 const preDefinedMarkers: IMarker[] = [
@@ -143,8 +146,8 @@ export default function MapChart({
   selectedCountry,
   onSelectCountryFilter,
 }: IMapChart) {
-  const [center, setCenter] = useState<[number, number]>([0, 0]); // [longitude, latitude
-  const [zoom, setZoom] = useState<number>(1);
+  const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER); // [longitude, latitude
+  const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
   const [markers, setMarkers] = useState<IMarker[]>(preDefinedMarkers);
   const [selectedRegion, setSelectedRegion] =
     useState<EnumRegionAndSubRegion | null>(null);
@@ -234,7 +237,6 @@ export default function MapChart({
     setSelectedRegion(name);
     setCenter(coordinates);
     setZoom(zoom + 0.5);
-    console.debug("zooming into", name, coordinates, zoom);
     const regionMarker = preDefinedMarkers.find((x) => x.name === name);
     if (regionMarker?.subMarkers !== undefined) {
       setMarkers(regionMarker.subMarkers);
@@ -244,9 +246,9 @@ export default function MapChart({
   };
 
   const reset = () => {
-    setZoom(1);
+    setZoom(INITIAL_ZOOM);
     setMarkers(preDefinedMarkers);
-    setCenter([0, 0]);
+    setCenter(INITIAL_CENTER);
     setSelectedRegion(null);
     setHoveredCountry(null);
     onSelectCountryFilter(undefined, undefined);
@@ -431,10 +433,12 @@ export default function MapChart({
       </Marker>
     );
   };
+
   return (
     <Box
       position={"relative"}
-      width={"100%"}
+      width={"80%"}
+      margin={"auto"}
       height={"50vh"}
       display={"flex"}
       justifyContent={"center"}
@@ -474,6 +478,7 @@ export default function MapChart({
             <MapCircleMarker
               key={e.name}
               marker={e}
+              fontSize={FONT_SIZE}
               onMarkerClick={zoomToRegion}
               count={supplierCountByMap[e.name]}
             />

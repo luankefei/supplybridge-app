@@ -111,3 +111,51 @@ export const SText = styled.div<{
   line-height: ${(props) => props.lineHeight || "2rem"};
   color: ${(props) => props.color || "#1a1a1a"};
 `;
+
+export const STextH1 = styled.span<{
+  color?: string;
+}>`
+  color: ${(props) => props.color || "#434343"};
+  text-align: center;
+  font-family: Ubuntu;
+  font-size: 32px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: normal;
+`;
+
+export const STextH2 = styled.span<{
+  color?: string;
+}>`
+  color: ${(props) => props.color || "#434343"};
+  text-align: center;
+  font-family: Ubuntu;
+  font-size: 24px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+export const STextH3 = styled.span<{
+  color?: string;
+}>`
+  color: ${(props) => props.color || "#434343"};
+  text-align: center;
+  font-family: Ubuntu;
+  font-size: 20px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: normal;
+`;
+
+export const STextBody16 = styled.span<{
+  color?: string;
+}>`
+  color: ${(props) => props.color || "#434343"};
+  text-align: center;
+  font-family: Ubuntu;
+  font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
