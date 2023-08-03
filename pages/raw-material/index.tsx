@@ -109,7 +109,7 @@ export default function RawMaterial() {
                 />
               }
             >
-              Reset All
+              {t("rawMaterial.resetAll", "Reset All")}
             </Button>
           </div>
         </RMTopMenuBar>
@@ -118,7 +118,9 @@ export default function RawMaterial() {
     >
       <SpacingVertical space="50px" />
       <StyledCard>
-        <HeaderText>Filter by category</HeaderText>
+        <HeaderText>
+          {t("rawMaterial.filterByCatergory", "Filter by category")}
+        </HeaderText>
         <SpacingVertical space="24px" />
         <Stack>
           <Grid container>
@@ -146,7 +148,7 @@ export default function RawMaterial() {
             })}
           </Grid>
           <SpacingVertical space="24px" />
-          <Collapse in={!!openedCategory}>
+          <Collapse data-testid="raw-material-collapse" in={!!openedCategory}>
             <Stack
               style={{
                 borderRadius: 16,
@@ -173,6 +175,7 @@ export default function RawMaterial() {
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
+                          data-testid="raw-material-toggle-button"
                           value={subfield.name}
                           selected={selected}
                           // disabled={disabled}
@@ -224,7 +227,7 @@ export default function RawMaterial() {
                   }
                 >
                   <SpacingHorizontal space="10px" />
-                  Select All
+                  {t("rawMaterial.selectAll", "Select All")}
                 </Button>
               </Box>
               <SpacingVertical space="24px" />

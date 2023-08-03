@@ -404,5 +404,10 @@
     "slide3.sampleDate1": "Wed, Dec 21",
     "slide3.sampleDate2": "Fri, Dec 23",
     "slide3.sampleDate3": "Thur, Dec 29"
+  },
+  "rawMaterial": {
+    "resetAll": "Reset All",
+    "filterByCatergory": "Filter by Category",
+    "selectAll": "Select All"
   }
 }

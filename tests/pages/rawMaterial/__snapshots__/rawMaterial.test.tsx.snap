@@ -462,6 +462,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  data-testid="vertical-button"
                   style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
                   tabindex="0"
                   type="button"
@@ -487,6 +488,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  data-testid="vertical-button"
                   style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
                   tabindex="0"
                   type="button"
@@ -512,6 +514,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  data-testid="vertical-button"
                   style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
                   tabindex="0"
                   type="button"
@@ -537,6 +540,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  data-testid="vertical-button"
                   style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
                   tabindex="0"
                   type="button"
@@ -562,6 +566,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  data-testid="vertical-button"
                   style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
                   tabindex="0"
                   type="button"
@@ -587,6 +592,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  data-testid="vertical-button"
                   style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
                   tabindex="0"
                   type="button"
@@ -612,6 +618,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               >
                 <button
                   class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium Mui-disabled MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1e6y48t-MuiButtonBase-root-MuiButton-root"
+                  data-testid="vertical-button"
                   disabled=""
                   style="min-width: 156px; display: flex; flex-direction: column; align-items: center; justify-content: center; font-size: 14px;"
                   tabindex="-1"
@@ -636,6 +643,7 @@ exports[`RawMaterial matches snapshot 1`] = `
             />
             <div
               class="MuiCollapse-root MuiCollapse-vertical MuiCollapse-hidden css-bz4dnt-MuiCollapse-root"
+              data-testid="raw-material-collapse"
               style="min-height: 0px;"
             >
               <div

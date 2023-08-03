@@ -28,6 +28,7 @@ const VerticalIconButton = ({
 }) => {
   return (
     <Button
+      data-testid="vertical-button"
       style={{
         minWidth: "156px",
         display: "flex",

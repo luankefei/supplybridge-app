@@ -13,6 +13,8 @@ const customJestConfig = {
     "^services/(.*)$": "<rootDir>/services/$1",
     "^components/(.*)$": "<rootDir>/components/$1",
     "^pages/(.*)$": "<rootDir>/pages/$1",
+    "^utils/(.*)$": "<rootDir>/utils/$1",
+    "^requests/(.*)$": "<rootDir>/requests/$1",
   },
 
   testEnvironment: "jsdom",

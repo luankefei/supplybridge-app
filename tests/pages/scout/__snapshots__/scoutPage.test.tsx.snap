@@ -1,0 +1,624 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Scout matches snapshot 1`] = `
+<DocumentFragment>
+  <div
+    class="MuiBox-root css-hboir5"
+  >
+    <div
+      class="MuiDrawer-root MuiDrawer-docked css-n8sr6d-MuiDrawer-docked"
+    >
+      <div
+        class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-19n6fl3-MuiPaper-root-MuiDrawer-paper"
+      >
+        <div
+          class="css-1rx6kan-MuiStack-root"
+        >
+          <div
+            class="css-yg8aj0-MuiStack-root"
+          >
+            <picture>
+              <img
+                alt="logo"
+                src="/menu/logo.svg"
+              />
+            </picture>
+            <div
+              class="MuiBox-root css-0"
+            >
+              <div
+                class="sc-eeDRCY gAPuDM"
+                color="#808080"
+                font-size="16px"
+                font-weight="400"
+              >
+                Welcome
+              </div>
+              <div
+                class="sc-fUnMCh cpybXc"
+              />
+              <div
+                class="sc-djVXDX GKEuM"
+              >
+                SOLUTIONS
+              </div>
+              <a
+                href="/scout"
+              >
+                <div
+                  class="sc-eONNys bWCsiE"
+                >
+                  <img
+                    class="sc-epRvzc eeSNQm"
+                    src="/menu/scouting.svg"
+                  />
+                  <span
+                    class="sc-gFnajm fqqTKF"
+                  >
+                    Scouting
+                  </span>
+                </div>
+              </a>
+              <a
+                href="/source"
+              >
+                <div
+                  class="sc-eONNys bWCsiE"
+                >
+                  <img
+                    class="sc-epRvzc eeSNQm"
+                    src="/menu/sourcing.svg"
+                  />
+                  <span
+                    class="sc-gFnajm fqqTKF"
+                  >
+                    Sourcing
+                  </span>
+                </div>
+              </a>
+              <a
+                href=""
+              >
+                <div
+                  class="sc-eONNys fieIxs"
+                >
+                  <img
+                    class="sc-epRvzc eeSNQm"
+                    src="/menu/evaluate.svg"
+                  />
+                  <span
+                    class="sc-gFnajm katobQ"
+                  >
+                    Evaluate
+                  </span>
+                  <span
+                    class="sc-dISpDn ktsUbu"
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+              </a>
+              <a
+                href=""
+              >
+                <div
+                  class="sc-eONNys fieIxs"
+                >
+                  <img
+                    class="sc-epRvzc eeSNQm"
+                    src="/menu/sustainability.svg"
+                  />
+                  <span
+                    class="sc-gFnajm katobQ"
+                  >
+                    Sustainability
+                  </span>
+                  <img
+                    class="sc-btwKTd"
+                    src="/menu/leaf.svg"
+                  />
+                  <span
+                    class="sc-dISpDn ktsUbu"
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+              </a>
+            </div>
+            <div
+              class="MuiBox-root css-0"
+            >
+              <div
+                class="sc-djVXDX GKEuM"
+              >
+                MARKET DATA
+              </div>
+              <a
+                href="/raw-material"
+              >
+                <div
+                  class="sc-eONNys bWCsiE"
+                >
+                  <img
+                    class="sc-epRvzc eeSNQm"
+                    src="/menu/raw-material.svg"
+                  />
+                  <span
+                    class="sc-gFnajm fqqTKF"
+                  >
+                    Raw Material
+                  </span>
+                </div>
+              </a>
+              <a
+                href="/supplier-news"
+              >
+                <div
+                  class="sc-eONNys bWCsiE"
+                >
+                  <img
+                    class="sc-epRvzc eeSNQm"
+                    src="/menu/supplier-news.svg"
+                  />
+                  <span
+                    class="sc-gFnajm fqqTKF"
+                  >
+                    News & Insights
+                  </span>
+                </div>
+              </a>
+              <a
+                href="/supply-chain-transparency"
+              >
+                <div
+                  class="sc-eONNys bWCsiE"
+                >
+                  <img
+                    class="sc-epRvzc eeSNQm"
+                    src="/menu/supply-chain-transparency.svg"
+                  />
+                  <span
+                    class="sc-gFnajm fqqTKF"
+                  >
+                    Supply Chain Transparency
+                  </span>
+                </div>
+              </a>
+            </div>
+          </div>
+          <div
+            class="css-1rx3pq-MuiStack-root"
+          >
+            <div
+              class="css-1d9cypr-MuiStack-root"
+            >
+              <picture>
+                <img
+                  alt="logo"
+                  src="/menu/bmw.svg"
+                />
+              </picture>
+              <div
+                class="sc-hzhJZQ fzaLYj"
+              />
+              <div
+                class="css-nen11g-MuiStack-root"
+              >
+                <div
+                  class="sc-eeDRCY dwNTkA"
+                  color="#1a1a1a"
+                  font-size="16px"
+                  font-weight="400"
+                >
+                  BMW
+                </div>
+                <div
+                  class="css-m69qwo-MuiStack-root"
+                >
+                  <div
+                    class="sc-eeDRCY irNKd"
+                    color="#2c71f0"
+                    font-size="12px"
+                    font-weight="300"
+                  >
+                    Premium Account
+                  </div>
+                  <div
+                    class="sc-hzhJZQ fzaLYj"
+                  />
+                  <hr
+                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                  />
+                  <div
+                    class="sc-hzhJZQ fzaLYj"
+                  />
+                  <div
+                    class="sc-eeDRCY irNKd"
+                    color="#2c71f0"
+                    font-size="12px"
+                    font-weight="300"
+                    style="cursor: pointer;"
+                  >
+                    Log out
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <main
+      class="MuiBox-root css-deuk67"
+    >
+      <div
+        class="MuiBox-root css-1pso0ay"
+      >
+        <div
+          class="MuiBox-root css-0"
+        >
+          <div
+            class="sc-cgjDci fsrWhA"
+          >
+            <div
+              class="sc-djTQaJ cusDmQ"
+            >
+              <div
+                class="sc-pKqro fcKpox"
+              />
+              <span
+                class="sc-gvPdwL gmGvCm"
+              >
+                Scout by Index
+              </span>
+              <span
+                class="sc-dBFDNq dHrBeh"
+              >
+                Scout by QuickBridge
+              </span>
+              <span
+                class="sc-ggqIjW bKLGRD"
+              >
+                Bidders List
+              </span>
+            </div>
+          </div>
+          <div
+            class="css-nen11g-MuiStack-root"
+          >
+            <div
+              class="sc-fXSgeo isfEui"
+            >
+              <span
+                class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"
+              >
+                <span
+                  class="MuiButtonBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary PrivateSwitchBase-root MuiSwitch-switchBase MuiSwitch-colorPrimary css-1c3axbu-MuiButtonBase-root-MuiSwitch-switchBase"
+                >
+                  <input
+                    class="PrivateSwitchBase-input MuiSwitch-input css-1m9pwf3"
+                    type="checkbox"
+                  />
+                  <span
+                    class="MuiSwitch-thumb css-jsexje-MuiSwitch-thumb"
+                  />
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                  />
+                </span>
+                <span
+                  class="MuiSwitch-track css-1yjjitx-MuiSwitch-track"
+                />
+              </span>
+            </div>
+            <div
+              class="css-omazcq-MuiStack-root"
+            >
+              <div
+                class="MuiBox-root css-42igfv"
+              >
+                <div
+                  class="sc-fUnMCh hGHAkj"
+                />
+                <span
+                  class="sc-jsJBEP kJrZVl"
+                >
+                  Global Scouting, for Automotive professionals.
+                </span>
+                <div
+                  class="css-bimbu8"
+                  style="margin: auto;"
+                >
+                  <img
+                    class="sc-feUZmu cXRAnW"
+                    height="30"
+                    src="/icons/smart-bridge-ai.svg"
+                    title=""
+                    width="24"
+                  />
+                  <div
+                    class="sc-hzhJZQ fzaLYj"
+                  />
+                  <div
+                    class="sc-eeDRCY gTnThs"
+                    color="#89A8B3"
+                    font-size="13px"
+                    font-weight="400"
+                  >
+                    Powered by SmartBridge Artificial Intelligence
+                  </div>
+                </div>
+              </div>
+              <div
+                class="css-ed76l1-MuiStack-root"
+              >
+                <div
+                  class="MuiBox-root css-ckyhk3"
+                >
+                  <button
+                    class="MuiButtonBase-root MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium MuiButton-root MuiButton-text MuiButton-textPrimary MuiButton-sizeMedium MuiButton-textSizeMedium css-1o0eo47-MuiButtonBase-root-MuiButton-root"
+                    tabindex="0"
+                    type="button"
+                  >
+                    <img
+                      class="sc-feUZmu dcHDLd"
+                      height="12"
+                      src="/icons/reset.svg"
+                      title=""
+                      width="12"
+                    />
+                    Reset
+                    <span
+                      class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                    />
+                  </button>
+                </div>
+                <div
+                  class="sc-jxOSlx cScXSB"
+                  width="100"
+                >
+                  <div
+                    class="sc-tagGq cPGhJO"
+                  >
+                    <div
+                      class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary sc-esYiGF eodGLX css-1xutqql-MuiInputBase-root-MuiOutlinedInput-root-MuiSelect-root"
+                    >
+                      <div
+                        aria-expanded="false"
+                        aria-haspopup="listbox"
+                        aria-labelledby="search_type"
+                        class="MuiSelect-select MuiSelect-outlined MuiInputBase-input MuiOutlinedInput-input css-sz0awi-MuiSelect-select-MuiInputBase-input-MuiOutlinedInput-input"
+                        id="search_type"
+                        role="button"
+                        tabindex="0"
+                      >
+                        Keywords
+                      </div>
+                      <input
+                        aria-hidden="true"
+                        class="MuiSelect-nativeInput css-yf8vq0-MuiSelect-nativeInput"
+                        tabindex="-1"
+                        value="Keywords"
+                      />
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium MuiSelect-icon MuiSelect-iconOutlined css-hfutr2-MuiSvgIcon-root-MuiSelect-icon"
+                        data-testid="ArrowDropDownIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M7 10l5 5 5-5z"
+                        />
+                      </svg>
+                      <fieldset
+                        aria-hidden="true"
+                        class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                      >
+                        <legend
+                          class="css-ihdtdm"
+                        >
+                          <span
+                            class="notranslate"
+                          >
+                            ​
+                          </span>
+                        </legend>
+                      </fieldset>
+                    </div>
+                    <img
+                      class="sc-feUZmu ctTmVn"
+                      height="20"
+                      src="/icons/search2.svg"
+                      title=""
+                      width="20"
+                    />
+                    <div
+                      class="sc-hzhJZQ fzaLYj"
+                    />
+                    <div
+                      class="MuiAutocomplete-root MuiAutocomplete-hasClearIcon sc-fhzFiK bPZoiy css-1qqsdnr-MuiAutocomplete-root"
+                    >
+                      <div
+                        class="MuiFormControl-root MuiFormControl-fullWidth MuiTextField-root css-wb57ya-MuiFormControl-root-MuiTextField-root"
+                      >
+                        <div
+                          class="MuiInputBase-root MuiOutlinedInput-root MuiInputBase-colorPrimary MuiInputBase-fullWidth MuiInputBase-formControl MuiInputBase-adornedEnd MuiAutocomplete-inputRoot css-17ahhef-MuiInputBase-root-MuiOutlinedInput-root"
+                        >
+                          <input
+                            aria-autocomplete="list"
+                            aria-expanded="false"
+                            aria-invalid="false"
+                            autocapitalize="none"
+                            autocomplete="off"
+                            class="MuiInputBase-input MuiOutlinedInput-input MuiInputBase-inputAdornedEnd MuiAutocomplete-input MuiAutocomplete-inputFocused css-fr7zp0-MuiInputBase-input-MuiOutlinedInput-input"
+                            id=":r0:"
+                            placeholder="..."
+                            role="combobox"
+                            spellcheck="false"
+                            type="text"
+                            value=""
+                          />
+                          <div
+                            class="MuiAutocomplete-endAdornment css-1q60rmi-MuiAutocomplete-endAdornment"
+                          >
+                            <button
+                              aria-label="Clear"
+                              class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium MuiAutocomplete-clearIndicator css-1glvl0p-MuiButtonBase-root-MuiIconButton-root-MuiAutocomplete-clearIndicator"
+                              tabindex="-1"
+                              title="Clear"
+                              type="button"
+                            >
+                              <svg
+                                aria-hidden="true"
+                                class="MuiSvgIcon-root MuiSvgIcon-fontSizeSmall css-ptiqhd-MuiSvgIcon-root"
+                                data-testid="CloseIcon"
+                                focusable="false"
+                                viewBox="0 0 24 24"
+                              >
+                                <path
+                                  d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"
+                                />
+                              </svg>
+                              <span
+                                class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                              />
+                            </button>
+                          </div>
+                          <fieldset
+                            aria-hidden="true"
+                            class="MuiOutlinedInput-notchedOutline css-1d3z3hw-MuiOutlinedInput-notchedOutline"
+                          >
+                            <legend
+                              class="css-ihdtdm"
+                            >
+                              <span
+                                class="notranslate"
+                              >
+                                ​
+                              </span>
+                            </legend>
+                          </fieldset>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div
+                    class="sc-lcIPJg daIWNn"
+                  >
+                    <button
+                      class="sc-kdBSHD gWmgLm"
+                    >
+                      Search
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="MuiBox-root css-0"
+            >
+              <div
+                class="sc-fUnMCh coRPPG"
+              />
+              <div
+                class="MuiBox-root css-0"
+              >
+                <div
+                  class="MuiBox-root css-1srgvwi"
+                >
+                  <div>
+                    ComposableMap
+                  </div>
+                  <div
+                    class="css-13tgtf8-MuiStack-root"
+                  >
+                    <button
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-9kfbl0-MuiButtonBase-root-MuiIconButton-root"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                        data-testid="AddIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"
+                        />
+                      </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
+                    <div
+                      class="sc-fUnMCh dRxhGO"
+                    />
+                    <button
+                      class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-9kfbl0-MuiButtonBase-root-MuiIconButton-root"
+                      tabindex="0"
+                      type="button"
+                    >
+                      <svg
+                        aria-hidden="true"
+                        class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                        data-testid="RemoveIcon"
+                        focusable="false"
+                        viewBox="0 0 24 24"
+                      >
+                        <path
+                          d="M19 13H5v-2h14v2z"
+                        />
+                      </svg>
+                      <span
+                        class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                      />
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div
+              class="sc-aXZVg CnrfF"
+            >
+              <div
+                class="sc-gEvEer djmrYR hidden"
+              >
+                <div
+                  class="sc-fqkvVR fbCMwI"
+                >
+                  FEEDBACK
+                </div>
+                <form>
+                  <div
+                    class="sc-eqUAAy fcxkwQ"
+                  >
+                    <div
+                      class="sc-dcJsrY dIOWIq subtitle"
+                    >
+                      How can we do better?
+                    </div>
+                    <textarea
+                      class="sc-iGgWBj fROAfk text"
+                      name="feedback"
+                      placeholder="Type your remarks..."
+                    />
+                    <button
+                      class="sc-gsFSXq bHdLNi"
+                      disabled=""
+                    >
+                      Submit
+                    </button>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+</DocumentFragment>
+`;

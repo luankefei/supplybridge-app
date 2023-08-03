@@ -235,7 +235,10 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
     );
   };
   return (
-    <Card sx={{ height: "455px", borderRadius: "16px" }}>
+    <Card
+      data-testid="raw-mateiral-chart"
+      sx={{ height: "455px", borderRadius: "16px" }}
+    >
       <Grid container justifyContent="space-between" p={"24px 24px 24px 48px"}>
         <Grid item display={"flex"} flexDirection={"column"}>
           <LargeText> {materialName} </LargeText>
