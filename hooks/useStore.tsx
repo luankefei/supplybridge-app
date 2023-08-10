@@ -38,7 +38,6 @@ interface INonPersistentStore {
   setCount: (value: number) => void;
   queryString: string;
   setQueryString: (value: string) => void;
-
   stats: any;
   setStats: (value: any) => void;
   suppliers: TSupplierModel[];

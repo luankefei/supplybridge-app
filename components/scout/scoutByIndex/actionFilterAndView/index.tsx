@@ -2,6 +2,7 @@ import TableFilters, { FilterDataset, FilterValue } from "./tableFilters";
 import {
   Box,
   Button,
+  Grid,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
@@ -87,8 +88,8 @@ const ActionFilterAndView = ({
   }
   return (
     <Stack>
-      <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
-        <Box>
+      <Grid container justifyContent={"space-between"} rowGap={2}>
+        <Grid item>
           <Trans i18nKey="scout.result.overview">
             <SText fontWeight="700" fontSize="32px">
               {{ resultCount } as any}
@@ -97,12 +98,14 @@ const ActionFilterAndView = ({
               {{ resultType } as any}
             </SText>
           </Trans>
-        </Box>
-        <TableFilters
-          initialValue={filterInitialData}
-          onFilterChange={onFilterChange}
-        />
-      </Stack>
+        </Grid>
+        <Grid item>
+          <TableFilters
+            initialValue={filterInitialData}
+            onFilterChange={onFilterChange}
+          />
+        </Grid>
+      </Grid>
       <SpacingVertical space="24px" />
       <Stack direction={"row"} sx={{ justifyContent: "space-between" }}>
         <Stack direction={"row"} spacing={2}>

@@ -445,6 +445,9 @@ export default function MapChart({
     >
       <ComposableMap
         width={window.screen.width}
+        style={{
+          borderRadius: "24px",
+        }}
         projection="geoMercator"
         projectionConfig={preDefinedProjectionConfig as any}
       >

@@ -296,6 +296,14 @@
       "empty": {
         "title": "No results matching to this search",
         "subtitle": "Our SmartBridge AI will process the request"
+      },
+      "supBadge": {
+        "top": "TOP",
+        "topDesc": "A few lead performingSuppliers in the particular category / sub-category-usually by Sales Marketshare.",
+        "major": "MAJOR",
+        "majorDesc": "Key Suppliers in the particular category / sub-category - can be by a combination of criteria.",
+        "risingStar": "RISING STAR",
+        "risingStarDesc": "High potential suppliers with promising new technology, business model.or other forms of innovations."
       }
     },
     "quickbridge": {

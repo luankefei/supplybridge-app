@@ -296,6 +296,14 @@
       "empty": {
         "title": "Keine Ergebnisse für diese Suche",
         "subtitle": "Unser SmartBridge-KI verarbeitet die Anfrage"
+      },
+      "supBadge": {
+        "top": "TOP",
+        "topDesc": "Einige der führenden Lieferanten in der jeweiligen Kategorie / Unterkategorie, normalerweise nach Marktanteil im Vertrieb.",
+        "major": "WICHTIG",
+        "majorDesc": "Hauptlieferanten in der jeweiligen Kategorie / Unterkategorie - kann durch eine Kombination von Kriterien bestimmt werden.",
+        "risingStar": "AUFGEBENDER STAR",
+        "risingStarDesc": "Lieferanten mit hohem Potenzial, die vielversprechende neue Technologien, Geschäftsmodelle oder andere Formen von Innovationen aufweisen."
       }
     },
     "quickbridge": {

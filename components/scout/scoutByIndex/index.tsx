@@ -217,7 +217,7 @@ export default function ScoutByIndex() {
   // TODO: Remove this.
   const emptyRows = new Array(10);
   for (let i = 0; i < 10; i++) {
-    emptyRows[i] = { id: i + data.length };
+    emptyRows[i] = { id: i + data.length + 1 };
   }
   const hasData: boolean = data.length > 0;
   return (
@@ -265,7 +265,12 @@ export default function ScoutByIndex() {
               )}
               {hasData && (
                 <>
-                  <Summary queryString={queryString} />
+                  <Summary
+                    queryString={queryString}
+                    setQueryString={(s) =>
+                      searchHandler(s, EnumSearchType.Keywords)
+                    }
+                  />
                   <Box sx={{ p: 3 }}>
                     <ActionFilterAndView
                       filterInitialData={initialFilterDataset}

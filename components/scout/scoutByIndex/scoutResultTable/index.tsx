@@ -25,32 +25,7 @@ import { EnumSearchType } from "../searchBar";
 import SortableList from "components/ui-components/sortableList/sortableList";
 import { useTranslation } from "react-i18next";
 import { IItem } from "components/ui-components/sortableList/listItem";
-
-const supBadgeTooltipText = (
-  <div>
-    <div>
-      <h3>Top</h3>
-    </div>
-    <p>
-      A few lead performingSuppliers in the particular category / sub-category
-      -usually by Sales Marketshare.
-    </p>
-    <div>
-      <h3>MAJOR</h3>
-    </div>
-    <p>
-      Key Suppliers in the particular category / sub-category - can be by a
-      combination of criteria.
-    </p>
-    <div>
-      <h3>RISING STAR</h3>
-    </div>
-    <p>
-      High potential suppliers with promising new technology, business model.or
-      other forms of innovations.
-    </p>
-  </div>
-);
+import SupBadgeTooltip from "./supBadgeTooltip";
 
 interface IScoutResultTableProps {
   viewType: ViewType;
@@ -161,7 +136,7 @@ export default function ScoutResultTable({
     [EnumColumnName.globalFootprint]: {
       field: "globalFootprint",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.globalFootprint],
-      minWidth: 160,
+      minWidth: 200,
       sortable: false,
       renderCell: (params) => {
         const { globalFootprintRegion } = params.row;
@@ -193,12 +168,15 @@ export default function ScoutResultTable({
       renderHeader: () => {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
-            <Tooltip title={supBadgeTooltipText}>
+            <span style={{ marginLeft: 8 }}>
+              {t("scout.result.badge", "Badge")}
+            </span>
+            <SpacingHorizontal space="8px" />
+            <Tooltip title={<SupBadgeTooltip />}>
               <Info
                 sx={{ width: "16px", color: theme.palette.text.secondary }}
               />
             </Tooltip>
-            <span style={{ marginLeft: 8 }}>Badge</span>
           </div>
         );
       },
@@ -263,13 +241,6 @@ export default function ScoutResultTable({
       renderHeader: () => {
         return (
           <Stack direction="row" alignItems="center">
-            <Tooltip
-              title={t("scout.result.addColumnTooltip", "Reorder column")}
-            >
-              <Info
-                sx={{ width: "16px", color: theme.palette.text.secondary }}
-              />
-            </Tooltip>
             <IconButton
               onClick={(e) => {
                 setAnchorEl(e.currentTarget);
@@ -277,6 +248,13 @@ export default function ScoutResultTable({
             >
               <Add />
             </IconButton>
+            <Tooltip
+              title={t("scout.result.addColumnTooltip", "Reorder column")}
+            >
+              <Info
+                sx={{ width: "16px", color: theme.palette.text.secondary }}
+              />
+            </Tooltip>
           </Stack>
         );
       },
@@ -372,6 +350,11 @@ export default function ScoutResultTable({
       onRowSelect(rowSelectionModel as number[]);
     }
   };
+  // Translation column headers
+  useEffect(() => {
+    makeNewColumns(columnControls);
+  }, [t, searchType]);
+
   const makeNewColumns = (newColumnControls: IItem[]) => {
     const newColumns: GridColDef<ITableData>[] = [];
     newColumnControls.forEach((control) => {
@@ -424,14 +407,10 @@ export default function ScoutResultTable({
             opacity: 0.5,
             backgroundColor: "rgba(255, 255, 255, 0.5)",
             cursor: "not-allowed",
-            ":after": {
-              content: '"LOCKED"',
-              color: "#000",
-              position: "absolute",
-              left: "50%",
-              top: "50%",
-              transform: "translate(-50%, -50%)",
-            },
+            backgroundImage: "url(/icons/lock-results.svg) ",
+            backgroundRepeat: "no-repeat",
+            backgroundSize: "contain",
+            backgroundPosition: "center",
             ":hover": {
               backgroundColor: "rgba(255, 255, 255, 0.5)",
             },

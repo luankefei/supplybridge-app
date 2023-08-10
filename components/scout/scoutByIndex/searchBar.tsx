@@ -40,6 +40,7 @@ const SearchBar = (props: SearchBarProps) => {
   );
   // autocomplete options
   const [options, setOptions] = useState<string[]>([]);
+  const [optionsOpen, setOptionsOpen] = useState(false);
   const [optionsLoading, setOptionsLoading] = useState(false);
   /**
    * This is a hack to prevent the search from triggering when the user
@@ -76,9 +77,11 @@ const SearchBar = (props: SearchBarProps) => {
     const suggestedItems = await searchAutocomplete(queryString);
     setOptions(suggestedItems);
     setOptionsLoading(false);
+    setOptionsOpen(true);
   };
   const onClickSearch = () => {
     props.onSearch(queryString, searchType);
+    setOptionsOpen(false);
   };
 
   return (
@@ -109,29 +112,42 @@ const SearchBar = (props: SearchBarProps) => {
           <SpacingHorizontal space={"8px"} />
           <StyledAutocomplete
             freeSolo
+            open={optionsOpen}
             options={options}
             value={queryString}
             onInputChange={onInputChange}
             loading={optionsLoading}
             onKeyDown={(event: any) => {
-              if (event.key === "Enter" && enterTriggerSearch) {
-                onClickSearch();
+              if (event.key === "Enter") {
+                if (enterTriggerSearch || !optionsOpen) {
+                  onClickSearch();
+                } else if (optionsOpen) {
+                  setOptionsOpen(false);
+                }
+              } else if (event.key === "Escape") {
+                setOptionsOpen(false);
+              } else if (event.key === "up" || event.key === "down") {
+                setOptionsOpen(true);
               }
             }}
             onHighlightChange={(event: any, value: unknown) => {
               if (value !== null) {
-                console.debug("user may select an open: ", value);
                 setEnterTriggerSearch(false);
               }
+            }}
+            onFocus={() => {
+              setOptionsOpen(true);
             }}
             onBlur={() => {
               // This handles a case where user tabs, or clicks out of the autocomplete
               // we then want to trigger the search by hitting enter
               setEnterTriggerSearch(true);
+              setOptionsOpen(false);
             }}
             onChange={(event: any, value: unknown) => {
               setQueryString(value as string);
               setEnterTriggerSearch(true);
+              setOptionsOpen(false);
             }}
             noOptionsText="No matching results"
             filterOptions={(x) => x}

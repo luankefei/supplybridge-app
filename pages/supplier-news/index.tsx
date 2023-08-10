@@ -11,6 +11,7 @@ import {
 } from "models/newsRelevancy";
 import { ToggleButton } from "@mui/material";
 import { ENV, EnumENVIRONMENT } from "config";
+import SupToggleFeature from "components/ui-components/toggleFeature";
 
 const Container = muiStyled("div")(`
   width: 100%;
@@ -112,15 +113,11 @@ export default function SupplierNews() {
 
   return (
     <Layout pageTitle="News">
-      {ENV === EnumENVIRONMENT.development && (
-        <ToggleButton
-          value={toggleGPTNews}
-          selected={toggleGPTNews}
-          onChange={() => setToggleGPTNews(!toggleGPTNews)}
-        >
-          ToggleNewsSource To GPT
-        </ToggleButton>
-      )}
+      <SupToggleFeature
+        featureName="Use GPT News"
+        turnOn={() => setToggleGPTNews(true)}
+        turnOff={() => setToggleGPTNews(false)}
+      />
       <NewsContainer>
         <div style={{ width: "100%", display: "flex", padding: "0 32px" }}>
           {/* 70.375rem: this is the same as newsCard container width, so the news list and newsTab are left-aligned */}

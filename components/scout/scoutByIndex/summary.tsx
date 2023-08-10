@@ -21,8 +21,30 @@ import {
 } from "components/scout/scoutByIndex/summary.styled";
 import demoData from "components/scout/summaryCategoryData";
 
-function determineSummary(queryString: string, flags: any, stats: any): any {
-  const summary: any = {};
+type TSummary = {
+  lastQ: string;
+  title: string;
+  L2selected: string;
+  L3selected: string;
+  categories: any;
+  suppliersA: any;
+  suppliersB: any;
+};
+
+function determineSummary(
+  queryString: string,
+  flags: any,
+  stats: any
+): TSummary {
+  const summary: TSummary = {
+    lastQ: "",
+    title: "",
+    L2selected: "",
+    L3selected: "",
+    categories: undefined,
+    suppliersA: undefined,
+    suppliersB: undefined,
+  };
   // TODO: determine summary title by filterData.q
   if (flags.L2 && queryString === `${flags.L3 || ""}`) {
     summary.lastQ = flags.L2;
@@ -52,9 +74,6 @@ function determineSummary(queryString: string, flags: any, stats: any): any {
     summary.suppliersA = stats.maj ? stats.maj.slice() : [];
     summary.suppliersB = stats.str ? stats.str.slice() : [];
   }
-  //summary.suppliersA = selectedSuppliers.slice(0, 5);
-  //summary.suppliersB = selectedSuppliers.slice(3, 6);
-  //summary.suppliersC = selectedSuppliers.slice(6, 9);
   return summary;
 }
 
@@ -82,15 +101,24 @@ const Suppliers = (props: any) => {
   ));
 };
 
-const SummaryCategories = (props: any) => {
+const SummaryCategories = ({
+  L2,
+  L2selected,
+  L3,
+  L3selected,
+  setQueryString,
+}: {
+  L2: any[];
+  L2selected: string;
+  L3: any[];
+  L3selected: string;
+  setQueryString: (queryString: string) => void;
+}) => {
   const { t } = useTranslation();
-  const { flags, setFilterData } = useStore();
-  const { L2, L2selected, L3, L3Selected } = props;
   if (!L2?.length) return null;
 
   const onL2Click = (L2: string) => {
-    flags.q = L2;
-    setFilterData({ q: L2 });
+    setQueryString(L2);
   };
 
   function check(name: any, name0: any) {
@@ -123,35 +151,31 @@ const SummaryCategories = (props: any) => {
   // TODO: L3 -> object (innovation -> icon) displayed before L3 name
 };
 
-const summaryHiddenList = [
-  "wheel",
-  "starter battery",
-  "hv battery",
-  "recycling, reuse",
-  "software",
-  "semiconductor",
-];
-function isHidden(f: any) {
-  const q = f.q && f.q.toLowerCase();
-  if (summaryHiddenList.includes(q)) return "";
-  return "hidden";
-}
-
 interface ISummaryProps {
   queryString: string;
+  setQueryString: (queryString: string) => void;
 }
 
-export default function Summary({ queryString }: ISummaryProps) {
+export default function Summary({
+  queryString,
+  setQueryString,
+}: ISummaryProps) {
   const { t } = useTranslation();
-  const { suppliers, stats, filterData, setFilterData, flags } = useStore();
+  const { stats, filterData, setFilterData, flags } = useStore();
 
-  const [summary, setSummary] = useState(
-    determineSummary(filterData, flags, stats) || {}
+  const [summary, setSummary] = useState<TSummary>(
+    determineSummary(queryString, flags, stats) || {}
   );
   useEffect(() => {
     if (filterData.q === summary.lastQ) return;
-    setSummary(determineSummary(filterData, flags, stats));
+    setSummary(determineSummary(queryString, flags, stats));
   }, []);
+
+  const getCategoryIconSrcByName = (name: string) => {
+    return `https://stsupplybridgeprod.blob.core.windows.net/images/L2/${name
+      .split(/[\s/]+/)
+      .join("")}.jpeg`;
+  };
 
   if (!summary.L2selected) return null;
 
@@ -161,9 +185,7 @@ export default function Summary({ queryString }: ISummaryProps) {
         <div>
           <SummaryCenterColumn>
             <SummaryCategoryIcon
-              src={`https://stsupplybridgeprod.blob.core.windows.net/images/L2/${summary.title
-                .split(/[\s/]+/)
-                .join("")}.jpeg`}
+              src={getCategoryIconSrcByName(summary.title)}
             />
           </SummaryCenterColumn>
           <SummaryTitleColumn>
@@ -184,10 +206,10 @@ export default function Summary({ queryString }: ISummaryProps) {
                     flags.L2 = summary.L2selected;
                     if (flags.L3 === name) {
                       flags.L3 = "";
-                      setFilterData({ q: `${summary.L2selected}` });
+                      setQueryString(summary.L2selected);
                     } else {
                       flags.L3 = name;
-                      setFilterData({ q: `${name}` });
+                      setQueryString(`${name}`);
                     }
                   }}
                 >
@@ -223,6 +245,7 @@ export default function Summary({ queryString }: ISummaryProps) {
         L2selected={summary.L2selected}
         L3={summary?.categories}
         L3selected={""}
+        setQueryString={setQueryString}
       />
     </>
   );

@@ -10,6 +10,7 @@ import { ITableData } from "../scoutResultTable/helper";
 import { useEffect, useState } from "react";
 import { Clear } from "@mui/icons-material";
 import { BadgeType } from "components/ui-components/supBadge";
+import { useTranslation } from "react-i18next";
 
 export interface FilterValue {
   names: string[];
@@ -86,6 +87,7 @@ const MySelector = (props: {
  * The table filters
  */
 const TableFilters = (props: Props) => {
+  const { t } = useTranslation();
   const [data, setData] = useState<FilterDataset>();
   const [filter, setFilter] = useState<FilterValue>({
     names: [],
@@ -105,7 +107,7 @@ const TableFilters = (props: Props) => {
     <Stack direction={"row"}>
       {data?.names && data?.names?.size > 0 && (
         <MySelector
-          label="Company Name"
+          label={t("scout.result.organization")}
           data={data.names}
           value={filter.names}
           onChange={(value) => {
@@ -118,7 +120,7 @@ const TableFilters = (props: Props) => {
       )}
       {data?.headquarters && data?.headquarters?.size > 0 && (
         <MySelector
-          label="Headquarters"
+          label={t("scout.result.hqLocation")}
           data={data.headquarters}
           value={filter.headquarters}
           onChange={(value) => {
@@ -131,7 +133,7 @@ const TableFilters = (props: Props) => {
       )}
       {data?.globalFootprints && data?.globalFootprints?.size > 0 && (
         <MySelector
-          label="Global Footprints"
+          label={t("scout.result.footprint")}
           data={data.globalFootprints}
           value={filter.globalFootprints}
           onChange={(value) => {
@@ -144,7 +146,7 @@ const TableFilters = (props: Props) => {
       )}
       {data?.badges && data?.badges?.size > 0 && (
         <MySelector
-          label="Badges"
+          label={t("scout.result.badge")}
           data={data.badges}
           value={filter.badges}
           onChange={(value) => {
