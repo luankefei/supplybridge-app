@@ -1,11 +1,16 @@
 import { styled as muiStyled } from "@mui/material/styles";
-import { useEffect, useState, useRef } from "react";
+import { useEffect, useState } from "react";
 import NewsCard from "components/supplier-news/newsCard";
 import NewsCardSkeleton from "components/supplier-news/newsCardSkeleton";
-import useBoundStore from "hooks/useBoundStore";
-import { useSupplierNews } from "requests/useSupplierNews";
+import { getNewsData, getNewsRelevancyData } from "requests/useSupplierNews";
 import { theme } from "config/theme";
 import Layout from "components/layout";
+import {
+  EnumNewsCategory,
+  INewsRelevancyModelWithNews,
+} from "models/newsRelevancy";
+import { ToggleButton } from "@mui/material";
+import { ENV, EnumENVIRONMENT } from "config";
 
 const Container = muiStyled("div")(`
   width: 100%;
@@ -72,21 +77,50 @@ justify-content: center;
 const newsTabLeft = ["4px", "160px", "316px"];
 
 export default function SupplierNews() {
-  const supplierNewsStore = useBoundStore((state) => state.supplierNews);
-  const [news, setNews] = useState([]);
-  const { getSupplierNews, loading } = useSupplierNews();
-  const [pageLoaded, setPageLoaded] = useState(false);
+  const [news, setNews] = useState<any>(null);
+
+  const [toggleGPTNews, setToggleGPTNews] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [typeI, setTypeI] = useState(0);
+  const categories = [
+    EnumNewsCategory.INDUSTRY,
+    EnumNewsCategory.SUPPLIER,
+    EnumNewsCategory.RISK,
+  ];
+  const archived = ["trend", "supplier", "risk"];
+
+  const fetchSupplierNews = async () => {
+    let data;
+    setLoading(true);
+    if (toggleGPTNews) {
+      data = await getNewsRelevancyData(categories[typeI]);
+      data.sort(
+        (a: INewsRelevancyModelWithNews, b: INewsRelevancyModelWithNews) =>
+          new Date(b.NewsArticle.publishDate).getTime() -
+          new Date(a.NewsArticle.publishDate).getTime()
+      );
+    } else {
+      data = await getNewsData(archived[typeI]);
+    }
+    setNews(data as any);
+    setLoading(false);
+  };
 
   useEffect(() => {
-    (async () => {
-      const rs = await getSupplierNews(typeI, 0);
-      setNews(rs.news);
-    })();
-  }, [typeI]);
+    fetchSupplierNews();
+  }, [typeI, toggleGPTNews]);
 
   return (
-    <Layout>
+    <Layout pageTitle="News">
+      {ENV === EnumENVIRONMENT.development && (
+        <ToggleButton
+          value={toggleGPTNews}
+          selected={toggleGPTNews}
+          onChange={() => setToggleGPTNews(!toggleGPTNews)}
+        >
+          ToggleNewsSource To GPT
+        </ToggleButton>
+      )}
       <NewsContainer>
         <div style={{ width: "100%", display: "flex", padding: "0 32px" }}>
           {/* 70.375rem: this is the same as newsCard container width, so the news list and newsTab are left-aligned */}
@@ -131,12 +165,17 @@ export default function SupplierNews() {
         </div>
 
         <Container id="supplier-news-container">
-          {news &&
+          {!loading &&
+            news &&
             Array.isArray(news) &&
-            news.map((item: any) => <NewsCard key={item.id} {...item} />)}
+            news.map((item: any) => {
+              if (toggleGPTNews) {
+                return <NewsCard key={item.id} {...item.NewsArticle} />;
+              }
+              return <NewsCard key={item.id} {...item} />;
+            })}
           {loading &&
             [1, 2, 3].map((value) => <NewsCardSkeleton key={value} />)}
-          {/* {!loading && !infiniteScrollControl.current && <span>No more news</span>} */}
         </Container>
       </NewsContainer>
     </Layout>

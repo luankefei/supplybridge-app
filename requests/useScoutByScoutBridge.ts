@@ -84,7 +84,7 @@ export const useQuickBridgeSupplier = () => {
       // setExtraFilter({ a: 1, b: 2 });
       console.log("quick bridge result", data);
       setLoading(false);
-      setSuppliers(data?.suppliers, reset);
+      setSuppliers(data?.suppliers);
       // setSuppliersStore(data?.suppliers, reset);
       setCount(data.count);
     } catch (err: any) {
@@ -120,7 +120,7 @@ export const useQuickBridgeSupplier = () => {
 
       const { data } = await request.post(`suppliers/by-3p-service`, searchObj);
       setLoading(false);
-      setSuppliers(data?.suppliers, reset);
+      setSuppliers(data?.suppliers);
       // setSuppliersStore(data?.suppliers, reset);
       setCount(data.count);
     } catch (err: any) {

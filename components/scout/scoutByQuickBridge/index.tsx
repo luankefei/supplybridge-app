@@ -168,7 +168,7 @@ export default function ScoutByQuickBridge() {
     setResult(true);
   };
   useEffect(() => {
-    if (!tab || tab.tabName) {
+    if (!tab || tab.tabLabel) {
       setTab(0, QuickBridgeTabType.vehile);
       console.log("setTab");
     }

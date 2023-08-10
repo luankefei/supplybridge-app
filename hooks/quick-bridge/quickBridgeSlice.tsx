@@ -28,6 +28,7 @@ interface State {
     count: number;
     suppliers: any;
     filter: any;
+    selectedLabel: string;
     tab: {
       activeTab: number;
       tabLabel: string;
@@ -65,7 +66,8 @@ export type FilterType =
   | "vehicleFuelTypes"
   | "commodities"
   | "productionTechnologies"
-  | "pioneers";
+  | "pioneers"
+  | "offerings";
 
 export type QuickBridgeSlice = State & Actions;
 

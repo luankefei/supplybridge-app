@@ -3,13 +3,14 @@ import { styled as muiStyled } from "@mui/material/styles";
 import { theme } from "config/theme";
 import Image from "next/image";
 import { allCountry } from "utils/countries";
+import { decodeHTMLEntities } from "utils/html";
 
 // width: min(calc(100%), 70.375rem);
 // max-width: 1000px;
 const Container = muiStyled(Box)(`
-    
+
     width: 100%;
-    
+
     display: flex;
     @media (max-width: ${theme.size.mobileXl}) {
         flex-direction: column;
@@ -198,7 +199,7 @@ const NewsCard = function (props: any) {
         </DateLabel>
         <TitleLabel>
           <a href={url} target="_blank" rel="noreferrer">
-            {title}
+            {decodeHTMLEntities(title)}
           </a>
         </TitleLabel>
         <Tags>

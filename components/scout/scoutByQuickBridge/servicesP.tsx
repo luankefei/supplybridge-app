@@ -6,7 +6,6 @@ import BigCard from "./bigCard";
 import BigCardSkeleton from "./bigCardSkeleton";
 import useBoundStore from "hooks/useBoundStore";
 import { useRouter } from "next/router";
-import { QuickBridgeTabType, ScoutSwitchType } from "../types";
 import { useQuickBridgeService } from "requests/useScoutByScoutBridge";
 import _ from "lodash";
 import { useTranslation } from "react-i18next";

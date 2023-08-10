@@ -25,23 +25,22 @@ export type TotalSlice = SupplierNewsSlice &
   ProductionTechnologySlice &
   ServiceSlice &
   PioneerSlice &
-  FeedbackSlice &
-  any;
+  FeedbackSlice;
 
-const useBoundStore = create<TotalSlice>()((...state) => ({
-  ...createSupplierNewsSlice(...state),
-  ...createMarketInsightsSlice(...state),
-  ...createQuickBridgeSlice(...state),
-  ...createVehicleSlice(...state),
-  ...createOEMSlice(...state),
-  ...createClassSlice(...state),
-  ...createSegmentSlice(...state),
-  ...createTechnologySlice(...state),
-  ...createCommoditySlice(...state),
-  ...createProudctionTechnologySlice(...state),
-  ...createPioneerSlice(...state),
-  ...createServiceSlice(...state),
-  ...createFeedbackSlice(...state),
+const useBoundStore = create<TotalSlice>()((...args) => ({
+  ...createSupplierNewsSlice(...args),
+  ...createMarketInsightsSlice(...args),
+  ...createQuickBridgeSlice(...args),
+  ...createVehicleSlice(...args),
+  ...createOEMSlice(...args),
+  ...createClassSlice(...args),
+  ...createSegmentSlice(...args),
+  ...createTechnologySlice(...args),
+  ...createCommoditySlice(...args),
+  ...createProudctionTechnologySlice(...args),
+  ...createPioneerSlice(...args),
+  ...createServiceSlice(...args),
+  ...createFeedbackSlice(...args),
 }));
 
 export default useBoundStore;
