@@ -403,5 +403,14 @@
     "slide3.sampleDate1": "Wed, Dec 21",
     "slide3.sampleDate2": "Fri, Dec 23",
     "slide3.sampleDate3": "Thur, Dec 29"
+  },
+  "rawMaterial": {
+    "appbar": "A useless placeholder.",
+    "appbarTitle": "Preistrends für Rohmaterialien",
+    "appbarSubtitle": "Nutzen Sie die neuesten Daten-Einblicke für intelligentere Entscheidungsfindung",
+    "resetAll": "Alles zurücksetzen",
+    "filterByCatergory": "Nach Kategorie filtern",
+    "selectAll": "Alle auswählen",
+    "inputPlaceholder": "Tippen Sie, um Rohstoffe zu finden"
   }
 }

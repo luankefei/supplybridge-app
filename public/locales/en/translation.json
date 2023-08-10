@@ -406,8 +406,12 @@
     "slide3.sampleDate3": "Thur, Dec 29"
   },
   "rawMaterial": {
+    "appbar": "a useless placeholder.",
+    "appbarTitle": "Raw Material Price Trends",
+    "appbarSubtitle": "Leverage the latest data insights for smarter decision-making",
     "resetAll": "Reset All",
     "filterByCatergory": "Filter by Category",
-    "selectAll": "Select All"
+    "selectAll": "Select All",
+    "inputPlaceholder": "Type to find raw material"
   }
 }

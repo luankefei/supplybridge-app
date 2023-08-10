@@ -28,7 +28,6 @@ import styled from "styled-components";
 import RMTopMenuBar from "components/raw-material/appBar";
 import VerticalIconButton from "components/ui-components/verticalIconButton";
 import RMChart from "components/raw-material/chart";
-import { RawMaterialDescriptions } from "components/raw-material/descriptions";
 import MaterialTooltip from "components/raw-material/materialTooltip";
 import { useTranslation } from "react-i18next";
 
@@ -40,7 +39,8 @@ import { useTranslation } from "react-i18next";
  *
  */
 export default function RawMaterial() {
-  const { t } = useTranslation();
+  const { t } = useTranslation("translation");
+  const { t: tForMaterial } = useTranslation("rawMaterial");
   const [selectedMaterials, setSelectedMaterials] = useState<string[]>([]);
   const [openedCategory, setOpenedCategory] = useState<string | undefined>();
 
@@ -79,8 +79,15 @@ export default function RawMaterial() {
             value={selectedMaterials}
             multiple={true}
             options={allRawMaterials.map((option) => option.name)}
+            getOptionLabel={(option) => tForMaterial(option)}
             renderInput={(params) => (
-              <TextField {...params} label="Type to find raw-material" />
+              <TextField
+                {...params}
+                label={t(
+                  "rawMaterial.inputPlaceholder",
+                  "Type to find raw-material"
+                )}
+              />
             )}
             onChange={(_, value) => {
               setSelectedMaterials(value);
@@ -130,10 +137,11 @@ export default function RawMaterial() {
               if (isOpen) {
                 iconName += "-selected";
               }
+              const title = tForMaterial(rawMaterial.category);
               return (
                 <Grid key={idx} item>
                   <VerticalIconButton
-                    title={rawMaterial.category}
+                    title={title}
                     backgroundColor={isOpen ? "#E5F7F8" : undefined}
                     icon={iconName}
                     onClick={() =>
@@ -161,17 +169,20 @@ export default function RawMaterial() {
                   .find((v) => v.category === openedCategory)
                   ?.subfields.map((subfield, idx) => {
                     const selected = selectedMaterials.includes(subfield.name);
-                    const upatedDescription =
-                      RawMaterialDescriptions[subfield.name];
-                    if (!upatedDescription) {
+                    const translatedDescription = tForMaterial(
+                      `descriptions.${subfield.name}`,
+                      ""
+                    );
+                    if (!translatedDescription) {
                       // debug usage
                       console.debug("Debug: No description for", subfield.name);
                     }
-                    let description =
-                      upatedDescription.Description ||
-                      subfield.description ||
-                      "";
-
+                    const description =
+                      translatedDescription || subfield.description || "";
+                    const translatedName = tForMaterial(subfield.name);
+                    const translatedUsage = tForMaterial(
+                      `usage.${subfield.name}`
+                    );
                     return (
                       <Grid key={idx} item>
                         <ToggleButton
@@ -190,16 +201,14 @@ export default function RawMaterial() {
                           }}
                           onClick={() => toggleMatieral(subfield.name)}
                         >
-                          {subfield.name}
+                          {translatedName}
                           <SpacingHorizontal space="10px" />
                           <StyledTooltip
                             placement="top"
                             title={
                               <MaterialTooltip
                                 content={description}
-                                automotiveUsage={
-                                  upatedDescription.AutomotiveUse
-                                }
+                                automotiveUsage={translatedUsage}
                               />
                             }
                             arrow

@@ -5,7 +5,9 @@ import { RawMaterialName } from "./constants";
  * https://l1o0qw27z5.feishu.cn/sheets/HfrpsLqAEhGiTLt1ZjIck2kYnod
  *
  */
-export const RawMaterialDescriptions: Record<
+// no export, this should be in translation files now.
+// keep int here for now. Will remove.
+const RawMaterialDescriptions: Record<
   RawMaterialName,
   {
     Description: string;

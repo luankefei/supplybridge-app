@@ -34,6 +34,7 @@ import {
 } from "./calculate";
 import { MaterialUnits, Unit } from "../units";
 import CustomTooltip from "./tooltip";
+import { useTranslation } from "react-i18next";
 
 interface IChartDataPoint {
   time: Date | string;
@@ -84,6 +85,7 @@ const chartColors = {
 };
 
 const RMChart = ({ materialName, onRemove }: IChart) => {
+  const { t } = useTranslation("rawMaterial");
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [frequency, setFrequency] = useState<FrequencyEnum>(FrequencyEnum.Day);
   const [data, setData] = useState<IChartDataPoint[]>([]);
@@ -241,10 +243,10 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
     >
       <Grid container justifyContent="space-between" p={"24px 24px 24px 48px"}>
         <Grid item display={"flex"} flexDirection={"column"}>
-          <LargeText> {materialName} </LargeText>
+          <LargeText> {t(materialName)} </LargeText>
           {unit && (
             <SText fontSize="12px" fontWeight="400">
-              Unit: {unit.currency}{" "}
+              {t("unit")}: {unit.currency}{" "}
               {unit.measuredIn === "" ? "" : `/ ${unit.measuredIn}`}
             </SText>
           )}
@@ -254,9 +256,18 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
             size="large"
             defaultValue={frequency}
             options={[
-              FrequencyEnum.Day,
-              FrequencyEnum.Month,
-              FrequencyEnum.Year,
+              {
+                value: FrequencyEnum.Day,
+                label: t("chart.day"),
+              },
+              {
+                value: FrequencyEnum.Month,
+                label: t("chart.month"),
+              },
+              {
+                value: FrequencyEnum.Year,
+                label: t("chart.year"),
+              },
             ]}
             onChange={handleRangeUpdate}
           />
@@ -319,7 +330,7 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
                 scale={"linear"}
               />
               <Line
-                name={`${materialName} Price`}
+                name={`${t(materialName)} ${t("prices")}`}
                 type="monotone"
                 dataKey="value"
                 stroke={chartColors.purple}
