@@ -40,7 +40,7 @@ import { useRouter } from "next/router";
 export default function ScoutByIndex() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { allSubRegions } = usePersistentStore();
+  const { allSubRegions, allSubRegionsLastUpdatedTime } = usePersistentStore();
   const {
     queryString,
     suppliers,
@@ -95,8 +95,11 @@ export default function ScoutByIndex() {
    * *******************
    */
   useEffect(() => {
-    // component did mount, get all subregions if not already fetched
-    if (Object.keys(allSubRegions).length === 0) {
+    // component did mount, get all subregions if time > 1 day, or if no data
+    if (
+      Date.now() - allSubRegionsLastUpdatedTime > 86400000 ||
+      Object.keys(allSubRegions).length === 0
+    ) {
       getAllSubRegions()
         .then((res) => {
           if (res === null) {
@@ -115,6 +118,7 @@ export default function ScoutByIndex() {
     const initialData: ITableData[] = suppliers?.map((s: any, i: number) =>
       supplierModelToTableData(s, i, allSubRegions)
     );
+
     const initialFilterData: FilterDataset =
       helperTableDataToFilterDataset(initialData);
     setinitialFilterValue(initialFilterData);

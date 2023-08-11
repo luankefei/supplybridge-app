@@ -1,4 +1,4 @@
-import { Divider, Grid, Stack } from "@mui/material";
+import { Divider, Stack } from "@mui/material";
 import { TSupplierModel } from "models/supplier";
 import {
   FirstColumn,

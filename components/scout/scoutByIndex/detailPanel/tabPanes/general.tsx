@@ -33,7 +33,10 @@ const General = ({ data }: { data: TSupplierModel }) => {
   );
   const locations = new Set<string>();
   data.locationId.forEach((id) => {
-    locations.add(allSubRegions[id].name);
+    const foundName = allSubRegions[id]?.name;
+    if (foundName) {
+      locations.add(foundName);
+    }
   });
   return (
     <Stack>

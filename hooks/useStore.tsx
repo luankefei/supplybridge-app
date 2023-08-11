@@ -165,6 +165,7 @@ interface IPersistentStore {
    * All subregions is now a dictionary with key =id, value=subregion
    */
   allSubRegions: Record<number, TSubRegionWithCount>;
+  allSubRegionsLastUpdatedTime: number;
   setAllSubRegions: (value: TSubRegionWithCount[]) => void;
 }
 const usePersistentStore = create<IPersistentStore>()(
@@ -182,12 +183,16 @@ const usePersistentStore = create<IPersistentStore>()(
         }));
       },
       allSubRegions: {},
+      allSubRegionsLastUpdatedTime: 0,
       setAllSubRegions: (regions: TSubRegionWithCount[]) => {
         const newAllSubRegions: Record<number, TSubRegionWithCount> = {};
         regions.forEach((subRegion) => {
           newAllSubRegions[subRegion.id] = subRegion;
         });
-        set(() => ({ allSubRegions: newAllSubRegions }));
+        set(() => ({
+          allSubRegions: newAllSubRegions,
+          allSubRegionsLastUpdatedTime: Date.now(),
+        }));
       },
     }),
 

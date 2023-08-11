@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Stack } from "@mui/material";
+import { Box, Stack } from "@mui/material";
 import { TSupplierModel } from "models/supplier";
 import {
   FirstColumn,
@@ -6,7 +6,6 @@ import {
   SecondColumn,
   TabPaneTextSecondary,
 } from "./uitlStyled";
-import { SpacingVertical } from "components/ui-components/spacer";
 
 /**
  * Our dedicated rating component

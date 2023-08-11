@@ -37,6 +37,9 @@ const noImageUrl = "https://cdn-stage.supplybridge.com/images/logos/no.png";
  * Converts supplier to [ITableData]
  *
  * @param supplier A supplier model
+ * @param idx Index of the supplier in the list
+ * @param allSubRegions A map of all subregions
+ *
  */
 export function supplierModelToTableData(
   supplier: TSupplierModel,
