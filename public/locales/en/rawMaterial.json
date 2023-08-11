@@ -1,4 +1,11 @@
 {
+  "Energy": "Energy",
+  "Metals": "Metals",
+  "Plastic": "Plastic",
+  "ESG": "ESG",
+  "EV-related": "EV-related",
+  "Others": "Others",
+  "More": "More",
   "Brent": "Brent",
   "Natural gas": "Natural gas",
   "Gasoline": "Gasoline",

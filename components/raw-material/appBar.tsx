@@ -9,17 +9,19 @@ import { useTranslation } from "react-i18next";
  * Raw Material's top menu bar -- sticky, and scales down on scroll
  */
 function RMTopMenuBar({ children }: { children: React.ReactNode }) {
-  const { t, i18n } = useTranslation("translation");
+  const { t } = useTranslation("translation");
 
   const [isScrolled, setIsScrolled] = useState(false);
   const checkScroll = () => {
     setIsScrolled(window.scrollY > 0);
   };
   useEffect(() => {
-    window.addEventListener("scroll", checkScroll);
-    return () => {
-      window.removeEventListener("scroll", checkScroll);
-    };
+    if (window !== undefined) {
+      window.addEventListener("scroll", checkScroll);
+      return () => {
+        window.removeEventListener("scroll", checkScroll);
+      };
+    }
   }, []);
 
   return (
