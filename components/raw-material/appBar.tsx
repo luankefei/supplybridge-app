@@ -16,7 +16,7 @@ function RMTopMenuBar({ children }: { children: React.ReactNode }) {
     setIsScrolled(window.scrollY > 0);
   };
   useEffect(() => {
-    if (window !== undefined) {
+    if (typeof window !== "undefined") {
       window.addEventListener("scroll", checkScroll);
       return () => {
         window.removeEventListener("scroll", checkScroll);

@@ -15,7 +15,6 @@ import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../utils/i18n";
-import { VERSION } from "config";
 
 interface SafeHydrateProps {
   children: React.ReactNode;
@@ -31,15 +30,20 @@ function SafeHydrate({ children }: SafeHydrateProps) {
 export default function App({ Component, pageProps }: AppProps) {
   const { push } = useRouter();
   NavigateService.initNavigate(push);
-  console.debug("App version:", VERSION);
 
   return (
     <SafeHydrate>
       <ThemeProvider theme={theme}>
         <MuiThemeProvider theme={muiTheme}>
-          <NextNProgress color={"#08979C"} />
-          <ToastContainer />
-          <Component {...pageProps} />
+          {/* This div is required,
+          I am not 100% sure why, but without this some pages
+          might get client side error when user hits page refresh (F5 / cmd+R)
+          */}
+          <div>
+            <NextNProgress color={"#08979C"} />
+            <ToastContainer />
+            <Component {...pageProps} />
+          </div>
         </MuiThemeProvider>
       </ThemeProvider>
     </SafeHydrate>

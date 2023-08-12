@@ -9,8 +9,6 @@ import {
   EnumNewsCategory,
   INewsRelevancyModelWithNews,
 } from "models/newsRelevancy";
-import { ToggleButton } from "@mui/material";
-import { ENV, EnumENVIRONMENT } from "config";
 import SupToggleFeature from "components/ui-components/toggleFeature";
 
 const Container = muiStyled("div")(`
@@ -34,14 +32,6 @@ const NewsContainer = muiStyled("div")`
    max-width: 1280px;
    margin: 0 auto;
    padding: 0 32px;
-`;
-
-const Center = muiStyled("div")`
-   position: fixed;
-   z-index: 20;
-   top: calc(50% - 67px);
-   left: calc(50% + 10px);
-   text-align: center;
 `;
 
 const NewsTabContainer = muiStyled("div")`
