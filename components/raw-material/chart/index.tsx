@@ -171,7 +171,9 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
         };
       });
     }
-    return finalResult;
+    // reverse the array so that the chart shows the latest data last
+    // The server returns data descendingly
+    return finalResult.reverse();
   };
 
   useEffect(() => {
