@@ -12,10 +12,10 @@ exports[`Scout matches snapshot 1`] = `
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-19n6fl3-MuiPaper-root-MuiDrawer-paper"
       >
         <div
-          class="css-1rx6kan-MuiStack-root"
+          class="css-2j8t8r-MuiStack-root"
         >
           <div
-            class="css-yg8aj0-MuiStack-root"
+            class="css-bciaqz-MuiStack-root"
           >
             <picture>
               <img
@@ -38,7 +38,7 @@ exports[`Scout matches snapshot 1`] = `
                 class="sc-fUnMCh cpybXc"
               />
               <div
-                class="sc-djVXDX GKEuM"
+                class="sc-btwKTd iIUAMy"
               >
                 SOLUTIONS
               </div>
@@ -46,14 +46,14 @@ exports[`Scout matches snapshot 1`] = `
                 href="/scout"
               >
                 <div
-                  class="sc-eONNys bWCsiE"
+                  class="sc-iaJaUu gcEoAT"
                 >
                   <img
-                    class="sc-epRvzc eeSNQm"
+                    class="sc-gFnajm kcuVav"
                     src="/menu/scouting.svg"
                   />
                   <span
-                    class="sc-gFnajm fqqTKF"
+                    class="sc-eONNys ghkCAU"
                   >
                     Scouting
                   </span>
@@ -63,14 +63,14 @@ exports[`Scout matches snapshot 1`] = `
                 href="/source"
               >
                 <div
-                  class="sc-eONNys bWCsiE"
+                  class="sc-iaJaUu gcEoAT"
                 >
                   <img
-                    class="sc-epRvzc eeSNQm"
+                    class="sc-gFnajm kcuVav"
                     src="/menu/sourcing.svg"
                   />
                   <span
-                    class="sc-gFnajm fqqTKF"
+                    class="sc-eONNys ghkCAU"
                   >
                     Sourcing
                   </span>
@@ -80,19 +80,19 @@ exports[`Scout matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-eONNys fieIxs"
+                  class="sc-iaJaUu gDmWwD"
                 >
                   <img
-                    class="sc-epRvzc eeSNQm"
+                    class="sc-gFnajm kcuVav"
                     src="/menu/evaluate.svg"
                   />
                   <span
-                    class="sc-gFnajm katobQ"
+                    class="sc-eONNys gxypcF"
                   >
                     Evaluate
                   </span>
                   <span
-                    class="sc-dISpDn ktsUbu"
+                    class="sc-bStcSt fAAInj"
                   >
                     COMING SOON
                   </span>
@@ -102,25 +102,86 @@ exports[`Scout matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-eONNys fieIxs"
+                  class="sc-iaJaUu gDmWwD"
                 >
                   <img
-                    class="sc-epRvzc eeSNQm"
+                    class="sc-gFnajm kcuVav"
                     src="/menu/sustainability.svg"
                   />
                   <span
-                    class="sc-gFnajm katobQ"
+                    class="sc-eONNys gxypcF"
                   >
                     Sustainability
                   </span>
                   <img
-                    class="sc-btwKTd"
+                    class="sc-dISpDn"
                     src="/menu/leaf.svg"
                   />
                   <span
-                    class="sc-dISpDn ktsUbu"
+                    class="sc-bStcSt fAAInj"
                   >
                     COMING SOON
+                  </span>
+                </div>
+              </a>
+              <a
+                href=""
+              >
+                <div
+                  class="sc-iaJaUu gDmWwD"
+                >
+                  <img
+                    class="sc-gFnajm kcuVav"
+                    src="/menu/finance.svg"
+                  />
+                  <span
+                    class="sc-eONNys gxypcF"
+                  >
+                    Finance
+                  </span>
+                  <span
+                    class="sc-bStcSt fAAInj"
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+              </a>
+              <a
+                href=""
+              >
+                <div
+                  class="sc-iaJaUu gDmWwD"
+                >
+                  <img
+                    class="sc-gFnajm kcuVav"
+                    src="/menu/transport.svg"
+                  />
+                  <span
+                    class="sc-eONNys gxypcF"
+                  >
+                    Transport
+                  </span>
+                  <span
+                    class="sc-bStcSt fAAInj"
+                  >
+                    COMING SOON
+                  </span>
+                </div>
+              </a>
+              <a
+                href="/total-solution"
+              >
+                <div
+                  class="sc-iaJaUu gcEoAT"
+                >
+                  <img
+                    class="sc-gFnajm kcuVav"
+                    src="/menu/total-solution.svg"
+                  />
+                  <span
+                    class="sc-eONNys ghkCAU"
+                  >
+                    Total Solution
                   </span>
                 </div>
               </a>
@@ -129,7 +190,7 @@ exports[`Scout matches snapshot 1`] = `
               class="MuiBox-root css-0"
             >
               <div
-                class="sc-djVXDX GKEuM"
+                class="sc-btwKTd iIUAMy"
               >
                 MARKET DATA
               </div>
@@ -137,14 +198,14 @@ exports[`Scout matches snapshot 1`] = `
                 href="/raw-material"
               >
                 <div
-                  class="sc-eONNys bWCsiE"
+                  class="sc-iaJaUu gcEoAT"
                 >
                   <img
-                    class="sc-epRvzc eeSNQm"
+                    class="sc-gFnajm kcuVav"
                     src="/menu/raw-material.svg"
                   />
                   <span
-                    class="sc-gFnajm fqqTKF"
+                    class="sc-eONNys ghkCAU"
                   >
                     Raw Material
                   </span>
@@ -154,14 +215,14 @@ exports[`Scout matches snapshot 1`] = `
                 href="/supplier-news"
               >
                 <div
-                  class="sc-eONNys bWCsiE"
+                  class="sc-iaJaUu gcEoAT"
                 >
                   <img
-                    class="sc-epRvzc eeSNQm"
+                    class="sc-gFnajm kcuVav"
                     src="/menu/supplier-news.svg"
                   />
                   <span
-                    class="sc-gFnajm fqqTKF"
+                    class="sc-eONNys ghkCAU"
                   >
                     News & Insights
                   </span>
@@ -171,14 +232,14 @@ exports[`Scout matches snapshot 1`] = `
                 href="/supply-chain-transparency"
               >
                 <div
-                  class="sc-eONNys bWCsiE"
+                  class="sc-iaJaUu gcEoAT"
                 >
                   <img
-                    class="sc-epRvzc eeSNQm"
+                    class="sc-gFnajm kcuVav"
                     src="/menu/supply-chain-transparency.svg"
                   />
                   <span
-                    class="sc-gFnajm fqqTKF"
+                    class="sc-eONNys ghkCAU"
                   >
                     Supply Chain Transparency
                   </span>
@@ -187,60 +248,95 @@ exports[`Scout matches snapshot 1`] = `
             </div>
           </div>
           <div
-            class="css-1rx3pq-MuiStack-root"
+            class="css-f97uj8-MuiStack-root"
           >
             <div
-              class="css-1d9cypr-MuiStack-root"
+              class="css-94l3mb-MuiStack-root"
             >
-              <picture>
-                <img
-                  alt="logo"
-                  src="/menu/bmw.svg"
-                />
-              </picture>
               <div
-                class="sc-hzhJZQ fzaLYj"
-              />
-              <div
-                class="css-nen11g-MuiStack-root"
+                class="css-m69qwo-MuiStack-root"
               >
+                <img
+                  src="/menu/globe.svg"
+                />
                 <div
-                  class="sc-eeDRCY dwNTkA"
+                  class="sc-hzhJZQ iENIf"
+                />
+                <div
+                  class="sc-eeDRCY gqPNZP"
                   color="#1a1a1a"
                   font-size="16px"
-                  font-weight="400"
+                  font-weight="300"
                 >
-                  BMW
+                  Language
                 </div>
-                <div
-                  class="css-m69qwo-MuiStack-root"
+              </div>
+              <div
+                class="MuiToggleButtonGroup-root sc-fXSgeo gfwVAF css-1gjgmky-MuiToggleButtonGroup-root"
+                role="group"
+              >
+                <button
+                  aria-pressed="false"
+                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard sc-JrDLc cmkzcM MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-x921tm-MuiButtonBase-root-MuiToggleButton-root"
+                  tabindex="0"
+                  type="button"
+                  value="en"
                 >
-                  <div
-                    class="sc-eeDRCY irNKd"
-                    color="#2c71f0"
-                    font-size="12px"
-                    font-weight="300"
-                  >
-                    Premium Account
-                  </div>
-                  <div
-                    class="sc-hzhJZQ fzaLYj"
+                  EN
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                   />
-                  <hr
-                    class="MuiDivider-root MuiDivider-fullWidth MuiDivider-vertical MuiDivider-flexItem css-1tk1bks-MuiDivider-root"
+                </button>
+                <button
+                  aria-pressed="false"
+                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard sc-JrDLc cmkzcM MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-x921tm-MuiButtonBase-root-MuiToggleButton-root"
+                  tabindex="0"
+                  type="button"
+                  value="de"
+                >
+                  DE
+                  <span
+                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
                   />
-                  <div
-                    class="sc-hzhJZQ fzaLYj"
-                  />
-                  <div
-                    class="sc-eeDRCY irNKd"
-                    color="#2c71f0"
-                    font-size="12px"
-                    font-weight="300"
-                    style="cursor: pointer;"
-                  >
-                    Log out
-                  </div>
+                </button>
+              </div>
+            </div>
+            <a
+              href="/account"
+            >
+              <div
+                class="sc-iaJaUu gcEoAT"
+              >
+                <img
+                  class="sc-gFnajm kcuVav"
+                  src="/menu/profile.svg"
+                />
+                <span
+                  class="sc-eONNys ghkCAU"
+                >
+                  Account
+                </span>
+              </div>
+            </a>
+            <div
+              class="css-94l3mb-MuiStack-root"
+            >
+              <div
+                class="css-m69qwo-MuiStack-root"
+              >
+                <img
+                  src="/menu/feedback.svg"
+                />
+                <div
+                  class="sc-hzhJZQ iENIf"
+                />
+                <div
+                  class="sc-eeDRCY gqPNZP"
+                  color="#1a1a1a"
+                  font-size="16px"
+                  font-weight="300"
+                >
+                  Feedback
                 </div>
               </div>
             </div>
@@ -258,26 +354,26 @@ exports[`Scout matches snapshot 1`] = `
           class="MuiBox-root css-0"
         >
           <div
-            class="sc-cgjDci fsrWhA"
+            class="sc-pKqro beCuvT"
           >
             <div
-              class="sc-djTQaJ cusDmQ"
+              class="sc-gvPdwL jcOViK"
             >
               <div
-                class="sc-pKqro fcKpox"
+                class="sc-dBFDNq erQvid"
               />
               <span
-                class="sc-gvPdwL gmGvCm"
+                class="sc-ggqIjW fzcLZl"
               >
                 Scout by Index
               </span>
               <span
-                class="sc-dBFDNq dHrBeh"
+                class="sc-djVXDX coYFQi"
               >
                 Scout by QuickBridge
               </span>
               <span
-                class="sc-ggqIjW bKLGRD"
+                class="sc-epRvzc jUVdGK"
               >
                 Bidders List
               </span>
@@ -287,7 +383,7 @@ exports[`Scout matches snapshot 1`] = `
             class="css-nen11g-MuiStack-root"
           >
             <div
-              class="sc-fXSgeo isfEui"
+              class="sc-fjvvzt ChclE"
             >
               <span
                 class="MuiSwitch-root MuiSwitch-sizeMedium css-julti5-MuiSwitch-root"

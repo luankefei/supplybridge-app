@@ -1,8 +1,12 @@
-import { Switch } from "@mui/material";
+import { Switch, ToggleButton, ToggleButtonGroup } from "@mui/material";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
-const LanguageSelector = () => {
+interface ILanguageSelectorProps {
+  type?: "icon" | "plain";
+}
+
+const LanguageSelector = ({ type }: ILanguageSelectorProps) => {
   const { i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -15,12 +19,71 @@ const LanguageSelector = () => {
     }
   };
   const checked = i18n.language == "de" ? true : false;
-  return (
-    <SearchLangContainer label={i18n.language}>
-      <Switch checked={checked} onChange={handleChange} />
-    </SearchLangContainer>
-  );
+  if (!type || type == "icon") {
+    return (
+      <SearchLangContainer label={i18n.language}>
+        <Switch checked={checked} onChange={handleChange} />
+      </SearchLangContainer>
+    );
+  } else {
+    return (
+      <StyledToggleButtonGroup>
+        <StyledToggleButton
+          value="en"
+          selected={i18n.language == "en" ? true : false}
+          onClick={() => changeLanguage("en")}
+        >
+          EN
+        </StyledToggleButton>
+        <StyledToggleButton
+          value="de"
+          selected={i18n.language == "de" ? true : false}
+          onClick={() => changeLanguage("de")}
+        >
+          DE
+        </StyledToggleButton>
+      </StyledToggleButtonGroup>
+    );
+  }
 };
+
+const StyledToggleButtonGroup = styled(ToggleButtonGroup)`
+  && {
+    padding: 2px;
+    height: 32px;
+    border-radius: 16px;
+    background-color: #E5E7EB;
+  }
+
+  & .MuiToggleButtonGroup-grouped: {
+    margin: 5,
+    border: 0,
+    "&.Mui-disabled": {
+      border: 0,
+    },
+    "&:not(:first-of-type)": {
+      borderRadius: 16px,
+    },
+    "&:first-of-type": {
+      borderRadius: 16px,
+    },
+  },
+`;
+
+const StyledToggleButton = styled(ToggleButton)`
+  && {
+    border-radius: 16px;
+    padding: 4px;
+    color: #9ca3af;
+
+    &.Mui-selected {
+      background-color: white;
+    }
+    & .MuiToggleButton-root {
+      border-radius: 16px;
+    }
+  }
+`;
 
 const SearchLangContainer = styled.div<{ label: string }>`
   width: 200px;

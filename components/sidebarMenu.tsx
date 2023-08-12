@@ -8,8 +8,9 @@ import { useTranslation } from "react-i18next";
 import { Box, Divider, Stack } from "@mui/material";
 import { SpacingHorizontal, SpacingVertical } from "./ui-components/spacer";
 import { SText } from "./ui-components/text";
+import LanguageSelector from "./languageSelector";
 
-export default function SideBarMenu(props: { width?: string }) {
+export default function SideBarMenu() {
   const { t } = useTranslation();
   const router = useRouter();
   const { signOut } = usePersistentStore();
@@ -44,29 +45,28 @@ export default function SideBarMenu(props: { width?: string }) {
       passiveIcon: true,
       extra: "leaf",
     },
-    /* REL202306
+    /* REL202306*/
     {
       icon: "finance",
       title: "Finance",
       path: "/finance",
       active: router.asPath.includes("finance"),
-      passiveIcon: true
+      passiveIcon: true,
     },
     {
       icon: "transport",
       title: "Transport",
       path: "/transport",
       active: router.asPath.includes("transport"),
-      passiveIcon: true
+      passiveIcon: true,
     },
     {
       icon: "total-solution",
       title: "Total Solution",
       path: "/total-solution",
       active: router.asPath.includes("total-solution"),
-      passiveIcon: false
+      passiveIcon: false,
     },
-*/
   ];
 
   const marketData: any = [
@@ -117,7 +117,6 @@ export default function SideBarMenu(props: { width?: string }) {
 
   return (
     <Stack
-      p="34px 24px"
       height={"100vh"}
       justifyContent={"space-between"}
       bgcolor={"white"}
@@ -125,7 +124,7 @@ export default function SideBarMenu(props: { width?: string }) {
         fontFamily: "Nunito !important",
       }}
     >
-      <Stack gap={"46px"}>
+      <Stack gap={"46px"} p={"34px 24px"}>
         <picture>
           <img src="/menu/logo.svg" alt="logo" />
         </picture>
@@ -200,46 +199,60 @@ export default function SideBarMenu(props: { width?: string }) {
           })}
         </Box>
       </Stack>
-      <Stack justifySelf={"flex-end"}>
-        <Stack direction={"row"} alignItems={"center"}>
-          <picture>
-            <img src="/menu/bmw.svg" alt="logo" />
-          </picture>
-          <SpacingHorizontal space={"8px"} />
-          <Stack>
+      <Stack
+        sx={{
+          position: "sticky",
+          bottom: 0,
+          p: "12px 24px",
+          bgcolor: "white",
+          boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.05)",
+        }}
+      >
+        <Stack
+          direction={"row"}
+          p={"10px"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Stack direction={"row"}>
+            <img src={`/menu/globe.svg`} />
+            <SpacingHorizontal space="15px" />
             <SText
-              fontWeight="400"
               fontSize="16px"
+              fontWeight="300"
               lineHeight="22px"
               color="#1a1a1a"
             >
-              BMW
+              {t("sidebar.language", "Language")}
             </SText>
-            <Stack direction={"row"}>
-              <SText
-                fontWeight="300"
-                fontSize="12px"
-                color="#2c71f0"
-                lineHeight="1rem"
-              >
-                {t("sidebar.premiumAccount", "Premium Account")}
-              </SText>
-              <SpacingHorizontal space={"8px"} />
-              <Divider orientation="vertical" flexItem />
-              <SpacingHorizontal space={"8px"} />
-              <SText
-                fontWeight="300"
-                fontSize="12px"
-                color="#2c71f0"
-                lineHeight="1rem"
-                style={{
-                  cursor: "pointer",
-                }}
-                onClick={logout}
-              >
-                {t("sidebar.logOut", "Log out")}
-              </SText>
-            </Stack>
+          </Stack>
+          <LanguageSelector type="plain" />
+        </Stack>
+        <Link href={"/account"}>
+          <MenuWrapper active={router.asPath.includes("account")}>
+            <MenuIcon src={`/menu/profile.svg`} />
+            <MenuItemTitle passiveIcon={false}>
+              {t("sidebar.account", "Account")}
+            </MenuItemTitle>
+          </MenuWrapper>
+        </Link>
+        <Stack
+          direction={"row"}
+          p={"10px"}
+          alignItems={"center"}
+          justifyContent={"space-between"}
+        >
+          <Stack direction={"row"}>
+            <img src={`/menu/feedback.svg`} />
+            <SpacingHorizontal space="15px" />
+            <SText
+              fontSize="16px"
+              fontWeight="300"
+              lineHeight="22px"
+              color="#1a1a1a"
+            >
+              {t("sidebar.feedback", "Feedback")}
+            </SText>
           </Stack>
         </Stack>
       </Stack>

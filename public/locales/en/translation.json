@@ -239,6 +239,9 @@
     "supplyChainTransparency": "Supply Chain Transparency",
     "comingSoon": "COMING SOON",
     "premiumAccount": "Premium Account",
+    "account": "Account",
+    "language": "Language",
+    "feedback": "Feedback",
     "logOut": "Log out"
   },
   "scout": {
