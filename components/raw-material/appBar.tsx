@@ -5,6 +5,14 @@ import { STextBody16, STextH2 } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
 import { useTranslation } from "react-i18next";
 
+export async function getServerSideProps() {
+  return {
+    props: {
+      children: null,
+    },
+  };
+}
+
 /**
  * Raw Material's top menu bar -- sticky, and scales down on scroll
  */
@@ -16,7 +24,7 @@ function RMTopMenuBar({ children }: { children: React.ReactNode }) {
     setIsScrolled(window.scrollY > 0);
   };
   useEffect(() => {
-    if (window !== undefined) {
+    if (typeof window !== "undefined") {
       window.addEventListener("scroll", checkScroll);
       return () => {
         window.removeEventListener("scroll", checkScroll);

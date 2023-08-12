@@ -15,7 +15,6 @@ import "../styles/globals.css";
 import "react-toastify/dist/ReactToastify.css";
 
 import "../utils/i18n";
-import { VERSION } from "config";
 
 interface SafeHydrateProps {
   children: React.ReactNode;
@@ -31,7 +30,6 @@ function SafeHydrate({ children }: SafeHydrateProps) {
 export default function App({ Component, pageProps }: AppProps) {
   const { push } = useRouter();
   NavigateService.initNavigate(push);
-  console.debug("App version:", VERSION);
 
   return (
     <SafeHydrate>
