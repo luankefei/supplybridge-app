@@ -35,9 +35,15 @@ export default function App({ Component, pageProps }: AppProps) {
     <SafeHydrate>
       <ThemeProvider theme={theme}>
         <MuiThemeProvider theme={muiTheme}>
-          <NextNProgress color={"#08979C"} />
-          <ToastContainer />
-          <Component {...pageProps} />
+          {/* This div is required,
+          I am not 100% sure why, but without this some pages
+          might get client side error when user hits page refresh (F5 / cmd+R)
+          */}
+          <div>
+            <NextNProgress color={"#08979C"} />
+            <ToastContainer />
+            <Component {...pageProps} />
+          </div>
         </MuiThemeProvider>
       </ThemeProvider>
     </SafeHydrate>
