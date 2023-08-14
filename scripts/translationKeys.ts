@@ -56,6 +56,7 @@ function compareFile(filename: string): void {
 function main(): void {
   compareFile("translation");
   compareFile("rawMaterial");
+  compareFile("myAccount");
   console.log("All good!");
 }
 
