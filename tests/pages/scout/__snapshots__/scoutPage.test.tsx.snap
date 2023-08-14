@@ -250,57 +250,6 @@ exports[`Scout matches snapshot 1`] = `
           <div
             class="css-f97uj8-MuiStack-root"
           >
-            <div
-              class="css-94l3mb-MuiStack-root"
-            >
-              <div
-                class="css-m69qwo-MuiStack-root"
-              >
-                <img
-                  src="/menu/globe.svg"
-                />
-                <div
-                  class="sc-hzhJZQ iENIf"
-                />
-                <div
-                  class="sc-eeDRCY gqPNZP"
-                  color="#1a1a1a"
-                  font-size="16px"
-                  font-weight="300"
-                >
-                  Language
-                </div>
-              </div>
-              <div
-                class="MuiToggleButtonGroup-root sc-fXSgeo gfwVAF css-1gjgmky-MuiToggleButtonGroup-root"
-                role="group"
-              >
-                <button
-                  aria-pressed="false"
-                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard sc-JrDLc cmkzcM MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-x921tm-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="en"
-                >
-                  EN
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-                <button
-                  aria-pressed="false"
-                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard sc-JrDLc cmkzcM MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-x921tm-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="de"
-                >
-                  DE
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
             <a
               href="/account"
             >

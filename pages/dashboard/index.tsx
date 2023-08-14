@@ -5,6 +5,7 @@ import { useIndustries } from "requests/useIndustries";
 import { useEffect } from "react";
 import { useStore } from "hooks/useStore";
 import Image from "next/image";
+import { VERSION } from "config";
 
 function Industry() {
   const { searchIndustries } = useIndustries();
@@ -13,6 +14,7 @@ function Industry() {
     searchIndustries();
   }, []);
 
+  console.debug("App version:", VERSION);
   return (
     <>
       <Head>

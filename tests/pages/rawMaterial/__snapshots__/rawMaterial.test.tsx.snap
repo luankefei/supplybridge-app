@@ -38,7 +38,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                 class="sc-aXZVg iqDiuF"
               />
               <div
-                class="sc-cwHptR iDuTqq"
+                class="sc-kpDqfm gSAmxJ"
               >
                 SOLUTIONS
               </div>
@@ -46,14 +46,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href="/scout"
               >
                 <div
-                  class="sc-eldPxv hGWydh"
+                  class="sc-cPiKLX iNtrFH"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/scouting.svg"
                   />
                   <span
-                    class="sc-dLMFU cOPHQO"
+                    class="sc-cwHptR llJQhW"
                   >
                     Scouting
                   </span>
@@ -63,14 +63,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href="/source"
               >
                 <div
-                  class="sc-eldPxv hGWydh"
+                  class="sc-cPiKLX iNtrFH"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/sourcing.svg"
                   />
                   <span
-                    class="sc-dLMFU cOPHQO"
+                    class="sc-cwHptR llJQhW"
                   >
                     Sourcing
                   </span>
@@ -80,19 +80,19 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-eldPxv gwhLSd"
+                  class="sc-cPiKLX kxZrtr"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/evaluate.svg"
                   />
                   <span
-                    class="sc-dLMFU kVJyiH"
+                    class="sc-cwHptR jwkyJH"
                   >
                     Evaluate
                   </span>
                   <span
-                    class="sc-eDPEul eBIuwj"
+                    class="sc-jEACwC dyykTX"
                   >
                     COMING SOON
                   </span>
@@ -102,23 +102,23 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-eldPxv gwhLSd"
+                  class="sc-cPiKLX kxZrtr"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/sustainability.svg"
                   />
                   <span
-                    class="sc-dLMFU kVJyiH"
+                    class="sc-cwHptR jwkyJH"
                   >
                     Sustainability
                   </span>
                   <img
-                    class="sc-cPiKLX"
+                    class="sc-jlZhew"
                     src="/menu/leaf.svg"
                   />
                   <span
-                    class="sc-eDPEul eBIuwj"
+                    class="sc-jEACwC dyykTX"
                   >
                     COMING SOON
                   </span>
@@ -128,19 +128,19 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-eldPxv gwhLSd"
+                  class="sc-cPiKLX kxZrtr"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/finance.svg"
                   />
                   <span
-                    class="sc-dLMFU kVJyiH"
+                    class="sc-cwHptR jwkyJH"
                   >
                     Finance
                   </span>
                   <span
-                    class="sc-eDPEul eBIuwj"
+                    class="sc-jEACwC dyykTX"
                   >
                     COMING SOON
                   </span>
@@ -150,19 +150,19 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-eldPxv gwhLSd"
+                  class="sc-cPiKLX kxZrtr"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/transport.svg"
                   />
                   <span
-                    class="sc-dLMFU kVJyiH"
+                    class="sc-cwHptR jwkyJH"
                   >
                     Transport
                   </span>
                   <span
-                    class="sc-eDPEul eBIuwj"
+                    class="sc-jEACwC dyykTX"
                   >
                     COMING SOON
                   </span>
@@ -172,14 +172,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href="/total-solution"
               >
                 <div
-                  class="sc-eldPxv hGWydh"
+                  class="sc-cPiKLX iNtrFH"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/total-solution.svg"
                   />
                   <span
-                    class="sc-dLMFU cOPHQO"
+                    class="sc-cwHptR llJQhW"
                   >
                     Total Solution
                   </span>
@@ -190,7 +190,7 @@ exports[`RawMaterial matches snapshot 1`] = `
               class="MuiBox-root css-0"
             >
               <div
-                class="sc-cwHptR iDuTqq"
+                class="sc-kpDqfm gSAmxJ"
               >
                 MARKET DATA
               </div>
@@ -198,14 +198,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href="/raw-material"
               >
                 <div
-                  class="sc-eldPxv hGWydh"
+                  class="sc-cPiKLX iNtrFH"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/raw-material.svg"
                   />
                   <span
-                    class="sc-dLMFU cOPHQO"
+                    class="sc-cwHptR llJQhW"
                   >
                     Raw Material
                   </span>
@@ -215,14 +215,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href="/supplier-news"
               >
                 <div
-                  class="sc-eldPxv hGWydh"
+                  class="sc-cPiKLX iNtrFH"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/supplier-news.svg"
                   />
                   <span
-                    class="sc-dLMFU cOPHQO"
+                    class="sc-cwHptR llJQhW"
                   >
                     News & Insights
                   </span>
@@ -232,14 +232,14 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href="/supply-chain-transparency"
               >
                 <div
-                  class="sc-eldPxv hGWydh"
+                  class="sc-cPiKLX iNtrFH"
                 >
                   <img
-                    class="sc-jEACwC ffGXID"
+                    class="sc-dAlyuH giaMHn"
                     src="/menu/supply-chain-transparency.svg"
                   />
                   <span
-                    class="sc-dLMFU cOPHQO"
+                    class="sc-cwHptR llJQhW"
                   >
                     Supply Chain Transparency
                   </span>
@@ -250,69 +250,18 @@ exports[`RawMaterial matches snapshot 1`] = `
           <div
             class="css-f97uj8-MuiStack-root"
           >
-            <div
-              class="css-94l3mb-MuiStack-root"
-            >
-              <div
-                class="css-m69qwo-MuiStack-root"
-              >
-                <img
-                  src="/menu/globe.svg"
-                />
-                <div
-                  class="sc-gEvEer kddvaW"
-                />
-                <div
-                  class="sc-gsFSXq fppGTn"
-                  color="#1a1a1a"
-                  font-size="16px"
-                  font-weight="300"
-                >
-                  Language
-                </div>
-              </div>
-              <div
-                class="MuiToggleButtonGroup-root sc-kpDqfm lKMqY css-1gjgmky-MuiToggleButtonGroup-root"
-                role="group"
-              >
-                <button
-                  aria-pressed="false"
-                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard sc-dAlyuH bFVDyW MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-ueukts-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="en"
-                >
-                  EN
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-                <button
-                  aria-pressed="false"
-                  class="MuiButtonBase-root MuiToggleButton-root MuiToggleButton-sizeMedium MuiToggleButton-standard sc-dAlyuH bFVDyW MuiToggleButtonGroup-grouped MuiToggleButtonGroup-groupedHorizontal css-ueukts-MuiButtonBase-root-MuiToggleButton-root"
-                  tabindex="0"
-                  type="button"
-                  value="de"
-                >
-                  DE
-                  <span
-                    class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
-                  />
-                </button>
-              </div>
-            </div>
             <a
               href="/account"
             >
               <div
-                class="sc-eldPxv hGWydh"
+                class="sc-cPiKLX iNtrFH"
               >
                 <img
-                  class="sc-jEACwC ffGXID"
+                  class="sc-dAlyuH giaMHn"
                   src="/menu/profile.svg"
                 />
                 <span
-                  class="sc-dLMFU cOPHQO"
+                  class="sc-cwHptR llJQhW"
                 >
                   Account
                 </span>
@@ -398,7 +347,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                       class="css-bimbu8"
                     >
                       <img
-                        class="sc-fPXMVe ibfJKW"
+                        class="sc-dLMFU czIDbY"
                         height="30"
                         src="/icons/smart-bridge-ai.svg"
                         title=""
@@ -537,7 +486,7 @@ exports[`RawMaterial matches snapshot 1`] = `
           class="sc-aXZVg ipXJpq"
         />
         <div
-          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root sc-feUZmu bkTjGo css-bhp9pd-MuiPaper-root-MuiCard-root"
+          class="MuiPaper-root MuiPaper-elevation MuiPaper-rounded MuiPaper-elevation1 MuiCard-root sc-gFqAkR gvcACY css-bhp9pd-MuiPaper-root-MuiCard-root"
         >
           <div
             class="sc-eqUAAy jgpQLS"
@@ -564,7 +513,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fPXMVe kYejJz"
+                    class="sc-dLMFU htnqiJ"
                     height="52"
                     src="/icons/materialCategory/energy.svg"
                     title=""
@@ -590,7 +539,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fPXMVe kYejJz"
+                    class="sc-dLMFU htnqiJ"
                     height="52"
                     src="/icons/materialCategory/metal.svg"
                     title=""
@@ -616,7 +565,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fPXMVe kYejJz"
+                    class="sc-dLMFU htnqiJ"
                     height="52"
                     src="/icons/materialCategory/plastic.svg"
                     title=""
@@ -642,7 +591,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fPXMVe kYejJz"
+                    class="sc-dLMFU htnqiJ"
                     height="52"
                     src="/icons/materialCategory/ESG.svg"
                     title=""
@@ -668,7 +617,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fPXMVe kYejJz"
+                    class="sc-dLMFU htnqiJ"
                     height="52"
                     src="/icons/materialCategory/ev-related.svg"
                     title=""
@@ -694,7 +643,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fPXMVe kYejJz"
+                    class="sc-dLMFU htnqiJ"
                     height="52"
                     src="/icons/materialCategory/others.svg"
                     title=""
@@ -721,7 +670,7 @@ exports[`RawMaterial matches snapshot 1`] = `
                   type="button"
                 >
                   <img
-                    class="sc-fPXMVe kYejJz"
+                    class="sc-dLMFU htnqiJ"
                     height="52"
                     src="/icons/materialCategory/lock.svg"
                     title=""

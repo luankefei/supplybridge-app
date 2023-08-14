@@ -8,12 +8,10 @@ import { useTranslation } from "react-i18next";
 import { Box, Divider, Stack } from "@mui/material";
 import { SpacingHorizontal, SpacingVertical } from "./ui-components/spacer";
 import { SText } from "./ui-components/text";
-import LanguageSelector from "./languageSelector";
 
 export default function SideBarMenu() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { signOut } = usePersistentStore();
 
   const solutionsData = [
     {
@@ -109,12 +107,6 @@ export default function SideBarMenu() {
 */
   ];
 
-  const logout = () => {
-    signOut();
-    cookie.remove("token");
-    router.push("/login");
-  };
-
   return (
     <Stack
       height={"100vh"}
@@ -208,26 +200,6 @@ export default function SideBarMenu() {
           boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.05)",
         }}
       >
-        <Stack
-          direction={"row"}
-          p={"10px"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
-        >
-          <Stack direction={"row"}>
-            <img src={`/menu/globe.svg`} />
-            <SpacingHorizontal space="15px" />
-            <SText
-              fontSize="16px"
-              fontWeight="300"
-              lineHeight="22px"
-              color="#1a1a1a"
-            >
-              {t("sidebar.language", "Language")}
-            </SText>
-          </Stack>
-          <LanguageSelector type="plain" />
-        </Stack>
         <Link href={"/account"}>
           <MenuWrapper active={router.asPath.includes("account")}>
             <MenuIcon src={`/menu/profile.svg`} />

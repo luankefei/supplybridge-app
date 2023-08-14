@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 import StorageService from "services/storage";
 import { TSupplierModel } from "models/supplier";
 import { TSubRegionWithCount } from "models/subRegion";
+import { TUserInfo } from "./storeInterface";
 
 interface INonPersistentStore {
   filterData: any;
@@ -42,9 +43,11 @@ interface INonPersistentStore {
   setStats: (value: any) => void;
   suppliers: TSupplierModel[];
   setSuppliers: (value: TSupplierModel[], reset: boolean) => void;
+  resetAll: () => void;
 }
 
 const useStore = create<INonPersistentStore>()((set, get) => ({
+  flags: {},
   count: 0,
   setCount: (count: number) => set(() => ({ count })),
   stats: {},
@@ -132,34 +135,39 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   setSelectedCountries: (selectedCountries: any) =>
     set(() => ({ selectedCountries: [...selectedCountries] })),
 
-  signOut: () => {
-    StorageService.clearUserData();
-    return set(() => ({
-      user: {},
-      token: "",
-      page: 1,
-      pageSize: 100,
-      count: 0,
-      filterData: {
-        commodities: [],
-        components: [],
-        coreCompetencies: [],
-        regions: [],
-        subRegions: [],
-        vehicleFuelTypes: [],
-        q: "",
-      },
-      suppliers: [],
-    }));
+  /**
+   * resets all the store values to default
+   */
+  resetAll: () => {
+    return set(
+      (): INonPersistentStore => ({
+        ...get(),
+        page: 1,
+        pageSize: 100,
+        count: 0,
+        filterData: {
+          commodities: [],
+          components: [],
+          coreCompetencies: [],
+          regions: [],
+          subRegions: [],
+          vehicleFuelTypes: [],
+          q: "",
+        },
+        suppliers: [],
+        flags: {},
+      })
+    );
   },
-  flags: {},
 }));
 
 interface IPersistentStore {
-  token: any;
-  setToken: (value: any) => void;
-  user: any;
-  setUser: (value: any) => void;
+  user: TUserInfo | null;
+  setUser: (value: TUserInfo | null) => void;
+  /**
+   * Signs out the user by clearing the token and user data from local storage
+   * and clearing cookies
+   */
   signOut: () => void;
   /**
    * All subregions is now a dictionary with key =id, value=subregion
@@ -171,17 +179,20 @@ interface IPersistentStore {
 const usePersistentStore = create<IPersistentStore>()(
   persist<IPersistentStore>(
     (set, get) => ({
-      token: "",
-      setToken: (value: any) => set(() => ({ token: value })),
-      user: {},
-      setUser: (value: any) => set(() => ({ user: value })),
+      /** USER related info */
+      user: null,
+      setUser: (value) => set(() => ({ user: value })),
+      /**
+       * Dont' forget to resetAll() on useStore()!
+       */
       signOut: () => {
         StorageService.clearUserData();
         return set(() => ({
-          user: {},
+          user: null,
           token: "",
         }));
       },
+      /** GENERAL App Info */
       allSubRegions: {},
       allSubRegionsLastUpdatedTime: 0,
       setAllSubRegions: (regions: TSubRegionWithCount[]) => {

@@ -11,6 +11,7 @@
     "coverage": "jest --coverage",
     "lint-silent": "next lint --quiet",
     "tsc-lint": "tsc --noEmit -p . --excludeDirectories node_modules",
+    "validate-translations": "tsc scripts/translationKeys.ts && node scripts/translationKeys.js",
     "prepare": "husky install"
   },
   "dependencies": {
