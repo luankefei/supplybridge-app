@@ -8,7 +8,6 @@ import { useTranslation } from "react-i18next";
 import { Box, Divider, Stack } from "@mui/material";
 import { SpacingHorizontal, SpacingVertical } from "./ui-components/spacer";
 import { SText } from "./ui-components/text";
-import LanguageSelector from "./languageSelector";
 
 export default function SideBarMenu() {
   const { t } = useTranslation();

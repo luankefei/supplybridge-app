@@ -38,9 +38,12 @@ export default function MyAccount() {
     try {
       setError(false);
       setLoading(true);
-      const response = await request.put(`/users/${user!.id}`, {
+      const res = await request.put(`/users/${user!.id}`, {
         name,
       });
+      if (res.status !== 200) {
+        throw new Error(res.statusText);
+      }
       setTimeout(() => {
         setShowConfirm(false);
       }, 1000);
