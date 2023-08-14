@@ -40,3 +40,5 @@ local
 *.swp
 
 .env
+
+scripts/*.js

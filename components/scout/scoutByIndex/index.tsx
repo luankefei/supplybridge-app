@@ -30,7 +30,6 @@ import { toast } from "react-toastify";
 import ShortListModal from "./shortlistModal";
 import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
 import { useRouter } from "next/router";
-import { VERSION } from "config";
 
 /**
  * Scout by index page
@@ -225,8 +224,6 @@ export default function ScoutByIndex() {
     emptyRows[i] = { id: i + data.length + 1 };
   }
   const hasData: boolean = data.length > 0;
-
-  console.debug("App version:", VERSION);
   return (
     <Stack>
       <LanguageSelector />

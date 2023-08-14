@@ -26,13 +26,9 @@ import Ratings from "components/scout/scoutByIndex/detailPanel/tabPanes/ratings"
  * If I use 'use client' direction, this page is rendered twice, once without query, and
  * once with query. But the redirect is still called.
  */
-export async function getServerSideProps(context: { query: any }) {
-  const { query } = context;
-  const suppliersToCompare = query.suppliers;
+export async function getServerSideProps() {
   return {
-    props: {
-      suppliersToCompare: suppliersToCompare || "",
-    },
+    props: {},
   };
 }
 
