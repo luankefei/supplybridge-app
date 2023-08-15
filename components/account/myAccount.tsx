@@ -1,9 +1,6 @@
 import { useEffect, useState } from "react";
-import { Button, Divider, Grid, Stack, TextField } from "@mui/material";
-import {
-  SpacingHorizontal,
-  SpacingVertical,
-} from "components/ui-components/spacer";
+import { Button, Card, Grid, Stack, TextField } from "@mui/material";
+import { SpacingHorizontal } from "components/ui-components/spacer";
 import {
   SText,
   STextSecondary,
@@ -15,6 +12,7 @@ import router from "next/router";
 import LanguageSelector from "components/languageSelector";
 import { toast } from "react-toastify";
 import { request } from "config/axios";
+import { MyUIDivider } from "./common";
 
 export default function MyAccount() {
   const { t } = useTranslation("myAccount");
@@ -118,17 +116,16 @@ export default function MyAccount() {
   if (!user) {
     return null;
   }
-
-  const MyUIDivider = () => (
-    <>
-      <SpacingVertical space="16px" />
-      <Divider />
-      <SpacingVertical space="16px" />
-    </>
-  );
-
   return (
-    <Stack bgcolor={"white"} borderRadius={2} m={1} p={4} maxWidth={"50%"}>
+    <Card
+      component={Stack}
+      bgcolor={"white"}
+      borderRadius={2}
+      m={1}
+      p={4}
+      elevation={0}
+      maxWidth={"50%"}
+    >
       <Stack direction={"row"} justifyContent={"space-between"}>
         <TitleText>{t("myAccount", "My Account")}</TitleText>
         <Stack direction={"row"} alignItems={"center"}>
@@ -234,6 +231,6 @@ export default function MyAccount() {
           <LanguageSelector variant="dropdown" />
         </Grid>
       </Grid>
-    </Stack>
+    </Card>
   );
 }

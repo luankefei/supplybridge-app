@@ -14,5 +14,10 @@
   "oldPassword": "Altes Passwort",
   "newPassword": "Neues Passwort",
   "confirmPassword": "Passwort bestätigen",
-  "update": "Aktualisieren"
+  "update": "Aktualisieren",
+  "edit": "Bearbeiten",
+  "searchCriteria": "Suchkriterien",
+  "preferencesSubtitle": "Hier können Sie Ihre Favoriten verwalten: Lieferanten, Suchkriterien und Rohstoffe.",
+  "favouriteSupplier": "Mein bevorzugter Lieferant",
+  "rawMaterial": "Rohstoff"
 }

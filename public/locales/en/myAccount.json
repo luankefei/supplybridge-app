@@ -1,6 +1,6 @@
 {
   "myAccount": "My Account",
-  "favourite": "Favorite",
+  "favourite": "Favourite",
   "fileManagement": "File Mangement",
   "logOut": "Log Out",
   "language": "Language",
@@ -14,5 +14,10 @@
   "oldPassword": "Old Password",
   "newPassword": "New Password",
   "confirmPassword": "Confirm Password",
-  "update": "Update"
+  "update": "Update",
+  "edit": "Edit",
+  "searchCriteria": "Search Criteria",
+  "preferencesSubtitle": "You can manage your favorites here for suppliers, search criteria and raw materials.",
+  "favouriteSupplier": "My Favourite Supplier",
+  "rawMaterial": "Raw Material"
 }

@@ -51,6 +51,13 @@ export const muiTheme = createTheme({
         },
       },
     },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
+        },
+      },
+    },
   },
   palette: {
     primary: {
