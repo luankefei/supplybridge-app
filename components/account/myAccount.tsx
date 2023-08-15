@@ -1,97 +1,148 @@
-import { useState } from "react";
-import {
-  Button,
-  CircularProgress,
-  Divider,
-  Grid,
-  IconButton,
-  Input,
-  InputBase,
-  Paper,
-  Stack,
-  TextField,
-} from "@mui/material";
+import { useEffect, useState } from "react";
+import { Button, Divider, Grid, Stack, TextField } from "@mui/material";
 import {
   SpacingHorizontal,
   SpacingVertical,
 } from "components/ui-components/spacer";
-import { SText, STextBody16, TitleText } from "components/ui-components/text";
+import {
+  SText,
+  STextSecondary,
+  TitleText,
+} from "components/ui-components/text";
 import { useTranslation } from "react-i18next";
 import { usePersistentStore, useStore } from "hooks/useStore";
 import router from "next/router";
 import LanguageSelector from "components/languageSelector";
-import Image from "next/image";
 import { toast } from "react-toastify";
 import { request } from "config/axios";
-import { Check, Clear, Replay } from "@mui/icons-material";
 
 export default function MyAccount() {
   const { t } = useTranslation("myAccount");
   const { resetAll } = useStore();
-  const { user, signOut } = usePersistentStore();
-  const [name, setName] = useState(user?.name || "");
-  const [showConfirm, setShowConfirm] = useState(false);
+  const { user, setUser, signOut } = usePersistentStore();
   const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(false);
+
+  const [name, setName] = useState(user?.name || "");
+  const [oldPassword, setOldPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [newPassword2, setNewPassword2] = useState("");
+
+  /*******************
+   * API CALLS
+   * *************
+   */
+  const fetchUser = async () => {
+    try {
+      const res = await request.get(`/users/${user!.id}`);
+      if (res.status !== 200) {
+        throw new Error(res.statusText);
+      }
+      setName(res.data.data.name);
+      setUser(res.data.data);
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    }
+  };
 
   const updateAccount = async (name: string) => {
     try {
-      setError(false);
-      setLoading(true);
       const res = await request.put(`/users/${user!.id}`, {
         name,
       });
       if (res.status !== 200) {
         throw new Error(res.statusText);
       }
-      setTimeout(() => {
-        setShowConfirm(false);
-      }, 1000);
+      toast.success(t("updateSuccess", "Update success"));
     } catch (error) {
       toast.error(`Error: ${error}`);
-      setError(true);
     } finally {
-      setLoading(false);
+      fetchUser();
     }
   };
+
+  const updatePassword = async (oldPassword: string, newPassword: string) => {
+    try {
+      const res = await request.put(`/users/${user!.id}`, {
+        /**
+         * CANNOT use SHA256 here because the server will
+         * not recognize the password.
+         * TODO: Fix all password hashing in the database
+         */
+        oldPassword, //: SHA256(oldPassword).toString(),
+        newPassword, //: SHA256(newPassword).toString(),
+      });
+      if (res.status !== 200) {
+        throw new Error(res.statusText);
+      }
+      toast.success(t("updateSuccess", "Update success"));
+      setNewPassword("");
+      setNewPassword2("");
+    } catch (error) {
+      toast.error(`Error: ${error}`);
+    } finally {
+      setOldPassword("");
+    }
+  };
+
+  /** END OF Api calls */
+
+  useEffect(() => {
+    fetchUser();
+  }, []);
 
   const logout = () => {
     signOut();
     resetAll();
     router.push("/login");
   };
+  const sameName = name === user?.name;
+  const onSaveAccout = async () => {
+    if (sameName) {
+      return;
+    }
+    setLoading(true);
+    await updateAccount(name);
+    setLoading(false);
+  };
+  const passwordBtnDisabled =
+    newPassword !== newPassword2 || !oldPassword || !newPassword;
+  const onUpdatePassword = async () => {
+    if (passwordBtnDisabled) {
+      return;
+    }
+    setLoading(true);
+    await updatePassword(oldPassword, newPassword);
+    setLoading(false);
+  };
 
   if (!user) {
     return null;
   }
 
-  return (
-    <Stack
-      width={"500px"}
-      height={"400px"}
-      bgcolor={"white"}
-      borderRadius={2}
-      m={1}
-      p={4}
-    >
-      <Stack direction={"row"} justifyContent={"space-between"}>
-        <TitleText>{t("myAccount", "My Account")}</TitleText>
-        <Button variant="outlined" onClick={logout}>
-          {t("logout", "Log out")}
-        </Button>
-      </Stack>
+  const MyUIDivider = () => (
+    <>
       <SpacingVertical space="16px" />
       <Divider />
       <SpacingVertical space="16px" />
-      <Grid container spacing={2} alignItems={"center"}>
+    </>
+  );
+
+  return (
+    <Stack bgcolor={"white"} borderRadius={2} m={1} p={4} maxWidth={"50%"}>
+      <Stack direction={"row"} justifyContent={"space-between"}>
+        <TitleText>{t("myAccount", "My Account")}</TitleText>
+        <Stack direction={"row"} alignItems={"center"}>
+          <SText fontWeight="400">{user.email}</SText>
+          <SpacingHorizontal space="16px" />
+          <Button variant="outlined" color="error" onClick={logout}>
+            {t("logout", "Log out")}
+          </Button>
+        </Stack>
+      </Stack>
+      <MyUIDivider />
+      <Grid container spacing={2} alignItems={"flex-start"}>
         <Grid item xs={6}>
-          <STextBody16>{t("email", "Email")}</STextBody16>
-        </Grid>
-        <Grid item xs={6}>
-          <TextField variant="outlined" disabled value={user.email} />
-        </Grid>
-        <Grid item xs={6}>
-          <STextBody16>{t("displayName", "Display Name")}</STextBody16>
+          <STextSecondary>{t("displayName", "Display Name")}</STextSecondary>
         </Grid>
         <Grid
           item
@@ -103,91 +154,86 @@ export default function MyAccount() {
             width: 400,
           }}
         >
-          <Paper
-            component={"form"}
-            sx={{
-              p: "2px 4px",
-              display: "flex",
-              alignItems: "center",
-              width: 400,
-            }}
+          <TextField
+            fullWidth
+            disabled={loading}
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6} />
+        <Grid item xs={6}>
+          <Button
+            disabled={loading || sameName}
+            variant="outlined"
+            onClick={onSaveAccout}
           >
-            <InputBase
-              sx={{ ml: 1, flex: 1 }}
-              value={name}
-              error={error}
-              endAdornment={
-                showConfirm &&
-                (loading ? (
-                  <CircularProgress />
-                ) : (
-                  <>
-                    <IconButton
-                      type="button"
-                      onClick={() => {
-                        updateAccount(name);
-                      }}
-                    >
-                      {error ? (
-                        <Clear color="error" />
-                      ) : (
-                        <Check color="success" />
-                      )}
-                    </IconButton>
-                    {name !== user.name && (
-                      <IconButton
-                        onClick={() => {
-                          setName(user.name);
-                          setShowConfirm(false);
-                          setError(false);
-                        }}
-                      >
-                        <Replay />
-                      </IconButton>
-                    )}
-                  </>
-                ))
-              }
-              onChange={(e) => {
-                setName(e.target.value);
-                setShowConfirm(true);
-                setError(false);
-              }}
-            />
-          </Paper>
+            {t("save", "Save")}
+          </Button>
         </Grid>
       </Grid>
-      <SpacingVertical space="16px" />
-      <Divider />
-      <SpacingVertical space="16px" />
-      <Stack
-        direction={"row"}
-        p={"10px"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-      >
-        <Stack direction={"row"} alignItems={"center"}>
-          <Image src={`/menu/globe.svg`} alt={""} width={20} height={20} />
-          <SpacingHorizontal space="15px" />
-          <SText
-            fontSize="16px"
-            fontWeight="300"
-            lineHeight="22px"
-            color="#1a1a1a"
+      <MyUIDivider />
+      <Grid container spacing={2} alignItems={"flex-start"}>
+        <Grid item xs={6}>
+          <STextSecondary>
+            {t("resetPassword", "Reset password")}
+          </STextSecondary>
+        </Grid>
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            disabled={loading}
+            label={t("oldPassword", "Old password")}
+            value={oldPassword}
+            onChange={(e) => setOldPassword(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6} />
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            disabled={loading}
+            label={t("newPassword", "New password")}
+            value={newPassword}
+            onChange={(e) => setNewPassword(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6} />
+        <Grid item xs={6}>
+          <TextField
+            fullWidth
+            disabled={loading}
+            error={newPassword !== newPassword2}
+            helperText={
+              newPassword !== newPassword2 &&
+              t("passwordNotMatch", "Password not match")
+            }
+            label={t("confirmPassword", "Confirm password")}
+            value={newPassword2}
+            onChange={(e) => setNewPassword2(e.target.value)}
+          />
+        </Grid>
+        <Grid item xs={6} />
+        <Grid item xs={6}>
+          <Button
+            disabled={loading || passwordBtnDisabled}
+            variant="outlined"
+            onClick={onUpdatePassword}
           >
-            {t("language", "Language")}
-          </SText>
-        </Stack>
-        <LanguageSelector type="plain" />
-      </Stack>
-      <Stack
-        direction={"row"}
-        p={"10px"}
-        alignItems={"center"}
-        justifyContent={"space-between"}
-      >
-        <Button>{t("restPassowrd", "Reset Password")}</Button>
-      </Stack>
+            {t("update", "Update")}
+          </Button>
+        </Grid>
+      </Grid>
+
+      <MyUIDivider />
+      <Grid container spacing={2} alignItems={"flex-start"}>
+        <Grid item xs={6}>
+          <STextSecondary>{t("language", "Language")}</STextSecondary>
+        </Grid>
+        <Grid item xs={6}>
+          <LanguageSelector variant="dropdown" />
+        </Grid>
+      </Grid>
     </Stack>
   );
 }

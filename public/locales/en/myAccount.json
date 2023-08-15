@@ -4,5 +4,13 @@
   "language": "Language",
   "email": "Email",
   "displayName": "Display Name",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "updateSuccess": "Update Success",
+  "save": "Save",
+  "logout": "Log Out",
+  "resetPassword": "Reset Password",
+  "oldPassword": "Old Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
+  "update": "Update"
 }
