@@ -234,11 +234,17 @@
     "evaluate": "Bewertung",
     "sustainability": "Nachhaltigkeit",
     "rawMaterials": "Rohmaterial",
+    "finance": "Finanzen",
+    "transport": "Transport",
+    "totalSolution": "Gesamtlösung",
     "marketData": "MARKTDATEN",
     "newsAndInsights": "News & Einblicke",
     "supplyChainTransparency": "Lieferkette Nachhaltigkeit",
     "comingSoon": "Demnächst",
     "premiumAccount": "Premium Mitgliedschaft",
+    "account": "Konto",
+    "language": "Sprache",
+    "feedback": "Rückmeldung",
     "logOut": "Ausloggen"
   },
   "scout": {

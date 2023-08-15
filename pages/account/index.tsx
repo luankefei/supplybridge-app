@@ -5,8 +5,10 @@ import MyAccount from "components/account/myAccount";
 import Preferences from "components/account/preferences";
 import FileMangement from "components/account/fileManagement";
 import { SpacingVertical } from "components/ui-components/spacer";
+import { useTranslation } from "react-i18next";
 
 export default function Account() {
+  const { t } = useTranslation("myAccount");
   const [tab, setTab] = useState(0);
 
   return (
@@ -18,9 +20,9 @@ export default function Account() {
         justifyContent={"flex-end"}
       >
         <Tabs value={tab} onChange={(e, v) => setTab(v)}>
-          <Tab label="My Account" />
-          <Tab label="Favourite" />
-          <Tab label="File Management" />
+          <Tab label={t("myAccount", "My Account")} />
+          <Tab label={t("favourite", "Favourite")} />
+          <Tab label={t("fileManagement", "File Management")} />
         </Tabs>
       </Stack>
       <SpacingVertical space="24px" />
