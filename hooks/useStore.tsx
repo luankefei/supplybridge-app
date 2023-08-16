@@ -4,6 +4,7 @@ import { persist } from "zustand/middleware";
 import StorageService from "services/storage";
 import { TSupplierModel } from "models/supplier";
 import { TSubRegionWithCount } from "models/subRegion";
+import { IUserFile } from "models/userFile";
 import { TUserInfo } from "./storeInterface";
 
 interface INonPersistentStore {
@@ -43,7 +44,7 @@ interface INonPersistentStore {
   setStats: (value: any) => void;
   suppliers: TSupplierModel[];
   setSuppliers: (value: TSupplierModel[], reset: boolean) => void;
-  userFiles: any;
+  userFiles: IUserFile[];
   setUserFiles: (value: any) => void;
   resetAll: () => void;
 }
