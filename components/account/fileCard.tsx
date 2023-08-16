@@ -8,6 +8,7 @@ import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
 import { useUserFiles } from "requests/useUserFiles";
 import { IUserFile } from "models/userFile";
+import { FormatFileSize } from "utils/formatters";
 
 // const FILE_TYPE_ICON = {}
 
@@ -35,10 +36,12 @@ export default function FileCard({
       sx={{ borderRadius: "16px", display: "flex", ":hover": itemHoverStyle }}
     >
       <div
-        style={{ display: "flex", width: "100%", alignItems: "center" }}
-        className="user-file-wrapper"
-        data-file-url={file.url}
-        data-file-id={file.id}
+        style={{
+          display: "flex",
+          width: "100%",
+          alignItems: "center",
+          justifyContent: "space-between",
+        }}
       >
         <div style={{ width: "20%" }} onClick={() => onDownload(file.url)}>
           <Image
@@ -48,15 +51,24 @@ export default function FileCard({
             height={48}
           />
         </div>
-        <div style={{ width: "60%" }} onClick={() => onDownload(file.url)}>
-          <div style={{}}>{file.name}</div>
-          <span>{file.size}</span>{" "}
-          <span style={{ fontSize: "11px", color: "#9CA3AF" }}>
-            {file.createdAt.toLocaleDateString()}
-          </span>
+        <div onClick={() => onDownload(file.url)}>
+          <div
+            style={{
+              width: "170px",
+              whiteSpace: "nowrap",
+              overflow: "hidden",
+              textOverflow: "ellipsis",
+            }}
+          >
+            {file.name}
+          </div>
+          <div style={{ fontSize: "11px", color: "#9CA3AF" }}>
+            <span>{FormatFileSize(file.size)}</span>&nbsp;·&nbsp;
+            <span>{file.createdAt.toLocaleDateString()}</span>{" "}
+          </div>
         </div>
         <div
-          style={{ width: "20%" }}
+          style={{ width: "10%" }}
           onClick={() => onDelete(file.id, file.url)}
         >
           <Image
