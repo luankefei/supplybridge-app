@@ -1,8 +1,23 @@
 {
   "myAccount": "My Account",
+  "favourite": "Favourite",
+  "fileManagement": "File Mangement",
   "logOut": "Log Out",
   "language": "Language",
   "email": "Email",
   "displayName": "Display Name",
-  "confirm": "Confirm"
+  "confirm": "Confirm",
+  "updateSuccess": "Update Success",
+  "save": "Save",
+  "logout": "Log Out",
+  "resetPassword": "Reset Password",
+  "oldPassword": "Old Password",
+  "newPassword": "New Password",
+  "confirmPassword": "Confirm Password",
+  "update": "Update",
+  "edit": "Edit",
+  "searchCriteria": "Search Criteria",
+  "preferencesSubtitle": "You can manage your favorites here for suppliers, search criteria and raw materials.",
+  "favouriteSupplier": "My Favourite Supplier",
+  "rawMaterial": "Raw Material"
 }

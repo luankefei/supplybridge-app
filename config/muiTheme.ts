@@ -24,6 +24,37 @@ export const muiTheme = createTheme({
       styleOverrides: {
         root: {
           textTransform: "none",
+          borderRadius: 100,
+          padding: "2px 16px",
+        },
+      },
+    },
+    MuiTab: {
+      styleOverrides: {
+        root: {
+          textTransform: "none",
+        },
+      },
+    },
+    MuiTextField: {
+      styleOverrides: {
+        root: {
+          "& label": {
+            color: "#CDCDCE",
+          },
+          ["& .MuiInputBase-root"]: {
+            borderRadius: 8,
+          },
+          ["& .MuiInputBase-input"]: {
+            color: "#434343",
+          },
+        },
+      },
+    },
+    MuiCard: {
+      styleOverrides: {
+        root: {
+          borderRadius: 16,
         },
       },
     },
