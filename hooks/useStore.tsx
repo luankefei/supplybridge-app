@@ -43,6 +43,8 @@ interface INonPersistentStore {
   setStats: (value: any) => void;
   suppliers: TSupplierModel[];
   setSuppliers: (value: TSupplierModel[], reset: boolean) => void;
+  userFiles: any;
+  setUserFiles: (value: any) => void;
   resetAll: () => void;
 }
 
@@ -134,6 +136,9 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   selectedCountries: [],
   setSelectedCountries: (selectedCountries: any) =>
     set(() => ({ selectedCountries: [...selectedCountries] })),
+
+  userFiles: [],
+  setUserFiles: (files) => set(() => ({ userFiles: files })),
 
   /**
    * resets all the store values to default
