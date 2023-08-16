@@ -17,7 +17,7 @@ export const useUserFiles = () => {
   const getFiles = async () => {
     // how to pass userId
     try {
-      const { data } = await request.get("/user/files");
+      const { data } = await request.get("/files");
       console.log("get files: ", data);
       // setUserFiles(data);
     } catch (err: any) {
@@ -29,7 +29,13 @@ export const useUserFiles = () => {
 
   const downloadFile = async (fileId: string) => {};
 
-  const uploadFile = async () => {};
+  const uploadFile = async (files: FileList) => {
+    let f = files[0];
+    let formData = new FormData();
+    formData.append("file", f);
+    const { data } = await request.post("/files/upload", formData);
+    console.log("upload res: ", data);
+  };
 
   /*
   const getCommodities = async () => {
