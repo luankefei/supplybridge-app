@@ -16,11 +16,11 @@ export default function FileManagement() {
 
   useEffect(() => {
     getFiles();
-  });
+  }, []);
   return (
     <Stack>
       <TitleText>File Management</TitleText>
-      {Window && <Input type="file" onChange={upload} />}
+      <Input type="file" onChange={upload} />
     </Stack>
   );
 }
