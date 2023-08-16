@@ -46,21 +46,21 @@ export default function SideBarMenu() {
     /* REL202306*/
     {
       icon: "finance",
-      title: "Finance",
+      title: t("sidebar.finance", "Finance"),
       path: "/finance",
       active: router.asPath.includes("finance"),
       passiveIcon: true,
     },
     {
       icon: "transport",
-      title: "Transport",
+      title: t("sidebar.transport", "Transport"),
       path: "/transport",
       active: router.asPath.includes("transport"),
       passiveIcon: true,
     },
     {
       icon: "total-solution",
-      title: "Total Solution",
+      title: t("sidebar.totalSolution", "Total Solution"),
       path: "/total-solution",
       active: router.asPath.includes("total-solution"),
       passiveIcon: false,

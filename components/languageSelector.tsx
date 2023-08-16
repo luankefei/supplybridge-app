@@ -1,12 +1,18 @@
-import { Switch, ToggleButton, ToggleButtonGroup } from "@mui/material";
+import {
+  MenuItem,
+  Select,
+  Switch,
+  ToggleButton,
+  ToggleButtonGroup,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import styled from "styled-components";
 
 interface ILanguageSelectorProps {
-  type?: "icon" | "plain";
+  variant?: "icon" | "plain" | "dropdown";
 }
 
-const LanguageSelector = ({ type }: ILanguageSelectorProps) => {
+const LanguageSelector = ({ variant: type }: ILanguageSelectorProps) => {
   const { i18n } = useTranslation();
   const changeLanguage = (lng: string) => {
     i18n.changeLanguage(lng);
@@ -19,31 +25,46 @@ const LanguageSelector = ({ type }: ILanguageSelectorProps) => {
     }
   };
   const checked = i18n.language == "de" ? true : false;
-  if (!type || type == "icon") {
-    return (
-      <SearchLangContainer label={i18n.language}>
-        <Switch checked={checked} onChange={handleChange} />
-      </SearchLangContainer>
-    );
-  } else {
-    return (
-      <StyledToggleButtonGroup>
-        <StyledToggleButton
-          value="en"
-          selected={i18n.language == "en" ? true : false}
-          onClick={() => changeLanguage("en")}
+
+  switch (type) {
+    case "dropdown":
+      // super weird, i18n.languages is just en
+      return (
+        <Select
+          fullWidth
+          value={i18n.language}
+          onChange={(e) => changeLanguage(e.target.value as string)}
         >
-          EN
-        </StyledToggleButton>
-        <StyledToggleButton
-          value="de"
-          selected={i18n.language == "de" ? true : false}
-          onClick={() => changeLanguage("de")}
-        >
-          DE
-        </StyledToggleButton>
-      </StyledToggleButtonGroup>
-    );
+          <MenuItem value={"en"}>English</MenuItem>
+          <MenuItem value={"de"}>Deutsch</MenuItem>
+        </Select>
+      );
+    case "plain":
+      return (
+        <StyledToggleButtonGroup>
+          <StyledToggleButton
+            value="en"
+            selected={i18n.language == "en" ? true : false}
+            onClick={() => changeLanguage("en")}
+          >
+            EN
+          </StyledToggleButton>
+          <StyledToggleButton
+            value="de"
+            selected={i18n.language == "de" ? true : false}
+            onClick={() => changeLanguage("de")}
+          >
+            DE
+          </StyledToggleButton>
+        </StyledToggleButtonGroup>
+      );
+    default:
+    case "icon":
+      return (
+        <SearchLangContainer label={i18n.language}>
+          <Switch checked={checked} onChange={handleChange} />
+        </SearchLangContainer>
+      );
   }
 };
 

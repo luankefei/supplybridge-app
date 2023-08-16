@@ -89,7 +89,7 @@ export const ColoredText = styled.span<{
  *
  * font-weight: 500;
  *
- * font-size: 20px;
+ * font-size: 12px;
  *
  * line-height: 2rem;
  *
@@ -155,6 +155,18 @@ export const STextBody16 = styled.span<{
   text-align: center;
   font-family: Ubuntu;
   font-size: 16px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export const STextSecondary = styled.span<{
+  size?: string;
+}>`
+  color: #9ca3af;
+  text-align: center;
+  font-family: Ubuntu;
+  font-size: ${(props) => props.size || "14px"};
   font-style: normal;
   font-weight: 400;
   line-height: normal;
