@@ -8,13 +8,12 @@ import Paper from "@mui/material/Paper";
 import { useTranslation } from "react-i18next";
 import { useUserFiles } from "requests/useUserFiles";
 import { IUserFile } from "models/userFile";
+import { EnumUploadStatus } from "models/userFile";
 import { FormatFileSize } from "utils/formatters";
-
-// const FILE_TYPE_ICON = {}
 
 interface IFileCardProps {
   file: IUserFile;
-  onDownload: (url: string) => void;
+  onDownload: (url: string, name: string) => void;
   onDelete: (fileId: number, url: string) => void;
 }
 
@@ -30,10 +29,15 @@ export default function FileCard({
   onDownload,
   onDelete,
 }: IFileCardProps) {
+  // const labelStyle
   return (
     <Paper
       elevation={0}
-      sx={{ borderRadius: "16px", display: "flex", ":hover": itemHoverStyle }}
+      sx={{
+        borderRadius: "16px",
+        display: "flex",
+        ":hover": itemHoverStyle,
+      }}
     >
       <div
         style={{
@@ -41,18 +45,24 @@ export default function FileCard({
           width: "100%",
           alignItems: "center",
           justifyContent: "space-between",
+          background:
+            file.uploadStatus == EnumUploadStatus.UPLOADING
+              ? "rgba(0,0,255,0.2)"
+              : "unset",
         }}
       >
-        <div style={{ width: "20%" }} onClick={() => onDownload(file.url)}>
+        <div
+          style={{ width: "20%" }}
+          onClick={() => onDownload(file.url, file.name)}
+        >
           <Image
-            // src={"/icons/fileTypes/excel.svg"}
             src={`/icons/fileTypes/${file.icon}`}
             alt={file.name}
             width={48}
             height={48}
           />
         </div>
-        <div onClick={() => onDownload(file.url)}>
+        <div onClick={() => onDownload(file.url, file.name)}>
           <div
             style={{
               width: "170px",
@@ -121,74 +131,10 @@ const FileCardAddBtn = ({ onChange, onClick }: IFileAddProps) => {
         style={{ display: "none" }}
         id="user-file-add"
         name="user-file-add"
+        // multiple
       />
     </Paper>
   );
 };
 
 export { FileCardAddBtn };
-
-// check if window obj is null, not null means client, do stuff here,
-/*
-import React from "react";
-import { Stack, Container } from "@mui/material";
-import { TitleText } from "components/ui-components/text";
-import Input from "@mui/material/Input";
-import { useEffect } from "react";
-import { useTranslation } from "react-i18next";
-import { useUserFiles } from "requests/useUserFiles";
-import { useStore } from "hooks/useStore";
-import { styled } from "@mui/material/styles";
-import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
-
-export default function FileManagement() {
-  const { t } = useTranslation();
-  const { getFiles, deleteFiles, downloadFile, uploadFile } = useUserFiles();
-  const { userFiles } = useStore();
-
-  const upload = (evt: React.ChangeEvent<HTMLInputElement>) => {
-    uploadFile(evt.target.files as FileList); // name, size, type
-  };
-
-  useEffect(() => {
-    getFiles();
-  }, []);
-
-  console.log("userFile: ", userFiles);
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        flexWrap: "wrap",
-        "& > :not(style)": {
-          m: 1,
-          width: 128,
-          height: 128,
-        },
-      }}
-    >
-      <Paper elevation={0}>hehe</Paper>
-      <Paper />
-      <Paper elevation={3} />
-    </Box>
-  );
-}
-
-// check if window obj is null, not null means client, do stuff here,
-/*
-  <Stack>
-      <TitleText>File Management</TitleText>
-      <Input type="file" onChange={upload} />
-    </Stack>
-
-*/
