@@ -21,7 +21,7 @@ interface IFileCardProps {
 // in other word, only when file.uploadStatus == DONE, can it be clicked
 // for AddBtn, only when no file is being uploadd, can it be clicked.
 const itemHoverStyle = (disabled: boolean): CSSProperties => {
-  console.log("hover css: ", disabled);
+  // console.log("hover css: ", disabled);
   return {
     cursor: disabled ? "not-allowed" : "pointer",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
@@ -35,6 +35,21 @@ export default function FileCard({
   onDownload,
   onDelete,
 }: IFileCardProps) {
+  const downloadHandler = (file: IUserFile) => {
+    if (file.uploadStatus != EnumUploadStatus.DONE) {
+      return;
+    }
+    // call onDownload
+  };
+
+  const deleteHandler = (file: IUserFile) => {
+    if (file.uploadStatus != EnumUploadStatus.DONE) {
+      return;
+    }
+    // call onDelete
+  };
+
+  // implement upload progress
   return (
     <Paper
       elevation={0}
@@ -107,6 +122,7 @@ interface IFileAddProps {
 }
 
 const FileCardAddBtn = ({ onChange, onClick, disabled }: IFileAddProps) => {
+  console.log("add butn disabled: ", disabled);
   return (
     <Paper
       elevation={0}
@@ -123,7 +139,7 @@ const FileCardAddBtn = ({ onChange, onClick, disabled }: IFileAddProps) => {
           display: "flex",
           justifyContent: "center",
           alignItems: "center",
-          cursor: "pointer",
+          cursor: disabled ? "not-allowed" : "pointer",
         }}
       >
         <Image

@@ -80,14 +80,14 @@ export default function FileManagement() {
         try {
           await uploadFile(toBeUploadedFile.current as File, progressHandler);
           setUploading(false);
+          toBeUploadedFile.current = null;
         } catch (err) {
           // todo: set uploadStatus to FAILED with retry button.
           console.log("err", err);
+          setUploading(false);
         }
       };
       runUpload();
-    } else {
-      toBeUploadedFile.current = null;
     }
   }, [uploading]);
 
