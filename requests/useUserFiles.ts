@@ -68,7 +68,7 @@ export const useUserFiles = () => {
     });
   };
 
-  const uploadFile = async (file: File) => {
+  const uploadFile = async (file: File, newUserFiles: IUserFile[]) => {
     let f = file; // upload one file first, then implement multiple
     let formData = new FormData();
     formData.append("file", f);
@@ -77,18 +77,21 @@ export const useUserFiles = () => {
     try {
       const { data } = await request.post("/files/upload", formData);
       console.log("upload res in useUesrFile: ", data);
-      let idx = userFiles.findIndex(
+
+      let idx = newUserFiles.findIndex(
         //  EnumUploadStatus.UPLOADING
         (f) => f.uploadStatus == 1
       );
-      console.log("idx: ", idx, "///", userFiles);
+      console.log("idx: ", idx, "///", newUserFiles);
       if (idx != -1) {
         let f: IUserFile = data; // userFiles[idx];
         f.icon = FILE_TYPE_ICON[f.type as FILE_MIME] || "other.svg";
         f.uploadStatus = EnumUploadStatus.DONE;
-        let newUserFiles = update(userFiles, { [idx]: { $set: f } });
-        setUserFiles(newUserFiles);
+        f.createdAt = new Date(data.createdAt);
+        let newUserFiles2 = update(newUserFiles, { [idx]: { $set: f } });
+        setUserFiles(newUserFiles2);
       }
+
       // return data;
     } catch (err: any) {
       console.log("uploading err: ", err);

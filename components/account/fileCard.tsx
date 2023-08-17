@@ -76,7 +76,7 @@ export default function FileCard({
           </div>
           <div style={{ fontSize: "11px", color: "#9CA3AF" }}>
             <span>{FormatFileSize(file.size)}</span>&nbsp;·&nbsp;
-            <span>{file.createdAt.toLocaleDateString()}</span>{" "}
+            <span>{file.createdAt.toLocaleDateString()}</span>
           </div>
         </div>
         <div

@@ -46,17 +46,23 @@ export default function FileManagement() {
       url: "",
       size: f.size,
       type: f.type,
-      createdAt: new Date(f.lastModified),
+      createdAt: new Date(),
       uploadStatus: EnumUploadStatus.UPLOADING,
       icon: FILE_TYPE_ICON[f.type as FILE_MIME] || "other.svg",
     }));
 
     let newUserFiles = update(userFiles, { $unshift: toBeUploaded });
+    console.log(
+      "before/after appending new file ",
+      userFiles,
+      "///",
+      newUserFiles
+    );
     setUserFiles(newUserFiles);
     setUploading(true);
     try {
-      const uploadRes = await uploadFile(fileList[0]); // name, size, type
-      console.log("upload res: ", uploadRes);
+      const uploadRes = await uploadFile(fileList[0], newUserFiles); // name, size, type
+      console.log("upload res in fileMgr: ", uploadRes);
     } catch (err) {
       console.log("err", err);
     }
