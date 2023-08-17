@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { request } from "config/axios";
-import axios from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 import { usePersistentStore, useStore } from "hooks/useStore";
 import { appStatus } from "hooks/appStatus";
 import { IUserFile, EnumUploadStatus } from "models/userFile";
@@ -44,58 +44,55 @@ export const useUserFiles = () => {
     }
   };
 
-  // const downloadFile = async (fileId: string) => {};
   const downloadFile = async (url: string, name: string) => {
     console.log("downloading..., ", url);
     axios({
       url,
       method: "GET",
-      responseType: "blob", // important
+      responseType: "blob",
     }).then((response) => {
-      // create file link in browser's memory
       const href = URL.createObjectURL(response.data);
-
-      // create "a" HTML element with href to file & click
       const link = document.createElement("a");
       link.href = href;
-      link.setAttribute("download", name); //or any other extension
+      link.setAttribute("download", name);
       document.body.appendChild(link);
       link.click();
-
-      // clean up "a" element & remove ObjectURL
       document.body.removeChild(link);
       URL.revokeObjectURL(href);
     });
   };
 
-  const uploadFile = async (file: File, newUserFiles: IUserFile[]) => {
-    let f = file; // upload one file first, then implement multiple
+  const uploadFile = async (
+    file: File,
+    progressHandler: (evt: AxiosProgressEvent) => void
+  ) => {
     let formData = new FormData();
-    formData.append("file", f);
-    console.log("uploading..... in useUseFile store: ", f);
+    formData.append("file", file);
+    console.log("uploading..... in useUseFile store: ", file);
 
     try {
-      const { data } = await request.post("/files/upload", formData);
+      const { data } = await request.post("/files/upload", formData, {
+        onUploadProgress: (progressEvent: AxiosProgressEvent) => {
+          progressHandler(progressEvent);
+        },
+      });
       console.log("upload res in useUesrFile: ", data);
 
-      let idx = newUserFiles.findIndex(
-        //  EnumUploadStatus.UPLOADING
-        (f) => f.uploadStatus == 1
+      let idx = userFiles.findIndex(
+        (f) => f.uploadStatus == EnumUploadStatus.UPLOADING
       );
-      console.log("idx: ", idx, "///", newUserFiles);
+      console.log("idx: ", idx, "///", userFiles);
       if (idx != -1) {
         let f: IUserFile = data; // userFiles[idx];
         f.icon = FILE_TYPE_ICON[f.type as FILE_MIME] || "other.svg";
         f.uploadStatus = EnumUploadStatus.DONE;
         f.createdAt = new Date(data.createdAt);
-        let newUserFiles2 = update(newUserFiles, { [idx]: { $set: f } });
-        setUserFiles(newUserFiles2);
+        let newUserFiles = update(userFiles, { [idx]: { $set: f } });
+        setUserFiles(newUserFiles);
       }
-
-      // return data;
     } catch (err: any) {
       console.log("uploading err: ", err);
-      // return err;
+      //todo: set uploadStatus = FAILED
     }
   };
 

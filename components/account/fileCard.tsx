@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { CSSProperties, useState } from "react";
 import { Stack } from "@mui/material";
 import { TitleText } from "components/ui-components/text";
 import Image from "next/image";
@@ -17,11 +17,17 @@ interface IFileCardProps {
   onDelete: (fileId: number, url: string) => void;
 }
 
-const itemHoverStyle: React.CSSProperties = {
-  cursor: "pointer",
-  transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
-  boxShadow:
-    "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+// when file is being uploaded(or in pending mode, or failed upload), it's disabled
+// in other word, only when file.uploadStatus == DONE, can it be clicked
+// for AddBtn, only when no file is being uploadd, can it be clicked.
+const itemHoverStyle = (disabled: boolean): CSSProperties => {
+  console.log("hover css: ", disabled);
+  return {
+    cursor: disabled ? "not-allowed" : "pointer",
+    transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
+    boxShadow:
+      "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
+  };
 };
 
 export default function FileCard({
@@ -29,14 +35,13 @@ export default function FileCard({
   onDownload,
   onDelete,
 }: IFileCardProps) {
-  // const labelStyle
   return (
     <Paper
       elevation={0}
       sx={{
         borderRadius: "16px",
         display: "flex",
-        ":hover": itemHoverStyle,
+        ":hover": itemHoverStyle(file.uploadStatus != EnumUploadStatus.DONE),
       }}
     >
       <div
@@ -98,13 +103,18 @@ export default function FileCard({
 interface IFileAddProps {
   onChange: (evt: React.ChangeEvent<HTMLInputElement>) => void;
   onClick: (evt: React.MouseEvent<HTMLInputElement>) => void;
+  disabled: boolean;
 }
 
-const FileCardAddBtn = ({ onChange, onClick }: IFileAddProps) => {
+const FileCardAddBtn = ({ onChange, onClick, disabled }: IFileAddProps) => {
   return (
     <Paper
       elevation={0}
-      sx={{ borderRadius: "16px", display: "flex", ":hover": itemHoverStyle }}
+      sx={{
+        borderRadius: "16px",
+        display: "flex",
+        ":hover": itemHoverStyle(disabled),
+      }}
     >
       <label
         htmlFor="user-file-add"
@@ -128,6 +138,7 @@ const FileCardAddBtn = ({ onChange, onClick }: IFileAddProps) => {
         type="file"
         onChange={onChange}
         onClick={onClick}
+        disabled={disabled}
         style={{ display: "none" }}
         id="user-file-add"
         name="user-file-add"

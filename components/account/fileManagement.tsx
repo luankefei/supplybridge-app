@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { Stack, Container } from "@mui/material";
 import { TitleText } from "components/ui-components/text";
 import Input from "@mui/material/Input";
@@ -14,6 +14,7 @@ import FileCard, { FileCardAddBtn } from "./fileCard";
 import { IUserFile, EnumUploadStatus } from "models/userFile";
 import { FILE_TYPE_ICON, FILE_MIME } from "./constant";
 import update from "immutability-helper";
+import { AxiosProgressEvent } from "axios";
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -31,41 +32,38 @@ export default function FileManagement() {
   const { getFiles, deleteFiles, downloadFile, uploadFile } = useUserFiles();
   const { userFiles, setUserFiles } = useStore();
   const [uploading, setUploading] = useState(false);
+  const [progress, setProgress] = useState(0);
+  let toBeUploadedFile = useRef<File | null>(null); // this refers to the selected File to be uploaded, after upload, reset it to null
+
+  const progressHandler = (p: AxiosProgressEvent) => {
+    console.log("progressing: ", p);
+    setProgress(p.progress || 0);
+  };
 
   const onUpload = async (evt: React.ChangeEvent<HTMLInputElement>) => {
     const fileList = evt.target.files;
     if (fileList == null) {
       return;
     }
+    toBeUploadedFile.current = fileList[0];
     console.log("uploading............: ", fileList);
-    let files: File[] = Array.from(fileList);
-    let toBeUploaded: IUserFile[] = files.map((f) => ({
-      id: randomNegInt(),
+    let newFile: IUserFile = {
+      id: randomNegInt(), // each file need a uniqueId, this will be repalced with new id returned from backend
       userId: -1, // to be replaced with current userId
-      name: f.name,
+      name: toBeUploadedFile.current.name,
       url: "",
-      size: f.size,
-      type: f.type,
+      size: toBeUploadedFile.current.size,
+      type: toBeUploadedFile.current.type,
       createdAt: new Date(),
       uploadStatus: EnumUploadStatus.UPLOADING,
-      icon: FILE_TYPE_ICON[f.type as FILE_MIME] || "other.svg",
-    }));
+      icon:
+        FILE_TYPE_ICON[toBeUploadedFile.current.type as FILE_MIME] ||
+        "other.svg",
+    };
 
-    let newUserFiles = update(userFiles, { $unshift: toBeUploaded });
-    console.log(
-      "before/after appending new file ",
-      userFiles,
-      "///",
-      newUserFiles
-    );
+    let newUserFiles = update(userFiles, { $unshift: [newFile] });
     setUserFiles(newUserFiles);
     setUploading(true);
-    try {
-      const uploadRes = await uploadFile(fileList[0], newUserFiles); // name, size, type
-      console.log("upload res in fileMgr: ", uploadRes);
-    } catch (err) {
-      console.log("err", err);
-    }
   };
 
   const onUploadClick = (evt: React.MouseEvent<HTMLInputElement>) => {
@@ -76,24 +74,23 @@ export default function FileManagement() {
     getFiles(); // todo: add loading status with loading icon
   }, []);
 
-  /*
   useEffect(() => {
     if (uploading) {
       const runUpload = async () => {
-        let toBeUpload = userFiles.find(
-          (f) => f.uploadStatus == EnumUploadStatus.PENDING
-        );
-        if (toBeUpload == null) {
-          return;
+        try {
+          await uploadFile(toBeUploadedFile.current as File, progressHandler);
+          setUploading(false);
+        } catch (err) {
+          // todo: set uploadStatus to FAILED with retry button.
+          console.log("err", err);
         }
-        console.log("uploading.... ", toBeUpload);
       };
       runUpload();
+    } else {
+      toBeUploadedFile.current = null;
     }
   }, [uploading]);
-  */
 
-  console.log("userFile: ", userFiles);
   return (
     <Container>
       <Box
@@ -107,7 +104,11 @@ export default function FileManagement() {
           },
         }}
       >
-        <FileCardAddBtn onChange={onUpload} onClick={onUploadClick} />
+        <FileCardAddBtn
+          onChange={onUpload}
+          onClick={onUploadClick}
+          disabled={uploading}
+        />
         {userFiles.map((f) => (
           <FileCard
             key={f.id}
@@ -120,12 +121,3 @@ export default function FileManagement() {
     </Container>
   );
 }
-
-// check if window obj is null, not null means client, do stuff here,
-/*
-  <Stack>
-      <TitleText>File Management</TitleText>
-      <Input type="file" onChange={upload} />
-    </Stack>
-
-*/
