@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Stack, Container } from "@mui/material";
 import { TitleText } from "components/ui-components/text";
 import Input from "@mui/material/Input";
@@ -24,12 +24,14 @@ export default function FileManagement() {
   const { t } = useTranslation();
   const { getFiles, deleteFiles, downloadFile, uploadFile } = useUserFiles();
   const { userFiles } = useStore();
+  const [uploading, setUploading] = useState(false);
 
   const onUpload = (evt: React.ChangeEvent<HTMLInputElement>) => {
     console.log("uploading............: ", evt.target.files);
     let files = evt.target.files;
     // evt.target.value = "";
-    uploadFile(files as FileList); // name, size, type
+
+    uploadFile(files![0]); // name, size, type
   };
 
   const onUploadClick = (evt: React.MouseEvent<HTMLInputElement>) => {
@@ -37,7 +39,7 @@ export default function FileManagement() {
   };
 
   useEffect(() => {
-    getFiles();
+    getFiles(); // todo: add loading status with loading icon
   }, []);
 
   console.log("userFile: ", userFiles);

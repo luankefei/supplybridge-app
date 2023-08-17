@@ -45,8 +45,9 @@ export default function FileCard({
       >
         <div style={{ width: "20%" }} onClick={() => onDownload(file.url)}>
           <Image
-            src={"/icons/fileTypes/excel.svg"}
-            alt="excel"
+            // src={"/icons/fileTypes/excel.svg"}
+            src={`/icons/fileTypes/${file.icon}`}
+            alt={file.name}
             width={48}
             height={48}
           />
@@ -58,6 +59,7 @@ export default function FileCard({
               whiteSpace: "nowrap",
               overflow: "hidden",
               textOverflow: "ellipsis",
+              marginBottom: "6px",
             }}
           >
             {file.name}

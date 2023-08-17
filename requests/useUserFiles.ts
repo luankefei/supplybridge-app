@@ -18,93 +18,33 @@ import { IUserFile, EnumUploadStatus } from "models/userFile";
 }
 */
 
+const FILE_TYPE_ICON = {
+  "image/png": "img.svg",
+  "image/jpeg": "img.svg",
+  "image/gif": "img.svg",
+  "application/vnd.openxmlformats-officedocument.wordprocessingml.document":
+    "word.svg",
+  "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet":
+    "excel.svg",
+  "application/zip": "zip.svg",
+  "application/pdf": "pdf.svg",
+};
+type FILE_MIME = keyof typeof FILE_TYPE_ICON;
+
 export const useUserFiles = () => {
   const { setUserFiles } = useStore();
 
   const getFiles = async () => {
     try {
       const { data } = await request.get("/files");
-      let fileList: IUserFile[] = [
-        {
-          id: 1,
-          userId: 1,
-          name: "aa",
-          url: "http://",
-          size: 100,
-          type: "img/gif",
-          createdAt: new Date("2023-08-16T10:00:30.530Z"),
-          updatedAt: new Date("2023-08-16T10:00:30.530Z"),
-          uploadStatus: EnumUploadStatus.DONE,
-        },
-        {
-          id: 2,
-          userId: 1,
-          name: "bb",
-          url: "http://",
-          size: 1000,
-          type: "img/gif",
-          createdAt: new Date("2023-08-16T10:00:30.530Z"),
-          updatedAt: new Date("2023-08-16T10:00:30.530Z"),
-          uploadStatus: EnumUploadStatus.DONE,
-        },
-        {
-          id: 3,
-          userId: 1,
-          name: "cc",
-          url: "http://",
-          size: 234500,
-          type: "img/gif",
-          createdAt: new Date("2023-08-16T10:00:30.530Z"),
-          updatedAt: new Date("2023-08-16T10:00:30.530Z"),
-          uploadStatus: EnumUploadStatus.DONE,
-        },
-        {
-          id: 4,
-          userId: 1,
-          name: "dd",
-          url: "http://",
-          size: 378923600,
-          type: "img/gif",
-          createdAt: new Date("2023-08-16T10:00:30.530Z"),
-          updatedAt: new Date("2023-08-16T10:00:30.530Z"),
-          uploadStatus: EnumUploadStatus.DONE,
-        },
-        {
-          id: 5,
-          userId: 1,
-          name: "ee",
-          url: "http://",
-          size: 452830622,
-          type: "img/gif",
-          createdAt: new Date("2023-08-16T10:00:30.530Z"),
-          updatedAt: new Date("2023-08-16T10:00:30.530Z"),
-          uploadStatus: EnumUploadStatus.DONE,
-        },
-        {
-          id: 6,
-          userId: 1,
-          name: "ff",
-          url: "http://",
-          size: 27130034,
-          type: "img/gif",
-          createdAt: new Date("2023-08-16T10:00:30.530Z"),
-          updatedAt: new Date("2023-08-16T10:00:30.530Z"),
-          uploadStatus: EnumUploadStatus.DONE,
-        },
-        {
-          id: 7,
-          userId: 1,
-          name: "Recommender Systems - A Multi-disciplinary approach (2023).pdf",
-          url: "http://",
-          size: 752350622,
-          type: "img/gif",
-          createdAt: new Date("2023-08-16T10:00:30.530Z"),
-          updatedAt: new Date("2023-08-16T10:00:30.530Z"),
-          uploadStatus: EnumUploadStatus.DONE,
-        },
-      ];
       console.log("get files: ", data);
-
+      let fileList: IUserFile[] = data.map((f: any) => ({
+        ...f,
+        uploadStatus: EnumUploadStatus.DONE,
+        createdAt: new Date(f.createdAt),
+        updatedAt: new Date(f.updatedAt),
+        icon: FILE_TYPE_ICON[f.type as FILE_MIME] || "other.svg",
+      }));
       setUserFiles(fileList);
     } catch (err: any) {
       console.log("getting file error: ", err);
@@ -120,19 +60,18 @@ export const useUserFiles = () => {
     console.log("downloading..., ", url);
   };
 
-  const uploadFile = async (files: FileList) => {
-    let f = files[0]; // upload one file first, then implement multiple
+  const uploadFile = async (file: File) => {
+    let f = file; // upload one file first, then implement multiple
     let formData = new FormData();
     formData.append("file", f);
     console.log("uploading..... in useUseFile store: ", f);
-    /*
+
     try {
       const { data } = await request.post("/files/upload", formData);
       console.log("upload res: ", data);
     } catch (err: any) {
       console.log("uploading err: ", err);
     }
-    */
   };
 
   return {

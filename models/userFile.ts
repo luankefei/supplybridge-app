@@ -6,6 +6,7 @@
 
 export enum EnumUploadStatus { // this is for client only
   DONE,
+  UPLOADING,
   PENDING,
   FAILED,
 }
@@ -19,5 +20,6 @@ export interface IUserFile {
   type: string;
   createdAt: Date;
   updatedAt: Date;
-  uploadStatus: EnumUploadStatus;
+  uploadStatus: EnumUploadStatus; // client use only
+  icon: string; // client use only
 }
