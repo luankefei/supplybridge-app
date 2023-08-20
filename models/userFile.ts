@@ -15,7 +15,6 @@ export interface IUserFile {
   id: number;
   userId: number;
   name: string;
-  url: string;
   size: number;
   type: string;
   createdAt: Date;

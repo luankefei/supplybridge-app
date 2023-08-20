@@ -13,15 +13,14 @@ import { FormatFileSize } from "utils/formatters";
 
 interface IFileCardProps {
   file: IUserFile;
-  onDownload: (url: string, name: string) => void;
-  onDelete: (fileId: number, url: string) => void;
+  onDownload: (file: IUserFile) => void;
+  onDelete: (fileId: IUserFile) => void;
 }
 
 // when file is being uploaded(or in pending mode, or failed upload), it's disabled
 // in other word, only when file.uploadStatus == DONE, can it be clicked
 // for AddBtn, only when no file is being uploadd, can it be clicked.
 const itemHoverStyle = (disabled: boolean): CSSProperties => {
-  // console.log("hover css: ", disabled);
   return {
     cursor: disabled ? "not-allowed" : "pointer",
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
@@ -39,14 +38,14 @@ export default function FileCard({
     if (file.uploadStatus != EnumUploadStatus.DONE) {
       return;
     }
-    // call onDownload
+    onDownload(file);
   };
 
   const deleteHandler = (file: IUserFile) => {
     if (file.uploadStatus != EnumUploadStatus.DONE) {
       return;
     }
-    // call onDelete
+    onDelete(file);
   };
 
   // implement upload progress
@@ -71,10 +70,7 @@ export default function FileCard({
               : "unset",
         }}
       >
-        <div
-          style={{ width: "20%" }}
-          onClick={() => onDownload(file.url, file.name)}
-        >
+        <div style={{ width: "20%" }} onClick={() => downloadHandler(file)}>
           <Image
             src={`/icons/fileTypes/${file.icon}`}
             alt={file.name}
@@ -82,7 +78,7 @@ export default function FileCard({
             height={48}
           />
         </div>
-        <div onClick={() => onDownload(file.url, file.name)}>
+        <div onClick={() => downloadHandler(file)}>
           <div
             style={{
               width: "170px",
@@ -99,10 +95,7 @@ export default function FileCard({
             <span>{file.createdAt.toLocaleDateString()}</span>
           </div>
         </div>
-        <div
-          style={{ width: "10%" }}
-          onClick={() => onDelete(file.id, file.url)}
-        >
+        <div style={{ width: "10%" }} onClick={() => deleteHandler(file)}>
           <Image
             src={"/icons/delete.svg"}
             alt="delete user file"

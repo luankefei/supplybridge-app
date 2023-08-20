@@ -27,13 +27,13 @@ export const useUserFiles = () => {
     }
   };
 
-  const deleteFiles = async (fileId: number, url: string) => {
-    console.log("deleting..., ", fileId, "///", url);
+  const deleteFiles = async (file: IUserFile) => {
+    console.log("deleting..., ", file);
 
     try {
-      const delRes = await request.delete("/files/" + fileId);
+      const delRes = await request.delete("/files/" + file.id);
       console.log("delete res: ", delRes);
-      let idx = userFiles.findIndex((f) => f.id == fileId);
+      let idx = userFiles.findIndex((f) => f.id == file.id);
       if (idx != -1) {
         let newUserFiles = update(userFiles, { $splice: [[idx, 1]] });
         setUserFiles(newUserFiles);
@@ -44,17 +44,14 @@ export const useUserFiles = () => {
     }
   };
 
-  const downloadFile = async (url: string, name: string) => {
-    console.log("downloading..., ", url);
-    axios({
-      url,
-      method: "GET",
-      responseType: "blob",
-    }).then((response) => {
+  const downloadFile = async (file: IUserFile) => {
+    console.log("downloading /files/download/" + file.id, file);
+    await request.get("/files/download/" + file.id).then((response) => {
+      console.log("download res: ", response);
       const href = URL.createObjectURL(response.data);
       const link = document.createElement("a");
       link.href = href;
-      link.setAttribute("download", name);
+      link.setAttribute("download", file.name);
       document.body.appendChild(link);
       link.click();
       document.body.removeChild(link);

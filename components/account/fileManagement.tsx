@@ -15,6 +15,24 @@ import { IUserFile, EnumUploadStatus } from "models/userFile";
 import { FILE_TYPE_ICON, FILE_MIME } from "./constant";
 import update from "immutability-helper";
 import { AxiosProgressEvent } from "axios";
+import { keyframes } from "@mui/system";
+
+const rotate = keyframes`
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+`;
+
+const RotatedBox = styled("div")({
+  backgroundColor: "pink",
+  width: 30,
+  height: 30,
+  animation: `${rotate} 1s infinite ease`,
+});
 
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
@@ -51,7 +69,6 @@ export default function FileManagement() {
       id: randomNegInt(), // each file need a uniqueId, this will be repalced with new id returned from backend
       userId: -1, // to be replaced with current userId
       name: toBeUploadedFile.current.name,
-      url: "",
       size: toBeUploadedFile.current.size,
       type: toBeUploadedFile.current.type,
       createdAt: new Date(),
@@ -93,6 +110,7 @@ export default function FileManagement() {
 
   return (
     <Container>
+      <RotatedBox />
       <Box
         sx={{
           display: "flex",
