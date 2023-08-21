@@ -15,32 +15,7 @@ import { IUserFile, EnumUploadStatus } from "models/userFile";
 import { FILE_TYPE_ICON, FILE_MIME } from "./constant";
 import update from "immutability-helper";
 import { AxiosProgressEvent } from "axios";
-import { keyframes } from "@mui/system";
-
-const rotate = keyframes`
-  from {
-    transform: rotate(0deg);
-  }
-
-  to {
-    transform: rotate(360deg);
-  }
-`;
-
-const RotatedBox = styled("div")({
-  backgroundColor: "pink",
-  width: 30,
-  height: 30,
-  animation: `${rotate} 1s infinite ease`,
-});
-
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+// import { keyframes } from "@mui/system";
 
 // used for to-be-uploaded fileId, using negative is to avoid collision with positive existing fileId
 const randomNegInt = () => Math.floor(Math.random() * 9999999 + 1) * -1;
@@ -55,6 +30,11 @@ export default function FileManagement() {
 
   const progressHandler = (p: AxiosProgressEvent) => {
     console.log("progressing: ", p);
+    if (p.progress && p.progress >= 0.8) {
+      // file need to be uploaded to backend server, then upload to AzureStorage, but I can only get the progress for the first upload
+      // so I leave 0.2 for Azure upload, when the Azure upload completes, front-end received 200, then the progressBar will disappear.
+      return;
+    }
     setProgress(p.progress || 0);
   };
 
@@ -97,6 +77,7 @@ export default function FileManagement() {
         try {
           await uploadFile(toBeUploadedFile.current as File, progressHandler);
           setUploading(false);
+          setProgress(0);
           toBeUploadedFile.current = null;
         } catch (err) {
           // todo: set uploadStatus to FAILED with retry button.
@@ -108,9 +89,18 @@ export default function FileManagement() {
     }
   }, [uploading]);
 
+  /* useEffect(() => {
+    setInterval(() => {
+      if (progress == 1) {
+        return;
+      }
+      setProgress(progress + 0.1);
+    }, 1000);
+  }, []);
+  */
+
   return (
     <Container>
-      <RotatedBox />
       <Box
         sx={{
           display: "flex",
@@ -133,6 +123,7 @@ export default function FileManagement() {
             file={f}
             onDownload={downloadFile}
             onDelete={deleteFiles}
+            progress={progress}
           />
         ))}
       </Box>

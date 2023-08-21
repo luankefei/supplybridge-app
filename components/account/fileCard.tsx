@@ -13,6 +13,7 @@ import { FormatFileSize } from "utils/formatters";
 
 interface IFileCardProps {
   file: IUserFile;
+  progress: number;
   onDownload: (file: IUserFile) => void;
   onDelete: (fileId: IUserFile) => void;
 }
@@ -31,6 +32,7 @@ const itemHoverStyle = (disabled: boolean): CSSProperties => {
 
 export default function FileCard({
   file,
+  progress,
   onDownload,
   onDelete,
 }: IFileCardProps) {
@@ -48,26 +50,29 @@ export default function FileCard({
     onDelete(file);
   };
 
-  // implement upload progress
   return (
     <Paper
       elevation={0}
       sx={{
         borderRadius: "16px",
         display: "flex",
+        position: "relative",
         ":hover": itemHoverStyle(file.uploadStatus != EnumUploadStatus.DONE),
       }}
     >
+      {file.uploadStatus == EnumUploadStatus.UPLOADING && (
+        <AniOverlay progress={progress} />
+      )}
       <div
         style={{
           display: "flex",
           width: "100%",
           alignItems: "center",
           justifyContent: "space-between",
-          background:
-            file.uploadStatus == EnumUploadStatus.UPLOADING
-              ? "rgba(0,0,255,0.2)"
-              : "unset",
+          // background:
+          // file.uploadStatus == EnumUploadStatus.UPLOADING
+          //</Paper> ? "rgba(0,0,255,0.2)"
+          // : "unset",
         }}
       >
         <div style={{ width: "20%" }} onClick={() => downloadHandler(file)}>
@@ -154,6 +159,20 @@ const FileCardAddBtn = ({ onChange, onClick, disabled }: IFileAddProps) => {
         // multiple
       />
     </Paper>
+  );
+};
+
+const AniOverlay = ({ progress }: { progress: number }) => {
+  return (
+    <div
+      style={{
+        position: "absolute",
+        width: progress * 100 + "%",
+        height: "100%",
+        background: "rgb(8, 151, 156, 0.4)",
+        borderRadius: "16px",
+      }}
+    ></div>
   );
 };
 

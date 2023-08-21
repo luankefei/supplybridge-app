@@ -1,8 +1,8 @@
 import { toast } from "react-toastify";
 import { request } from "config/axios";
-import axios, { AxiosProgressEvent } from "axios";
+import { AxiosProgressEvent } from "axios";
 import { usePersistentStore, useStore } from "hooks/useStore";
-import { appStatus } from "hooks/appStatus";
+// import { appStatus } from "hooks/appStatus";
 import { IUserFile, EnumUploadStatus } from "models/userFile";
 import { FILE_TYPE_ICON, FILE_MIME } from "components/account/constant";
 import update from "immutability-helper";
@@ -17,6 +17,7 @@ export const useUserFiles = () => {
       let fileList: IUserFile[] = data.map((f: any) => ({
         ...f,
         uploadStatus: EnumUploadStatus.DONE,
+        // uploadStatus: EnumUploadStatus.UPLOADING,
         createdAt: new Date(f.createdAt),
         updatedAt: new Date(f.updatedAt),
         icon: FILE_TYPE_ICON[f.type as FILE_MIME] || "other.svg",
@@ -65,7 +66,6 @@ export const useUserFiles = () => {
   ) => {
     let formData = new FormData();
     formData.append("file", file);
-    console.log("uploading..... in useUseFile store: ", file);
 
     try {
       const { data } = await request.post("/files/upload", formData, {
@@ -73,7 +73,6 @@ export const useUserFiles = () => {
           progressHandler(progressEvent);
         },
       });
-      console.log("upload res in useUesrFile: ", data);
 
       let idx = userFiles.findIndex(
         (f) => f.uploadStatus == EnumUploadStatus.UPLOADING
