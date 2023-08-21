@@ -1,7 +1,7 @@
 import React, { useState, useRef } from "react";
+import { toast } from "react-toastify";
 import { Stack, Container } from "@mui/material";
 import { TitleText } from "components/ui-components/text";
-import Input from "@mui/material/Input";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useUserFiles } from "requests/useUserFiles";
@@ -43,7 +43,19 @@ export default function FileManagement() {
     if (fileList == null) {
       return;
     }
+
+    if (userFiles.length >= 20) {
+      // todo: backend also need to check this.
+      toast.error("You can have at most 20 files");
+      return;
+    }
+
     toBeUploadedFile.current = fileList[0];
+    if (toBeUploadedFile.current.size > 1024 * 1024 * 20) {
+      // todo: backend also need to check this.
+      toast.error("Max file size: 20MB");
+      return;
+    }
     console.log("uploading............: ", fileList);
     let newFile: IUserFile = {
       id: randomNegInt(), // each file need a uniqueId, this will be repalced with new id returned from backend
