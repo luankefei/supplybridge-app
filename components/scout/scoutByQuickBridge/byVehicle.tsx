@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 const nameKeyMap: any = {
   "Commercial Vehicles": "scout.quickbridge.commercialVehicle",
   "Passenger Vehicles": "scout.quickbridge.passengerVehicle",
+  "Motorcycle": "scout.quickbridge.motorcycle",
 };
 
 export default function ByVehicle() {
