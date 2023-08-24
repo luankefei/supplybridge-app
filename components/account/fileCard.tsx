@@ -1,12 +1,6 @@
 import React, { CSSProperties, useState } from "react";
-import { Stack } from "@mui/material";
-import { TitleText } from "components/ui-components/text";
 import Image from "next/image";
-import Input from "@mui/material/Input";
-import { useEffect } from "react";
 import Paper from "@mui/material/Paper";
-import { useTranslation } from "react-i18next";
-import { useUserFiles } from "requests/useUserFiles";
 import { IUserFile } from "models/userFile";
 import { EnumUploadStatus } from "models/userFile";
 import { FormatFileSize } from "utils/formatters";
