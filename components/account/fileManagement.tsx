@@ -16,12 +16,13 @@ import { AxiosProgressEvent } from "axios";
 const randomNegInt = () => Math.floor(Math.random() * 9999999 + 1) * -1;
 
 export default function FileManagement() {
-  const { t } = useTranslation();
-  const { getFiles, deleteFiles, downloadFile, uploadFile } = useUserFiles();
+  const { t } = useTranslation("myAccount");
+  const { getFiles, deleteFile, downloadFile, uploadFile } = useUserFiles();
   const { userFiles, setUserFiles } = useStore();
 
   const [newFile, setNewFile] = useState<IUserFile | null>(null);
   const [uploading, setUploading] = useState(false);
+  const [deletingFile, setDeletingFile] = useState(false);
   const [progress, setProgress] = useState(0);
   let toBeUploadedFile = useRef<File | null>(null);
 
@@ -35,15 +36,12 @@ export default function FileManagement() {
     if (fileList == null) {
       return;
     }
-
     if (userFiles.length >= 20) {
-      // todo: backend also need to check this.
       toast.error("You can have at most 20 files");
       return;
     }
     toBeUploadedFile.current = fileList[0];
     if (toBeUploadedFile.current.size > 1024 * 1024 * 40) {
-      // todo: backend also need to check this.
       toast.error("Max file size: 20MB");
       return;
     }
@@ -63,6 +61,16 @@ export default function FileManagement() {
     setNewFile(newFile);
     upload();
   };
+  const onDelete = async (file: IUserFile) => {
+    setDeletingFile(true);
+    const resp = await deleteFile(file);
+    setDeletingFile(false);
+    if (resp.error) {
+      toast.error(resp.error || t("deleteFailed"));
+    } else {
+      toast.success(t("deleteSuccess"));
+    }
+  };
 
   const upload = async () => {
     try {
@@ -72,9 +80,9 @@ export default function FileManagement() {
         progressHandler
       );
       if (!resp.data) {
-        toast.error(resp.error || "Upload failed");
+        toast.error(resp.error || t("uploadFailed"));
       } else {
-        toast.success("Upload success");
+        toast.success(t("uploadSuccess"));
         let thatNewFile: any = {
           id: resp.data.id,
           userId: resp.data.userId,
@@ -127,11 +135,9 @@ export default function FileManagement() {
           <FileCard
             key={f.id}
             file={f}
+            deleting={deletingFile}
             onDownload={downloadFile}
-            onDelete={(file) => {
-              setProgress(88);
-              deleteFiles(file);
-            }}
+            onDelete={onDelete}
           />
         ))}
       </Box>

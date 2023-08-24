@@ -23,5 +23,9 @@
   "addFile": "Add File",
   "downloadFile": "Click to download File",
   "confirmDeleteFile": "Are you sure you want to delete this file?",
-  "deleteFileWarning": "This action cannot be undone."
+  "deleteFileWarning": "This action cannot be undone.",
+  "deleteSuccess": "Delete Success",
+  "deleteFail": "Delete Fail",
+  "uploadSuccess": "Upload Success",
+  "uploadFail": "Upload Fail"
 }

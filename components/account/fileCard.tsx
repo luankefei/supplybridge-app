@@ -3,7 +3,15 @@ import Image from "next/image";
 import Paper from "@mui/material/Paper";
 import { IUserFile } from "models/userFile";
 import { FormatFileSize } from "utils/formatters";
-import { Box, IconButton, LinearProgress, Stack, Tooltip } from "@mui/material";
+import {
+  Backdrop,
+  Box,
+  CircularProgress,
+  IconButton,
+  LinearProgress,
+  Stack,
+  Tooltip,
+} from "@mui/material";
 import { useTranslation } from "react-i18next";
 import ConfirmModal from "components/ui-components/confirmModal";
 import { CloseOutlined } from "@mui/icons-material";
@@ -11,6 +19,7 @@ import { CloseOutlined } from "@mui/icons-material";
 interface IFileCardProps {
   file: IUserFile;
   progress?: number;
+  deleting?: boolean;
   onDownload?: (file: IUserFile) => void;
   onDelete?: (file: IUserFile) => void;
 }
@@ -30,6 +39,7 @@ const itemHoverStyle = (disabled: boolean): CSSProperties => {
 export default function FileCard({
   file,
   progress,
+  deleting,
   onDownload,
   onDelete,
 }: IFileCardProps) {
@@ -81,7 +91,7 @@ export default function FileCard({
           left: 0,
           width: "100%",
           height: "100%",
-          display: progress !== undefined ? "block" : "none",
+          display: progress !== undefined || !!deleting ? "block" : "none",
         }}
       >
         <LinearProgress
@@ -93,6 +103,18 @@ export default function FileCard({
           variant="determinate"
           value={progress || 0}
         />
+      </Box>
+      <Box
+        sx={{
+          position: "absolute",
+          borderRadius: "16px",
+          top: "50%",
+          left: "50%",
+          transform: "translate(-50%, -50%)",
+          display: !!deleting ? "block" : "none",
+        }}
+      >
+        <CircularProgress />
       </Box>
       <Stack
         justifyContent={"space-between"}

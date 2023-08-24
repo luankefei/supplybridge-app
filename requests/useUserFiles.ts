@@ -25,7 +25,7 @@ export const useUserFiles = () => {
     }
   };
 
-  const deleteFiles = async (file: IUserFile) => {
+  const deleteFile = async (file: IUserFile) => {
     try {
       const delRes = await request.delete("/files/" + file.id);
       console.log("delete res: ", delRes);
@@ -34,24 +34,36 @@ export const useUserFiles = () => {
         let newUserFiles = update(userFiles, { $splice: [[idx, 1]] });
         setUserFiles(newUserFiles);
       }
+      return { data: delRes.data };
     } catch (err: any) {
-      console.log("delete err: ", err);
+      return {
+        data: null,
+        error: err.response?.data.message || "Error deleting file",
+      };
     }
   };
 
   const downloadFile = async (file: IUserFile) => {
-    const { data } = await request.get("/files/download/" + file.id);
-    if (data.url) {
-      const href = data.url;
-      const link = document.createElement("a");
-      link.href = href;
-      link.setAttribute("download", file.name);
-      document.body.appendChild(link);
-      link.click();
-      document.body.removeChild(link);
-      URL.revokeObjectURL(href);
-    } else {
-      console.log("download error: ", data);
+    try {
+      const { data } = await request.get("/files/download/" + file.id);
+      if (data.url) {
+        const href = data.url;
+        const link = document.createElement("a");
+        link.href = href;
+        link.setAttribute("download", file.name);
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(href);
+        return { data };
+      } else {
+        throw new Error("No download url");
+      }
+    } catch (err: any) {
+      return {
+        data: null,
+        error: err.response?.data.message || "Error downloading file",
+      };
     }
   };
 
@@ -79,7 +91,7 @@ export const useUserFiles = () => {
 
   return {
     getFiles,
-    deleteFiles,
+    deleteFile,
     downloadFile,
     uploadFile,
   };

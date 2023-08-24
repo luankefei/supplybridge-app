@@ -23,5 +23,9 @@
   "addFile": "Datei hinzufügen",
   "downloadFile": "Klicken Sie, um die Datei herunterzuladen",
   "confirmDeleteFile": "Sind Sie sicher, dass Sie diese Datei löschen möchten?",
-  "deleteFileWarning": "Diese Aktion kann nicht rückgängig gemacht werden."
+  "deleteFileWarning": "Diese Aktion kann nicht rückgängig gemacht werden.",
+  "deleteSuccess": "Löschen erfolgreich",
+  "deleteFail": "Löschen fehlgeschlagen",
+  "uploadSuccess": "Upload erfolgreich",
+  "uploadFail": "Upload fehlgeschlagen"
 }
