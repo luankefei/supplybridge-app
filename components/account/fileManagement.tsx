@@ -1,21 +1,16 @@
 import React, { useState, useRef } from "react";
 import { toast } from "react-toastify";
 import { Stack, Container } from "@mui/material";
-import { TitleText } from "components/ui-components/text";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useUserFiles } from "requests/useUserFiles";
 import { useStore } from "hooks/useStore";
-import { styled } from "@mui/material/styles";
 import Box from "@mui/material/Box";
-import Paper from "@mui/material/Paper";
-import Grid from "@mui/material/Grid";
 import FileCard, { FileCardAddBtn } from "./fileCard";
 import { IUserFile, EnumUploadStatus } from "models/userFile";
 import { FILE_TYPE_ICON, FILE_MIME } from "./constant";
 import update from "immutability-helper";
 import { AxiosProgressEvent } from "axios";
-// import { keyframes } from "@mui/system";
 
 // used for to-be-uploaded fileId, using negative is to avoid collision with positive existing fileId
 const randomNegInt = () => Math.floor(Math.random() * 9999999 + 1) * -1;
@@ -24,18 +19,15 @@ export default function FileManagement() {
   const { t } = useTranslation();
   const { getFiles, deleteFiles, downloadFile, uploadFile } = useUserFiles();
   const { userFiles, setUserFiles } = useStore();
+
+  const [newFile, setNewFile] = useState<IUserFile | null>(null);
   const [uploading, setUploading] = useState(false);
   const [progress, setProgress] = useState(0);
-  let toBeUploadedFile = useRef<File | null>(null); // this refers to the selected File to be uploaded, after upload, reset it to null
+  let toBeUploadedFile = useRef<File | null>(null);
 
   const progressHandler = (p: AxiosProgressEvent) => {
     console.log("progressing: ", p);
-    if (p.progress && p.progress >= 0.8) {
-      // file need to be uploaded to backend server, then upload to AzureStorage, but I can only get the progress for the first upload
-      // so I leave 0.2 for Azure upload, when the Azure upload completes, front-end received 200, then the progressBar will disappear.
-      return;
-    }
-    setProgress(p.progress || 0);
+    setProgress((p.progress || 0) * 100);
   };
 
   const onUpload = async (evt: React.ChangeEvent<HTMLInputElement>) => {
@@ -49,9 +41,8 @@ export default function FileManagement() {
       toast.error("You can have at most 20 files");
       return;
     }
-
     toBeUploadedFile.current = fileList[0];
-    if (toBeUploadedFile.current.size > 1024 * 1024 * 20) {
+    if (toBeUploadedFile.current.size > 1024 * 1024 * 40) {
       // todo: backend also need to check this.
       toast.error("Max file size: 20MB");
       return;
@@ -69,10 +60,40 @@ export default function FileManagement() {
         FILE_TYPE_ICON[toBeUploadedFile.current.type as FILE_MIME] ||
         "other.svg",
     };
+    setNewFile(newFile);
+    upload();
+  };
 
-    let newUserFiles = update(userFiles, { $unshift: [newFile] });
-    setUserFiles(newUserFiles);
-    setUploading(true);
+  const upload = async () => {
+    try {
+      setUploading(true);
+      const resp = await uploadFile(
+        toBeUploadedFile.current as File,
+        progressHandler
+      );
+      if (!resp.data) {
+        toast.error(resp.error || "Upload failed");
+      } else {
+        toast.success("Upload success");
+        let thatNewFile: any = {
+          id: resp.data.id,
+          userId: resp.data.userId,
+          name: resp.data.name,
+          size: resp.data.size,
+          type: resp.data.type,
+          createdAt: new Date(resp.data.updatedAt),
+        };
+        let newUserFiles = update(userFiles, { $unshift: [thatNewFile] });
+        setUserFiles(newUserFiles);
+      }
+    } catch (err) {
+    } finally {
+      toBeUploadedFile.current = null;
+      setUploading(false);
+      setNewFile(null);
+      setProgress(0);
+      getFiles();
+    }
   };
 
   const onUploadClick = (evt: React.MouseEvent<HTMLInputElement>) => {
@@ -80,36 +101,8 @@ export default function FileManagement() {
   };
 
   useEffect(() => {
-    getFiles(); // todo: add loading status with loading icon
+    getFiles();
   }, []);
-
-  useEffect(() => {
-    if (uploading) {
-      const runUpload = async () => {
-        try {
-          await uploadFile(toBeUploadedFile.current as File, progressHandler);
-          setUploading(false);
-          setProgress(0);
-          toBeUploadedFile.current = null;
-        } catch (err) {
-          // todo: set uploadStatus to FAILED with retry button.
-          console.log("err", err);
-          setUploading(false);
-        }
-      };
-      runUpload();
-    }
-  }, [uploading]);
-
-  /* useEffect(() => {
-    setInterval(() => {
-      if (progress == 1) {
-        return;
-      }
-      setProgress(progress + 0.1);
-    }, 1000);
-  }, []);
-  */
 
   return (
     <Container>
@@ -129,13 +122,16 @@ export default function FileManagement() {
           onClick={onUploadClick}
           disabled={uploading}
         />
+        {newFile && <FileCard file={newFile} progress={progress} />}
         {userFiles.map((f) => (
           <FileCard
             key={f.id}
             file={f}
             onDownload={downloadFile}
-            onDelete={deleteFiles}
-            progress={progress}
+            onDelete={(file) => {
+              setProgress(88);
+              deleteFiles(file);
+            }}
           />
         ))}
       </Box>

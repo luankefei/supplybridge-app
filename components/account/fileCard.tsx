@@ -2,14 +2,17 @@ import React, { CSSProperties, useState } from "react";
 import Image from "next/image";
 import Paper from "@mui/material/Paper";
 import { IUserFile } from "models/userFile";
-import { EnumUploadStatus } from "models/userFile";
 import { FormatFileSize } from "utils/formatters";
+import { Box, IconButton, LinearProgress, Stack, Tooltip } from "@mui/material";
+import { useTranslation } from "react-i18next";
+import ConfirmModal from "components/ui-components/confirmModal";
+import { CloseOutlined } from "@mui/icons-material";
 
 interface IFileCardProps {
   file: IUserFile;
-  progress: number;
-  onDownload: (file: IUserFile) => void;
-  onDelete: (fileId: IUserFile) => void;
+  progress?: number;
+  onDownload?: (file: IUserFile) => void;
+  onDelete?: (file: IUserFile) => void;
 }
 
 // when file is being uploaded(or in pending mode, or failed upload), it's disabled
@@ -17,7 +20,7 @@ interface IFileCardProps {
 // for AddBtn, only when no file is being uploadd, can it be clicked.
 const itemHoverStyle = (disabled: boolean): CSSProperties => {
   return {
-    cursor: disabled ? "not-allowed" : "pointer",
+    cursor: disabled ? "not-allowed" : undefined,
     transition: "box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms",
     boxShadow:
       "0px 3px 1px -2px rgba(0,0,0,0.2), 0px 2px 2px 0px rgba(0,0,0,0.14), 0px 1px 5px 0px rgba(0,0,0,0.12)",
@@ -30,18 +33,19 @@ export default function FileCard({
   onDownload,
   onDelete,
 }: IFileCardProps) {
-  const downloadHandler = (file: IUserFile) => {
-    if (file.uploadStatus != EnumUploadStatus.DONE) {
-      return;
-    }
-    onDownload(file);
+  const { t } = useTranslation("myAccount");
+  const [open, setOpen] = useState(false);
+
+  const downloadHandler = (e: any) => {
+    e.stopPropagation();
+    e.preventDefault();
+    onDownload && onDownload(file);
   };
 
-  const deleteHandler = (file: IUserFile) => {
-    if (file.uploadStatus != EnumUploadStatus.DONE) {
-      return;
-    }
-    onDelete(file);
+  const deleteHandler = (e: any) => {
+    e.stopPropagation();
+    e.preventDefault();
+    setOpen(true);
   };
 
   return (
@@ -51,58 +55,91 @@ export default function FileCard({
         borderRadius: "16px",
         display: "flex",
         position: "relative",
-        ":hover": itemHoverStyle(file.uploadStatus != EnumUploadStatus.DONE),
+        ":hover": itemHoverStyle(progress !== undefined),
       }}
     >
-      {file.uploadStatus == EnumUploadStatus.UPLOADING && (
-        <AniOverlay progress={progress} />
-      )}
-      <div
-        style={{
-          display: "flex",
+      <ConfirmModal
+        useDoubleConfirm
+        title={t(
+          "confirmDeleteFile",
+          "Are you sure you want to delete this file?"
+        )}
+        open={open}
+        subTitle={t("deleteFileWarning", "This action is irreversible.")}
+        onClose={(confirmed) => {
+          if (confirmed) {
+            onDelete && onDelete(file);
+          }
+          setOpen(false);
+        }}
+      />
+      <Box
+        sx={{
+          position: "absolute",
+          borderRadius: "16px",
+          top: 0,
+          left: 0,
           width: "100%",
-          alignItems: "center",
-          justifyContent: "space-between",
-          // background:
-          // file.uploadStatus == EnumUploadStatus.UPLOADING
-          //</Paper> ? "rgba(0,0,255,0.2)"
-          // : "unset",
+          height: "100%",
+          display: progress !== undefined ? "block" : "none",
         }}
       >
-        <div style={{ width: "20%" }} onClick={() => downloadHandler(file)}>
+        <LinearProgress
+          sx={{
+            borderRadius: "16px",
+            height: "100%",
+            opacity: 0.4,
+          }}
+          variant="determinate"
+          value={progress || 0}
+        />
+      </Box>
+      <Stack
+        justifyContent={"space-between"}
+        direction={"row"}
+        p={1}
+        alignItems={"center"}
+      >
+        <Box style={{ width: "20%" }}>
           <Image
             src={`/icons/fileTypes/${file.icon}`}
             alt={file.name}
             width={48}
             height={48}
           />
-        </div>
-        <div onClick={() => downloadHandler(file)}>
-          <div
-            style={{
-              width: "170px",
-              whiteSpace: "nowrap",
-              overflow: "hidden",
-              textOverflow: "ellipsis",
-              marginBottom: "6px",
+        </Box>
+        <Tooltip title={t("downloadFile", "Click to download File")}>
+          <Stack
+            onClick={downloadHandler}
+            sx={{
+              ":hover": {
+                cursor: "pointer",
+              },
             }}
           >
-            {file.name}
-          </div>
-          <div style={{ fontSize: "11px", color: "#9CA3AF" }}>
-            <span>{FormatFileSize(file.size)}</span>&nbsp;·&nbsp;
-            <span>{file.createdAt.toLocaleDateString()}</span>
-          </div>
-        </div>
-        <div style={{ width: "10%" }} onClick={() => deleteHandler(file)}>
-          <Image
-            src={"/icons/delete.svg"}
-            alt="delete user file"
-            width={22}
-            height={22}
-          />
-        </div>
-      </div>
+            <div
+              style={{
+                width: "170px",
+                whiteSpace: "nowrap",
+                overflow: "hidden",
+                textOverflow: "ellipsis",
+                marginBottom: "6px",
+              }}
+            >
+              {file.name}
+            </div>
+            <div style={{ fontSize: "11px", color: "#9CA3AF" }}>
+              <span>{FormatFileSize(file.size)}</span>&nbsp;·&nbsp;
+              <span>{file.createdAt.toLocaleDateString()}</span>
+            </div>
+          </Stack>
+        </Tooltip>
+        <Box style={{ width: "10%" }}>
+          <IconButton onClick={deleteHandler}>
+            <CloseOutlined />
+          </IconButton>
+        </Box>
+      </Stack>
     </Paper>
   );
 }
@@ -114,7 +151,7 @@ interface IFileAddProps {
 }
 
 const FileCardAddBtn = ({ onChange, onClick, disabled }: IFileAddProps) => {
-  console.log("add butn disabled: ", disabled);
+  const { t } = useTranslation("myAccount");
   return (
     <Paper
       elevation={0}
@@ -139,8 +176,8 @@ const FileCardAddBtn = ({ onChange, onClick, disabled }: IFileAddProps) => {
           alt="add user file"
           width={16}
           height={16}
-        />{" "}
-        &nbsp;&nbsp;Add Files
+        />
+        <span style={{ marginLeft: "8px" }}>{t("addFile", "Add File")}</span>
       </label>
       <input
         type="file"
@@ -153,20 +190,6 @@ const FileCardAddBtn = ({ onChange, onClick, disabled }: IFileAddProps) => {
         // multiple
       />
     </Paper>
-  );
-};
-
-const AniOverlay = ({ progress }: { progress: number }) => {
-  return (
-    <div
-      style={{
-        position: "absolute",
-        width: progress * 100 + "%",
-        height: "100%",
-        background: "rgb(8, 151, 156, 0.4)",
-        borderRadius: "16px",
-      }}
-    ></div>
   );
 };
 

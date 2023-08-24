@@ -25,9 +25,6 @@ request.interceptors.request.use(
         if (requestConfig.url.includes("/files/upload")) {
           requestConfig.headers["Content-Type"] = "multipart/form-data";
         }
-        if (requestConfig.url.includes("/files/download")) {
-          requestConfig.responseType = "blob";
-        }
       } else {
         return resetTokenAndReattemptRequest(requestConfig);
       }

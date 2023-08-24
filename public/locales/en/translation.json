@@ -1,6 +1,9 @@
 {
   "common": {
-    "verifiedSupplier": "Verified Supplier"
+    "verifiedSupplier": "Verified Supplier",
+    "yes": "Yes",
+    "no": "No",
+    "imSure": "I'm Sure"
   },
   "region": {
     "APAC": "APAC",

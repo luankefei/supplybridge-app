@@ -1,7 +1,7 @@
 {
   "myAccount": "Mein Konto",
-  "favourite": "Favoriten",
-  "fileManagement": "Dateiverwaltung",
+  "favourite": "Mein Favorit",
+  "fileManagement": "Meine Dateien",
   "logOut": "Abmelden",
   "language": "Sprache",
   "email": "E-Mail",
@@ -19,5 +19,9 @@
   "searchCriteria": "Suchkriterien",
   "preferencesSubtitle": "Hier können Sie Ihre Favoriten verwalten: Lieferanten, Suchkriterien und Rohstoffe.",
   "favouriteSupplier": "Mein bevorzugter Lieferant",
-  "rawMaterial": "Rohstoff"
+  "rawMaterial": "Rohstoff",
+  "addFile": "Datei hinzufügen",
+  "downloadFile": "Klicken Sie, um die Datei herunterzuladen",
+  "confirmDeleteFile": "Sind Sie sicher, dass Sie diese Datei löschen möchten?",
+  "deleteFileWarning": "Diese Aktion kann nicht rückgängig gemacht werden."
 }
