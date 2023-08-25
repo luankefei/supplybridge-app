@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import styled from "@emotion/styled";
 
 /**
  * Header text
@@ -122,6 +122,10 @@ export const STextH1 = styled.span<{
   font-style: normal;
   font-weight: 700;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: 24px;
+  }
 `;
 
 export const STextH2 = styled.span<{
@@ -134,6 +138,10 @@ export const STextH2 = styled.span<{
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: 16px;
+  }
 `;
 
 export const STextH3 = styled.span<{
@@ -146,6 +154,42 @@ export const STextH3 = styled.span<{
   font-style: normal;
   font-weight: 500;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: 12px;
+  }
+`;
+
+export const STextH4 = styled.span<{
+  color?: string;
+}>`
+  color: ${(props) => props.color || "#434343"};
+  text-align: center;
+  font-family: Ubuntu;
+  font-size: 18px;
+  font-style: normal;
+  font-weight: 500;
+  line-height: 21px;
+
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+`;
+
+export const STextCaption = styled.span<{
+  color?: string;
+}>`
+  color: ${(props) => props.color || "#434343"};
+  text-align: center;
+  font-family: Ubuntu;
+  font-size: 12px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: 8px;
+  }
 `;
 
 export const STextBody16 = styled.span<{
@@ -158,6 +202,10 @@ export const STextBody16 = styled.span<{
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: 8px;
+  }
 `;
 
 export const STextSecondary = styled.span<{
@@ -170,4 +218,8 @@ export const STextSecondary = styled.span<{
   font-style: normal;
   font-weight: 400;
   line-height: normal;
+
+  @media (max-width: 768px) {
+    font-size: ${(props) => props.size || "8px"};
+  }
 `;

@@ -1,6 +1,9 @@
 {
   "common": {
-    "verifiedSupplier": "Geprüfter Lieferant"
+    "verifiedSupplier": "Geprüfter Lieferant",
+    "yes": "Ja",
+    "no": "Nein",
+    "imSure": "Ich bin sicher"
   },
   "region": {
     "APAC": "APAC",

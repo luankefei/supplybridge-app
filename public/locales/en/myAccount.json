@@ -1,7 +1,7 @@
 {
   "myAccount": "My Account",
-  "favourite": "Favourite",
-  "fileManagement": "File Mangement",
+  "favourite": "My Favourite",
+  "fileManagement": "My Files",
   "logOut": "Log Out",
   "language": "Language",
   "email": "Email",
@@ -19,5 +19,13 @@
   "searchCriteria": "Search Criteria",
   "preferencesSubtitle": "You can manage your favorites here for suppliers, search criteria and raw materials.",
   "favouriteSupplier": "My Favourite Supplier",
-  "rawMaterial": "Raw Material"
+  "rawMaterial": "Raw Material",
+  "addFile": "Add File",
+  "downloadFile": "Click to download File",
+  "confirmDeleteFile": "Are you sure you want to delete this file?",
+  "deleteFileWarning": "This action cannot be undone.",
+  "deleteSuccess": "Delete Success",
+  "deleteFail": "Delete Fail",
+  "uploadSuccess": "Upload Success",
+  "uploadFail": "Upload Fail"
 }
