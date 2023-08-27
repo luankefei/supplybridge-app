@@ -202,7 +202,10 @@ export default function SideBarMenu() {
       >
         <Link href={"/account"}>
           <MenuWrapper active={router.asPath.includes("account")}>
-            <MenuIcon src={`/menu/profile.svg`} />
+            <MenuIcon
+              src={`/menu/profile.svg`}
+              active={router.asPath.includes("account")}
+            />
             <MenuItemTitle passiveIcon={false}>
               {t("sidebar.account", "Account")}
             </MenuItemTitle>
