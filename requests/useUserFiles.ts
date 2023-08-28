@@ -1,5 +1,5 @@
 import { request } from "config/axios";
-import { AxiosProgressEvent } from "axios";
+import axios, { AxiosProgressEvent } from "axios";
 import { useStore } from "hooks/useStore";
 import { IUserFile, EnumUploadStatus } from "models/userFile";
 import { FILE_TYPE_ICON, FILE_MIME } from "components/account/constant";
@@ -72,7 +72,7 @@ export const useUserFiles = () => {
     progressHandler: (evt: AxiosProgressEvent) => void
   ) => {
     let formData = new FormData();
-    formData.append("file", file);
+    formData.append("file", file, encodeURIComponent(file.name));
     try {
       const { data } = await request.post("/files/upload", formData, {
         onUploadProgress: (progressEvent: AxiosProgressEvent) => {

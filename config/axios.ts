@@ -22,9 +22,6 @@ request.interceptors.request.use(
     if (token && token !== null && token !== "") {
       if (!isExpiredToken(token)) {
         requestConfig.headers.Authorization = `Bearer ${token}`;
-        if (requestConfig.url.includes("/files/upload")) {
-          requestConfig.headers["Content-Type"] = "multipart/form-data";
-        }
       } else {
         return resetTokenAndReattemptRequest(requestConfig);
       }

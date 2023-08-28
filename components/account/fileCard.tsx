@@ -148,7 +148,7 @@ export default function FileCard({
                 marginBottom: "6px",
               }}
             >
-              {file.name}
+              {decodeURIComponent(file.name)}
             </div>
             <div style={{ fontSize: "11px", color: "#9CA3AF" }}>
               <span>{FormatFileSize(file.size)}</span>&nbsp;·&nbsp;
