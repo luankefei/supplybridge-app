@@ -6,7 +6,7 @@ const nextConfig = {
     scrollRestoration: true,
   },
   images: {
-    domains: ["cdn-stage.supplybridge.com"],
+    domains: ["cdn-stage.supplybridge.com", "cdn.supplybridge.com"],
   },
   async redirects() {
     return [

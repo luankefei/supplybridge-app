@@ -22,7 +22,8 @@ export default function FileManagement() {
 
   const [newFile, setNewFile] = useState<IUserFile | null>(null);
   const [uploading, setUploading] = useState(false);
-  const [deletingFile, setDeletingFile] = useState(false);
+  // deletingFile = id
+  const [deletingFile, setDeletingFile] = useState(-1);
   const [progress, setProgress] = useState(0);
   let toBeUploadedFile = useRef<File | null>(null);
 
@@ -62,9 +63,9 @@ export default function FileManagement() {
     upload();
   };
   const onDelete = async (file: IUserFile) => {
-    setDeletingFile(true);
+    setDeletingFile(file.id);
     const resp = await deleteFile(file);
-    setDeletingFile(false);
+    setDeletingFile(-1);
     if (resp.error) {
       toast.error(resp.error || t("deleteFailed"));
     } else {
@@ -135,7 +136,7 @@ export default function FileManagement() {
           <FileCard
             key={f.id}
             file={f}
-            deleting={deletingFile}
+            deleting={deletingFile == f.id}
             onDownload={downloadFile}
             onDelete={onDelete}
           />
