@@ -2,25 +2,29 @@ import { Divider, Grid, Stack } from "@mui/material";
 import { TSupplierModel } from "models/supplier";
 import { TabPaneTextSecondary } from "./uitlStyled";
 import { SpacingVertical } from "components/ui-components/spacer";
+import DetailPanelCard from "../detailPanelCard";
+import { STextCaption } from "components/ui-components/text";
 
 const Portfolio = ({ data }: { data: TSupplierModel }) => {
   return (
     <Stack>
-      <TabPaneTextSecondary>KEY PARTNETS</TabPaneTextSecondary>
-      <Grid container>
-        <Grid item xs={2}>
-          WEBASTO
+      <DetailPanelCard>
+        <STextCaption textAlign="left">KEY PARTNERS</STextCaption>
+        <Grid container>
+          <Grid item xs={2}>
+            WEBASTO
+          </Grid>
         </Grid>
-      </Grid>
+      </DetailPanelCard>
       <SpacingVertical space="24px" />
-      <Divider />
-      <SpacingVertical space="24px" />
-      <TabPaneTextSecondary>Product lines</TabPaneTextSecondary>
-      <Grid container>
-        <Grid item xs={2}>
-          ncm523
+      <DetailPanelCard>
+        <STextCaption textAlign="left">PRODUCT LINES</STextCaption>
+        <Grid container>
+          <Grid item xs={2}>
+            WEBASTO
+          </Grid>
         </Grid>
-      </Grid>
+      </DetailPanelCard>
     </Stack>
   );
 };

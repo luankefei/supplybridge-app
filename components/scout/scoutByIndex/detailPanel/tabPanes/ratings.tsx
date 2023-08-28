@@ -83,9 +83,12 @@ const HalfCircleChart = ({ score }: { score: number }) => {
 const Ratings = ({ data }: { data: TSupplierModel }) => {
   return (
     <Stack>
-      <TabPaneTextSecondary>Score</TabPaneTextSecondary>
-      <Stack direction={"row"}>
-        <Box flex={2}>
+      <Stack
+        direction={"column"}
+        justifyContent={"center"}
+        alignItems={"center"}
+      >
+        <Box>
           <HalfCircleChart score={4.67} />
         </Box>
         <Stack flex={3}>
@@ -104,6 +107,14 @@ const Ratings = ({ data }: { data: TSupplierModel }) => {
             <SecondColumn>4</SecondColumn>
           </GridContainer>
         </Stack>
+        <img
+          src="icons/unlock-features.svg"
+          style={{
+            position: "absolute",
+            backdropFilter: "blur(4px)",
+            width: "100%",
+          }}
+        />
       </Stack>
     </Stack>
   );

@@ -129,10 +129,11 @@ export const STextH1 = styled.span<{
 `;
 
 export const STextH2 = styled.span<{
+  textAlign?: string;
   color?: string;
 }>`
   color: ${(props) => props.color || "#434343"};
-  text-align: center;
+  text-align: ${(props) => props.textAlign || "center"};
   font-family: Ubuntu;
   font-size: 24px;
   font-style: normal;
@@ -178,9 +179,10 @@ export const STextH4 = styled.span<{
 
 export const STextCaption = styled.span<{
   color?: string;
+  textAlign?: string;
 }>`
   color: ${(props) => props.color || "#434343"};
-  text-align: center;
+  text-align: ${(props) => props.textAlign || "center"};
   font-family: Ubuntu;
   font-size: 12px;
   font-style: normal;
@@ -192,11 +194,30 @@ export const STextCaption = styled.span<{
   }
 `;
 
+export const STextBody = styled.span<{
+  color?: string;
+  textAlign?: string;
+  fontSize?: string;
+}>`
+  color: ${(props) => props.color || "#9CA3AF"};
+  text-align: ${(props) => props.textAlign || "center"};
+
+  font-family: Ubuntu;
+  font-size: ${(props) => props.fontSize || "14px"};
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+/**
+ * @deprecated use STextBody instead
+ */
 export const STextBody16 = styled.span<{
   color?: string;
+  textAlign?: string;
 }>`
   color: ${(props) => props.color || "#434343"};
-  text-align: center;
+  text-align: ${(props) => props.textAlign || "center"};
   font-family: Ubuntu;
   font-size: 16px;
   font-style: normal;

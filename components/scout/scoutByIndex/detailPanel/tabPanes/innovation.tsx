@@ -1,4 +1,4 @@
-import { Divider, Stack } from "@mui/material";
+import { Divider, Grid, Stack } from "@mui/material";
 import { TSupplierModel } from "models/supplier";
 import {
   FirstColumn,
@@ -7,40 +7,46 @@ import {
   TabPaneTextSecondary,
 } from "./uitlStyled";
 import { SpacingVertical } from "components/ui-components/spacer";
+import DetailPanelCard from "../detailPanelCard";
+import { STextCaption } from "components/ui-components/text";
 
 const Innovation = ({ data }: { data: TSupplierModel }) => {
   return (
     <Stack>
-      <TabPaneTextSecondary>R&D</TabPaneTextSecondary>
-      <GridContainer>
-        <FirstColumn>R&D Personnel</FirstColumn>
-        <SecondColumn>8000</SecondColumn>
+      <DetailPanelCard>
+        <STextCaption textAlign="left">R&D</STextCaption>
+        <GridContainer>
+          <FirstColumn>R&D Personnel</FirstColumn>
+          <SecondColumn>8000</SecondColumn>
 
-        <FirstColumn>R&D Personnel % (of total)</FirstColumn>
-        <SecondColumn>20%</SecondColumn>
+          <FirstColumn>R&D Personnel % (of total)</FirstColumn>
+          <SecondColumn>20%</SecondColumn>
 
-        <FirstColumn>R&D Investment in 2021(mil, USD)</FirstColumn>
-        <SecondColumn>$500</SecondColumn>
+          <FirstColumn>R&D Investment in 2021(mil, USD)</FirstColumn>
+          <SecondColumn>$500</SecondColumn>
 
-        <FirstColumn>R&D Investment % (of revenue)</FirstColumn>
-        <SecondColumn>9%</SecondColumn>
+          <FirstColumn>R&D Investment % (of revenue)</FirstColumn>
+          <SecondColumn>9%</SecondColumn>
 
-        <FirstColumn>Built-to-spec</FirstColumn>
-        <SecondColumn>Yes</SecondColumn>
+          <FirstColumn>Built-to-spec</FirstColumn>
+          <SecondColumn>Yes</SecondColumn>
 
-        <FirstColumn>Built-to-print</FirstColumn>
-        <SecondColumn>Yes</SecondColumn>
-      </GridContainer>
+          <FirstColumn>Built-to-print</FirstColumn>
+          <SecondColumn>Yes</SecondColumn>
+        </GridContainer>
+      </DetailPanelCard>
       <SpacingVertical space="24px" />
-      <Divider />
-      <SpacingVertical space="24px" />
-      <TabPaneTextSecondary>PATENTS</TabPaneTextSecondary>
-      <GridContainer>
-        <FirstColumn>Total Patents(Global) </FirstColumn>
-        <SecondColumn>46</SecondColumn>
-      </GridContainer>
-      <SpacingVertical space="24px" />
-      <span>patentsCardHere</span>
+      <DetailPanelCard>
+        <STextCaption textAlign="left">PATENTS</STextCaption>
+        <GridContainer>
+          <FirstColumn>Total Patents(Global) </FirstColumn>
+          <SecondColumn>0</SecondColumn>
+        </GridContainer>
+        <Divider />
+        <Grid container>
+          <Grid item xs={2}></Grid>
+        </Grid>
+      </DetailPanelCard>
     </Stack>
   );
 };

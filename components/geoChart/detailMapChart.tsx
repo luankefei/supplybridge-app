@@ -10,14 +10,10 @@ import {
   Marker,
 } from "react-simple-maps";
 import geo from "./features.json";
-import { MapRegionToColor } from "./geoUtils";
-import {
-  CountryToRegionMap,
-  TwoLetterCodeToCounryCoordinatesMap,
-} from "./geoIdMap";
+import { TwoLetterCodeToCounryCoordinatesMap } from "./geoIdMap";
 import { usePersistentStore } from "hooks/useStore";
 
-const SCALE_SIZE = 50;
+const SCALE_SIZE = 60;
 const preDefinedProjectionConfig = {
   rotate: [0, 0, 0],
   center: [0, 35],

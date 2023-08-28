@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Stack } from "@mui/material";
+import { Box, Card, Divider, Grid, Stack } from "@mui/material";
 import { TSupplierModel } from "models/supplier";
 import {
   FirstColumn,
@@ -9,6 +9,12 @@ import {
 import { SpacingVertical } from "components/ui-components/spacer";
 import Icon from "components/icon";
 import { usePersistentStore, useStore } from "hooks/useStore";
+import {
+  SText,
+  STextBody16,
+  STextCaption,
+} from "components/ui-components/text";
+import DetailPanelCard from "../detailPanelCard";
 
 /**
  * 2 sections,
@@ -40,9 +46,18 @@ const General = ({ data }: { data: TSupplierModel }) => {
   });
   return (
     <Stack>
-      <TabPaneTextSecondary>BASIC INFO</TabPaneTextSecondary>
-      <Box width={"65%"}>
-        <GridContainer>
+      <DetailPanelCard>
+        <STextCaption textAlign="left">ABOUT</STextCaption>
+        <STextBody16 textAlign="left">
+          This company is a technology startup that focuses on developing
+          cutting-edge software solutions for businesses and consumers alike.
+        </STextBody16>
+      </DetailPanelCard>
+
+      <SpacingVertical space="16px" />
+      <DetailPanelCard>
+        <STextCaption textAlign="left">LOCATION</STextCaption>
+        <GridContainer width="100%">
           <FirstColumn>
             <MyFirstColumnComponent icon="building" text="Headquarters" />
           </FirstColumn>
@@ -62,39 +77,46 @@ const General = ({ data }: { data: TSupplierModel }) => {
               ))}
             </Box>
           </SecondColumn>
+        </GridContainer>
+      </DetailPanelCard>
 
+      <SpacingVertical space="16px" />
+      <DetailPanelCard>
+        <STextCaption textAlign="left">BASIC INFO</STextCaption>
+        <GridContainer width="100%">
           <FirstColumn>
-            <MyFirstColumnComponent icon="map" text="Regions" />
+            <MyFirstColumnComponent icon="calendar" text="Date of Foundation" />
           </FirstColumn>
-          <SecondColumn>APAC</SecondColumn>
-
+          <SecondColumn>2010</SecondColumn>
           <FirstColumn>
             <MyFirstColumnComponent icon="users" text="Employees" />
           </FirstColumn>
-          <SecondColumn>10001</SecondColumn>
-
+          <SecondColumn>10001 (2021)</SecondColumn>
           <FirstColumn>
             <MyFirstColumnComponent icon="dollar" text="Revenue" />
           </FirstColumn>
           <SecondColumn>$6.24 Billion(2021)</SecondColumn>
-
           <FirstColumn>
-            <MyFirstColumnComponent icon="layer" text="Website" />
+            <MyFirstColumnComponent icon="internet" text="Website" />
           </FirstColumn>
           <SecondColumn>www.xyztech.com</SecondColumn>
+          <FirstColumn>
+            <MyFirstColumnComponent icon="layer" text="Type" />
+          </FirstColumn>
+          <SecondColumn>Tier 1</SecondColumn>
         </GridContainer>
-      </Box>
+      </DetailPanelCard>
       <SpacingVertical space="24px" />
-      <Divider />
-      <SpacingVertical space="24px" />
-      <TabPaneTextSecondary>HIGHLIGHTS</TabPaneTextSecondary>
-      <Grid container>
-        <ul>
-          <li>X123 Battery - RANGE 1,500km </li>
-          <li>2020 Most Innovative Battery Award </li>
-          <li>22021 32.6% Global Market Share (96GWh)</li>
-        </ul>
-      </Grid>
+      <DetailPanelCard>
+        <STextCaption textAlign="left">HIGHLIGHTS</STextCaption>
+        <Grid container>
+          <ul>
+            <li>X123 Battery - RANGE 1,500km </li>
+            <li>2020 Most Innovative Battery Award </li>
+            <li>22021 32.6% Global Market Share (96GWh)</li>
+          </ul>
+        </Grid>
+      </DetailPanelCard>
     </Stack>
   );
 };

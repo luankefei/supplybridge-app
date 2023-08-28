@@ -6,6 +6,7 @@ import {
   Stack,
   Tab,
   Tabs,
+  styled,
 } from "@mui/material";
 import {
   CancelOutlined,
@@ -61,7 +62,7 @@ const DeatilsPanel = ({
   //   width: 517,
   //   height: 254
   // }
-  const MAP_STYLES = {
+  const DIMENSIONS = {
     width: (window.innerWidth / 1440) * 517,
     height: (window.innerHeight / 900) * 254,
   };
@@ -80,7 +81,13 @@ const DeatilsPanel = ({
 
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
-      <Stack p={"24px 48px"}>
+      {/* woulda use 24 * 4 but the tab size is too big, so just doing some random numbers. */}
+      <Stack
+        p={"24px"}
+        bgcolor={"white"}
+        minWidth={"680px"}
+        width={DIMENSIONS.width + 24 * 6}
+      >
         <Box display={"flex"} justifyContent={"space-between"}>
           <IconButton onClick={onClose}>
             <CancelOutlined sx={{ fontSize: 22 }} />
@@ -96,9 +103,9 @@ const DeatilsPanel = ({
             <Button variant="contained">Conatact More</Button>
           </Stack>
         </Box>
-        <Box sx={{ minWidth: MAP_STYLES.width, minHeight: MAP_STYLES.height }}>
+        <Box sx={{ minWidth: DIMENSIONS.width, minHeight: DIMENSIONS.height }}>
           <DetailMapChart
-            dimensions={MAP_STYLES}
+            dimensions={DIMENSIONS}
             locationIds={data.locationId}
           />
         </Box>
@@ -113,7 +120,7 @@ const DeatilsPanel = ({
           <SupBadge badge={BadgeType.major} />
         </Stack>
         <SpacingVertical space="24px" />
-        <Tabs
+        <StyledTabs
           value={tab}
           onChange={(e, v: number) => {
             setTab(v);
@@ -125,7 +132,7 @@ const DeatilsPanel = ({
           <Tab label="Certifications" value={3} />
           <Tab label="Ratings" value={4} />
           <Tab label="Similar Companies" value={5} />
-        </Tabs>
+        </StyledTabs>
         <SpacingVertical space="24px" />
         {tab === 0 && <General data={data} />}
         {tab === 1 && <Portfolio data={data} />}
@@ -142,5 +149,48 @@ const DeatilsPanel = ({
     </Drawer>
   );
 };
+
+/**
+ * A custom tab, with border all around,
+ * and first + last tab with rounded corners
+ * selected tab background color = E5E7EB, text color = 434343
+ * unselected tab background color = white, text color = 9CA3AF
+ * */
+const StyledTabs = styled(Tabs)(({ theme }) => ({
+  margin: "auto",
+  "& .MuiTabs-indicator": {
+    display: "none",
+  },
+  "& .MuiTab-root": {
+    border: "1px solid #E5E7EB",
+
+    color: "#9CA3AF",
+    fontFamily: "Ubuntu",
+    fontSize: "14px",
+    fontStyle: "normal",
+    fontWeight: 400,
+    height: "32px",
+    minHeight: "16px",
+    padding: "8px",
+    margin: "0",
+
+    opacity: 1,
+    "&.Mui-selected": {
+      backgroundColor: "#E5E7EB",
+      color: "#434343",
+    },
+
+    "&:first-child": {
+      marginLeft: 0,
+      borderTopLeftRadius: "24px",
+      borderBottomLeftRadius: "24px",
+    },
+    "&:last-child": {
+      marginRight: 0,
+      borderTopRightRadius: "24px",
+      borderBottomRightRadius: "24px",
+    },
+  },
+}));
 
 export default DeatilsPanel;
