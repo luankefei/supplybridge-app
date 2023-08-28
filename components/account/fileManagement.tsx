@@ -65,7 +65,7 @@ export default function FileManagement() {
   const onDelete = async (file: IUserFile) => {
     setDeletingFile(file.id);
     const resp = await deleteFile(file);
-    setDeletingFile(file.id);
+    setDeletingFile(-1);
     if (resp.error) {
       toast.error(resp.error || t("deleteFailed"));
     } else {
