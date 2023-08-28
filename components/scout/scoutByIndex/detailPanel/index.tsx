@@ -1,5 +1,19 @@
-import { Box, Drawer, IconButton, Stack, Tab, Tabs } from "@mui/material";
-import { ChevronRight, Close, KeyboardArrowUp } from "@mui/icons-material";
+import {
+  Box,
+  Button,
+  Drawer,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+} from "@mui/material";
+import {
+  CancelOutlined,
+  Close,
+  CloseOutlined,
+  HighlightOff,
+  KeyboardArrowUp,
+} from "@mui/icons-material";
 import { TSupplierModel } from "models/supplier";
 import { toast } from "react-toastify";
 import VerifiedSupplierChip from "components/ui-components/verifiedSupplierChip";
@@ -18,6 +32,7 @@ import Certificaiton from "./tabPanes/certification";
 import Ratings from "./tabPanes/ratings";
 import SimilarCompanies from "./tabPanes/similiarCompanies";
 import { useStore } from "hooks/useStore";
+import DetailMapChart from "components/geoChart/detailMapChart";
 
 interface IDetailPanelProps {
   open: boolean;
@@ -42,6 +57,14 @@ const DeatilsPanel = ({
   onPushMoreDetails,
   onPopMoreDetails,
 }: IDetailPanelProps) => {
+  // const MAP_STYLES_ON_1440 = {
+  //   width: 517,
+  //   height: 254
+  // }
+  const MAP_STYLES = {
+    width: (window.innerWidth / 1440) * 517,
+    height: (window.innerHeight / 900) * 254,
+  };
   const { suppliers } = useStore();
   const [tab, setTab] = useState(0);
   if (supplierId === undefined) {
@@ -54,20 +77,31 @@ const DeatilsPanel = ({
     toast.error("Supplier not found. This is likely a bug. Contact support.");
     return null;
   }
+
   return (
     <Drawer anchor="right" open={open} onClose={onClose}>
       <Stack p={"24px 48px"}>
         <Box display={"flex"} justifyContent={"space-between"}>
           <IconButton onClick={onClose}>
-            <Close />
+            <CancelOutlined sx={{ fontSize: 22 }} />
           </IconButton>
-          <Box display={stackCount > 0 ? "block" : "none"}>
+          {/* <Box display={stackCount > 0 ? "block" : "none"}>
             <IconButton onClick={onPopMoreDetails}>
               <KeyboardArrowUp />
             </IconButton>
-          </Box>
+          </Box> */}
+          <Stack direction={"row"}>
+            <Button variant="outlined">Send NDA/RFI</Button>
+            <SpacingHorizontal space="8px" />
+            <Button variant="contained">Conatact More</Button>
+          </Stack>
         </Box>
-        <Box sx={{ width: "557px", height: "174px" }}>MAP place holder</Box>
+        <Box sx={{ minWidth: MAP_STYLES.width, minHeight: MAP_STYLES.height }}>
+          <DetailMapChart
+            dimensions={MAP_STYLES}
+            locationIds={data.locationId}
+          />
+        </Box>
         <SpacingVertical space="24px" />
         <Stack direction={"row"} alignItems={"center"}>
           <RoundImage src={data.logo} size={52} />
