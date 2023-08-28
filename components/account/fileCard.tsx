@@ -69,7 +69,6 @@ export default function FileCard({
       }}
     >
       <ConfirmModal
-        useDoubleConfirm
         title={t(
           "confirmDeleteFile",
           "Are you sure you want to delete this file?"
