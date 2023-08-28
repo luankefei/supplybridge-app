@@ -15,6 +15,7 @@ import {
   STextCaption,
 } from "components/ui-components/text";
 import DetailPanelCard from "../detailPanelCard";
+import { useTranslation } from "react-i18next";
 
 /**
  * 2 sections,
@@ -24,6 +25,7 @@ import DetailPanelCard from "../detailPanelCard";
  * a list of highlights with buillent points
  */
 const General = ({ data }: { data: TSupplierModel }) => {
+  const { t } = useTranslation();
   const { allSubRegions } = usePersistentStore.getState();
   const MyFirstColumnComponent = ({
     icon,
@@ -47,7 +49,7 @@ const General = ({ data }: { data: TSupplierModel }) => {
   return (
     <Stack>
       <DetailPanelCard>
-        <STextCaption textAlign="left">ABOUT</STextCaption>
+        <STextCaption textAlign="left">{t("detailPanel.about")}</STextCaption>
         <STextBody16 textAlign="left">
           This company is a technology startup that focuses on developing
           cutting-edge software solutions for businesses and consumers alike.
@@ -56,7 +58,9 @@ const General = ({ data }: { data: TSupplierModel }) => {
 
       <SpacingVertical space="16px" />
       <DetailPanelCard>
-        <STextCaption textAlign="left">LOCATION</STextCaption>
+        <STextCaption textAlign="left">
+          {t("detailPanel.location")}
+        </STextCaption>
         <GridContainer width="100%">
           <FirstColumn>
             <MyFirstColumnComponent icon="building" text="Headquarters" />
@@ -82,33 +86,53 @@ const General = ({ data }: { data: TSupplierModel }) => {
 
       <SpacingVertical space="16px" />
       <DetailPanelCard>
-        <STextCaption textAlign="left">BASIC INFO</STextCaption>
+        <STextCaption textAlign="left">
+          {t("detailPanel.basicInfo", "BASIC INFO")}
+        </STextCaption>
         <GridContainer width="100%">
           <FirstColumn>
-            <MyFirstColumnComponent icon="calendar" text="Date of Foundation" />
+            <MyFirstColumnComponent
+              icon="calendar"
+              text={t("detailPanel.founded", "Date of Foundation")}
+            />
           </FirstColumn>
           <SecondColumn>2010</SecondColumn>
           <FirstColumn>
-            <MyFirstColumnComponent icon="users" text="Employees" />
+            <MyFirstColumnComponent
+              icon="users"
+              text={t("detailPanel.employees", "Employees")}
+            />
           </FirstColumn>
           <SecondColumn>10001 (2021)</SecondColumn>
           <FirstColumn>
-            <MyFirstColumnComponent icon="dollar" text="Revenue" />
+            <MyFirstColumnComponent
+              icon="dollar"
+              text={t("detailPanel.revenue", "Revenue")}
+            />
           </FirstColumn>
           <SecondColumn>$6.24 Billion(2021)</SecondColumn>
           <FirstColumn>
-            <MyFirstColumnComponent icon="internet" text="Website" />
+            <MyFirstColumnComponent
+              icon="internet"
+              text={t("detailPanel.website", "Website")}
+            />
           </FirstColumn>
           <SecondColumn>www.xyztech.com</SecondColumn>
           <FirstColumn>
-            <MyFirstColumnComponent icon="layer" text="Type" />
+            <MyFirstColumnComponent
+              icon="layer"
+              text={t("detailPanel.type", "type")}
+            />
           </FirstColumn>
+          <SecondColumn>Tier 1</SecondColumn>
           <SecondColumn>Tier 1</SecondColumn>
         </GridContainer>
       </DetailPanelCard>
       <SpacingVertical space="24px" />
       <DetailPanelCard>
-        <STextCaption textAlign="left">HIGHLIGHTS</STextCaption>
+        <STextCaption textAlign="left">
+          {t("detailPanel.highlights", "HIGHLIGHTS")}
+        </STextCaption>
         <Grid container>
           <ul>
             <li>X123 Battery - RANGE 1,500km </li>

@@ -9,37 +9,63 @@ import {
 import { SpacingVertical } from "components/ui-components/spacer";
 import DetailPanelCard from "../detailPanelCard";
 import { STextCaption } from "components/ui-components/text";
+import { useTranslation } from "react-i18next";
 
 const Innovation = ({ data }: { data: TSupplierModel }) => {
+  const { t } = useTranslation();
   return (
     <Stack>
       <DetailPanelCard>
-        <STextCaption textAlign="left">R&D</STextCaption>
+        <STextCaption textAlign="left">
+          {t("detailPanel.rd", "R&D")}
+        </STextCaption>
         <GridContainer>
-          <FirstColumn>R&D Personnel</FirstColumn>
+          <FirstColumn>
+            {t("detailPanel.rdPersonnel", "R&D Personnel")}
+          </FirstColumn>
           <SecondColumn>8000</SecondColumn>
 
-          <FirstColumn>R&D Personnel % (of total)</FirstColumn>
+          <FirstColumn>
+            {t(
+              "detailPanel.rdPersonnelPercentage",
+              "R&D Personnel Percentage % (of total)"
+            )}
+          </FirstColumn>
           <SecondColumn>20%</SecondColumn>
 
-          <FirstColumn>R&D Investment in 2021(mil, USD)</FirstColumn>
+          <FirstColumn>
+            {t("detailPanel.rdInvestment", "R&D Investment")}
+          </FirstColumn>
           <SecondColumn>$500</SecondColumn>
 
-          <FirstColumn>R&D Investment % (of revenue)</FirstColumn>
+          <FirstColumn>
+            {t(
+              "detailPanel.rdInvestmentPercentage",
+              "R&D Investment Percentage % (of total)"
+            )}
+          </FirstColumn>
           <SecondColumn>9%</SecondColumn>
 
-          <FirstColumn>Built-to-spec</FirstColumn>
+          <FirstColumn>
+            {t("detailPanel.builtTospec", "Built-to-Spec")}
+          </FirstColumn>
           <SecondColumn>Yes</SecondColumn>
 
-          <FirstColumn>Built-to-print</FirstColumn>
+          <FirstColumn>
+            {t("detailPanel.builtToprint", "Built-to-Print")}
+          </FirstColumn>
           <SecondColumn>Yes</SecondColumn>
         </GridContainer>
       </DetailPanelCard>
       <SpacingVertical space="24px" />
       <DetailPanelCard>
-        <STextCaption textAlign="left">PATENTS</STextCaption>
+        <STextCaption textAlign="left">
+          {t("detailPanel.patents", "Patents")}
+        </STextCaption>
         <GridContainer>
-          <FirstColumn>Total Patents(Global) </FirstColumn>
+          <FirstColumn>
+            {t("detailPanel.totalPatents", "Total Patents(Global)")}
+          </FirstColumn>
           <SecondColumn>0</SecondColumn>
         </GridContainer>
         <Divider />
