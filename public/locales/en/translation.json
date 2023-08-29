@@ -3,7 +3,9 @@
     "verifiedSupplier": "Verified Supplier",
     "yes": "Yes",
     "no": "No",
-    "imSure": "I'm Sure"
+    "imSure": "I'm Sure",
+    "showSimilar": "Show Similar",
+    "showDetail": "Show Detail"
   },
   "region": {
     "APAC": "APAC",
@@ -433,14 +435,14 @@
     "inputPlaceholder": "Type to find raw material"
   },
   "detailPanel": {
-    "sendNdaRFI": "Send NDA/RFI",
-    "contacMore": "Contact More",
+    "sendNdaRFI": "One Click Send",
+    "contacMore": "Contact",
     "General": "General",
     "Portfolio": "Portfolio",
     "Innovations": "Innovations",
     "Certifications": "Certifications",
     "Ratings": "Ratings",
-    "Similar Companies": "Similar Companies",
+    "SimilarCompanies": "Similar Companies",
     "about": "ABOUT",
     "location": "LOCAITON",
     "headquarter": "Headquarter",

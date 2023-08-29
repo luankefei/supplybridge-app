@@ -3,7 +3,9 @@
     "verifiedSupplier": "Geprüfter Lieferant",
     "yes": "Ja",
     "no": "Nein",
-    "imSure": "Ich bin sicher"
+    "imSure": "Ich bin sicher",
+    "showSimilar": "Ähnlichen Lieferanten",
+    "showDetail": "Einzelheiten"
   },
   "region": {
     "APAC": "APAC",
@@ -432,14 +434,14 @@
     "inputPlaceholder": "Tippen Sie, um Rohstoffe zu finden"
   },
   "detailPanel": {
-    "sendNdaRFI": "NDA/RFI senden",
-    "contacMore": "Mehr kontaktieren",
+    "sendNdaRFI": "1-Klick Senden",
+    "contacMore": "Kontakt",
     "General": "Allgemein",
     "Portfolio": "Portfolio",
     "Innovations": "Innovationen",
     "Certifications": "Zertifizierungen",
     "Ratings": "Bewertungen",
-    "Similar Companies": "Ähnliche Unternehmen",
+    "SimilarCompanies": "Ähnliche Unternehmen",
     "about": "ÜBER UNS",
     "location": "STANDORT",
     "headquarter": "Hauptsitz",
