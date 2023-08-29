@@ -51,8 +51,7 @@ const General = ({ data }: { data: TSupplierModel }) => {
       <DetailPanelCard>
         <STextCaption textAlign="left">{t("detailPanel.about")}</STextCaption>
         <STextBody16 textAlign="left">
-          This company is a technology startup that focuses on developing
-          cutting-edge software solutions for businesses and consumers alike.
+          {data.general?.description || "No description"}
         </STextBody16>
       </DetailPanelCard>
 
@@ -63,19 +62,30 @@ const General = ({ data }: { data: TSupplierModel }) => {
         </STextCaption>
         <GridContainer width="100%">
           <FirstColumn>
-            <MyFirstColumnComponent icon="building" text="Headquarters" />
+            <MyFirstColumnComponent
+              icon="building"
+              text={t("detailPanel.headquarter", "Headquarter")}
+            />
           </FirstColumn>
           <SecondColumn>
-            {data.headquarterId === undefined
-              ? "N/A"
-              : allSubRegions[data.headquarterId]?.name}
+            {data.general?.headquarterName &&
+              data.general?.headquarterName?.toString()}
+            {!data.general?.headquarterName &&
+              (data.headquarterId === undefined
+                ? "N/A"
+                : allSubRegions[data.headquarterId]?.name)}
           </SecondColumn>
 
           <FirstColumn>
-            <MyFirstColumnComponent icon="location" text="Global Footprints" />
+            <MyFirstColumnComponent
+              icon="location"
+              text={t("detailPanel.globalFootprints", "Global Footprints")}
+            />
           </FirstColumn>
           <SecondColumn>
-            <Box width={250}>
+            <Box width={250} textAlign={"right"}>
+              {data.general?.globalFootprintNames &&
+                data.general?.globalFootprintNames?.toString()}
               {Array.from(locations).map((location, idx) => (
                 <span key={idx}>{location}, </span>
               ))}
@@ -96,28 +106,28 @@ const General = ({ data }: { data: TSupplierModel }) => {
               text={t("detailPanel.founded", "Date of Foundation")}
             />
           </FirstColumn>
-          <SecondColumn>2010</SecondColumn>
+          <SecondColumn>{data.general?.foundedYear}</SecondColumn>
           <FirstColumn>
             <MyFirstColumnComponent
               icon="users"
               text={t("detailPanel.employees", "Employees")}
             />
           </FirstColumn>
-          <SecondColumn>10001 (2021)</SecondColumn>
+          <SecondColumn>{data.general?.employeeCount}</SecondColumn>
           <FirstColumn>
             <MyFirstColumnComponent
               icon="dollar"
               text={t("detailPanel.revenue", "Revenue")}
             />
           </FirstColumn>
-          <SecondColumn>$6.24 Billion(2021)</SecondColumn>
+          <SecondColumn>{data.general?.revenue}</SecondColumn>
           <FirstColumn>
             <MyFirstColumnComponent
               icon="internet"
               text={t("detailPanel.website", "Website")}
             />
           </FirstColumn>
-          <SecondColumn>www.xyztech.com</SecondColumn>
+          <SecondColumn>{data.general?.website}</SecondColumn>
           <FirstColumn>
             <MyFirstColumnComponent
               icon="layer"
@@ -125,22 +135,23 @@ const General = ({ data }: { data: TSupplierModel }) => {
             />
           </FirstColumn>
           <SecondColumn>Tier 1</SecondColumn>
-          <SecondColumn>Tier 1</SecondColumn>
         </GridContainer>
       </DetailPanelCard>
       <SpacingVertical space="24px" />
-      <DetailPanelCard>
-        <STextCaption textAlign="left">
-          {t("detailPanel.highlights", "HIGHLIGHTS")}
-        </STextCaption>
-        <Grid container>
-          <ul>
-            <li>X123 Battery - RANGE 1,500km </li>
-            <li>2020 Most Innovative Battery Award </li>
-            <li>22021 32.6% Global Market Share (96GWh)</li>
-          </ul>
-        </Grid>
-      </DetailPanelCard>
+      {data.general?.highlights && data.general?.highlights.length > 0 && (
+        <DetailPanelCard>
+          <STextCaption textAlign="left">
+            {t("detailPanel.highlights", "HIGHLIGHTS")}
+          </STextCaption>
+          <Grid container>
+            <ul>
+              {data.general.highlights.map((highlight, idx) => (
+                <li key={idx}>{highlight}</li>
+              ))}
+            </ul>
+          </Grid>
+        </DetailPanelCard>
+      )}
     </Stack>
   );
 };

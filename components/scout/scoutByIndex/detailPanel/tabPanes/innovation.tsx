@@ -8,7 +8,7 @@ import {
 } from "./uitlStyled";
 import { SpacingVertical } from "components/ui-components/spacer";
 import DetailPanelCard from "../detailPanelCard";
-import { STextCaption } from "components/ui-components/text";
+import { STextBody, STextCaption } from "components/ui-components/text";
 import { useTranslation } from "react-i18next";
 
 const Innovation = ({ data }: { data: TSupplierModel }) => {
@@ -23,7 +23,7 @@ const Innovation = ({ data }: { data: TSupplierModel }) => {
           <FirstColumn>
             {t("detailPanel.rdPersonnel", "R&D Personnel")}
           </FirstColumn>
-          <SecondColumn>8000</SecondColumn>
+          <SecondColumn>{data.innovation?.rndPersonnel}</SecondColumn>
 
           <FirstColumn>
             {t(
@@ -31,12 +31,12 @@ const Innovation = ({ data }: { data: TSupplierModel }) => {
               "R&D Personnel Percentage % (of total)"
             )}
           </FirstColumn>
-          <SecondColumn>20%</SecondColumn>
+          <SecondColumn>{data.innovation?.rndPersonnelPercentage}</SecondColumn>
 
           <FirstColumn>
             {t("detailPanel.rdInvestment", "R&D Investment")}
           </FirstColumn>
-          <SecondColumn>$500</SecondColumn>
+          <SecondColumn>{data.innovation?.rndInvestment}</SecondColumn>
 
           <FirstColumn>
             {t(
@@ -44,17 +44,19 @@ const Innovation = ({ data }: { data: TSupplierModel }) => {
               "R&D Investment Percentage % (of total)"
             )}
           </FirstColumn>
-          <SecondColumn>9%</SecondColumn>
+          <SecondColumn>
+            {data.innovation?.rndInvestmentPercentage}
+          </SecondColumn>
 
           <FirstColumn>
             {t("detailPanel.builtTospec", "Built-to-Spec")}
           </FirstColumn>
-          <SecondColumn>Yes</SecondColumn>
+          <SecondColumn>{"Yes"}</SecondColumn>
 
           <FirstColumn>
             {t("detailPanel.builtToprint", "Built-to-Print")}
           </FirstColumn>
-          <SecondColumn>Yes</SecondColumn>
+          <SecondColumn>{"Yes"}</SecondColumn>
         </GridContainer>
       </DetailPanelCard>
       <SpacingVertical space="24px" />
@@ -66,11 +68,19 @@ const Innovation = ({ data }: { data: TSupplierModel }) => {
           <FirstColumn>
             {t("detailPanel.totalPatents", "Total Patents(Global)")}
           </FirstColumn>
-          <SecondColumn>0</SecondColumn>
+          <SecondColumn>
+            {data.innovation?.patentsCount || data.innovation?.patents.length}
+          </SecondColumn>
         </GridContainer>
         <Divider />
         <Grid container>
-          <Grid item xs={2}></Grid>
+          <Grid item xs={2}>
+            {data.innovation?.patents.map((patent, idx) => (
+              <STextBody key={idx}>
+                {idx + 1}. {patent.title}
+              </STextBody>
+            ))}
+          </Grid>
         </Grid>
       </DetailPanelCard>
     </Stack>

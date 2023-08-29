@@ -8,13 +8,7 @@ import {
   Tabs,
   styled,
 } from "@mui/material";
-import {
-  CancelOutlined,
-  Close,
-  CloseOutlined,
-  HighlightOff,
-  KeyboardArrowUp,
-} from "@mui/icons-material";
+import { CancelOutlined } from "@mui/icons-material";
 import { TSupplierModel } from "models/supplier";
 import { toast } from "react-toastify";
 import VerifiedSupplierChip from "components/ui-components/verifiedSupplierChip";
@@ -34,6 +28,7 @@ import Ratings from "./tabPanes/ratings";
 import SimilarCompanies from "./tabPanes/similiarCompanies";
 import { useStore } from "hooks/useStore";
 import DetailMapChart from "components/geoChart/detailMapChart";
+import { useTranslation } from "react-i18next";
 
 interface IDetailPanelProps {
   open: boolean;
@@ -58,6 +53,7 @@ const DeatilsPanel = ({
   onPushMoreDetails,
   onPopMoreDetails,
 }: IDetailPanelProps) => {
+  const { t } = useTranslation();
   // const MAP_STYLES_ON_1440 = {
   //   width: 517,
   //   height: 254
@@ -98,9 +94,13 @@ const DeatilsPanel = ({
             </IconButton>
           </Box> */}
           <Stack direction={"row"}>
-            <Button variant="outlined">Send NDA/RFI</Button>
+            <Button variant="outlined">
+              {t("detailPanel.sendNdaRfi", "One Click Send")}
+            </Button>
             <SpacingHorizontal space="8px" />
-            <Button variant="contained">Conatact More</Button>
+            <Button variant="contained">
+              {t("detailPanel.contacMore", "contact more")}
+            </Button>
           </Stack>
         </Box>
         <Box sx={{ minWidth: DIMENSIONS.width, minHeight: DIMENSIONS.height }}>
@@ -126,12 +126,18 @@ const DeatilsPanel = ({
             setTab(v);
           }}
         >
-          <Tab label="General" value={0} />
-          <Tab label="Portfolio" value={1} />
-          <Tab label="Innovations" value={2} />
-          <Tab label="Certifications" value={3} />
-          <Tab label="Ratings" value={4} />
-          <Tab label="Similar Companies" value={5} />
+          <Tab label={t("detailPanel.General", "General")} value={0} />
+          <Tab label={t("detailPanel.Portfolio", "Portfolio")} value={1} />
+          <Tab label={t("detailPanel.Innovations", "Innovations")} value={2} />
+          <Tab
+            label={t("detailPanel.Certifications", "Certifications")}
+            value={3}
+          />
+          <Tab label={t("detailPanel.Ratings", "Ratings")} value={4} />
+          <Tab
+            label={t("detailPanel.SimilarCompanies", "SimilarCompanies")}
+            value={5}
+          />
         </StyledTabs>
         <SpacingVertical space="24px" />
         {tab === 0 && <General data={data} />}

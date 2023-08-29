@@ -7,28 +7,41 @@ import { STextCaption } from "components/ui-components/text";
 import { useTranslation } from "react-i18next";
 
 const Portfolio = ({ data }: { data: TSupplierModel }) => {
-  const { t} = useTranslation();
+  const { t } = useTranslation();
   return (
     <Stack>
       <DetailPanelCard>
         <STextCaption textAlign="left">
           {t("detailPanel.keyPartners", "KEY PARTNERS")}
         </STextCaption>
-        <Grid container>
-          <Grid item xs={2}>
-            WEBASTO
-          </Grid>
+        <Grid container gap={1}>
+          {Array.isArray(data.portfolio?.keyPartners) &&
+            data.portfolio?.keyPartners.map((keyPartner, idx) => (
+              <Grid item xs={2} key={idx}>
+                {keyPartner}
+              </Grid>
+            ))}
         </Grid>
       </DetailPanelCard>
       <SpacingVertical space="24px" />
       <DetailPanelCard>
         <STextCaption textAlign="left">
-        {t("detailPanel.productLine", "PRODUCT LINES")}
+          {t("detailPanel.productLine", "PRODUCT LINES")}
         </STextCaption>
-        <Grid container>
-          <Grid item xs={2}>
-            WEBASTO
-          </Grid>
+        <Grid container gap={1}>
+          {Array.isArray(data.portfolio?.productLines) &&
+            data.portfolio?.productLines.map((productLine, idx) => (
+              <Grid
+                item
+                xs={2}
+                key={idx}
+                sx={{
+                  wordWrap: "break-word",
+                }}
+              >
+                {productLine}
+              </Grid>
+            ))}
         </Grid>
       </DetailPanelCard>
     </Stack>
