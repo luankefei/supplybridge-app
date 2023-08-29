@@ -1,4 +1,4 @@
-import { Box, Divider, Grid, Stack } from "@mui/material";
+import { Box, Card, Divider, Grid, Stack } from "@mui/material";
 import { TSupplierModel } from "models/supplier";
 import {
   FirstColumn,
@@ -9,6 +9,13 @@ import {
 import { SpacingVertical } from "components/ui-components/spacer";
 import Icon from "components/icon";
 import { usePersistentStore, useStore } from "hooks/useStore";
+import {
+  SText,
+  STextBody16,
+  STextCaption,
+} from "components/ui-components/text";
+import DetailPanelCard from "../detailPanelCard";
+import { useTranslation } from "react-i18next";
 
 /**
  * 2 sections,
@@ -18,6 +25,7 @@ import { usePersistentStore, useStore } from "hooks/useStore";
  * a list of highlights with buillent points
  */
 const General = ({ data }: { data: TSupplierModel }) => {
+  const { t } = useTranslation();
   const { allSubRegions } = usePersistentStore.getState();
   const MyFirstColumnComponent = ({
     icon,
@@ -40,61 +48,110 @@ const General = ({ data }: { data: TSupplierModel }) => {
   });
   return (
     <Stack>
-      <TabPaneTextSecondary>BASIC INFO</TabPaneTextSecondary>
-      <Box width={"65%"}>
-        <GridContainer>
+      <DetailPanelCard>
+        <STextCaption textAlign="left">{t("detailPanel.about")}</STextCaption>
+        <STextBody16 textAlign="left">
+          {data.general?.description || "No description"}
+        </STextBody16>
+      </DetailPanelCard>
+
+      <SpacingVertical space="16px" />
+      <DetailPanelCard>
+        <STextCaption textAlign="left">
+          {t("detailPanel.location")}
+        </STextCaption>
+        <GridContainer width="100%">
           <FirstColumn>
-            <MyFirstColumnComponent icon="building" text="Headquarters" />
+            <MyFirstColumnComponent
+              icon="building"
+              text={t("detailPanel.headquarter", "Headquarter")}
+            />
           </FirstColumn>
           <SecondColumn>
-            {data.headquarterId === undefined
-              ? "N/A"
-              : allSubRegions[data.headquarterId]?.name}
+            {data.general?.headquarterName &&
+              data.general?.headquarterName?.toString()}
+            {!data.general?.headquarterName &&
+              (data.headquarterId === undefined
+                ? "N/A"
+                : allSubRegions[data.headquarterId]?.name)}
           </SecondColumn>
 
           <FirstColumn>
-            <MyFirstColumnComponent icon="location" text="Global Footprints" />
+            <MyFirstColumnComponent
+              icon="location"
+              text={t("detailPanel.globalFootprints", "Global Footprints")}
+            />
           </FirstColumn>
           <SecondColumn>
-            <Box width={250}>
+            <Box width={250} textAlign={"right"}>
+              {data.general?.globalFootprintNames &&
+                data.general?.globalFootprintNames?.toString()}
               {Array.from(locations).map((location, idx) => (
                 <span key={idx}>{location}, </span>
               ))}
             </Box>
           </SecondColumn>
-
-          <FirstColumn>
-            <MyFirstColumnComponent icon="map" text="Regions" />
-          </FirstColumn>
-          <SecondColumn>APAC</SecondColumn>
-
-          <FirstColumn>
-            <MyFirstColumnComponent icon="users" text="Employees" />
-          </FirstColumn>
-          <SecondColumn>10001</SecondColumn>
-
-          <FirstColumn>
-            <MyFirstColumnComponent icon="dollar" text="Revenue" />
-          </FirstColumn>
-          <SecondColumn>$6.24 Billion(2021)</SecondColumn>
-
-          <FirstColumn>
-            <MyFirstColumnComponent icon="layer" text="Website" />
-          </FirstColumn>
-          <SecondColumn>www.xyztech.com</SecondColumn>
         </GridContainer>
-      </Box>
+      </DetailPanelCard>
+
+      <SpacingVertical space="16px" />
+      <DetailPanelCard>
+        <STextCaption textAlign="left">
+          {t("detailPanel.basicInfo", "BASIC INFO")}
+        </STextCaption>
+        <GridContainer width="100%">
+          <FirstColumn>
+            <MyFirstColumnComponent
+              icon="calendar"
+              text={t("detailPanel.founded", "Date of Foundation")}
+            />
+          </FirstColumn>
+          <SecondColumn>{data.general?.foundedYear}</SecondColumn>
+          <FirstColumn>
+            <MyFirstColumnComponent
+              icon="users"
+              text={t("detailPanel.employees", "Employees")}
+            />
+          </FirstColumn>
+          <SecondColumn>{data.general?.employeeCount}</SecondColumn>
+          <FirstColumn>
+            <MyFirstColumnComponent
+              icon="dollar"
+              text={t("detailPanel.revenue", "Revenue")}
+            />
+          </FirstColumn>
+          <SecondColumn>{data.general?.revenue}</SecondColumn>
+          <FirstColumn>
+            <MyFirstColumnComponent
+              icon="internet"
+              text={t("detailPanel.website", "Website")}
+            />
+          </FirstColumn>
+          <SecondColumn>{data.general?.website}</SecondColumn>
+          <FirstColumn>
+            <MyFirstColumnComponent
+              icon="layer"
+              text={t("detailPanel.type", "type")}
+            />
+          </FirstColumn>
+          <SecondColumn>Tier 1</SecondColumn>
+        </GridContainer>
+      </DetailPanelCard>
       <SpacingVertical space="24px" />
-      <Divider />
-      <SpacingVertical space="24px" />
-      <TabPaneTextSecondary>HIGHLIGHTS</TabPaneTextSecondary>
-      <Grid container>
-        <ul>
-          <li>X123 Battery - RANGE 1,500km </li>
-          <li>2020 Most Innovative Battery Award </li>
-          <li>22021 32.6% Global Market Share (96GWh)</li>
-        </ul>
-      </Grid>
+      {data.general?.highlights && data.general?.highlights.length > 0 && (
+        <DetailPanelCard>
+          <STextCaption textAlign="left">
+            {t("detailPanel.highlights", "HIGHLIGHTS")}
+          </STextCaption>
+          <Grid container>
+            <ul>
+              {data.general.highlights.map((highlight, idx) => (
+                <li key={idx}>{highlight}</li>
+              ))}
+            </ul>
+          </Grid>
+        </DetailPanelCard>
+      )}
     </Stack>
   );
 };

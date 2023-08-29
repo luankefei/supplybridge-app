@@ -1,39 +1,25 @@
 import { ICertification } from "models/certification";
-import { Money } from "models/money";
 import { IPatent } from "models/patent";
 import { TSupplierModel } from "models/supplier";
 
 export interface IGeneral {
-  /**
-   * The name of this company's headquarter location
-   **/
-  headquarterName: string;
-  /**
-   * The name of this company's locationIds
-   */
-  globalFootprints: string[];
-  /**
-   * where this company is located, in regions
-   */
-  regions: string[];
-  /**
-   * total count of employees
-   */
+  description: string;
+  headquarterName?: string;
+  headquarterId: number;
+  globalFootprintNames: string[];
+  globalFootprints: number[];
+  foundedYear: number;
   employeeCount: number;
   /**
-   * Revenue of this company
+   * Revenue of this company in string format e.g. "EURO 100M", "USD $100B"
    */
-  revenue: Money;
-  /**
-   * The year of revenue
-   */
-  revenueYear: number;
+  revenue: string;
   /**
    * website of this company, in URL format
    */
   website: string;
   /**
-   * A list of highlights
+   * A list of highlights, in string format
    */
   highlights: string[];
 }
@@ -62,17 +48,19 @@ export interface IInnovations {
    * the number of R&D personnel
    */
   rndPersonnel: number;
+  rndPersonnelPercentage: string;
   /**
    * the number of R&D investment
    */
-  rndInvestment: Money;
-  rndInvestmentYear: number;
+  rndInvestment: string;
+  rndInvestmentYear: string;
+  rndInvestmentPercentage: string;
   /**
    * IDK what this is
    */
   buildToSpec: boolean;
   buildToPrint: boolean;
-
+  patentsCount: number;
   patents: IPatent[];
 }
 

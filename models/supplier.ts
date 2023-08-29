@@ -1,3 +1,10 @@
+import {
+  IGeneral,
+  IInnovations,
+  IPortfolio,
+} from "components/scout/scoutByIndex/detailPanel/type";
+import { ICertification } from "./certification";
+
 /**
  * components:
  *  schemas:
@@ -17,4 +24,9 @@ export type TSupplierModel = {
   category: string[];
   logo: string;
   name: string;
+  general?: IGeneral;
+  portfolio?: IPortfolio;
+  innovation?: IInnovations;
+  certifications?: ICertification[];
+  similarCompanies?: TSupplierModel[];
 };

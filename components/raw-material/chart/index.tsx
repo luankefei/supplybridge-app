@@ -6,11 +6,11 @@ import {
   Stack,
   Box,
   CircularProgress,
+  ToggleButtonGroup,
+  ToggleButton,
 } from "@mui/material";
 import { Close } from "@mui/icons-material";
 import { LargeText, SText } from "components/ui-components/text";
-import { Segmented } from "antd";
-import { SegmentedValue } from "antd/es/segmented";
 import {
   CartesianGrid,
   Legend,
@@ -59,24 +59,7 @@ const StyledLineChart = styled(LineChart)`
     display: none;
   }
 `;
-/**
- * This border radius only works on static elements
- * when this segmentd is clicked, the border radius is gone during transition
- */
-const StyledSegmented = styled(Segmented)`
-  &&& {
-    background-color: #e5e7eb;
-    // border-radius: 32px;
-    // padding: 4px;
-  }
-  &&& .ant-radio-wrapper {
-    // border-radius: 32px;
-  }
 
-  &&& .ant-segmented-item {
-    // border-radius: 32px;
-  }
-`;
 // https://www.figma.com/file/d8mRsss3DDeAHwiVLAuZ30/SupplyBridge---Raw-Material-Pricing?node-id=1%3A6596&mode=dev
 // TODO: Use theme
 const chartColors = {
@@ -93,7 +76,10 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
     MaterialUnits[materialName]
   );
 
-  const handleRangeUpdate = (newRange: SegmentedValue) => {
+  const handleRangeUpdate = (e: any, newRange: string) => {
+    if (!newRange || newRange === frequency) {
+      return;
+    }
     const nr = newRange as FrequencyEnum;
     setFrequency(nr);
   };
@@ -254,25 +240,21 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
           )}
         </Grid>
         <Grid item>
-          <StyledSegmented
-            size="large"
-            defaultValue={frequency}
-            options={[
-              {
-                value: FrequencyEnum.Day,
-                label: t("chart.day"),
-              },
-              {
-                value: FrequencyEnum.Month,
-                label: t("chart.month"),
-              },
-              {
-                value: FrequencyEnum.Year,
-                label: t("chart.year"),
-              },
-            ]}
+          <ToggleButtonGroup
+            exclusive
+            value={frequency}
             onChange={handleRangeUpdate}
-          />
+          >
+            <ToggleButton value={FrequencyEnum.Day}>
+              {t("chart.day")}
+            </ToggleButton>
+            <ToggleButton value={FrequencyEnum.Month}>
+              {t("chart.month")}
+            </ToggleButton>
+            <ToggleButton value={FrequencyEnum.Year}>
+              {t("chart.year")}
+            </ToggleButton>
+          </ToggleButtonGroup>
           <IconButton onClick={onRemove}>
             <Close />
           </IconButton>

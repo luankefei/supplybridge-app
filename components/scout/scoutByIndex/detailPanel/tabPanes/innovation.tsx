@@ -1,4 +1,4 @@
-import { Divider, Stack } from "@mui/material";
+import { Divider, Grid, Stack } from "@mui/material";
 import { TSupplierModel } from "models/supplier";
 import {
   FirstColumn,
@@ -7,40 +7,82 @@ import {
   TabPaneTextSecondary,
 } from "./uitlStyled";
 import { SpacingVertical } from "components/ui-components/spacer";
+import DetailPanelCard from "../detailPanelCard";
+import { STextBody, STextCaption } from "components/ui-components/text";
+import { useTranslation } from "react-i18next";
 
 const Innovation = ({ data }: { data: TSupplierModel }) => {
+  const { t } = useTranslation();
   return (
     <Stack>
-      <TabPaneTextSecondary>R&D</TabPaneTextSecondary>
-      <GridContainer>
-        <FirstColumn>R&D Personnel</FirstColumn>
-        <SecondColumn>8000</SecondColumn>
+      <DetailPanelCard>
+        <STextCaption textAlign="left">
+          {t("detailPanel.rd", "R&D")}
+        </STextCaption>
+        <GridContainer>
+          <FirstColumn>
+            {t("detailPanel.rdPersonnel", "R&D Personnel")}
+          </FirstColumn>
+          <SecondColumn>{data.innovation?.rndPersonnel}</SecondColumn>
 
-        <FirstColumn>R&D Personnel % (of total)</FirstColumn>
-        <SecondColumn>20%</SecondColumn>
+          <FirstColumn>
+            {t(
+              "detailPanel.rdPersonnelPercentage",
+              "R&D Personnel Percentage % (of total)"
+            )}
+          </FirstColumn>
+          <SecondColumn>{data.innovation?.rndPersonnelPercentage}</SecondColumn>
 
-        <FirstColumn>R&D Investment in 2021(mil, USD)</FirstColumn>
-        <SecondColumn>$500</SecondColumn>
+          <FirstColumn>
+            {t("detailPanel.rdInvestment", "R&D Investment")}
+          </FirstColumn>
+          <SecondColumn>{data.innovation?.rndInvestment}</SecondColumn>
 
-        <FirstColumn>R&D Investment % (of revenue)</FirstColumn>
-        <SecondColumn>9%</SecondColumn>
+          <FirstColumn>
+            {t(
+              "detailPanel.rdInvestmentPercentage",
+              "R&D Investment Percentage % (of total)"
+            )}
+          </FirstColumn>
+          <SecondColumn>
+            {data.innovation?.rndInvestmentPercentage}
+          </SecondColumn>
 
-        <FirstColumn>Built-to-spec</FirstColumn>
-        <SecondColumn>Yes</SecondColumn>
+          <FirstColumn>
+            {t("detailPanel.builtTospec", "Built-to-Spec")}
+          </FirstColumn>
+          <SecondColumn>{"Yes"}</SecondColumn>
 
-        <FirstColumn>Built-to-print</FirstColumn>
-        <SecondColumn>Yes</SecondColumn>
-      </GridContainer>
+          <FirstColumn>
+            {t("detailPanel.builtToprint", "Built-to-Print")}
+          </FirstColumn>
+          <SecondColumn>{"Yes"}</SecondColumn>
+        </GridContainer>
+      </DetailPanelCard>
       <SpacingVertical space="24px" />
-      <Divider />
-      <SpacingVertical space="24px" />
-      <TabPaneTextSecondary>PATENTS</TabPaneTextSecondary>
-      <GridContainer>
-        <FirstColumn>Total Patents(Global) </FirstColumn>
-        <SecondColumn>46</SecondColumn>
-      </GridContainer>
-      <SpacingVertical space="24px" />
-      <span>patentsCardHere</span>
+      <DetailPanelCard>
+        <STextCaption textAlign="left">
+          {t("detailPanel.patents", "Patents")}
+        </STextCaption>
+        <GridContainer>
+          <FirstColumn>
+            {t("detailPanel.totalPatents", "Total Patents(Global)")}
+          </FirstColumn>
+          <SecondColumn>
+            {data.innovation?.patentsCount || data.innovation?.patents.length}
+          </SecondColumn>
+        </GridContainer>
+        <Divider />
+        <Grid container>
+          <Grid item xs={2}>
+            {data.innovation?.patents.map((patent, idx) => (
+              <STextBody key={idx}>
+                {idx + 1}. {patent.title}
+              </STextBody>
+            ))}
+          </Grid>
+        </Grid>
+      </DetailPanelCard>
     </Stack>
   );
 };
