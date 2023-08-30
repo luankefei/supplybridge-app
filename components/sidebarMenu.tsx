@@ -169,6 +169,7 @@ export default function SideBarMenu() {
           <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
           {renderMenuItem(solutionsData)}
         </Box>
+        <SpacingVertical space="24px" />
         <Box>
           <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
           {renderMenuItem(marketData)}
