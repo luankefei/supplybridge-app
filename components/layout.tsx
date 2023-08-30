@@ -1,8 +1,8 @@
 import { theme } from "config/theme";
-import React from "react";
+import React, { useState } from "react";
 import SideBarMenu from "./sidebarMenu";
 import Head from "next/head";
-import { Box, Drawer } from "@mui/material";
+import { Box, Drawer, useTheme } from "@mui/material";
 
 const Layout = ({
   pageTitle,
@@ -19,7 +19,13 @@ const Layout = ({
   paddingVertical?: string | number;
   paddingHorizontal?: string | number;
 }) => {
-  const leftMenuWidth = theme.dimension.leftMenuWidth;
+  const muiTheme = useTheme();
+  const [collapsed, setCollapsed] = useState(
+    screen.width < theme.dimension.mobileBreakpoint
+  );
+  const leftMenuWidth = collapsed
+    ? theme.dimension.leftMenuWidthCollapsed
+    : theme.dimension.leftMenuWidth;
   return (
     <Box sx={{ display: "flex", width: "100%" }}>
       <Head>
@@ -28,19 +34,31 @@ const Layout = ({
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Drawer
+        open={true}
         sx={{
           width: leftMenuWidth,
           flexShrink: 0,
+          transition: muiTheme.transitions.create("width", {
+            easing: muiTheme.transitions.easing.sharp,
+            duration: muiTheme.transitions.duration.enteringScreen,
+          }),
           "& .MuiDrawer-paper": {
             width: leftMenuWidth,
             boxSizing: "border-box",
             border: 0,
+            transition: muiTheme.transitions.create("width", {
+              easing: muiTheme.transitions.easing.sharp,
+              duration: muiTheme.transitions.duration.enteringScreen,
+            }),
           },
         }}
         variant="permanent"
         anchor="left"
       >
-        <SideBarMenu />
+        <SideBarMenu
+          collapsed={collapsed}
+          toggleCollapsed={() => setCollapsed(!collapsed)}
+        />
       </Drawer>
       <Box
         component="main"

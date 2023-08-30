@@ -46,7 +46,9 @@ export const theme = {
   },
   dimension: {
     headerHeight: "120px",
+    leftMenuWidthCollapsed: "88px",
     leftMenuWidth: "312px",
     cardMaxWidth: "100%",
+    mobileBreakpoint: 768,
   },
 };
