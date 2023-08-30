@@ -3,7 +3,11 @@ import { toast } from "react-toastify";
 import { request } from "config/axios";
 import useBoundStore from "hooks/useBoundStore";
 import console from "utils/console";
-import { EnumNewsCategory, INewsRelevancyModelWithNews } from "models/newsRelevancy";
+import {
+  EnumNewsCategory,
+  INewsRelevancyModelWithNews,
+} from "models/newsRelevancy";
+import { cdsRequest } from "config/cdsAxio";
 
 const dummySample = [
   {
@@ -64,11 +68,9 @@ const prepareDummyData = (offset: number, limit: number) => {
   };
 };
 
-export const getNewsData = async (
-  name: string
- ) => {
+export const getNewsData = async (name: string) => {
   try {
-    const { data } = await request.get(
+    const { data } = await cdsRequest.get(
       `data/news?name=${encodeURIComponent(name)}`
     );
     return data || [];
@@ -82,7 +84,7 @@ export const getNewsRelevancyData = async (
   name: string
 ): Promise<INewsRelevancyModelWithNews[]> => {
   try {
-    const { data } = await request.get(
+    const { data } = await cdsRequest.get(
       `data/news_gpt_processed?name=${encodeURIComponent(name)}`
     );
     return data || [];
