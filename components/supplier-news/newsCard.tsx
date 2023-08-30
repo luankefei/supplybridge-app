@@ -28,22 +28,6 @@ const Container = muiStyled(Box)(`
     background-color: #FFFFFF;
 `);
 // padding: 2rem 1.375rem;
-
-const StyledImage = muiStyled("img")(`
-    flex-shrink: 0;
-    overflow: hidden;
-    @media (max-width: ${theme.size.mobileXl}) {
-        width: calc(100%);
-        height: 10rem;
-    };
-    @media (min-width: ${theme.size.mobileXl}) {
-        width: 9.875rem;
-        height: 7.375rem;
-    };
-    border-radius: 1rem;
-    object-fit: cover;
-`);
-
 const Contents = muiStyled("div")(`
     flex-shrink: 10;
     width: 100%;
@@ -82,7 +66,7 @@ const TitleLabel = muiStyled("span")(`
     font-size: 24px;
     font-style: normal;
     font-weight: 500;
-    line-height: 1.5rem;
+    line-height: 2rem;
     color: #434343;
     @media (min-width: ${theme.size.mobileXl}) {
         width: calc(100%);
@@ -111,25 +95,6 @@ const TagLabel = muiStyled("span")(`
     font-size: 13px;
     line-height: 1rem;
     color: #08979C;
-`);
-
-const SummaryLabel = muiStyled("span")(`
-    font-family: 'Inter';
-    font-style: normal;
-    font-weight: 400;
-    font-size: 0.875rem;
-    line-height: 1.375rem;
-    color: #8C8C8C;
-    @media (min-width: ${theme.size.mobileXl}) {
-        width: calc(100%);
-        overflow:hidden;
-        white-space:nowrap;
-        display:inline-block;
-        text-overflow:ellipsis;
-    };
-`);
-
-const StyledReadMore = muiStyled(`div`)(`
 `);
 
 function formatDate(dateString: string) {

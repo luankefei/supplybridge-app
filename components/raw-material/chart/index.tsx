@@ -35,6 +35,7 @@ import {
 import { MaterialUnits, Unit } from "../units";
 import CustomTooltip from "./tooltip";
 import { useTranslation } from "react-i18next";
+import { cdsRequest } from "config/cdsAxio";
 
 interface IChartDataPoint {
   time: Date | string;
@@ -173,8 +174,8 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
         return;
       }
       try {
-        const res = await request.get(
-          `/data/materialpricing?name=${apiName}&st=${st}&ed=${ed}`
+        const res = await cdsRequest.get(
+          `/data/materialPrices?name=${apiName}&st=${st}&ed=${ed}`
         );
         if (res.status !== 200 || !validateData(res.data)) {
           toast.error("Error fetching data...");

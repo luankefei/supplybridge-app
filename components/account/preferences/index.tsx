@@ -1,4 +1,4 @@
-import { Box, Stack } from "@mui/material";
+import { Box, Grid, Stack } from "@mui/material";
 import { SpacingVertical } from "components/ui-components/spacer";
 import { STextSecondary } from "components/ui-components/text";
 import { useTranslation } from "react-i18next";
@@ -12,16 +12,16 @@ export default function Preferences() {
     <Stack width={"100%"} p={"0 24px"}>
       <STextSecondary>{t("preferencesSubtitle")}</STextSecondary>
       <SpacingVertical space={"12px"} />
-      <Stack direction={"row"} spacing={2} width={"100%"}>
-        <Box flex={2}>
+      <Grid container width={"100%"} gap={2}>
+        <Grid item md={11.5} lg={7.5}>
           <SearchCriteria />
-        </Box>
-        <Box flex={1}>
+        </Grid>
+        <Grid item md={11.5} lg={4}>
           <Favourite />
           <SpacingVertical space="24px" />
           <RawMaterial />
-        </Box>
-      </Stack>
+        </Grid>
+      </Grid>
     </Stack>
   );
 }

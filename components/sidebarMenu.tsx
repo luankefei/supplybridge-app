@@ -2,18 +2,24 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { usePersistentStore } from "hooks/useStore";
-import cookie from "js-cookie";
-
 import { useTranslation } from "react-i18next";
-import { Box, Divider, Stack } from "@mui/material";
-import { SpacingHorizontal, SpacingVertical } from "./ui-components/spacer";
-import { SText } from "./ui-components/text";
+import { Box, Stack } from "@mui/material";
+import { SpacingVertical } from "./ui-components/spacer";
+
+interface IRenderMenuItem {
+  icon: string;
+  title: string;
+  path: string;
+  active: boolean;
+  passiveIcon: boolean;
+  extra?: string;
+}
 
 export default function SideBarMenu() {
   const { t } = useTranslation();
   const router = useRouter();
-
-  const solutionsData = [
+  const { user } = usePersistentStore();
+  const solutionsData: IRenderMenuItem[] = [
     {
       icon: "scouting",
       title: t("sidebar.scouting", "Scouting"),
@@ -67,7 +73,7 @@ export default function SideBarMenu() {
     },
   ];
 
-  const marketData: any = [
+  const marketData: IRenderMenuItem[] = [
     {
       icon: "raw-material",
       title: t("sidebar.rawMaterials", "Raw Material"),
@@ -106,6 +112,43 @@ export default function SideBarMenu() {
     },
 */
   ];
+  const stickyMenu: IRenderMenuItem[] = [
+    {
+      icon: "bell",
+      title: t("sidebar.notifications", "Notifications"),
+      path: "/notification",
+      active: router.asPath.includes("notification"),
+      passiveIcon: false,
+    },
+    {
+      icon: "profile",
+      title: user?.name || "",
+      path: "/account",
+      active: router.asPath.includes("account"),
+      passiveIcon: false,
+    },
+  ];
+
+  const renderMenuItem = (data: IRenderMenuItem[]) => {
+    return data.map((item: any, index: any) => (
+      <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
+        <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
+          <MenuIcon
+            src={`/menu/${item.icon}.svg`}
+            active={item.active}
+            passiveIcon={item.passiveIcon}
+          />
+          <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>
+            {item.title}
+          </MenuItemTitle>
+          {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
+          {item.passiveIcon && (
+            <ComingSoon>{t("sidebar.comingSoon", "COMING SOON")}</ComingSoon>
+          )}
+        </MenuWrapper>
+      </Link>
+    ));
+  };
 
   return (
     <Stack
@@ -116,124 +159,67 @@ export default function SideBarMenu() {
         fontFamily: "Nunito !important",
       }}
     >
-      <Stack gap={"46px"} p={"34px 24px"}>
+      <Stack p={"34px 24px"}>
         <picture>
           <img src="/menu/logo.svg" alt="logo" />
         </picture>
+        <SpacingVertical space="48px" />
         <Box>
-          <SText
-            color="#808080"
-            fontSize="16px"
-            fontWeight="400"
-            lineHeight="22px"
-          >
-            {t("sidebar.welcome", "Welcome")}
-          </SText>
           <SpacingVertical space="24px" />
           <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
-          {solutionsData.map((item: any, index: any) => {
-            return (
-              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
-                <MenuWrapper
-                  active={item.active}
-                  passiveIcon={item.passiveIcon}
-                >
-                  <MenuIcon
-                    src={`/menu/${item.icon}.svg`}
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  />
-                  <MenuItemTitle
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    {item.title}
-                  </MenuItemTitle>
-                  {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
-                  {item.passiveIcon && (
-                    <ComingSoon>
-                      {t("sidebar.comingSoon", "COMING SOON")}
-                    </ComingSoon>
-                  )}
-                </MenuWrapper>
-              </Link>
-            );
-          })}
+          {renderMenuItem(solutionsData)}
         </Box>
+        <SpacingVertical space="24px" />
         <Box>
           <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
-          {marketData.map((item: any, index: any) => {
-            return (
-              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
-                <MenuWrapper
-                  active={item.active}
-                  passiveIcon={item.passiveIcon}
-                >
-                  <MenuIcon
-                    src={`/menu/${item.icon}.svg`}
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  />
-                  <MenuItemTitle
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    {item.title}
-                  </MenuItemTitle>
-                  {item.passiveIcon && (
-                    <ComingSoon>
-                      {t("sidebar.comingSoon", "COMING SOON")}
-                    </ComingSoon>
-                  )}
-                </MenuWrapper>
-              </Link>
-            );
-          })}
+          {renderMenuItem(marketData)}
         </Box>
       </Stack>
-      <Stack
+      <Box
         sx={{
           position: "sticky",
           bottom: 0,
-          p: "12px 24px",
-          bgcolor: "white",
-          boxShadow: "0px -2px 4px rgba(0, 0, 0, 0.05)",
+          p: "0 24px 24px 24px",
         }}
       >
-        <Link href={"/account"}>
-          <MenuWrapper active={router.asPath.includes("account")}>
-            <MenuIcon
-              src={`/menu/profile.svg`}
-              active={router.asPath.includes("account")}
-            />
-            <MenuItemTitle passiveIcon={false}>
-              {t("sidebar.account", "Account")}
-            </MenuItemTitle>
-          </MenuWrapper>
-        </Link>
         <Stack
-          direction={"row"}
-          p={"10px"}
-          alignItems={"center"}
-          justifyContent={"space-between"}
+          sx={{
+            bgcolor: "white",
+            borderTop: "1px solid #E5E5E5",
+            ...dividerCss,
+          }}
         >
-          <Stack direction={"row"}>
-            <img src={`/menu/feedback.svg`} />
-            <SpacingHorizontal space="15px" />
-            <SText
-              fontSize="16px"
-              fontWeight="300"
-              lineHeight="22px"
-              color="#1a1a1a"
-            >
-              {t("sidebar.feedback", "Feedback")}
-            </SText>
-          </Stack>
+          {renderMenuItem(stickyMenu)}
         </Stack>
-      </Stack>
+      </Box>
     </Stack>
   );
 }
+
+const dividerCss = {
+  "::before": {
+    content: "''",
+    display: "block",
+    width: "8px",
+    height: "8px",
+    position: "absolute",
+    top: "-4px",
+    left: "24px",
+    transform: "rotate(45deg)",
+    backgroundColor: "#f0f0f0",
+  },
+  "::after": {
+    content: "''",
+    display: "block",
+    width: "8px",
+    height: "8px",
+    position: "absolute",
+    top: "-4px",
+    right: "24px",
+    transform: "rotate(45deg)",
+    backgroundColor: "#f0f0f0",
+  },
+};
 
 const MenuTitle = styled.div`
   font-weight: 400;

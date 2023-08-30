@@ -18,5 +18,7 @@ switch (_ENV_DEF) {
     ENV = EnumENVIRONMENT.development;
     break;
 }
+const CDS_API_URL = process.env.NEXT_PUBLIC_CDS_API_URL;
+const CDS_API_KEY = process.env.NEXT_PUBLIC_CDS_API_KEY;
 
-export { API_URL, ENV, VERSION };
+export { API_URL, ENV, VERSION, CDS_API_URL, CDS_API_KEY };

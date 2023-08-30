@@ -304,6 +304,20 @@ export default function ScoutByIndex() {
                             }
                           : undefined
                       }
+                      onClickSendNDA={
+                        selectedRows.length > 0
+                          ? () => {
+                              console.log("onClickSendNDA");
+                            }
+                          : undefined
+                      }
+                      onClickSendRFI={
+                        selectedRows.length > 0
+                          ? () => {
+                              console.log("onClickSendRFI");
+                            }
+                          : undefined
+                      }
                     />
                     <ScoutResultTable
                       viewType={viewType}
