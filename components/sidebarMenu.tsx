@@ -6,11 +6,20 @@ import { useTranslation } from "react-i18next";
 import { Box, Stack } from "@mui/material";
 import { SpacingVertical } from "./ui-components/spacer";
 
+interface IRenderMenuItem {
+  icon: string;
+  title: string;
+  path: string;
+  active: boolean;
+  passiveIcon: boolean;
+  extra?: string;
+}
+
 export default function SideBarMenu() {
   const { t } = useTranslation();
   const router = useRouter();
   const { user } = usePersistentStore();
-  const solutionsData = [
+  const solutionsData: IRenderMenuItem[] = [
     {
       icon: "scouting",
       title: t("sidebar.scouting", "Scouting"),
@@ -64,7 +73,7 @@ export default function SideBarMenu() {
     },
   ];
 
-  const marketData: any = [
+  const marketData: IRenderMenuItem[] = [
     {
       icon: "raw-material",
       title: t("sidebar.rawMaterials", "Raw Material"),
@@ -103,6 +112,43 @@ export default function SideBarMenu() {
     },
 */
   ];
+  const stickyMenu: IRenderMenuItem[] = [
+    {
+      icon: "bell",
+      title: t("sidebar.notifications", "Notifications"),
+      path: "/notification",
+      active: router.asPath.includes("notification"),
+      passiveIcon: false,
+    },
+    {
+      icon: "profile",
+      title: user?.name || "",
+      path: "/account",
+      active: router.asPath.includes("account"),
+      passiveIcon: false,
+    },
+  ];
+
+  const renderMenuItem = (data: IRenderMenuItem[]) => {
+    return data.map((item: any, index: any) => (
+      <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
+        <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
+          <MenuIcon
+            src={`/menu/${item.icon}.svg`}
+            active={item.active}
+            passiveIcon={item.passiveIcon}
+          />
+          <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>
+            {item.title}
+          </MenuItemTitle>
+          {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
+          {item.passiveIcon && (
+            <ComingSoon>{t("sidebar.comingSoon", "COMING SOON")}</ComingSoon>
+          )}
+        </MenuWrapper>
+      </Link>
+    ));
+  };
 
   return (
     <Stack
@@ -121,64 +167,11 @@ export default function SideBarMenu() {
         <Box>
           <SpacingVertical space="24px" />
           <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
-          {solutionsData.map((item: any, index: any) => {
-            return (
-              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
-                <MenuWrapper
-                  active={item.active}
-                  passiveIcon={item.passiveIcon}
-                >
-                  <MenuIcon
-                    src={`/menu/${item.icon}.svg`}
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  />
-                  <MenuItemTitle
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    {item.title}
-                  </MenuItemTitle>
-                  {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
-                  {item.passiveIcon && (
-                    <ComingSoon>
-                      {t("sidebar.comingSoon", "COMING SOON")}
-                    </ComingSoon>
-                  )}
-                </MenuWrapper>
-              </Link>
-            );
-          })}
+          {renderMenuItem(solutionsData)}
         </Box>
         <Box>
           <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
-          {marketData.map((item: any, index: any) => {
-            return (
-              <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
-                <MenuWrapper
-                  active={item.active}
-                  passiveIcon={item.passiveIcon}
-                >
-                  <MenuIcon
-                    src={`/menu/${item.icon}.svg`}
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  />
-                  <MenuItemTitle
-                    active={item.active}
-                    passiveIcon={item.passiveIcon}
-                  >
-                    {item.title}
-                  </MenuItemTitle>
-                  {item.passiveIcon && (
-                    <ComingSoon>
-                      {t("sidebar.comingSoon", "COMING SOON")}
-                    </ComingSoon>
-                  )}
-                </MenuWrapper>
-              </Link>
-            );
-          })}
+          {renderMenuItem(marketData)}
         </Box>
       </Stack>
       <Box
@@ -195,26 +188,7 @@ export default function SideBarMenu() {
             ...dividerCss,
           }}
         >
-          <Link href={"/notifications"}>
-            <MenuWrapper active={router.asPath.includes("notifications")}>
-              <MenuIcon
-                src={`/menu/bell.svg`}
-                active={router.asPath.includes("notifications")}
-              />
-              <MenuItemTitle passiveIcon={false}>
-                {t("sidebar.notifications", "Notifications")}
-              </MenuItemTitle>
-            </MenuWrapper>
-          </Link>
-          <Link href={"/account"}>
-            <MenuWrapper active={router.asPath.includes("account")}>
-              <MenuIcon
-                src={`/menu/profile.svg`}
-                active={router.asPath.includes("account")}
-              />
-              <MenuItemTitle passiveIcon={false}>{user?.name}</MenuItemTitle>
-            </MenuWrapper>
-          </Link>
+          {renderMenuItem(stickyMenu)}
         </Stack>
       </Box>
     </Stack>
