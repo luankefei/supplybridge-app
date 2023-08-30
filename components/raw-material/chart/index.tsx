@@ -36,6 +36,7 @@ import { MaterialUnits, Unit } from "../units";
 import CustomTooltip from "./tooltip";
 import { useTranslation } from "react-i18next";
 import { cdsRequest } from "config/cdsAxio";
+import { SpacingHorizontal } from "components/ui-components/spacer";
 
 interface IChartDataPoint {
   time: Date | string;
@@ -245,6 +246,19 @@ const RMChart = ({ materialName, onRemove }: IChart) => {
             exclusive
             value={frequency}
             onChange={handleRangeUpdate}
+            sx={{
+              "& .MuiToggleButton-root": {
+                padding: "6px 16px",
+                borderRadius: "16px",
+                border: "none",
+                color: "#445B66",
+                backgroundColor: "#F0F0F0",
+                "&.Mui-selected": {
+                  backgroundColor: "#855CF8",
+                  color: "white",
+                },
+              },
+            }}
           >
             <ToggleButton value={FrequencyEnum.Day}>
               {t("chart.day")}

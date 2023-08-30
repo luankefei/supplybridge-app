@@ -1,8 +1,9 @@
 import { theme } from "config/theme";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import SideBarMenu from "./sidebarMenu";
 import Head from "next/head";
 import { Box, Drawer, useTheme } from "@mui/material";
+import { usePersistentStore } from "hooks/useStore";
 
 const Layout = ({
   pageTitle,
@@ -20,9 +21,13 @@ const Layout = ({
   paddingHorizontal?: string | number;
 }) => {
   const muiTheme = useTheme();
-  const [collapsed, setCollapsed] = useState(
-    screen.width < theme.dimension.mobileBreakpoint
-  );
+  const { collapsed, setCollapsed } = usePersistentStore();
+  useEffect(() => {
+    if (screen.width < theme.dimension.mobileBreakpoint) {
+      setCollapsed(true);
+    }
+  }, []);
+
   const leftMenuWidth = collapsed
     ? theme.dimension.leftMenuWidthCollapsed
     : theme.dimension.leftMenuWidth;

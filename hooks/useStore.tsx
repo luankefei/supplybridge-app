@@ -168,6 +168,9 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
 }));
 
 interface IPersistentStore {
+  collapsed: boolean;
+  setCollapsed: (c: boolean) => void;
+
   user: TUserInfo | null;
   setUser: (value: TUserInfo | null) => void;
   /**
@@ -185,6 +188,10 @@ interface IPersistentStore {
 const usePersistentStore = create<IPersistentStore>()(
   persist<IPersistentStore>(
     (set, get) => ({
+      /** UI related */
+      collapsed: false,
+      setCollapsed: (c) => set(() => ({ collapsed: c })),
+
       /** USER related info */
       user: null,
       setUser: (value) => set(() => ({ user: value })),
