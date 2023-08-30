@@ -298,13 +298,16 @@
       }
     },
     "result": {
-      "overview": "Auflistung von <1>{{resultCount}}</1> lieferanten für \"{{resultType}}\"",
+      "overview": "Auflistung von <bold>{{displayCount}}</bold> einzelnen Lieferanten, mit <bold>{{resultCount}}</bold> globalen Fußabdrücken für <bold>{{resultType}}</bold>.",
       "organization": "Unternehmen",
       "hqLocation": "Hauptsitz",
       "footprint": "Globaler Fußabdruck",
       "badge": "Merkmal",
       "actions": "Aktionen",
       "addColumnTooltip": "Zum Hinzufügen/Entfernen von Spalten auswählen, zum Umsortieren ziehen",
+      "oneClickSend": "1-Klick Senden",
+      "oneClickSendOption1": "NDA senden",
+      "oneClickSendOption2": "RFI Dokument senden",
       "empty": {
         "title": "Keine Ergebnisse für diese Suche",
         "subtitle": "Unser SmartBridge-KI verarbeitet die Anfrage"

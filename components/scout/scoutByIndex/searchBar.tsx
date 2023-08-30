@@ -74,7 +74,7 @@ const SearchBar = (props: SearchBarProps) => {
     console.debug("getting autoComplete for", value);
     // TODO: enable this when API is ready
     const suggestedItems = await searchAutocomplete(queryString);
-    setOptions(suggestedItems);
+    setOptions(suggestedItems.filter((item) => !!item));
     setOptionsLoading(false);
   };
   const onClickSearch = () => {

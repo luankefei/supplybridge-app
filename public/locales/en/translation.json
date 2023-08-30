@@ -298,13 +298,16 @@
       }
     },
     "result": {
-      "overview": "Listing <1>{{resultCount}}</1> supplier(s) matching for <1>{{resultType}}</1>",
+      "overview": "Listing <bold>{{displayCount}}</bold> individual supplier(s), with <bold>{{resultCount}}</bold> Global Footprints for <bold>{{resultType}}</bold>",
       "organization": "Organization",
       "hqLocation": "HQ Location",
       "footprint": "Global Footprint",
       "badge": "Badge",
       "actions": "Actions",
       "addColumnTooltip": "Select to add/remove column, drag to reorder",
+      "oneClickSend": "1-Click Send",
+      "oneClickSendOption1": "Send NDA",
+      "oneClickSendOption2": "Send RFI Doc",
       "empty": {
         "title": "No results matching to this search",
         "subtitle": "Our SmartBridge AI will process the request"

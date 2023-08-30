@@ -184,7 +184,26 @@ export default function MapChart({
     const newLabels: Record<string, number> = {};
 
     if (suppliers.length === 0) {
-      // skip
+      const keys = Object.keys(allSubRegions);
+      for (let i = 0; i < keys.length; i++) {
+        const item = allSubRegions[keys[i] as any];
+        const threeLetterCode = TwoLetterCodeToCountryCodeMap[item.code];
+        if (!threeLetterCode) {
+          console.log("no threeLetterCode for", item);
+          continue;
+        }
+        const region = CountryToRegionMap[threeLetterCode];
+        const subRegion = CountryToSubRegionMap[threeLetterCode];
+        if (!region || !subRegion) {
+          console.log("no region or subRegion for", threeLetterCode);
+          continue;
+        }
+        newMap[region] += item.countSuppliersInLocation;
+        newMap[subRegion] += item.countSuppliersInLocation;
+        newSupplierCountByCountryMap[threeLetterCode] =
+          item.countSuppliersInLocation;
+        newLabels[item.code] = item.countSuppliersInLocation;
+      }
     } else {
       /**
        * When a user does some query, we have suppliers in our store.

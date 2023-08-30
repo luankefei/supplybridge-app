@@ -3,16 +3,23 @@ import {
   Box,
   Button,
   Grid,
+  Menu,
+  MenuItem,
   Stack,
   ToggleButton,
   ToggleButtonGroup,
   Tooltip,
   styled,
 } from "@mui/material";
-import { FormatAlignLeft, GridView } from "@mui/icons-material";
+import {
+  FormatAlignLeft,
+  GridView,
+  KeyboardArrowDown,
+} from "@mui/icons-material";
 import { Trans, useTranslation } from "react-i18next";
 import { SText } from "components/ui-components/text";
 import { SpacingVertical } from "components/ui-components/spacer";
+import { useState } from "react";
 
 interface ActionFilterAndViewProps {
   /**
@@ -39,6 +46,8 @@ interface ActionFilterAndViewProps {
    * Compare button function, use undefined to disable the button
    * */
   onClickCompare?: () => void;
+  onClickSendNDA?: () => void;
+  onClickSendRFI?: () => void;
   onFilterChange: (fv: FilterValue) => void;
   onViewChange: (view: ViewType) => void;
 }
@@ -71,10 +80,27 @@ const ActionFilterAndView = ({
   onClickBuildMyShortList,
   onClickBidderList,
   onClickCompare,
+  onClickSendNDA,
+  onClickSendRFI,
   onFilterChange,
   onViewChange,
 }: ActionFilterAndViewProps) => {
   const { t } = useTranslation();
+
+  const [anchorEl, setAnchorEl] = useState<null | HTMLElement>(null);
+  const open = Boolean(anchorEl);
+  const handleClick = (event: React.MouseEvent<HTMLButtonElement>) => {
+    if (open) {
+      handleClose();
+      return;
+    }
+    setAnchorEl(event.currentTarget);
+  };
+  const handleClose = (type?: "NDA" | "RFI") => {
+    setAnchorEl(null);
+    type === "NDA" ? onClickSendNDA?.() : onClickSendRFI?.();
+  };
+
   const hanldeViewChange = (e: any, v: ViewType | null) => {
     if (v === null) {
       // enforce
@@ -90,14 +116,17 @@ const ActionFilterAndView = ({
     <Stack>
       <Grid container justifyContent={"space-between"} rowGap={2}>
         <Grid item>
-          <Trans i18nKey="scout.result.overview">
-            <SText fontWeight="700" fontSize="32px">
-              {{ resultCount } as any}
-            </SText>
-            <SText fontWeight="700" fontSize="32px">
-              {{ resultType } as any}
-            </SText>
-          </Trans>
+          <Trans
+            i18nKey="scout.result.overview"
+            components={{
+              bold: <SText fontWeight="700" fontSize="32px" />,
+            }}
+            values={{
+              displayCount: displayCount.toLocaleString(),
+              resultCount: resultCount.toLocaleString(),
+              resultType: resultType.toUpperCase(),
+            }}
+          />
         </Grid>
         <Grid item>
           <TableFilters
@@ -132,6 +161,35 @@ const ActionFilterAndView = ({
               </WhiteBgRoundCornerButton>
             </span>
           </Tooltip>
+          <WhiteBgRoundCornerButton
+            variant="outlined"
+            disabled={
+              onClickSendNDA === undefined || onClickSendRFI === undefined
+            }
+            onClick={handleClick}
+            endIcon={<KeyboardArrowDown />}
+          >
+            {t("scout.result.oneClickSend", "1-Click Send")}
+          </WhiteBgRoundCornerButton>
+          <Menu
+            PaperProps={{
+              style: {
+                borderRadius: "16px",
+                width: "200px",
+                marginTop: "8px",
+              },
+            }}
+            open={open}
+            anchorEl={anchorEl}
+            onClose={() => handleClose()}
+          >
+            <MenuItem onClick={() => handleClose("NDA")}>
+              {t("scout.result.oneClickSendOption1", "Send NDA")}
+            </MenuItem>
+            <MenuItem onClick={() => handleClose("RFI")}>
+              {t("scout.result.oneClickSendOption2", "Send RFI Doc")}
+            </MenuItem>
+          </Menu>
         </Stack>
 
         <ToggleButtonGroup exclusive value={view} onChange={hanldeViewChange}>
