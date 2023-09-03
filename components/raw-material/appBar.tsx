@@ -13,7 +13,8 @@ function RMTopMenuBar({ children }: { children: React.ReactNode }) {
 
   const [isScrolled, setIsScrolled] = useState(false);
   const checkScroll = () => {
-    setIsScrolled(window.scrollY > 0);
+    // set it to 70 to avoid some glitch when just scrolled a little
+    setIsScrolled(window.scrollY > 70);
   };
   useEffect(() => {
     if (typeof window !== "undefined") {

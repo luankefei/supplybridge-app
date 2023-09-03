@@ -3,8 +3,10 @@ import { useRouter } from "next/router";
 import styled from "styled-components";
 import { usePersistentStore } from "hooks/useStore";
 import { useTranslation } from "react-i18next";
-import { Box, Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import { SpacingVertical } from "./ui-components/spacer";
+import { CloseFullscreen, Expand } from "@mui/icons-material";
+import { ENV, EnumENVIRONMENT } from "config";
 
 interface IRenderMenuItem {
   icon: string;
@@ -15,7 +17,14 @@ interface IRenderMenuItem {
   extra?: string;
 }
 
-export default function SideBarMenu() {
+interface ISideBarMenuProps {
+  collapsed: boolean;
+  toggleCollapsed: () => void;
+}
+export default function SideBarMenu({
+  collapsed,
+  toggleCollapsed,
+}: ISideBarMenuProps) {
   const { t } = useTranslation();
   const router = useRouter();
   const { user } = usePersistentStore();
@@ -138,12 +147,21 @@ export default function SideBarMenu() {
             active={item.active}
             passiveIcon={item.passiveIcon}
           />
-          <MenuItemTitle active={item.active} passiveIcon={item.passiveIcon}>
-            {item.title}
-          </MenuItemTitle>
-          {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
-          {item.passiveIcon && (
-            <ComingSoon>{t("sidebar.comingSoon", "COMING SOON")}</ComingSoon>
+          {!collapsed && (
+            <>
+              <MenuItemTitle
+                active={item.active}
+                passiveIcon={item.passiveIcon}
+              >
+                {item.title}
+              </MenuItemTitle>
+              {item.extra && <ExtraIcon src={`/menu/${item.extra}.svg`} />}
+              {item.passiveIcon && (
+                <ComingSoon>
+                  {t("sidebar.comingSoon", "COMING SOON")}
+                </ComingSoon>
+              )}
+            </>
           )}
         </MenuWrapper>
       </Link>
@@ -161,17 +179,37 @@ export default function SideBarMenu() {
     >
       <Stack p={"34px 24px"}>
         <picture>
-          <img src="/menu/logo.svg" alt="logo" />
+          {collapsed ? (
+            <img src="/favicon-32x32.png" alt="logo" />
+          ) : (
+            <img src="/menu/logo.svg" alt="logo" />
+          )}
         </picture>
         <SpacingVertical space="48px" />
-        <Box>
+
+        {ENV !== EnumENVIRONMENT.production ? (
+          <Box>
+            <IconButton onClick={toggleCollapsed}>
+              {collapsed ? <Expand /> : <CloseFullscreen />}
+            </IconButton>
+          </Box>
+        ) : (
           <SpacingVertical space="24px" />
-          <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
+        )}
+        <Box>
+          {collapsed ? (
+            <MenuTitle collapsed>SOL</MenuTitle>
+          ) : (
+            <MenuTitle>{t("sidebar.solutions", "SOLUTIONS")}</MenuTitle>
+          )}
+
           {renderMenuItem(solutionsData)}
         </Box>
         <SpacingVertical space="24px" />
         <Box>
-          <MenuTitle>{t("sidebar.marketData", "MARKET DATA")}</MenuTitle>
+          <MenuTitle collapsed={collapsed}>
+            {collapsed ? "MD" : t("sidebar.marketData", "MARKET DATA")}
+          </MenuTitle>
           {renderMenuItem(marketData)}
         </Box>
       </Stack>
@@ -221,15 +259,22 @@ const dividerCss = {
   },
 };
 
-const MenuTitle = styled.div`
+const MenuTitle = styled.div<{
+  collapsed?: boolean;
+}>`
   font-weight: 400;
   font-size: 16px;
   line-height: 22px;
+  text-align: ${(props) => (props.collapsed ? "center" : "left")};
   color: #1a1a1a;
   margin-bottom: 5px;
+  text-overflow: ellipsis;
+  height: 22px;
 `;
 
 const MenuIcon = styled.img<any>`
+  width: 22px;
+  height: 22px;
   filter: ${(props) =>
     props.active &&
     "invert(37%) sepia(57%) saturate(5004%) hue-rotate(161deg) brightness(99%) contrast(94%)"};
@@ -249,7 +294,7 @@ const MenuItemTitle = styled.span<any>`
 const ComingSoon = styled("span")`
   font-family: Ubuntu;
   font-size: 12px;
-  line-height: 18px;
+  line-height: 22px;
   background-color: #fcf1e2;
   padding: 3px 5px;
   transform: scale(0.7);
@@ -270,6 +315,7 @@ const MenuWrapper = styled.div<any>`
   padding: 10px;
   margin-bottom: 10px;
   margin-top: 10px;
+  height: 42px;
   &:hover {
     background: ${(props) => !props.passiveIcon && "rgb(8, 151, 156, 0.1)"};
     ${MenuItemTitle} {

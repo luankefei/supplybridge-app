@@ -6,7 +6,7 @@ exports[`RawMaterial matches snapshot 1`] = `
     class="MuiBox-root css-hboir5"
   >
     <div
-      class="MuiDrawer-root MuiDrawer-docked css-n8sr6d-MuiDrawer-docked"
+      class="MuiDrawer-root MuiDrawer-docked css-1hpp7ia-MuiDrawer-docked"
     >
       <div
         class="MuiPaper-root MuiPaper-elevation MuiPaper-elevation0 MuiDrawer-paper MuiDrawer-paperAnchorLeft MuiDrawer-paperAnchorDockedLeft css-12i7wg6-MuiPaper-root-MuiDrawer-paper"
@@ -20,7 +20,7 @@ exports[`RawMaterial matches snapshot 1`] = `
             <picture>
               <img
                 alt="logo"
-                src="/menu/logo.svg"
+                src="/favicon-32x32.png"
               />
             </picture>
             <div
@@ -29,155 +29,117 @@ exports[`RawMaterial matches snapshot 1`] = `
             <div
               class="MuiBox-root css-0"
             >
-              <div
-                class="sc-aXZVg iqDiuF"
-              />
-              <div
-                class="sc-eqUAAy geCqsQ"
+              <button
+                class="MuiButtonBase-root MuiIconButton-root MuiIconButton-sizeMedium css-78trlr-MuiButtonBase-root-MuiIconButton-root"
+                tabindex="0"
+                type="button"
               >
-                SOLUTIONS
+                <svg
+                  aria-hidden="true"
+                  class="MuiSvgIcon-root MuiSvgIcon-fontSizeMedium css-i4bv87-MuiSvgIcon-root"
+                  data-testid="ExpandIcon"
+                  focusable="false"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    d="M4 20h16v2H4zM4 2h16v2H4zm9 7h3l-4-4-4 4h3v6H8l4 4 4-4h-3z"
+                  />
+                </svg>
+                <span
+                  class="MuiTouchRipple-root css-8je8zh-MuiTouchRipple-root"
+                />
+              </button>
+            </div>
+            <div
+              class="MuiBox-root css-0"
+            >
+              <div
+                class="sc-eqUAAy iKKefE"
+              >
+                SOL
               </div>
               <a
                 href="/scout"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/scouting.svg"
                   />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
-                  >
-                    Scouting
-                  </span>
                 </div>
               </a>
               <a
                 href="/source"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/sourcing.svg"
                   />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
-                  >
-                    Sourcing
-                  </span>
                 </div>
               </a>
               <a
                 href=""
               >
                 <div
-                  class="sc-kAyceB hRGTgi"
+                  class="sc-kAyceB kaffRE"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/evaluate.svg"
                   />
-                  <span
-                    class="sc-iGgWBj fyElOr"
-                  >
-                    Evaluate
-                  </span>
-                  <span
-                    class="sc-gsFSXq gIVXee"
-                  >
-                    COMING SOON
-                  </span>
                 </div>
               </a>
               <a
                 href=""
               >
                 <div
-                  class="sc-kAyceB hRGTgi"
+                  class="sc-kAyceB kaffRE"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/sustainability.svg"
                   />
-                  <span
-                    class="sc-iGgWBj fyElOr"
-                  >
-                    Sustainability
-                  </span>
-                  <img
-                    class="sc-dcJsrY"
-                    src="/menu/leaf.svg"
-                  />
-                  <span
-                    class="sc-gsFSXq gIVXee"
-                  >
-                    COMING SOON
-                  </span>
                 </div>
               </a>
               <a
                 href=""
               >
                 <div
-                  class="sc-kAyceB hRGTgi"
+                  class="sc-kAyceB kaffRE"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/finance.svg"
                   />
-                  <span
-                    class="sc-iGgWBj fyElOr"
-                  >
-                    Finance
-                  </span>
-                  <span
-                    class="sc-gsFSXq gIVXee"
-                  >
-                    COMING SOON
-                  </span>
                 </div>
               </a>
               <a
                 href=""
               >
                 <div
-                  class="sc-kAyceB hRGTgi"
+                  class="sc-kAyceB kaffRE"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/transport.svg"
                   />
-                  <span
-                    class="sc-iGgWBj fyElOr"
-                  >
-                    Transport
-                  </span>
-                  <span
-                    class="sc-gsFSXq gIVXee"
-                  >
-                    COMING SOON
-                  </span>
                 </div>
               </a>
               <a
                 href="/total-solution"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/total-solution.svg"
                   />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
-                  >
-                    Total Solution
-                  </span>
                 </div>
               </a>
             </div>
@@ -188,59 +150,44 @@ exports[`RawMaterial matches snapshot 1`] = `
               class="MuiBox-root css-0"
             >
               <div
-                class="sc-eqUAAy geCqsQ"
+                class="sc-eqUAAy iKKefE"
               >
-                MARKET DATA
+                MD
               </div>
               <a
                 href="/raw-material"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/raw-material.svg"
                   />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
-                  >
-                    Raw Material
-                  </span>
                 </div>
               </a>
               <a
                 href="/supplier-news"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/supplier-news.svg"
                   />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
-                  >
-                    News & Insights
-                  </span>
                 </div>
               </a>
               <a
                 href="/supply-chain-transparency"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/supply-chain-transparency.svg"
                   />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
-                  >
-                    Supply Chain Transparency
-                  </span>
                 </div>
               </a>
             </div>
@@ -255,31 +202,23 @@ exports[`RawMaterial matches snapshot 1`] = `
                 href="/notification"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/bell.svg"
                   />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
-                  >
-                    Notifications
-                  </span>
                 </div>
               </a>
               <a
                 href="/account"
               >
                 <div
-                  class="sc-kAyceB dvxVuW"
+                  class="sc-kAyceB dUcPcs"
                 >
                   <img
-                    class="sc-fqkvVR dFNguY"
+                    class="sc-fqkvVR iRCSZF"
                     src="/menu/profile.svg"
-                  />
-                  <span
-                    class="sc-iGgWBj hqqoxu"
                   />
                 </div>
               </a>
