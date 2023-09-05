@@ -1,12 +1,15 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
-import { usePersistentStore } from "hooks/useStore";
-import { useTranslation } from "react-i18next";
-import { Box, IconButton, Stack } from "@mui/material";
+import { usePersistentStore, useStore } from "hooks/useStore";
+import { useSSR, useTranslation } from "react-i18next";
+import { Badge, Box, IconButton, Stack } from "@mui/material";
 import { SpacingVertical } from "./ui-components/spacer";
 import { CloseFullscreen, Expand } from "@mui/icons-material";
-import { ENV, EnumENVIRONMENT } from "config";
+import { API_URL, ENV, EnumENVIRONMENT } from "config";
+import useSWR from "swr";
+import { request } from "config/axios";
+import { useState } from "react";
 
 interface IRenderMenuItem {
   icon: string;
@@ -15,6 +18,7 @@ interface IRenderMenuItem {
   active: boolean;
   passiveIcon: boolean;
   extra?: string;
+  badgeNumber?: number;
 }
 
 interface ISideBarMenuProps {
@@ -28,6 +32,31 @@ export default function SideBarMenu({
   const { t } = useTranslation();
   const router = useRouter();
   const { user } = usePersistentStore();
+
+  const { hasNotif, setHasNotif } = useStore();
+  const fetcher = async (url: string) => {
+    try {
+      const res = await request.get(url);
+      if (res.data.hasNotif) {
+        setHasNotif(true);
+      }
+      return res.data;
+    } catch (error: any) {
+      const statusCode = error.response?.status;
+      if (statusCode < 500 && statusCode >= 400) {
+        setHasNotif(null);
+      }
+      throw error;
+    }
+  };
+  const notifications = useSWR(
+    !hasNotif ? `${API_URL}/notification/ping` : "",
+    fetcher,
+    {
+      refreshInterval: 1000 * 30,
+    }
+  );
+
   const solutionsData: IRenderMenuItem[] = [
     {
       icon: "scouting",
@@ -81,7 +110,6 @@ export default function SideBarMenu({
       passiveIcon: false,
     },
   ];
-
   const marketData: IRenderMenuItem[] = [
     {
       icon: "raw-material",
@@ -124,6 +152,7 @@ export default function SideBarMenu({
   const stickyMenu: IRenderMenuItem[] = [
     {
       icon: "bell",
+      badgeNumber: hasNotif ? 1 : 0,
       title: t("sidebar.notifications", "Notifications"),
       path: "/notification",
       active: router.asPath.includes("notification"),
@@ -142,11 +171,13 @@ export default function SideBarMenu({
     return data.map((item: any, index: any) => (
       <Link key={index} href={item.passiveIcon ? "" : `${item?.path}`}>
         <MenuWrapper active={item.active} passiveIcon={item.passiveIcon}>
-          <MenuIcon
-            src={`/menu/${item.icon}.svg`}
-            active={item.active}
-            passiveIcon={item.passiveIcon}
-          />
+          <Badge color="error" variant="dot" invisible={!item.badgeNumber}>
+            <MenuIcon
+              src={`/menu/${item.icon}.svg`}
+              active={item.active}
+              passiveIcon={item.passiveIcon}
+            />
+          </Badge>
           {!collapsed && (
             <>
               <MenuItemTitle

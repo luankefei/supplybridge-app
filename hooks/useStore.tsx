@@ -46,6 +46,8 @@ interface INonPersistentStore {
   setSuppliers: (value: TSupplierModel[], reset: boolean) => void;
   userFiles: IUserFile[];
   setUserFiles: (value: any) => void;
+  hasNotif: boolean | null;
+  setHasNotif: (value: boolean | null) => void;
   resetAll: () => void;
 }
 
@@ -140,6 +142,9 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
 
   userFiles: [],
   setUserFiles: (files) => set(() => ({ userFiles: files })),
+
+  hasNotif: false,
+  setHasNotif: (hasNotif: boolean | null) => set(() => ({ hasNotif })),
 
   /**
    * resets all the store values to default
