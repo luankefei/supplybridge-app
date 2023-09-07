@@ -104,6 +104,7 @@ export const useSupplier = (): IUseSupplierReturned => {
       const { data } = await request.post(endpoint, searchObj);
       await fakeData(data, searchObj);
       setLoading(false);
+
       if (data.suppliers[0]?.id === undefined) {
         // supplier id is missing, somethings this happens,
         // right now use idx on frontend as a hack,

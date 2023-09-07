@@ -2,14 +2,13 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styled from "styled-components";
 import { usePersistentStore, useStore } from "hooks/useStore";
-import { useSSR, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
 import { Badge, Box, IconButton, Stack } from "@mui/material";
 import { SpacingVertical } from "./ui-components/spacer";
 import { CloseFullscreen, Expand } from "@mui/icons-material";
 import { API_URL, ENV, EnumENVIRONMENT } from "config";
 import useSWR from "swr";
 import { request } from "config/axios";
-import { useState } from "react";
 
 interface IRenderMenuItem {
   icon: string;
@@ -53,7 +52,7 @@ export default function SideBarMenu({
     !hasNotif ? `${API_URL}/notification/ping` : "",
     fetcher,
     {
-      refreshInterval: 1000 * 30,
+      refreshInterval: 1000 * 60,
     }
   );
 
@@ -221,7 +220,15 @@ export default function SideBarMenu({
         {ENV !== EnumENVIRONMENT.production ? (
           <Box>
             <IconButton onClick={toggleCollapsed}>
-              {collapsed ? <Expand /> : <CloseFullscreen />}
+              {collapsed ? (
+                <Expand
+                  sx={{
+                    transform: "rotate(90deg)",
+                  }}
+                />
+              ) : (
+                <CloseFullscreen />
+              )}
             </IconButton>
           </Box>
         ) : (
@@ -290,7 +297,7 @@ const dividerCss = {
   },
 };
 
-const MenuTitle = styled.div<{
+const MenuTitle = styled.span<{
   collapsed?: boolean;
 }>`
   font-weight: 400;

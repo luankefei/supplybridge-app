@@ -147,8 +147,10 @@ export const STextH2 = styled.span<{
 
 export const STextH3 = styled.span<{
   color?: string;
+  textAlign?: string;
 }>`
   color: ${(props) => props.color || "#434343"};
+  text-align: ${(props) => props.textAlign || "center"};
   text-align: center;
   font-family: Ubuntu;
   font-size: 20px;

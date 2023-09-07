@@ -8,6 +8,7 @@ import styled from "styled-components";
 import { Box } from "@mui/material";
 import { ScoutSwitchType } from "./types";
 import { useTranslation } from "react-i18next";
+import BidderList from "./bidderList";
 
 export default function ScoutingMain() {
   const { t } = useTranslation();
@@ -46,7 +47,7 @@ export default function ScoutingMain() {
 
       {selected === ScoutSwitchType.index && <ScoutByIndex />}
       {selected === ScoutSwitchType.quickBridge && <ScoutByQuickBridge />}
-      {selected === ScoutSwitchType.bidder && <BidderPart />}
+      {selected === ScoutSwitchType.bidder && <BidderList />}
     </Box>
   );
 }
