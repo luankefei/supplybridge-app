@@ -6,18 +6,20 @@ export function middleware(req: NextRequest) {
 
   const userToken = req.cookies.get("token")?.value;
   // Skip if the request is for the login, signup or forgot-password pages
-  if (
-    pathname === "/login" ||
-    pathname === "/signup" ||
-    pathname === "/forgot-password" ||
-    pathname === "/reset-password" ||
-    pathname.startsWith("/about")
-  ) {
+  if (pathname === "/login") {
     if (!userToken) {
       return NextResponse.next();
     } else {
       return NextResponse.redirect(new URL("/dashboard", req.url));
     }
+  }
+  if (
+    pathname.startsWith("/about") ||
+    pathname === "/signup" ||
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password"
+  ) {
+    return NextResponse.next();
   }
   // Redirect to login if no user token
   if (!userToken) {
