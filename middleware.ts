@@ -9,7 +9,9 @@ export function middleware(req: NextRequest) {
   if (
     pathname === "/login" ||
     pathname === "/signup" ||
-    pathname === "/forgot-password"
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password" ||
+    pathname.startsWith("/about")
   ) {
     if (!userToken) {
       return NextResponse.next();
