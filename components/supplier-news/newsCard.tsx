@@ -1,5 +1,6 @@
 import { Box } from "@mui/material";
 import { styled as muiStyled } from "@mui/material/styles";
+import { STextCaption, STextSubtitle } from "components/ui-components/text";
 import { theme } from "config/theme";
 import Image from "next/image";
 import { allCountry } from "utils/countries";
@@ -88,15 +89,6 @@ const Tags = muiStyled("div")(`
     gap: 0.75rem;
 `);
 
-const TagLabel = muiStyled("span")(`
-    font-family: Ubuntu;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 1rem;
-    color: #08979C;
-`);
-
 function formatDate(dateString: string) {
   const date = new Date(dateString);
   const now = new Date();
@@ -114,9 +106,22 @@ function formatDate(dateString: string) {
 }
 
 const NewsCard = function (props: any) {
-  const { id, publishDate, title, k1, url, text, image, country, author } =
-    props;
-  const tags = [k1];
+  const {
+    id,
+    publishDate,
+    title,
+    k1,
+    url,
+    text,
+    image,
+    country,
+    author,
+    gptProcess,
+  } = props;
+  let tags = [k1];
+  if (gptProcess) {
+    tags = gptProcess.relevant_keywords;
+  }
   const summary =
     text && text.substring(0, 300) + (text.length > 300 ? " ..." : "");
   const displayedCountry = country
@@ -129,7 +134,7 @@ const NewsCard = function (props: any) {
 
   return (
     <Container>
-      {/*<StyledImage src={image} alt={``} width={158} height={118}></StyledImage>*/}
+      <img src={image} alt={``} width={158} height={118}></img>
       <Contents>
         <DateLabel>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
@@ -167,13 +172,23 @@ const NewsCard = function (props: any) {
             {decodeHTMLEntities(title)}
           </a>
         </TitleLabel>
+        <STextSubtitle textAlign="left" textTransform="capitalize">
+          {gptProcess?.summary ? gptProcess.summary : summary}
+        </STextSubtitle>
         <Tags>
           {tags &&
-            tags.map((tag: any, index: number) => {
-              return <TagLabel key={`${tag}-${index}`}>#{tag}</TagLabel>;
+            tags.map((tag: string, index: number) => {
+              return (
+                <STextCaption
+                  color="#08979C"
+                  key={`${tag}-${index}`}
+                  textTransform="capitalize"
+                >
+                  #{tag}
+                </STextCaption>
+              );
             })}
         </Tags>
-        {/*<SummaryLabel>{summary}</SummaryLabel>*/}
         {/*<StyledReadMore>
                     <span>Read More</span>
                     <Image src="/icons/right-arrow.svg" alt="->" width={24} height={24} />

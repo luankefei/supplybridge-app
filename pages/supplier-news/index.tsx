@@ -157,7 +157,13 @@ export default function SupplierNews() {
             Array.isArray(news) &&
             news.map((item: any) => {
               if (toggleGPTNews) {
-                return <NewsCard key={item.id} {...item.NewsArticle} />;
+                return (
+                  <NewsCard
+                    key={item.id}
+                    {...item.NewsArticle}
+                    gptProcess={item}
+                  />
+                );
               }
               return <NewsCard key={item.id} {...item} />;
             })}
