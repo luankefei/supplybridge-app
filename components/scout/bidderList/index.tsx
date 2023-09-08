@@ -8,15 +8,19 @@ import {
   ListItem,
   ListItemIcon,
   ListItemText,
+  Paper,
   Stack,
   TextField,
 } from "@mui/material";
 import {
   SpacingDivider,
+  SpacingHorizontal,
   SpacingVertical,
 } from "components/ui-components/spacer";
 import {
+  SText,
   STextBody,
+  STextCaption,
   STextH1,
   STextH2,
   STextH4,
@@ -25,10 +29,13 @@ import { TSupplierModel } from "models/supplier";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useStore } from "hooks/useStore";
+import { DataGrid, GridColDef, gridClasses } from "@mui/x-data-grid";
+import { NullableImg } from "../scoutByIndex/summary.styled";
+import Icon from "components/icon";
 
 export default function BidderList() {
   const { t } = useTranslation();
-  const { suppliers } = useStore();
+  const { queryString, suppliers } = useStore();
   const [tags, setTags] = useState<string[]>([]);
   const [inputValue, setInputValue] = useState<string>("");
   const [uniqueSupplier, setUniqueSupplier] = useState<TSupplierModel[] | null>(
@@ -100,15 +107,99 @@ export default function BidderList() {
       </List>
     );
   };
-  const compareResult = () => {};
+
+  const columns: GridColDef[] = [
+    {
+      field: "name",
+      headerName: "Name",
+      width: 400,
+      renderCell: (params) => {
+        // render logo with name
+        const { logo, name, isInnovation } = params.row;
+        return (
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <NullableImg url={logo} />
+            <SpacingHorizontal space="8px" />
+            <SText fontSize="16px" fontWeight="normal">
+              {name}
+            </SText>
+            <SpacingHorizontal space="8px" />
+            {isInnovation && <Icon src="innovations" width={20} height={20} />}
+          </Box>
+        );
+      },
+    },
+    {
+      field: "headquarterId",
+      headerName: "Headquarter ID",
+      width: 200,
+      renderCell: (params) => {
+        const { headquarter, hqCode } = params.row;
+        if (!headquarter) {
+          return null;
+        }
+        return (
+          <Box sx={{ display: "flex" }} alignItems={"center"}>
+            <NullableImg
+              url={hqCode ? `/flags/${hqCode?.toLowerCase()}.svg` : ""}
+            />
+            <SpacingHorizontal space="8px" />
+            <SText fontSize="16px" fontWeight="normal">
+              {headquarter}
+            </SText>
+          </Box>
+        );
+      },
+    },
+    // { field: "locationId", headerName: "Location ID", width: 200 },
+  ];
+  const compareResult = () => {
+    const unique = suppliers.filter(
+      (s) => !tags.includes(s.name.toLowerCase())
+    );
+    setUniqueSupplier(unique);
+  };
   const renderComapreResult = () => {
-    if (!compareResult) {
+    if (!uniqueSupplier) {
       return null;
     }
+    const countTag = tags.length;
+    const matched = suppliers.length - uniqueSupplier.length;
+    return (
+      <Stack>
+        <Paper sx={{ p: 2 }}>
+          <STextCaption>{`${matched} matched with your list`}</STextCaption>
+          <br />
+          <STextH4>{`We found ${uniqueSupplier.length} unique suppliers`}</STextH4>
+        </Paper>
+        <SpacingVertical space="20px" />
+        <Paper sx={{ p: 2 }}>
+          <STextH2>{`${uniqueSupplier.length} unique suppliers`}</STextH2>
+          <SpacingVertical space="20px" />
+          <DataGrid
+            sx={{
+              border: "none",
+              [`& .${gridClasses.withBorderColor}`]: {
+                border: "none",
+              },
+              [`& .${gridClasses.row}`]: {
+                bgcolor: "#fff",
+                borderRadius: "16px",
+              },
+              [`& .${gridClasses.cell}`]: {
+                border: "none",
+              },
+            }}
+            rows={uniqueSupplier}
+            columns={columns}
+          />
+        </Paper>
+      </Stack>
+    );
   };
   return (
     <Stack p={2}>
-      <STextH1>You are searching for: q </STextH1>
+      <STextH1>You are searching for: {queryString} </STextH1>
       <SpacingDivider space="20px" />
       <STextH2 textAlign="left">Bidder List (BDL) Comparision</STextH2>
       <STextBody textAlign="left">
@@ -152,9 +243,12 @@ export default function BidderList() {
           </Stack>
         </Card>
       </Stack>
-      <Box>
-        <Button onClick={compareResult}>compare now</Button>
-      </Box>
+      <SpacingVertical space="20px" />
+      <Stack>
+        <Button sx={{ width: 200 }} variant="contained" onClick={compareResult}>
+          compare now
+        </Button>
+      </Stack>
       {renderComapreResult()}
     </Stack>
   );
