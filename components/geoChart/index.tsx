@@ -1,4 +1,4 @@
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, IconButton, MenuItem, MenuList, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   ComposableMap,
@@ -27,14 +27,15 @@ import {
 import { usePersistentStore, useStore } from "hooks/useStore";
 import MapCircleMarker, { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Menu, Remove, Replay } from "@mui/icons-material";
 import { SpacingVertical } from "components/ui-components/spacer";
+import { Legend } from "./legend";
 
 //#region map Constants
 const RADIUS_SIZE = [155, 100, 50, 60];
 const SCALE_SIZE = 200;
 const FONT_SIZE = 18;
-const INITIAL_ZOOM = 1.717;
+const INITIAL_ZOOM = 1;
 const INITIAL_CENTER: [number, number] = [1.96, 47.224];
 // These numbers are tied to the scale of the map
 // i have no idea how to translate them, this is tried out by hand
@@ -284,15 +285,18 @@ export default function MapChart({
     setCenter(position.coordinates);
     setZoom(position.zoom);
   };
-
+  const resetZoom = () => {
+    setZoom(INITIAL_ZOOM);
+    setCenter(INITIAL_CENTER);
+  };
   const zoomIn = () => {
     if (zoom < 10) {
-      setZoom(zoom + 0.5);
+      setZoom(zoom * 1.1);
     }
   };
   const zoomOut = () => {
     if (zoom > 1) {
-      setZoom(zoom - 0.5);
+      setZoom(Math.max(zoom * 0.9, 1));
     }
   };
 
@@ -452,7 +456,38 @@ export default function MapChart({
       </Marker>
     );
   };
-
+  const renderTotalCount = () => {
+    let counts: [string, number][] = [];
+    const a = supplierCountByMap[EnumRegion.Americas];
+    const emea = supplierCountByMap[EnumRegion.EMEA];
+    const apac = supplierCountByMap[EnumRegion.APAC];
+    const Total = a + emea + apac;
+    if (zoom < 2) {
+      counts = Object.entries({
+        [EnumRegion.Americas]: a,
+        [EnumRegion.EMEA]: emea,
+        [EnumRegion.APAC]: apac,
+        Total,
+      });
+    } else if (zoom < 6) {
+      counts = Object.entries({
+        [EnumSubRegion.NorthNCentralAmerica]:
+          supplierCountByMap[EnumSubRegion.NorthNCentralAmerica],
+        [EnumSubRegion.SouthAmerica]:
+          supplierCountByMap[EnumSubRegion.SouthAmerica],
+        [EnumSubRegion.Europe]: supplierCountByMap[EnumSubRegion.Europe],
+        [EnumSubRegion.Africa]: supplierCountByMap[EnumSubRegion.Africa],
+        [EnumSubRegion.MiddleEast]:
+          supplierCountByMap[EnumSubRegion.MiddleEast],
+        [EnumSubRegion.Asia]: supplierCountByMap[EnumSubRegion.Asia],
+        [EnumSubRegion.Oceania]: supplierCountByMap[EnumSubRegion.Oceania],
+        Total,
+      });
+    } else {
+      counts = Object.entries({ ...supplierCountByCountryMap, Total });
+    }
+    return <Legend counts={counts} />;
+  };
   return (
     <Box
       position={"relative"}
@@ -496,24 +531,32 @@ export default function MapChart({
           </Geographies>
           {renderMarkerHoveredCountry()}
           {renderMarkerSelectedCountry()}
-          {markers.map((e) => (
-            <MapCircleMarker
-              key={e.name}
-              marker={e}
-              fontSize={FONT_SIZE}
-              onMarkerClick={zoomToRegion}
-              count={supplierCountByMap[e.name]}
-            />
-          ))}
         </ZoomableGroup>
       </ComposableMap>
       <Stack
         sx={{
           position: "absolute",
           bottom: 24,
-          right: 24,
+          right: -104,
+          backgroundColor: "#ecf0f1",
+          borderRadius: "8px",
+          padding: "8px",
+          overflow: "scroll",
         }}
       >
+        {renderTotalCount()}
+      </Stack>
+      <Stack
+        sx={{
+          position: "absolute",
+          bottom: 24,
+          left: 24,
+        }}
+      >
+        <IconButton onClick={resetZoom} sx={{ bgcolor: "white" }}>
+          <Replay />
+        </IconButton>
+        <SpacingVertical space="8px" />
         <IconButton
           onClick={zoomIn}
           sx={{
