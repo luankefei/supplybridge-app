@@ -47,7 +47,8 @@ export default function ScoutingMain() {
 
       {selected === ScoutSwitchType.index && <ScoutByIndex />}
       {selected === ScoutSwitchType.quickBridge && <ScoutByQuickBridge />}
-      {selected === ScoutSwitchType.bidder && <BidderList />}
+      {/* {selected === ScoutSwitchType.bidder && <BidderList />} */}
+      {selected === ScoutSwitchType.bidder && <BidderPart />}
     </Box>
   );
 }
