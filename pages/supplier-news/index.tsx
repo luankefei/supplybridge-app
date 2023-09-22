@@ -2,14 +2,14 @@ import { styled as muiStyled } from "@mui/material/styles";
 import { useEffect, useState } from "react";
 import NewsCard from "components/supplier-news/newsCard";
 import NewsCardSkeleton from "components/supplier-news/newsCardSkeleton";
-import { getNewsData, getNewsRelevancyData } from "requests/useSupplierNews";
 import { theme } from "config/theme";
 import Layout from "components/layout";
 import {
   EnumNewsCategory,
   INewsRelevancyModelWithNews,
 } from "models/newsRelevancy";
-import SupToggleFeature from "components/ui-components/toggleFeature";
+import { cdsRequest } from "config/cdsAxio";
+import { useTranslation } from "react-i18next";
 
 const Container = muiStyled("div")(`
   width: 100%;
@@ -68,9 +68,9 @@ justify-content: center;
 const newsTabLeft = ["4px", "160px", "316px"];
 
 export default function SupplierNews() {
-  const [news, setNews] = useState<any>(null);
+  const { t } = useTranslation("supplierNews");
+  const [news, setNews] = useState<INewsRelevancyModelWithNews[] | null>(null);
 
-  const [toggleGPTNews, setToggleGPTNews] = useState(false);
   const [loading, setLoading] = useState(false);
   const [typeI, setTypeI] = useState(0);
   const categories = [
@@ -78,36 +78,39 @@ export default function SupplierNews() {
     EnumNewsCategory.SUPPLIER,
     EnumNewsCategory.RISK,
   ];
-  const archived = ["trend", "supplier", "risk"];
+
+  const getNewsRelevancyData = async (
+    name: string
+  ): Promise<INewsRelevancyModelWithNews[]> => {
+    try {
+      const { data } = await cdsRequest.get(
+        `data/news_gpt_processed?name=${encodeURIComponent(name)}`
+      );
+      return data || [];
+    } catch (err: any) {
+      console.error(err);
+      return [];
+    }
+  };
 
   const fetchSupplierNews = async () => {
-    let data;
     setLoading(true);
-    if (toggleGPTNews) {
-      data = await getNewsRelevancyData(categories[typeI]);
-      data.sort(
-        (a: INewsRelevancyModelWithNews, b: INewsRelevancyModelWithNews) =>
-          new Date(b.NewsArticle.publishDate).getTime() -
-          new Date(a.NewsArticle.publishDate).getTime()
-      );
-    } else {
-      data = await getNewsData(archived[typeI]);
-    }
-    setNews(data as any);
+    const data = await getNewsRelevancyData(categories[typeI]);
+    data.sort(
+      (a: INewsRelevancyModelWithNews, b: INewsRelevancyModelWithNews) =>
+        new Date(b.NewsArticle.publishDate).getTime() -
+        new Date(a.NewsArticle.publishDate).getTime()
+    );
+    setNews(data);
     setLoading(false);
   };
 
   useEffect(() => {
     fetchSupplierNews();
-  }, [typeI, toggleGPTNews]);
+  }, [typeI]);
 
   return (
     <Layout pageTitle="News">
-      <SupToggleFeature
-        featureName="Use GPT News"
-        turnOn={() => setToggleGPTNews(true)}
-        turnOff={() => setToggleGPTNews(false)}
-      />
       <NewsContainer>
         <div style={{ width: "100%", display: "flex", padding: "0 32px" }}>
           {/* 70.375rem: this is the same as newsCard container width, so the news list and newsTab are left-aligned */}
@@ -132,21 +135,21 @@ export default function SupplierNews() {
               activeId={typeI}
               onClick={() => setTypeI(0)}
             >
-              Industry & Trend
+              {t("industry")}
             </NewsTab>
             <NewsTab
               active={typeI === 1}
               activeId={typeI}
               onClick={() => setTypeI(1)}
             >
-              Supplier
+              {t("supplier")}
             </NewsTab>
             <NewsTab
               active={typeI === 2}
               activeId={typeI}
               onClick={() => setTypeI(2)}
             >
-              Risk
+              {t("risk")}
             </NewsTab>
           </NewsTabContainer>
         </div>
@@ -155,11 +158,19 @@ export default function SupplierNews() {
           {!loading &&
             news &&
             Array.isArray(news) &&
-            news.map((item: any) => {
-              if (toggleGPTNews) {
-                return <NewsCard key={item.id} {...item.NewsArticle} />;
-              }
-              return <NewsCard key={item.id} {...item} />;
+            news.map((item: INewsRelevancyModelWithNews) => {
+              return (
+                <NewsCard
+                  key={item.id}
+                  publishDate={item.NewsArticle.publishDate}
+                  author={`${t("author")}: ${item.NewsArticle.author}`}
+                  url={item.NewsArticle.url}
+                  title={item.NewsArticle.title}
+                  image={item.NewsArticle.image}
+                  summary={item.summary}
+                  tags={item.relevant_keywords || []}
+                />
+              );
             })}
           {loading &&
             [1, 2, 3].map((value) => <NewsCardSkeleton key={value} />)}

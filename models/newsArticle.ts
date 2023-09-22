@@ -2,7 +2,7 @@ export interface NewsArticleAttributes {
   id: number;
   url: string;
   image: string;
-  publishDate: Date;
+  publishDate: string;
   author: string;
   lang: string;
   country: string;

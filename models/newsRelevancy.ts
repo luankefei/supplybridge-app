@@ -16,8 +16,9 @@ export interface NewsRelevancyAttributes {
   id: number;
   newsId: number;
   summary: string;
-  keywords: string[];
+  relevant_keywords: string[];
   category: EnumNewsCategory;
+  reasoning: string;
 }
 
 export interface INewsRelevancyModel extends NewsRelevancyAttributes {
@@ -28,4 +29,3 @@ export interface INewsRelevancyModel extends NewsRelevancyAttributes {
 export interface INewsRelevancyModelWithNews extends INewsRelevancyModel {
   NewsArticle: INewsArticleModel;
 }
-

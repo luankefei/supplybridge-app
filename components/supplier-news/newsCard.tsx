@@ -1,8 +1,7 @@
 import { Box } from "@mui/material";
 import { styled as muiStyled } from "@mui/material/styles";
+import { STextCaption, STextSubtitle } from "components/ui-components/text";
 import { theme } from "config/theme";
-import Image from "next/image";
-import { allCountry } from "utils/countries";
 import { decodeHTMLEntities } from "utils/html";
 
 // width: min(calc(100%), 70.375rem);
@@ -88,15 +87,6 @@ const Tags = muiStyled("div")(`
     gap: 0.75rem;
 `);
 
-const TagLabel = muiStyled("span")(`
-    font-family: Ubuntu;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 13px;
-    line-height: 1rem;
-    color: #08979C;
-`);
-
 function formatDate(dateString: string) {
   const date = new Date(dateString);
   const now = new Date();
@@ -113,53 +103,31 @@ function formatDate(dateString: string) {
   }
 }
 
-const NewsCard = function (props: any) {
-  const { id, publishDate, title, k1, url, text, image, country, author } =
-    props;
-  const tags = [k1];
-  const summary =
-    text && text.substring(0, 300) + (text.length > 300 ? " ..." : "");
-  const displayedCountry = country
-    ? allCountry
-        .map((z: any) =>
-          z.children.find((x: any) => x.name === country.toUpperCase())
-        )
-        .filter((x: any) => !!x)[0]
-    : "";
+interface IProps {
+  key: string | number;
+  publishDate: string;
+  author: string;
+  url: string;
+  title: string;
+  image: string;
+  summary: string;
+  tags: string[];
+}
 
+const NewsCard = function (props: IProps) {
+  const { publishDate, title, url, image, author, summary, tags } = props;
   return (
     <Container>
-      {/*<StyledImage src={image} alt={``} width={158} height={118}></StyledImage>*/}
+      <img src={image} alt={``} width={158} height={118}></img>
       <Contents>
         <DateLabel>
           <div style={{ display: "flex", justifyContent: "space-between" }}>
             <div style={{ display: "flex" }}>
               <div style={{ color: "#9CA3AF" }}>{formatDate(publishDate)}</div>
-              <div>&nbsp;&nbsp;&#183;&nbsp;</div>
             </div>
-
-            {displayedCountry ? (
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                }}
-              >
-                <Image
-                  src="/icons/location2.svg"
-                  alt="news_source-location"
-                  width={16}
-                  height={16}
-                />
-                <span style={{ color: "#445B66" }}>
-                  {displayedCountry?.fullName}{" "}
-                </span>
-              </div>
-            ) : null}
           </div>
           <div style={{ color: "#445B66" }}>
-            {author ? <span className="author">Source: {author}</span> : null}
+            {author && <span className="author">{author}</span>}
           </div>
         </DateLabel>
         <TitleLabel>
@@ -167,17 +135,22 @@ const NewsCard = function (props: any) {
             {decodeHTMLEntities(title)}
           </a>
         </TitleLabel>
+        <STextSubtitle textAlign="left" textTransform="capitalize">
+          {summary}
+        </STextSubtitle>
         <Tags>
-          {tags &&
-            tags.map((tag: any, index: number) => {
-              return <TagLabel key={`${tag}-${index}`}>#{tag}</TagLabel>;
-            })}
+          {tags.map((tag: string, index: number) => {
+            return (
+              <STextCaption
+                color="#08979C"
+                key={`${tag}-${index}`}
+                textTransform="capitalize"
+              >
+                #{tag}
+              </STextCaption>
+            );
+          })}
         </Tags>
-        {/*<SummaryLabel>{summary}</SummaryLabel>*/}
-        {/*<StyledReadMore>
-                    <span>Read More</span>
-                    <Image src="/icons/right-arrow.svg" alt="->" width={24} height={24} />
-                </StyledReadMore>*/}
       </Contents>
     </Container>
   );

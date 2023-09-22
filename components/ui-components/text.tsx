@@ -147,8 +147,10 @@ export const STextH2 = styled.span<{
 
 export const STextH3 = styled.span<{
   color?: string;
+  textAlign?: string;
 }>`
   color: ${(props) => props.color || "#434343"};
+  text-align: ${(props) => props.textAlign || "center"};
   text-align: center;
   font-family: Ubuntu;
   font-size: 20px;
@@ -177,12 +179,29 @@ export const STextH4 = styled.span<{
   }
 `;
 
-export const STextCaption = styled.span<{
+export const STextSubtitle = styled.span<{
   color?: string;
   textAlign?: string;
+  textTransform?: string;
 }>`
   color: ${(props) => props.color || "#434343"};
   text-align: ${(props) => props.textAlign || "center"};
+  text-transform: ${(props) => props.textTransform || "none"};
+  font-family: Ubuntu;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: normal;
+`;
+
+export const STextCaption = styled.span<{
+  color?: string;
+  textAlign?: string;
+  textTransform?: string;
+}>`
+  color: ${(props) => props.color || "#434343"};
+  text-align: ${(props) => props.textAlign || "center"};
+  text-transform: ${(props) => props.textTransform || "none"};
   font-family: Ubuntu;
   font-size: 12px;
   font-style: normal;
