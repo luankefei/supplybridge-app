@@ -1,4 +1,4 @@
-import { Box, IconButton, MenuItem, MenuList, Stack } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   ComposableMap,
@@ -15,7 +15,6 @@ import {
   MapColors,
   MapRegionToColor,
   MapRegionToMarkerColor,
-  isSubRegion,
 } from "./geoUtils";
 import {
   CountryToRegionMap,
@@ -25,9 +24,9 @@ import {
   TwoLetterCodeToCountryCodeMap,
 } from "./geoIdMap";
 import { usePersistentStore, useStore } from "hooks/useStore";
-import MapCircleMarker, { IMarker } from "./marker";
+import { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
-import { Add, Menu, Remove, Replay } from "@mui/icons-material";
+import { Add, Remove, Replay } from "@mui/icons-material";
 import { SpacingVertical } from "components/ui-components/spacer";
 import { Legend } from "./legend";
 
