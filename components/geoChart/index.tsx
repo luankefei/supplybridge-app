@@ -305,7 +305,8 @@ export default function MapChart({
    * **************
    */
   const checkZoomLevelEnough = () => {
-    return selectedRegion !== null && isSubRegion(selectedRegion);
+    // return selectedRegion !== null && isSubRegion(selectedRegion);
+    return true;
   };
 
   const selectCountry = (threeLetterCode: string) => {
@@ -352,7 +353,7 @@ export default function MapChart({
       },
       hover: {
         outline: "none",
-        fill: hoverFill,
+        fill: fill,
         stroke: stroke,
         strokeWidth: 1,
         cursor: "pointer",
@@ -514,15 +515,6 @@ export default function MapChart({
                   <Geography
                     key={geo.rsmKey}
                     geography={geo}
-                    onMouseEnter={() => {
-                      setHoveredCountry(geo.id);
-                    }}
-                    onMouseLeave={() => {
-                      setHoveredCountry(null);
-                    }}
-                    onClick={() => {
-                      selectCountry(geo.id);
-                    }}
                     style={geographiesStyle}
                   />
                 );
@@ -537,7 +529,7 @@ export default function MapChart({
         sx={{
           position: "absolute",
           bottom: 24,
-          right: -104,
+          right: -88,
           backgroundColor: "#ecf0f1",
           borderRadius: "8px",
           padding: "8px",
