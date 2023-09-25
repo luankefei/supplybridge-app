@@ -80,7 +80,7 @@ const Layout = ({
             overflowX: "hidden",
             overflowY: "auto",
             flexDirection: row ? "row" : "column",
-            backgroundColor: "#ecf0f1",
+            backgroundColor: "#F3F4F6",
             paddingLeft: paddingHorizontal,
             paddingRight: paddingHorizontal,
             paddingTop: paddingVertical,

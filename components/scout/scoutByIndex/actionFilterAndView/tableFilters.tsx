@@ -55,6 +55,13 @@ const MySelector = (props: {
         multiple
         value={value}
         label={label}
+        MenuProps={{
+          PaperProps: {
+            style: {
+              backgroundColor: "#fff",
+            },
+          },
+        }}
         onChange={(event) => {
           onChange(event.target.value as string[]);
         }}

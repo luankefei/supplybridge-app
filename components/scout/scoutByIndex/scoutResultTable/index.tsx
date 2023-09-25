@@ -93,7 +93,7 @@ export default function ScoutResultTable({
       field: "name",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.name],
       minWidth: 300,
-      headerAlign: "center",
+      headerAlign: "left",
       renderCell: (params) => {
         // render logo with name
         const { logo, name, isInnovation } = params.row;
@@ -102,7 +102,7 @@ export default function ScoutResultTable({
             component={Stack}
             direction="row"
             alignItems={"center"}
-            justifyContent={"center"}
+            justifyContent={"left"}
             width={"100%"}
           >
             <NullableImg url={logo} />
@@ -119,7 +119,7 @@ export default function ScoutResultTable({
     [EnumColumnName.headquarter]: {
       field: "headquarter",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.headquarter],
-      headerAlign: "center",
+      headerAlign: "left",
       width: 200,
       renderCell: (params) => {
         const { headquarter, hqCode } = params.row;
@@ -131,7 +131,7 @@ export default function ScoutResultTable({
             component={Stack}
             direction="row"
             alignItems={"center"}
-            justifyContent={"center"}
+            justifyContent={"left"}
             width={"100%"}
           >
             <NullableImg
@@ -151,7 +151,7 @@ export default function ScoutResultTable({
       minWidth: 200,
       flex: 1,
       sortable: false,
-      headerAlign: "center",
+      headerAlign: "left",
       renderCell: (params) => {
         const { globalFootprint } = params.row;
         if (!globalFootprint) {
@@ -164,7 +164,7 @@ export default function ScoutResultTable({
             component={Stack}
             direction="row"
             alignItems={"center"}
-            justifyContent={"center"}
+            justifyContent={"left"}
             width={"100%"}
             flexWrap={"wrap"}
             textOverflow={"ellipsis"}

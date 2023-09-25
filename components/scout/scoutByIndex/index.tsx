@@ -22,7 +22,6 @@ import {
 } from "./actionFilterAndView/tableFilters";
 import { hasIntersection } from "utils/array";
 import SearchBar, { EnumSearchType } from "./searchBar";
-import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
 import { useFilter } from "requests/useFilter";
 import MapChart from "components/geoChart";
@@ -239,7 +238,11 @@ export default function ScoutByIndex() {
             </Box>
           )}
 
-          <SearchBar onSearch={searchHandler} onReset={resetView} />
+          <SearchBar
+            queryString={queryString}
+            onSearch={searchHandler}
+            onReset={resetView}
+          />
 
           {hasData && (
             <Box margin={"auto"}>

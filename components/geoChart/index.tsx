@@ -33,7 +33,6 @@ import { Legend } from "./legend";
 //#region map Constants
 const RADIUS_SIZE = [155, 100, 50, 60];
 const SCALE_SIZE = 200;
-const FONT_SIZE = 18;
 const INITIAL_ZOOM = 1;
 const INITIAL_CENTER: [number, number] = [1.96, 47.224];
 // These numbers are tied to the scale of the map
@@ -348,6 +347,8 @@ export default function MapChart({
     return {
       default: {
         fill: fill,
+        stroke: stroke,
+        strokeWidth: 0.75,
         outline: "none",
       },
       hover: {
