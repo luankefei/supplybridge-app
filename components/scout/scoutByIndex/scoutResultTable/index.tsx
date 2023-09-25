@@ -93,12 +93,18 @@ export default function ScoutResultTable({
       field: "name",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.name],
       minWidth: 300,
-      sortable: false,
+      headerAlign: "center",
       renderCell: (params) => {
         // render logo with name
         const { logo, name, isInnovation } = params.row;
         return (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            component={Stack}
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"center"}
+            width={"100%"}
+          >
             <NullableImg url={logo} />
             <SpacingHorizontal space="8px" />
             <SText fontSize="16px" fontWeight="normal">
@@ -113,7 +119,7 @@ export default function ScoutResultTable({
     [EnumColumnName.headquarter]: {
       field: "headquarter",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.headquarter],
-      sortable: false,
+      headerAlign: "center",
       width: 200,
       renderCell: (params) => {
         const { headquarter, hqCode } = params.row;
@@ -121,7 +127,13 @@ export default function ScoutResultTable({
           return null;
         }
         return (
-          <Box sx={{ display: "flex" }} alignItems={"center"}>
+          <Box
+            component={Stack}
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"center"}
+            width={"100%"}
+          >
             <NullableImg
               url={hqCode ? `/flags/${hqCode?.toLowerCase()}.svg` : ""}
             />
@@ -137,25 +149,34 @@ export default function ScoutResultTable({
       field: "globalFootprint",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.globalFootprint],
       minWidth: 200,
+      flex: 1,
       sortable: false,
+      headerAlign: "center",
       renderCell: (params) => {
-        const { globalFootprintRegion } = params.row;
-        if (!globalFootprintRegion) {
+        const { globalFootprint } = params.row;
+        if (!globalFootprint) {
           return null;
         }
-        const arrayValue = Array.from(globalFootprintRegion.values());
+        const arrayValue = Array.from(globalFootprint.values());
         // console.log(arrayValue);
         return (
-          <Box sx={{ display: "flex" }} alignItems={"center"}>
-            {arrayValue.map((subRegion: string, i: number) => {
-              return (
-                <SText key={i} fontSize="16px" fontWeight="normal">
-                  {subRegion}
-                  {i !== arrayValue.length - 1 ? "," : null}
-                  {i !== arrayValue.length - 1 ? <span>&nbsp;</span> : null}
-                </SText>
-              );
-            })}
+          <Box
+            component={Stack}
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"center"}
+            width={"100%"}
+            flexWrap={"wrap"}
+            textOverflow={"ellipsis"}
+          >
+            <SText
+              fontSize="16px"
+              fontWeight="normal"
+              textOverflow="ellipsis"
+              overflow="hidden"
+            >
+              {arrayValue.join(", ")}
+            </SText>
           </Box>
         );
       },
@@ -163,8 +184,8 @@ export default function ScoutResultTable({
     [EnumColumnName.badges]: {
       field: "badges",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.badges],
-      sortable: false,
       minWidth: 200,
+      headerAlign: "center",
       renderHeader: () => {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -186,7 +207,14 @@ export default function ScoutResultTable({
           return null;
         }
         return (
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
             {badges.map((badge: BadgeType, i: number) => (
               <SupBadge key={i} badge={badge} />
             ))}
@@ -220,23 +248,24 @@ export default function ScoutResultTable({
         }
 
         // Disable showMoreDeatils temporarily
-        // return (
-        //   <Tooltip title="show more details">
-        //     <IconButton
-        //       onClick={() => {
-        //         pushDrawer(params.row.id);
-        //       }}
-        //     >
-        //       <DensitySmall />
-        //     </IconButton>
-        //   </Tooltip>
-        // );
+        return (
+          <Tooltip title="show more details">
+            <IconButton
+              onClick={() => {
+                pushDrawer(params.row.id);
+              }}
+            >
+              <DensitySmall />
+            </IconButton>
+          </Tooltip>
+        );
       },
     },
     [EnumColumnName.control]: {
       field: "columnControls",
       sortable: false,
       filterable: false,
+      headerAlign: "center",
       maxWidth: 150,
       renderHeader: () => {
         return (
@@ -420,7 +449,6 @@ export default function ScoutResultTable({
         disableColumnMenu
         getRowSpacing={getRowSpacing}
         isRowSelectable={(params) => params.row.name !== undefined}
-        getRowClassName={getRowClassName}
         rowSpacingType="margin"
         columns={addControledColumns}
         disableRowSelectionOnClick

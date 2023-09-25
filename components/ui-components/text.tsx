@@ -101,6 +101,8 @@ export const SText = styled.div<{
   color?: string;
   textAlign?: string;
   lineHeight?: string;
+  textOverflow?: string;
+  overflow?: string;
 }>`
   display: inline-block;
   font-family: Ubuntu;
@@ -110,6 +112,8 @@ export const SText = styled.div<{
   text-align: ${(props) => props.textAlign || "left"};
   line-height: ${(props) => props.lineHeight || "2rem"};
   color: ${(props) => props.color || "#1a1a1a"};
+  text-overflow: ${(props) => props.textOverflow || "ellipsis"};
+  overflow: ${(props) => props.overflow || "show"};
 `;
 
 export const STextH1 = styled.span<{

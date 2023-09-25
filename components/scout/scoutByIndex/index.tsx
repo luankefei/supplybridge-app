@@ -30,6 +30,7 @@ import { toast } from "react-toastify";
 import ShortListModal from "./shortlistModal";
 import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
 import { useRouter } from "next/router";
+import { SideBox } from "components/ui-components/sidebox";
 
 /**
  * Scout by index page
@@ -218,15 +219,10 @@ export default function ScoutByIndex() {
    * ************
    */
   // temp hack to add empty rows for blur
-  // TODO: Remove this.
-  const emptyRows = new Array(10);
-  for (let i = 0; i < 10; i++) {
-    emptyRows[i] = { id: i + data.length + 1 };
-  }
+
   const hasData: boolean = data.length > 0;
   return (
     <Stack>
-      <LanguageSelector />
       {loading && <LoadingWithBackgroundOverlay />}
       <>
         <Stack sx={{ justifyContent: "center" }}>
@@ -278,9 +274,7 @@ export default function ScoutByIndex() {
                   <Box sx={{ p: 3 }}>
                     <ActionFilterAndView
                       filterInitialData={initialFilterDataset}
-                      resultCount={
-                        mapSelectedCountrySupplierCount || stats.count || 0
-                      }
+                      resultCount={stats.count || 0}
                       displayCount={data?.length || 0}
                       resultType={queryString}
                       onClickBuildMyShortList={() => {
@@ -322,7 +316,7 @@ export default function ScoutByIndex() {
                     <ScoutResultTable
                       viewType={viewType}
                       searchType={resultSearchType || EnumSearchType.Keywords}
-                      tableData={tableData.concat(emptyRows)}
+                      tableData={tableData}
                       selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
                       onShowSimilarCompanies={handleShowSimilarCompanies}
@@ -341,7 +335,7 @@ export default function ScoutByIndex() {
           setShortListModalOpen(false);
         }}
       />
-      <Feedback />
+      <SideBox>hello</SideBox>
     </Stack>
   );
 }
