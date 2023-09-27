@@ -7,7 +7,6 @@ import {
   Marker,
   ZoomableGroup,
 } from "react-simple-maps";
-import geo from "./features.json";
 import {
   EnumRegion,
   EnumRegionAndSubRegion,
@@ -15,7 +14,10 @@ import {
   MapColors,
   MapRegionToColor,
   MapRegionToMarkerColor,
-  isSubRegion,
+  MapSubRegionToRegion,
+  getGeoJsonAndProjectConfig,
+  isRegion,
+  legendKeyMap,
 } from "./geoUtils";
 import {
   CountryToRegionMap,
@@ -25,93 +27,11 @@ import {
   TwoLetterCodeToCountryCodeMap,
 } from "./geoIdMap";
 import { usePersistentStore, useStore } from "hooks/useStore";
-import MapCircleMarker, { IMarker } from "./marker";
+import { IMarker } from "./marker";
 import { addToDict } from "utils/dict";
-import { Add, Remove } from "@mui/icons-material";
+import { Add, Remove, Replay } from "@mui/icons-material";
 import { SpacingVertical } from "components/ui-components/spacer";
-
-//#region map Constants
-const RADIUS_SIZE = [155, 100, 50, 60];
-const SCALE_SIZE = 200;
-const FONT_SIZE = 18;
-const INITIAL_ZOOM = 1.717;
-const INITIAL_CENTER: [number, number] = [1.96, 47.224];
-// These numbers are tied to the scale of the map
-// i have no idea how to translate them, this is tried out by hand
-const preDefinedMarkers: IMarker[] = [
-  {
-    name: EnumRegion.Americas,
-    coordinates: [-108, 34],
-    r: RADIUS_SIZE[0],
-    color: MapRegionToMarkerColor[EnumRegion.Americas],
-    subMarkers: [
-      {
-        name: EnumSubRegion.NorthNCentralAmerica,
-        coordinates: [-108, 34],
-        color: MapRegionToMarkerColor[EnumRegion.Americas],
-        r: RADIUS_SIZE[0],
-      },
-      {
-        name: EnumSubRegion.SouthAmerica,
-        coordinates: [-65, -25],
-        r: RADIUS_SIZE[1],
-        color: MapRegionToMarkerColor[EnumRegion.Americas],
-      },
-    ],
-  },
-  {
-    name: EnumRegion.EMEA,
-    coordinates: [18, 10],
-    r: RADIUS_SIZE[1],
-    color: MapRegionToMarkerColor[EnumRegion.EMEA],
-    subMarkers: [
-      {
-        name: EnumSubRegion.Europe,
-        coordinates: [10, 45],
-        r: RADIUS_SIZE[2],
-        color: MapRegionToMarkerColor[EnumRegion.EMEA],
-      },
-      {
-        name: EnumSubRegion.Africa,
-        coordinates: [15, -3],
-        r: RADIUS_SIZE[1],
-        color: MapRegionToMarkerColor[EnumRegion.EMEA],
-      },
-      {
-        name: EnumSubRegion.MiddleEast,
-        coordinates: [45, 26],
-        r: RADIUS_SIZE[2],
-        color: MapRegionToMarkerColor[EnumRegion.APAC],
-      },
-    ],
-  },
-  {
-    name: EnumRegion.APAC,
-    coordinates: [108, 34],
-    r: RADIUS_SIZE[1],
-    color: MapRegionToMarkerColor[EnumRegion.APAC],
-    subMarkers: [
-      {
-        name: EnumSubRegion.Asia,
-        coordinates: [102, 36],
-        r: RADIUS_SIZE[1],
-        color: MapRegionToMarkerColor[EnumRegion.APAC],
-      },
-      {
-        name: EnumSubRegion.Oceania,
-        coordinates: [140, -30],
-        r: RADIUS_SIZE[3],
-        color: MapRegionToMarkerColor[EnumRegion.APAC],
-      },
-    ],
-  },
-];
-const preDefinedProjectionConfig = {
-  rotate: [0, 0, 0],
-  center: [0, 35],
-  scale: SCALE_SIZE,
-};
-//#endregion
+import { Legend } from "./legend";
 
 type TSupplierCountByMap = {
   [key in EnumRegionAndSubRegion]: number;
@@ -146,17 +66,10 @@ export default function MapChart({
   selectedCountry,
   onSelectCountryFilter,
 }: IMapChart) {
-  const [center, setCenter] = useState<[number, number]>(INITIAL_CENTER); // [longitude, latitude
-  const [zoom, setZoom] = useState<number>(INITIAL_ZOOM);
-  const [markers, setMarkers] = useState<IMarker[]>(preDefinedMarkers);
-  const [selectedRegion, setSelectedRegion] =
-    useState<EnumRegionAndSubRegion | null>(null);
-
-  // threeLetterCodes are used when we get data from features.json
-  // twoLetterCodes are used when we get data from backend.
-  // there's 2 maps to convert between them
-  // this uses 3 LetterCodes
-  const [hoveredCountry, setHoveredCountry] = useState<string | null>(null);
+  const [selectedRegion, setSelectedRegion] = useState<
+    EnumRegionAndSubRegion | "world"
+  >("world");
+  const [zoom, setZoom] = useState<number>(1);
   /**
    * One time data for the map
    */
@@ -249,72 +162,24 @@ export default function MapChart({
    *  Map Controls
    * **************
    */
-  const zoomToRegion = (
-    name: EnumRegionAndSubRegion,
-    coordinates: [number, number]
-  ) => {
-    setSelectedRegion(name);
-    setCenter(coordinates);
-    setZoom(zoom + 0.5);
-    const regionMarker = preDefinedMarkers.find((x) => x.name === name);
-    if (regionMarker?.subMarkers !== undefined) {
-      setMarkers(regionMarker.subMarkers);
-    } else {
-      setMarkers([]);
-    }
-  };
 
   const reset = () => {
-    setZoom(INITIAL_ZOOM);
-    setMarkers(preDefinedMarkers);
-    setCenter(INITIAL_CENTER);
-    setSelectedRegion(null);
-    setHoveredCountry(null);
-    onSelectCountryFilter(undefined, undefined);
+    setSelectedRegion("world");
   };
 
-  const onMoveEnd = (position: {
-    coordinates: [number, number];
-    zoom: number;
-  }) => {
-    if (position.zoom <= 1) {
-      // reset
-      reset();
-    }
-    setCenter(position.coordinates);
-    setZoom(position.zoom);
-  };
-
-  const zoomIn = () => {
-    if (zoom < 10) {
-      setZoom(zoom + 0.5);
-    }
-  };
   const zoomOut = () => {
-    if (zoom > 1) {
-      setZoom(zoom - 0.5);
+    if (selectedRegion === "world") return;
+    if (isRegion(selectedRegion)) {
+      setSelectedRegion("world");
+      return;
     }
+    setSelectedRegion(MapSubRegionToRegion[selectedRegion as EnumSubRegion]);
   };
 
   /****************
    *  Data Controls
    * **************
    */
-  const checkZoomLevelEnough = () => {
-    return selectedRegion !== null && isSubRegion(selectedRegion);
-  };
-
-  const selectCountry = (threeLetterCode: string) => {
-    const tlc = CountryToTwoLetterCodeMap[threeLetterCode];
-    if (
-      checkZoomLevelEnough() &&
-      labels[tlc] !== undefined &&
-      labels[tlc] > 0
-    ) {
-      onSelectCountryFilter(threeLetterCode, labels[tlc]);
-    }
-  };
-
   const styleCalucator = (geo: {
     // got this from debug console. prob form features.json
     id: string; // 3 letter code
@@ -325,7 +190,7 @@ export default function MapChart({
     let fill = MapRegionToColor[CountryToRegionMap[geo.id]];
     let hoverFill = MapRegionToColor[CountryToRegionMap[geo.id]];
     let stroke = "none";
-    const zoomLevelEnough = checkZoomLevelEnough();
+    const zoomLevelEnough = true;
 
     if (zoomLevelEnough) {
       stroke = MapColors.strokeColor;
@@ -344,115 +209,94 @@ export default function MapChart({
     return {
       default: {
         fill: fill,
+        stroke: stroke,
+        strokeWidth: 2,
         outline: "none",
       },
       hover: {
         outline: "none",
-        fill: hoverFill,
+        fill: fill,
         stroke: stroke,
         strokeWidth: 1,
-        cursor: "pointer",
       },
       pressed: { outline: "none" },
     };
   };
-  const renderMarkerSelectedCountry = () => {
-    if (!checkZoomLevelEnough() || !selectedCountry) {
-      return null;
+
+  const renderTotalCount = () => {
+    let counts: [string, number][] = [];
+    const a = supplierCountByMap[EnumRegion.Americas];
+    const emea = supplierCountByMap[EnumRegion.EMEA];
+    const apac = supplierCountByMap[EnumRegion.APAC];
+    const Total = a + emea + apac;
+
+    switch (selectedRegion) {
+      case "world":
+        counts = Object.entries({
+          [EnumRegion.Americas]: a,
+          [EnumRegion.EMEA]: emea,
+          [EnumRegion.APAC]: apac,
+          Total,
+        });
+        break;
+      case EnumRegion.Americas:
+        counts = Object.entries({
+          [EnumSubRegion.NorthNCentralAmerica]:
+            supplierCountByMap[EnumSubRegion.NorthNCentralAmerica],
+          [EnumSubRegion.SouthAmerica]:
+            supplierCountByMap[EnumSubRegion.SouthAmerica],
+          Total: a,
+        });
+        break;
+      case EnumRegion.EMEA:
+        counts = Object.entries({
+          [EnumSubRegion.Europe]: supplierCountByMap[EnumSubRegion.Europe],
+          [EnumSubRegion.Africa]: supplierCountByMap[EnumSubRegion.Africa],
+          [EnumSubRegion.MiddleEast]:
+            supplierCountByMap[EnumSubRegion.MiddleEast],
+          Total: emea,
+        });
+        break;
+      case EnumRegion.APAC:
+        counts = Object.entries({
+          [EnumSubRegion.Asia]: supplierCountByMap[EnumSubRegion.Asia],
+          [EnumSubRegion.Oceania]: supplierCountByMap[EnumSubRegion.Oceania],
+          Total: apac,
+        });
+        break;
+      case EnumSubRegion.NorthNCentralAmerica:
+      case EnumSubRegion.SouthAmerica:
+      case EnumSubRegion.Europe:
+      case EnumSubRegion.Africa:
+      case EnumSubRegion.Asia:
+      case EnumSubRegion.MiddleEast:
+      case EnumSubRegion.Oceania:
+        counts = Object.entries({
+          ...supplierCountByCountryMap,
+          Total: supplierCountByMap[selectedRegion],
+        }).filter(
+          (item) =>
+            CountryToSubRegionMap[item[0]] === selectedRegion ||
+            item[0] === "Total"
+        );
+        break;
+      default:
+        counts = Object.entries({ ...supplierCountByCountryMap, Total });
+        break;
     }
-    const tlc = CountryToTwoLetterCodeMap[selectedCountry];
-    const coor = TwoLetterCodeToCounryCoordinatesMap[tlc];
-    const label = labels[tlc];
-    return _renderMarker(
-      coor.longitude,
-      coor.latitude,
-      selectedCountry,
-      label.toString()
-    );
-  };
-  const renderMarkerHoveredCountry = () => {
-    if (!checkZoomLevelEnough() || !hoveredCountry) {
-      return null;
-    }
-    const tlc = CountryToTwoLetterCodeMap[hoveredCountry];
-    const coor = TwoLetterCodeToCounryCoordinatesMap[tlc];
-    const threeL = TwoLetterCodeToCountryCodeMap[tlc];
-    // const subRegion = CountryToSubRegionMap[threeL];
-    const label = labels[tlc];
-    // Why do we need 2 ifs?
-    // becuase I want to distinguish between no coor and no label
-    if (!coor) {
-      console.log("no coor for", hoveredCountry);
-      return null;
-    }
-    if (!label) {
-      console.log("no label/count data for", hoveredCountry);
-      return null;
-    }
-    // if (subRegion !== selectedRegion) {
-    //   return null;
-    // }
-    return _renderMarker(
-      coor.longitude,
-      coor.latitude,
-      hoveredCountry,
-      label.toString()
-    );
-  };
-  const _renderMarker = (
-    longitude: number,
-    latitude: number,
-    line1: string,
-    line2: string
-  ) => {
     return (
-      <Marker coordinates={[longitude, latitude]}>
-        <text
-          fontSize={12}
-          textAnchor="middle"
-          x={0.5}
-          y={0.5}
-          alignmentBaseline="middle"
-          fill={MapColors.textShadowColor}
-          pointerEvents="none"
-        >
-          {line1}
-        </text>
-        <text
-          fontSize={12}
-          textAnchor="middle"
-          alignmentBaseline="middle"
-          fill={MapColors.textColor}
-          pointerEvents="none"
-        >
-          {line1}
-        </text>
-
-        <text
-          fontSize={12}
-          textAnchor="middle"
-          x={0.5}
-          y={10.5}
-          alignmentBaseline="middle"
-          fill={MapColors.textShadowColor}
-          pointerEvents="none"
-        >
-          {line2}
-        </text>
-        <text
-          fontSize={12}
-          textAnchor="middle"
-          y={10}
-          alignmentBaseline="middle"
-          fill={MapColors.textColor}
-          pointerEvents="none"
-        >
-          {line2}
-        </text>
-      </Marker>
+      <Legend
+        counts={counts}
+        onBack={selectedRegion !== "world" ? zoomOut : undefined}
+        onClick={(key) => {
+          const srk = legendKeyMap[key];
+          srk && setSelectedRegion(srk as EnumRegionAndSubRegion);
+        }}
+      />
     );
   };
-
+  // @ts-ignore
+  const { geoJson, projectConfig } = getGeoJsonAndProjectConfig(selectedRegion);
   return (
     <Box
       position={"relative"}
@@ -461,6 +305,8 @@ export default function MapChart({
       height={"50vh"}
       display={"flex"}
       justifyContent={"center"}
+      border={"1px solid #E5E7EB"}
+      borderRadius={"24px"}
     >
       <ComposableMap
         width={window.screen.width}
@@ -468,69 +314,35 @@ export default function MapChart({
           borderRadius: "24px",
         }}
         projection="geoMercator"
-        projectionConfig={preDefinedProjectionConfig as any}
+        projectionConfig={projectConfig as any}
       >
-        <ZoomableGroup zoom={zoom} center={center} onMoveEnd={onMoveEnd}>
-          <Geographies geography={geo}>
-            {({ geographies }) =>
-              geographies.map((geo) => {
-                const geographiesStyle = styleCalucator(geo);
-                return (
-                  <Geography
-                    key={geo.rsmKey}
-                    geography={geo}
-                    onMouseEnter={() => {
-                      setHoveredCountry(geo.id);
-                    }}
-                    onMouseLeave={() => {
-                      setHoveredCountry(null);
-                    }}
-                    onClick={() => {
-                      selectCountry(geo.id);
-                    }}
-                    style={geographiesStyle}
-                  />
-                );
-              })
-            }
-          </Geographies>
-          {renderMarkerHoveredCountry()}
-          {renderMarkerSelectedCountry()}
-          {markers.map((e) => (
-            <MapCircleMarker
-              key={e.name}
-              marker={e}
-              fontSize={FONT_SIZE}
-              onMarkerClick={zoomToRegion}
-              count={supplierCountByMap[e.name]}
-            />
-          ))}
-        </ZoomableGroup>
+        <Geographies geography={geoJson}>
+          {({ geographies }) =>
+            geographies.map((geo) => {
+              const geographiesStyle = styleCalucator(geo);
+              return (
+                <Geography
+                  key={geo.rsmKey}
+                  geography={geo}
+                  style={geographiesStyle}
+                />
+              );
+            })
+          }
+        </Geographies>
       </ComposableMap>
       <Stack
         sx={{
           position: "absolute",
           bottom: 24,
-          right: 24,
+          right: -88,
+          backgroundColor: "#F3F4F6",
+          borderRadius: "8px",
+          padding: "8px",
+          overflow: "scroll",
         }}
       >
-        <IconButton
-          onClick={zoomIn}
-          sx={{
-            bgcolor: "white",
-          }}
-        >
-          <Add />
-        </IconButton>
-        <SpacingVertical space="8px" />
-        <IconButton
-          onClick={zoomOut}
-          sx={{
-            bgcolor: "white",
-          }}
-        >
-          <Remove />
-        </IconButton>
+        {renderTotalCount()}
       </Stack>
     </Box>
   );

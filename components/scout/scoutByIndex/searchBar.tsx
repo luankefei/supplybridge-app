@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import Icon from "components/icon";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
 import { debounce } from "utils/util";
@@ -16,6 +16,7 @@ import { SpacingHorizontal } from "components/ui-components/spacer";
 import { ResetIconTextButton } from "components/ui-components/iconTextButton";
 
 interface SearchBarProps {
+  queryString?: string;
   onSearch: (queryString: string, searchType: EnumSearchType) => void;
   onReset: () => void;
 }
@@ -35,9 +36,14 @@ const SearchBar = (props: SearchBarProps) => {
   const { searchAutocomplete } = useSupplier();
 
   const [queryString, setQueryString] = useState("");
+  useEffect(() => {
+    setQueryString(props.queryString || "");
+  }, [props.queryString]);
+
   const [searchType, setSearchType] = useState<EnumSearchType>(
     EnumSearchType.Keywords
   );
+  const [open, setOpen] = useState(false);
   // autocomplete options
   const [options, setOptions] = useState<string[]>([]);
   const [optionsLoading, setOptionsLoading] = useState(false);
@@ -79,6 +85,7 @@ const SearchBar = (props: SearchBarProps) => {
   };
   const onClickSearch = () => {
     props.onSearch(queryString, searchType);
+    setOpen(false);
   };
 
   return (
@@ -108,6 +115,7 @@ const SearchBar = (props: SearchBarProps) => {
           )}
           <SpacingHorizontal space={"8px"} />
           <form
+            autoComplete="off"
             onSubmit={handleSubmit}
             style={{
               width: "100%",
@@ -123,10 +131,10 @@ const SearchBar = (props: SearchBarProps) => {
                 setQueryString(value as string);
               }}
               noOptionsText="No matching results"
-              filterOptions={(x) => x}
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  autoComplete="off"
                   placeholder={t(
                     `scout.searchbar.${searchType.toLowerCase()}Placeholder`,
                     "..."

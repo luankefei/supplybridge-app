@@ -52,7 +52,8 @@ export default function SideBarMenu({
     !hasNotif ? `${API_URL}/notification/ping` : "",
     fetcher,
     {
-      refreshInterval: 1000 * 60,
+      // just ping every 5 minutes
+      refreshInterval: 1000 * 300,
     }
   );
 

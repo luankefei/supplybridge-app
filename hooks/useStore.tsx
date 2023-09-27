@@ -79,11 +79,11 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   subRegions: [],
   setSubRegions: (subRegions: any) => set(() => ({ subRegions })),
 
-  page: 1,
-  setPage: (page: any) => set(() => ({ page })),
+  page: 0,
+  setPage: (page: number) => set(() => ({ page })),
 
-  pageSize: 100,
-  setPageSize: (pageSize: any) => set(() => ({ pageSize })),
+  pageSize: 50,
+  setPageSize: (pageSize: number) => set(() => ({ pageSize })),
 
   filterData: {
     commodities: [],

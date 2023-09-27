@@ -39,7 +39,7 @@ const GeoCharts = () => {
   const [options, setOptions] = useState<any>(null);
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
-  const { searchSuppliers, loading } = useSupplier();
+  const { loading } = useSupplier();
   const { getAllSubRegions } = useFilter();
   const {
     suppliers,
@@ -167,7 +167,6 @@ const GeoCharts = () => {
   const searchHandler = () => {
     // TODO: FIX THIS
     console.error("TODO: FIX THIS");
-    searchSuppliers(1, true, filterData.q);
   };
 
   useEffect(() => {

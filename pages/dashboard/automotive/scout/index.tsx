@@ -44,7 +44,7 @@ export default function Industry({}: Props) {
   } = useStore();
   const { scrollOffset } = useViewport();
   const { getCommodities, getRegions } = useFilter();
-  const { searchSuppliers, loading } = useSupplier();
+  const { loading } = useSupplier();
   const { searchFuelTypes } = useVehicleFuelTypes();
 
   const [filterModalVisible, setFilterModalVisible] = useState(false);
@@ -81,7 +81,6 @@ export default function Industry({}: Props) {
       pageLoaded.current = true;
       getCommodities();
       getRegions();
-      searchSuppliers(1, true, filterData.q);
       searchFuelTypes();
     }
   };
@@ -89,7 +88,6 @@ export default function Industry({}: Props) {
   const searchSupplierHandler = async () => {
     const currentPage = pageRef.current;
     if (currentPage * 10 < countRef.current) {
-      await searchSuppliers(currentPage + 1, false, searchString.current);
       pageRef.current = currentPage + 1;
       infiniteScrollControl.current = true;
     }
@@ -118,7 +116,6 @@ export default function Industry({}: Props) {
 
   const searchHandler = () => {
     pageRef.current = 1;
-    searchSuppliers(1, true, filterData.q);
     infiniteScrollControl.current = true;
   };
 

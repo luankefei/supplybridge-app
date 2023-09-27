@@ -22,7 +22,6 @@ import {
 } from "./actionFilterAndView/tableFilters";
 import { hasIntersection } from "utils/array";
 import SearchBar, { EnumSearchType } from "./searchBar";
-import LanguageSelector from "components/languageSelector";
 import EmptyResult from "./emptyResult";
 import { useFilter } from "requests/useFilter";
 import MapChart from "components/geoChart";
@@ -30,6 +29,8 @@ import { toast } from "react-toastify";
 import ShortListModal from "./shortlistModal";
 import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
 import { useRouter } from "next/router";
+import { SideBox } from "components/ui-components/sidebox";
+import { GridPaginationModel } from "@mui/x-data-grid";
 
 /**
  * Scout by index page
@@ -45,9 +46,13 @@ export default function ScoutByIndex() {
     queryString,
     suppliers,
     stats,
+    page,
+    pageSize,
     setQueryString,
     setSuppliers,
     setStats,
+    setPage,
+    setPageSize,
   } = useStore();
   const { querySupplierListByKeyword, querySupplieListByCompany } =
     useSupplier();
@@ -85,7 +90,7 @@ export default function ScoutByIndex() {
   const [resetMap, setResetMap] = useState(false);
   const [filterValue, setFilterValue] = useState<FilterValue>();
 
-  const [searched, setSearched] = useState(false);
+  const [searched, setSearched] = useState(suppliers.length !== 0);
   const [loading, setLoading] = useState(false);
   const [shortListModalOpen, setShortListModalOpen] = useState(false);
   const [viewType, setView] = useState<ViewType>(ViewType.LIST);
@@ -170,10 +175,20 @@ export default function ScoutByIndex() {
     setFilterValue(fv);
     reCalTableData(fv, mapSelectedCountry);
   };
+  const onPaginationModelChange = ({ page, pageSize }: GridPaginationModel) => {
+    searchHandler(
+      queryString,
+      resultSearchType || EnumSearchType.Keywords,
+      page,
+      pageSize
+    );
+  };
 
   const searchHandler = async (
     queryString: string,
-    searchType: EnumSearchType
+    searchType: EnumSearchType,
+    page: number,
+    pageSize: number
   ) => {
     if (queryString === "") {
       return;
@@ -182,12 +197,14 @@ export default function ScoutByIndex() {
     setLoading(true);
     setResultSearchType(searchType);
     if (searchType === EnumSearchType.Keywords) {
-      await querySupplierListByKeyword(queryString);
+      await querySupplierListByKeyword(queryString, { page, pageSize });
     } else {
-      await querySupplieListByCompany(queryString);
+      await querySupplieListByCompany(queryString, { page, pageSize });
     }
     setLoading(false);
     setSearched(true);
+    setPage(page);
+    setPageSize(pageSize);
   };
   const resetView = () => {
     setSearched(false);
@@ -196,9 +213,6 @@ export default function ScoutByIndex() {
     setTableData([]);
     setSuppliers([], true);
     setStats({});
-    // This 2 lines are not needed, because the map will be reset them
-    // setMapSelectedCountry(undefined);
-    // setMapSelectedCountrySupplierCount(undefined);
     setResetMap(!resetMap);
   };
   const handleRowSelect = (selectedRows: number[]) => {
@@ -210,7 +224,7 @@ export default function ScoutByIndex() {
   };
 
   const handleShowSimilarCompanies = async (query: string) => {
-    searchHandler(query, EnumSearchType.Companies);
+    searchHandler(query, EnumSearchType.Companies, page, pageSize);
   };
 
   /**************
@@ -218,15 +232,10 @@ export default function ScoutByIndex() {
    * ************
    */
   // temp hack to add empty rows for blur
-  // TODO: Remove this.
-  const emptyRows = new Array(10);
-  for (let i = 0; i < 10; i++) {
-    emptyRows[i] = { id: i + data.length + 1 };
-  }
+
   const hasData: boolean = data.length > 0;
   return (
     <Stack>
-      <LanguageSelector />
       {loading && <LoadingWithBackgroundOverlay />}
       <>
         <Stack sx={{ justifyContent: "center" }}>
@@ -243,7 +252,11 @@ export default function ScoutByIndex() {
             </Box>
           )}
 
-          <SearchBar onSearch={searchHandler} onReset={resetView} />
+          <SearchBar
+            queryString={queryString}
+            onSearch={(q, t) => searchHandler(q, t, page, pageSize)}
+            onReset={resetView}
+          />
 
           {hasData && (
             <Box margin={"auto"}>
@@ -257,7 +270,7 @@ export default function ScoutByIndex() {
           <Box>
             <SpacingVertical space="40px" />
             <Box>
-              {((!loading && !searched) || loading || hasData) && (
+              {!loading && !searched && (
                 <MapChart
                   parentTriggeredReset={resetMap}
                   selectedCountry={mapSelectedCountry}
@@ -272,17 +285,15 @@ export default function ScoutByIndex() {
                   <Summary
                     queryString={queryString}
                     setQueryString={(s) =>
-                      searchHandler(s, EnumSearchType.Keywords)
+                      searchHandler(s, EnumSearchType.Keywords, page, pageSize)
                     }
                   />
                   <Box sx={{ p: 3 }}>
                     <ActionFilterAndView
                       filterInitialData={initialFilterDataset}
-                      resultCount={
-                        mapSelectedCountrySupplierCount || stats.count || 0
-                      }
-                      displayCount={data?.length || 0}
-                      resultType={queryString}
+                      resultCount={stats.count || 0}
+                      displayCount={stats.count}
+                      resultType={queryString || ""}
                       onClickBuildMyShortList={() => {
                         setShortListModalOpen(true);
                       }}
@@ -321,8 +332,14 @@ export default function ScoutByIndex() {
                     />
                     <ScoutResultTable
                       viewType={viewType}
+                      totalResults={stats.count || 0}
+                      paginationModel={{
+                        page,
+                        pageSize,
+                      }}
+                      onPaginationModelChange={onPaginationModelChange}
                       searchType={resultSearchType || EnumSearchType.Keywords}
-                      tableData={tableData.concat(emptyRows)}
+                      tableData={tableData}
                       selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
                       onShowSimilarCompanies={handleShowSimilarCompanies}
@@ -341,7 +358,7 @@ export default function ScoutByIndex() {
           setShortListModalOpen(false);
         }}
       />
-      <Feedback />
+      {/* <SideBox>hello</SideBox> */}
     </Stack>
   );
 }

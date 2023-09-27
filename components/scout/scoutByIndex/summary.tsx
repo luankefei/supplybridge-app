@@ -169,14 +169,13 @@ export default function Summary({
   useEffect(() => {
     if (filterData.q === summary.lastQ) return;
     setSummary(determineSummary(queryString, flags, stats));
-  }, []);
+  }, [queryString, stats, filterData.q]);
 
   const getCategoryIconSrcByName = (name: string) => {
     return `https://stsupplybridgeprod.blob.core.windows.net/images/L2/${name
       .split(/[\s/]+/)
       .join("")}.jpeg`;
   };
-
   if (!summary.L2selected) return null;
 
   return (

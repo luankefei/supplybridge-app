@@ -1,13 +1,21 @@
-import { FiberManualRecord, Star } from "@mui/icons-material";
-import { Badge, Box, Card, Stack, useTheme } from "@mui/material";
+import { Check, Email, FiberManualRecord, Star } from "@mui/icons-material";
+import {
+  Button,
+  Card,
+  IconButton,
+  Stack,
+  Tab,
+  Tabs,
+  Tooltip,
+  useTheme,
+} from "@mui/material";
 import Layout from "components/layout";
 import PoweredBy from "components/ui-components/poweredBy";
-import { SpacingVertical } from "components/ui-components/spacer";
 import {
-  STextBody,
-  STextCaption,
-  STextH1,
-} from "components/ui-components/text";
+  SpacingHorizontal,
+  SpacingVertical,
+} from "components/ui-components/spacer";
+import { STextBody, STextH1 } from "components/ui-components/text";
 import { API_URL } from "config";
 import { request } from "config/axios";
 import { useStore } from "hooks/useStore";
@@ -20,8 +28,13 @@ import { toast } from "react-toastify";
 
 export default function Notification() {
   const theme = useTheme();
+  const { hasNotif, setHasNotif } = useStore();
+  const [viewType, setViewType] = useState<"all" | "unread">("unread");
   const [notifications, setNotifications] = useState<IUserNotification[]>([]);
-  const { setHasNotif } = useStore();
+  const [displayNotifications, setDisplayNotifications] = useState<
+    IUserNotification[]
+  >([]);
+
   const fetchData = async () => {
     try {
       const res = await request.get(`${API_URL}/notification/poll`);
@@ -38,33 +51,63 @@ export default function Notification() {
         );
       }
     } catch (error: any) {
+      toast.error(error.messagee || "Something went wrong");
+    }
+  };
+
+  useEffect(() => {
+    setDisplayNotifications(
+      notifications.filter((e) => {
+        if (viewType === "unread") {
+          return e.status === EnumUserNotificationStatus.UNREAD;
+        }
+        return true;
+      })
+    );
+  }, [viewType, notifications]);
+
+  const markAsRead = async (nid?: number) => {
+    try {
+      if (notifications.length === 0) return;
+      const url = `${API_URL}/notification/mark-as-read/${nid || ""}`;
+      await request.post(`${url}`);
+      setNotifications(
+        notifications.map((e) => {
+          if (e.notification_id === nid || nid === undefined) {
+            return {
+              ...e,
+              status: EnumUserNotificationStatus.READ,
+            };
+          }
+          return e;
+        })
+      );
+      const stillUnread = notifications.filter(
+        (e) => e.status === EnumUserNotificationStatus.UNREAD
+      );
+      setHasNotif(stillUnread.length > 0);
+    } catch (error: any) {
+      // do nothing...
+      console.info(error);
       toast.error(error.message || "Something went wrong");
     }
   };
 
-  const markAsRead = async () => {
-    try {
-      if (notifications.length === 0) return;
-      await request.post(`${API_URL}/notification/mark-as-read`);
-    } catch (error: any) {
-      // do nothing...
-      console.info(error);
-    }
-  };
-
-  useEffect(() => {
-    markAsRead();
-  }, [notifications]);
+  // useEffect(() => {
+  //   markAsRead();
+  // }, [notifications]);
 
   useEffect(() => {
     fetchData();
     return () => {
-      setHasNotif(false);
+      // previously this is used to mark all as read and remove the badge
+      // but removed now since we will be using manual mark-as-read
+      // setHasNotif(false);
     };
-  }, []);
+  }, [hasNotif]);
 
   const renderNotifications = () => {
-    if (notifications.length === 0) {
+    if (displayNotifications.length === 0) {
       return (
         <>
           <Star
@@ -79,7 +122,8 @@ export default function Notification() {
         </>
       );
     }
-    return notifications.map((item, idx) => {
+    return displayNotifications.map((item, idx) => {
+      const unread = item.status === EnumUserNotificationStatus.UNREAD;
       return (
         <Card
           key={idx}
@@ -96,7 +140,7 @@ export default function Notification() {
             width={"100%"}
           >
             <Stack direction={"row"} alignItems={"center"}>
-              {item.status === EnumUserNotificationStatus.UNREAD && (
+              {unread && (
                 <FiberManualRecord
                   color="error"
                   sx={{
@@ -109,7 +153,20 @@ export default function Notification() {
                 {item.Notification.title}
               </STextBody>
             </Stack>
-            <STextBody>{item.createdAt}</STextBody>
+            <Stack direction={"row"} alignItems={"center"}>
+              <STextBody>{item.createdAt}</STextBody>
+              <SpacingHorizontal space="8px" />
+              {unread && (
+                <Tooltip title="Mark as read">
+                  <IconButton
+                    size="small"
+                    onClick={() => markAsRead(item.notification_id)}
+                  >
+                    <Email />
+                  </IconButton>
+                </Tooltip>
+              )}
+            </Stack>
           </Stack>
 
           <SpacingVertical space="8px" />
@@ -126,6 +183,22 @@ export default function Notification() {
         <SpacingVertical space="8px" />
         <PoweredBy />
         <SpacingVertical space="48px" />
+        <Stack
+          direction={"row"}
+          alignItems={"flex-end"}
+          justifyContent={"space-between"}
+          minWidth={"66%"}
+        >
+          <Tabs value={viewType} onChange={(e, v) => setViewType(v)}>
+            <Tab label="Unread" value="unread" />
+            <Tab label="All" value="all" />
+          </Tabs>
+          <Button sx={{ marginLeft: "16px" }} onClick={() => markAsRead()}>
+            Mark all as read
+          </Button>
+        </Stack>
+        <SpacingVertical space="48px" />
+
         {renderNotifications()}
       </Stack>
     </Layout>

@@ -9,6 +9,7 @@ import {
 import {
   DataGrid,
   GridColDef,
+  GridPaginationModel,
   GridRowClassNameParams,
   GridRowSelectionModel,
   GridRowSpacingParams,
@@ -32,8 +33,11 @@ interface IScoutResultTableProps {
   searchType: EnumSearchType;
   tableData?: ITableData[];
   selectedRows: number[];
+  totalResults?: number;
+  paginationModel?: GridPaginationModel;
   onRowSelect: (selectedRows: number[]) => void;
   onShowSimilarCompanies?: (similarCompanyName: string) => void;
+  onPaginationModelChange?: (model: GridPaginationModel) => void;
 }
 
 enum EnumColumnName {
@@ -68,8 +72,11 @@ export default function ScoutResultTable({
   searchType,
   tableData,
   selectedRows,
+  totalResults,
+  paginationModel,
   onRowSelect,
   onShowSimilarCompanies,
+  onPaginationModelChange,
 }: IScoutResultTableProps) {
   const { t } = useTranslation();
   const mapEnumColumnNameToHeaderName: Record<EnumColumnName, string> = {
@@ -93,12 +100,18 @@ export default function ScoutResultTable({
       field: "name",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.name],
       minWidth: 300,
-      sortable: false,
+      headerAlign: "left",
       renderCell: (params) => {
         // render logo with name
         const { logo, name, isInnovation } = params.row;
         return (
-          <Box sx={{ display: "flex", alignItems: "center" }}>
+          <Box
+            component={Stack}
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"left"}
+            width={"100%"}
+          >
             <NullableImg url={logo} />
             <SpacingHorizontal space="8px" />
             <SText fontSize="16px" fontWeight="normal">
@@ -113,7 +126,7 @@ export default function ScoutResultTable({
     [EnumColumnName.headquarter]: {
       field: "headquarter",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.headquarter],
-      sortable: false,
+      headerAlign: "left",
       width: 200,
       renderCell: (params) => {
         const { headquarter, hqCode } = params.row;
@@ -121,7 +134,13 @@ export default function ScoutResultTable({
           return null;
         }
         return (
-          <Box sx={{ display: "flex" }} alignItems={"center"}>
+          <Box
+            component={Stack}
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"left"}
+            width={"100%"}
+          >
             <NullableImg
               url={hqCode ? `/flags/${hqCode?.toLowerCase()}.svg` : ""}
             />
@@ -137,25 +156,34 @@ export default function ScoutResultTable({
       field: "globalFootprint",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.globalFootprint],
       minWidth: 200,
+      flex: 1,
       sortable: false,
+      headerAlign: "left",
       renderCell: (params) => {
-        const { globalFootprintRegion } = params.row;
-        if (!globalFootprintRegion) {
+        const { globalFootprint } = params.row;
+        if (!globalFootprint) {
           return null;
         }
-        const arrayValue = Array.from(globalFootprintRegion.values());
+        const arrayValue = Array.from(globalFootprint.values());
         // console.log(arrayValue);
         return (
-          <Box sx={{ display: "flex" }} alignItems={"center"}>
-            {arrayValue.map((subRegion: string, i: number) => {
-              return (
-                <SText key={i} fontSize="16px" fontWeight="normal">
-                  {subRegion}
-                  {i !== arrayValue.length - 1 ? "," : null}
-                  {i !== arrayValue.length - 1 ? <span>&nbsp;</span> : null}
-                </SText>
-              );
-            })}
+          <Box
+            component={Stack}
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"left"}
+            width={"100%"}
+            flexWrap={"wrap"}
+            textOverflow={"ellipsis"}
+          >
+            <SText
+              fontSize="16px"
+              fontWeight="normal"
+              textOverflow="ellipsis"
+              overflow="hidden"
+            >
+              {arrayValue.join(", ")}
+            </SText>
           </Box>
         );
       },
@@ -163,8 +191,8 @@ export default function ScoutResultTable({
     [EnumColumnName.badges]: {
       field: "badges",
       headerName: mapEnumColumnNameToHeaderName[EnumColumnName.badges],
-      sortable: false,
       minWidth: 200,
+      headerAlign: "center",
       renderHeader: () => {
         return (
           <div style={{ display: "flex", alignItems: "center" }}>
@@ -186,7 +214,14 @@ export default function ScoutResultTable({
           return null;
         }
         return (
-          <div style={{ display: "flex", alignItems: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+            }}
+          >
             {badges.map((badge: BadgeType, i: number) => (
               <SupBadge key={i} badge={badge} />
             ))}
@@ -220,23 +255,24 @@ export default function ScoutResultTable({
         }
 
         // Disable showMoreDeatils temporarily
-        // return (
-        //   <Tooltip title="show more details">
-        //     <IconButton
-        //       onClick={() => {
-        //         pushDrawer(params.row.id);
-        //       }}
-        //     >
-        //       <DensitySmall />
-        //     </IconButton>
-        //   </Tooltip>
-        // );
+        return (
+          <Tooltip title="show more details">
+            <IconButton
+              onClick={() => {
+                pushDrawer(params.row.id);
+              }}
+            >
+              <DensitySmall />
+            </IconButton>
+          </Tooltip>
+        );
       },
     },
     [EnumColumnName.control]: {
       field: "columnControls",
       sortable: false,
       filterable: false,
+      headerAlign: "center",
       maxWidth: 150,
       renderHeader: () => {
         return (
@@ -376,15 +412,10 @@ export default function ScoutResultTable({
     };
   }, []);
 
-  const getRowClassName = useCallback((params: GridRowClassNameParams) => {
-    const { name } = params.row;
-
-    return name === undefined ? "emptyRow" : "";
-  }, []);
-
   if (!tableData || tableData.length == 0) {
     return null;
   }
+  console.log("rendering ", tableData);
   return (
     <Box sx={{ width: "100%" }}>
       {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
@@ -417,10 +448,10 @@ export default function ScoutResultTable({
           },
         }}
         rows={tableData}
+        rowCount={totalResults}
         disableColumnMenu
         getRowSpacing={getRowSpacing}
         isRowSelectable={(params) => params.row.name !== undefined}
-        getRowClassName={getRowClassName}
         rowSpacingType="margin"
         columns={addControledColumns}
         disableRowSelectionOnClick
@@ -428,13 +459,9 @@ export default function ScoutResultTable({
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleRowSelection}
         checkboxSelection
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 50,
-            },
-          },
-        }}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={onPaginationModelChange}
       />
       <Menu
         anchorEl={anchorEl}
