@@ -7,20 +7,25 @@ import fakeData from "requests/hotpatchSearchDemoData";
 import { useTranslation } from "react-i18next";
 import { appStatus } from "hooks/appStatus";
 
+interface IAdditionalSearchObj {
+  page: number;
+  pageSize: number;
+}
 interface IUseSupplierReturned {
-  querySupplierListByKeyword: (queryString: string) => Promise<void>;
+  querySupplierListByKeyword: (
+    queryString: string,
+    { page, pageSize }: IAdditionalSearchObj
+  ) => Promise<void>;
   searchAutocomplete: (queryString: string) => Promise<string[]>;
   loading: boolean;
-  querySupplieListByCompany: (queryString: string) => Promise<void>;
-  searchSuppliers: (
-    pageNumber: number,
-    reset: boolean,
-    searchString: string
+  querySupplieListByCompany: (
+    queryString: string,
+    { page, pageSize }: IAdditionalSearchObj
   ) => Promise<void>;
 }
 
 export const useSupplier = (): IUseSupplierReturned => {
-  const { setSuppliers, setCount, setStats, page, pageSize } = useStore();
+  const { setSuppliers, setCount, setStats } = useStore();
   const [loading, setLoading] = useState(false);
   const { i18n } = useTranslation();
 
@@ -52,10 +57,13 @@ export const useSupplier = (): IUseSupplierReturned => {
    * @param queryString -- search string
    * @returns the data from the request
    */
-  const querySupplierListByKeyword = async (queryString: string) => {
+  const querySupplierListByKeyword = async (
+    queryString: string,
+    { page, pageSize }: IAdditionalSearchObj
+  ) => {
     const searchObj = {
       q: queryString,
-      offset: (page - 1) * pageSize,
+      offset: page * pageSize,
       limit: pageSize,
       filter: {
         _extras: {
@@ -78,7 +86,10 @@ export const useSupplier = (): IUseSupplierReturned => {
    * @param queryString -- search string
    * @returns the data from the request
    */
-  const querySupplieListByCompany = async (queryString: string) => {
+  const querySupplieListByCompany = async (
+    queryString: string,
+    { page, pageSize }: IAdditionalSearchObj
+  ) => {
     const searchObj = {
       q: queryString,
       offset: (page - 1) * pageSize,
@@ -127,53 +138,9 @@ export const useSupplier = (): IUseSupplierReturned => {
     }
   };
 
-  const searchSuppliers = async (
-    pageNumber: number = page,
-    reset = true,
-    searchString?: string
-  ) => {
-    try {
-      const { flags, filterData } = useStore.getState();
-      if (
-        filterData.q ||
-        filterData.regions.length > 0 ||
-        filterData.subRegions > 0
-      ) {
-        setLoading(true);
-        const searchObj = {
-          q: filterData.q || searchString,
-          offset: (pageNumber - 1) * pageSize,
-          limit: pageSize,
-          filter: {
-            _extra: flags,
-            ...filterData,
-          },
-        };
-
-        const entrypoint =
-          !flags.type || flags.type === "Keywords"
-            ? "suppliers/search_full_text"
-            : "suppliers/search_full_text";
-        const { data } = await request.post(entrypoint, searchObj);
-        await fakeData(data, searchObj);
-        setLoading(false);
-        setSuppliers(data?.suppliers, reset);
-        setCount(data?.count);
-        setStats(data?.stats);
-      }
-    } catch (err: any) {
-      console.log(err);
-      setLoading(false);
-      toast.error(err.response?.data.message, {
-        position: toast.POSITION.TOP_RIGHT,
-      });
-    }
-  };
-
   return {
     querySupplierListByKeyword,
     querySupplieListByCompany,
-    searchSuppliers,
     loading,
     searchAutocomplete,
   };

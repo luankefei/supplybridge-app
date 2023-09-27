@@ -14,7 +14,9 @@ import {
   MapColors,
   MapRegionToColor,
   MapRegionToMarkerColor,
+  MapSubRegionToRegion,
   getGeoJsonAndProjectConfig,
+  isRegion,
   legendKeyMap,
 } from "./geoUtils";
 import {
@@ -162,22 +164,16 @@ export default function MapChart({
    */
 
   const reset = () => {
-    onSelectCountryFilter(undefined, undefined);
-  };
-
-  const resetZoom = () => {
-    setZoom(1);
     setSelectedRegion("world");
   };
-  const zoomIn = () => {
-    if (zoom < 10) {
-      setZoom(zoom * 1.1);
-    }
-  };
+
   const zoomOut = () => {
-    if (zoom > 1) {
-      setZoom(Math.max(zoom * 0.9, 1));
+    if (selectedRegion === "world") return;
+    if (isRegion(selectedRegion)) {
+      setSelectedRegion("world");
+      return;
     }
+    setSelectedRegion(MapSubRegionToRegion[selectedRegion as EnumSubRegion]);
   };
 
   /****************
@@ -291,6 +287,7 @@ export default function MapChart({
     return (
       <Legend
         counts={counts}
+        onBack={selectedRegion !== "world" ? zoomOut : undefined}
         onClick={(key) => {
           const srk = legendKeyMap[key];
           srk && setSelectedRegion(srk as EnumRegionAndSubRegion);
@@ -308,6 +305,8 @@ export default function MapChart({
       height={"50vh"}
       display={"flex"}
       justifyContent={"center"}
+      border={"1px solid #E5E7EB"}
+      borderRadius={"24px"}
     >
       <ComposableMap
         width={window.screen.width}
@@ -344,35 +343,6 @@ export default function MapChart({
         }}
       >
         {renderTotalCount()}
-      </Stack>
-      <Stack
-        sx={{
-          position: "absolute",
-          bottom: 24,
-          left: 24,
-        }}
-      >
-        <IconButton onClick={resetZoom} sx={{ bgcolor: "white" }}>
-          <Replay />
-        </IconButton>
-        <SpacingVertical space="8px" />
-        <IconButton
-          onClick={zoomIn}
-          sx={{
-            bgcolor: "white",
-          }}
-        >
-          <Add />
-        </IconButton>
-        <SpacingVertical space="8px" />
-        <IconButton
-          onClick={zoomOut}
-          sx={{
-            bgcolor: "white",
-          }}
-        >
-          <Remove />
-        </IconButton>
       </Stack>
     </Box>
   );

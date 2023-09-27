@@ -63,6 +63,16 @@ export const MapRegionToSubRegion: Record<EnumRegion, EnumSubRegion[]> = {
   [EnumRegion.EMEA]: [EnumSubRegion.Europe, EnumSubRegion.Africa],
 };
 
+export const MapSubRegionToRegion: Record<EnumSubRegion, EnumRegion> = {
+  [EnumSubRegion.NorthNCentralAmerica]: EnumRegion.Americas,
+  [EnumSubRegion.SouthAmerica]: EnumRegion.Americas,
+  [EnumSubRegion.Asia]: EnumRegion.APAC,
+  [EnumSubRegion.Oceania]: EnumRegion.APAC,
+  [EnumSubRegion.Europe]: EnumRegion.EMEA,
+  [EnumSubRegion.MiddleEast]: EnumRegion.APAC,
+  [EnumSubRegion.Africa]: EnumRegion.EMEA,
+};
+
 const preDefinedProjectionConfig: Record<
   EnumRegionAndSubRegion | "world",
   any
@@ -70,7 +80,7 @@ const preDefinedProjectionConfig: Record<
   world: {
     rotate: [0, 0, 0],
     center: [0, 35],
-    scale: 180,
+    scale: 200,
   },
   [EnumRegion.Americas]: {
     rotate: [0, 0, 0],

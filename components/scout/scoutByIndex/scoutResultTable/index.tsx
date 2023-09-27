@@ -9,6 +9,7 @@ import {
 import {
   DataGrid,
   GridColDef,
+  GridPaginationModel,
   GridRowClassNameParams,
   GridRowSelectionModel,
   GridRowSpacingParams,
@@ -32,8 +33,11 @@ interface IScoutResultTableProps {
   searchType: EnumSearchType;
   tableData?: ITableData[];
   selectedRows: number[];
+  totalResults?: number;
+  paginationModel?: GridPaginationModel;
   onRowSelect: (selectedRows: number[]) => void;
   onShowSimilarCompanies?: (similarCompanyName: string) => void;
+  onPaginationModelChange?: (model: GridPaginationModel) => void;
 }
 
 enum EnumColumnName {
@@ -68,8 +72,11 @@ export default function ScoutResultTable({
   searchType,
   tableData,
   selectedRows,
+  totalResults,
+  paginationModel,
   onRowSelect,
   onShowSimilarCompanies,
+  onPaginationModelChange,
 }: IScoutResultTableProps) {
   const { t } = useTranslation();
   const mapEnumColumnNameToHeaderName: Record<EnumColumnName, string> = {
@@ -405,15 +412,10 @@ export default function ScoutResultTable({
     };
   }, []);
 
-  const getRowClassName = useCallback((params: GridRowClassNameParams) => {
-    const { name } = params.row;
-
-    return name === undefined ? "emptyRow" : "";
-  }, []);
-
   if (!tableData || tableData.length == 0) {
     return null;
   }
+  console.log("rendering ", tableData);
   return (
     <Box sx={{ width: "100%" }}>
       {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
@@ -446,6 +448,7 @@ export default function ScoutResultTable({
           },
         }}
         rows={tableData}
+        rowCount={totalResults}
         disableColumnMenu
         getRowSpacing={getRowSpacing}
         isRowSelectable={(params) => params.row.name !== undefined}
@@ -456,13 +459,9 @@ export default function ScoutResultTable({
         rowSelectionModel={selectedRows}
         onRowSelectionModelChange={handleRowSelection}
         checkboxSelection
-        initialState={{
-          pagination: {
-            paginationModel: {
-              pageSize: 50,
-            },
-          },
-        }}
+        paginationMode="server"
+        paginationModel={paginationModel}
+        onPaginationModelChange={onPaginationModelChange}
       />
       <Menu
         anchorEl={anchorEl}

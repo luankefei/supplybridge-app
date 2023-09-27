@@ -43,7 +43,7 @@ const SearchBar = (props: SearchBarProps) => {
   const [searchType, setSearchType] = useState<EnumSearchType>(
     EnumSearchType.Keywords
   );
-  const autoCompleteRef = useRef<any>(null);
+  const [open, setOpen] = useState(false);
   // autocomplete options
   const [options, setOptions] = useState<string[]>([]);
   const [optionsLoading, setOptionsLoading] = useState(false);
@@ -68,7 +68,6 @@ const SearchBar = (props: SearchBarProps) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
-    autoCompleteRef.current.blur();
     onClickSearch();
   };
 
@@ -86,6 +85,7 @@ const SearchBar = (props: SearchBarProps) => {
   };
   const onClickSearch = () => {
     props.onSearch(queryString, searchType);
+    setOpen(false);
   };
 
   return (
@@ -115,13 +115,13 @@ const SearchBar = (props: SearchBarProps) => {
           )}
           <SpacingHorizontal space={"8px"} />
           <form
+            autoComplete="off"
             onSubmit={handleSubmit}
             style={{
               width: "100%",
             }}
           >
             <StyledAutocomplete
-              ref={autoCompleteRef}
               freeSolo
               options={options}
               value={queryString}
@@ -131,10 +131,10 @@ const SearchBar = (props: SearchBarProps) => {
                 setQueryString(value as string);
               }}
               noOptionsText="No matching results"
-              filterOptions={(x) => x}
               renderInput={(params) => (
                 <TextField
                   {...params}
+                  autoComplete="off"
                   placeholder={t(
                     `scout.searchbar.${searchType.toLowerCase()}Placeholder`,
                     "..."

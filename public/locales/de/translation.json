@@ -298,7 +298,7 @@
       }
     },
     "result": {
-      "overview": "Auflistung von <bold>{{displayCount}}</bold> einzelnen Lieferanten, mit <bold>{{resultCount}}</bold> globalen Fußabdrücken für <bold>{{resultType}}</bold>.",
+      "overview": "Auflistung von <bold>{{displayCount}}</bold> einzelnen Lieferanten für <bold>{{resultType}}</bold>.",
       "organization": "Unternehmen",
       "hqLocation": "Hauptsitz",
       "footprint": "Globaler Fußabdruck",

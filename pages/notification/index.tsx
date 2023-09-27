@@ -1,4 +1,4 @@
-import { Check, FiberManualRecord, Star } from "@mui/icons-material";
+import { Check, Email, FiberManualRecord, Star } from "@mui/icons-material";
 import {
   Button,
   Card,
@@ -29,7 +29,7 @@ import { toast } from "react-toastify";
 export default function Notification() {
   const theme = useTheme();
   const { hasNotif, setHasNotif } = useStore();
-  const [viewType, setViewType] = useState<"read" | "unread">("unread");
+  const [viewType, setViewType] = useState<"all" | "unread">("unread");
   const [notifications, setNotifications] = useState<IUserNotification[]>([]);
   const [displayNotifications, setDisplayNotifications] = useState<
     IUserNotification[]
@@ -60,9 +60,8 @@ export default function Notification() {
       notifications.filter((e) => {
         if (viewType === "unread") {
           return e.status === EnumUserNotificationStatus.UNREAD;
-        } else {
-          return e.status === EnumUserNotificationStatus.READ;
         }
+        return true;
       })
     );
   }, [viewType, notifications]);
@@ -163,7 +162,7 @@ export default function Notification() {
                     size="small"
                     onClick={() => markAsRead(item.notification_id)}
                   >
-                    <Check />
+                    <Email />
                   </IconButton>
                 </Tooltip>
               )}
@@ -191,8 +190,8 @@ export default function Notification() {
           minWidth={"66%"}
         >
           <Tabs value={viewType} onChange={(e, v) => setViewType(v)}>
-            <Tab label="New" value="unread" />
-            <Tab label="Read" value="read" />
+            <Tab label="Unread" value="unread" />
+            <Tab label="All" value="all" />
           </Tabs>
           <Button sx={{ marginLeft: "16px" }} onClick={() => markAsRead()}>
             Mark all as read
