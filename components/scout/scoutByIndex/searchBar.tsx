@@ -7,7 +7,7 @@ import {
   TextField,
 } from "@mui/material";
 import Icon from "components/icon";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
 import { debounce } from "utils/util";
@@ -43,6 +43,7 @@ const SearchBar = (props: SearchBarProps) => {
   const [searchType, setSearchType] = useState<EnumSearchType>(
     EnumSearchType.Keywords
   );
+  const autoCompleteRef = useRef<any>(null);
   // autocomplete options
   const [options, setOptions] = useState<string[]>([]);
   const [optionsLoading, setOptionsLoading] = useState(false);
@@ -67,6 +68,7 @@ const SearchBar = (props: SearchBarProps) => {
 
   const handleSubmit = (event: any) => {
     event.preventDefault();
+    autoCompleteRef.current.blur();
     onClickSearch();
   };
 
@@ -119,6 +121,7 @@ const SearchBar = (props: SearchBarProps) => {
             }}
           >
             <StyledAutocomplete
+              ref={autoCompleteRef}
               freeSolo
               options={options}
               value={queryString}

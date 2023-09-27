@@ -3,14 +3,18 @@ import { useTranslation } from "react-i18next";
 
 interface IProps {
   counts: [string, number][];
+  onClick?: (key: string) => void;
 }
-export const Legend = ({ counts }: IProps) => {
+export const Legend = ({ counts, onClick }: IProps) => {
   const { t } = useTranslation();
   return (
     <LegendContainer>
       {t("scout.map.legend.totalResults", "Total Results")}
       {counts.map((c, idx) => (
-        <LegendItemGapContainer key={idx}>
+        <LegendItemGapContainer
+          key={idx}
+          onClick={() => onClick?.call(null, c[0])}
+        >
           <LegendItemKey>{c[0]}</LegendItemKey>
           <LegendItemVal>{c[1] || 0}</LegendItemVal>
         </LegendItemGapContainer>
@@ -25,12 +29,16 @@ const LegendContainer = styled("div")<any>`
   background-color: trasparent;
 `;
 
-const LegendItemContainer = styled("div")`
+const LegendItemContainer = styled("div")<{
+  onClick?: () => void;
+}>`
   display: flex;
   padding: 10px;
   border: 2px solid #ccc;
   border-radius: 8px;
+  cursor: ${(props) => (props.onClick ? "pointer" : "default")};
 `;
+
 const LegendItemGapContainer = styled(LegendItemContainer)`
   background-color: #f3f3f3;
   margin-top: 3px;

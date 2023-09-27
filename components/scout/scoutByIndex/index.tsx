@@ -256,7 +256,7 @@ export default function ScoutByIndex() {
           <Box>
             <SpacingVertical space="40px" />
             <Box>
-              {((!loading && !searched) || loading || hasData) && (
+              {!loading && !searched && (
                 <MapChart
                   parentTriggeredReset={resetMap}
                   selectedCountry={mapSelectedCountry}
@@ -279,7 +279,7 @@ export default function ScoutByIndex() {
                       filterInitialData={initialFilterDataset}
                       resultCount={stats.count || 0}
                       displayCount={data?.length || 0}
-                      resultType={queryString}
+                      resultType={queryString || ""}
                       onClickBuildMyShortList={() => {
                         setShortListModalOpen(true);
                       }}
@@ -338,7 +338,7 @@ export default function ScoutByIndex() {
           setShortListModalOpen(false);
         }}
       />
-      <SideBox>hello</SideBox>
+      {/* <SideBox>hello</SideBox> */}
     </Stack>
   );
 }
