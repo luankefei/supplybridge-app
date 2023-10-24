@@ -50,6 +50,13 @@ enum EnumColumnName {
 }
 
 /**
+ * The list of columns that don't need to be visible initially
+ */
+const initialColumnBlackList: EnumColumnName[] = [
+  EnumColumnName.badges
+]
+
+/**
  * Only for rendering the table of results from the scout page.
  * -- this component does not control its own state,
  * -- except for 1 local state for the drawer stack
@@ -307,7 +314,7 @@ export default function ScoutResultTable({
   const intialColumnControls = initialColmnNames.map((colName) => ({
     id: colName,
     content: mapEnumColumnNameToHeaderName[colName],
-    checked: true,
+    checked: !initialColumnBlackList.includes(colName),
   }));
 
   const initialColumns: GridColDef<ITableData>[] = [
