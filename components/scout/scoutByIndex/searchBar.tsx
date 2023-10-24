@@ -10,7 +10,6 @@ import Icon from "components/icon";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
-import { debounce } from "utils/util";
 import styled from "styled-components";
 import { SpacingHorizontal } from "components/ui-components/spacer";
 import { ResetIconTextButton } from "components/ui-components/iconTextButton";
@@ -63,7 +62,7 @@ const SearchBar = (props: SearchBarProps) => {
       return;
     }
     setQueryString(value);
-    debounce(() => getAutoComplete(value), 50);
+    getAutoComplete(value);
   };
 
   const handleSubmit = (event: any) => {
