@@ -98,9 +98,9 @@ const DeatilsPanel = ({
               {t("detailPanel.sendNdaRfi", "One Click Send")}
             </Button>
             <SpacingHorizontal space="8px" />
-            <Button variant="contained">
+            {/* <Button variant="contained">
               {t("detailPanel.contacMore", "contact more")}
-            </Button>
+            </Button> */}
           </Stack>
         </Box>
         <Box sx={{ minWidth: DIMENSIONS.width, minHeight: DIMENSIONS.height }}>
