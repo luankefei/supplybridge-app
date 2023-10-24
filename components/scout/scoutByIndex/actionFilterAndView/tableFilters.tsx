@@ -112,19 +112,6 @@ const TableFilters = (props: Props) => {
 
   return (
     <Stack direction={"row"}>
-      {data?.names && data?.names?.size > 0 && (
-        <MySelector
-          label={t("scout.result.organization")}
-          data={data.names}
-          value={filter.names}
-          onChange={(value) => {
-            setFilter({
-              ...filter,
-              names: value,
-            });
-          }}
-        />
-      )}
       {data?.headquarters && data?.headquarters?.size > 0 && (
         <MySelector
           label={t("scout.result.hqLocation")}
