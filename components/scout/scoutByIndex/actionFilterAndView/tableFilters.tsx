@@ -138,19 +138,6 @@ const TableFilters = (props: Props) => {
           }}
         />
       )}
-      {data?.badges && data?.badges?.size > 0 && (
-        <MySelector
-          label={t("scout.result.badge")}
-          data={data.badges}
-          value={filter.badges}
-          onChange={(value) => {
-            setFilter({
-              ...filter,
-              badges: value as BadgeType[],
-            });
-          }}
-        />
-      )}
     </Stack>
   );
 };
