@@ -53,7 +53,8 @@ enum EnumColumnName {
  * The list of columns that don't need to be visible initially
  */
 const initialColumnBlackList: EnumColumnName[] = [
-  EnumColumnName.badges
+  EnumColumnName.badges,
+  EnumColumnName.headquarter
 ]
 
 /**
