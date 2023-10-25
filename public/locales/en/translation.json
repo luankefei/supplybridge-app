@@ -301,6 +301,7 @@
       "overview": "Listing <bold>{{displayCount}}</bold> individual supplier(s) for <bold>{{resultType}}</bold>",
       "organization": "Organization",
       "hqLocation": "HQ Location",
+      "region": "Region",
       "footprint": "Global Footprint",
       "badge": "Badge",
       "actions": "Actions",

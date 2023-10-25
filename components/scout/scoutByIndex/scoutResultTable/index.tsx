@@ -43,6 +43,7 @@ interface IScoutResultTableProps {
 enum EnumColumnName {
   name = "name",
   headquarter = "headquarter",
+  globalFootprintRegion = "globalFootprintRegion",
   globalFootprint = "globalFootprint",
   badges = "badges",
   actions = "actions",
@@ -86,10 +87,11 @@ export default function ScoutResultTable({
   onShowSimilarCompanies,
   onPaginationModelChange,
 }: IScoutResultTableProps) {
-  const { t } = useTranslation();
+    const { t } = useTranslation();
   const mapEnumColumnNameToHeaderName: Record<EnumColumnName, string> = {
     [EnumColumnName.name]: t("scout.result.organization", "Organization"),
     [EnumColumnName.headquarter]: t("scout.result.hqLocation", "HQ location"),
+    [EnumColumnName.globalFootprintRegion]: t("scout.result.region", "Region"),
     [EnumColumnName.globalFootprint]: t(
       "scout.result.footprint",
       "Global footprint"
@@ -155,6 +157,41 @@ export default function ScoutResultTable({
             <SpacingHorizontal space="8px" />
             <SText fontSize="16px" fontWeight="normal">
               {headquarter}
+            </SText>
+          </Box>
+        );
+      },
+    },
+    [EnumColumnName.globalFootprintRegion]: {
+      field: "globalFootprintRegion",
+      headerName: mapEnumColumnNameToHeaderName[EnumColumnName.globalFootprintRegion],
+      minWidth: 200,
+      flex: 1,
+      sortable: false,
+      headerAlign: "left",
+      renderCell: (params) => {
+        const { globalFootprintRegion } = params.row;
+        if (!globalFootprintRegion) {
+          return null;
+        }
+        const arrayValue = Array.from(globalFootprintRegion.values());
+        return (
+          <Box
+            component={Stack}
+            direction="row"
+            alignItems={"center"}
+            justifyContent={"left"}
+            width={"100%"}
+            flexWrap={"wrap"}
+            textOverflow={"ellipsis"}
+          >
+            <SText
+              fontSize="16px"
+              fontWeight="normal"
+              textOverflow="ellipsis"
+              overflow="hidden"
+            >
+              {arrayValue.join(", ")}
             </SText>
           </Box>
         );
@@ -308,6 +345,7 @@ export default function ScoutResultTable({
   const initialColmnNames: EnumColumnName[] = [
     EnumColumnName.name,
     EnumColumnName.headquarter,
+    EnumColumnName.globalFootprintRegion,
     EnumColumnName.globalFootprint,
     EnumColumnName.badges,
     EnumColumnName.actions,

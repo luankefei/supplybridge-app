@@ -301,6 +301,7 @@
       "overview": "Auflistung von <bold>{{displayCount}}</bold> einzelnen Lieferanten für <bold>{{resultType}}</bold>.",
       "organization": "Unternehmen",
       "hqLocation": "Hauptsitz",
+      "region": "Region",
       "footprint": "Globaler Fußabdruck",
       "badge": "Merkmal",
       "actions": "Aktionen",

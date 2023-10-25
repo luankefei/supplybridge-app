@@ -11,6 +11,7 @@ export const Legend = ({ counts, onClick, onBack }: IProps) => {
   const { t } = useTranslation();
   const subCounts = counts.slice(0, -1);
   const totalCount = counts[counts.length - 1];
+
   return (
     <LegendContainer>
       <LegendHeader>

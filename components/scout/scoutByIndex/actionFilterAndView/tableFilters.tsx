@@ -15,6 +15,7 @@ import { useTranslation } from "react-i18next";
 export interface FilterValue {
   names: string[];
   headquarters: string[];
+  regions: string[];
   globalFootprints: string[];
   badges: BadgeType[];
 }
@@ -22,6 +23,7 @@ export interface FilterValue {
 export interface FilterDataset {
   names: Set<string>;
   headquarters: Set<string>;
+  regions: Set<string>;
   globalFootprints: Set<string>;
   badges: Set<BadgeType>;
 }
@@ -99,6 +101,7 @@ const TableFilters = (props: Props) => {
   const [filter, setFilter] = useState<FilterValue>({
     names: [],
     headquarters: [],
+    regions: [],
     globalFootprints: [],
     badges: [],
   });
@@ -112,15 +115,15 @@ const TableFilters = (props: Props) => {
 
   return (
     <Stack direction={"row"}>
-      {data?.headquarters && data?.headquarters?.size > 0 && (
+      {data?.regions && data?.regions?.size > 0 && (
         <MySelector
-          label={t("scout.result.hqLocation")}
-          data={data.headquarters}
-          value={filter.headquarters}
+          label={t("scout.result.region")}
+          data={data.regions}
+          value={filter.regions}
           onChange={(value) => {
             setFilter({
               ...filter,
-              headquarters: value,
+              regions: value,
             });
           }}
         />
@@ -147,6 +150,7 @@ export const helperTableDataToFilterDataset = (
 ): FilterDataset => {
   const name: Set<string> = new Set();
   const hqLocations: Set<string> = new Set();
+  let regions: string[] = [];
   const footprints: Set<string> = new Set();
   const badges: Set<BadgeType> = new Set();
   data.forEach((item) => {
@@ -166,10 +170,15 @@ export const helperTableDataToFilterDataset = (
         badges.add(badge);
       }
     }
+
+    if (item.globalFootprintRegion) {
+      regions = regions.concat([...item.globalFootprintRegion]);
+    }
   });
   return {
     names: name,
     headquarters: hqLocations,
+    regions: new Set(regions),
     globalFootprints: footprints,
     badges,
   };

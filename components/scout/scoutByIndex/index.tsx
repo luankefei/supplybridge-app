@@ -10,6 +10,7 @@ import { Box, Stack } from "@mui/material";
 import { ColoredText } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
 import { SpacingVertical } from "components/ui-components/spacer";
+import { isArraysOverlapped } from "utils/array";
 import ActionFilterAndView, { ViewType } from "./actionFilterAndView";
 import {
   ITableData,
@@ -66,6 +67,7 @@ export default function ScoutByIndex() {
     {
       names: new Set(),
       headquarters: new Set(),
+      regions: new Set(),
       globalFootprints: new Set(),
       badges: new Set(),
     }
@@ -143,12 +145,13 @@ export default function ScoutByIndex() {
   const reCalTableData = (fv?: FilterValue, sc?: string) => {
     let fvFilter = (s: any) => true;
     if (fv !== undefined) {
-      const { names, headquarters, globalFootprints, badges } = fv;
+      const { names, headquarters, regions, globalFootprints, badges } = fv;
       fvFilter = (s: any) => {
-        const { name, headquarter, globalFootprint, badges: sbadges } = s;
+        const { name, headquarter, globalFootprint, globalFootprintRegion, badges: sbadges } = s;
         return (
           (names.length === 0 || names.includes(name)) &&
           (headquarters.length === 0 || headquarters.includes(headquarter)) &&
+          (regions.length === 0 || isArraysOverlapped(regions, globalFootprintRegion)) &&
           (globalFootprints.length === 0 ||
             hasIntersection(globalFootprint, globalFootprints)) &&
           (badges.length === 0 || badges.some((b) => sbadges.includes(b)))
