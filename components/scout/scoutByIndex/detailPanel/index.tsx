@@ -13,7 +13,7 @@ import { TSupplierModel } from "models/supplier";
 import { toast } from "react-toastify";
 import VerifiedSupplierChip from "components/ui-components/verifiedSupplierChip";
 import { BadgeType, SupBadge } from "components/ui-components/supBadge";
-import { useState } from "react";
+import { useMemo, useState } from "react";
 import { SText } from "components/ui-components/text";
 import RoundImage from "components/ui-components/roundImage";
 import {
@@ -64,12 +64,29 @@ const DeatilsPanel = ({
   };
   const { suppliers } = useStore();
   const [tab, setTab] = useState(0);
+
+  const data: TSupplierModel | undefined = useMemo(() => {
+    if (!supplierId) return
+    let _data: TSupplierModel | undefined
+  
+    suppliers.some(
+      (s) => {
+        if (s.id === supplierId) {
+          _data = {...s, locationId: Array.isArray(s.locationId) ? s.locationId : s.locationId ? [s.locationId] : []}
+          return true
+        }
+
+        return false
+      }
+    )
+
+    return _data
+  }, [supplierId, suppliers])
+
   if (supplierId === undefined) {
     return null;
   }
-  const data: TSupplierModel | undefined = suppliers.find(
-    (s) => s.id === supplierId
-  );
+
   if (!data) {
     toast.error("Supplier not found. This is likely a bug. Contact support.");
     return null;
