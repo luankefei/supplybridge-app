@@ -1,11 +1,9 @@
-import Feedback from "components/feedback";
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
 import Summary from "./summary";
 import { usePersistentStore, useStore } from "hooks/useStore";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
-import ScoutResultTable from "./scoutResultTable";
 import { Box, Stack } from "@mui/material";
 import { ColoredText } from "components/ui-components/text";
 import PoweredBy from "components/ui-components/poweredBy";
@@ -30,8 +28,9 @@ import { toast } from "react-toastify";
 import ShortListModal from "./shortlistModal";
 import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
 import { useRouter } from "next/router";
-import { SideBox } from "components/ui-components/sidebox";
 import { GridPaginationModel } from "@mui/x-data-grid";
+
+import ScoutResult from "../scoutResult";
 
 /**
  * Scout by index page
@@ -333,18 +332,12 @@ export default function ScoutByIndex() {
                           : undefined
                       }
                     />
-                    <ScoutResultTable
-                      viewType={viewType}
-                      totalResults={stats.count || 0}
-                      paginationModel={{
-                        page,
-                        pageSize,
-                      }}
-                      onPaginationModelChange={onPaginationModelChange}
+                    <ScoutResult
+                      data={tableData}
                       searchType={resultSearchType || EnumSearchType.Keywords}
-                      tableData={tableData}
                       selectedRows={selectedRows}
                       onRowSelect={handleRowSelect}
+                      onSearch={onPaginationModelChange}
                       onShowSimilarCompanies={handleShowSimilarCompanies}
                     />
                   </Box>
