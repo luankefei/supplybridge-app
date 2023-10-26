@@ -1,30 +1,25 @@
 "use client";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { Breadcrumbs, Link } from "@mui/material";
 import { Stack } from "@mui/system";
+import { GridPaginationModel } from "@mui/x-data-grid";
 
-
+import { arrayToString } from "utils/array";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
 import { GoBackIcon } from "components/button";
-import LoadingAnimation from "components/ui-components/loadingAnimation";
+import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
 import { useStore } from "hooks/useStore";
-import { QuickBridgeTabType } from "../types";
 import ScoutResult from "../scoutResult";
+import EmptyResult from "../scoutByIndex/emptyResult";
+import { QuickBridgeTabType } from "../types";
 
 interface IBreadcrumb {
   label: string
   id: number
   color: string
 }
-
-const randomDuration = () => {
-  let r = Math.floor(Math.random() * 10); // 0 ~ 9
-  // console.log("animation r: ", r);
-  return r == 0 || r == 1 ? "long" : "short"; // 1/5 odd is long, 4/5 odd is short
-  // return "long";
-};
 
 export default function QuickBridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
@@ -42,12 +37,7 @@ export default function QuickBridgeResult() {
     setTab,
     tab,
   } = quickBridge;
-  const { searchSuppliers, resetAllSelected, loading } =
-    useQuickBridgeSupplier();
-
-  const [loadingAnimations, setLoadingAnimations] = useState(true);
-
-  const [aniDuration, setAniDuration] = useState(randomDuration());
+  const { searchSuppliers, resetAllSelected, loading } = useQuickBridgeSupplier();
 
   const infiniteScrollControl = useRef(true);
   const countRef = useRef(count);
@@ -56,15 +46,6 @@ export default function QuickBridgeResult() {
   const pageLoaded = useRef(false);
 
   const { filterData, clearFilterData } = useStore();
-
-  useEffect(() => {
-    setTimeout(
-      () => {
-        setLoadingAnimations(false);
-      },
-      aniDuration == "short" ? 3200 : 6200
-    );
-  }, [aniDuration]);
 
   useEffect(() => {
     countRef.current = count;
@@ -89,18 +70,18 @@ export default function QuickBridgeResult() {
     }
   }, [searchSuppliers]);
 
-  const handleScroll = useCallback(async () => {
-    var isAtBottom =
-      document.documentElement.scrollHeight -
-        document.documentElement.scrollTop <=
-      document.documentElement.clientHeight;
+  // const handleScroll = useCallback(async () => {
+  //   var isAtBottom =
+  //     document.documentElement.scrollHeight -
+  //       document.documentElement.scrollTop <=
+  //     document.documentElement.clientHeight;
 
-    if (isAtBottom && infiniteScrollControl.current && suppliers?.length < 20) {
-      infiniteScrollControl.current = false;
-      setPage(page + 1);
-      await searchSupplierHandler();
-    }
-  }, [page, searchSupplierHandler, setPage, suppliers?.length]);
+  //   if (isAtBottom && infiniteScrollControl.current && suppliers?.length < 20) {
+  //     infiniteScrollControl.current = false;
+  //     setPage(page + 1);
+  //     await searchSupplierHandler();
+  //   }
+  // }, [page, searchSupplierHandler, setPage, suppliers?.length]);
 
   const clearFilters = useCallback(() => {
     filterData.q = "";
@@ -109,9 +90,9 @@ export default function QuickBridgeResult() {
 
   const searchHandler = useCallback(async () => {
     pageRef.current = 1;
-    await searchSuppliers(1, true, filterData.q);
+    await searchSuppliers(page, true, filterData.q);
     infiniteScrollControl.current = true;
-  }, [filterData.q, searchSuppliers]);
+  }, [filterData.q, page, searchSuppliers]);
 
   const setTabResult = useCallback(() => {
     resetAllSelected();
@@ -141,13 +122,24 @@ export default function QuickBridgeResult() {
     }
   }, [filter, searchHandler]);
 
+  // TODO: Do we still need infinite loading by scrolling?
+  // useEffect(() => {
+  //   getInitialRequests();
+  //   window.addEventListener("scroll", handleScroll);
+  //   return () => {
+  //     window.removeEventListener("scroll", handleScroll);
+  //   };
+  // }, [getInitialRequests, handleScroll]);
+
   useEffect(() => {
     getInitialRequests();
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, [getInitialRequests, handleScroll]);
+  }, [getInitialRequests])
+
+  const onPaginationModelChange = useCallback(({ page, pageSize }: GridPaginationModel) => {
+    setPage(page + 1)
+    setPageSize(pageSize)
+    searchSuppliers(page + 1, true, "");
+  }, [searchSuppliers, setPage, setPageSize]);
 
   const breadcrumbs: IBreadcrumb[] = useMemo(() => {
     const _breadcrumbs: IBreadcrumb[] = [];
@@ -163,47 +155,46 @@ export default function QuickBridgeResult() {
     return _breadcrumbs;
   }, [selectedLabel, tab]);
 
+  const queryString: string = useMemo(() => {
+    return arrayToString<string>([tab?.tabLabel || '', selectedLabel], ' • ')
+  }, [selectedLabel, tab?.tabLabel]);
 
   return (
     <ScoutContainer>
-      {loadingAnimations ? (
-        <LoadingAnimationContainer>
-          <LoadingAnimation showType={aniDuration} />
-        </LoadingAnimationContainer>
-      ) : (
-        <>
-          <BreadcrumbsContainer>
-            <Stack spacing={2}>
-              <Breadcrumbs separator=">" aria-label="breadcrumb">
-                {breadcrumbs.map((b) => (
-                  <Link
-                    key={b.id}
-                    underline="hover"
-                    href="#"
-                    style={{ color: b.color }}
-                    onClick={() => handleClickLink(b.id)}
-                  >
-                    {b.label}
-                  </Link>
-                ))}
-              </Breadcrumbs>
-            </Stack>
-          </BreadcrumbsContainer>
-          <MainContainer>
-            <GoBackIcon goBack={setTabResult}></GoBackIcon>
-            {/* <ScoutResult
-              suppliers={suppliers}
-              pageMeta={{
-                stats: { count },
-                page,
-                pageSize,
-              }}
-              queryString="TODO"
-              onSearch={() => null}
-            /> */}
-          </MainContainer>
-        </>
+      {loading && (
+        <LoadingWithBackgroundOverlay />
       )}
+      <BreadcrumbsContainer>
+        <Stack spacing={2}>
+          <Breadcrumbs separator=">" aria-label="breadcrumb">
+            {breadcrumbs.map((b) => (
+              <Link
+                key={b.id}
+                underline="hover"
+                href="#"
+                style={{ color: b.color }}
+                onClick={() => handleClickLink(b.id)}
+              >
+                {b.label}
+              </Link>
+            ))}
+          </Breadcrumbs>
+        </Stack>
+      </BreadcrumbsContainer>
+      <MainContainer>
+        <GoBackIcon goBack={setTabResult}></GoBackIcon>
+        {!loading && !suppliers.length && <EmptyResult />}
+        <ScoutResult
+          suppliers={suppliers}
+          pageMeta={{
+            stats: { count },
+            page: page - 1,
+            pageSize: pageSize,
+          }}
+          queryString={queryString}
+          onSearch={onPaginationModelChange}
+        />
+      </MainContainer>
       
     </ScoutContainer>
   );

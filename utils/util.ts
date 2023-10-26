@@ -6,3 +6,7 @@ export const debounce = (fn: any, ms: number = 200) => {
     fn();
   }, ms);
 };
+
+export const isValueDefined = <T = any>(value: T | undefined | null): boolean => {
+  return value !== undefined && value !== null
+}

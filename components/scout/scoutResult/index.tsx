@@ -6,7 +6,6 @@ import { toast } from "react-toastify";
 import { usePersistentStore } from "hooks/useStore";
 import { hasIntersection, isArraysOverlapped } from "utils/array";
 import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
-
 import { ViewType } from "../scoutByIndex/actionFilterAndView";
 import { FilterDataset, FilterValue, helperTableDataToFilterDataset } from "./actionFilterAndView/tableFilters";
 
@@ -113,36 +112,32 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
   }, [])
 
   const onCompare = useCallback(() => {
-    if (selectedRows.length) {
-      router.push({
-        pathname: "/scout/compare",
-        query: {
-          suppliers: selectedRows.join(","),
-        },
-      });
-    }
+    router.push({
+      pathname: "/scout/compare",
+      query: {
+        suppliers: selectedRows.join(","),
+      },
+    });
   }, [router, selectedRows]);
 
   const onSendNDA = useCallback(() => {
-    if (selectedRows.length) {
-      console.log("TODO: Send NDA");
-    }
-  }, [selectedRows.length]);
+    console.log("TODO: Send NDA");
+  }, []);
 
   const onSendRFI = useCallback(() => {
-    if (selectedRows.length) {
-      console.log("TODO: Send FRI");
-    }
-  }, [selectedRows.length]);
+    console.log("TODO: Send FRI");
+  }, []);
 
   useEffect(() => {
     if (data.length === 0) return;
     reCalTableData(filterValue, selectedCountry);
   }, [data, filterValue, selectedCountry, reCalTableData]);
   
+  if (!data.length) return null;
+
   return (
     <>
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3 }} width="100%">
       <ActionFilterAndView
         filterInitialData={initialFilterDataset}
         resultCount={pageMeta.stats.count || 0}
@@ -157,9 +152,9 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
         onFilterChange={onFilterChange}
         view={viewType}
         onViewChange={setView}
-        onClickCompare={onCompare}
-        onClickSendNDA={onSendNDA}
-        onClickSendRFI={onSendRFI}
+        onClickCompare={selectedRows.length > 1 ? onCompare : undefined}
+        onClickSendNDA={selectedRows.length ? onSendNDA : undefined}
+        onClickSendRFI={selectedRows.length ? onSendRFI : undefined}
       />
       <ResultTable
         viewType={viewType}

@@ -44,7 +44,7 @@ interface Actions {
     setPage: (page: number) => void;
     setPageSize: (pageSize: number) => void;
     setCount: (count: number) => void;
-    setSuppliers: (value: any) => void;
+    setSuppliers: (value: any, reset?: boolean) => void;
     setFilter: (type: FilterType, data: any) => void;
     setExtraFilter: (data: any) => void;
     setTab: (activeTab: number, tabLabel: string) => void;
@@ -75,7 +75,7 @@ export type QuickBridgeSlice = State & Actions;
 const initialState = {
   q: "",
   page: 1,
-  pageSize: 21,
+  pageSize: 50,
   count: 0,
   suppliers: [],
   filter: {
@@ -197,9 +197,9 @@ export const createQuickBridgeSlice: StateCreator<
             },
           },
         })),
-      setSuppliers: (suppliers: any) =>
+      setSuppliers: (suppliers: any, reset = false) =>
         set((state = get()) => {
-          if (get().quickBridge.page === 1) {
+          if (get().quickBridge.page === 1 || reset) {
             return {
               ...state,
               quickBridge: {

@@ -53,7 +53,7 @@ export const useQuickBridgeSupplier = () => {
 
   const searchSuppliers = async (
     pageNumber: number = page,
-    reset = true,
+    reset = false,
     searchString?: string
     // extraFilter?: any
   ) => {
@@ -84,7 +84,7 @@ export const useQuickBridgeSupplier = () => {
       // setExtraFilter({ a: 1, b: 2 });
       console.log("quick bridge result", data);
       setLoading(false);
-      setSuppliers(data?.suppliers);
+      setSuppliers(data?.suppliers, reset);
       // setSuppliersStore(data?.suppliers, reset);
       setCount(data.count);
     } catch (err: any) {

@@ -16,6 +16,8 @@ import {
 } from "components/ui-components/text";
 import DetailPanelCard from "../detailPanelCard";
 import { useTranslation } from "react-i18next";
+import { useMemo } from "react";
+import { toArray } from "utils/array";
 
 /**
  * 2 sections,
@@ -39,13 +41,22 @@ const General = ({ data }: { data: TSupplierModel }) => {
       {text}
     </Box>
   );
-  const locations = new Set<string>();
-  data.locationId.forEach((id) => {
-    const foundName = allSubRegions[id]?.name;
-    if (foundName) {
-      locations.add(foundName);
-    }
-  });
+
+  const locations: Set<string> = useMemo(() => {
+    const _locations: Set<string> = new Set<string>();
+
+    const locationIds: number[] = toArray<number>(data.locationId);
+
+    locationIds.forEach((id) => {
+      const foundName = allSubRegions[id]?.name;
+      if (foundName) {
+        _locations.add(foundName);
+      }
+    });
+
+    return _locations;
+  }, [allSubRegions, data.locationId]);
+
   return (
     <Stack>
       <DetailPanelCard>
