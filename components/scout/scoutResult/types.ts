@@ -1,17 +1,31 @@
 import type { GridPaginationModel } from "@mui/x-data-grid";
 
-import { ITableData } from "../scoutByIndex/scoutResultTable/helper";
+import { TSupplierModel } from "models/supplier";
 
 export enum EnumSearchType {
   Keywords = "Keywords",
   Companies = "Companies",
 }
 
+export interface IPageMeta {
+  stats: {
+    count: number
+    [x: string]: any
+  }
+  page: number
+  pageSize: number
+}
+
+export interface IScountResultControl {
+  reset: () => void
+}
+
 export interface IScoutResultProps {
-  data: ITableData[]
+  suppliers: TSupplierModel[]
   searchType?: EnumSearchType
-  selectedRows: number[]
-  onRowSelect: (_rows: number[]) => void
+  pageMeta: IPageMeta
+  queryString: string
+  selectedCountry?: string
   onSearch: (_param: GridPaginationModel) => void
   onShowSimilarCompanies?: (_company: string) => void
 }

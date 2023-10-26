@@ -1,27 +1,25 @@
 "use client";
-
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
-import { useEffect, useRef, useState } from "react";
+import { Breadcrumbs, Link } from "@mui/material";
+import { Stack } from "@mui/system";
+
 
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
-import { useViewport } from "hooks/useViewport";
-import UnlockBackDrop from "../unlockBackDrop";
-import LockedResultCard from "../lockedResultCard";
-import { Breadcrumbs, Link } from "@mui/material";
-import { Stack } from "@mui/system";
-import { useRouter } from "next/router";
-
-import ResultCard from "components/scout/resultCard";
-import ScoutFilter from "components/scout/scoutFilter";
-
 import { GoBackIcon } from "components/button";
-import { theme } from "config/theme";
-import { useStore } from "hooks/useStore";
 import LoadingAnimation from "components/ui-components/loadingAnimation";
+import { useStore } from "hooks/useStore";
 import { QuickBridgeTabType } from "../types";
+import ScoutResult from "../scoutResult";
 
-let randomDuration = () => {
+interface IBreadcrumb {
+  label: string
+  id: number
+  color: string
+}
+
+const randomDuration = () => {
   let r = Math.floor(Math.random() * 10); // 0 ~ 9
   // console.log("animation r: ", r);
   return r == 0 || r == 1 ? "long" : "short"; // 1/5 odd is long, 4/5 odd is short
@@ -43,7 +41,7 @@ export default function QuickbridgeResult() {
     setTab,
     tab,
   } = quickBridge;
-  const { searchSuppliers, searchSuppliersThreeP, resetAllSelected, loading } =
+  const { searchSuppliers, resetAllSelected, loading } =
     useQuickBridgeSupplier();
 
   const [loadingAnimations, setLoadingAnimations] = useState(true);
@@ -56,7 +54,7 @@ export default function QuickbridgeResult() {
   const clearRef = useRef(false);
   const pageLoaded = useRef(false);
 
-  const { filterData, setFilterData, clearFilterData } = useStore();
+  const { filterData, clearFilterData } = useStore();
 
   useEffect(() => {
     setTimeout(
@@ -64,74 +62,23 @@ export default function QuickbridgeResult() {
         setLoadingAnimations(false);
       },
       aniDuration == "short" ? 3200 : 6200
-      // aniDuration == "short" ? 3200000 : 6200000
     );
-  }, []);
-
-  useEffect(() => {
-    getInitialRequests();
-    window.addEventListener("scroll", handleScroll);
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (clearRef.current) {
-      searchHandler();
-      clearRef.current = false;
-    }
-  }, [filter]);
+  }, [aniDuration]);
 
   useEffect(() => {
     countRef.current = count;
   }, [count]);
 
-  /*
-  const getInitialRequests = () => {
-    if (
-      filter?.servicesType == "Logistics" ||
-      filter?.servicesType == "Engineering" ||
-      filter?.servicesType == "Quality" ||
-      tab?.activeTab == 7
-    ) {
-      searchSuppliersThreeP(1, false, "");
-    } else {
-      if (!pageLoaded.current) {
-        pageLoaded.current = true;
-        searchSuppliers(1, true);
-      }
-    }
-  };
-  */
-  const getInitialRequests = () => {
+
+  const getInitialRequests = useCallback(() => {
     if (!pageLoaded.current) {
       pageLoaded.current = true;
       searchSuppliers(1, true);
     }
-  };
+  }, [searchSuppliers]);
 
-  /*
-  const searchSupplierHandler = async () => {
-    const currentPage = pageRef.current;
-    if (
-      filter?.servicesType == "Logistics" ||
-      filter?.servicesType == "Engineering" ||
-      filter?.servicesType == "Quality" ||
-      tab?.activeTab == 7
-    ) {
-      await searchSuppliersThreeP(currentPage + 1, false, "");
-    } else {
-      if (currentPage * 10 < countRef.current) {
-        await searchSuppliers(currentPage + 1, false, "");
-        pageRef.current = currentPage + 1;
-        infiniteScrollControl.current = true;
-      }
-    }
-  };
-  */
 
-  const searchSupplierHandler = async () => {
+  const searchSupplierHandler = useCallback(async () => {
     const currentPage = pageRef.current;
 
     if (currentPage * 10 < countRef.current) {
@@ -139,9 +86,9 @@ export default function QuickbridgeResult() {
       pageRef.current = currentPage + 1;
       infiniteScrollControl.current = true;
     }
-  };
+  }, [searchSuppliers]);
 
-  const handleScroll = async () => {
+  const handleScroll = useCallback(async () => {
     var isAtBottom =
       document.documentElement.scrollHeight -
         document.documentElement.scrollTop <=
@@ -152,27 +99,27 @@ export default function QuickbridgeResult() {
       setPage(page + 1);
       await searchSupplierHandler();
     }
-  };
+  }, [page, searchSupplierHandler, setPage, suppliers?.length]);
 
-  const searchHandler = async () => {
+  const clearFilters = useCallback(() => {
+    filterData.q = "";
+    clearFilterData();
+  }, [clearFilterData, filterData]);
+
+  const searchHandler = useCallback(async () => {
     pageRef.current = 1;
     await searchSuppliers(1, true, filterData.q);
     infiniteScrollControl.current = true;
-  };
+  }, [filterData.q, searchSuppliers]);
 
-  const setTabResult = () => {
+  const setTabResult = useCallback(() => {
     resetAllSelected();
     clearFilters();
     setResult(false);
     setSelectedLabel("");
-  };
+  }, [clearFilters, resetAllSelected, setResult, setSelectedLabel]);
 
-  const clearFilters = () => {
-    filterData.q = "";
-    clearFilterData();
-  };
-
-  const handleClickLink = (index: number) => {
+  const handleClickLink = useCallback((index: number) => {
     switch (index) {
       case 1:
         clearFilters();
@@ -184,60 +131,42 @@ export default function QuickbridgeResult() {
         break;
     }
     setResult(false);
-  };
-  var breadcrumbs: any = [];
-  if (tab && tab.tabLabel) {
-    breadcrumbs.push(
-      <Link
-        underline="hover"
-        key={1}
-        href={"#"}
-        style={{ color: "#00000096" }}
-        onClick={() => handleClickLink(1)}
-      >
-        {"Quickbridge"}
-      </Link>
-    );
-    breadcrumbs.push(
-      <Link
-        underline="hover"
-        key={2}
-        href={"#"}
-        style={{ color: selectedLabel ? "#00000096" : "#000000C7" }}
-        onClick={() => handleClickLink(2)}
-      >
-        {tab.tabLabel}
-      </Link>
-    );
-  }
+  }, [clearFilters, resetAllSelected, setResult, setSelectedLabel, setTab]);
 
-  if (selectedLabel) {
-    breadcrumbs.push(
-      <Link
-        underline="hover"
-        key={3}
-        href={"#"}
-        style={{ color: "#000000C7" }}
-        onClick={() => handleClickLink(3)}
-      >
-        {selectedLabel}
-      </Link>
-    );
-  }
+  useEffect(() => {
+    if (clearRef.current) {
+      searchHandler();
+      clearRef.current = false;
+    }
+  }, [filter, searchHandler]);
 
-  const isSuppliersNotEmpty: boolean =
-    suppliers?.length > 0 && Object.keys(suppliers[0]).length > 0;
+  useEffect(() => {
+    getInitialRequests();
+    window.addEventListener("scroll", handleScroll);
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, [getInitialRequests, handleScroll]);
 
-  let searchPlaceholder = "Search";
-  if (selectedLabel != "") {
-    searchPlaceholder += " in " + selectedLabel;
-  }
+  const breadcrumbs: IBreadcrumb[] = useMemo(() => {
+    const _breadcrumbs: IBreadcrumb[] = [];
+    if (tab && tab.tabLabel) {
+      _breadcrumbs.push({ label: 'Quickbridge', id: 1, color: '#00000096' });
+      _breadcrumbs.push({ label: tab.tabLabel, id: 2, color: selectedLabel ? "#00000096" : "#000000C7" });
+    }
+
+    if (selectedLabel) {
+      _breadcrumbs.push({ label: selectedLabel, id: 3, color: '#000000C7' });
+    }
+
+    return _breadcrumbs;
+  }, [selectedLabel, tab]);
+
 
   return (
     <ScoutContainer>
       {loadingAnimations ? (
         <LoadingAnimationContainer>
-          {/* <LoadingAnimation showType={"long"} /> */}
           <LoadingAnimation showType={aniDuration} />
         </LoadingAnimationContainer>
       ) : (
@@ -245,49 +174,32 @@ export default function QuickbridgeResult() {
           <BreadcrumbsContainer>
             <Stack spacing={2}>
               <Breadcrumbs separator=">" aria-label="breadcrumb">
-                {breadcrumbs}
+                {breadcrumbs.map((b) => (
+                  <Link
+                    key={b.id}
+                    underline="hover"
+                    href="#"
+                    style={{ color: b.color }}
+                    onClick={() => handleClickLink(b.id)}
+                  >
+                    {b.label}
+                  </Link>
+                ))}
               </Breadcrumbs>
             </Stack>
           </BreadcrumbsContainer>
           <MainContainer>
             <GoBackIcon goBack={setTabResult}></GoBackIcon>
-            <FilterContainer>
-              <ScoutFilter isQuickSearch={true} />
-            </FilterContainer>
-            <QuickbridgeContainer>
-              <ResultContainer>
-                {isSuppliersNotEmpty ? (
-                  <>
-                    {suppliers.map((supplier: any, index: number) =>
-                      index > 20 ? null : index == 20 ||
-                        index + 1 == suppliers.length ? (
-                        <LockedContainer key={`locked-container-${index}`}>
-                          <LockedResultCard
-                            data={supplier}
-                            key={`${supplier.id}_${index}`}
-                          />
-                          <UnlockBackDrop isOpen={true} />
-                        </LockedContainer>
-                      ) : (
-                        <ResultCard
-                          data={supplier}
-                          key={`${supplier.id}_${index}`}
-                        />
-                      )
-                    )}
-                  </>
-                ) : null}
-                {loading &&
-                  [1, 2, 3, 4].map((index) => (
-                    <ResultCard key={`loading-${index}`} />
-                  ))}
-              </ResultContainer>
-            </QuickbridgeContainer>
+            <ScoutResult
+              suppliers={suppliers}
+              pageMeta={{}}
+              queryString="TODO"
+              onSearch={() => null}
+            />
           </MainContainer>
         </>
       )}
-
-      {/* <UnlockBackDrop isOpen={true} /> */}
+      
     </ScoutContainer>
   );
 }
@@ -326,51 +238,6 @@ const LoadingAnimationContainer = styled.div`
   height: 400px;
 `;
 
-const QuickbridgeContainer = styled.div`
-        width: 100%;
-        display: flex;
-        flex-direction: column;
-        margin-top: 22px;
-        @media (max-width: ${(props) => props.theme.size.laptop}) {
-          margin - left: 0;
-  }
-        `;
-
-const ResultContainer = styled.div``;
-
-const Button = styled.div`
-        width: 254px;
-        height: 46px;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-        border-radius: 100px !important;
-        background-color: #08979c;
-        color: #f5f5f5;
-        margin-bottom: 8px;
-        border: 1px solid #08979c;
-        padding: 12px;
-        cursor: pointer;
-
-        font-family: "Inter", sans-serif;
-        font-style: normal;
-        font-weight: 600;
-        font-size: 16px;
-        line-height: 24px;
-
-        &:hover {
-          box - shadow: 0px 3px 6px -4px rgba(0, 0, 0, 0.12),
-        0px 9px 28px 8px rgba(0, 0, 0, 0.05);
-        filter: drop-shadow(0px 6px 16px rgba(0, 0, 0, 0.08));
-  }
-        &:active {
-          background - color: #006d75;
-  }
-        `;
-
-const LockedContainer = styled.div`
-  position: relative !important;
-`;
 
 const FilterContainer = styled.div`
   display: flex;
