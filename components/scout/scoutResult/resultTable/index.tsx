@@ -192,7 +192,7 @@ export default function ResultTable({
               textOverflow="ellipsis"
               overflow="hidden"
             >
-              {arrayValue.join(", ")}
+              {arrayValue.sort((a, b) => a > b ? 1: -1).join(", ")}
             </SText>
           </Box>
         );
@@ -228,7 +228,7 @@ export default function ResultTable({
               textOverflow="ellipsis"
               overflow="hidden"
             >
-              {arrayValue.join(", ")}
+              {arrayValue.sort((a, b) => a > b ? 1: -1).join(", ")}
             </SText>
           </Box>
         );
