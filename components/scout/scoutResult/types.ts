@@ -27,5 +27,6 @@ export interface IScoutResultProps {
   queryString: string
   selectedCountry?: string
   onSearch: (_param: GridPaginationModel) => void
+  onViewDetail: (_sid: number) => void
   onShowSimilarCompanies?: (_company: string) => void
 }

@@ -1,11 +1,12 @@
 "use client";
-import { useCallback, useEffect, useMemo, useRef } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import styled from "styled-components";
 import { Breadcrumbs, Link } from "@mui/material";
 import { Stack } from "@mui/system";
 import { GridPaginationModel } from "@mui/x-data-grid";
 
 import { arrayToString } from "utils/array";
+import { TSupplierModel } from "models/supplier";
 import { useQuickBridgeSupplier } from "requests/useScoutByScoutBridge";
 import useBoundStore from "hooks/useBoundStore";
 import { GoBackIcon } from "components/button";
@@ -14,6 +15,7 @@ import { useStore } from "hooks/useStore";
 import ScoutResult from "../scoutResult";
 import EmptyResult from "../scoutByIndex/emptyResult";
 import { QuickBridgeTabType } from "../types";
+import { SupplierModal } from "../supplierModal";
 
 interface IBreadcrumb {
   label: string
@@ -46,6 +48,8 @@ export default function QuickBridgeResult() {
   const pageLoaded = useRef(false);
 
   const { filterData, clearFilterData } = useStore();
+
+  const [selectedItem, setSelectedItem] = useState<TSupplierModel | null>(null);
 
   useEffect(() => {
     countRef.current = count;
@@ -155,6 +159,12 @@ export default function QuickBridgeResult() {
     return _breadcrumbs;
   }, [selectedLabel, tab]);
 
+  const onViewDetail = useCallback((_sid: number) => {
+    const supplier: TSupplierModel | undefined = suppliers.find((s) => s.id === _sid);
+
+    setSelectedItem(supplier ?? null);
+  }, [suppliers]);
+
   const queryString: string = useMemo(() => {
     return arrayToString<string>([tab?.tabLabel || '', selectedLabel], ' • ')
   }, [selectedLabel, tab?.tabLabel]);
@@ -193,9 +203,14 @@ export default function QuickBridgeResult() {
           }}
           queryString={queryString}
           onSearch={onPaginationModelChange}
+          onViewDetail={onViewDetail}
         />
       </MainContainer>
-      
+      <SupplierModal
+        open={!!selectedItem}
+        onClose={() => setSelectedItem(null)}
+        data={selectedItem}
+      />
     </ScoutContainer>
   );
 }

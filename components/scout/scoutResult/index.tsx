@@ -6,11 +6,10 @@ import { toast } from "react-toastify";
 import { usePersistentStore } from "hooks/useStore";
 import { hasIntersection, isArraysOverlapped } from "utils/array";
 import { TwoLetterCodeToCountryCodeMap } from "components/geoChart/geoIdMap";
-import { ViewType } from "../scoutByIndex/actionFilterAndView";
 import { FilterDataset, FilterValue, helperTableDataToFilterDataset } from "./actionFilterAndView/tableFilters";
 
 import { ITableData, supplierModelToTableData } from "./resultTable/helper";
-import ActionFilterAndView from "./actionFilterAndView";
+import ActionFilterAndView, { ViewType } from "./actionFilterAndView";
 import ShortListModal from "./shortlistModal";
 import ResultTable from "./resultTable";
 import { IScountResultControl, IScoutResultProps } from "./types";
@@ -22,6 +21,7 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
   queryString,
   selectedCountry,
   onSearch,
+  onViewDetail,
   onShowSimilarCompanies,
 }, ref) => {
   const router = useRouter();
@@ -168,6 +168,7 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
         tableData={tableData}
         selectedRows={selectedRows}
         onRowSelect={onRowSelect}
+        onViewDetail={onViewDetail}
         onShowSimilarCompanies={onShowSimilarCompanies}
       />
     </Box>

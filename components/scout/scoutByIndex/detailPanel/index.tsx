@@ -45,7 +45,7 @@ interface IDetailPanelProps {
  * fetches data from the store
  *
  */
-const DeatilsPanel = ({
+const DetailsPanel = ({
   open,
   supplierId,
   stackCount,
@@ -216,4 +216,4 @@ const StyledTabs = styled(Tabs)(({ theme }) => ({
   },
 }));
 
-export default DeatilsPanel;
+export default DetailsPanel;

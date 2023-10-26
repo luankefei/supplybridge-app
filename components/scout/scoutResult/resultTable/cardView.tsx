@@ -16,13 +16,8 @@ import {
 import { BadgeType, SupBadge } from "components/ui-components/supBadge";
 import { SText } from "components/ui-components/text";
 import VerifiedSupplierChip from "components/ui-components/verifiedSupplierChip";
-import { useState } from "react";
-import {
-  FirstColumn,
-  GridContainer,
-  SecondColumn,
-} from "../detailPanel/tabPanes/uitlStyled";
-import { usePersistentStore } from "hooks/useStore";
+import { FirstColumn, GridContainer, SecondColumn } from "components/scout/scoutByIndex/detailPanel/tabPanes/uitlStyled";
+
 import { ITableData } from "./helper";
 
 interface IScoutResultCardViewProps {

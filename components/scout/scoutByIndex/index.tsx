@@ -18,6 +18,7 @@ import ScoutResult, { TScountResult } from "../scoutResult";
 import SearchBar, { EnumSearchType } from "./searchBar";
 import Summary from "./summary";
 import EmptyResult from "./emptyResult";
+import DetailsPanel from "./detailPanel";
 
 
 /**
@@ -58,6 +59,11 @@ export default function ScoutByIndex() {
   const [resetMap, setResetMap] = useState(false);
   const [searched, setSearched] = useState(suppliers.length !== 0);
   const [loading, setLoading] = useState(false);
+
+  /**
+   * Drawer stacks
+   */
+  const [drawerStack, setDrawerStack] = useState<JSX.Element[]>([]);
 
 
   /********************
@@ -129,16 +135,32 @@ export default function ScoutByIndex() {
     searchHandler(query, EnumSearchType.Companies, page, pageSize);
   }, [page, pageSize, searchHandler]);
 
-  /**************
-   * Render
-   * ************
-   */
-  // temp hack to add empty rows for blur
+  const pushDrawer = useCallback((sid: number) => {
+    const newDrawerContent = (
+      <DetailsPanel
+        open={true}
+        supplierId={sid}
+        stackCount={drawerStack.length + 1}
+        onPushMoreDetails={pushDrawer}
+        onPopMoreDetails={() => {
+          setDrawerStack((prevStack) => {
+            const newStack = [...prevStack];
+            newStack.pop();
+            return newStack;
+          });
+        }}
+        onClose={() => setDrawerStack([])}
+      />
+    );
+    setDrawerStack((prevStack) => [...prevStack, newDrawerContent]);
+  }, [drawerStack.length]);
+
 
   const hasData: boolean = useMemo(() => suppliers.length > 0, [suppliers.length]);
 
   return (
     <Stack>
+      {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
       {loading && <LoadingWithBackgroundOverlay />}
       <>
         <Stack sx={{ justifyContent: "center" }}>
@@ -202,6 +224,7 @@ export default function ScoutByIndex() {
                     queryString={queryString}
                     selectedCountry={mapSelectedCountry}
                     onSearch={onPaginationModelChange}
+                    onViewDetail={pushDrawer}
                     onShowSimilarCompanies={handleShowSimilarCompanies}
                   />
                 </>

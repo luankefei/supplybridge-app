@@ -18,7 +18,6 @@ import {
 import { Add, ChevronRight, DensitySmall, Info } from "@mui/icons-material";
 import { ITableData } from "./helper";
 import { SText } from "components/ui-components/text";
-import DeatilsPanel from "../detailPanel";
 import { BadgeType, SupBadge } from "components/ui-components/supBadge";
 import { ViewType } from "../actionFilterAndView";
 import ScoutResultCardView from "./cardView";
@@ -36,6 +35,7 @@ interface IResultTableProps {
   totalResults?: number;
   paginationModel?: GridPaginationModel;
   onRowSelect: (selectedRows: number[]) => void;
+  onViewDetail: (_sid: number) => void;
   onShowSimilarCompanies?: (similarCompanyName: string) => void;
   onPaginationModelChange?: (model: GridPaginationModel) => void;
 }
@@ -85,6 +85,7 @@ export default function ResultTable({
   paginationModel,
   onRowSelect,
   onShowSimilarCompanies,
+  onViewDetail,
   onPaginationModelChange,
 }: IResultTableProps) {
     const { t } = useTranslation();
@@ -304,7 +305,7 @@ export default function ResultTable({
           <Tooltip title="show more details">
             <IconButton
               onClick={() => {
-                pushDrawer(params.row.id);
+                onViewDetail(params.row.id);
               }}
             >
               <DensitySmall />
@@ -391,29 +392,7 @@ export default function ResultTable({
    * Drawer stacks
    */
   const [drawerStack, setDrawerStack] = useState<JSX.Element[]>([]);
-  const pushDrawer = (sid: number) => {
-    const newDrawerContent = (
-      <DeatilsPanel
-        open={true}
-        supplierId={sid}
-        stackCount={drawerStack.length + 1}
-        onPushMoreDetails={pushDrawer}
-        onPopMoreDetails={popDrawer}
-        onClose={clearDrawerStack}
-      />
-    );
-    setDrawerStack((prevStack) => [...prevStack, newDrawerContent]);
-  };
-  const popDrawer = () => {
-    setDrawerStack((prevStack) => {
-      const newStack = [...prevStack];
-      newStack.pop();
-      return newStack;
-    });
-  };
-  const clearDrawerStack = () => {
-    setDrawerStack([]);
-  };
+  
   /** END OF DRAWER STACKS */
   /**
    * Table actions
@@ -461,7 +440,7 @@ export default function ResultTable({
   if (!tableData || tableData.length == 0) {
     return null;
   }
-  console.log("rendering ", tableData);
+
   return (
     <Box sx={{ width: "100%" }}>
       {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
@@ -522,7 +501,7 @@ export default function ResultTable({
           onConfirm={(e) => {
             makeNewColumns(e);
           }}
-        />
+      />
       </Menu>
       <ScoutResultCardView
         sx={{
@@ -531,7 +510,7 @@ export default function ResultTable({
         rows={tableData}
         selectedRows={selectedRows}
         onRowSelect={onRowSelect}
-        pushDrawer={pushDrawer}
+        pushDrawer={onViewDetail}
       />
       <SpacingVertical space="50px" />
     </Box>
