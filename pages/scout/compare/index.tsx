@@ -19,6 +19,7 @@ import { BadgeType, SupBadge } from "components/ui-components/supBadge";
 import Innovation from "components/scout/scoutByIndex/detailPanel/tabPanes/innovation";
 import Certificaiton from "components/scout/scoutByIndex/detailPanel/tabPanes/certification";
 import Ratings from "components/scout/scoutByIndex/detailPanel/tabPanes/ratings";
+import useBoundStore from "hooks/useBoundStore";
 
 /**
  * If I dont have this function, this page renders without query, and the redirect is
@@ -36,6 +37,7 @@ export default function Compare() {
   const router = useRouter();
   const { query } = router;
   const { suppliers } = useStore.getState();
+  const { suppliers: quickBridgeSuppliers } = useBoundStore((state) => state.quickBridge);
   const [suppliersToCompare, setSuppliersToCompare] = useState<
     TSupplierModel[]
   >([]);
@@ -52,7 +54,10 @@ export default function Compare() {
       : suppliersToCompare.split(",").slice(0, 3);
 
     const result: TSupplierModel[] = [];
-    suppliers.forEach((supplier) => {
+    /**
+     * Compare happens for ScoutByIndex or ScoutQuickBridge
+     */
+    [...suppliers, ...quickBridgeSuppliers].forEach((supplier) => {
       if (suppliersToCompareArray.includes(String(supplier.id))) {
         result.push(supplier);
       }
@@ -60,7 +65,7 @@ export default function Compare() {
 
     console.debug(suppliersToCompare);
     setSuppliersToCompare(result);
-  }, [query, router, suppliers]);
+  }, [query, quickBridgeSuppliers, router, suppliers]);
 
   return (
     <Layout pageTitle="Compare">
