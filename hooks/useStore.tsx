@@ -17,8 +17,12 @@ interface INonPersistentStore {
   setRegions: (value: any) => void;
   page: number;
   setPage: (value: number) => void;
+  quickBridgePage: number;
+  setQuickBridgePage: (value: number) => void;
   pageSize: number;
   setPageSize: (value: number) => void;
+  quickBridgePageSize: number;
+  setQuickBridgePageSize: (value: number) => void;
   components: [];
   setComponents: (components: any) => void;
   industries: any;
@@ -38,12 +42,20 @@ interface INonPersistentStore {
   flags: any;
   count: number;
   setCount: (value: number) => void;
+  quickBridgeCount: number;
+  setQuickBridgeCount: (value: number) => void;
   queryString: string;
   setQueryString: (value: string) => void;
+  quickBridgeQueryString: string;
+  setQuickBridgeQueryString: (value: string) => void;
   stats: any;
   setStats: (value: any) => void;
+  quickBridgeStats: any;
+  setQuickBridgeStats: (value: any) => void;
   suppliers: TSupplierModel[];
   setSuppliers: (value: TSupplierModel[], reset: boolean) => void;
+  quickBridgeSuppliers: TSupplierModel[];
+  setQuickBridgeSuppliers: (value: TSupplierModel[], reset: boolean) => void;
   userFiles: IUserFile[];
   setUserFiles: (value: any) => void;
   hasNotif: boolean | null;
@@ -55,10 +67,16 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   flags: {},
   count: 0,
   setCount: (count: number) => set(() => ({ count })),
+  quickBridgeCount: 0,
+  setQuickBridgeCount: (quickBridgeCount: number) => set(() => ({ quickBridgeCount })),
   stats: {},
   setStats: (stats: number) => set(() => ({ stats })),
+  quickBridgeStats: {},
+  setQuickBridgeStats: (quickBridgeStats: number) => set(() => ({ quickBridgeStats })),
   queryString: "",
   setQueryString: (queryString: string) => set(() => ({ queryString })),
+  quickBridgeQueryString: "",
+  setQuickBridgeQueryString: (quickBridgeQueryString: string) => set(() => ({ quickBridgeQueryString })),
   suppliers: [],
   setSuppliers: (suppliers: TSupplierModel[], reset: boolean) =>
     set(() => {
@@ -66,6 +84,14 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
         return { suppliers };
       }
       return { suppliers: [...get().suppliers, ...suppliers] };
+    }),
+  quickBridgeSuppliers: [],
+  setQuickBridgeSuppliers: (quickBridgeSuppliers: TSupplierModel[], reset: boolean) =>
+    set(() => {
+      if (reset) {
+        return { quickBridgeSuppliers };
+      }
+      return { quickBridgeSuppliers: [...get().quickBridgeSuppliers, ...quickBridgeSuppliers] };
     }),
   commodities: [],
   setCommodities: (commodities: any) => set(() => ({ commodities })),
@@ -82,8 +108,14 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   page: 0,
   setPage: (page: number) => set(() => ({ page })),
 
+  quickBridgePage: 0,
+  setQuickBridgePage: (page: number) => set(() => ({ page })),
+
   pageSize: 50,
   setPageSize: (pageSize: number) => set(() => ({ pageSize })),
+
+  quickBridgePageSize: 50,
+  setQuickBridgePageSize: (pageSize: number) => set(() => ({ pageSize })),
 
   filterData: {
     commodities: [],

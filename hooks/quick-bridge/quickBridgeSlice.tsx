@@ -1,5 +1,6 @@
 import { StateCreator } from "zustand";
 import { logger } from "../middleware";
+import { TSupplierModel } from "models/supplier";
 
 // type filterArrays = {
 //   industries: any;
@@ -26,7 +27,7 @@ interface State {
     page: number;
     pageSize: number;
     count: number;
-    suppliers: any;
+    suppliers: TSupplierModel[];
     filter: any;
     selectedLabel: string;
     tab: {

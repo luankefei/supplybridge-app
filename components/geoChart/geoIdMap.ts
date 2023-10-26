@@ -1,4 +1,4 @@
-import { EnumRegion, EnumSubRegion } from "./geoUtils";
+import { EnumRegion, EnumSubRegion } from "./types";
 
 /**
  * Everything in this file GPT Generated

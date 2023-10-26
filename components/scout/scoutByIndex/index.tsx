@@ -1,31 +1,24 @@
-import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
-import Summary from "./summary";
-import { usePersistentStore, useStore } from "hooks/useStore";
-import { useEffect, useMemo, useState, useRef } from "react";
+import { useEffect, useMemo, useState, useRef, useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import { useSupplier } from "requests/useSupplier";
+import { GridPaginationModel } from "@mui/x-data-grid";
 import { Box, Stack } from "@mui/material";
+import { toast } from "react-toastify";
+
+import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
+import MapChart from "components/geoChart";
 import { ColoredText } from "components/ui-components/text";
+import { usePersistentStore, useStore } from "hooks/useStore";
+import { useSupplier } from "requests/useSupplier";
+import { useFilter } from "requests/useFilter";
+
 import PoweredBy from "components/ui-components/poweredBy";
 import { SpacingVertical } from "components/ui-components/spacer";
-import ActionFilterAndView, { ViewType } from "./actionFilterAndView";
-import {
-  ITableData,
-} from "./scoutResultTable/helper";
-import {
-  FilterDataset,
-  FilterValue,
-} from "./actionFilterAndView/tableFilters";
-import SearchBar, { EnumSearchType } from "./searchBar";
-import EmptyResult from "./emptyResult";
-import { useFilter } from "requests/useFilter";
-import MapChart from "components/geoChart";
-import { toast } from "react-toastify";
-import ShortListModal from "./shortlistModal";
-import { useRouter } from "next/router";
-import { GridPaginationModel } from "@mui/x-data-grid";
 
 import ScoutResult, { TScountResult } from "../scoutResult";
+import SearchBar, { EnumSearchType } from "./searchBar";
+import Summary from "./summary";
+import EmptyResult from "./emptyResult";
+
 
 /**
  * Scout by index page
@@ -35,7 +28,6 @@ import ScoutResult, { TScountResult } from "../scoutResult";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
-  const router = useRouter();
   const scoutResultRef = useRef<TScountResult>(null)
   const { allSubRegions, allSubRegionsLastUpdatedTime } = usePersistentStore();
   const {
@@ -54,37 +46,19 @@ export default function ScoutByIndex() {
     useSupplier();
   const { getAllSubRegions } = useFilter();
 
-  /******************
-   * Component states
-   * ****************
-   */
-  const [initialFilterDataset, setinitialFilterValue] = useState<FilterDataset>(
-    {
-      names: new Set(),
-      headquarters: new Set(),
-      regions: new Set(),
-      globalFootprints: new Set(),
-      badges: new Set(),
-    }
-  );
-
   // We are going to keep an individual copy of searchType
   // as to indicate the searchType of the current search
   // updating searchType inside the searchBar will not trigger a re-render
   // i.e does not change table displays (that showSimilar only shown at searchType === "company")
   const [resultSearchType, setResultSearchType] = useState<EnumSearchType>();
-  // initial data == all data
-  const [data, setData] = useState<ITableData[]>([]);
-  // table data == filtered data
-  const [tableData, setTableData] = useState<ITableData[]>([]);
   // A 3 letter country code, set when user clicks on a country in the map
   const [mapSelectedCountry, setMapSelectedCountry] = useState<string>();
 
   // reset map when user clicks on the reset button, the value is not important
   const [resetMap, setResetMap] = useState(false);
-
   const [searched, setSearched] = useState(suppliers.length !== 0);
   const [loading, setLoading] = useState(false);
+
 
   /********************
    * Component Effects
@@ -108,18 +82,9 @@ export default function ScoutByIndex() {
           toast.error("Failed to get all subregions. Please try again later.");
         });
     }
-  }, []);
+  }, [allSubRegions, allSubRegionsLastUpdatedTime, getAllSubRegions]);
 
-  const onPaginationModelChange = ({ page, pageSize }: GridPaginationModel) => {
-    searchHandler(
-      queryString,
-      resultSearchType || EnumSearchType.Keywords,
-      page,
-      pageSize
-    );
-  };
-
-  const searchHandler = async (
+  const searchHandler = useCallback(async (
     queryString: string,
     searchType: EnumSearchType,
     page: number,
@@ -140,19 +105,29 @@ export default function ScoutByIndex() {
     setSearched(true);
     setPage(page);
     setPageSize(pageSize);
-  };
-  const resetView = () => {
+  }, [querySupplieListByCompany, querySupplierListByKeyword, setPage, setPageSize, setQueryString]);
+
+  const onPaginationModelChange = useCallback(({ page, pageSize }: GridPaginationModel) => {
+    searchHandler(
+      queryString,
+      resultSearchType || EnumSearchType.Keywords,
+      page,
+      pageSize
+    );
+  }, [queryString, resultSearchType, searchHandler]);
+
+  const resetView = useCallback(() => {
     setSearched(false);
     setQueryString("");
     setSuppliers([], true);
     setStats({});
     setResetMap(!resetMap);
     scoutResultRef.current?.reset();
-  };
+  }, [resetMap, setQueryString, setStats, setSuppliers]);
 
-  const handleShowSimilarCompanies = async (query: string) => {
+  const handleShowSimilarCompanies = useCallback(async (query: string) => {
     searchHandler(query, EnumSearchType.Companies, page, pageSize);
-  };
+  }, [page, pageSize, searchHandler]);
 
   /**************
    * Render

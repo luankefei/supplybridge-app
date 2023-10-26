@@ -29,7 +29,7 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
   const { allSubRegions } = usePersistentStore();
 
   const [viewType, setView] = useState<ViewType>(ViewType.LIST);
-  const [initialFilterDataset, setinitialFilterValue] = useState<FilterDataset>(
+  const [initialFilterDataset, setInitialFilterValue] = useState<FilterDataset>(
     {
       names: new Set(),
       headquarters: new Set(),
@@ -58,7 +58,7 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
 
     const initialFilterData: FilterDataset =
       helperTableDataToFilterDataset(initialData);
-    setinitialFilterValue(initialFilterData);
+    setInitialFilterValue(initialFilterData);
 
     setData(initialData);
     setTableData(initialData);

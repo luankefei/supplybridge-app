@@ -1,10 +1,7 @@
 import geo from "./features.json";
 import { CountryToRegionMap, CountryToSubRegionMap } from "./geoIdMap";
-export enum EnumRegion {
-  Americas = "Americas",
-  APAC = "APAC",
-  EMEA = "EMEA",
-}
+import { EnumRegion, EnumSubRegion } from "./types";
+
 export const MapRegionToColor: Record<EnumRegion, string> = {
   [EnumRegion.Americas]: "#8B89B9",
   [EnumRegion.APAC]: "#636464",
@@ -19,16 +16,6 @@ export const MapColors: Record<string, string> = {
   textShadowColor: "rgba(229, 231, 235, 0.8)",
   greyColor: "#E5E7EB",
 };
-
-export enum EnumSubRegion {
-  NorthNCentralAmerica = "North America & Central America",
-  SouthAmerica = "South America",
-  Asia = "Asia",
-  Oceania = "Oceania",
-  Europe = "Europe",
-  MiddleEast = "Middle East",
-  Africa = "Africa",
-}
 
 export const MapRegionToMarkerColor: Record<EnumRegion, string> = {
   [EnumRegion.Americas]: "rgba(139, 137, 185, 0.40)",

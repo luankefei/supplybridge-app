@@ -1,6 +1,5 @@
 import {
   CountryToRegionMap,
-  CountryToSubRegionMap,
   TwoLetterCodeToCountryCodeMap,
 } from "components/geoChart/geoIdMap";
 import { EnumRegionAndSubRegion } from "components/geoChart/geoUtils";

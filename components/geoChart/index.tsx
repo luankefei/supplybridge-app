@@ -8,9 +8,7 @@ import {
   ZoomableGroup,
 } from "react-simple-maps";
 import {
-  EnumRegion,
   EnumRegionAndSubRegion,
-  EnumSubRegion,
   MapColors,
   MapRegionToColor,
   MapRegionToMarkerColor,
@@ -32,6 +30,7 @@ import { addToDict } from "utils/dict";
 import { Add, Remove, Replay } from "@mui/icons-material";
 import { SpacingVertical } from "components/ui-components/spacer";
 import { Legend } from "./legend";
+import { EnumRegion, EnumSubRegion } from './types'
 
 type TSupplierCountByMap = {
   [key in EnumRegionAndSubRegion]: number;

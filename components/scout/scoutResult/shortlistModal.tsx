@@ -13,10 +13,12 @@ import {
   useTheme,
 } from "@mui/material";
 import {
-  EnumRegion,
-  EnumSubRegion,
   MapRegionToSubRegion,
 } from "components/geoChart/geoUtils";
+import {
+  EnumRegion,
+  EnumSubRegion,
+} from "components/geoChart/types";
 import Icon from "components/icon";
 import { ResetIconTextButton } from "components/ui-components/iconTextButton";
 import {

@@ -26,11 +26,12 @@ const randomDuration = () => {
   // return "long";
 };
 
-export default function QuickbridgeResult() {
+export default function QuickBridgeResult() {
   const quickBridge = useBoundStore((state) => state.quickBridge);
   const {
     suppliers,
     page,
+    pageSize,
     setPage,
     count,
     filter,
@@ -190,12 +191,16 @@ export default function QuickbridgeResult() {
           </BreadcrumbsContainer>
           <MainContainer>
             <GoBackIcon goBack={setTabResult}></GoBackIcon>
-            <ScoutResult
+            {/* <ScoutResult
               suppliers={suppliers}
-              pageMeta={{}}
+              pageMeta={{
+                stats: { count },
+                page,
+                pageSize,
+              }}
               queryString="TODO"
               onSearch={() => null}
-            />
+            /> */}
           </MainContainer>
         </>
       )}
