@@ -26,7 +26,7 @@ i18n
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default
     },
-    supportedLngs: ["en", "de"],
+    supportedLngs: ["en", "de", "zh-CN"],
   });
 
 export default i18n;

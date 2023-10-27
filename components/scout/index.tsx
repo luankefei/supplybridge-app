@@ -9,6 +9,7 @@ import { Box } from "@mui/material";
 import { ScoutSwitchType } from "./types";
 import { useTranslation } from "react-i18next";
 import BidderList from "./bidderList";
+import AppLanguage from "components/appLanguage";
 
 export default function ScoutingMain() {
   const { t } = useTranslation();
@@ -43,6 +44,9 @@ export default function ScoutingMain() {
             {t("scout.tab.biddersList", "Bidders List")}
           </ByBidder>
         </Switches>
+        <Box alignContent="center" alignItems="center" display="flex" paddingRight="2rem">
+          <AppLanguage />
+        </Box>
       </SwitchContainer>
 
       {selected === ScoutSwitchType.index && <ScoutByIndex />}
