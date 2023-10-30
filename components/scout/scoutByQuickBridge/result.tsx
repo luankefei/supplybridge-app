@@ -165,34 +165,28 @@ export default function QuickBridgeResult() {
     setSelectedItem(supplier ?? null);
   }, [suppliers]);
 
-  const queryString: string = useMemo(() => {
-    return arrayToString<string>([tab?.tabLabel || '', selectedLabel], ' • ')
-  }, [selectedLabel, tab?.tabLabel]);
-
   return (
     <ScoutContainer>
       {loading && (
         <LoadingWithBackgroundOverlay />
       )}
       <BreadcrumbsContainer>
-        <Stack spacing={2}>
-          <Breadcrumbs separator=">" aria-label="breadcrumb">
-            {breadcrumbs.map((b) => (
-              <Link
-                key={b.id}
-                underline="hover"
-                href="#"
-                style={{ color: b.color }}
-                onClick={() => handleClickLink(b.id)}
-              >
-                {b.label}
-              </Link>
-            ))}
-          </Breadcrumbs>
-        </Stack>
+        <GoBackIcon goBack={setTabResult}></GoBackIcon>
+        <Breadcrumbs separator=">" aria-label="breadcrumb">
+          {breadcrumbs.map((b) => (
+            <Link
+              key={b.id}
+              underline="hover"
+              href="#"
+              style={{ color: b.color }}
+              onClick={() => handleClickLink(b.id)}
+            >
+              {b.label}
+            </Link>
+          ))}
+        </Breadcrumbs>
       </BreadcrumbsContainer>
       <MainContainer>
-        <GoBackIcon goBack={setTabResult}></GoBackIcon>
         {!loading && !suppliers.length && <EmptyResult />}
         <ScoutResult
           suppliers={suppliers}
@@ -201,7 +195,7 @@ export default function QuickBridgeResult() {
             page: page - 1,
             pageSize: pageSize,
           }}
-          queryString={queryString}
+          queryString=""
           onSearch={onPaginationModelChange}
           onViewDetail={onViewDetail}
         />
@@ -230,10 +224,25 @@ const ScoutContainer = styled.div`
 
 const BreadcrumbsContainer = styled.div`
   display: flex;
-  align-items: flex-start;
-  position: absolute;
-  top: 103px;
+  align-items: center;
   padding: 0 24px;
+  gap: 16px;
+
+  nav {
+    ol {
+      li {
+        a {
+          color: #9CA3AF !important;
+        }
+
+        &:last-of-type {
+          a {
+            color: #434343 !important;
+          }
+        }
+      }
+    }
+  }
 `;
 
 const MainContainer = styled.div`
