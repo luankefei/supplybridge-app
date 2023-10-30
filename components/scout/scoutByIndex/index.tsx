@@ -127,9 +127,10 @@ export default function ScoutByIndex() {
     setQueryString("");
     setSuppliers([], true);
     setStats({});
+    setPage(0);
     setResetMap(!resetMap);
     scoutResultRef.current?.reset();
-  }, [resetMap, setQueryString, setStats, setSuppliers]);
+  }, [resetMap, setPage, setQueryString, setStats, setSuppliers]);
 
   const handleShowSimilarCompanies = useCallback(async (query: string) => {
     searchHandler(query, EnumSearchType.Companies, page, pageSize);

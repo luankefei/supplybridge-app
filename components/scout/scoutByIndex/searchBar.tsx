@@ -13,6 +13,7 @@ import { useSupplier } from "requests/useSupplier";
 import styled from "styled-components";
 import { SpacingHorizontal } from "components/ui-components/spacer";
 import { ResetIconTextButton } from "components/ui-components/iconTextButton";
+import { useStore } from "hooks/useStore";
 
 interface SearchBarProps {
   queryString?: string;
@@ -32,6 +33,7 @@ export enum EnumSearchType {
  */
 const SearchBar = (props: SearchBarProps) => {
   const { t } = useTranslation();
+  const { setPage } = useStore();
   const { searchAutocomplete } = useSupplier();
 
   const [queryString, setQueryString] = useState("");
@@ -50,6 +52,8 @@ const SearchBar = (props: SearchBarProps) => {
   const handleSearchTypeChange = (event: any) => {
     setSearchType(event.target.value);
     setQueryString("");
+    setPage(0);
+    setOptions([]);
   };
   const resetFilters = () => {
     setQueryString("");
@@ -71,15 +75,16 @@ const SearchBar = (props: SearchBarProps) => {
   };
 
   const getAutoComplete = async (value: string) => {
-    if (value === "" || value.length < 2) {
+    if (value === "" || value.length < 3) {
       setOptions([]);
       return;
     }
     setOptionsLoading(true);
     console.debug("getting autoComplete for", value);
     // TODO: enable this when API is ready
-    const suggestedItems = await searchAutocomplete(queryString);
-    setOptions(suggestedItems.filter((item) => !!item));
+    const suggestedItems = await searchAutocomplete(value, searchType);
+    const _options = suggestedItems.filter((item) => !!item).sort((a, b) => a > b ? 1 : -1)
+    setOptions(_options.slice(0, 10));
     setOptionsLoading(false);
   };
   const onClickSearch = () => {
