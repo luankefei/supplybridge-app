@@ -233,6 +233,7 @@ const BreadcrumbsContainer = styled.div`
   align-items: flex-start;
   position: absolute;
   top: 103px;
+  padding: 0 24px;
 `;
 
 const MainContainer = styled.div`

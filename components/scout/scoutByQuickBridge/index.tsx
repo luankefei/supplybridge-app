@@ -369,7 +369,7 @@ export default function ScoutByQuickBridge() {
           align-items: center;
         }
         .Content {
-          width: 1056px;
+          width: 100%;
           margin-top: 35px;
         }
         @media (max-width: 992px) {
