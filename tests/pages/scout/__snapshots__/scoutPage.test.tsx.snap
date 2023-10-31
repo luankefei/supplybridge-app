@@ -54,7 +54,7 @@ exports[`Scout matches snapshot 1`] = `
               class="MuiBox-root css-0"
             >
               <span
-                class="sc-dwalKd iDeqyl"
+                class="sc-BQMaI kqWQqm"
               >
                 SOL
               </span>
@@ -62,13 +62,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/scout"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/scouting.svg"
                     />
                     <span
@@ -81,13 +81,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/source"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/sourcing.svg"
                     />
                     <span
@@ -100,13 +100,13 @@ exports[`Scout matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-kUdmhA kJnSgl"
+                  class="sc-hgRRfv gRPIYY"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/evaluate.svg"
                     />
                     <span
@@ -119,13 +119,13 @@ exports[`Scout matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-kUdmhA kJnSgl"
+                  class="sc-hgRRfv gRPIYY"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/sustainability.svg"
                     />
                     <span
@@ -138,13 +138,13 @@ exports[`Scout matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-kUdmhA kJnSgl"
+                  class="sc-hgRRfv gRPIYY"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/finance.svg"
                     />
                     <span
@@ -157,13 +157,13 @@ exports[`Scout matches snapshot 1`] = `
                 href=""
               >
                 <div
-                  class="sc-kUdmhA kJnSgl"
+                  class="sc-hgRRfv gRPIYY"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/transport.svg"
                     />
                     <span
@@ -176,13 +176,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/total-solution"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/total-solution.svg"
                     />
                     <span
@@ -199,7 +199,7 @@ exports[`Scout matches snapshot 1`] = `
               class="MuiBox-root css-0"
             >
               <span
-                class="sc-dwalKd iDeqyl"
+                class="sc-BQMaI kqWQqm"
               >
                 MD
               </span>
@@ -207,13 +207,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/raw-material"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/raw-material.svg"
                     />
                     <span
@@ -226,13 +226,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/supplier-news"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/supplier-news.svg"
                     />
                     <span
@@ -245,13 +245,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/supply-chain-transparency"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/supply-chain-transparency.svg"
                     />
                     <span
@@ -272,13 +272,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/notification"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/bell.svg"
                     />
                     <span
@@ -291,13 +291,13 @@ exports[`Scout matches snapshot 1`] = `
                 href="/account"
               >
                 <div
-                  class="sc-kUdmhA dVSNSJ"
+                  class="sc-hgRRfv jTMPZo"
                 >
                   <span
                     class="MuiBadge-root MuiBadge-root css-1c32n2y-MuiBadge-root"
                   >
                     <img
-                      class="sc-BQMaI dHGjmd"
+                      class="sc-epqpcT hMVZlk"
                       src="/menu/profile.svg"
                     />
                     <span
@@ -321,38 +321,38 @@ exports[`Scout matches snapshot 1`] = `
           class="MuiBox-root css-0"
         >
           <div
-            class="sc-bddgXz cvjvBv"
+            class="sc-fyVfxW hRuQDI"
           >
             <div
-              class="sc-fyVfxW jegdDw"
+              class="sc-eHsDsR ZzBur"
             >
               <div
-                class="sc-eHsDsR kfWJKZ"
+                class="sc-jdkBTo gxBBqe"
               />
               <span
-                class="sc-jdkBTo cvhEnQ"
+                class="sc-fmzyuX jKUwuh"
               >
                 Scout by Index
               </span>
               <span
-                class="sc-fmzyuX kZwdBT"
+                class="sc-cspYLC cMDXg"
               >
                 Scout by QuickBridge
               </span>
               <span
-                class="sc-cspYLC cMDXg"
+                class="sc-dwalKd hbOqKD"
               >
                 Bidders List
               </span>
             </div>
             <div
-              class="MuiBox-root css-v56xap"
+              class="MuiBox-root css-1mvi7ci"
             >
               <div
-                class="sc-camqpD dfClBm"
+                class="sc-gweoQa dWxQFS"
               >
                 <div
-                  class="sc-gweoQa bOUJRK selected-language"
+                  class="sc-eIcdZJ ijAYFv selected-language"
                 >
                   <img
                     data-nimg="1"
@@ -366,10 +366,10 @@ exports[`Scout matches snapshot 1`] = `
                   />
                 </div>
                 <div
-                  class="sc-eIcdZJ fzixbs languages"
+                  class="sc-jdUcAg cnSVxx languages"
                 >
                   <a
-                    class="sc-jdUcAg gaiElo"
+                    class="sc-bddgXz djlITV"
                   >
                     <img
                       alt="en"
@@ -384,7 +384,7 @@ exports[`Scout matches snapshot 1`] = `
                     />
                   </a>
                   <a
-                    class="sc-jdUcAg gaiElo"
+                    class="sc-bddgXz djlITV"
                   >
                     <img
                       alt="de"
@@ -399,7 +399,7 @@ exports[`Scout matches snapshot 1`] = `
                     />
                   </a>
                   <a
-                    class="sc-jdUcAg gaiElo"
+                    class="sc-bddgXz djlITV"
                   >
                     <img
                       alt="zh-CN"

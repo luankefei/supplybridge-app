@@ -44,7 +44,7 @@ export default function ScoutingMain() {
             {t("scout.tab.biddersList", "Bidders List")}
           </ByBidder>
         </Switches>
-        <Box alignContent="center" alignItems="center" display="flex" paddingRight="2rem">
+        <Box alignContent="center" alignItems="center" display="flex">
           <AppLanguage />
         </Box>
       </SwitchContainer>

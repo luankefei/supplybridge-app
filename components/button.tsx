@@ -123,20 +123,21 @@ interface Props {
 
 export const GoBackIcon = ({ goBack }: Props) => {
   return (
-    <div
-      style={{
-        position: "absolute",
-        right: "10%",
-        top: "96px",
-        display: "flex",
-        alignItems: "center",
-        cursor: "pointer",
-      }}
-      onClick={goBack}
-    >
-      <ArrowBackIcon /> <span style={{ marginLeft: "8px" }}>BACK</span>
-    </div>
+    <Container onClick={goBack}>
+      <ArrowBackIcon /> <span style={{ marginLeft: "8px" }}>Back</span>
+    </Container>
   );
 };
+
+const Container = styled.div`
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+  padding-right: 12px;
+  font-size: 14px;
+  font-weight: 400;
+  color: #9CA3AF;
+  border-right: 2px solid #E5E7EB;
+`;
 
 export default Button;
