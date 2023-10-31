@@ -367,6 +367,7 @@ export default function ScoutByQuickBridge() {
           display: flex;
           justify-content: center;
           align-items: center;
+          padding: 0 20px;
         }
         .Content {
           width: 1056px;

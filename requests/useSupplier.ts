@@ -35,40 +35,16 @@ export const useSupplier = (): IUseSupplierReturned => {
    * @param q - search string
    * @returns an array of autocomplete suggestions, or an empty array
    */
-  const searchAutocomplete = async (q: string, type?: EnumSearchType) => {
+  const searchAutocomplete = async (q: string, type: EnumSearchType = EnumSearchType.Keywords) => {
     if (!q || q.length < 2) return [];
     try {
-      let items: any[] = [];
-      // TODO: We will replace endpoint and data after write the api for getting company suggestions
-      if (type === EnumSearchType.Companies) {
-        const { data } = await request.post("suppliers/search_full_text", {
-          q,
-          offset: 0,
-          limit: 50,
-          filter: {
-            _extra: {
-              type: "Companies",
-              lang: i18n.languages[0],
-            },
-          },
-        });
-        if (data.suppliers?.length) {
-          data.suppliers.forEach((s: any) => {
-            if (s.name.toLowerCase().startsWith(q.toLowerCase())) {
-              items.push(s.name);
-            }
-          });
-        }
-      } else {
-        const { data } = await request.get(
-          `configData/categorylevel?a=${encodeURIComponent(q)}&l=${
-            i18n.languages[0]
-          }`
-        );
+      const { data } = await request.get(
+        `configData/categorylevel?t=${type.toLowerCase()}&a=${encodeURIComponent(q)}&l=${
+          i18n.languages[0]
+        }`
+      );
 
-        items = data.items || [];
-      }
-      return items;
+      return data.items || [];
     } catch (err) {
       console.error(err);
       return [];

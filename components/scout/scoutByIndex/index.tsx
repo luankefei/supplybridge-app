@@ -32,12 +32,14 @@ export default function ScoutByIndex() {
   const scoutResultRef = useRef<TScountResult>(null)
   const { allSubRegions, allSubRegionsLastUpdatedTime } = usePersistentStore();
   const {
+    searchType,
     queryString,
     suppliers,
     stats,
     page,
     pageSize,
     setQueryString,
+    setSearchType,
     setSuppliers,
     setStats,
     setPage,
@@ -100,6 +102,7 @@ export default function ScoutByIndex() {
       return;
     }
     setQueryString(queryString);
+    setSearchType(searchType);
     setLoading(true);
     setResultSearchType(searchType);
     if (searchType === EnumSearchType.Keywords) {
@@ -111,7 +114,7 @@ export default function ScoutByIndex() {
     setSearched(true);
     setPage(page);
     setPageSize(pageSize);
-  }, [querySupplieListByCompany, querySupplierListByKeyword, setPage, setPageSize, setQueryString]);
+  }, [querySupplieListByCompany, querySupplierListByKeyword, setPage, setPageSize, setQueryString, setSearchType]);
 
   const onPaginationModelChange = useCallback(({ page, pageSize }: GridPaginationModel) => {
     searchHandler(
@@ -179,6 +182,7 @@ export default function ScoutByIndex() {
           )}
 
           <SearchBar
+            searchType={searchType}
             queryString={queryString}
             onSearch={(q, t) => searchHandler(q, t, page, pageSize)}
             onReset={resetView}

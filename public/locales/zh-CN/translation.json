@@ -298,6 +298,7 @@
     },
     "result": {
       "overview": "列出 <bold>{{displayCount}}</bold> 个单独的供应商，供应商类型为 <bold>{{resultType}}</bold>",
+      "overviewWithFootprints": "Listing <bold>{{displayCount}}</bold> individual supplier(s), with <bold>{{footprintCount}}</bold> Global Footprints for <bold>{{resultType}}</bold>",
       "organization": "组织",
       "hqLocation": "总部位置",
       "footprint": "全球分布",

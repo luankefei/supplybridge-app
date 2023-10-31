@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, forwardRef, useImperativeHandle } from "react";
+import React, { useCallback, useEffect, useState, forwardRef, useImperativeHandle, useMemo } from "react";
 import { useRouter } from "next/router";
 import { Box } from "@mui/material";
 import { toast } from "react-toastify";
@@ -133,16 +133,22 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
     reCalTableData(filterValue, selectedCountry);
   }, [data, filterValue, selectedCountry, reCalTableData]);
   
+  const footprints: number = useMemo(() => {
+    if (!pageMeta?.stats?.locationId) return 0;
+    return Object.values(pageMeta.stats.locationId as Record<string, number>).reduce((acc: number, cur: number) => acc + cur, 0);
+  }, [pageMeta.stats.locationId]);
+
   if (!data.length) return null;
 
   return (
     <>
-    <Box sx={{ p: 3 }} width="100%">
+    <Box padding="24px 20px" width="100%">
       <ActionFilterAndView
         filterInitialData={initialFilterDataset}
         resultCount={pageMeta.stats.count || 0}
         displayCount={pageMeta.stats.count}
         resultType={queryString || ""}
+        footprintCount={footprints}
         onClickBuildMyShortList={() => {
           setShortListModalOpen(true);
         }}

@@ -32,6 +32,10 @@ interface ActionFilterAndViewProps {
    */
   displayCount: number;
   /**
+   * Number of Global footprints
+   */
+  footprintCount: number;
+  /**
    * To be used in conjunction with resultCount
    */
   resultType: string;
@@ -74,6 +78,7 @@ const WhiteBgRoundCornerButton = styled(Button)`
 const ActionFilterAndView = ({
   resultCount,
   displayCount,
+  footprintCount,
   resultType,
   filterInitialData,
   view,
@@ -117,12 +122,13 @@ const ActionFilterAndView = ({
       <Grid container justifyContent={"space-between"} rowGap={2}>
         <Grid item>
           <Trans
-            i18nKey="scout.result.overview"
+            i18nKey={footprintCount ? 'scout.result.overviewWithFootprints' : 'scout.result.overview' }
             components={{
               bold: <SText fontWeight="700" fontSize="32px" />,
             }}
             values={{
               displayCount: displayCount.toLocaleString(),
+              footprintCount: footprintCount.toLocaleString(),
               resultCount: resultCount.toLocaleString(),
               resultType: resultType.toUpperCase(),
             }}
