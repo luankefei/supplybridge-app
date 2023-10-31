@@ -206,159 +206,159 @@ export default function ScoutByQuickBridge() {
   return (
     <>
       <div className="Container">
-        <div className="Content">
-          {!tab.isResult ? (
-            <>
-              <StyledTabs
-                value={value}
-                onChange={handleChange}
-                aria-label="tabs"
-              >
-                <StyledTab label={t("scout.quickbridge.vehicle", "Vehicle")} />
-                <StyledTab label={t("scout.quickbridge.oem", "OEM")} />
-                <StyledTab label={t("scout.quickbridge.class", "Class")} />
-                <StyledTab label={t("scout.quickbridge.segment", "Segment")} />
-                <StyledTab
-                  label={t("scout.quickbridge.technology", "Technology")}
-                />
-                <StyledTab
-                  label={t("scout.quickbridge.commodity", "Commodity")}
-                />
-                <StyledTab
-                  label={t(
-                    "scout.quickbridge.productionTech",
-                    "Production Tech"
-                  )}
-                />
-                <StyledTab
-                  label={t("scout.quickbridge.3pServices", "3P Services")}
-                />
+        {!tab.isResult ? (
+          <div className="Content">
+            <StyledTabs
+              value={value}
+              onChange={handleChange}
+              aria-label="tabs"
+            >
+              <StyledTab label={t("scout.quickbridge.vehicle", "Vehicle")} />
+              <StyledTab label={t("scout.quickbridge.oem", "OEM")} />
+              <StyledTab label={t("scout.quickbridge.class", "Class")} />
+              <StyledTab label={t("scout.quickbridge.segment", "Segment")} />
+              <StyledTab
+                label={t("scout.quickbridge.technology", "Technology")}
+              />
+              <StyledTab
+                label={t("scout.quickbridge.commodity", "Commodity")}
+              />
+              <StyledTab
+                label={t(
+                  "scout.quickbridge.productionTech",
+                  "Production Tech"
+                )}
+              />
+              <StyledTab
+                label={t("scout.quickbridge.3pServices", "3P Services")}
+              />
 
-                <StyledTab
-                  label={
-                    <span
-                      style={{
-                        display: "flex",
-                        justifyContent: "center",
-                        alignItems: "center",
-                      }}
-                    >
-                      <span style={{ marginRight: "-3px" }}>
-                        {t("scout.quickbridge.pioneers", "Pioneer")}
-                      </span>
-                      <Icon src={"pioneer"} height={18} />
+              <StyledTab
+                label={
+                  <span
+                    style={{
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                    }}
+                  >
+                    <span style={{ marginRight: "-3px" }}>
+                      {t("scout.quickbridge.pioneers", "Pioneer")}
                     </span>
-                  }
-                />
-              </StyledTabs>
-              <Box
-                sx={{
-                  p: 3,
-                  backgroundColor: "#F9FAFB",
-                  borderRadius: "0px 0px 16px 16px",
-                  height: tabHeight,
-                  overflowY: "auto",
-                }}
-              >
-                <TabPanel value={value} index={0} dir={theme.direction}>
-                  <div
-                    style={{ alignItems: "center" }}
-                    className="TabPanelWrapper"
-                  >
-                    <ByVehicle />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={1} dir={theme.direction}>
-                  <div className="TabPanelWrapper">
-                    <ByOEM />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={2} dir={theme.direction}>
-                  <div className="TabPanelWrapper">
-                    <ByClass />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={3} dir={theme.direction}>
-                  <div className="TabPanelWrapper">
-                    <BySegment />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={4} dir={theme.direction}>
-                  <div
-                    style={{ alignItems: "center" }}
-                    className="TabPanelWrapper"
-                  >
-                    <ByTechnology />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={5} dir={theme.direction}>
-                  <div style={{}} className="TabPanelWrapper-FullContents">
-                    <ByCommodity />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={6} dir={theme.direction}>
-                  <div style={{}} className="TabPanelWrapper-FullContents">
-                    <ByProductionTech />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={7} dir={theme.direction}>
-                  <div
-                    style={{ alignItems: "center" }}
-                    className="TabPanelWrapper"
-                  >
-                    <ServicesP />
-                  </div>
-                </TabPanel>
-                <TabPanel value={value} index={8} dir={theme.direction}>
-                  <div style={{}} className="TabPanelWrapper-FullContents">
-                    <ByPioneer />
-                  </div>
-                </TabPanel>
-              </Box>
-              <div
-                style={{
-                  marginTop: "18px",
-                  display: "flex",
-                  justifyContent: "flex-end",
-                }}
-              >
-                <Button
-                  onClick={showResult}
-                  disabled={scoutDisabled}
-                  sx={{
-                    color: "#fff",
-                    width: "254px",
-                    height: "46px",
-                    display: "flex",
-                    justifyContent: "center",
-                    alignItems: "center",
-                    background: "#08979C",
-                    borderRadius: "16px",
-                    marginBottom: "40px",
-                    cursor: "pointer",
-                    "&:hover": {
-                      background: "#08979C",
-                    },
-                    "&:active": {
-                      background: "#006D75",
-                    },
-                    "&:disabled": {
-                      color: "#F1F1F1",
-                      // cursor: "not-allowed",
-                      pointerEvents: "auto",
-                      background: "#D9D9D9",
-                    },
-                  }}
+                    <Icon src={"pioneer"} height={18} />
+                  </span>
+                }
+              />
+            </StyledTabs>
+            <Box
+              sx={{
+                p: 3,
+                backgroundColor: "#F9FAFB",
+                borderRadius: "0px 0px 16px 16px",
+                height: tabHeight,
+                overflowY: "auto",
+              }}
+            >
+              <TabPanel value={value} index={0} dir={theme.direction}>
+                <div
+                  style={{ alignItems: "center" }}
+                  className="TabPanelWrapper"
                 >
-                  {t("scout.quickbridge.scoutNow", "Scout Now")}
-                </Button>
-              </div>
-              <Feedback />
-            </>
-          ) : (
+                  <ByVehicle />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={1} dir={theme.direction}>
+                <div className="TabPanelWrapper">
+                  <ByOEM />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={2} dir={theme.direction}>
+                <div className="TabPanelWrapper">
+                  <ByClass />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={3} dir={theme.direction}>
+                <div className="TabPanelWrapper">
+                  <BySegment />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={4} dir={theme.direction}>
+                <div
+                  style={{ alignItems: "center" }}
+                  className="TabPanelWrapper"
+                >
+                  <ByTechnology />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={5} dir={theme.direction}>
+                <div style={{}} className="TabPanelWrapper-FullContents">
+                  <ByCommodity />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={6} dir={theme.direction}>
+                <div style={{}} className="TabPanelWrapper-FullContents">
+                  <ByProductionTech />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={7} dir={theme.direction}>
+                <div
+                  style={{ alignItems: "center" }}
+                  className="TabPanelWrapper"
+                >
+                  <ServicesP />
+                </div>
+              </TabPanel>
+              <TabPanel value={value} index={8} dir={theme.direction}>
+                <div style={{}} className="TabPanelWrapper-FullContents">
+                  <ByPioneer />
+                </div>
+              </TabPanel>
+            </Box>
+            <div
+              style={{
+                marginTop: "18px",
+                display: "flex",
+                justifyContent: "flex-end",
+              }}
+            >
+              <Button
+                onClick={showResult}
+                disabled={scoutDisabled}
+                sx={{
+                  color: "#fff",
+                  width: "254px",
+                  height: "46px",
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  background: "#08979C",
+                  borderRadius: "16px",
+                  marginBottom: "40px",
+                  cursor: "pointer",
+                  "&:hover": {
+                    background: "#08979C",
+                  },
+                  "&:active": {
+                    background: "#006D75",
+                  },
+                  "&:disabled": {
+                    color: "#F1F1F1",
+                    // cursor: "not-allowed",
+                    pointerEvents: "auto",
+                    background: "#D9D9D9",
+                  },
+                }}
+              >
+                {t("scout.quickbridge.scoutNow", "Scout Now")}
+              </Button>
+            </div>
+            <Feedback />
+          </div>
+        ) : (
+          <div className="Result">
             <QuickbridgeResult />
-          )}
-        </div>
+          </div>
+        )}
       </div>
 
       <style jsx>{`
@@ -367,9 +367,13 @@ export default function ScoutByQuickBridge() {
           display: flex;
           justify-content: center;
           align-items: center;
-          padding: 0 20px;
         }
         .Content {
+          width: 100%;
+          margin-top: 35px;
+          padding: 0 20px;
+        }
+        .Result {
           width: 100%;
           margin-top: 35px;
         }
