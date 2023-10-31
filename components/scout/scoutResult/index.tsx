@@ -133,11 +133,6 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
     reCalTableData(filterValue, selectedCountry);
   }, [data, filterValue, selectedCountry, reCalTableData]);
   
-  const footprints: number = useMemo(() => {
-    if (!pageMeta?.stats?.locationId) return 0;
-    return Object.values(pageMeta.stats.locationId as Record<string, number>).reduce((acc: number, cur: number) => acc + cur, 0);
-  }, [pageMeta.stats.locationId]);
-
   if (!data.length) return null;
 
   return (
@@ -148,7 +143,7 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
         resultCount={pageMeta.stats.count || 0}
         displayCount={pageMeta.stats.count}
         resultType={queryString || ""}
-        footprintCount={footprints}
+        footprintCount={pageMeta.stats.count || 0}
         onClickBuildMyShortList={() => {
           setShortListModalOpen(true);
         }}
