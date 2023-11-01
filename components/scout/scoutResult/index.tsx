@@ -143,7 +143,7 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
         resultCount={pageMeta.stats.count || 0}
         displayCount={pageMeta.stats.count}
         resultType={queryString || ""}
-        footprintCount={pageMeta.stats.count || 0}
+        footprintCount={0}
         onClickBuildMyShortList={() => {
           setShortListModalOpen(true);
         }}
