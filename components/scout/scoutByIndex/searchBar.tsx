@@ -7,14 +7,16 @@ import {
   TextField,
 } from "@mui/material";
 import Icon from "components/icon";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { useSupplier } from "requests/useSupplier";
 import styled from "styled-components";
 import { SpacingHorizontal } from "components/ui-components/spacer";
 import { ResetIconTextButton } from "components/ui-components/iconTextButton";
+import { useStore } from "hooks/useStore";
 
 interface SearchBarProps {
+  searchType?: EnumSearchType;
   queryString?: string;
   onSearch: (queryString: string, searchType: EnumSearchType) => void;
   onReset: () => void;
@@ -25,6 +27,8 @@ export enum EnumSearchType {
   Companies = "Companies",
 }
 
+const maxShowSuggestionNum = 10;
+
 /**
  * The search bar component for the scout page.
  * -- this component controls its own SearchType and queryString state
@@ -32,12 +36,18 @@ export enum EnumSearchType {
  */
 const SearchBar = (props: SearchBarProps) => {
   const { t } = useTranslation();
+  const { setPage } = useStore();
   const { searchAutocomplete } = useSupplier();
+  const timer = useRef<NodeJS.Timeout>();
 
   const [queryString, setQueryString] = useState("");
   useEffect(() => {
     setQueryString(props.queryString || "");
   }, [props.queryString]);
+
+  useEffect(() => {
+    setSearchType(props.searchType || EnumSearchType.Keywords);
+  }, [props.searchType]);
 
   const [searchType, setSearchType] = useState<EnumSearchType>(
     EnumSearchType.Keywords
@@ -50,6 +60,8 @@ const SearchBar = (props: SearchBarProps) => {
   const handleSearchTypeChange = (event: any) => {
     setSearchType(event.target.value);
     setQueryString("");
+    setPage(0);
+    setOptions([]);
   };
   const resetFilters = () => {
     setQueryString("");
@@ -61,8 +73,10 @@ const SearchBar = (props: SearchBarProps) => {
       // click events dont trigger get autoComplete
       return;
     }
+    if (value === "" || value.length < 3) {
+      setOptions([]);
+    }
     setQueryString(value);
-    getAutoComplete(value);
   };
 
   const handleSubmit = (event: any) => {
@@ -70,22 +84,62 @@ const SearchBar = (props: SearchBarProps) => {
     onClickSearch();
   };
 
-  const getAutoComplete = async (value: string) => {
-    if (value === "" || value.length < 2) {
-      setOptions([]);
-      return;
-    }
+  const getAutoComplete = useCallback(async (value: string) => {
     setOptionsLoading(true);
     console.debug("getting autoComplete for", value);
-    // TODO: enable this when API is ready
-    const suggestedItems = await searchAutocomplete(queryString);
+    const suggestedItems = await searchAutocomplete(value, searchType);
     setOptions(suggestedItems.filter((item) => !!item));
     setOptionsLoading(false);
-  };
+  }, [searchAutocomplete, searchType]);
+
   const onClickSearch = () => {
     props.onSearch(queryString, searchType);
     setOpen(false);
   };
+
+  useEffect(() => {
+    const debounce = queryString ? 300 : 0
+    if (queryString !== null && queryString !== undefined && queryString.length > 2) {
+      timer.current = setTimeout(() => {
+        getAutoComplete(queryString.trim())
+      }, debounce)
+    }
+
+    return () => {
+      if (timer.current) {
+
+        setOptionsLoading(false);
+        clearTimeout(timer.current);
+      }
+    }
+  }, [queryString])
+
+  const suggestions: string[] = useMemo(() => {
+    if (searchType === EnumSearchType.Keywords) {
+      return options.sort((a, b) => a > b ? 1 : -1).slice(0, maxShowSuggestionNum);
+    }
+
+    // For company search, we will show items that start with query as the first 5 items, and then the items that include quey.
+    let _nameStarted: string[] = [];
+    let _nameContains: string[] = [];
+
+    options.forEach((o) => {
+      if (o.toLowerCase().startsWith(queryString.toLowerCase())) {
+        _nameStarted.push(o);
+      } else if (o.toLowerCase().includes(queryString.toLowerCase())) {
+        _nameContains.push(o);
+      }
+    });
+
+    let pivot = Math.ceil(maxShowSuggestionNum / 2);
+    if (_nameContains.length < maxShowSuggestionNum - pivot) {
+      pivot = maxShowSuggestionNum - _nameContains.length;
+    }
+    _nameStarted = _nameStarted.sort((a, b) => a > b ? 1 : -1).slice(0, pivot);
+    _nameContains = _nameContains.sort((a, b) => a > b ? 1 : -1).slice(0, maxShowSuggestionNum - _nameStarted.length);
+
+    return [..._nameStarted, ..._nameContains];
+  }, [options, queryString, searchType]);
 
   return (
     <Stack sx={{ width: "80%", margin: "auto" }}>
@@ -122,7 +176,7 @@ const SearchBar = (props: SearchBarProps) => {
           >
             <StyledAutocomplete
               freeSolo
-              options={options}
+              options={suggestions}
               value={queryString}
               onInputChange={onInputChange}
               loading={optionsLoading}

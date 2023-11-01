@@ -212,7 +212,6 @@ export default function QuickBridgeResult() {
 const ScoutContainer = styled.div`
   // width: 1440px;
   width: 100%;
-  margin: 0px 5px;
   @media (max-width: ${(props) => props.theme.size.laptop}) {
     display: block;
     width: 100%;
@@ -225,7 +224,7 @@ const ScoutContainer = styled.div`
 const BreadcrumbsContainer = styled.div`
   display: flex;
   align-items: center;
-  padding: 0 24px;
+  padding: 0 20px;
   gap: 16px;
 
   nav {

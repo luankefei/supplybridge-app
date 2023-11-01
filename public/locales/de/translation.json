@@ -299,6 +299,7 @@
     },
     "result": {
       "overview": "Auflistung von <bold>{{displayCount}}</bold> einzelnen Lieferanten für <bold>{{resultType}}</bold>.",
+      "overviewWithFootprints": "Listing <bold>{{displayCount}}</bold> individual supplier(s), mit <bold>{{footprintCount}}</bold> globalen Fußabdrücken for <bold>{{resultType}}</bold>",
       "organization": "Unternehmen",
       "hqLocation": "Hauptsitz",
       "region": "Region",

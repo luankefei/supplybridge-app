@@ -6,6 +6,7 @@ import { useStore } from "hooks/useStore";
 import fakeData from "requests/hotpatchSearchDemoData";
 import { useTranslation } from "react-i18next";
 import { appStatus } from "hooks/appStatus";
+import { EnumSearchType } from "components/scout/scoutResult/types";
 
 interface IAdditionalSearchObj {
   page: number;
@@ -16,7 +17,7 @@ interface IUseSupplierReturned {
     queryString: string,
     { page, pageSize }: IAdditionalSearchObj
   ) => Promise<void>;
-  searchAutocomplete: (queryString: string) => Promise<string[]>;
+  searchAutocomplete: (queryString: string, type?: EnumSearchType) => Promise<string[]>;
   loading: boolean;
   querySupplieListByCompany: (
     queryString: string,
@@ -34,14 +35,15 @@ export const useSupplier = (): IUseSupplierReturned => {
    * @param q - search string
    * @returns an array of autocomplete suggestions, or an empty array
    */
-  const searchAutocomplete = async (q: string) => {
+  const searchAutocomplete = async (q: string, type: EnumSearchType = EnumSearchType.Keywords) => {
     if (!q || q.length < 2) return [];
     try {
       const { data } = await request.get(
-        `configData/categorylevel?a=${encodeURIComponent(q)}&l=${
+        `configData/categorylevel?t=${type.toLowerCase()}&a=${encodeURIComponent(q)}&l=${
           i18n.languages[0]
         }`
       );
+
       return data.items || [];
     } catch (err) {
       console.error(err);
@@ -92,7 +94,7 @@ export const useSupplier = (): IUseSupplierReturned => {
   ) => {
     const searchObj = {
       q: queryString,
-      offset: (page - 1) * pageSize,
+      offset: page * pageSize,
       limit: pageSize,
       filter: {
         _extra: {
@@ -137,6 +139,7 @@ export const useSupplier = (): IUseSupplierReturned => {
       setLoading(false);
     }
   };
+
 
   return {
     querySupplierListByKeyword,

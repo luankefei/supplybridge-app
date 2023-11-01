@@ -6,6 +6,7 @@ import { TSupplierModel } from "models/supplier";
 import { TSubRegionWithCount } from "models/subRegion";
 import { IUserFile } from "models/userFile";
 import { TUserInfo } from "./storeInterface";
+import { EnumSearchType } from "components/scout/scoutResult/types";
 
 interface INonPersistentStore {
   filterData: any;
@@ -38,6 +39,8 @@ interface INonPersistentStore {
   flags: any;
   count: number;
   setCount: (value: number) => void;
+  searchType: EnumSearchType;
+  setSearchType: (value: EnumSearchType) => void;
   queryString: string;
   setQueryString: (value: string) => void;
   stats: any;
@@ -57,6 +60,8 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   setCount: (count: number) => set(() => ({ count })),
   stats: {},
   setStats: (stats: number) => set(() => ({ stats })),
+  searchType: EnumSearchType.Keywords,
+  setSearchType: (searchType: EnumSearchType) => set(() => ({ searchType })),
   queryString: "",
   setQueryString: (queryString: string) => set(() => ({ queryString })),
   suppliers: [],

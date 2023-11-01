@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState, forwardRef, useImperativeHandle } from "react";
+import React, { useCallback, useEffect, useState, forwardRef, useImperativeHandle, useMemo } from "react";
 import { useRouter } from "next/router";
 import { Box } from "@mui/material";
 import { toast } from "react-toastify";
@@ -137,12 +137,13 @@ export const ScoutResult = forwardRef<IScountResultControl, IScoutResultProps>((
 
   return (
     <>
-    <Box sx={{ p: 3 }} width="100%">
+    <Box padding="24px 20px" width="100%">
       <ActionFilterAndView
         filterInitialData={initialFilterDataset}
         resultCount={pageMeta.stats.count || 0}
         displayCount={pageMeta.stats.count}
         resultType={queryString || ""}
+        footprintCount={0}
         onClickBuildMyShortList={() => {
           setShortListModalOpen(true);
         }}

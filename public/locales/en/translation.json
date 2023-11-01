@@ -299,6 +299,7 @@
     },
     "result": {
       "overview": "Listing <bold>{{displayCount}}</bold> individual supplier(s) for <bold>{{resultType}}</bold>",
+      "overviewWithFootprints": "Listing <bold>{{displayCount}}</bold> individual supplier(s), with <bold>{{footprintCount}}</bold> Global Footprints for <bold>{{resultType}}</bold>",
       "organization": "Organization",
       "hqLocation": "HQ Location",
       "region": "Region",
