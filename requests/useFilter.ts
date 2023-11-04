@@ -5,8 +5,13 @@ import { usePersistentStore, useStore } from "hooks/useStore";
 import { appStatus } from "hooks/appStatus";
 
 export const useFilter = () => {
-  const { setCommodities, setRegions, setComponents, setSubRegions } =
-    useStore();
+  const {
+    setCommodities,
+    setRegions,
+    setComponents,
+    setSubRegions,
+    setMapRegions,
+  } = useStore();
   const { setAllSubRegions } = usePersistentStore();
 
   const getCommodities = async () => {
@@ -80,11 +85,25 @@ export const useFilter = () => {
     }
   };
 
+  const getMapRegions = async () => {
+    try {
+      const { data } = await request.get(`sub_regions`);
+      setMapRegions(data.subRegions);
+      return data.subRegions;
+    } catch (err: any) {
+      toast.error(err.response.data.message, {
+        position: toast.POSITION.TOP_RIGHT,
+      });
+      return null;
+    }
+  };
+
   return {
     getCommodities,
     getComponents,
     getRegions,
     getSubRegions,
     getAllSubRegions,
+    getMapRegions,
   };
 };

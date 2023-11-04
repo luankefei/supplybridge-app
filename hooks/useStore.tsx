@@ -17,6 +17,8 @@ interface INonPersistentStore {
   regions: any;
   setRegions: (value: any) => void;
   page: number;
+  mapRegions: any;
+  setMapRegions: (mapRegions: any) => void;
   setPage: (value: number) => void;
   pageSize: number;
   setPageSize: (value: number) => void;
@@ -39,6 +41,8 @@ interface INonPersistentStore {
   flags: any;
   count: number;
   setCount: (value: number) => void;
+  countFootprints: number;
+  setCountFootprints: (value: number) => void;
   searchType: EnumSearchType;
   setSearchType: (value: EnumSearchType) => void;
   queryString: string;
@@ -58,6 +62,9 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
   flags: {},
   count: 0,
   setCount: (count: number) => set(() => ({ count })),
+  countFootprints: 0,
+  setCountFootprints: (countFootprints: number) =>
+    set(() => ({ countFootprints })),
   stats: {},
   setStats: (stats: number) => set(() => ({ stats })),
   searchType: EnumSearchType.Keywords,
@@ -83,6 +90,9 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
 
   subRegions: [],
   setSubRegions: (subRegions: any) => set(() => ({ subRegions })),
+
+  mapRegions: [],
+  setMapRegions: (mapRegions: any) => set(() => ({ mapRegions })),
 
   page: 0,
   setPage: (page: number) => set(() => ({ page })),
@@ -238,3 +248,4 @@ const usePersistentStore = create<IPersistentStore>()(
 );
 
 export { useStore, usePersistentStore };
+export default useStore;

@@ -5,7 +5,9 @@ import { Box, Stack } from "@mui/material";
 import { toast } from "react-toastify";
 
 import { LoadingWithBackgroundOverlay } from "components/ui-components/loadingAnimation";
-import MapChart from "components/geoChart";
+// import MapChart from "components/geoChart";
+// import MapChart from "./geoCharts";
+import MapChart from "components/mapChart/mapChart";
 import { ColoredText } from "components/ui-components/text";
 import { usePersistentStore, useStore } from "hooks/useStore";
 import { useSupplier } from "requests/useSupplier";
@@ -181,6 +183,10 @@ export default function ScoutByIndex() {
     [suppliers.length]
   );
 
+  const renderMapChart = () => {
+    return <MapChart />;
+  };
+
   return (
     <Stack>
       {drawerStack.length > 0 && drawerStack[drawerStack.length - 1]}
@@ -219,15 +225,7 @@ export default function ScoutByIndex() {
           <Box>
             <SpacingVertical space="40px" />
             <Box>
-              {!loading && !searched && (
-                <MapChart
-                  parentTriggeredReset={resetMap}
-                  selectedCountry={mapSelectedCountry}
-                  onSelectCountryFilter={(threeLC, count) => {
-                    setMapSelectedCountry(threeLC);
-                  }}
-                />
-              )}
+              {!loading ? renderMapChart() : null}
               {hasData && (
                 <>
                   <Summary
