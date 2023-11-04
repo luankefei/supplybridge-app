@@ -1,4 +1,4 @@
-import { Box, IconButton, Stack, Tooltip } from "@mui/material";
+import { Box, IconButton, Stack } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   ComposableMap,
@@ -7,6 +7,7 @@ import {
   Marker,
   ZoomableGroup,
 } from "react-simple-maps";
+import { Tooltip as ReactToolTip } from "react-tooltip";
 import {
   EnumRegionAndSubRegion,
   MapColors,
@@ -300,17 +301,22 @@ export default function MapChart({
   // @ts-ignore
   const { geoJson, projectConfig } = getGeoJsonAndProjectConfig(selectedRegion);
   return (
-    <Box
-      position={"relative"}
-      width={"80%"}
-      margin={"auto"}
-      height={"50vh"}
-      display={"flex"}
-      justifyContent={"center"}
-      border={"1px solid #E5E7EB"}
-      borderRadius={"24px"}
-    >
-      <Tooltip title={tooltipContent}>
+    <>
+      <ReactToolTip
+        id="chart-tooltip"
+        content={tooltipContent}
+        place="bottom"
+      />
+      <Box
+        position={"relative"}
+        width={"80%"}
+        margin={"auto"}
+        height={"50vh"}
+        display={"flex"}
+        justifyContent={"center"}
+        border={"1px solid #E5E7EB"}
+        borderRadius={"24px"}
+      >
         <ComposableMap
           width={window.screen.width}
           style={{
@@ -318,6 +324,7 @@ export default function MapChart({
           }}
           projection="geoMercator"
           projectionConfig={projectConfig as any}
+          data-tooltip-id="chart-tooltip"
         >
           <Geographies geography={geoJson}>
             {({ geographies }) =>
@@ -336,20 +343,20 @@ export default function MapChart({
             }
           </Geographies>
         </ComposableMap>
-      </Tooltip>
-      <Stack
-        sx={{
-          position: "absolute",
-          bottom: 24,
-          right: -88,
-          backgroundColor: "#F3F4F6",
-          borderRadius: "8px",
-          padding: "8px",
-          overflow: "scroll",
-        }}
-      >
-        {renderTotalCount()}
-      </Stack>
-    </Box>
+        <Stack
+          sx={{
+            position: "absolute",
+            bottom: 24,
+            right: -88,
+            backgroundColor: "#F3F4F6",
+            borderRadius: "8px",
+            padding: "8px",
+            overflow: "scroll",
+          }}
+        >
+          {renderTotalCount()}
+        </Stack>
+      </Box>
+    </>
   );
 }
