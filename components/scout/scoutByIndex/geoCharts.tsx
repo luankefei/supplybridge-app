@@ -347,7 +347,7 @@ const GeoCharts = () => {
         ) : null}
       </ButtonContainer>
       <Container ref={elContainer}>
-        <Chart
+        {/* <Chart
           mapsApiKey="AIzaSyCK82K3LYt7jcFYYdpi0kyjIKdfdc8TjRI"
           chartEvents={[
             {
@@ -376,7 +376,7 @@ const GeoCharts = () => {
             },
             defaultColor: "#f5f5f5",
           }}
-        />
+        /> */}
       </Container>
       {showLegend ? (
         <LegendContainer top={legendTop}>

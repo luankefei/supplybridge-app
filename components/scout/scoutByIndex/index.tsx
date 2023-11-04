@@ -20,7 +20,6 @@ import Summary from "./summary";
 import EmptyResult from "./emptyResult";
 import DetailsPanel from "./detailPanel";
 
-
 /**
  * Scout by index page
  * - searchBox
@@ -29,7 +28,7 @@ import DetailsPanel from "./detailPanel";
  */
 export default function ScoutByIndex() {
   const { t } = useTranslation();
-  const scoutResultRef = useRef<TScountResult>(null)
+  const scoutResultRef = useRef<TScountResult>(null);
   const { allSubRegions, allSubRegionsLastUpdatedTime } = usePersistentStore();
   const {
     searchType,
@@ -67,7 +66,6 @@ export default function ScoutByIndex() {
    */
   const [drawerStack, setDrawerStack] = useState<JSX.Element[]>([]);
 
-
   /********************
    * Component Effects
    * *******************
@@ -92,38 +90,51 @@ export default function ScoutByIndex() {
     }
   }, [allSubRegions, allSubRegionsLastUpdatedTime, getAllSubRegions]);
 
-  const searchHandler = useCallback(async (
-    queryString: string,
-    searchType: EnumSearchType,
-    page: number,
-    pageSize: number
-  ) => {
-    if (queryString === "") {
-      return;
-    }
-    setQueryString(queryString);
-    setSearchType(searchType);
-    setLoading(true);
-    setResultSearchType(searchType);
-    if (searchType === EnumSearchType.Keywords) {
-      await querySupplierListByKeyword(queryString, { page, pageSize });
-    } else {
-      await querySupplieListByCompany(queryString, { page, pageSize });
-    }
-    setLoading(false);
-    setSearched(true);
-    setPage(page);
-    setPageSize(pageSize);
-  }, [querySupplieListByCompany, querySupplierListByKeyword, setPage, setPageSize, setQueryString, setSearchType]);
+  const searchHandler = useCallback(
+    async (
+      queryString: string,
+      searchType: EnumSearchType,
+      page: number,
+      pageSize: number
+    ) => {
+      if (queryString === "") {
+        return;
+      }
+      setQueryString(queryString);
+      setSearchType(searchType);
+      setLoading(true);
+      setResultSearchType(searchType);
+      if (searchType === EnumSearchType.Keywords) {
+        await querySupplierListByKeyword(queryString, { page, pageSize });
+      } else {
+        await querySupplieListByCompany(queryString, { page, pageSize });
+      }
+      setLoading(false);
+      setSearched(true);
+      setPage(page);
+      setPageSize(pageSize);
+    },
+    [
+      querySupplieListByCompany,
+      querySupplierListByKeyword,
+      setPage,
+      setPageSize,
+      setQueryString,
+      setSearchType,
+    ]
+  );
 
-  const onPaginationModelChange = useCallback(({ page, pageSize }: GridPaginationModel) => {
-    searchHandler(
-      queryString,
-      resultSearchType || EnumSearchType.Keywords,
-      page,
-      pageSize
-    );
-  }, [queryString, resultSearchType, searchHandler]);
+  const onPaginationModelChange = useCallback(
+    ({ page, pageSize }: GridPaginationModel) => {
+      searchHandler(
+        queryString,
+        resultSearchType || EnumSearchType.Keywords,
+        page,
+        pageSize
+      );
+    },
+    [queryString, resultSearchType, searchHandler]
+  );
 
   const resetView = useCallback(() => {
     setSearched(false);
@@ -135,32 +146,40 @@ export default function ScoutByIndex() {
     scoutResultRef.current?.reset();
   }, [resetMap, setPage, setQueryString, setStats, setSuppliers]);
 
-  const handleShowSimilarCompanies = useCallback(async (query: string) => {
-    searchHandler(query, EnumSearchType.Companies, page, pageSize);
-  }, [page, pageSize, searchHandler]);
+  const handleShowSimilarCompanies = useCallback(
+    async (query: string) => {
+      searchHandler(query, EnumSearchType.Companies, page, pageSize);
+    },
+    [page, pageSize, searchHandler]
+  );
 
-  const pushDrawer = useCallback((sid: number) => {
-    const newDrawerContent = (
-      <DetailsPanel
-        open={true}
-        supplierId={sid}
-        stackCount={drawerStack.length + 1}
-        onPushMoreDetails={pushDrawer}
-        onPopMoreDetails={() => {
-          setDrawerStack((prevStack) => {
-            const newStack = [...prevStack];
-            newStack.pop();
-            return newStack;
-          });
-        }}
-        onClose={() => setDrawerStack([])}
-      />
-    );
-    setDrawerStack((prevStack) => [...prevStack, newDrawerContent]);
-  }, [drawerStack.length]);
+  const pushDrawer = useCallback(
+    (sid: number) => {
+      const newDrawerContent = (
+        <DetailsPanel
+          open={true}
+          supplierId={sid}
+          stackCount={drawerStack.length + 1}
+          onPushMoreDetails={pushDrawer}
+          onPopMoreDetails={() => {
+            setDrawerStack((prevStack) => {
+              const newStack = [...prevStack];
+              newStack.pop();
+              return newStack;
+            });
+          }}
+          onClose={() => setDrawerStack([])}
+        />
+      );
+      setDrawerStack((prevStack) => [...prevStack, newDrawerContent]);
+    },
+    [drawerStack.length]
+  );
 
-
-  const hasData: boolean = useMemo(() => suppliers.length > 0, [suppliers.length]);
+  const hasData: boolean = useMemo(
+    () => suppliers.length > 0,
+    [suppliers.length]
+  );
 
   return (
     <Stack>
@@ -224,7 +243,7 @@ export default function ScoutByIndex() {
                     pageMeta={{
                       stats,
                       page,
-                      pageSize
+                      pageSize,
                     }}
                     queryString={queryString}
                     selectedCountry={mapSelectedCountry}

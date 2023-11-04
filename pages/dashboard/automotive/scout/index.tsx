@@ -165,7 +165,6 @@ export default function Industry({}: Props) {
             )}
           </TechnologyContainer>
         </Technology>
-
         <MainContainer>
           <div>
             <ScoutFilter isQuickSearch={false} />
