@@ -1,4 +1,4 @@
-import { Box, IconButton, Stack } from "@mui/material";
+import { Box, IconButton, Stack, Tooltip } from "@mui/material";
 import React, { useEffect, useState } from "react";
 import {
   ComposableMap,
@@ -69,6 +69,9 @@ export default function MapChart({
     EnumRegionAndSubRegion | "world"
   >("world");
   const [zoom, setZoom] = useState<number>(1);
+
+  // This is content for chart mouseover tooltip
+  const [tooltipContent, setToolTipContent] = useState<string>("");
   /**
    * One time data for the map
    */
@@ -307,29 +310,33 @@ export default function MapChart({
       border={"1px solid #E5E7EB"}
       borderRadius={"24px"}
     >
-      <ComposableMap
-        width={window.screen.width}
-        style={{
-          borderRadius: "24px",
-        }}
-        projection="geoMercator"
-        projectionConfig={projectConfig as any}
-      >
-        <Geographies geography={geoJson}>
-          {({ geographies }) =>
-            geographies.map((geo) => {
-              const geographiesStyle = styleCalucator(geo);
-              return (
-                <Geography
-                  key={geo.rsmKey}
-                  geography={geo}
-                  style={geographiesStyle}
-                />
-              );
-            })
-          }
-        </Geographies>
-      </ComposableMap>
+      <Tooltip title={tooltipContent}>
+        <ComposableMap
+          width={window.screen.width}
+          style={{
+            borderRadius: "24px",
+          }}
+          projection="geoMercator"
+          projectionConfig={projectConfig as any}
+        >
+          <Geographies geography={geoJson}>
+            {({ geographies }) =>
+              geographies.map((geo) => {
+                const geographiesStyle = styleCalucator(geo);
+                return (
+                  <Geography
+                    key={geo.rsmKey}
+                    geography={geo}
+                    style={geographiesStyle}
+                    onMouseEnter={() => setToolTipContent(geo.properties.name)}
+                    // onMouseLeave={() => setToolTipContent("")}
+                  />
+                );
+              })
+            }
+          </Geographies>
+        </ComposableMap>
+      </Tooltip>
       <Stack
         sx={{
           position: "absolute",
