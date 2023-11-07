@@ -380,7 +380,7 @@ const GeoCharts = () => {
             {
               eventName: "select",
               callback: (evt: any) => {
-                /*
+                console.log("selected");
                 if (!flags.q) return;
                 //if (selectedCountries.length) return;
                 const row = evt.eventArgs[0]?.getSelection()[0]?.row;
@@ -388,7 +388,6 @@ const GeoCharts = () => {
                 const region = allCountries[row + 1];
                 if (region?.[1] === null) return;
                 selectCountryHandler(region);
-*/
               },
             },
           ]}
