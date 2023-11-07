@@ -75,6 +75,9 @@ const GeoCharts = () => {
     // subRegions: allSubRegions,
   } = useStore();
 
+  // console.log("---- filterData", filterData);
+  // console.log("---- suppliers", suppliers);
+
   useEffect(() => {
     if (!allSubRegionsLoaded.current) {
       getMapRegions();
@@ -92,8 +95,6 @@ const GeoCharts = () => {
   const [legendTop, setLegendTop] = useState(0);
   const legendBaseTop = useRef(0);
 
-  // TODO: important
-  console.log("----------- mapRegions.length", mapRegions.length);
   const buildLegendSummary = () => {
     const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0, Total: 0 };
     if (filterData.q) {
@@ -194,7 +195,6 @@ const GeoCharts = () => {
   };
 
   const searchHandler = () => {
-    console.log("------------------- searchSuppliers");
     searchSuppliers(1, true);
   };
 
@@ -345,8 +345,8 @@ const GeoCharts = () => {
   //Get Number of suppliers for country
   const getNumberOfSuppliersByRegion = (countryCode: string) => {
     const region = mapRegions.find((s: any) => s.code === countryCode);
-    // console.log("region", stats[region?.id]);
-    // console.log("region", region?.id);
+    console.log("region", stats[region?.id]);
+    console.log("region", region?.id);
     if (region) console.log("stats", stats?.locationId?.[region?.id]);
     if (!flags.q) return region.countSuppliersInLocation || 0;
     return region ? stats?.locationId?.[region?.id] : 0;
@@ -361,6 +361,8 @@ const GeoCharts = () => {
     legendBaseTop.current = h - 250;
     setFitMapHeight(h);
   }, [elContainer]);
+
+  // console.log("allCountries", allCountries);
 
   return (
     <MapContainer>

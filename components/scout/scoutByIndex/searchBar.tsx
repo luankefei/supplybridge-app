@@ -97,6 +97,7 @@ const SearchBar = (props: SearchBarProps) => {
 
   const onClickSearch = () => {
     clearFilters();
+    setFilterData({ q: queryString });
     props.onSearch(queryString, searchType);
     setOpen(false);
   };

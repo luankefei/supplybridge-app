@@ -102,6 +102,7 @@ export default function ScoutByIndex() {
       if (queryString === "") {
         return;
       }
+      console.log("in this search handler");
       setQueryString(queryString);
       setSearchType(searchType);
       setLoading(true);

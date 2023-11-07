@@ -111,7 +111,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
     q: "",
   },
   setFilterData: (data: any) => {
-    console.log("setting filter data: ", data);
+    console.log("------ setting filter data: ", data);
     set(() => ({ filterData: { ...get().filterData, ...data } }));
   },
   showBackdrop: false,
@@ -132,6 +132,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
         coreCompetencies: [],
         regions: [],
         subRegions: [],
+        mapRegions: [],
         vehicleFuelTypes: [],
         q: "",
       },
@@ -179,6 +180,7 @@ const useStore = create<INonPersistentStore>()((set, get) => ({
           coreCompetencies: [],
           regions: [],
           subRegions: [],
+          mapRegions: [],
           vehicleFuelTypes: [],
           q: "",
         },
