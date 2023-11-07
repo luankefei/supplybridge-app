@@ -36,7 +36,7 @@ const maxShowSuggestionNum = 10;
  */
 const SearchBar = (props: SearchBarProps) => {
   const { t } = useTranslation();
-  const { setPage } = useStore();
+  const { setPage, setFilterData } = useStore();
   const { searchAutocomplete } = useSupplier();
   const timer = useRef<NodeJS.Timeout>();
 
@@ -84,39 +84,73 @@ const SearchBar = (props: SearchBarProps) => {
     onClickSearch();
   };
 
-  const getAutoComplete = useCallback(async (value: string) => {
-    setOptionsLoading(true);
-    console.debug("getting autoComplete for", value);
-    const suggestedItems = await searchAutocomplete(value, searchType);
-    setOptions(suggestedItems.filter((item) => !!item));
-    setOptionsLoading(false);
-  }, [searchAutocomplete, searchType]);
+  const getAutoComplete = useCallback(
+    async (value: string) => {
+      setOptionsLoading(true);
+      console.debug("getting autoComplete for", value);
+      const suggestedItems = await searchAutocomplete(value, searchType);
+      setOptions(suggestedItems.filter((item) => !!item));
+      setOptionsLoading(false);
+    },
+    [searchAutocomplete, searchType]
+  );
 
   const onClickSearch = () => {
+    clearFilters();
     props.onSearch(queryString, searchType);
     setOpen(false);
   };
 
+  // const resetFilters = () => {
+  //   setSearchItem("");
+  //   setSearchItemDisplay("");
+  //   flags.q = "";
+  //   clearFilters();
+  //   setSuppliers(null, true);
+  //   setShowBackdrop(false);
+  // };
+  const clearFilters = () => {
+    setFilterData({
+      commodities: [],
+      components: [],
+      coreCompetencies: [],
+      regions: [],
+      subRegions: [],
+      vehicleFuelTypes: [],
+    });
+
+    // TODO
+    // setSelectedCountries([]);
+    // setSelectedRegions([]);
+    // setShowAutoComplete(false);
+    // setAutocompleteList([]);
+  };
+
   useEffect(() => {
-    const debounce = queryString ? 300 : 0
-    if (queryString !== null && queryString !== undefined && queryString.length > 2) {
+    const debounce = queryString ? 300 : 0;
+    if (
+      queryString !== null &&
+      queryString !== undefined &&
+      queryString.length > 2
+    ) {
       timer.current = setTimeout(() => {
-        getAutoComplete(queryString.trim())
-      }, debounce)
+        getAutoComplete(queryString.trim());
+      }, debounce);
     }
 
     return () => {
       if (timer.current) {
-
         setOptionsLoading(false);
         clearTimeout(timer.current);
       }
-    }
-  }, [queryString])
+    };
+  }, [queryString]);
 
   const suggestions: string[] = useMemo(() => {
     if (searchType === EnumSearchType.Keywords) {
-      return options.sort((a, b) => a > b ? 1 : -1).slice(0, maxShowSuggestionNum);
+      return options
+        .sort((a, b) => (a > b ? 1 : -1))
+        .slice(0, maxShowSuggestionNum);
     }
 
     // For company search, we will show items that start with query as the first 5 items, and then the items that include quey.
@@ -135,8 +169,12 @@ const SearchBar = (props: SearchBarProps) => {
     if (_nameContains.length < maxShowSuggestionNum - pivot) {
       pivot = maxShowSuggestionNum - _nameContains.length;
     }
-    _nameStarted = _nameStarted.sort((a, b) => a > b ? 1 : -1).slice(0, pivot);
-    _nameContains = _nameContains.sort((a, b) => a > b ? 1 : -1).slice(0, maxShowSuggestionNum - _nameStarted.length);
+    _nameStarted = _nameStarted
+      .sort((a, b) => (a > b ? 1 : -1))
+      .slice(0, pivot);
+    _nameContains = _nameContains
+      .sort((a, b) => (a > b ? 1 : -1))
+      .slice(0, maxShowSuggestionNum - _nameStarted.length);
 
     return [..._nameStarted, ..._nameContains];
   }, [options, queryString, searchType]);

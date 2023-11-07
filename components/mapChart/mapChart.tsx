@@ -20,6 +20,7 @@ import {
   isRegion,
   legendKeyMap,
 } from "../geoChart/geoUtils";
+import { filter } from "lodash";
 // import Icon from "components/Icon";
 
 const initialOptions: any = {
@@ -53,7 +54,7 @@ const GeoCharts = () => {
   const [backVisibility, setBackVisibility] = useState<boolean>(false);
   const [mapLoaded, setMapLoaded] = useState<boolean>(false);
   const allSubRegionsLoaded = useRef(false);
-  // const { searchSuppliers, loading } = useSupplier();
+  const { searchSuppliers, loading } = useSupplier();
 
   // there is getAllSubRegions before
   const { getMapRegions } = useFilter();
@@ -91,7 +92,8 @@ const GeoCharts = () => {
   const [legendTop, setLegendTop] = useState(0);
   const legendBaseTop = useRef(0);
 
-  console.log("-----------", mapRegions);
+  // TODO: important
+  console.log("----------- mapRegions.length", mapRegions.length);
   const buildLegendSummary = () => {
     const agg: any = { EMEA: 0, Americas: 0, APAC: 0, CN: 0, Total: 0 };
     if (filterData.q) {
@@ -192,6 +194,7 @@ const GeoCharts = () => {
   };
 
   const searchHandler = () => {
+    console.log("------------------- searchSuppliers");
     searchSuppliers(1, true);
   };
 
@@ -252,6 +255,7 @@ const GeoCharts = () => {
   };
 
   useEffect(() => {
+    console.log("filterData changed", filterData.length);
     debounce(outsideFilterHandler);
     if (filterData.subRegions.length) {
     } else {
@@ -273,11 +277,12 @@ const GeoCharts = () => {
   };
 
   const outsideFilterHandler = () => {
+    console.log("in outsideFilterHandler", filterData);
     const allList = [...allCountries];
-    const subRegions = filterData.subRegions;
+    const mapRegions = filterData.mapRegions;
 
     allCountries.forEach((c: any, index: number) => {
-      if (subRegions.includes(c[0])) {
+      if (mapRegions.includes(c[0])) {
         allList[index][1] = 1;
       } else {
         /*if (allList[index] && c[0] !== "Country") {
@@ -340,8 +345,8 @@ const GeoCharts = () => {
   //Get Number of suppliers for country
   const getNumberOfSuppliersByRegion = (countryCode: string) => {
     const region = mapRegions.find((s: any) => s.code === countryCode);
-    console.log("region", stats[region?.id]);
-    console.log("region", region?.id);
+    // console.log("region", stats[region?.id]);
+    // console.log("region", region?.id);
     if (region) console.log("stats", stats?.locationId?.[region?.id]);
     if (!flags.q) return region.countSuppliersInLocation || 0;
     return region ? stats?.locationId?.[region?.id] : 0;
