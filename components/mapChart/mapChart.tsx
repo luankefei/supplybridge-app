@@ -75,9 +75,6 @@ const GeoCharts = () => {
     // subRegions: allSubRegions,
   } = useStore();
 
-  // console.log("---- filterData", filterData);
-  // console.log("---- suppliers", suppliers);
-
   useEffect(() => {
     if (!allSubRegionsLoaded.current) {
       getMapRegions();
@@ -255,7 +252,7 @@ const GeoCharts = () => {
   };
 
   useEffect(() => {
-    console.log("filterData changed", filterData.length);
+    // console.log("filterData changed", filterData.length);
     debounce(outsideFilterHandler);
     if (filterData.subRegions.length) {
     } else {
@@ -277,7 +274,6 @@ const GeoCharts = () => {
   };
 
   const outsideFilterHandler = () => {
-    console.log("in outsideFilterHandler", filterData);
     const allList = [...allCountries];
     const mapRegions = filterData.mapRegions;
 
@@ -380,7 +376,7 @@ const GeoCharts = () => {
             {
               eventName: "select",
               callback: (evt: any) => {
-                console.log("selected");
+                // console.log("selected");
                 if (!flags.q) return;
                 //if (selectedCountries.length) return;
                 const row = evt.eventArgs[0]?.getSelection()[0]?.row;
